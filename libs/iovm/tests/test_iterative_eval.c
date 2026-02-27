@@ -6,6 +6,7 @@
 #include "IoMessage.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
+#include "IoList.h"
 #include "IoState_eval.h"
 #include <stdio.h>
 #include <string.h>
@@ -455,6 +456,256 @@ int test_coro_async(IoState *state) {
 	return 1;
 }
 
+// Test tail call optimization (direct tail recursion)
+int test_tco_direct(IoState *state) {
+	printf("Test 22: TCO direct tail recursion... ");
+
+	// Direct tail recursion: last expression in method body is a self-call
+	// Without TCO this would use 10000+ frames; with TCO it stays flat
+	testEvalCode(state,
+		"countdown := method(n, if(n <= 0, return n); countdown(n - 1))");
+	IoObject *result = testEvalCode(state, "countdown(10000)");
+
+	if (!ISNUMBER(result) || IoNumber_asInt(result) != 0) {
+		printf("FAILED (got %d, expected 0)\n",
+			   ISNUMBER(result) ? IoNumber_asInt(result) : -1);
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test deep recursion through if (heap frames, no C stack overflow)
+int test_deep_recursion(IoState *state) {
+	printf("Test 23: deep recursion through if... ");
+
+	// This recursion goes through if branches, so TCO may not apply,
+	// but heap-allocated frames prevent C stack overflow
+	testEvalCode(state,
+		"sumTo := method(n, if(n <= 0, 0, n + sumTo(n - 1)))");
+	IoObject *result = testEvalCode(state, "sumTo(100)");
+
+	// sum of 1..100 = 5050
+	if (!ISNUMBER(result) || IoNumber_asInt(result) != 5050) {
+		printf("FAILED (got %d, expected 5050)\n",
+			   ISNUMBER(result) ? IoNumber_asInt(result) : -1);
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test tail-recursive accumulator pattern
+int test_tco_accumulator(IoState *state) {
+	printf("Test 24: TCO accumulator pattern... ");
+
+	// Tail-recursive sum with accumulator
+	// The recursive call is the last expression in the method
+	testEvalCode(state,
+		"sumAcc := method(n, acc, if(n <= 0, return acc); sumAcc(n - 1, acc + n))");
+	IoObject *result = testEvalCode(state, "sumAcc(10000, 0)");
+
+	// sum of 1..10000 = 50005000
+	if (!ISNUMBER(result)) {
+		printf("FAILED (not a number)\n");
+		return 0;
+	}
+
+	double expected = 50005000.0;
+	double got = IoNumber_asDouble(result);
+	if (got != expected) {
+		printf("FAILED (got %.0f, expected %.0f)\n", got, expected);
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test TCO through if branches (the most important TCO pattern)
+int test_tco_through_if(IoState *state) {
+	printf("Test 25: TCO through if branches... ");
+
+	// Classic tail-recursive pattern: the recursive call is inside
+	// an if branch, which is the last expression in the method.
+	// This tests the tail position optimization in IF_EVAL_BRANCH.
+	testEvalCode(state,
+		"factorial := method(n, acc, if(n <= 1, acc, factorial(n - 1, n * acc)))");
+	IoObject *result = testEvalCode(state, "factorial(20, 1)");
+
+	if (!ISNUMBER(result)) {
+		printf("FAILED (not a number)\n");
+		return 0;
+	}
+
+	// 20! = 2432902008176640000 (fits in double)
+	double expected = 2432902008176640000.0;
+	double got = IoNumber_asDouble(result);
+	if (got != expected) {
+		printf("FAILED (got %.0f, expected %.0f)\n", got, expected);
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test TCO through if with large recursion depth
+int test_tco_if_deep(IoState *state) {
+	printf("Test 26: TCO through if (deep recursion)... ");
+
+	// Without TCO through if, this would use 100000+ frames.
+	// With TCO through if, the frame stack stays bounded.
+	testEvalCode(state,
+		"countDown := method(n, acc, if(n <= 0, acc, countDown(n - 1, acc + 1)))");
+	IoObject *result = testEvalCode(state, "countDown(100000, 0)");
+
+	if (!ISNUMBER(result)) {
+		printf("FAILED (not a number)\n");
+		return 0;
+	}
+
+	double expected = 100000.0;
+	double got = IoNumber_asDouble(result);
+	if (got != expected) {
+		printf("FAILED (got %.0f, expected %.0f)\n", got, expected);
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test continuation introspection methods
+int test_continuation_introspection(IoState *state) {
+	printf("Test 27: Continuation introspection... ");
+
+	// Capture a continuation and inspect it
+	testEvalCode(state,
+		"captured := nil\n"
+		"callcc(block(cont, captured = cont))");
+
+	IoObject *frameCount = testEvalCode(state, "captured frameCount");
+	if (!ISNUMBER(frameCount) || IoNumber_asInt(frameCount) < 1) {
+		printf("FAILED (frameCount=%d, expected >= 1)\n",
+			ISNUMBER(frameCount) ? (int)IoNumber_asInt(frameCount) : -1);
+		return 0;
+	}
+
+	IoObject *states = testEvalCode(state, "captured frameStates");
+	if (!ISLIST(states)) {
+		printf("FAILED (frameStates not a list)\n");
+		return 0;
+	}
+
+	IoObject *messages = testEvalCode(state, "captured frameMessages");
+	if (!ISLIST(messages)) {
+		printf("FAILED (frameMessages not a list)\n");
+		return 0;
+	}
+
+	// First frame state should be callcc:evalBlock
+	IoObject *firstState = testEvalCode(state, "captured frameStates first");
+	if (!ISSEQ(firstState)) {
+		printf("FAILED (first state not a string)\n");
+		return 0;
+	}
+	const char *stateName = CSTRING(firstState);
+	if (strcmp(stateName, "callcc:evalBlock") != 0) {
+		printf("FAILED (first state='%s', expected 'callcc:evalBlock')\n", stateName);
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test TCO through if with relayStopStatus (? operator)
+int test_tco_if_stop_status(IoState *state) {
+	printf("Test 28: TCO through if + stop status (? operator)... ");
+
+	// This tests the savedCall mechanism: the ? operator uses
+	// relayStopStatus which sets Call stop status. With the in-place
+	// if optimization, TCO could replace frame->call and lose the
+	// stop status. The savedCall field preserves it.
+	//
+	// Pattern from ObjectTest: x ?return "first" sends return to x (nil),
+	// which triggers RETURN stop status. The ? method must propagate
+	// this via relayStopStatus.
+	testEvalCode(state,
+		"a := method(x, x return \"first\"; \"second\")\n"
+		"b := method(x, x ?return \"first\"; \"second\")");
+
+	IoObject *resultA = testEvalCode(state, "a");
+	IoObject *resultB = testEvalCode(state, "b");
+
+	if (!ISSEQ(resultA)) {
+		printf("FAILED (a not a string, got %s)\n", IoObject_name(resultA));
+		return 0;
+	}
+	if (strcmp(CSTRING(resultA), "first") != 0) {
+		printf("FAILED (a='%s', expected 'first')\n", CSTRING(resultA));
+		return 0;
+	}
+	if (!ISSEQ(resultB)) {
+		printf("FAILED (b not a string, got %s)\n", IoObject_name(resultB));
+		return 0;
+	}
+	if (strcmp(CSTRING(resultA), CSTRING(resultB)) != 0) {
+		printf("FAILED (a='%s' != b='%s')\n", CSTRING(resultA), CSTRING(resultB));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test ? operator with continue in foreach (stop status propagation)
+int test_question_mark_continue(IoState *state) {
+	printf("Test 29: ? operator with continue (stop status)... ");
+
+	// From ObjectTest: ?continue in foreach should behave like continue
+	testEvalCode(state,
+		"a := method(\n"
+		"    r := list\n"
+		"    list(1,2,3,4,5) foreach(x,\n"
+		"        if(x > 3, continue)\n"
+		"        r append(x)\n"
+		"    )\n"
+		"    r\n"
+		")\n"
+		"b := method(\n"
+		"    r := list\n"
+		"    list(1,2,3,4,5) foreach(x,\n"
+		"        if(x > 3, ?continue)\n"
+		"        r append(x)\n"
+		"    )\n"
+		"    r\n"
+		")");
+
+	IoObject *resultA = testEvalCode(state, "a");
+	IoObject *resultB = testEvalCode(state, "b");
+
+	if (!ISLIST(resultA) || !ISLIST(resultB)) {
+		printf("FAILED (not lists)\n");
+		return 0;
+	}
+
+	// Both should be list(1, 2, 3) - items <= 3
+	IoObject *sizeA = testEvalCode(state, "a size");
+	IoObject *sizeB = testEvalCode(state, "b size");
+	if (IoNumber_asInt(sizeA) != 3 || IoNumber_asInt(sizeB) != 3) {
+		printf("FAILED (sizes: a=%d, b=%d, expected 3)\n",
+			(int)IoNumber_asInt(sizeA), (int)IoNumber_asInt(sizeB));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
 int main(int argc, char **argv) {
     printf("=== Iterative Evaluator Tests ===\n\n");
 
@@ -490,6 +741,14 @@ int main(int argc, char **argv) {
     total++; passed += test_coro_resume_basic(state);
     total++; passed += test_coro_yield(state);
     total++; passed += test_coro_async(state);
+    total++; passed += test_tco_direct(state);
+    total++; passed += test_deep_recursion(state);
+    total++; passed += test_tco_accumulator(state);
+    total++; passed += test_tco_through_if(state);
+    total++; passed += test_tco_if_deep(state);
+    total++; passed += test_continuation_introspection(state);
+    total++; passed += test_tco_if_stop_status(state);
+    total++; passed += test_question_mark_continue(state);
 
     // Print summary
     printf("\n=== Results ===\n");

@@ -40,6 +40,7 @@ static void IoEvalFrame_markSingle_(IoEvalFrame *self) {
     IoObject_shouldMarkIfNonNull(self->slotValue);
     IoObject_shouldMarkIfNonNull(self->slotContext);
     IoObject_shouldMarkIfNonNull(self->call);
+    IoObject_shouldMarkIfNonNull(self->savedCall);
     IoObject_shouldMarkIfNonNull(self->blockLocals);
 
     // Mark evaluated arguments
@@ -124,6 +125,38 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
     }
 }
 
+// Return a human-readable name for a frame state
+const char *IoEvalFrame_stateName(IoFrameState state) {
+    switch (state) {
+        case FRAME_STATE_START: return "start";
+        case FRAME_STATE_EVAL_ARGS: return "evalArgs";
+        case FRAME_STATE_LOOKUP_SLOT: return "lookupSlot";
+        case FRAME_STATE_ACTIVATE: return "activate";
+        case FRAME_STATE_CONTINUE_CHAIN: return "continueChain";
+        case FRAME_STATE_RETURN: return "return";
+        case FRAME_STATE_IF_EVAL_CONDITION: return "if:evalCondition";
+        case FRAME_STATE_IF_CONVERT_BOOLEAN: return "if:convertBoolean";
+        case FRAME_STATE_IF_EVAL_BRANCH: return "if:evalBranch";
+        case FRAME_STATE_WHILE_EVAL_CONDITION: return "while:evalCondition";
+        case FRAME_STATE_WHILE_CHECK_CONDITION: return "while:checkCondition";
+        case FRAME_STATE_WHILE_DECIDE: return "while:decide";
+        case FRAME_STATE_WHILE_EVAL_BODY: return "while:evalBody";
+        case FRAME_STATE_LOOP_EVAL_BODY: return "loop:evalBody";
+        case FRAME_STATE_LOOP_AFTER_BODY: return "loop:afterBody";
+        case FRAME_STATE_FOR_EVAL_SETUP: return "for:evalSetup";
+        case FRAME_STATE_FOR_EVAL_BODY: return "for:evalBody";
+        case FRAME_STATE_FOR_AFTER_BODY: return "for:afterBody";
+        case FRAME_STATE_FOREACH_EVAL_BODY: return "foreach:evalBody";
+        case FRAME_STATE_FOREACH_AFTER_BODY: return "foreach:afterBody";
+        case FRAME_STATE_CALLCC_EVAL_BLOCK: return "callcc:evalBlock";
+        case FRAME_STATE_CORO_WAIT_CHILD: return "coro:waitChild";
+        case FRAME_STATE_CORO_YIELDED: return "coro:yielded";
+        case FRAME_STATE_DO_EVAL: return "do:eval";
+        case FRAME_STATE_DO_WAIT: return "do:wait";
+        default: return "unknown";
+    }
+}
+
 // Reset frame to initial state (for reuse)
 void IoEvalFrame_reset(IoEvalFrame *self) {
     if (!self) {
@@ -143,6 +176,7 @@ void IoEvalFrame_reset(IoEvalFrame *self) {
     self->slotValue = NULL;
     self->slotContext = NULL;
     self->call = NULL;
+    self->savedCall = NULL;
     self->blockLocals = NULL;
     self->passStops = 0;
     self->isNestedEvalRoot = 0;

@@ -101,6 +101,7 @@ struct IoEvalFrame {
 
     // Call object (for introspection - created during block activation)
     IoCall *call;                // Call object for this activation (or NULL)
+    IoCall *savedCall;           // Original Call preserved across in-place if optimization
 
     // For block activation
     IoObject *blockLocals;       // Block's local context (NULL if not a block)
@@ -174,6 +175,7 @@ IOVM_API IoEvalFrame *IoEvalFrame_new(void);
 IOVM_API void IoEvalFrame_free(IoEvalFrame *self);
 IOVM_API void IoEvalFrame_mark(IoEvalFrame *self);
 IOVM_API void IoEvalFrame_reset(IoEvalFrame *self);
+IOVM_API const char *IoEvalFrame_stateName(IoFrameState state);
 
 #ifdef __cplusplus
 }

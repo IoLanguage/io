@@ -932,8 +932,17 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // back to state->stopStatus. This is how Io-level code like
             // relayStopStatus (which does call setStopStatus(ss)) gets
             // its stop status propagated to the eval loop.
-            if (frame->blockLocals && !frame->passStops && frame->call) {
-                int callStopStatus = IoCall_rawStopStatus((IoCall *)frame->call);
+            if (frame->blockLocals && !frame->passStops) {
+                int callStopStatus = MESSAGE_STOP_STATUS_NORMAL;
+                if (frame->call) {
+                    callStopStatus = IoCall_rawStopStatus((IoCall *)frame->call);
+                }
+                // Also check savedCall: when in-place if optimization
+                // fires and then TCO replaces frame->call, the original
+                // Call (with stop status set by relayStopStatus) is here.
+                if (callStopStatus == MESSAGE_STOP_STATUS_NORMAL && frame->savedCall) {
+                    callStopStatus = IoCall_rawStopStatus((IoCall *)frame->savedCall);
+                }
                 if (callStopStatus != MESSAGE_STOP_STATUS_NORMAL) {
                     state->stopStatus = callStopStatus;
                     state->returnValue = result;
@@ -1004,16 +1013,38 @@ IoObject *IoState_evalLoop_(IoState *state) {
                                            : frame->controlFlow.ifInfo.falseBranch;
 
             if (branch) {
-                // Evaluate the branch
-                IoEvalFrame *branchFrame = IoState_pushFrame_(state);
-                branchFrame->message = branch;
-                branchFrame->target = frame->locals;
-                branchFrame->locals = frame->locals;
-                branchFrame->cachedTarget = frame->locals;
-                branchFrame->state = FRAME_STATE_START;
-
-                // When branch returns, continue with the chain
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                // Tail position optimization: if the if() is the last
+                // message in the chain, evaluate the branch directly in
+                // this frame instead of pushing a child. This enables TCO
+                // for the common pattern:
+                //   method(n, if(n <= 0, acc, recurse(n - 1, acc)))
+                if (!IOMESSAGEDATA(frame->message)->next) {
+                    // Preserve original Call so RETURN can check its
+                    // stop status even after TCO replaces frame->call
+                    // (needed for relayStopStatus / ? operator)
+                    if (frame->call) {
+                        frame->savedCall = frame->call;
+                    }
+                    frame->message = branch;
+                    frame->target = frame->locals;
+                    frame->cachedTarget = frame->locals;
+                    frame->state = FRAME_STATE_START;
+                    if (frame->argValues) {
+                        io_free(frame->argValues);
+                        frame->argValues = NULL;
+                    }
+                    frame->argCount = 0;
+                    frame->currentArgIndex = 0;
+                } else {
+                    // Not tail position: push branch frame
+                    IoEvalFrame *branchFrame = IoState_pushFrame_(state);
+                    branchFrame->message = branch;
+                    branchFrame->target = frame->locals;
+                    branchFrame->locals = frame->locals;
+                    branchFrame->cachedTarget = frame->locals;
+                    branchFrame->state = FRAME_STATE_START;
+                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                }
             } else {
                 // No branch for this condition, return boolean
                 frame->result = IOBOOL(frame->target, condition);

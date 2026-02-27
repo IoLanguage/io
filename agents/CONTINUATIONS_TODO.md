@@ -236,7 +236,7 @@ typedef enum {
 - [x] Define new Frame structure (`IoEvalFrame.h`)
 - [x] Implement eval loop (~800 lines in `IoState_iterative.c`)
 - [x] Implement frame push/pop with pooling
-- [ ] Implement TCO detection (deferred)
+- [x] Implement TCO detection (direct tail calls + through if branches)
 - [x] Implement stop status handling for loops (break/continue)
 - [x] Add GC marking for frame stack (`IoEvalFrame_mark`)
 
@@ -247,11 +247,11 @@ typedef enum {
 - [x] Implement `loop` (infinite loop with break)
 - [x] `return`, `break`, `continue` work with existing stop status mechanism
 
-**Note:** Control flow uses a hybrid approach:
-- Control flow primitives (`if`, `while`, `for`, `loop`) use the iterative
-  frame state machine - NO C stack re-entry for control flow
-- Normal CFunctions and block argument evaluation still use the recursive
-  evaluator (acceptable re-entrancy that doesn't block continuations)
+**Note:** `IoMessage_locals_performOn_` redirects to the iterative eval loop
+when `currentFrame` is set. All evaluation—including CFunction argument
+evaluation and block activation—goes through the iterative path. A bootstrap-
+only recursive fallback remains for VM initialization before the first eval
+loop starts.
 
 ### Phase 3: Argument Evaluation - DEFERRED
 Current approach: Let CFunctions handle their own argument evaluation.
@@ -260,11 +260,18 @@ Control flow primitives receive unevaluated messages.
 Future work could pre-evaluate args in the loop for full iterative evaluation,
 but this requires modifying all CFunctions.
 
-### Phase 4: Io Standard Library
+### Phase 4: Io Standard Library ✅ COMPLETE
 - [x] `if` works as C primitive (not needed in Io)
-- [ ] Implement `forEach` on List in Io
-- [ ] Implement `map`, `select` in Io
+- [x] `forEach` on List: C primitive with iterative eval (frame state machine)
+- [x] `map`, `select`: pure Io methods in `A0_List.io` using `foreach` internally
+- [x] `reverseForeach`, `foreachLine`, `foreachSlot`: iterative via `IoMessage_locals_performOn_` redirect
 - [x] Test control flow constructs (21/21 tests pass including callcc, exceptions, coros)
+
+**Note:** Original plan was to rewrite forEach as pure Io. Instead, forEach was
+implemented as a C frame state machine (FRAME_STATE_FOREACH_*), which is better
+because it avoids the overhead of Io-level loop management. map/select were
+already Io-level methods from the start and work correctly through the iterative
+path since forEach is iterative.
 
 ### Phase 5: Continuation API ✅ COMPLETE
 - [x] Design continuation capture API (`IoContinuation.h`)
@@ -272,7 +279,8 @@ but this requires modifying all CFunctions.
 - [x] Implement `callcc` primitive with frame state machine
 - [x] Implement `Continuation invoke` method (frame stack replacement)
 - [x] Test continuation invoke (13/13 tests pass)
-- [ ] Test serialization/deserialization
+- [x] Add continuation introspection methods (`frameCount`, `frameStates`, `frameMessages`)
+- [ ] Implement serialization/deserialization
 
 **Implementation Notes:**
 - `Continuation` object type created with capture and invoke methods
@@ -281,6 +289,20 @@ but this requires modifying all CFunctions.
 - `cont invoke(value)` replaces frame stack, sets `continuationInvoked` flag
 - Eval loop checks flag after CFunction returns, restarts with new frame stack
 - No setjmp/longjmp needed - frame state machine handles unwinding
+
+**Tail Call Optimization (TCO):**
+Two mechanisms work together to keep frame stacks flat for recursive patterns:
+1. **Direct TCO** (`IoState_activateBlockTCO_`): When a Block call is the last message
+   in a block body frame (`frame->blockLocals && !next`), reuse the frame instead of
+   pushing a new one. Handles `factorial(n-1, acc)` directly.
+2. **TCO through if branches** (`IF_EVAL_BRANCH`): When `if()` is the last message in
+   the chain, evaluate the selected branch in-place instead of pushing a child frame.
+   This enables TCO for `if(n <= 0, acc, recurse(n-1, acc))`.
+3. **savedCall preservation**: In-place if optimization saves `frame->call` in
+   `frame->savedCall` before repurposing the frame. The RETURN handler checks both
+   `frame->call` and `frame->savedCall` for Call stop status. This prevents the
+   `relayStopStatus`/`?` operator from losing its RETURN status when TCO replaces
+   `frame->call` after an in-place if optimization.
 
 ### Phase 6: Coroutine Replacement ✅ COMPLETE
 - [x] Implement coroutine as frame stack wrapper (IoCoroutineData with frameStack)
@@ -354,7 +376,7 @@ entering the recursive evaluator, allowing control flow primitives to use the co
 - `CONTINUATIONS_TODO.md` - This file
 
 ### Tests
-- `libs/iovm/tests/test_iterative_eval.c` - 21 tests for iterative evaluator (including coro yield/resume/@@)
+- `libs/iovm/tests/test_iterative_eval.c` - 29 tests for iterative evaluator (coro, TCO, continuations, ? operator)
 - `libs/iovm/tests/debug_if.c` - Debug test for if primitive
 
 ## Performance Notes

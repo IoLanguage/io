@@ -8,6 +8,8 @@
 #include "IoObject.h"
 #include "IoMessage.h"
 #include "IoBlock.h"
+#include "IoList.h"
+#include "IoNumber.h"
 #include "IoEvalFrame.h"
 #include <stdlib.h>
 #include <string.h>
@@ -43,6 +45,9 @@ IoContinuation *IoContinuation_proto(void *state) {
             {"invoke", IoContinuation_invoke},
             {"isInvoked", IoContinuation_isInvoked},
             {"setMultiShot", IoContinuation_setMultiShot},
+            {"frameCount", IoContinuation_frameCount},
+            {"frameStates", IoContinuation_frameStates},
+            {"frameMessages", IoContinuation_frameMessages},
             {NULL, NULL},
         };
         IoObject_addMethodTable_(self, methodTable);
@@ -107,6 +112,7 @@ static IoEvalFrame *copyFrame_(IoEvalFrame *src) {
     copy->slotValue = src->slotValue;
     copy->slotContext = src->slotContext;
     copy->call = src->call;
+    copy->savedCall = src->savedCall;
     copy->blockLocals = src->blockLocals;
     copy->passStops = src->passStops;
 
@@ -267,6 +273,57 @@ IO_METHOD(IoContinuation, setMultiShot) {
     IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
     DATA(self)->multiShot = ISTRUE(v);
     return self;
+}
+
+IO_METHOD(IoContinuation, frameCount) {
+    /*doc Continuation frameCount
+    Returns the number of frames in the captured continuation stack.
+    Returns 0 if no state has been captured.
+    */
+    int count = 0;
+    IoEvalFrame *frame = DATA(self)->capturedFrame;
+    while (frame) {
+        count++;
+        frame = frame->parent;
+    }
+    return IONUMBER(count);
+}
+
+IO_METHOD(IoContinuation, frameStates) {
+    /*doc Continuation frameStates
+    Returns a list of strings describing the state of each frame
+    in the captured continuation stack (from top to bottom).
+    */
+    IoState *state = IOSTATE;
+    IoList *list = IoList_new(state);
+    IoEvalFrame *frame = DATA(self)->capturedFrame;
+    while (frame) {
+        const char *name = IoEvalFrame_stateName(frame->state);
+        IoObject *str = IOSYMBOL(name);
+        IoList_rawAppend_(list, str);
+        frame = frame->parent;
+    }
+    return list;
+}
+
+IO_METHOD(IoContinuation, frameMessages) {
+    /*doc Continuation frameMessages
+    Returns a list of strings showing the current message at each
+    frame in the captured continuation stack (from top to bottom).
+    */
+    IoState *state = IOSTATE;
+    IoList *list = IoList_new(state);
+    IoEvalFrame *frame = DATA(self)->capturedFrame;
+    while (frame) {
+        if (frame->message) {
+            IoObject *str = IOSYMBOL(CSTRING(IoMessage_name(frame->message)));
+            IoList_rawAppend_(list, str);
+        } else {
+            IoList_rawAppend_(list, state->ioNil);
+        }
+        frame = frame->parent;
+    }
+    return list;
 }
 
 // ============================================================

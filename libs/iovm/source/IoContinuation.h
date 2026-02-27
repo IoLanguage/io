@@ -52,6 +52,9 @@ IOVM_API void IoContinuation_freeFrameStack_(IoEvalFrame *frame);
 IOVM_API IO_METHOD(IoContinuation, invoke);
 IOVM_API IO_METHOD(IoContinuation, isInvoked);
 IOVM_API IO_METHOD(IoContinuation, setMultiShot);
+IOVM_API IO_METHOD(IoContinuation, frameCount);
+IOVM_API IO_METHOD(IoContinuation, frameStates);
+IOVM_API IO_METHOD(IoContinuation, frameMessages);
 
 // callcc primitive (on Object)
 IOVM_API IO_METHOD(IoObject, callcc);
