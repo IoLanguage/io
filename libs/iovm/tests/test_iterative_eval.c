@@ -706,6 +706,51 @@ int test_question_mark_continue(IoState *state) {
 	return 1;
 }
 
+// Test Continuation asMap serialization
+int test_continuation_asMap(IoState *state) {
+	printf("Test 30: Continuation asMap... ");
+
+	// Capture a continuation inside a for loop
+	testEvalCode(state,
+		"captured2 := nil\n"
+		"for(i, 1, 5, if(i == 3, callcc(block(cont, captured2 = cont))))");
+
+	// Check asMap returns a Map
+	IoObject *map = testEvalCode(state, "captured2 asMap");
+	if (!IoObject_slots(map)) {
+		printf("FAILED (asMap didn't return a Map)\n");
+		return 0;
+	}
+
+	// Check frameCount
+	IoObject *fc = testEvalCode(state, "captured2 asMap at(\"frameCount\")");
+	if (!ISNUMBER(fc) || IoNumber_asInt(fc) < 1) {
+		printf("FAILED (frameCount < 1)\n");
+		return 0;
+	}
+
+	// Check first frame is callcc:evalBlock
+	IoObject *firstState = testEvalCode(state,
+		"captured2 asMap at(\"frames\") first at(\"state\")");
+	if (!ISSEQ(firstState) ||
+		strcmp(CSTRING(firstState), "callcc:evalBlock") != 0) {
+		printf("FAILED (first frame state != callcc:evalBlock)\n");
+		return 0;
+	}
+
+	// Check for loop state was captured (currentValue should be 3)
+	IoObject *forValue = testEvalCode(state,
+		"captured2 asMap at(\"frames\") detect(at(\"state\") beginsWithSeq(\"for\")) at(\"currentValue\")");
+	if (!ISNUMBER(forValue) || IoNumber_asDouble(forValue) != 3.0) {
+		printf("FAILED (for currentValue != 3, got %s)\n",
+			ISNUMBER(forValue) ? "wrong number" : IoObject_name(forValue));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
 int main(int argc, char **argv) {
     printf("=== Iterative Evaluator Tests ===\n\n");
 
@@ -749,6 +794,7 @@ int main(int argc, char **argv) {
     total++; passed += test_continuation_introspection(state);
     total++; passed += test_tco_if_stop_status(state);
     total++; passed += test_question_mark_continue(state);
+    total++; passed += test_continuation_asMap(state);
 
     // Print summary
     printf("\n=== Results ===\n");

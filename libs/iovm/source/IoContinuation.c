@@ -9,7 +9,9 @@
 #include "IoMessage.h"
 #include "IoBlock.h"
 #include "IoList.h"
+#include "IoMap.h"
 #include "IoNumber.h"
+#include "IoSeq.h"
 #include "IoEvalFrame.h"
 #include <stdlib.h>
 #include <string.h>
@@ -48,6 +50,7 @@ IoContinuation *IoContinuation_proto(void *state) {
             {"frameCount", IoContinuation_frameCount},
             {"frameStates", IoContinuation_frameStates},
             {"frameMessages", IoContinuation_frameMessages},
+            {"asMap", IoContinuation_asMap},
             {NULL, NULL},
         };
         IoObject_addMethodTable_(self, methodTable);
@@ -325,6 +328,326 @@ IO_METHOD(IoContinuation, frameMessages) {
     }
     return list;
 }
+
+// ============================================================
+// Serialization helpers
+// ============================================================
+
+// Macro shortcuts that take explicit state (unlike IOSYMBOL/IONUMBER which use 'self')
+#define SYM(s)  IoState_symbolWithCString_(state, (s))
+#define NUM(n)  IoNumber_newWithDouble_(state, (double)(n))
+
+// Helper: serialize an IoObject to a portable representation
+// Returns the object itself for primitives, or a Map for complex objects
+static IoObject *serializeObject_(IoState *state, IoObject *obj) {
+    if (!obj) return state->ioNil;
+    if (obj == state->ioNil) return state->ioNil;
+    if (obj == state->ioTrue) return state->ioTrue;
+    if (obj == state->ioFalse) return state->ioFalse;
+    if (ISNUMBER(obj)) return obj;
+    if (ISSEQ(obj)) return obj;
+
+    // For complex objects, return a Map with type info and slots
+    IoMap *map = IoMap_new(state);
+    const char *tagName = IoObject_tag(obj)->name;
+    IoMap_rawAtPut(map, SYM("_type"), SYM(tagName));
+
+    // For objects with slots, serialize slot names (not values, to avoid cycles)
+    if (IoObject_slots(obj)) {
+        IoList *slotNames = IoList_new(state);
+        PHASH_FOREACH(IoObject_slots(obj), k, v,
+            IoList_rawAppend_(slotNames, k);
+        );
+        IoMap_rawAtPut(map, SYM("_slotNames"), slotNames);
+    }
+    return map;
+}
+
+// Helper: serialize a message tree to a Map
+static IoObject *serializeMessage_(IoState *state, IoMessage *msg) {
+    if (!msg) return state->ioNil;
+
+    IoMap *map = IoMap_new(state);
+
+    // Message name
+    IoMap_rawAtPut(map, SYM("name"),
+                   SYM(CSTRING(IoMessage_name(msg))));
+
+    // Full code representation (can be reparsed)
+    UArray *codeUA = IoMessage_descriptionJustSelfAndArgs(msg);
+    IoSeq *code = IoSeq_newWithUArray_copy_(state, codeUA, 0);
+    IoMap_rawAtPut(map, SYM("code"), code);
+
+    // Full chain code (including next messages)
+    UArray *chainUA = IoMessage_description(msg);
+    IoSeq *chainCode = IoSeq_newWithUArray_copy_(state, chainUA, 0);
+    IoMap_rawAtPut(map, SYM("chainCode"), chainCode);
+
+    // Cached result (literal value)
+    IoObject *cached = IoMessage_rawCachedResult(msg);
+    if (cached) {
+        IoMap_rawAtPut(map, SYM("cachedResult"),
+                       serializeObject_(state, cached));
+    }
+
+    // Line number and label
+    IoMap_rawAtPut(map, SYM("lineNumber"),
+                   NUM(IoMessage_rawLineNumber(msg)));
+    IoSymbol *label = IoMessage_rawLabel(msg);
+    if (label) {
+        IoMap_rawAtPut(map, SYM("label"), label);
+    }
+
+    // Argument count
+    IoMap_rawAtPut(map, SYM("argCount"),
+                   NUM(IoMessage_argCount(msg)));
+
+    return map;
+}
+
+// Helper: serialize control flow state for a frame
+static void serializeControlFlow_(IoState *state, IoEvalFrame *frame,
+                                    IoMap *map) {
+    switch (frame->state) {
+        case FRAME_STATE_IF_EVAL_CONDITION:
+        case FRAME_STATE_IF_CONVERT_BOOLEAN:
+        case FRAME_STATE_IF_EVAL_BRANCH: {
+            IoMap_rawAtPut(map, SYM("conditionResult"),
+                           NUM(frame->controlFlow.ifInfo.conditionResult));
+            if (frame->controlFlow.ifInfo.conditionMsg) {
+                IoMap_rawAtPut(map, SYM("conditionMsg"),
+                    serializeMessage_(state, frame->controlFlow.ifInfo.conditionMsg));
+            }
+            if (frame->controlFlow.ifInfo.trueBranch) {
+                IoMap_rawAtPut(map, SYM("trueBranch"),
+                    serializeMessage_(state, frame->controlFlow.ifInfo.trueBranch));
+            }
+            if (frame->controlFlow.ifInfo.falseBranch) {
+                IoMap_rawAtPut(map, SYM("falseBranch"),
+                    serializeMessage_(state, frame->controlFlow.ifInfo.falseBranch));
+            }
+            break;
+        }
+
+        case FRAME_STATE_WHILE_EVAL_CONDITION:
+        case FRAME_STATE_WHILE_CHECK_CONDITION:
+        case FRAME_STATE_WHILE_DECIDE:
+        case FRAME_STATE_WHILE_EVAL_BODY: {
+            IoMap_rawAtPut(map, SYM("conditionResult"),
+                           NUM(frame->controlFlow.whileInfo.conditionResult));
+            if (frame->controlFlow.whileInfo.conditionMsg) {
+                IoMap_rawAtPut(map, SYM("conditionMsg"),
+                    serializeMessage_(state, frame->controlFlow.whileInfo.conditionMsg));
+            }
+            if (frame->controlFlow.whileInfo.bodyMsg) {
+                IoMap_rawAtPut(map, SYM("bodyMsg"),
+                    serializeMessage_(state, frame->controlFlow.whileInfo.bodyMsg));
+            }
+            break;
+        }
+
+        case FRAME_STATE_LOOP_EVAL_BODY:
+        case FRAME_STATE_LOOP_AFTER_BODY: {
+            if (frame->controlFlow.loopInfo.bodyMsg) {
+                IoMap_rawAtPut(map, SYM("bodyMsg"),
+                    serializeMessage_(state, frame->controlFlow.loopInfo.bodyMsg));
+            }
+            break;
+        }
+
+        case FRAME_STATE_FOR_EVAL_SETUP:
+        case FRAME_STATE_FOR_EVAL_BODY:
+        case FRAME_STATE_FOR_AFTER_BODY: {
+            IoMap_rawAtPut(map, SYM("startValue"),
+                           NUM(frame->controlFlow.forInfo.startValue));
+            IoMap_rawAtPut(map, SYM("endValue"),
+                           NUM(frame->controlFlow.forInfo.endValue));
+            IoMap_rawAtPut(map, SYM("increment"),
+                           NUM(frame->controlFlow.forInfo.increment));
+            IoMap_rawAtPut(map, SYM("currentValue"),
+                           NUM(frame->controlFlow.forInfo.currentValue));
+            IoMap_rawAtPut(map, SYM("initialized"),
+                           NUM(frame->controlFlow.forInfo.initialized));
+            if (frame->controlFlow.forInfo.counterName) {
+                IoMap_rawAtPut(map, SYM("counterName"),
+                               frame->controlFlow.forInfo.counterName);
+            }
+            if (frame->controlFlow.forInfo.bodyMsg) {
+                IoMap_rawAtPut(map, SYM("bodyMsg"),
+                    serializeMessage_(state, frame->controlFlow.forInfo.bodyMsg));
+            }
+            break;
+        }
+
+        case FRAME_STATE_FOREACH_EVAL_BODY:
+        case FRAME_STATE_FOREACH_AFTER_BODY: {
+            IoMap_rawAtPut(map, SYM("currentIndex"),
+                           NUM(frame->controlFlow.foreachInfo.currentIndex));
+            IoMap_rawAtPut(map, SYM("collectionSize"),
+                           NUM(frame->controlFlow.foreachInfo.collectionSize));
+            IoMap_rawAtPut(map, SYM("direction"),
+                           NUM(frame->controlFlow.foreachInfo.direction));
+            IoMap_rawAtPut(map, SYM("isEach"),
+                           NUM(frame->controlFlow.foreachInfo.isEach));
+            if (frame->controlFlow.foreachInfo.indexName) {
+                IoMap_rawAtPut(map, SYM("indexName"),
+                               frame->controlFlow.foreachInfo.indexName);
+            }
+            if (frame->controlFlow.foreachInfo.valueName) {
+                IoMap_rawAtPut(map, SYM("valueName"),
+                               frame->controlFlow.foreachInfo.valueName);
+            }
+            if (frame->controlFlow.foreachInfo.bodyMsg) {
+                IoMap_rawAtPut(map, SYM("bodyMsg"),
+                    serializeMessage_(state, frame->controlFlow.foreachInfo.bodyMsg));
+            }
+            break;
+        }
+
+        case FRAME_STATE_CALLCC_EVAL_BLOCK: {
+            if (frame->controlFlow.callccInfo.continuation) {
+                IoMap_rawAtPut(map, SYM("hasContinuation"),
+                               state->ioTrue);
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+// Serialize a single frame to a Map
+static IoMap *serializeFrame_(IoState *state, IoEvalFrame *frame) {
+    IoMap *map = IoMap_new(state);
+
+    // Frame state
+    IoMap_rawAtPut(map, SYM("state"),
+                   SYM(IoEvalFrame_stateName(frame->state)));
+
+    // Message info
+    if (frame->message) {
+        IoMap_rawAtPut(map, SYM("message"),
+                       serializeMessage_(state, frame->message));
+    }
+
+    // Frame flags
+    IoMap_rawAtPut(map, SYM("passStops"), NUM(frame->passStops));
+    IoMap_rawAtPut(map, SYM("isNestedEvalRoot"),
+                   NUM(frame->isNestedEvalRoot));
+
+    // Argument evaluation state
+    IoMap_rawAtPut(map, SYM("argCount"), NUM(frame->argCount));
+    IoMap_rawAtPut(map, SYM("currentArgIndex"),
+                   NUM(frame->currentArgIndex));
+
+    // Evaluated arguments
+    if (frame->argValues && frame->currentArgIndex > 0) {
+        IoList *args = IoList_new(state);
+        for (int i = 0; i < frame->currentArgIndex; i++) {
+            IoList_rawAppend_(args,
+                serializeObject_(state, frame->argValues[i]));
+        }
+        IoMap_rawAtPut(map, SYM("argValues"), args);
+    }
+
+    // Object references (type info + identity)
+    if (frame->target) {
+        IoMap_rawAtPut(map, SYM("targetType"),
+                       SYM(IoObject_tag(frame->target)->name));
+    }
+    if (frame->locals) {
+        IoMap_rawAtPut(map, SYM("localsType"),
+                       SYM(IoObject_tag(frame->locals)->name));
+    }
+    if (frame->result) {
+        IoMap_rawAtPut(map, SYM("result"),
+                       serializeObject_(state, frame->result));
+    }
+    if (frame->slotValue) {
+        IoMap_rawAtPut(map, SYM("slotValue"),
+                       serializeObject_(state, frame->slotValue));
+    }
+
+    // Block activation info
+    if (frame->blockLocals) {
+        IoMap_rawAtPut(map, SYM("hasBlockLocals"), state->ioTrue);
+
+        // Serialize the block locals' slot names and values where possible
+        if (IoObject_slots(frame->blockLocals)) {
+            IoMap *slotsMap = IoMap_new(state);
+            PHASH_FOREACH(IoObject_slots(frame->blockLocals), k, v,
+                IoMap_rawAtPut(slotsMap, k, serializeObject_(state, v));
+            );
+            IoMap_rawAtPut(map, SYM("blockLocalsSlots"), slotsMap);
+        }
+    }
+
+    // Call stop status
+    if (frame->call) {
+        int stopStatus = IoCall_rawStopStatus((IoCall *)frame->call);
+        IoMap_rawAtPut(map, SYM("callStopStatus"), NUM(stopStatus));
+    }
+    if (frame->savedCall) {
+        int stopStatus = IoCall_rawStopStatus((IoCall *)frame->savedCall);
+        IoMap_rawAtPut(map, SYM("savedCallStopStatus"),
+                       NUM(stopStatus));
+    }
+
+    // Control flow specific state
+    serializeControlFlow_(state, frame, map);
+
+    return map;
+}
+
+IO_METHOD(IoContinuation, asMap) {
+    /*doc Continuation asMap
+    Returns a Map representation of the captured continuation state.
+    The Map contains a "frames" key with a list of frame Maps (top to bottom),
+    and metadata about the continuation itself.
+
+    Each frame Map includes:
+    - "state": the frame state machine state name
+    - "message": Map with message name, code, lineNumber, label
+    - "passStops", "isNestedEvalRoot": frame flags
+    - "argCount", "currentArgIndex": argument evaluation state
+    - "targetType", "localsType": type names of target/locals objects
+    - "result": the frame's current result value (if primitive)
+    - "blockLocalsSlots": Map of slot name→value for block locals
+    - Control flow fields (conditionMsg, bodyMsg, counters, etc.)
+
+    This is the foundation for continuation serialization. Message trees
+    can be round-tripped via code strings and reparsing.
+    */
+    IoState *state = IOSTATE;
+    IoMap *result = IoMap_new(state);
+
+    // Metadata
+    IoMap_rawAtPut(result, IOSYMBOL("invoked"),
+                   IOBOOL(self, DATA(self)->invoked));
+    IoMap_rawAtPut(result, IOSYMBOL("multiShot"),
+                   IOBOOL(self, DATA(self)->multiShot));
+
+    // Frame count
+    int count = 0;
+    IoEvalFrame *frame = DATA(self)->capturedFrame;
+    while (frame) { count++; frame = frame->parent; }
+    IoMap_rawAtPut(result, IOSYMBOL("frameCount"), IONUMBER(count));
+
+    // Frames list
+    IoList *frames = IoList_new(state);
+    frame = DATA(self)->capturedFrame;
+    while (frame) {
+        IoList_rawAppend_(frames, serializeFrame_(state, frame));
+        frame = frame->parent;
+    }
+    IoMap_rawAtPut(result, IOSYMBOL("frames"), frames);
+
+    return result;
+}
+
+#undef SYM
+#undef NUM
 
 // ============================================================
 // callcc - Call With Current Continuation

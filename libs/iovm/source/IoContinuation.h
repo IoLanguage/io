@@ -55,6 +55,7 @@ IOVM_API IO_METHOD(IoContinuation, setMultiShot);
 IOVM_API IO_METHOD(IoContinuation, frameCount);
 IOVM_API IO_METHOD(IoContinuation, frameStates);
 IOVM_API IO_METHOD(IoContinuation, frameMessages);
+IOVM_API IO_METHOD(IoContinuation, asMap);
 
 // callcc primitive (on Object)
 IOVM_API IO_METHOD(IoObject, callcc);
