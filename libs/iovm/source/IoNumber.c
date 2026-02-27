@@ -1232,6 +1232,7 @@ IO_METHOD(IoNumber, repeat) {
     */
 
     IoMessage_assertArgCount_receiver_(m, 1, self);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     {
         IoState *state = IOSTATE;

@@ -80,6 +80,7 @@ IoState_lobby(IOSTATE), UArray_asCString(ba), "Block readFromStore");
         {
                 IoState_error_(IOSTATE, NULL, "Store found bad block code: %s",
 (char *)UArray_bytes(ba));
+                return;
         }
 
         IoBlock_copy_(self, newBlock);
@@ -383,6 +384,7 @@ IO_METHOD(IoBlock, code_) {
         DATA(self)->message = IOREF(newM);
     } else {
         IoState_error_(IOSTATE, m, "no messages found in compile string");
+        return IONIL(self);
     }
 
     return self;
@@ -426,6 +428,7 @@ IO_METHOD(IoBlock, argumentNames_) {
     */
 
     IoList *newArgNames = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     List *rawNewArgNames = IoList_rawList(newArgNames);
 
     LIST_FOREACH(

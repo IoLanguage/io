@@ -633,11 +633,9 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
     // - This is the main coroutine being started
     // - No coroutine is current
     // - The current coroutine has no active frames (no eval loop running)
-    // - We're inside the recursive evaluator (can't do frame swapping)
     int needOwnEvalLoop = (self == state->mainCoroutine) ||
                           (current == NULL) ||
-                          (state->currentFrame == NULL) ||
-                          (state->inRecursiveEval);
+                          (state->currentFrame == NULL);
 
 #ifdef DEBUG_CORO_EVAL
     fprintf(stderr, "IoCoroutine_rawRun: needOwnEvalLoop=%d\n", needOwnEvalLoop);
@@ -671,7 +669,9 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
         frame->state = FRAME_STATE_START;
 
         // Run the eval loop
+        state->nestedEvalDepth++;
         IoObject *result = IoState_evalLoop_(state);
+        state->nestedEvalDepth--;
         IoCoroutine_rawSetResult_(self, result);
 
         // Restore previous coroutine if any
@@ -751,8 +751,8 @@ IO_METHOD(IoCoroutine, run) {
 
     IoState *state = IOSTATE;
 #ifdef DEBUG_CORO_EVAL
-    fprintf(stderr, "IoCoroutine_run: calling rawRun, inRecursiveEval=%d, currentFrame=%p\n",
-            state->inRecursiveEval, (void*)state->currentFrame);
+    fprintf(stderr, "IoCoroutine_run: calling rawRun, currentFrame=%p\n",
+            (void*)state->currentFrame);
     fflush(stderr);
 #endif
     IoCoroutine_rawRun(self);
@@ -846,7 +846,7 @@ void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals,
         fflush(stderr);
 #endif
 
-        // Mark that we're in a nested eval - so evalLoop knows not to do coro switching
+        // Mark that we're in a nested eval - so evalLoop knows not to do coro switching.
         state->nestedEvalDepth++;
 
         // Run nested eval loop - this will complete the try coroutine

@@ -181,6 +181,7 @@ IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target,
         IoState_error_(IOSTATE, m,
                        "CFunction defined for type %s but called on type %s", a,
                        b);
+        return IOSTATE->ioNil;
     }
 
     // IoState_pushRetainPool(state);

@@ -107,6 +107,10 @@ IOVM_API void IoObject_compact(IoObject *self);
 IOVM_API char *IoObject_markColorName(IoObject *self);
 IOVM_API void IoObject_show(IoObject *self);
 
+// identity / thisContext
+
+IOVM_API IO_METHOD(IoObject, self);
+
 // proto
 
 IOVM_API IO_METHOD(IoObject, clone);

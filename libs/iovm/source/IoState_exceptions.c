@@ -90,7 +90,11 @@ void IoState_error_(IoState *self, IoMessage *m, const char *format, ...) {
     self->errorRaised = 1;
 
 #ifdef DEBUG_CORO_EVAL
-    fprintf(stderr, "IoState_error_: errorRaised=1, returning\n");
+    fprintf(stderr, "IoState_error_: errorRaised=1\n");
     fflush(stderr);
 #endif
+    // IoState_error_ returns normally. Callers must check
+    // state->errorRaised and return early to avoid continuing
+    // with invalid state. The eval loop checks errorRaised after
+    // each CFunction call and unwinds frames.
 }

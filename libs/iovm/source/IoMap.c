@@ -13,6 +13,7 @@ A key/value dictionary appropriate for holding large key/value collections.
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoNumber.h"
+#include "IoEvalFrame.h"
 #include "IoList.h"
 #include "IoBlock.h"
 
@@ -248,10 +249,36 @@ aMap foreach(k, v, myBlock(k, v))</pre>
     IoState *state = IOSTATE;
     IoSymbol *keyName, *valueName;
     IoMessage *doMessage;
-    PHash *p = DATA(self);
 
-    IoObject *result = IONIL(self);
     IoMessage_foreachArgs(m, self, &keyName, &valueName, &doMessage);
+    if (state->errorRaised) return IONIL(self);
+
+    // Iterative path: build keys list for index-based iteration
+    if (state->currentFrame != NULL) {
+        IoEvalFrame *frame = state->currentFrame;
+        IoList *keysList = IoMap_rawKeys(self);
+        int keyCount = (int)List_size(IoList_rawList(keysList));
+
+        // Use keys list as collection, store original map for value lookup
+        frame->controlFlow.foreachInfo.collection = (IoObject *)keysList;
+        frame->controlFlow.foreachInfo.mapSource = self;
+        frame->controlFlow.foreachInfo.bodyMsg = doMessage;
+        frame->controlFlow.foreachInfo.indexName = keyName;
+        frame->controlFlow.foreachInfo.valueName = valueName;
+        frame->controlFlow.foreachInfo.currentIndex = 0;
+        frame->controlFlow.foreachInfo.collectionSize = keyCount;
+        frame->controlFlow.foreachInfo.lastResult = NULL;
+        frame->controlFlow.foreachInfo.direction = 1;
+        frame->controlFlow.foreachInfo.isEach = 0;
+
+        frame->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;
+    }
+
+    // Recursive fallback
+    PHash *p = DATA(self);
+    IoObject *result = IONIL(self);
     IoState_pushRetainPool(state);
 
     PHASH_FOREACH(

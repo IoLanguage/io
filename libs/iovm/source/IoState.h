@@ -76,6 +76,15 @@ struct IoState {
     IoSymbol *foreachSymbol;
     IoSymbol *reverseForeachSymbol;
     IoSymbol *foreachLineSymbol;
+    IoSymbol *messageSymbol;
+    IoSymbol *repeatSymbol;
+    IoSymbol *doSymbol;
+    IoSymbol *lexicalDoSymbol;
+    IoSymbol *foreachSlotSymbol;
+    IoSymbol *cpuSecondsToRunSymbol;
+    IoSymbol *sortInPlaceSymbol;
+    IoSymbol *orSymbol;
+    IoSymbol *andSymbol;
 
     IoSymbol *runTargetSymbol;
     IoSymbol *runMessageSymbol;
@@ -155,13 +164,10 @@ struct IoState {
     int continuationInvoked;           // Set when a continuation replaces the frame stack
     int nestedEvalDepth;               // Depth of nested eval loops (for IoCoroutine_try)
 
-    // Error handling flag - set when IoState_error_ is called
-    // Helper functions check this to return early after raising errors
+    // Error handling flag - set when IoState_error_ is called.
+    // Helper functions check this and return early. The eval loop
+    // checks it after CFunction returns and unwinds frames.
     int errorRaised;
-
-    // Track when we're inside the recursive evaluator (IoMessage_locals_performOn_)
-    // Control flow primitives (if, while, etc.) check this to use recursive path
-    int inRecursiveEval;
 
     // embedding
 

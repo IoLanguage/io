@@ -358,6 +358,7 @@ IoObject *IoObject_rawClonePrimitive(IoObject *proto) {
     IoObject_tag_(self, IoObject_tag(proto));
     IoObject_setProtoTo_(self, proto);
     IoObject_setDataPointer_(self, NULL);
+    IoObject_isActivatable_(self, IoObject_isActivatable(proto));
     IoObject_isDirty_(self, 1);
     return self;
 }
@@ -523,6 +524,7 @@ IO_METHOD(IoObject, setProtos) {
     */
 
     IoList *ioList = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject_rawRemoveAllProtos(self);
     LIST_FOREACH(IoList_rawList(ioList), i, v,
                  IoObject_rawAppendProto_(self, (IoObject *)v));
@@ -917,7 +919,9 @@ IO_METHOD(IoObject, protoPerformWithArgList) {
     */
 
     IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoList *args = IoMessage_locals_listArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
     List *argList = IoList_rawList(args);
     IoObject *context;
     IoObject *v = IoObject_rawGetSlot_context_(self, slotName, &context);
@@ -1313,21 +1317,22 @@ IO_METHOD(IoObject, doMessage) {
         context = IoMessage_locals_valueArgAt_(m, locals, 1);
     }
 
-    // Check if we can use the iterative path
-    if (state->currentFrame != NULL && !state->inRecursiveEval) {
-        // Iterative path - set up frame state machine
-        IoEvalFrame *frame = state->currentFrame;
-
-        frame->controlFlow.doInfo.codeMessage = aMessage;
-        frame->controlFlow.doInfo.evalTarget = self;
-        frame->controlFlow.doInfo.evalLocals = context;
-        frame->state = FRAME_STATE_DO_EVAL;
-
-        state->needsControlFlowHandling = 1;
-        return state->ioNil;  // Placeholder, real result comes from frame
+    // Use iterative path if eval loop is active, otherwise recursive fallback
+    if (state->currentFrame != NULL) {
+        if (state->currentFrame->message == m) {
+            // Called directly from eval loop - use frame-state (zero C stack growth)
+            IoEvalFrame *frame = state->currentFrame;
+            frame->controlFlow.doInfo.codeMessage = aMessage;
+            frame->controlFlow.doInfo.evalTarget = self;
+            frame->controlFlow.doInfo.evalLocals = context;
+            frame->state = FRAME_STATE_DO_EVAL;
+            state->needsControlFlowHandling = 1;
+            return state->ioNil;
+        }
+        // Called indirectly (e.g. from interpolate) - use nested eval
+        return IoMessage_locals_performOn_iterative(aMessage, context, self);
     }
 
-    // Recursive fallback
     return IoMessage_locals_performOn_(aMessage, context, self);
 }
 
@@ -1348,12 +1353,8 @@ IO_METHOD(IoObject, doString) {
         label = IOSYMBOL("doString");
     }
 
-    // Check if we can use the iterative path
-    if (state->currentFrame != NULL && !state->inRecursiveEval) {
-        // Iterative path - compile and set up frame state machine
-        IoEvalFrame *frame = state->currentFrame;
-
-        // Compile the string to a message (this is pure C, no re-entrancy)
+    // Use iterative path if eval loop is active, otherwise recursive fallback
+    if (state->currentFrame != NULL) {
         IoState_pushCollectorPause(state);
         IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_(state,
             CSTRING(string), label);
@@ -1364,17 +1365,20 @@ IO_METHOD(IoObject, doString) {
             return state->ioNil;
         }
 
-        // Set up frame for evaluation
-        frame->controlFlow.doInfo.codeMessage = codeMsg;
-        frame->controlFlow.doInfo.evalTarget = self;
-        frame->controlFlow.doInfo.evalLocals = self;
-        frame->state = FRAME_STATE_DO_EVAL;
-
-        state->needsControlFlowHandling = 1;
-        return state->ioNil;  // Placeholder, real result comes from frame
+        if (state->currentFrame->message == m) {
+            // Called directly from eval loop - use frame-state (zero C stack growth)
+            IoEvalFrame *frame = state->currentFrame;
+            frame->controlFlow.doInfo.codeMessage = codeMsg;
+            frame->controlFlow.doInfo.evalTarget = self;
+            frame->controlFlow.doInfo.evalLocals = self;
+            frame->state = FRAME_STATE_DO_EVAL;
+            state->needsControlFlowHandling = 1;
+            return state->ioNil;
+        }
+        // Called indirectly (e.g. from interpolate) - use nested eval
+        return IoMessage_locals_performOn_iterative(codeMsg, self, self);
     }
 
-    // Recursive fallback
     IoObject *result;
     IoState_pushRetainPool(state);
     result = IoObject_rawDoString_label_(self, string, label);
@@ -1391,20 +1395,20 @@ IO_METHOD(IoObject, doFile) {
     IoState *state = IOSTATE;
 
     IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (state->errorRaised) return state->ioNil;
+
     IoFile *file = IoFile_newWithPath_(state, path);
-    IoSymbol *string =
-        (IoSymbol *)IoSeq_rawAsSymbol(IoFile_contents(file, locals, m));
+    IoObject *contents = IoFile_contents(file, locals, m);
+    if (state->errorRaised) return state->ioNil;
+
+    IoSymbol *string = (IoSymbol *)IoSeq_rawAsSymbol(contents);
 
     if (!IoSeq_rawSize(string)) {
         return IONIL(self);
     }
 
-    // Check if we can use the iterative path
-    if (state->currentFrame != NULL && !state->inRecursiveEval) {
-        // Iterative path - compile and set up frame state machine
-        IoEvalFrame *frame = state->currentFrame;
-
-        // Compile the file contents to a message (pure C, no re-entrancy)
+    // Use iterative path if eval loop is active, otherwise recursive fallback
+    if (state->currentFrame != NULL) {
         IoState_pushCollectorPause(state);
         IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_(state,
             CSTRING(string), path);
@@ -1416,17 +1420,20 @@ IO_METHOD(IoObject, doFile) {
             return state->ioNil;
         }
 
-        // Set up frame for evaluation
-        frame->controlFlow.doInfo.codeMessage = codeMsg;
-        frame->controlFlow.doInfo.evalTarget = self;
-        frame->controlFlow.doInfo.evalLocals = self;
-        frame->state = FRAME_STATE_DO_EVAL;
-
-        state->needsControlFlowHandling = 1;
-        return state->ioNil;  // Placeholder, real result comes from frame
+        if (state->currentFrame->message == m) {
+            // Called directly from eval loop - use frame-state (zero C stack growth)
+            IoEvalFrame *frame = state->currentFrame;
+            frame->controlFlow.doInfo.codeMessage = codeMsg;
+            frame->controlFlow.doInfo.evalTarget = self;
+            frame->controlFlow.doInfo.evalLocals = self;
+            frame->state = FRAME_STATE_DO_EVAL;
+            state->needsControlFlowHandling = 1;
+            return state->ioNil;
+        }
+        // Called indirectly - use nested eval
+        return IoMessage_locals_performOn_iterative(codeMsg, self, self);
     }
 
-    // Recursive fallback
     return IoObject_rawDoString_label_(self, string, path);
 }
 
@@ -1484,6 +1491,10 @@ IO_METHOD(IoObject, foreachSlot) {
 
     IoState_pushRetainPool(IOSTATE);
     IoMessage_foreachArgs(m, self, &keyName, &valueName, &doMessage);
+    if (IOSTATE->errorRaised) {
+        IoState_popRetainPool(IOSTATE);
+        return IONIL(self);
+    }
 
     PHASH_FOREACH(
         IoObject_slots(self), key, value, IoState_clearTopPool(IOSTATE);

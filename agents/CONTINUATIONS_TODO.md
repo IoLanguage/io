@@ -9,13 +9,15 @@ This means:
 - **NO ucontext** - not even for "lightweight switching"
 - **NO fibers** - not even for "performance"
 - **NO assembly coroutine code** - this is what we're removing
-- **NO Coro_switchTo_** - libcoroutine is being deleted
+- **NO Coro_switchTo_** - libcoroutine is deleted
 
 The goal is portable, serializable, network-transmittable execution state.
 All execution state must be in heap-allocated frames, not on the C stack.
 
-When errors are raised, helper functions return early (not jump). The eval
-loop checks `state->errorRaised` and handles appropriately.
+**Error handling:** `IoState_error_` sets `errorRaised = 1` and returns
+normally. Every CFunction that calls a helper which might raise an error
+must check `IOSTATE->errorRaised` and return early. The eval loop checks
+`errorRaised` after each CFunction returns and unwinds frames.
 
 ---
 
@@ -262,7 +264,7 @@ but this requires modifying all CFunctions.
 - [x] `if` works as C primitive (not needed in Io)
 - [ ] Implement `forEach` on List in Io
 - [ ] Implement `map`, `select` in Io
-- [x] Test control flow constructs (13/13 tests pass including callcc)
+- [x] Test control flow constructs (21/21 tests pass including callcc, exceptions, coros)
 
 ### Phase 5: Continuation API ✅ COMPLETE
 - [x] Design continuation capture API (`IoContinuation.h`)
@@ -280,7 +282,7 @@ but this requires modifying all CFunctions.
 - Eval loop checks flag after CFunction returns, restarts with new frame stack
 - No setjmp/longjmp needed - frame state machine handles unwinding
 
-### Phase 6: Coroutine Replacement - IN PROGRESS
+### Phase 6: Coroutine Replacement ✅ COMPLETE
 - [x] Implement coroutine as frame stack wrapper (IoCoroutineData with frameStack)
 - [x] Implement save/restore state functions
 - [x] Rewrite rawRun for frame-based operation
@@ -289,11 +291,29 @@ but this requires modifying all CFunctions.
 - [x] REPL starts successfully!
 - [x] Fix recursive/iterative evaluator mixing (added `state->inRecursiveEval` flag)
 - [x] Make IoState_error_ lightweight (no coro swap from C stack)
-- [ ] Integrate Io-level exceptions with eval loop (Exception raise/pass)
-- [ ] Replace libcoroutine build dependency
-- [ ] Remove platform-specific assembly
-- [ ] Test yield/resume
-- [ ] Test portable coroutines
+- [x] Integrate Io-level exceptions with eval loop (Exception raise/pass)
+- [x] Replace libcoroutine build dependency (deleted `libs/coroutine/`, cleaned CMakeLists)
+- [x] Remove platform-specific assembly (all in deleted `libs/coroutine/`)
+- [x] Test yield/resume (C tests: resume, yield, @@; CLI smoke tests all pass)
+- [x] Test portable coroutines (21/21 C tests, 23/23 Io correctness test files pass)
+
+**Error Safety (return-and-check pattern):**
+On master, `IoState_error_` did a longjmp (never returned). On this branch it returns
+normally after setting `errorRaised = 1`. Every C function that calls a helper which
+might raise an error must check `IOSTATE->errorRaised` and return early. Fixed sites:
+- `IOASSERT` macro: added `return IONIL(self)` after `IoState_error_`
+- `IoObject_rawClonePrimitive`: must set `isActivatable` from proto (prevents stale flags on recycled markers)
+- `IoList_checkIndex`: changed to return int (0=ok, 1=error), callers check
+- `IoList_sortInPlaceBy`: check `errorRaised` after `blockArgAt_`
+- `IoFile_assertOpen/assertWrite`: return IONIL on error, all callers check
+- `IoDirectory` opendir: `return IONIL(self)` after error (3 sites)
+- `IoObject_self` (thisContext): skip arg pre-evaluation (prevents `ifNil` body executing on non-nil)
+- `IoMessage_assertArgCount_receiver_`: all callers check `errorRaised` after
+- `IoSeq_mutable.c IO_ASSERT_NOT_SYMBOL`: macro checks `errorRaised` after
+- `IoCFunction_activate`: return after type mismatch error
+- All `listArgAt_`/`mapArgAt_`/`blockArgAt_` callers: check `errorRaised`
+- Various: `IoSeq_asJSON`, `IoSeq_findAnyOf`, `IoSeq_translate`, `IoBlock_code_`, etc.
+- Nested eval loops: clear `inRecursiveEval` on entry (for correct control flow path)
 
 **IoState_error_ Made Lightweight:**
 `IoState_error_` no longer calls `IoCoroutine_raiseError` → `rawReturnToParent`.
@@ -305,14 +325,12 @@ handler takes over for coro switching / nested eval exit. This eliminates the SI
 that occurred when `rawReturnToParent` tried to unwind frames from deep inside a
 CFunction's C call stack.
 
-**Io-Level Exception Gap:**
-Io-level exceptions (`Exception raise`, `Exception raiseFrom`) use the Io method
-`raiseException` which sets the exception on the coro and calls `resumeParentCoroutine`.
-Without a parent coro (main coro), this is a no-op — execution continues past the error.
-This means uncaught Io-level exceptions (e.g., unknown method via Importer's `forward`)
-don't halt execution. Only C-level `IoState_error_` errors set `errorRaised` and get
-unwound by the eval loop. Fixing this requires integrating the Io-level exception
-mechanism with the eval loop's error handling.
+**Io-Level Exception Integration (FIXED):**
+Io-level exceptions now work via `rawSignalException` which sets `errorRaised = 1`,
+bridging Io-level exceptions to the eval loop's error handling. `Exception raise` and
+`Exception raiseFrom` use `raiseException` which calls `rawSignalException` on the
+current coro when there's no parent to resume. The eval loop then unwinds frames just
+like C-level errors. `try()` catches both C-level and Io-level exceptions.
 
 **Critical Bug Fixed (recursive/iterative mixing):**
 When CFunctions (like `doString`) call `IoMessage_locals_performOn_` (recursive evaluator)
@@ -336,7 +354,7 @@ entering the recursive evaluator, allowing control flow primitives to use the co
 - `CONTINUATIONS_TODO.md` - This file
 
 ### Tests
-- `libs/iovm/tests/test_iterative_eval.c` - 13 tests for iterative evaluator
+- `libs/iovm/tests/test_iterative_eval.c` - 21 tests for iterative evaluator (including coro yield/resume/@@)
 - `libs/iovm/tests/debug_if.c` - Debug test for if primitive
 
 ## Performance Notes

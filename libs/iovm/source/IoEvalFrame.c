@@ -29,12 +29,8 @@ void IoEvalFrame_free(IoEvalFrame *self) {
     io_free(self);
 }
 
-// Mark frame contents for garbage collection
-void IoEvalFrame_mark(IoEvalFrame *self) {
-    if (!self) {
-        return;
-    }
-
+// Mark a single frame's contents for garbage collection (no recursion)
+static void IoEvalFrame_markSingle_(IoEvalFrame *self) {
     // Mark all IoObject pointers that might be in the frame
     IoObject_shouldMarkIfNonNull(self->message);
     IoObject_shouldMarkIfNonNull(self->target);
@@ -87,6 +83,16 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
             IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.lastResult);
             break;
 
+        case FRAME_STATE_FOREACH_EVAL_BODY:
+        case FRAME_STATE_FOREACH_AFTER_BODY:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.collection);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.indexName);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.valueName);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.lastResult);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.mapSource);
+            break;
+
         case FRAME_STATE_CALLCC_EVAL_BLOCK:
             IoObject_shouldMarkIfNonNull(self->controlFlow.callccInfo.continuation);
             IoObject_shouldMarkIfNonNull(self->controlFlow.callccInfo.blockLocals);
@@ -107,10 +113,14 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
         default:
             break;
     }
+}
 
-    // Recursively mark parent frame
-    if (self->parent) {
-        IoEvalFrame_mark(self->parent);
+// Mark frame chain for garbage collection (iterative, not recursive)
+void IoEvalFrame_mark(IoEvalFrame *self) {
+    IoEvalFrame *frame = self;
+    while (frame) {
+        IoEvalFrame_markSingle_(frame);
+        frame = frame->parent;
     }
 }
 

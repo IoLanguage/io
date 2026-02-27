@@ -45,7 +45,6 @@ set(IO_SRCS
 )
 
 # Object files from every lib. Used to create iovmall static library.
-# Note: libcoroutine removed - coroutines now use frame-based implementation
 file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/*.c")
 file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/source/*.c")
 file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/*.c")
@@ -87,7 +86,6 @@ add_dependencies(iovmall_static io2c basekit garbagecollector iovmall)
 
 # Define the subdirectories we can reach from here that we want
 # to go into and build stuff.
-# Note: coroutine subdirectory removed - using frame-based coroutines
 add_subdirectory(basekit)
 add_subdirectory(garbagecollector)
 add_subdirectory(iovm)

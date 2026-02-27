@@ -223,7 +223,6 @@ void IoState_new_atAddress(void *address) {
         self->continuationInvoked = 0;
         self->nestedEvalDepth = 0;
         self->errorRaised = 0;
-        self->inRecursiveEval = 0;
 
         // Initialize frame pool
         self->framePoolCount = 0;
@@ -290,6 +289,15 @@ void IoState_setupQuickAccessSymbols(IoState *self) {
     self->foreachSymbol = IoState_retainedSymbol(self, "foreach");
     self->reverseForeachSymbol = IoState_retainedSymbol(self, "reverseForeach");
     self->foreachLineSymbol = IoState_retainedSymbol(self, "foreachLine");
+    self->messageSymbol = IoState_retainedSymbol(self, "message");
+    self->repeatSymbol = IoState_retainedSymbol(self, "repeat");
+    self->doSymbol = IoState_retainedSymbol(self, "do");
+    self->lexicalDoSymbol = IoState_retainedSymbol(self, "lexicalDo");
+    self->foreachSlotSymbol = IoState_retainedSymbol(self, "foreachSlot");
+    self->cpuSecondsToRunSymbol = IoState_retainedSymbol(self, "cpuSecondsToRun");
+    self->sortInPlaceSymbol = IoState_retainedSymbol(self, "sortInPlace");
+    self->orSymbol = IoState_retainedSymbol(self, "or");
+    self->andSymbol = IoState_retainedSymbol(self, "and");
 
     self->runTargetSymbol = IoState_retainedSymbol(self, "runTarget");
     self->runMessageSymbol = IoState_retainedSymbol(self, "runMessage");

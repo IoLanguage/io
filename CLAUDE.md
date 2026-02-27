@@ -25,6 +25,11 @@ The binary lands at `_build/binaries/io`. Tests at `_build/binaries/test_iterati
 # C test suite (iterative evaluator)
 ./_build/binaries/test_iterative_eval
 
+# Io test suite (from build directory)
+io ../libs/iovm/tests/correctness/run.io            # Full suite
+io ../libs/iovm/tests/correctness/ListTest.io        # Single test
+IO_TEST_VERBOSE=1 io ../libs/iovm/tests/correctness/run.io  # Verbose
+
 # Quick smoke test for control flow + exceptions
 ./_build/binaries/io -e 'if(true, "yes") println; for(i,1,3, i println); list(1,2,3) foreach(v, v println); e := try(1 unknownMethod); e error println; "done" println'
 ```
@@ -75,11 +80,9 @@ rm libs/iovm/source/IoVMInit.c
 cd build && cmake --build .
 ```
 
-### Two evaluators
-- **Iterative** (`IoState_iterative.c`): Frame state machine. Used for control flow, continuations, coroutine switching.
-- **Recursive** (`IoMessage_locals_performOn_`): Traditional C-stack recursion. Used by `IoBlock_activate` for block bodies, `doString`, etc.
-
-The `state->inRecursiveEval` flag tracks which is active. Control flow primitives check this to use the correct path.
+### Evaluator
+- **Iterative** (`IoState_iterative.c`): Frame state machine. Used for all evaluation including control flow, continuations, coroutine switching.
+- `IoMessage_locals_performOn_` redirects to the iterative eval loop when `currentFrame` is set. A bootstrap-only recursive fallback exists for VM initialization (before the first eval loop starts).
 
 ### Special forms
 Messages whose arguments must NOT be pre-evaluated: `if`, `while`, `loop`, `for`, `callcc`, `method`, `block`, `foreach`, `reverseForeach`, `foreachLine`. Checked in two places in `IoState_iterative.c`.
@@ -92,3 +95,18 @@ Messages whose arguments must NOT be pre-evaluated: `if`, `while`, `loop`, `for`
 ### Debug compile flags
 - `DEBUG_EVAL_LOOP` — verbose iterative eval loop tracing
 - `DEBUG_CORO_EVAL` — coroutine operation tracing
+
+## Architecture (General)
+
+Every Io object is a `CollectorMarker` (`typedef struct CollectorMarker IoObject`). The marker's `object` field points to `IoObjectData` containing: a `tag` (vtable), `slots` (PHash cuckoo hash table), `protos` array, and a data union for primitive values.
+
+All operations are message sends. The parser produces message chains, then `IoMessage_opShuffle.c` rewrites them by operator precedence. Assignment operators: `:=` → `setSlot`, `=` → `updateSlot`, `::=` → `newSlot`.
+
+Standard library files in `libs/iovm/io/` load alphabetically. Prefixes control ordering: `A0_`→`A4_` for bootstrap, then alphabetical core, then `Z_CLI.io`, `Z_Importer.io` last.
+
+## Code Style
+
+- **Indentation**: Tabs in both C and Io code
+- **C naming**: `IoObjectName_methodName` (e.g., `IoList_append_`)
+- **C method macro**: `IO_METHOD(CLASS, NAME)` expands to `IoObject *CLASS_NAME(CLASS *self, IoObject *locals, IoMessage *m)`
+- **Io naming**: camelCase for methods, PascalCase for objects

@@ -124,46 +124,7 @@ IoMessage *IoMessage_newParse(void *state, IoLexer *lexer) {
         ((IoState *)state)->ioNil);
 }
 
-/*
-typedef struct
-{
-        void *state;
-        IoLexer *lexer;
-        Coro *coro;
-        Coro *continuation;
-        void *result;
-} ParseContext;
-
-IoMessage *IoMessage_coroNewParseNextMessageChain(ParseContext *context)
-{
-        context->result = IoMessage_newParseNextMessageChain(context->state,
-context->lexer); Coro_switchTo_(context->coro, context->continuation);
-}
-*/
-
 IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer) {
-    /*
-    IoCoroutine *current = IoState_currentCoroutine(state);
-    Coro *coro = IoCoroutine_cid(current);
-    if (Coro_stackSpaceAlmostGone(coro))
-    {
-            // need to make Coroutine support a stack of Coros which it frees
-    when released
-            // return IoCoroutine_internallyChain(current, context,
-    IoMessage_...);
-
-            Coro *newCoro = Coro_new();
-            ParseContext p = {state, lexer, newCoro, coro, NULL};
-            size_t left = Coro_bytesLeftOnStack(coro);
-            printf("Warning IoMessage_newParseNextMessageChain doing callc with
-    %i bytes left to avoid stack overflow\n", left);
-
-            Coro_startCoro_(coro, newCoro, &p, (CoroStartCallback
-    *)IoMessage_coroNewParseNextMessageChain); Coro_free(newCoro); return
-    p.result;
-    }
-    */
-
     IoMessage *self = IoMessage_new(state);
 
     if (IoTokenType_isValidMessageName(IoLexer_topType(lexer))) {

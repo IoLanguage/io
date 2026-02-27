@@ -449,36 +449,27 @@ IO_METHOD(IoMessage, doInContext) {
 IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
                                       IoObject *target) {
     IoState *state = IOSTATE;
+
+    // Use the iterative eval loop for message evaluation.
+    // This eliminates C stack recursion for message chains —
+    // only bounded recursion remains (for CFunction argument evaluation).
+    if (state->currentFrame) {
+        return IoMessage_locals_performOn_iterative(self, locals, target);
+    }
+
+    // No eval loop running (bootstrap only). Use a simple recursive
+    // evaluator as a fallback. This is only reached during VM
+    // initialization before the first eval loop is started.
     IoMessage *m = self;
     IoObject *result = target;
     IoObject *cachedTarget = target;
-    // IoObject *semicolonSymbol = state->semicolonSymbol;
-    // IoMessageData *md;
     IoMessageData *md;
-
-    // Mark that we're in the recursive evaluator so that control flow
-    // primitives (if, while, etc.) use their recursive implementation
-    int wasInRecursiveEval = state->inRecursiveEval;
-    state->inRecursiveEval = 1;
-
-    // Save and clear currentFrame so that pre-evaluated args from the
-    // iterative evaluator don't leak into recursive evaluation.
-    // CFunctions like foreach() read their own args (via valueArgAt_)
-    // before calling performOn_ for the body, so they already have
-    // what they need. Clearing currentFrame here prevents the body's
-    // messages from accidentally matching stale pre-evaluated values.
-    struct IoEvalFrame *savedCurrentFrame = state->currentFrame;
-    state->currentFrame = NULL;
 
     if (state->receivedSignal) {
         IoState_callUserInterruptHandler(IOSTATE);
     }
 
     do {
-        // md = DATA(m);
-
-        // printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
-        // printf(" %s\n", CSTRING(IoMessage_name(m)));
         if (state->showAllMessages) {
             printf("M:%s:%s:%i\n", CSTRING(IoMessage_name(m)),
                    CSTRING(IoMessage_rawLabel(m)), IoMessage_rawLineNumber(m));
@@ -489,18 +480,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
         if (md->name == state->semicolonSymbol) {
             target = cachedTarget;
         } else {
-            result = md->cachedResult; // put it on the stack?
-            /*
-            if(state->debugOn)
-            {
-                    char *s = CSTRING(DATA(m)->name);
-                    printf("%s\n", s);
-                    if (strcmp(s, "clone") == 0)
-                    {
-                            printf("found '%s'\n", s);
-                    }
-            }
-            */
+            result = md->cachedResult;
 
             if (!result) {
                 IoState_pushRetainPool(state);
@@ -516,41 +496,19 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
 #endif
                 IoState_popRetainPoolExceptFor_(state, result);
 
-                // Check for error raised during message evaluation
-                // (e.g., Io-level exception via rawSignalException).
-                // Don't clear errorRaised — let the iterative eval loop
-                // handle clearing it and unwinding frames.
                 if (state->errorRaised) {
-                    state->inRecursiveEval = wasInRecursiveEval;
-                    state->currentFrame = savedCurrentFrame;
                     return state->ioNil;
                 }
             }
 
-            // IoObject_freeIfUnreferenced(target);
             target = result;
 
             if (state->stopStatus != MESSAGE_STOP_STATUS_NORMAL) {
-                state->inRecursiveEval = wasInRecursiveEval;
-                state->currentFrame = savedCurrentFrame;
                 return state->returnValue;
-                /*
-                result = state->returnValue;
-
-                if (result)
-                {
-                        //IoState_stackRetain_(state, result);
-                        return result;
-                }
-                printf("IoBlock no result!\n");
-                return state->ioNil;
-                */
             }
         }
     } while ((m = md->next));
 
-    state->inRecursiveEval = wasInRecursiveEval;
-    state->currentFrame = savedCurrentFrame;
     return result;
 }
 
@@ -1028,6 +986,7 @@ IO_METHOD(IoMessage, setArguments) {
     */
 
     IoList *ioList = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     List *newArgs = IoList_rawList(ioList);
 
     List_removeAll(DATA(self)->args);

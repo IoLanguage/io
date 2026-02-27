@@ -46,6 +46,10 @@ typedef enum {
     FRAME_STATE_FOR_EVAL_BODY,        // Starting 'for' body
     FRAME_STATE_FOR_AFTER_BODY,       // After 'for' body, increment and check
 
+    // Foreach states (collection iteration)
+    FRAME_STATE_FOREACH_EVAL_BODY,    // Set slots and push body frame
+    FRAME_STATE_FOREACH_AFTER_BODY,   // After body, increment and check
+
     // Callcc states
     FRAME_STATE_CALLCC_EVAL_BLOCK,    // Evaluating callcc block body
 
@@ -134,6 +138,19 @@ struct IoEvalFrame {
             IoObject *lastResult;         // Last body result
             int initialized;              // Whether loop has started
         } forInfo;
+
+        struct {
+            IoObject *collection;         // The collection object (List/Map/Seq)
+            IoMessage *bodyMsg;           // Body message to execute
+            IoSymbol *indexName;          // Index variable name (NULL if not used)
+            IoSymbol *valueName;          // Value variable name (NULL for each)
+            int currentIndex;             // Current iteration index
+            int collectionSize;           // Total size (may change if list mutated)
+            IoObject *lastResult;         // Last body result
+            int direction;                // 1 for forward, -1 for reverse
+            int isEach;                   // 1 if "each" (send to element as target)
+            IoObject *mapSource;          // Original Map (when collection is a keys list)
+        } foreachInfo;
 
         struct {
             IoObject *continuation;       // The Continuation object

@@ -44,18 +44,6 @@ set(IO_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/io/Z_Importer.io
     )
 
-# Object files from every lib. Used to create iovmall static library.
-# file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../coroutine/source/*.[cS]")
-# file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source/*.c")
-# file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../garbagecollector/source/*.c")
-# file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../source/*.c")
-# set(IOVMALL_STATIC_SRCS
-# ${COROUTINE_SRCS}
-# ${BASEKIT_SRCS}
-# ${GARBAGECOLLECTOR_SRCS}
-# ${IOVM_SRCS}
-# )
-
 # Create a header file which defines our install prefix. This is
 # only needed because GCC is batshit insane.
 file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/source/IoInstallPrefix.h "#define INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}\"")

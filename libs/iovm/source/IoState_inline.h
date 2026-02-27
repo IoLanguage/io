@@ -16,6 +16,7 @@
 #define IOASSERT(value, message)                                               \
     if (!(value)) {                                                            \
         IoState_error_(IOSTATE, m, "Io Assertion '%s'", message);              \
+        return IONIL(self);                                                    \
     }
 
 #define IOCOLLECTOR (IOSTATE->collector)

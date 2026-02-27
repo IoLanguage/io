@@ -39,6 +39,7 @@ IO_METHOD(IoSeq, with) {
 
     for (n = 0; n < argCount; n++) {
         IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, n);
+        if (IOSTATE->errorRaised) return IONIL(self);
         UArray_append_(ba, DATA(v));
     }
 
@@ -248,13 +249,17 @@ IOVM_API IO_METHOD(IoSeq, parseJson) {
     JSON_Value *output;
     char *value = IoSeq_asCString(self);
 
-    if (IoSeq_rawSizeInBytes(self) == 0)
+    if (IoSeq_rawSizeInBytes(self) == 0) {
         IoState_error_(IOSTATE, m, "Can't parse empty string.");
+        return IONIL(self);
+    }
 
     output = json_parse_string_with_comments(value);
 
-    if (!output)
+    if (!output) {
         IoState_error_(IOSTATE, m, "Can't parse JSON.");
+        return IONIL(self);
+    }
 
     result = parse_json_object(self, json_object(output));
 
@@ -441,6 +446,7 @@ IO_METHOD(IoSeq, between) {
     IoSeq *fromSeq, *toSeq;
 
     fromSeq = (IoSeq *)IoMessage_locals_valueArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (ISSEQ(fromSeq)) {
         if (IoSeq_rawSize(fromSeq) == 0) {
@@ -463,6 +469,7 @@ IO_METHOD(IoSeq, between) {
     }
 
     toSeq = (IoSeq *)IoMessage_locals_valueArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (ISSEQ(toSeq)) {
         end = UArray_find_from_(DATA(self), DATA(toSeq), start);
@@ -497,6 +504,7 @@ IO_METHOD(IoSeq, findSeqs) {
     */
 
     IoList *others = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     List *delims = IoList_rawList(others);
     long f = 0;
     long firstIndex = -1;
@@ -515,6 +523,7 @@ IO_METHOD(IoSeq, findSeqs) {
                 IoState_error_(IOSTATE, m,
                                "requires Sequences as arguments, not %ss",
                                IoObject_name((IoSeq *)s));
+                return IONIL(self);
             }
 
             index = UArray_find_from_(DATA(self), DATA(((IoSeq *)s)), f);
@@ -548,8 +557,11 @@ IO_METHOD(IoSeq, findSeq) {
     long f = 0;
     long index;
 
+    if (IOSTATE->errorRaised) return IONIL(self);
+
     if (IoMessage_argCount(m) > 1) {
         f = IoMessage_locals_longArgAt_(m, locals, 1);
+        if (IOSTATE->errorRaised) return IONIL(self);
     }
 
     index = UArray_find_from_(DATA(self), DATA(otherSequence), f);
@@ -569,8 +581,11 @@ IO_METHOD(IoSeq, reverseFindSeq) {
     long from = UArray_size(DATA(self));
     long index;
 
+    if (IOSTATE->errorRaised) return IONIL(self);
+
     if (IoMessage_argCount(m) > 1) {
         from = IoMessage_locals_intArgAt_(m, locals, 1);
+        if (IOSTATE->errorRaised) return IONIL(self);
     }
 
     index = UArray_rFind_from_(DATA(self), DATA(other), from);
@@ -588,6 +603,7 @@ IO_METHOD(IoSeq, beginsWithSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     return IOBOOL(self, UArray_beginsWith_(DATA(self), DATA(other)));
 }
@@ -598,6 +614,7 @@ IO_METHOD(IoSeq, endsWithSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, UArray_endsWith_(DATA(self), DATA(other)));
 }
 
@@ -610,6 +627,7 @@ IO_METHOD(IoSeq, contains) {
     // will make this more efficient when Numbers are Arrays
 
     IoNumber *n = IoMessage_locals_numberArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     UArray tmp = IoNumber_asStackUArray(n);
     return IOBOOL(self, UArray_contains_(DATA(self), &tmp));
@@ -622,6 +640,7 @@ IO_METHOD(IoSeq, containsSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     return IOBOOL(self, UArray_contains_(DATA(self), DATA(other)));
 }
@@ -633,6 +652,7 @@ IO_METHOD(IoSeq, containsAnyCaseSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, UArray_containsAnyCase_(DATA(self), DATA(other)));
 }
 
@@ -659,6 +679,7 @@ IO_METHOD(IoSeq, isEqualAnyCase) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     return IOBOOL(self, UArray_equalsAnyCase_(DATA(self), DATA(other)));
 }
@@ -745,6 +766,7 @@ List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m,
             IoState_error_(IOSTATE, m,
                            "requires Sequences as arguments, not %ss",
                            IoObject_name((IoSeq *)s));
+            return NULL;
         }
 
         List_append_(list, DATA(((IoSeq *)s))););
@@ -755,13 +777,22 @@ List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m,
 IoObject *IoSeq_splitToFunction(IoSeq *self, IoObject *locals, IoMessage *m,
                                 IoSplitFunction *func) {
     IoList *output = IoList_new(IOSTATE);
-    List *others = IoSeq_byteArrayListForSeqList(
-        self, locals, m, IoSeq_stringListForArgs(self, locals, m));
+    IoList *seqs = IoSeq_stringListForArgs(self, locals, m);
+    List *others;
     int i;
+
+    if (IOSTATE->errorRaised) return output;
+
+    others = IoSeq_byteArrayListForSeqList(self, locals, m, seqs);
+    if (IOSTATE->errorRaised || others == NULL) {
+        return output;
+    }
 
     for (i = 0; i < List_size(others); i++) {
         if (UArray_size(List_at_(others, i)) == 0) {
             IoState_error_(IOSTATE, m, "empty string argument");
+            List_free(others);
+            return output;
         }
     }
 
@@ -941,6 +972,7 @@ IO_METHOD(IoSeq, foreach) {
 
     IoMessage_foreachArgs(m, self, &indexSlotName, &characterSlotName,
                           &doMessage);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     IoState_pushRetainPool(IOSTATE);
 
@@ -1001,6 +1033,7 @@ IO_METHOD(IoSeq, cloneAppendSeq) {
             IOSTATE, m,
             "argument 0 to method '%s' must be a number or string, not a '%s'",
             CSTRING(IoMessage_name(m)), IoObject_name(other));
+        return IONIL(self);
     }
 
     if (UArray_size(DATA(other)) == 0) {
@@ -1079,6 +1112,7 @@ IO_METHOD(IoSeq, cloneAppendPath) {
     */
 
     IoSeq *component = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     UArray *ba = UArray_clone(DATA(self));
     UArray_appendPath_(ba, DATA(component));
     return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
@@ -1115,7 +1149,10 @@ IO_METHOD(IoSeq, beforeSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-    long pos = UArray_find_(DATA(self), DATA(other));
+    long pos;
+    if (IOSTATE->errorRaised) return IONIL(self);
+
+    pos = UArray_find_(DATA(self), DATA(other));
 
     if (pos != -1) {
         UArray *ba = UArray_slice(DATA(self), 0, pos);
@@ -1142,7 +1179,9 @@ IO_METHOD(IoSeq, afterSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-    long pos = UArray_find_(DATA(self), DATA(other));
+    long pos;
+    if (IOSTATE->errorRaised) return IONIL(self);
+    pos = UArray_find_(DATA(self), DATA(other));
 
     if (pos != -1) {
         UArray *ba = UArray_slice(DATA(self), pos + UArray_size(DATA(other)),
@@ -1188,6 +1227,7 @@ IO_METHOD(IoSeq, occurrencesOfSeq) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     size_t count = UArray_count_(DATA(self), DATA(other));
     return IONUMBER(count);
 }
@@ -1236,6 +1276,7 @@ IO_METHOD(IoSeq, distanceTo) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     double d;
 
     d = UArray_distanceTo_(DATA(self), DATA(other));
@@ -1248,6 +1289,7 @@ IO_METHOD(IoSeq, greaterThan_) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, UArray_greaterThan_(DATA(self), DATA(other)));
 }
 
@@ -1257,6 +1299,7 @@ IO_METHOD(IoSeq, lessThan_) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, UArray_lessThan_(DATA(self), DATA(other)));
 }
 
@@ -1267,6 +1310,7 @@ IO_METHOD(IoSeq, greaterThanOrEqualTo_) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, UArray_greaterThanOrEqualTo_(DATA(self), DATA(other)));
 }
 
@@ -1276,6 +1320,7 @@ IO_METHOD(IoSeq, lessThanOrEqualTo_) {
     */
 
     IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, UArray_lessThanOrEqualTo_(DATA(self), DATA(other)));
 }
 
@@ -1312,7 +1357,9 @@ IO_METHOD(IoSeq, asStruct) {
     const unsigned char *data = UArray_bytes(DATA(self));
     size_t size = UArray_sizeInBytes(DATA(self));
     size_t offset = 0;
-    List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
+    IoList *membersList = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
+    List *members = IoList_rawList(membersList);
     int memberIndex;
 
     IOASSERT(List_size(members) % 2 == 0, "members list must be even number");
@@ -1374,7 +1421,9 @@ IO_METHOD(IoSeq, withStruct) {
     The output pointStructSeq would contain 2 raw 32 bit floats.
     */
 
-    List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
+    IoList *membersList = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
+    List *members = IoList_rawList(membersList);
     int memberIndex;
     size_t maxSize = List_size(members) * 8;
     IoSeq *s = IoSeq_newWithData_length_(

@@ -268,6 +268,193 @@ int test_callcc_escape(IoState *state) {
     return 1;
 }
 
+// Test try/catch with Exception raise
+int test_try_catch(IoState *state) {
+	printf("Test 14: try/catch Exception raise... ");
+
+	IoObject *result = testEvalCode(state,
+		"e := try(Exception raise(\"test\")); e error");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strcmp(CSTRING(result), "test") != 0) {
+		printf("FAILED (got '%s', expected 'test')\n", CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test try with no exception
+int test_try_no_exception(IoState *state) {
+	printf("Test 15: try with no exception... ");
+
+	IoObject *result = testEvalCode(state, "try(1 + 1)");
+
+	if (result != state->ioNil) {
+		printf("FAILED (expected nil, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test that execution continues after try captures exception
+int test_try_continues(IoState *state) {
+	printf("Test 16: execution continues after try... ");
+
+	IoObject *result = testEvalCode(state,
+		"e := try(Exception raise(\"boom\")); \"continued\"");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strcmp(CSTRING(result), "continued") != 0) {
+		printf("FAILED (got '%s', expected 'continued')\n", CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test exception pass (re-raise)
+int test_exception_pass(IoState *state) {
+	printf("Test 17: exception pass... ");
+
+	IoObject *result = testEvalCode(state,
+		"e := try(try(Exception raise(\"inner\")) pass); e error");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strcmp(CSTRING(result), "inner") != 0) {
+		printf("FAILED (got '%s', expected 'inner')\n", CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test uncaught C-level exception (unknown method)
+int test_uncaught_exception(IoState *state) {
+	printf("Test 18: uncaught exception (unknown method)... ");
+
+	testEvalCode(state, "e := try(1 unknownMethod)");
+	IoObject *result = testEvalCode(state, "e error");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strstr(CSTRING(result), "does not respond to") == NULL) {
+		printf("FAILED (got '%s', expected to contain 'does not respond to')\n",
+			   CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test basic coroutine resume
+int test_coro_resume_basic(IoState *state) {
+	printf("Test 19: basic coroutine resume... ");
+
+	// Create a coro, set it up to run code, resume it
+	// After the coro finishes, control should return to main
+	// Note: both runTarget and runLocals must be Lobby so that
+	// updateSlot (=) can find the coroResult slot defined on Lobby
+	IoObject *result = testEvalCode(state,
+		"coroResult := nil; "
+		"c := Coroutine clone; "
+		"c setRunTarget(Lobby); "
+		"c setRunLocals(Lobby); "
+		"c setRunMessage(message(coroResult = \"from coro\")); "
+		"c resume; "
+		"coroResult");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strcmp(CSTRING(result), "from coro") != 0) {
+		printf("FAILED (got '%s', expected 'from coro')\n", CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test yield to queued coroutine
+int test_coro_yield(IoState *state) {
+	printf("Test 20: yield to queued coroutine... ");
+
+	// yield with no queued coros should return nil and continue
+	IoObject *result = testEvalCode(state, "yield; \"after yield\"");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strcmp(CSTRING(result), "after yield") != 0) {
+		printf("FAILED (got '%s', expected 'after yield')\n", CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
+// Test @@ async dispatch (actor pattern)
+int test_coro_async(IoState *state) {
+	printf("Test 21: @@ async dispatch... ");
+
+	// @@ creates a future and runs in an actor coroutine
+	// Use Lobby setSlot since the method's locals don't inherit from Lobby
+	IoObject *result = testEvalCode(state,
+		"asyncResult := nil; "
+		"o := Object clone; "
+		"o test := method(Lobby setSlot(\"asyncResult\", \"async done\")); "
+		"o @@test; yield; "
+		"asyncResult");
+
+	if (!ISSEQ(result)) {
+		printf("FAILED (not a sequence, got type %s)\n",
+			   IoObject_name(result));
+		return 0;
+	}
+
+	if (strcmp(CSTRING(result), "async done") != 0) {
+		printf("FAILED (got '%s', expected 'async done')\n", CSTRING(result));
+		return 0;
+	}
+
+	printf("PASSED\n");
+	return 1;
+}
+
 int main(int argc, char **argv) {
     printf("=== Iterative Evaluator Tests ===\n\n");
 
@@ -295,6 +482,14 @@ int main(int argc, char **argv) {
     total++; passed += test_callcc_normal(state);
     total++; passed += test_callcc_invoke(state);
     total++; passed += test_callcc_escape(state);
+    total++; passed += test_try_catch(state);
+    total++; passed += test_try_no_exception(state);
+    total++; passed += test_try_continues(state);
+    total++; passed += test_exception_pass(state);
+    total++; passed += test_uncaught_exception(state);
+    total++; passed += test_coro_resume_basic(state);
+    total++; passed += test_coro_yield(state);
+    total++; passed += test_coro_async(state);
 
     // Print summary
     printf("\n=== Results ===\n");
