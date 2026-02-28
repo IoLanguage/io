@@ -256,22 +256,23 @@ aMap foreach(k, v, myBlock(k, v))</pre>
     // Iterative path: build keys list for index-based iteration
     if (state->currentFrame != NULL) {
         IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
         IoList *keysList = IoMap_rawKeys(self);
         int keyCount = (int)List_size(IoList_rawList(keysList));
 
         // Use keys list as collection, store original map for value lookup
-        frame->controlFlow.foreachInfo.collection = (IoObject *)keysList;
-        frame->controlFlow.foreachInfo.mapSource = self;
-        frame->controlFlow.foreachInfo.bodyMsg = doMessage;
-        frame->controlFlow.foreachInfo.indexName = keyName;
-        frame->controlFlow.foreachInfo.valueName = valueName;
-        frame->controlFlow.foreachInfo.currentIndex = 0;
-        frame->controlFlow.foreachInfo.collectionSize = keyCount;
-        frame->controlFlow.foreachInfo.lastResult = NULL;
-        frame->controlFlow.foreachInfo.direction = 1;
-        frame->controlFlow.foreachInfo.isEach = 0;
+        fd->controlFlow.foreachInfo.collection = (IoObject *)keysList;
+        fd->controlFlow.foreachInfo.mapSource = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = keyName;
+        fd->controlFlow.foreachInfo.valueName = valueName;
+        fd->controlFlow.foreachInfo.currentIndex = 0;
+        fd->controlFlow.foreachInfo.collectionSize = keyCount;
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = 1;
+        fd->controlFlow.foreachInfo.isEach = 0;
 
-        frame->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
         state->needsControlFlowHandling = 1;
         return state->ioNil;
     }

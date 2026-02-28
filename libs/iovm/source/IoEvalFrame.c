@@ -4,124 +4,152 @@
 // metadoc EvalFrame category Core
 
 #include "IoEvalFrame.h"
+#include "IoState.h"
 #include <stdlib.h>
 #include <string.h>
 
-// Create a new evaluation frame
-IoEvalFrame *IoEvalFrame_new(void) {
-    IoEvalFrame *self = (IoEvalFrame *)io_calloc(1, sizeof(IoEvalFrame));
-    IoEvalFrame_reset(self);
+static const char *protoId = "EvalFrame";
+
+IoTag *IoEvalFrame_newTag(void *state) {
+    IoTag *tag = IoTag_newWithName_(protoId);
+    IoTag_state_(tag, state);
+    IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoEvalFrame_rawClone);
+    IoTag_markFunc_(tag, (IoTagMarkFunc *)IoEvalFrame_mark);
+    IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoEvalFrame_free);
+    return tag;
+}
+
+IoEvalFrame *IoEvalFrame_proto(void *vState) {
+    IoState *state = (IoState *)vState;
+    IoObject *self = IoObject_new(state);
+
+    IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEvalFrameData)));
+    IoObject_tag_(self, IoEvalFrame_newTag(state));
+
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    memset(fd, 0, sizeof(IoEvalFrameData));
+
+    IoState_registerProtoWithId_(state, self, protoId);
     return self;
 }
 
-// Free an evaluation frame
-void IoEvalFrame_free(IoEvalFrame *self) {
-    if (!self) {
-        return;
-    }
+IoEvalFrame *IoEvalFrame_rawClone(IoEvalFrame *proto) {
+    IoObject *self = IoObject_rawClonePrimitive(proto);
+    IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEvalFrameData)));
 
-    // Free argument values array if allocated
-    if (self->argValues) {
-        io_free(self->argValues);
-        self->argValues = NULL;
-    }
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    memset(fd, 0, sizeof(IoEvalFrameData));
 
-    io_free(self);
+    return self;
 }
 
-// Mark a single frame's contents for garbage collection (no recursion)
-static void IoEvalFrame_markSingle_(IoEvalFrame *self) {
-    // Mark all IoObject pointers that might be in the frame
-    IoObject_shouldMarkIfNonNull(self->message);
-    IoObject_shouldMarkIfNonNull(self->target);
-    IoObject_shouldMarkIfNonNull(self->locals);
-    IoObject_shouldMarkIfNonNull(self->cachedTarget);
-    IoObject_shouldMarkIfNonNull(self->result);
-    IoObject_shouldMarkIfNonNull(self->slotValue);
-    IoObject_shouldMarkIfNonNull(self->slotContext);
-    IoObject_shouldMarkIfNonNull(self->call);
-    IoObject_shouldMarkIfNonNull(self->savedCall);
-    IoObject_shouldMarkIfNonNull(self->blockLocals);
+IoEvalFrame *IoEvalFrame_newWithState(void *vState) {
+    IoObject *proto = IoState_protoWithId_((IoState *)vState, protoId);
+    return IOCLONE(proto);
+}
+
+// Free an evaluation frame's data (tag freeFunc)
+void IoEvalFrame_free(IoEvalFrame *self) {
+    IoEvalFrameData *fd = (IoEvalFrameData *)IoObject_dataPointer(self);
+    if (fd) {
+        if (fd->argValues) {
+            io_free(fd->argValues);
+        }
+        io_free(fd);
+    }
+}
+
+// Mark a frame's contents for garbage collection (tag markFunc)
+// Marks the parent frame as an IoObject — GC follows the chain transitively.
+void IoEvalFrame_mark(IoEvalFrame *self) {
+    IoEvalFrameData *fd = (IoEvalFrameData *)IoObject_dataPointer(self);
+    if (!fd) return;
+
+    // Mark parent frame (GC follows the chain via parent's own markFunc)
+    IoObject_shouldMarkIfNonNull(fd->parent);
+
+    // Mark all IoObject pointers
+    IoObject_shouldMarkIfNonNull(fd->message);
+    IoObject_shouldMarkIfNonNull(fd->target);
+    IoObject_shouldMarkIfNonNull(fd->locals);
+    IoObject_shouldMarkIfNonNull(fd->cachedTarget);
+    IoObject_shouldMarkIfNonNull(fd->result);
+    IoObject_shouldMarkIfNonNull(fd->slotValue);
+    IoObject_shouldMarkIfNonNull(fd->slotContext);
+    IoObject_shouldMarkIfNonNull(fd->call);
+    IoObject_shouldMarkIfNonNull(fd->savedCall);
+    IoObject_shouldMarkIfNonNull(fd->blockLocals);
 
     // Mark evaluated arguments
-    if (self->argValues) {
+    if (fd->argValues) {
         int i;
-        for (i = 0; i < self->currentArgIndex; i++) {
-            IoObject_shouldMarkIfNonNull(self->argValues[i]);
+        for (i = 0; i < fd->currentArgIndex; i++) {
+            IoObject_shouldMarkIfNonNull(fd->argValues[i]);
         }
     }
 
     // Mark control flow continuation info based on current state
-    switch (self->state) {
+    switch (fd->state) {
         case FRAME_STATE_IF_EVAL_CONDITION:
         case FRAME_STATE_IF_CONVERT_BOOLEAN:
         case FRAME_STATE_IF_EVAL_BRANCH:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.ifInfo.conditionMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.ifInfo.trueBranch);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.ifInfo.falseBranch);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.ifInfo.conditionMsg);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.ifInfo.trueBranch);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.ifInfo.falseBranch);
             break;
 
         case FRAME_STATE_WHILE_EVAL_CONDITION:
         case FRAME_STATE_WHILE_CHECK_CONDITION:
         case FRAME_STATE_WHILE_DECIDE:
         case FRAME_STATE_WHILE_EVAL_BODY:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.conditionMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.bodyMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.lastResult);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.whileInfo.conditionMsg);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.whileInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.whileInfo.lastResult);
             break;
 
         case FRAME_STATE_LOOP_EVAL_BODY:
         case FRAME_STATE_LOOP_AFTER_BODY:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.loopInfo.bodyMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.loopInfo.lastResult);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.loopInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.loopInfo.lastResult);
             break;
 
         case FRAME_STATE_FOR_EVAL_SETUP:
         case FRAME_STATE_FOR_EVAL_BODY:
         case FRAME_STATE_FOR_AFTER_BODY:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.bodyMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.counterName);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.lastResult);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.forInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.forInfo.counterName);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.forInfo.lastResult);
             break;
 
         case FRAME_STATE_FOREACH_EVAL_BODY:
         case FRAME_STATE_FOREACH_AFTER_BODY:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.collection);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.bodyMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.indexName);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.valueName);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.lastResult);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.foreachInfo.mapSource);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.collection);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.indexName);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.valueName);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.lastResult);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.mapSource);
             break;
 
         case FRAME_STATE_CALLCC_EVAL_BLOCK:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.callccInfo.continuation);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.callccInfo.blockLocals);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.callccInfo.continuation);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.callccInfo.blockLocals);
             break;
 
         case FRAME_STATE_CORO_WAIT_CHILD:
         case FRAME_STATE_CORO_YIELDED:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.coroInfo.childCoroutine);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.coroInfo.childCoroutine);
             break;
 
         case FRAME_STATE_DO_EVAL:
         case FRAME_STATE_DO_WAIT:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.doInfo.codeMessage);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.doInfo.evalTarget);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.doInfo.evalLocals);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.codeMessage);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.evalTarget);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.evalLocals);
             break;
 
         default:
             break;
-    }
-}
-
-// Mark frame chain for garbage collection (iterative, not recursive)
-void IoEvalFrame_mark(IoEvalFrame *self) {
-    IoEvalFrame *frame = self;
-    while (frame) {
-        IoEvalFrame_markSingle_(frame);
-        frame = frame->parent;
     }
 }
 
@@ -157,36 +185,49 @@ const char *IoEvalFrame_stateName(IoFrameState state) {
     }
 }
 
-// Reset frame to initial state (for reuse)
+// Return a frame state enum from its string name (reverse of IoEvalFrame_stateName)
+IoFrameState IoEvalFrame_stateFromName(const char *name) {
+	if (!name) return FRAME_STATE_START;
+	if (strcmp(name, "start") == 0) return FRAME_STATE_START;
+	if (strcmp(name, "evalArgs") == 0) return FRAME_STATE_EVAL_ARGS;
+	if (strcmp(name, "lookupSlot") == 0) return FRAME_STATE_LOOKUP_SLOT;
+	if (strcmp(name, "activate") == 0) return FRAME_STATE_ACTIVATE;
+	if (strcmp(name, "continueChain") == 0) return FRAME_STATE_CONTINUE_CHAIN;
+	if (strcmp(name, "return") == 0) return FRAME_STATE_RETURN;
+	if (strcmp(name, "if:evalCondition") == 0) return FRAME_STATE_IF_EVAL_CONDITION;
+	if (strcmp(name, "if:convertBoolean") == 0) return FRAME_STATE_IF_CONVERT_BOOLEAN;
+	if (strcmp(name, "if:evalBranch") == 0) return FRAME_STATE_IF_EVAL_BRANCH;
+	if (strcmp(name, "while:evalCondition") == 0) return FRAME_STATE_WHILE_EVAL_CONDITION;
+	if (strcmp(name, "while:checkCondition") == 0) return FRAME_STATE_WHILE_CHECK_CONDITION;
+	if (strcmp(name, "while:decide") == 0) return FRAME_STATE_WHILE_DECIDE;
+	if (strcmp(name, "while:evalBody") == 0) return FRAME_STATE_WHILE_EVAL_BODY;
+	if (strcmp(name, "loop:evalBody") == 0) return FRAME_STATE_LOOP_EVAL_BODY;
+	if (strcmp(name, "loop:afterBody") == 0) return FRAME_STATE_LOOP_AFTER_BODY;
+	if (strcmp(name, "for:evalSetup") == 0) return FRAME_STATE_FOR_EVAL_SETUP;
+	if (strcmp(name, "for:evalBody") == 0) return FRAME_STATE_FOR_EVAL_BODY;
+	if (strcmp(name, "for:afterBody") == 0) return FRAME_STATE_FOR_AFTER_BODY;
+	if (strcmp(name, "foreach:evalBody") == 0) return FRAME_STATE_FOREACH_EVAL_BODY;
+	if (strcmp(name, "foreach:afterBody") == 0) return FRAME_STATE_FOREACH_AFTER_BODY;
+	if (strcmp(name, "callcc:evalBlock") == 0) return FRAME_STATE_CALLCC_EVAL_BLOCK;
+	if (strcmp(name, "coro:waitChild") == 0) return FRAME_STATE_CORO_WAIT_CHILD;
+	if (strcmp(name, "coro:yielded") == 0) return FRAME_STATE_CORO_YIELDED;
+	if (strcmp(name, "do:eval") == 0) return FRAME_STATE_DO_EVAL;
+	if (strcmp(name, "do:wait") == 0) return FRAME_STATE_DO_WAIT;
+	return FRAME_STATE_START;
+}
+
+// Reset frame data to initial state (for reuse)
 void IoEvalFrame_reset(IoEvalFrame *self) {
-    if (!self) {
-        return;
-    }
+    if (!self) return;
 
-    self->magic = IOEVAL_FRAME_MAGIC;
-    self->message = NULL;
-    self->target = NULL;
-    self->locals = NULL;
-    self->cachedTarget = NULL;
-    self->parent = NULL;
-    self->state = FRAME_STATE_START;
-    self->argCount = 0;
-    self->currentArgIndex = 0;
-    self->result = NULL;
-    self->slotValue = NULL;
-    self->slotContext = NULL;
-    self->call = NULL;
-    self->savedCall = NULL;
-    self->blockLocals = NULL;
-    self->passStops = 0;
-    self->isNestedEvalRoot = 0;
-
-    // Clear control flow union
-    memset(&self->controlFlow, 0, sizeof(self->controlFlow));
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    if (!fd) return;
 
     // Free argument values if allocated
-    if (self->argValues) {
-        io_free(self->argValues);
-        self->argValues = NULL;
+    if (fd->argValues) {
+        io_free(fd->argValues);
     }
+
+    // Zero all fields
+    memset(fd, 0, sizeof(IoEvalFrameData));
 }

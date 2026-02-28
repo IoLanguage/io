@@ -14,8 +14,9 @@
 extern "C" {
 #endif
 
-// Forward declaration
-typedef struct IoEvalFrame IoEvalFrame;
+// IoEvalFrame is a GC-managed IoObject.
+// Frames are allocated by the collector and freed by GC when unreferenced.
+typedef IoObject IoEvalFrame;
 
 // Frame states for the evaluation state machine
 typedef enum {
@@ -57,22 +58,13 @@ typedef enum {
     FRAME_STATE_CORO_WAIT_CHILD,      // Waiting for child coroutine to complete
     FRAME_STATE_CORO_YIELDED,         // Yielded, will resume here when switched back
 
-    // doString/doMessage/doFile states (Phase 1: C stack elimination)
+    // doString/doMessage/doFile states
     FRAME_STATE_DO_EVAL,              // Ready to evaluate compiled code
     FRAME_STATE_DO_WAIT               // Waiting for evaluation result
 } IoFrameState;
 
-// Magic value to identify valid frames (detect stale pointers / memory corruption)
-#define IOEVAL_FRAME_MAGIC 0xFRAE1234u
-// Use a simpler hex literal
-#undef IOEVAL_FRAME_MAGIC
-#define IOEVAL_FRAME_MAGIC 0xF4AE1234u
-
-// Evaluation frame - represents one activation record
-struct IoEvalFrame {
-    // Magic sentinel - must always be IOEVAL_FRAME_MAGIC
-    unsigned int magic;
-
+// Frame data payload — stored in IoObject's dataPointer
+typedef struct IoEvalFrameData {
     // Message chain being evaluated
     IoMessage *message;          // Current message in chain
 
@@ -81,7 +73,7 @@ struct IoEvalFrame {
     IoObject *locals;            // Current locals (sender context)
     IoObject *cachedTarget;      // Original target (for semicolon reset)
 
-    // Parent frame (for returning)
+    // Parent frame (for returning) — also an IoEvalFrame (IoObject)
     IoEvalFrame *parent;
 
     // Current state in the evaluation state machine
@@ -106,7 +98,7 @@ struct IoEvalFrame {
     // For block activation
     IoObject *blockLocals;       // Block's local context (NULL if not a block)
     int passStops;               // Whether to pass stop status (break/continue/return)
-    int isNestedEvalRoot;        // True if this is a nested eval boundary (for IoMessage_locals_performOn_iterative)
+    int isNestedEvalRoot;        // True if this is a nested eval boundary
 
     // Control flow continuation info (only one active at a time)
     union {
@@ -168,14 +160,24 @@ struct IoEvalFrame {
             IoObject *evalLocals;         // Locals for evaluation (context)
         } doInfo;
     } controlFlow;
-};
+} IoEvalFrameData;
 
-// Frame management functions
-IOVM_API IoEvalFrame *IoEvalFrame_new(void);
+// Access the frame's data payload via IoObject's dataPointer
+#define FRAME_DATA(frame) ((IoEvalFrameData *)IoObject_dataPointer(frame))
+
+// Type check macro
+#define ISEVALFRAME(self) \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoEvalFrame_rawClone)
+
+// Proto and lifecycle
+IOVM_API IoEvalFrame *IoEvalFrame_proto(void *state);
+IOVM_API IoEvalFrame *IoEvalFrame_rawClone(IoEvalFrame *proto);
+IOVM_API IoEvalFrame *IoEvalFrame_newWithState(void *state);
 IOVM_API void IoEvalFrame_free(IoEvalFrame *self);
 IOVM_API void IoEvalFrame_mark(IoEvalFrame *self);
 IOVM_API void IoEvalFrame_reset(IoEvalFrame *self);
 IOVM_API const char *IoEvalFrame_stateName(IoFrameState state);
+IOVM_API IoFrameState IoEvalFrame_stateFromName(const char *name);
 
 #ifdef __cplusplus
 }

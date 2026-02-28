@@ -280,7 +280,7 @@ path since forEach is iterative.
 - [x] Implement `Continuation invoke` method (frame stack replacement)
 - [x] Test continuation invoke (13/13 tests pass)
 - [x] Add continuation introspection methods (`frameCount`, `frameStates`, `frameMessages`)
-- [ ] Implement serialization/deserialization
+- [x] Implement serialization/deserialization (`asMap`/`fromMap`)
 
 **Implementation Notes:**
 - `Continuation` object type created with capture and invoke methods
@@ -361,32 +361,50 @@ would see `state->currentFrame != NULL` and incorrectly try to use the iterative
 modifying the wrong frame. Fixed by adding `state->inRecursiveEval` flag that's set when
 entering the recursive evaluator, allowing control flow primitives to use the correct path.
 
+### Phase 7: GC-Managed Frames ✅ COMPLETE
+- [x] Phase 0: Mechanical rename (`frame->` → `fd->` via FRAME_DATA macro)
+- [x] Phase 1: IoEvalFrame as IoObject (`typedef IoObject IoEvalFrame`, data behind `IoObject_dataPointer`)
+- [x] Phase 2: Performance recovery (IoObject-level frame pool, 256 entries)
+- [ ] Phase 3: Io-level frame introspection (expose frame chain to Io code)
+
+**What changed:**
+- `IoEvalFrame` is now `typedef IoObject IoEvalFrame` — frames are GC-managed
+- `FRAME_DATA(frame)` dereferences `IoObject_dataPointer(frame)` (no longer identity cast)
+- `pushFrame_` reuses pooled frames; `popFrame_` returns to pool (GC reclaims overflow)
+- Continuations use grab-pointer capture (no deep copy); `copy` method for explicit snapshots
+- `IoCoroutine_mark` simplified: single `IoObject_shouldMarkIfNonNull(frame)` marks entire chain
+- `IoState_iterative_fast.c` excluded from build (dead code)
+- 30/30 C tests, 230 Io tests (3 pre-existing failures only)
+- Frame pool gives 6x speedup (23.85s → 3.65s on 1M for-loop)
+
+**FRAME_DATA NULL safety:** Must check for NULL before calling `FRAME_DATA()` since it
+dereferences a pointer. Pattern: `fd = frame ? FRAME_DATA(frame) : NULL;`
+
 ## Files
 
 ### Implementation
-- `libs/iovm/source/IoEvalFrame.h` - Frame structure and state machine enums
-- `libs/iovm/source/IoEvalFrame.c` - Frame management (new, free, mark, reset)
-- `libs/iovm/source/IoState_iterative.c` - Iterative eval loop (~800 lines)
+- `libs/iovm/source/IoEvalFrame.h` - Frame structure (IoObject typedef + IoEvalFrameData)
+- `libs/iovm/source/IoEvalFrame.c` - Frame proto, tag, mark, free, reset, state names
+- `libs/iovm/source/IoState_iterative.c` - Iterative eval loop with pooled push/pop
 - `libs/iovm/source/IoObject_flow.c` - Control flow primitives (if, while, for, loop)
 - `libs/iovm/source/IoContinuation.h` - Continuation object header
-- `libs/iovm/source/IoContinuation.c` - Continuation capture, invoke, and callcc
+- `libs/iovm/source/IoContinuation.c` - Continuation capture (grab-pointer), invoke, copy, callcc, asMap/fromMap
+- `libs/iovm/source/IoCoroutine.c` - Coroutine with simplified GC marking
 
 ### Documentation
 - `VM_EVAL_LOOP.md` - Detailed eval loop design
 - `CONTINUATIONS_TODO.md` - This file
 
 ### Tests
-- `libs/iovm/tests/test_iterative_eval.c` - 29 tests for iterative evaluator (coro, TCO, continuations, ? operator)
+- `libs/iovm/tests/test_iterative_eval.c` - 30 tests for iterative evaluator (coro, TCO, continuations, ? operator, asMap)
 - `libs/iovm/tests/debug_if.c` - Debug test for if primitive
 
 ## Performance Notes
 
-**Expected overhead:** Tight loops ~2-5x slower than current C implementation.
-
-**Why acceptable:**
-1. Current C implementation broken (re-entrancy prevents continuations)
-2. Io not designed for tight numerical loops
-3. C primitives still fast for actual computation
+**Frame pool recovery:** With GC-managed frames, the raw allocation path (IOCLONE per frame)
+was 6x slower than the old C struct pool. Adding an IoObject-level pool (256 entries) in IoState
+that reuses allocated-but-detached frames recovered the performance. Pooled frames are marked
+by `IoCoroutine_mark` to prevent GC collection while parked.
 
 **Future optimizations:**
 - Inline caching for slot lookup

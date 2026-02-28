@@ -86,6 +86,7 @@ include_directories(
 
 # Our library sources.
 file(GLOB SRCS "source/*.c")
+list(REMOVE_ITEM SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/IoState_iterative_fast.c")
 list(APPEND SRCS source/IoVMInit.c)
 list(APPEND SRCS ../../deps/parson/parson.c)
 file(GLOB HEADERS "source/*.h")

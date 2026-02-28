@@ -48,6 +48,7 @@ set(IO_SRCS
 file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/*.c")
 file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/source/*.c")
 file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/*.c")
+list(REMOVE_ITEM IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoState_iterative_fast.c")
 list(APPEND IOVM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/parson/parson.c)
 
 # Marvelous flags, likely compiler dependent.

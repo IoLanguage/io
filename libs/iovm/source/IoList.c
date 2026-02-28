@@ -433,19 +433,20 @@ IO_METHOD(IoList, each) {
     // Iterative path: use foreach frame state machine
     if (state->currentFrame != NULL) {
         IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
 
-        frame->controlFlow.foreachInfo.collection = self;
-        frame->controlFlow.foreachInfo.bodyMsg = doMessage;
-        frame->controlFlow.foreachInfo.indexName = NULL;
-        frame->controlFlow.foreachInfo.valueName = NULL;
-        frame->controlFlow.foreachInfo.currentIndex = 0;
-        frame->controlFlow.foreachInfo.collectionSize = (int)List_size(DATA(self));
-        frame->controlFlow.foreachInfo.lastResult = NULL;
-        frame->controlFlow.foreachInfo.direction = 1;
-        frame->controlFlow.foreachInfo.isEach = 1;
-        frame->controlFlow.foreachInfo.mapSource = NULL;
+        fd->controlFlow.foreachInfo.collection = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = NULL;
+        fd->controlFlow.foreachInfo.valueName = NULL;
+        fd->controlFlow.foreachInfo.currentIndex = 0;
+        fd->controlFlow.foreachInfo.collectionSize = (int)List_size(DATA(self));
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = 1;
+        fd->controlFlow.foreachInfo.isEach = 1;
+        fd->controlFlow.foreachInfo.mapSource = NULL;
 
-        frame->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
         state->needsControlFlowHandling = 1;
         return state->ioNil;
     }
@@ -493,19 +494,20 @@ list(1, 2, 3) foreach(v, writeln(v))</pre>
     // Iterative path
     if (state->currentFrame != NULL) {
         IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
 
-        frame->controlFlow.foreachInfo.collection = self;
-        frame->controlFlow.foreachInfo.bodyMsg = doMessage;
-        frame->controlFlow.foreachInfo.indexName = slotName;
-        frame->controlFlow.foreachInfo.valueName = valueName;
-        frame->controlFlow.foreachInfo.currentIndex = 0;
-        frame->controlFlow.foreachInfo.collectionSize = (int)List_size(DATA(self));
-        frame->controlFlow.foreachInfo.lastResult = NULL;
-        frame->controlFlow.foreachInfo.direction = 1;
-        frame->controlFlow.foreachInfo.isEach = 0;
-        frame->controlFlow.foreachInfo.mapSource = NULL;
+        fd->controlFlow.foreachInfo.collection = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = slotName;
+        fd->controlFlow.foreachInfo.valueName = valueName;
+        fd->controlFlow.foreachInfo.currentIndex = 0;
+        fd->controlFlow.foreachInfo.collectionSize = (int)List_size(DATA(self));
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = 1;
+        fd->controlFlow.foreachInfo.isEach = 0;
+        fd->controlFlow.foreachInfo.mapSource = NULL;
 
-        frame->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
         state->needsControlFlowHandling = 1;
         return state->ioNil;
     }
@@ -551,20 +553,21 @@ IO_METHOD(IoList, reverseForeach) {
     // Iterative path
     if (state->currentFrame != NULL) {
         IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
         int size = (int)List_size(DATA(self));
 
-        frame->controlFlow.foreachInfo.collection = self;
-        frame->controlFlow.foreachInfo.bodyMsg = doMessage;
-        frame->controlFlow.foreachInfo.indexName = slotName;
-        frame->controlFlow.foreachInfo.valueName = valueName;
-        frame->controlFlow.foreachInfo.currentIndex = size - 1;
-        frame->controlFlow.foreachInfo.collectionSize = size;
-        frame->controlFlow.foreachInfo.lastResult = NULL;
-        frame->controlFlow.foreachInfo.direction = -1;
-        frame->controlFlow.foreachInfo.isEach = 0;
-        frame->controlFlow.foreachInfo.mapSource = NULL;
+        fd->controlFlow.foreachInfo.collection = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = slotName;
+        fd->controlFlow.foreachInfo.valueName = valueName;
+        fd->controlFlow.foreachInfo.currentIndex = size - 1;
+        fd->controlFlow.foreachInfo.collectionSize = size;
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = -1;
+        fd->controlFlow.foreachInfo.isEach = 0;
+        fd->controlFlow.foreachInfo.mapSource = NULL;
 
-        frame->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
         state->needsControlFlowHandling = 1;
         return state->ioNil;
     }

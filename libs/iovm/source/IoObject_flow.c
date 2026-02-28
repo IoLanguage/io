@@ -37,18 +37,19 @@ IO_METHOD(IoObject, while) {
     }
 
     IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
 
     // Get the argument messages (not evaluated yet)
     IoMessage *conditionMsg = IoMessage_rawArgAt_(m, 0);
     IoMessage *bodyMsg = IoMessage_rawArgAt_(m, 1);
 
     // Set up control flow info
-    frame->controlFlow.whileInfo.conditionMsg = conditionMsg;
-    frame->controlFlow.whileInfo.bodyMsg = bodyMsg;
-    frame->controlFlow.whileInfo.lastResult = NULL;
+    fd->controlFlow.whileInfo.conditionMsg = conditionMsg;
+    fd->controlFlow.whileInfo.bodyMsg = bodyMsg;
+    fd->controlFlow.whileInfo.lastResult = NULL;
 
     // Change frame state to start WHILE evaluation
-    frame->state = FRAME_STATE_WHILE_EVAL_CONDITION;
+    fd->state = FRAME_STATE_WHILE_EVAL_CONDITION;
 
     // Signal that we've set up control flow handling
     state->needsControlFlowHandling = 1;
@@ -81,16 +82,17 @@ IO_METHOD(IoObject, loop) {
     }
 
     IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
 
     // Get the body message (not evaluated yet)
     IoMessage *bodyMsg = IoMessage_rawArgAt_(m, 0);
 
     // Set up control flow info
-    frame->controlFlow.loopInfo.bodyMsg = bodyMsg;
-    frame->controlFlow.loopInfo.lastResult = NULL;
+    fd->controlFlow.loopInfo.bodyMsg = bodyMsg;
+    fd->controlFlow.loopInfo.lastResult = NULL;
 
     // Change frame state to start LOOP evaluation
-    frame->state = FRAME_STATE_LOOP_EVAL_BODY;
+    fd->state = FRAME_STATE_LOOP_EVAL_BODY;
 
     // Signal that we've set up control flow handling
     state->needsControlFlowHandling = 1;
@@ -145,6 +147,7 @@ IO_METHOD(IoObject, for)
     }
 
     IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
 
     IoMessage *indexMessage = IoMessage_rawArgAt_(m, 0);
     IoSymbol *counterName = IoMessage_name(indexMessage);
@@ -165,17 +168,17 @@ IO_METHOD(IoObject, for)
     }
 
     // Set up control flow info
-    frame->controlFlow.forInfo.bodyMsg = doMessage;
-    frame->controlFlow.forInfo.counterName = counterName;
-    frame->controlFlow.forInfo.startValue = startValue;
-    frame->controlFlow.forInfo.endValue = endValue;
-    frame->controlFlow.forInfo.increment = increment;
-    frame->controlFlow.forInfo.currentValue = startValue;
-    frame->controlFlow.forInfo.lastResult = NULL;
-    frame->controlFlow.forInfo.initialized = 0;
+    fd->controlFlow.forInfo.bodyMsg = doMessage;
+    fd->controlFlow.forInfo.counterName = counterName;
+    fd->controlFlow.forInfo.startValue = startValue;
+    fd->controlFlow.forInfo.endValue = endValue;
+    fd->controlFlow.forInfo.increment = increment;
+    fd->controlFlow.forInfo.currentValue = startValue;
+    fd->controlFlow.forInfo.lastResult = NULL;
+    fd->controlFlow.forInfo.initialized = 0;
 
     // Change frame state to start FOR evaluation
-    frame->state = FRAME_STATE_FOR_EVAL_BODY;
+    fd->state = FRAME_STATE_FOR_EVAL_BODY;
 
     // Signal that we've set up control flow handling
     state->needsControlFlowHandling = 1;
@@ -268,6 +271,7 @@ IO_METHOD(IoObject, if) {
     }
 
     IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
 
     // Get the argument messages (not evaluated yet)
     IoMessage *conditionMsg = IoMessage_rawArgAt_(m, 0);
@@ -283,12 +287,12 @@ IO_METHOD(IoObject, if) {
     }
 
     // Set up control flow info
-    frame->controlFlow.ifInfo.conditionMsg = conditionMsg;
-    frame->controlFlow.ifInfo.trueBranch = trueBranch;
-    frame->controlFlow.ifInfo.falseBranch = falseBranch;
+    fd->controlFlow.ifInfo.conditionMsg = conditionMsg;
+    fd->controlFlow.ifInfo.trueBranch = trueBranch;
+    fd->controlFlow.ifInfo.falseBranch = falseBranch;
 
     // Change frame state to start IF evaluation
-    frame->state = FRAME_STATE_IF_EVAL_CONDITION;
+    fd->state = FRAME_STATE_IF_EVAL_CONDITION;
 
     // Signal that we've set up control flow handling
     state->needsControlFlowHandling = 1;

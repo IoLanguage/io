@@ -40,24 +40,26 @@ void IoState_error_(IoState *self, IoMessage *m, const char *format, ...) {
     // Print frame stack trace
     fprintf(stderr, "  Frame stack trace:\n");
     IoEvalFrame *frame = self->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
     int frameNum = 0;
     while (frame && frameNum < 30) {
-        if (frame->message) {
-            IoSymbol *label = IoMessage_rawLabel(frame->message);
-            int line = IoMessage_rawLineNumber(frame->message);
-            IoSymbol *name = IoMessage_name(frame->message);
-            const char *targetType = frame->target ? IoObject_name(frame->target) : "(null)";
+        fd = FRAME_DATA(frame);
+        if (fd->message) {
+            IoSymbol *label = IoMessage_rawLabel(fd->message);
+            int line = IoMessage_rawLineNumber(fd->message);
+            IoSymbol *name = IoMessage_name(fd->message);
+            const char *targetType = fd->target ? IoObject_name(fd->target) : "(null)";
             fprintf(stderr, "    [%d] %s at %s:%d (state=%d, target=%s)\n",
                     frameNum,
                     name ? CSTRING(name) : "(null)",
                     label ? CSTRING(label) : "(null)",
                     line,
-                    frame->state,
+                    fd->state,
                     targetType);
         } else {
             fprintf(stderr, "    [%d] (null message)\n", frameNum);
         }
-        frame = frame->parent;
+        frame = fd->parent;
         frameNum++;
     }
     fflush(stderr);

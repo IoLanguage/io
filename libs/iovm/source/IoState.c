@@ -10,6 +10,7 @@
 #include "IoCall.h"
 #include "IoCoroutine.h"
 #include "IoContinuation.h"
+#include "IoEvalFrame.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
 #include "IoCFunction.h"
@@ -186,6 +187,8 @@ void IoState_new_atAddress(void *address) {
         IoObject_setSlot_to_(core, SIOSYMBOL("Coroutine"), self->mainCoroutine);
         IoObject_setSlot_to_(core, SIOSYMBOL("Continuation"),
                              IoContinuation_proto(self));
+        IoObject_setSlot_to_(core, SIOSYMBOL("EvalFrame"),
+                             IoEvalFrame_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Error"), IoError_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("File"), IoFile_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Directory"),
@@ -219,14 +222,12 @@ void IoState_new_atAddress(void *address) {
         self->currentFrame = NULL;
         self->frameDepth = 0;
         self->maxFrameDepth = 10000;  // Default max depth
+        self->framePoolCount = 0;
+        memset(self->framePool, 0, sizeof(self->framePool));
         self->needsControlFlowHandling = 0;
         self->continuationInvoked = 0;
         self->nestedEvalDepth = 0;
         self->errorRaised = 0;
-
-        // Initialize frame pool
-        self->framePoolCount = 0;
-        memset(self->framePool, 0, sizeof(self->framePool));
 
         IoState_clearRetainStack(self);
 

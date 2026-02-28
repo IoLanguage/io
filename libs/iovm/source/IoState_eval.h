@@ -28,7 +28,7 @@ IOVM_API IoObject *IoMessage_locals_performOn_fast(IoMessage *self,
                                                    IoObject *locals,
                                                    IoObject *target);
 IOVM_API IoObject *IoState_evalLoop_(IoState *self);
-IOVM_API struct IoEvalFrame *IoState_pushFrame_(IoState *self);
+IOVM_API IoObject *IoState_pushFrame_(IoState *self);
 IOVM_API void IoState_popFrame_(IoState *self);
 
 // sandbox

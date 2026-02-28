@@ -1319,13 +1319,14 @@ IO_METHOD(IoObject, doMessage) {
 
     // Use iterative path if eval loop is active, otherwise recursive fallback
     if (state->currentFrame != NULL) {
-        if (state->currentFrame->message == m) {
+        if (FRAME_DATA(state->currentFrame)->message == m) {
             // Called directly from eval loop - use frame-state (zero C stack growth)
             IoEvalFrame *frame = state->currentFrame;
-            frame->controlFlow.doInfo.codeMessage = aMessage;
-            frame->controlFlow.doInfo.evalTarget = self;
-            frame->controlFlow.doInfo.evalLocals = context;
-            frame->state = FRAME_STATE_DO_EVAL;
+            IoEvalFrameData *fd = FRAME_DATA(frame);
+            fd->controlFlow.doInfo.codeMessage = aMessage;
+            fd->controlFlow.doInfo.evalTarget = self;
+            fd->controlFlow.doInfo.evalLocals = context;
+            fd->state = FRAME_STATE_DO_EVAL;
             state->needsControlFlowHandling = 1;
             return state->ioNil;
         }
@@ -1365,13 +1366,14 @@ IO_METHOD(IoObject, doString) {
             return state->ioNil;
         }
 
-        if (state->currentFrame->message == m) {
+        if (FRAME_DATA(state->currentFrame)->message == m) {
             // Called directly from eval loop - use frame-state (zero C stack growth)
             IoEvalFrame *frame = state->currentFrame;
-            frame->controlFlow.doInfo.codeMessage = codeMsg;
-            frame->controlFlow.doInfo.evalTarget = self;
-            frame->controlFlow.doInfo.evalLocals = self;
-            frame->state = FRAME_STATE_DO_EVAL;
+            IoEvalFrameData *fd = FRAME_DATA(frame);
+            fd->controlFlow.doInfo.codeMessage = codeMsg;
+            fd->controlFlow.doInfo.evalTarget = self;
+            fd->controlFlow.doInfo.evalLocals = self;
+            fd->state = FRAME_STATE_DO_EVAL;
             state->needsControlFlowHandling = 1;
             return state->ioNil;
         }
@@ -1420,13 +1422,14 @@ IO_METHOD(IoObject, doFile) {
             return state->ioNil;
         }
 
-        if (state->currentFrame->message == m) {
+        if (FRAME_DATA(state->currentFrame)->message == m) {
             // Called directly from eval loop - use frame-state (zero C stack growth)
             IoEvalFrame *frame = state->currentFrame;
-            frame->controlFlow.doInfo.codeMessage = codeMsg;
-            frame->controlFlow.doInfo.evalTarget = self;
-            frame->controlFlow.doInfo.evalLocals = self;
-            frame->state = FRAME_STATE_DO_EVAL;
+            IoEvalFrameData *fd = FRAME_DATA(frame);
+            fd->controlFlow.doInfo.codeMessage = codeMsg;
+            fd->controlFlow.doInfo.evalTarget = self;
+            fd->controlFlow.doInfo.evalLocals = self;
+            fd->state = FRAME_STATE_DO_EVAL;
             state->needsControlFlowHandling = 1;
             return state->ioNil;
         }

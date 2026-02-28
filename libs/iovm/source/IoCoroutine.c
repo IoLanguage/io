@@ -104,11 +104,8 @@ IoCoroutine *IoCoroutine_new(void *state) {
 }
 
 void IoCoroutine_free(IoCoroutine *self) {
-    // Free the frame stack if it exists
-    if (DATA(self)->frameStack) {
-        IoContinuation_freeFrameStack_(DATA(self)->frameStack);
-        DATA(self)->frameStack = NULL;
-    }
+    // Frame stack is GC-managed, just null the pointer
+    DATA(self)->frameStack = NULL;
     Stack_free(DATA(self)->ioStack);
     io_free(DATA(self));
 }
@@ -120,17 +117,20 @@ void IoCoroutine_mark(IoCoroutine *self) {
     Stack_do_(DATA(self)->ioStack, (ListDoCallback *)IoObject_shouldMark);
 
     // Mark the frame stack.
-    // The running coroutine's frames are in state->currentFrame (not
-    // in DATA(self)->frameStack, which is only set when saved/paused).
-    // We must mark the live frames to prevent GC from collecting objects
-    // referenced only by the eval frame stack.
+    // Just mark the top frame — GC follows the parent chain
+    // via IoEvalFrame's own markFunc.
     IoEvalFrame *frame = DATA(self)->frameStack;
     if (self == state->currentCoroutine && state->currentFrame) {
         frame = state->currentFrame;
     }
-    if (frame) {
-        // Mark the entire frame chain (IoEvalFrame_mark already handles parent recursion)
-        IoEvalFrame_mark(frame);
+    IoObject_shouldMarkIfNonNull(frame);
+
+    // Mark pooled frames so GC doesn't collect them while parked.
+    // Only do this when marking the current coroutine (avoids redundant work).
+    if (self == state->currentCoroutine) {
+        for (int i = 0; i < state->framePoolCount; i++) {
+            IoObject_shouldMarkIfNonNull(state->framePool[i]);
+        }
     }
 
     // Mark the return value
@@ -172,7 +172,7 @@ void IoCoroutine_restoreState_(IoCoroutine *self, IoState *state) {
     IoEvalFrame *f = state->currentFrame;
     while (f) {
         state->frameDepth++;
-        f = f->parent;
+        f = FRAME_DATA(f)->parent;
     }
 }
 
@@ -428,9 +428,10 @@ void IoCoroutine_rawReturnToParent(IoCoroutine *self) {
         IoCoroutine *parent = IoCoroutine_rawParentCoroutine(self);
         if (parent && ISCOROUTINE(parent)) {
             IoEvalFrame *parentTopFrame = DATA(parent)->frameStack;
+            IoEvalFrameData *parentTopFd = FRAME_DATA(parentTopFrame);
             if (parentTopFrame &&
-                parentTopFrame->state == FRAME_STATE_CORO_WAIT_CHILD &&
-                parentTopFrame->controlFlow.coroInfo.childCoroutine == (IoObject *)self) {
+                parentTopFd->state == FRAME_STATE_CORO_WAIT_CHILD &&
+                parentTopFd->controlFlow.coroInfo.childCoroutine == (IoObject *)self) {
 #ifdef DEBUG_CORO_EVAL
                 fprintf(stderr, "rawReturnToParent: CORO SWAP RESTORE — restoring parent coro\n");
                 fflush(stderr);
@@ -444,11 +445,12 @@ void IoCoroutine_rawReturnToParent(IoCoroutine *self) {
 
                 // Transition parent's CORO_WAIT_CHILD to CONTINUE_CHAIN
                 IoEvalFrame *parentFrame = state->currentFrame;
-                if (parentFrame && parentFrame->state == FRAME_STATE_CORO_WAIT_CHILD) {
-                    parentFrame->result = DATA(self)->returnValue
+                IoEvalFrameData *parentFd = FRAME_DATA(parentFrame);
+                if (parentFrame && parentFd->state == FRAME_STATE_CORO_WAIT_CHILD) {
+                    parentFd->result = DATA(self)->returnValue
                                               ? DATA(self)->returnValue
                                               : state->ioNil;
-                    parentFrame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    parentFd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
                 // Don't return — let the eval loop continue with parent's frames
                 // But we DO need to return here because we're inside a CFunction
@@ -484,17 +486,18 @@ void IoCoroutine_rawReturnToParent(IoCoroutine *self) {
 
         // If parent has a frame waiting for us, give it the result/exception
         IoEvalFrame *parentFrame = state->currentFrame;
+        IoEvalFrameData *parentFd = FRAME_DATA(parentFrame);
 #ifdef DEBUG_CORO_EVAL
         fprintf(stderr, "IoCoroutine_rawReturnToParent: parentFrame=%p, state=%d\n",
-                (void*)parentFrame, parentFrame ? parentFrame->state : -1);
+                (void*)parentFrame, parentFrame ? parentFd->state : -1);
         fflush(stderr);
 #endif
 
-        if (parentFrame && parentFrame->state == FRAME_STATE_CORO_WAIT_CHILD) {
-            parentFrame->result = DATA(self)->returnValue
+        if (parentFrame && parentFd->state == FRAME_STATE_CORO_WAIT_CHILD) {
+            parentFd->result = DATA(self)->returnValue
                                       ? DATA(self)->returnValue
                                       : state->ioNil;
-            parentFrame->state = FRAME_STATE_CONTINUE_CHAIN;
+            parentFd->state = FRAME_STATE_CONTINUE_CHAIN;
         }
 
         // Signal to eval loop that frame stack changed - don't process stale frame
@@ -537,7 +540,7 @@ IO_METHOD(IoCoroutine, freeStack) {
     IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 
     if (current != self && DATA(self)->frameStack) {
-        IoContinuation_freeFrameStack_(DATA(self)->frameStack);
+        // Frames are GC-managed, just drop the reference
         DATA(self)->frameStack = NULL;
     }
 
@@ -662,11 +665,12 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
 
         // Push initial frame
         IoEvalFrame *frame = IoState_pushFrame_(state);
-        frame->message = runMessage;
-        frame->target = runTarget;
-        frame->locals = runLocals;
-        frame->cachedTarget = runTarget;
-        frame->state = FRAME_STATE_START;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+        fd->message = runMessage;
+        fd->target = runTarget;
+        fd->locals = runLocals;
+        fd->cachedTarget = runTarget;
+        fd->state = FRAME_STATE_START;
 
         // Run the eval loop
         state->nestedEvalDepth++;
@@ -690,14 +694,15 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
 
     // Mark caller's frame as waiting for this child to complete
     IoEvalFrame *callerFrame = state->currentFrame;
+    IoEvalFrameData *callerFd = FRAME_DATA(callerFrame);
 #ifdef DEBUG_CORO_EVAL
     fprintf(stderr, "IoCoroutine_rawRun: callerFrame=%p\n", (void*)callerFrame);
     fflush(stderr);
 #endif
 
     if (callerFrame) {
-        callerFrame->state = FRAME_STATE_CORO_WAIT_CHILD;
-        callerFrame->controlFlow.coroInfo.childCoroutine = self;
+        callerFd->state = FRAME_STATE_CORO_WAIT_CHILD;
+        callerFd->controlFlow.coroInfo.childCoroutine = self;
     }
 
     // Save current coroutine's frame stack
@@ -725,11 +730,12 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
 
     // Push child's initial frame
     IoEvalFrame *frame = IoState_pushFrame_(state);
-    frame->message = runMessage;
-    frame->target = runTarget;
-    frame->locals = runLocals;
-    frame->cachedTarget = runTarget;
-    frame->state = FRAME_STATE_START;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+    fd->message = runMessage;
+    fd->target = runTarget;
+    fd->locals = runLocals;
+    fd->cachedTarget = runTarget;
+    fd->state = FRAME_STATE_START;
 
 #ifdef DEBUG_CORO_EVAL
     fprintf(stderr, "rawRun CHILD ROOT FRAME SET: frame=%p, msg=%p, target=%p, locals=%p\n",
@@ -834,11 +840,12 @@ void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals,
 
         // Push initial frame
         IoEvalFrame *frame = IoState_pushFrame_(state);
-        frame->message = message;
-        frame->target = target;
-        frame->locals = locals;
-        frame->cachedTarget = target;
-        frame->state = FRAME_STATE_START;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+        fd->message = message;
+        fd->target = target;
+        fd->locals = locals;
+        fd->cachedTarget = target;
+        fd->state = FRAME_STATE_START;
 
 #ifdef DEBUG_CORO_EVAL
         fprintf(stderr, "try NESTED ROOT FRAME SET: frame=%p, msg=%p, target=%p, locals=%p\n",
@@ -931,8 +938,9 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self) {
 
         // Mark current frame as yielded (so we resume here when switched back)
         IoEvalFrame *callerFrame = state->currentFrame;
+        IoEvalFrameData *callerFd = FRAME_DATA(callerFrame);
         if (callerFrame) {
-            callerFrame->state = FRAME_STATE_CORO_YIELDED;
+            callerFd->state = FRAME_STATE_CORO_YIELDED;
         }
 
         // Save current coroutine's state
@@ -968,11 +976,12 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self) {
                 }
                 IoCoroutine_rawSetParentCoroutine_(self, current);
                 IoEvalFrame *frame = IoState_pushFrame_(state);
-                frame->message = runMessage;
-                frame->target = runTarget;
-                frame->locals = runLocals;
-                frame->cachedTarget = runTarget;
-                frame->state = FRAME_STATE_START;
+                IoEvalFrameData *fd = FRAME_DATA(frame);
+                fd->message = runMessage;
+                fd->target = runTarget;
+                fd->locals = runLocals;
+                fd->cachedTarget = runTarget;
+                fd->state = FRAME_STATE_START;
             }
         }
 
@@ -1028,7 +1037,7 @@ void IoCoroutine_rawPrint(IoCoroutine *self) {
     IoEvalFrame *f = DATA(self)->frameStack;
     while (f) {
         frameCount++;
-        f = f->parent;
+        f = FRAME_DATA(f)->parent;
     }
     printf("Coroutine_%p frameDepth %d ioStackSize %i\n", (void *)self,
            frameCount, (int)Stack_count(DATA(self)->ioStack));

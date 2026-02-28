@@ -582,10 +582,12 @@ int test_tco_if_deep(IoState *state) {
 int test_continuation_introspection(IoState *state) {
 	printf("Test 27: Continuation introspection... ");
 
-	// Capture a continuation and inspect it
+	// Capture a continuation and inspect it.
+	// Use copy to snapshot the frame chain while it's live —
+	// with grab-pointer capture, the original frame evolves after callcc returns.
 	testEvalCode(state,
 		"captured := nil\n"
-		"callcc(block(cont, captured = cont))");
+		"callcc(block(cont, captured = cont copy))");
 
 	IoObject *frameCount = testEvalCode(state, "captured frameCount");
 	if (!ISNUMBER(frameCount) || IoNumber_asInt(frameCount) < 1) {
@@ -710,10 +712,12 @@ int test_question_mark_continue(IoState *state) {
 int test_continuation_asMap(IoState *state) {
 	printf("Test 30: Continuation asMap... ");
 
-	// Capture a continuation inside a for loop
+	// Capture a continuation inside a for loop.
+	// Use copy to snapshot while live (grab-pointer frames evolve after return).
 	testEvalCode(state,
 		"captured2 := nil\n"
-		"for(i, 1, 5, if(i == 3, callcc(block(cont, captured2 = cont))))");
+		"for(i, 1, 5, if(i == 3, callcc(block(cont, captured2 = cont copy))))");
+
 
 	// Check asMap returns a Map
 	IoObject *map = testEvalCode(state, "captured2 asMap");

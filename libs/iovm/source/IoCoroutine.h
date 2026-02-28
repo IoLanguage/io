@@ -16,8 +16,7 @@
 extern "C" {
 #endif
 
-// Forward declarations to avoid circular includes
-struct IoEvalFrame;
+// Forward declaration to avoid circular includes
 struct IoState;
 
 #define ISCOROUTINE(self)                                                      \
@@ -46,7 +45,7 @@ typedef IoObject IoCoroutine;
  * The eval loop continues processing whatever frames are now current.
  */
 typedef struct {
-    struct IoEvalFrame *frameStack;   // Suspended frame stack (NULL if running)
+    IoObject *frameStack;             // Suspended frame stack (IoEvalFrame, NULL if running)
     Stack *ioStack;                   // Retain stack for GC
     int stopStatus;                   // Per-coroutine stop status
     IoObject *returnValue;            // Per-coroutine return value
@@ -69,7 +68,7 @@ IOVM_API IO_METHOD(IoCoroutine, freeStack);
 // Frame-based coroutine state management
 IOVM_API void IoCoroutine_saveState_(IoCoroutine *self, struct IoState *state);
 IOVM_API void IoCoroutine_restoreState_(IoCoroutine *self, struct IoState *state);
-IOVM_API struct IoEvalFrame *IoCoroutine_rawFrameStack(IoCoroutine *self);
+IOVM_API IoObject *IoCoroutine_rawFrameStack(IoCoroutine *self);
 
 // label
 

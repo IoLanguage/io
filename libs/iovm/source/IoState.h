@@ -151,13 +151,16 @@ struct IoState {
     void *returnValue;
 
     // iterative evaluation frame stack (for continuations)
-    struct IoEvalFrame *currentFrame;  // Top of the evaluation frame stack
+    // IoEvalFrame is typedef IoObject, so this is IoObject *
+    IoObject *currentFrame;            // Top of the evaluation frame stack
     int frameDepth;                    // Current frame depth
     int maxFrameDepth;                 // Maximum allowed frame depth
 
-    // Frame pool for fast allocation
-    struct IoEvalFrame *framePool[256]; // Pool of pre-allocated frames
-    int framePoolCount;                  // Number of frames in pool
+    // Frame object pool — reuses GC-managed IoEvalFrame objects
+    // Pooled frames remain valid collector objects, just parked for reuse.
+    #define FRAME_POOL_SIZE 256
+    IoObject *framePool[FRAME_POOL_SIZE];
+    int framePoolCount;
 
     // Control flow handling flag (for non-reentrant primitives)
     int needsControlFlowHandling;      // Set by primitives that modify frame state

@@ -30,13 +30,14 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame);
 // Debug: Validate that a frame's message field is a Message.
 // This should be called after every frame setup where message is assigned.
 #define VALIDATE_FRAME(f, location) do { \
-    if ((f)->message && !ISMESSAGE((f)->message)) { \
+    IoEvalFrameData *_vfd = FRAME_DATA(f); \
+    if (_vfd->message && !ISMESSAGE(_vfd->message)) { \
         fprintf(stderr, "FRAME VALIDATION FAILED at %s\n", location); \
         fprintf(stderr, "  frame=%p, message=%p (tag=%s), target=%p, locals=%p\n", \
-                (void*)(f), (void*)(f)->message, \
-                IoObject_tag((IoObject*)(f)->message) ? IoObject_tag((IoObject*)(f)->message)->name : "NULL", \
-                (void*)(f)->target, (void*)(f)->locals); \
-        fprintf(stderr, "  parent=%p, state=%d\n", (void*)(f)->parent, (f)->state); \
+                (void*)(f), (void*)_vfd->message, \
+                IoObject_tag((IoObject*)_vfd->message) ? IoObject_tag((IoObject*)_vfd->message)->name : "NULL", \
+                (void*)_vfd->target, (void*)_vfd->locals); \
+        fprintf(stderr, "  parent=%p, state=%d\n", (void*)_vfd->parent, _vfd->state); \
         fflush(stderr); \
         abort(); \
     } \
@@ -47,29 +48,36 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame);
 // Separated into a function to avoid circular IoEvalFrame.h includes.
 IoObject *IoState_preEvalArgAt_(IoState *self, IoMessage *msg, int n) {
     IoEvalFrame *frame = self->currentFrame;
-    if (frame &&
-        frame->argValues &&
-        msg == frame->message &&
-        n < frame->argCount &&
-        frame->argValues[n] != NULL) {
-        return frame->argValues[n];
+    if (!frame) return NULL;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+    if (
+        fd->argValues &&
+        msg == fd->message &&
+        n < fd->argCount &&
+        fd->argValues[n] != NULL) {
+        return fd->argValues[n];
     }
     return NULL;
 }
 
-// Push a new frame onto the evaluation stack (with pooling)
+// Push a new frame onto the evaluation stack.
+// Reuses pooled frames when available; allocates new IoObject otherwise.
 IoEvalFrame *IoState_pushFrame_(IoState *state) {
     IoEvalFrame *frame;
+    IoEvalFrameData *fd;
 
-    // Try to get from pool first
     if (state->framePoolCount > 0) {
+        // Reuse a pooled frame (already a valid collector object)
         frame = state->framePool[--state->framePoolCount];
-        IoEvalFrame_reset(frame);
+        fd = FRAME_DATA(frame);
+        // Reset data fields (argValues already freed on pool return)
+        memset(fd, 0, sizeof(IoEvalFrameData));
     } else {
-        frame = IoEvalFrame_new();
+        frame = IoEvalFrame_newWithState(state);
+        fd = FRAME_DATA(frame);
     }
 
-    frame->parent = state->currentFrame;
+    fd->parent = state->currentFrame;
     state->currentFrame = frame;
     state->frameDepth++;
 
@@ -81,20 +89,27 @@ IoEvalFrame *IoState_pushFrame_(IoState *state) {
     return frame;
 }
 
-// Pop a frame from the evaluation stack (with pooling)
+// Pop a frame from the evaluation stack.
+// Returns the frame to the pool if space; otherwise lets GC reclaim it.
 void IoState_popFrame_(IoState *state) {
     IoEvalFrame *frame = state->currentFrame;
     if (frame) {
-        state->currentFrame = frame->parent;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+        state->currentFrame = fd->parent;
         state->frameDepth--;
+        fd->parent = NULL;
 
-        // Return to pool if there's space
-        if (state->framePoolCount < 256) {
-            IoEvalFrame_reset(frame);
-            state->framePool[state->framePoolCount++] = frame;
-        } else {
-            IoEvalFrame_free(frame);
+        // Eagerly free argValues since they can be large
+        if (fd->argValues) {
+            io_free(fd->argValues);
+            fd->argValues = NULL;
         }
+
+        // Return to pool if space available
+        if (state->framePoolCount < FRAME_POOL_SIZE) {
+            state->framePool[state->framePoolCount++] = frame;
+        }
+        // else: frame stays in collector, GC reclaims when unreferenced
     }
 }
 
@@ -112,7 +127,7 @@ void IoState_popFrame_(IoState *state) {
 // the frame=NULL handler for coro switching / exit).
 static int IoState_unwindFramesForError_(IoState *state) {
     while (state->currentFrame) {
-        int isRoot = state->currentFrame->isNestedEvalRoot;
+        int isRoot = FRAME_DATA(state->currentFrame)->isNestedEvalRoot;
         IoState_popFrame_(state);
         if (isRoot) {
             // Hit a nested eval boundary. Re-set errorRaised so the
@@ -141,6 +156,7 @@ static int IoState_unwindFramesForError_(IoState *state) {
 
 IoObject *IoState_evalLoop_(IoState *state) {
     IoEvalFrame *frame;
+    IoEvalFrameData *fd;
     IoObject *result = state->ioNil;
 
 #ifdef DEBUG_EVAL_LOOP
@@ -149,6 +165,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
     while (1) {
         frame = state->currentFrame;
+        fd = frame ? FRAME_DATA(frame) : NULL;
 
         // Check if System exit was called
         if (state->shouldExit) {
@@ -161,8 +178,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
         // Always print to trace coro issues
         fprintf(stderr, "evalLoop iter %d: frame=%p, coro=%p, msg=%s, state=%d, nestedDepth=%d\n",
                 loopIter, (void*)frame, (void*)state->currentCoroutine,
-                (frame && frame->message) ? CSTRING(IoMessage_name(frame->message)) : "NULL",
-                frame ? frame->state : -1,
+                (frame && fd->message) ? CSTRING(IoMessage_name(fd->message)) : "NULL",
+                frame ? fd->state : -1,
                 state->nestedEvalDepth);
         fflush(stderr);
 #endif
@@ -185,12 +202,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // child can finish within a nested eval loop.
             if (parent && ISCOROUTINE(parent)) {
                 IoEvalFrame *parentTopFrame = ((IoCoroutineData *)IoObject_dataPointer(parent))->frameStack;
-                if (parentTopFrame &&
-                    (parentTopFrame->state == FRAME_STATE_CORO_WAIT_CHILD ||
-                     parentTopFrame->state == FRAME_STATE_CORO_YIELDED)) {
+                if (parentTopFrame) {
+                IoEvalFrameData *parentTopFd = FRAME_DATA(parentTopFrame);
+                if (parentTopFd->state == FRAME_STATE_CORO_WAIT_CHILD ||
+                    parentTopFd->state == FRAME_STATE_CORO_YIELDED) {
 #ifdef DEBUG_EVAL_LOOP
                     fprintf(stderr, "evalLoop: coro finished, returning to parent coro (parent state=%d)\n",
-                            parentTopFrame->state);
+                            parentTopFd->state);
                     fflush(stderr);
 #endif
                     // Child coro finished - restore parent
@@ -202,12 +220,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
                     // Parent's top frame: transition to CONTINUE_CHAIN
                     frame = state->currentFrame;
-                    if (frame && (frame->state == FRAME_STATE_CORO_WAIT_CHILD ||
-                                  frame->state == FRAME_STATE_CORO_YIELDED)) {
-                        frame->result = result;
-                        frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    fd = FRAME_DATA(frame);
+                    if (frame && (fd->state == FRAME_STATE_CORO_WAIT_CHILD ||
+                                  fd->state == FRAME_STATE_CORO_YIELDED)) {
+                        fd->result = result;
+                        fd->state = FRAME_STATE_CONTINUE_CHAIN;
                     }
                     continue;  // Continue with parent's frames
+                }
                 }
             }
 
@@ -234,15 +254,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
                 // Parent's top frame should be waiting for us
                 frame = state->currentFrame;
+                fd = frame ? FRAME_DATA(frame) : NULL;
 #ifdef DEBUG_EVAL_LOOP
                 fprintf(stderr, "evalLoop: parent frame=%p, state=%d\n",
-                        (void*)frame, frame ? frame->state : -1);
+                        (void*)frame, fd ? fd->state : -1);
                 fflush(stderr);
 #endif
 
-                if (frame && frame->state == FRAME_STATE_CORO_WAIT_CHILD) {
-                    frame->result = result;
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                if (frame && fd && fd->state == FRAME_STATE_CORO_WAIT_CHILD) {
+                    fd->result = result;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
                 continue;  // Continue with parent's frames
             }
@@ -265,47 +286,41 @@ IoObject *IoState_evalLoop_(IoState *state) {
         IoMessageData *md;
 
         // Validate frame integrity
-        if (frame->magic != IOEVAL_FRAME_MAGIC) {
-            fprintf(stderr, "CORRUPTION: frame magic invalid! frame=%p, magic=0x%08x (expected 0x%08x)\n",
-                    (void*)frame, frame->magic, IOEVAL_FRAME_MAGIC);
-            fprintf(stderr, "  This means state->currentFrame is NOT pointing to a valid IoEvalFrame!\n");
-            fprintf(stderr, "  Dumping raw bytes at frame address:\n  ");
-            unsigned char *bytes = (unsigned char *)frame;
-            for (int i = 0; i < 64; i++) {
-                fprintf(stderr, "%02x ", bytes[i]);
-                if ((i+1) % 16 == 0) fprintf(stderr, "\n  ");
-            }
-            fprintf(stderr, "\n");
+        if (!ISEVALFRAME(frame)) {
+            fprintf(stderr, "CORRUPTION: currentFrame is not an EvalFrame! frame=%p, tag=%s\n",
+                    (void*)frame,
+                    IoObject_tag(frame) ? IoObject_tag(frame)->name : "NULL");
             fflush(stderr);
             abort();
         }
 
-        if (frame->message && !ISMESSAGE(frame->message)) {
-            fprintf(stderr, "CORRUPTION: frame->message is not a Message!\n");
-            fprintf(stderr, "  frame=%p (magic OK), state=%d, message=%p, tag=%s\n",
-                    (void*)frame, frame->state,
-                    (void*)frame->message,
-                    IoObject_tag(frame->message) ? IoObject_tag(frame->message)->name : "NULL");
+        if (fd->message && !ISMESSAGE(fd->message)) {
+            fprintf(stderr, "CORRUPTION: fd->message is not a Message!\n");
+            fprintf(stderr, "  frame=%p, state=%d, message=%p, tag=%s\n",
+                    (void*)frame, fd->state,
+                    (void*)fd->message,
+                    IoObject_tag(fd->message) ? IoObject_tag(fd->message)->name : "NULL");
             fprintf(stderr, "  target=%p, locals=%p, result=%p, cachedTarget=%p\n",
-                    (void*)frame->target, (void*)frame->locals,
-                    (void*)frame->result, (void*)frame->cachedTarget);
+                    (void*)fd->target, (void*)fd->locals,
+                    (void*)fd->result, (void*)fd->cachedTarget);
             fprintf(stderr, "  slotValue=%p, slotContext=%p, blockLocals=%p\n",
-                    (void*)frame->slotValue, (void*)frame->slotContext,
-                    (void*)frame->blockLocals);
+                    (void*)fd->slotValue, (void*)fd->slotContext,
+                    (void*)fd->blockLocals);
             fprintf(stderr, "  argValues=%p, argCount=%d, currentArgIndex=%d\n",
-                    (void*)frame->argValues, frame->argCount, frame->currentArgIndex);
-            fprintf(stderr, "  parent=%p\n", (void*)frame->parent);
+                    (void*)fd->argValues, fd->argCount, fd->currentArgIndex);
+            fprintf(stderr, "  parent=%p\n", (void*)fd->parent);
             // Walk parent chain
-            IoEvalFrame *p = frame->parent;
+            IoEvalFrame *p = fd->parent;
             int depth = 0;
             while (p && depth < 10) {
-                fprintf(stderr, "  parent[%d]: frame=%p, magic=0x%08x, state=%d, msg=%p (%s)\n",
-                        depth, (void*)p, p->magic, p->state, (void*)p->message,
-                        (p->message && p->magic == IOEVAL_FRAME_MAGIC && ISMESSAGE(p->message))
-                            ? CSTRING(IoMessage_name(p->message)) : "INVALID/UNKNOWN");
+                IoEvalFrameData *pd = FRAME_DATA(p);
+                fprintf(stderr, "  parent[%d]: frame=%p, state=%d, msg=%p (%s)\n",
+                        depth, (void*)p, pd->state, (void*)pd->message,
+                        (pd->message && ISMESSAGE(pd->message))
+                            ? CSTRING(IoMessage_name(pd->message)) : "INVALID/UNKNOWN");
                 fprintf(stderr, "    target=%p, locals=%p, blockLocals=%p\n",
-                        (void*)p->target, (void*)p->locals, (void*)p->blockLocals);
-                p = p->parent;
+                        (void*)pd->target, (void*)pd->locals, (void*)pd->blockLocals);
+                p = pd->parent;
                 depth++;
             }
             fflush(stderr);
@@ -346,21 +361,21 @@ IoObject *IoState_evalLoop_(IoState *state) {
         }
 
         // Show message if debugging
-        if (state->showAllMessages && frame->message) {
-            printf("M:%s:%s:%i\n", CSTRING(IoMessage_name(frame->message)),
-                   CSTRING(IoMessage_rawLabel(frame->message)),
-                   IoMessage_rawLineNumber(frame->message));
+        if (state->showAllMessages && fd->message) {
+            printf("M:%s:%s:%i\n", CSTRING(IoMessage_name(fd->message)),
+                   CSTRING(IoMessage_rawLabel(fd->message)),
+                   IoMessage_rawLineNumber(fd->message));
         }
 
-        switch (frame->state) {
+        switch (fd->state) {
 
         case FRAME_STATE_START: {
             // Starting evaluation of a message
-            m = frame->message;
+            m = fd->message;
             if (!m) {
                 // No message to evaluate, return nil
-                frame->result = state->ioNil;
-                frame->state = FRAME_STATE_RETURN;
+                fd->result = state->ioNil;
+                fd->state = FRAME_STATE_RETURN;
                 break;
             }
 
@@ -387,62 +402,63 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             if (!md) {
                 fprintf(stderr, "FATAL: NULL message data for message %p, frame=%p, state=%d\n",
-                        (void*)m, (void*)frame, frame->state);
-                fprintf(stderr, "  frame->target=%p, frame->locals=%p\n",
-                        (void*)frame->target, (void*)frame->locals);
-                fprintf(stderr, "  frame->argValues=%p, frame->argCount=%d, frame->currentArgIndex=%d\n",
-                        (void*)frame->argValues, frame->argCount, frame->currentArgIndex);
+                        (void*)m, (void*)frame, fd->state);
+                fprintf(stderr, "  fd->target=%p, fd->locals=%p\n",
+                        (void*)fd->target, (void*)fd->locals);
+                fprintf(stderr, "  fd->argValues=%p, fd->argCount=%d, fd->currentArgIndex=%d\n",
+                        (void*)fd->argValues, fd->argCount, fd->currentArgIndex);
                 fprintf(stderr, "  IoObject_tag(m)->name=%s\n",
                         IoObject_tag(m) ? IoObject_tag(m)->name : "NULL");
-                IoEvalFrame *p = frame->parent;
+                IoEvalFrame *p = fd->parent;
                 int depth = 0;
                 while (p && depth < 10) {
+                    IoEvalFrameData *pd = FRAME_DATA(p);
                     fprintf(stderr, "  parent[%d]: state=%d, msg=%p", depth,
-                            p->state, (void*)p->message);
-                    if (p->message) {
-                        IoMessageData *pmd = IOMESSAGEDATA(p->message);
+                            pd->state, (void*)pd->message);
+                    if (pd->message) {
+                        IoMessageData *pmd = IOMESSAGEDATA(pd->message);
                         if (pmd) {
-                            fprintf(stderr, " name=%s", CSTRING(IoMessage_name(p->message)));
+                            fprintf(stderr, " name=%s", CSTRING(IoMessage_name(pd->message)));
                         } else {
                             fprintf(stderr, " (no msg data, tag=%s)",
-                                    IoObject_tag(p->message) ? IoObject_tag(p->message)->name : "NULL");
+                                    IoObject_tag(pd->message) ? IoObject_tag(pd->message)->name : "NULL");
                         }
                     }
                     fprintf(stderr, " argValues=%p argCount=%d\n",
-                            (void*)p->argValues, p->argCount);
-                    p = p->parent;
+                            (void*)pd->argValues, pd->argCount);
+                    p = pd->parent;
                     depth++;
                 }
                 fprintf(stderr, "  (total parent depth: searched %d)\n", depth);
                 fflush(stderr);
-                frame->result = state->ioNil;
-                frame->state = FRAME_STATE_RETURN;
+                fd->result = state->ioNil;
+                fd->state = FRAME_STATE_RETURN;
                 break;
             }
 
             // Check if this is a semicolon (resets target)
             if (md->name == state->semicolonSymbol) {
-                frame->target = frame->cachedTarget;
-                frame->message = md->next;
+                fd->target = fd->cachedTarget;
+                fd->message = md->next;
                 if (md->next) {
                     // Continue with next message
-                    frame->state = FRAME_STATE_START;
+                    fd->state = FRAME_STATE_START;
                 } else {
                     // End of chain after semicolon
-                    frame->result = frame->target;
-                    frame->state = FRAME_STATE_RETURN;
+                    fd->result = fd->target;
+                    fd->state = FRAME_STATE_RETURN;
                 }
                 break;
             }
 
             // Check if message has a cached result (literal)
             if (md->cachedResult) {
-                frame->result = md->cachedResult;
+                fd->result = md->cachedResult;
                 // If there's no next message, we can return immediately
                 if (!md->next) {
-                    frame->state = FRAME_STATE_RETURN;
+                    fd->state = FRAME_STATE_RETURN;
                 } else {
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
                 break;
             }
@@ -485,10 +501,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // non-control-flow CFunctions to enable full iterative
             // evaluation, but that requires modifying all CFunctions.
             (void)isSpecialForm; // Used for debug output only now
-            frame->argCount = 0;
-            frame->currentArgIndex = 0;
-            frame->argValues = NULL;
-            frame->state = FRAME_STATE_LOOKUP_SLOT;
+            fd->argCount = 0;
+            fd->currentArgIndex = 0;
+            fd->argValues = NULL;
+            fd->state = FRAME_STATE_LOOKUP_SLOT;
             break;
         }
 
@@ -497,19 +513,19 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Entered from FRAME_STATE_ACTIVATE when args need pre-evaluation.
             IoMessage *argMsg;
 
-            if (frame->currentArgIndex >= frame->argCount) {
+            if (fd->currentArgIndex >= fd->argCount) {
                 // All arguments evaluated, return to ACTIVATE to call the function
-                frame->state = FRAME_STATE_ACTIVATE;
+                fd->state = FRAME_STATE_ACTIVATE;
                 break;
             }
 
             // Get the next argument message
-            argMsg = IoMessage_rawArgAt_(frame->message, frame->currentArgIndex);
+            argMsg = IoMessage_rawArgAt_(fd->message, fd->currentArgIndex);
 
             if (!argMsg) {
                 // Shouldn't happen, but handle gracefully
-                frame->argValues[frame->currentArgIndex] = state->ioNil;
-                frame->currentArgIndex++;
+                fd->argValues[fd->currentArgIndex] = state->ioNil;
+                fd->currentArgIndex++;
                 break;
             }
 
@@ -517,19 +533,20 @@ IoObject *IoState_evalLoop_(IoState *state) {
             if (IOMESSAGEDATA(argMsg)->cachedResult &&
                 !IOMESSAGEDATA(argMsg)->next) {
                 // Use cached value, no need to push frame
-                frame->argValues[frame->currentArgIndex] =
+                fd->argValues[fd->currentArgIndex] =
                     IOMESSAGEDATA(argMsg)->cachedResult;
-                frame->currentArgIndex++;
+                fd->currentArgIndex++;
                 break;
             }
 
             // Need to evaluate this argument - push a new frame
             IoEvalFrame *argFrame = IoState_pushFrame_(state);
-            argFrame->message = argMsg;
-            argFrame->target = frame->locals; // Args eval in sender context
-            argFrame->locals = frame->locals;
-            argFrame->cachedTarget = frame->locals;
-            argFrame->state = FRAME_STATE_START;
+            IoEvalFrameData *argFd = FRAME_DATA(argFrame);
+            argFd->message = argMsg;
+            argFd->target = fd->locals; // Args eval in sender context
+            argFd->locals = fd->locals;
+            argFd->cachedTarget = fd->locals;
+            argFd->state = FRAME_STATE_START;
 
             // When argFrame returns, we'll resume at EVAL_ARGS state
             // and currentArgIndex will be incremented
@@ -538,31 +555,31 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         case FRAME_STATE_LOOKUP_SLOT: {
             // Perform slot lookup on target
-            IoSymbol *messageName = IoMessage_name(frame->message);
+            IoSymbol *messageName = IoMessage_name(fd->message);
             IoObject *slotValue;
             IoObject *slotContext;
 
-            slotValue = IoObject_rawGetSlot_context_(frame->target, messageName,
+            slotValue = IoObject_rawGetSlot_context_(fd->target, messageName,
                                                     &slotContext);
 
             if (slotValue) {
-                frame->slotValue = slotValue;
-                frame->slotContext = slotContext;
-                frame->state = FRAME_STATE_ACTIVATE;
-            } else if (IoObject_isLocals(frame->target)) {
+                fd->slotValue = slotValue;
+                fd->slotContext = slotContext;
+                fd->state = FRAME_STATE_ACTIVATE;
+            } else if (IoObject_isLocals(fd->target)) {
                 // Slot not found on block locals — look up 'self' (the scope)
                 // and re-do the lookup there. This is the iterative equivalent
                 // of IoObject_localsForward which would call performOn_
                 // recursively. By retargeting here, we avoid C stack growth.
-                IoObject *scope = IoObject_rawGetSlot_(frame->target,
+                IoObject *scope = IoObject_rawGetSlot_(fd->target,
                                                        state->selfSymbol);
                 if (scope) {
-                    frame->target = scope;
+                    fd->target = scope;
                     // Retry lookup on the scope (stays in LOOKUP_SLOT)
                 } else {
                     // No scope — use regular forward
-                    frame->result = IoObject_forward(frame->target, frame->locals,
-                                                     frame->message);
+                    fd->result = IoObject_forward(fd->target, fd->locals,
+                                                     fd->message);
                     if (state->errorRaised) {
                         state->errorRaised = 0;
                         if (IoState_unwindFramesForError_(state)) {
@@ -570,12 +587,12 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         }
                         break;
                     }
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
             } else {
                 // Slot not found on non-locals target
-                frame->result = IoObject_forward(frame->target, frame->locals,
-                                                 frame->message);
+                fd->result = IoObject_forward(fd->target, fd->locals,
+                                                 fd->message);
                 if (state->errorRaised) {
                     state->errorRaised = 0;
                     if (IoState_unwindFramesForError_(state)) {
@@ -583,14 +600,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     }
                     break;
                 }
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
             }
             break;
         }
 
         case FRAME_STATE_ACTIVATE: {
             // Activate the slot value (if activatable)
-            IoObject *slotValue = frame->slotValue;
+            IoObject *slotValue = fd->slotValue;
 
             if (IoObject_isActivatable(slotValue)) {
                 // ============================================================
@@ -614,7 +631,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // - Short-circuit: or, and
                 // - Message reification: message
                 // ============================================================
-                IoSymbol *msgName = IoMessage_name(frame->message);
+                IoSymbol *msgName = IoMessage_name(fd->message);
                 int isSpecialForm =
                     (msgName == state->ifSymbol ||
                      msgName == state->whileSymbol ||
@@ -647,7 +664,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     }
                 }
 
-                if (!isSpecialForm && !frame->argValues) {
+                if (!isSpecialForm && !fd->argValues) {
                     // Pre-evaluate arguments iteratively (no C stack re-entrancy).
                     //
                     // For CFunctions: pre-evaluate ALL args.
@@ -655,7 +672,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     //   Extra args beyond named params remain unevaluated for
                     //   lazy access via call argAt() / call evalArgAt()
                     //   (e.g., map(asUTF8) passes the message, not a value).
-                    int msgArgCount = IoMessage_argCount(frame->message);
+                    int msgArgCount = IoMessage_argCount(fd->message);
                     int preEvalCount = msgArgCount;
 
                     if (ISBLOCK(slotValue) && msgArgCount > 0) {
@@ -667,38 +684,38 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     }
 
                     if (preEvalCount > 0) {
-                        frame->argCount = preEvalCount;
-                        frame->currentArgIndex = 0;
-                        frame->argValues = (IoObject **)io_calloc(preEvalCount, sizeof(IoObject *));
+                        fd->argCount = preEvalCount;
+                        fd->currentArgIndex = 0;
+                        fd->argValues = (IoObject **)io_calloc(preEvalCount, sizeof(IoObject *));
 
                         // Fast path: check if ALL args are simple cached literals
                         int allCached = 1;
                         int i;
                         for (i = 0; i < msgArgCount; i++) {
-                            IoMessage *argMsg = IoMessage_rawArgAt_(frame->message, i);
+                            IoMessage *argMsg = IoMessage_rawArgAt_(fd->message, i);
                             if (argMsg) {
                                 IoMessageData *argMd = IOMESSAGEDATA(argMsg);
                                 if (argMd->cachedResult && !argMd->next) {
-                                    frame->argValues[i] = argMd->cachedResult;
+                                    fd->argValues[i] = argMd->cachedResult;
                                 } else {
                                     allCached = 0;
                                     break;
                                 }
                             } else {
-                                frame->argValues[i] = state->ioNil;
+                                fd->argValues[i] = state->ioNil;
                             }
                         }
 
                         if (allCached) {
                             // All args were cached literals - done
-                            frame->currentArgIndex = msgArgCount;
+                            fd->currentArgIndex = msgArgCount;
                         } else {
                             // Slow path: evaluate args iteratively via EVAL_ARGS
                             // Reset to evaluate from the first non-cached arg
-                            frame->currentArgIndex = 0;
+                            fd->currentArgIndex = 0;
                             // Clear fast-path partial results
-                            memset(frame->argValues, 0, msgArgCount * sizeof(IoObject *));
-                            frame->state = FRAME_STATE_EVAL_ARGS;
+                            memset(fd->argValues, 0, msgArgCount * sizeof(IoObject *));
+                            fd->state = FRAME_STATE_EVAL_ARGS;
                             break;
                         }
                     }
@@ -712,8 +729,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     // in a block body frame, reuse the frame instead of
                     // pushing a new one. This prevents stack overflow for
                     // recursive methods like factorial.
-                    if (frame->blockLocals &&
-                        !IOMESSAGEDATA(frame->message)->next) {
+                    if (fd->blockLocals &&
+                        !IOMESSAGEDATA(fd->message)->next) {
                         IoState_activateBlockTCO_(state, frame);
                     } else {
                         IoState_activateBlock_(state, frame);
@@ -732,14 +749,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     Stack *savedIoStack = state->currentIoStack;
 
                     IoState_pushRetainPool(state);
-                    frame->result =
-                        activateFunc(slotValue, frame->target, frame->locals,
-                                    frame->message, frame->slotContext);
+                    fd->result =
+                        activateFunc(slotValue, fd->target, fd->locals,
+                                    fd->message, fd->slotContext);
 
 #ifdef DEBUG_EVAL_LOOP
                     fprintf(stderr, "evalLoop ACTIVATE: CFunction %s returned, result=%p, frame=%p\n",
-                            CSTRING(IoMessage_name(frame->message)),
-                            (void*)frame->result, (void*)frame);
+                            CSTRING(IoMessage_name(fd->message)),
+                            (void*)fd->result, (void*)frame);
                     fflush(stderr);
 #endif
 
@@ -787,7 +804,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     // (saved coroutine) and popping from the NEW stack
                     // would corrupt it (Stack_popMark underflow).
                     if (state->currentIoStack == savedIoStack) {
-                        IoState_popRetainPoolExceptFor_(state, frame->result);
+                        IoState_popRetainPoolExceptFor_(state, fd->result);
                     }
 
                     // Check if primitive set up control flow handling
@@ -809,16 +826,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
 #endif
 
                     // Normal return, continue chain
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
             } else {
                 // Not activatable - just return the value
-                frame->result = slotValue;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->result = slotValue;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
             }
 #ifdef DEBUG_EVAL_LOOP
             fprintf(stderr, "evalLoop ACTIVATE: case done, frame=%p, state=%d\n",
-                    (void*)frame, frame->state);
+                    (void*)frame, fd->state);
             fflush(stderr);
 #endif
             break;
@@ -831,8 +848,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
             if (state->stopStatus != MESSAGE_STOP_STATUS_NORMAL) {
                 // If this frame is a block activation with passStops=false,
                 // it catches the stop status here (return is contained within the block).
-                if (frame->blockLocals && !frame->passStops) {
-                    frame->result = state->returnValue;
+                if (fd->blockLocals && !fd->passStops) {
+                    fd->result = state->returnValue;
                     state->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
                 } else {
                     // For non-catching frames, set result to returnValue.
@@ -840,89 +857,91 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     // IoMessage_locals_performOn_ returns state->returnValue
                     // when stopStatus is non-normal. This ensures nested eval
                     // roots and intermediate frames propagate the correct value.
-                    frame->result = state->returnValue;
+                    fd->result = state->returnValue;
                 }
                 // Propagate upward.
-                frame->state = FRAME_STATE_RETURN;
+                fd->state = FRAME_STATE_RETURN;
                 break;
             }
 
             // Move to next message in chain
-            IoMessage *next = IOMESSAGEDATA(frame->message)->next;
+            IoMessage *next = IOMESSAGEDATA(fd->message)->next;
 
 #ifdef DEBUG_EVAL_LOOP
             fprintf(stderr, "  CONTINUE_CHAIN: current=%s, next=%s\n",
-                    CSTRING(IoMessage_name(frame->message)),
+                    CSTRING(IoMessage_name(fd->message)),
                     next ? CSTRING(IoMessage_name(next)) : "(null)");
             fflush(stderr);
 #endif
 
             if (next) {
                 // Update target to be the result
-                frame->target = frame->result;
-                frame->message = next;
-                frame->state = FRAME_STATE_START;
+                fd->target = fd->result;
+                fd->message = next;
+                fd->state = FRAME_STATE_START;
 
                 // Reset arg state
-                if (frame->argValues) {
-                    io_free(frame->argValues);
-                    frame->argValues = NULL;
+                if (fd->argValues) {
+                    io_free(fd->argValues);
+                    fd->argValues = NULL;
                 }
-                frame->argCount = 0;
-                frame->currentArgIndex = 0;
+                fd->argCount = 0;
+                fd->currentArgIndex = 0;
             } else {
                 // End of chain - return
-                frame->state = FRAME_STATE_RETURN;
+                fd->state = FRAME_STATE_RETURN;
             }
             break;
         }
 
         case FRAME_STATE_RETURN: {
             // Pop this frame and return result to parent
-            result = frame->result;
-            IoEvalFrame *parent = frame->parent;
-            int isNestedRoot = frame->isNestedEvalRoot;
+            result = fd->result;
+            IoEvalFrame *parent = fd->parent;
+            int isNestedRoot = fd->isNestedEvalRoot;
 
 #ifdef DEBUG_EVAL_LOOP
             fprintf(stderr, "  RETURN: msg=%s, parent=%p, isNestedRoot=%d\n",
-                    frame->message ? CSTRING(IoMessage_name(frame->message)) : "(null)",
+                    fd->message ? CSTRING(IoMessage_name(fd->message)) : "(null)",
                     (void*)parent, isNestedRoot);
             if (parent) {
+                IoEvalFrameData *pd = FRAME_DATA(parent);
                 fprintf(stderr, "  RETURN: parent msg=%s, parent state=%d\n",
-                        parent->message ? CSTRING(IoMessage_name(parent->message)) : "(null)",
-                        parent->state);
+                        pd->message ? CSTRING(IoMessage_name(pd->message)) : "(null)",
+                        pd->state);
             }
             fflush(stderr);
 #endif
 
             if (parent && !isNestedRoot) {
+                IoEvalFrameData *pd = FRAME_DATA(parent);
                 // Store result in parent's current arg slot
-                if (parent->state == FRAME_STATE_EVAL_ARGS) {
-                    parent->argValues[parent->currentArgIndex] = result;
-                    parent->currentArgIndex++;
+                if (pd->state == FRAME_STATE_EVAL_ARGS) {
+                    pd->argValues[pd->currentArgIndex] = result;
+                    pd->currentArgIndex++;
                 }
                 // If parent is waiting for a block to return, store result
-                else if (parent->state == FRAME_STATE_ACTIVATE) {
-                    parent->result = result;
-                    parent->state = FRAME_STATE_CONTINUE_CHAIN;
+                else if (pd->state == FRAME_STATE_ACTIVATE) {
+                    pd->result = result;
+                    pd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
                 // If parent is in a control flow state or waiting for result, store it
-                else if (parent->state == FRAME_STATE_IF_CONVERT_BOOLEAN ||
-                         parent->state == FRAME_STATE_IF_EVAL_BRANCH ||
-                         parent->state == FRAME_STATE_WHILE_EVAL_CONDITION ||
-                         parent->state == FRAME_STATE_WHILE_CHECK_CONDITION ||
-                         parent->state == FRAME_STATE_WHILE_DECIDE ||
-                         parent->state == FRAME_STATE_WHILE_EVAL_BODY ||
-                         parent->state == FRAME_STATE_LOOP_EVAL_BODY ||
-                         parent->state == FRAME_STATE_LOOP_AFTER_BODY ||
-                         parent->state == FRAME_STATE_FOR_EVAL_SETUP ||
-                         parent->state == FRAME_STATE_FOR_EVAL_BODY ||
-                         parent->state == FRAME_STATE_FOR_AFTER_BODY ||
-                         parent->state == FRAME_STATE_FOREACH_AFTER_BODY ||
-                         parent->state == FRAME_STATE_CALLCC_EVAL_BLOCK ||
-                         parent->state == FRAME_STATE_DO_WAIT ||
-                         parent->state == FRAME_STATE_CONTINUE_CHAIN) {
-                    parent->result = result;
+                else if (pd->state == FRAME_STATE_IF_CONVERT_BOOLEAN ||
+                         pd->state == FRAME_STATE_IF_EVAL_BRANCH ||
+                         pd->state == FRAME_STATE_WHILE_EVAL_CONDITION ||
+                         pd->state == FRAME_STATE_WHILE_CHECK_CONDITION ||
+                         pd->state == FRAME_STATE_WHILE_DECIDE ||
+                         pd->state == FRAME_STATE_WHILE_EVAL_BODY ||
+                         pd->state == FRAME_STATE_LOOP_EVAL_BODY ||
+                         pd->state == FRAME_STATE_LOOP_AFTER_BODY ||
+                         pd->state == FRAME_STATE_FOR_EVAL_SETUP ||
+                         pd->state == FRAME_STATE_FOR_EVAL_BODY ||
+                         pd->state == FRAME_STATE_FOR_AFTER_BODY ||
+                         pd->state == FRAME_STATE_FOREACH_AFTER_BODY ||
+                         pd->state == FRAME_STATE_CALLCC_EVAL_BLOCK ||
+                         pd->state == FRAME_STATE_DO_WAIT ||
+                         pd->state == FRAME_STATE_CONTINUE_CHAIN) {
+                    pd->result = result;
                     // State already set by parent before pushing child, don't change it
                 }
             }
@@ -932,16 +951,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // back to state->stopStatus. This is how Io-level code like
             // relayStopStatus (which does call setStopStatus(ss)) gets
             // its stop status propagated to the eval loop.
-            if (frame->blockLocals && !frame->passStops) {
+            if (fd->blockLocals && !fd->passStops) {
                 int callStopStatus = MESSAGE_STOP_STATUS_NORMAL;
-                if (frame->call) {
-                    callStopStatus = IoCall_rawStopStatus((IoCall *)frame->call);
+                if (fd->call) {
+                    callStopStatus = IoCall_rawStopStatus((IoCall *)fd->call);
                 }
                 // Also check savedCall: when in-place if optimization
-                // fires and then TCO replaces frame->call, the original
+                // fires and then TCO replaces fd->call, the original
                 // Call (with stop status set by relayStopStatus) is here.
-                if (callStopStatus == MESSAGE_STOP_STATUS_NORMAL && frame->savedCall) {
-                    callStopStatus = IoCall_rawStopStatus((IoCall *)frame->savedCall);
+                if (callStopStatus == MESSAGE_STOP_STATUS_NORMAL && fd->savedCall) {
+                    callStopStatus = IoCall_rawStopStatus((IoCall *)fd->savedCall);
                 }
                 if (callStopStatus != MESSAGE_STOP_STATUS_NORMAL) {
                     state->stopStatus = callStopStatus;
@@ -961,45 +980,47 @@ IoObject *IoState_evalLoop_(IoState *state) {
         case FRAME_STATE_IF_EVAL_CONDITION: {
             // Push a frame to evaluate the condition
             IoEvalFrame *condFrame = IoState_pushFrame_(state);
-            condFrame->message = frame->controlFlow.ifInfo.conditionMsg;
-            condFrame->target = frame->locals;
-            condFrame->locals = frame->locals;
-            condFrame->cachedTarget = frame->locals;
-            condFrame->state = FRAME_STATE_START;
+            IoEvalFrameData *condFd = FRAME_DATA(condFrame);
+            condFd->message = fd->controlFlow.ifInfo.conditionMsg;
+            condFd->target = fd->locals;
+            condFd->locals = fd->locals;
+            condFd->cachedTarget = fd->locals;
+            condFd->state = FRAME_STATE_START;
 
             // When condition returns, convert it to boolean
-            frame->state = FRAME_STATE_IF_CONVERT_BOOLEAN;
+            fd->state = FRAME_STATE_IF_CONVERT_BOOLEAN;
             break;
         }
 
         case FRAME_STATE_IF_CONVERT_BOOLEAN: {
             // Condition has been evaluated, now convert to boolean
-            IoObject *condResult = frame->result;
+            IoObject *condResult = fd->result;
 
             // Push frame to send 'asBoolean' message to result
             IoEvalFrame *boolFrame = IoState_pushFrame_(state);
-            boolFrame->message = state->asBooleanMessage;
-            boolFrame->target = condResult;
-            boolFrame->locals = condResult;
-            boolFrame->cachedTarget = condResult;
-            boolFrame->state = FRAME_STATE_START;
+            IoEvalFrameData *boolFd = FRAME_DATA(boolFrame);
+            boolFd->message = state->asBooleanMessage;
+            boolFd->target = condResult;
+            boolFd->locals = condResult;
+            boolFd->cachedTarget = condResult;
+            boolFd->state = FRAME_STATE_START;
 
             // When boolean conversion returns, evaluate branch
-            frame->state = FRAME_STATE_IF_EVAL_BRANCH;
+            fd->state = FRAME_STATE_IF_EVAL_BRANCH;
             break;
         }
 
         case FRAME_STATE_IF_EVAL_BRANCH: {
-            // Boolean result is in frame->result
-            int condition = ISTRUE(frame->result);
+            // Boolean result is in fd->result
+            int condition = ISTRUE(fd->result);
 
             // Store the condition result for potential use
-            frame->controlFlow.ifInfo.conditionResult = condition;
+            fd->controlFlow.ifInfo.conditionResult = condition;
 
             // DEBUG
             if (state->showAllMessages) {
-                IoMessage *trueBr = frame->controlFlow.ifInfo.trueBranch;
-                IoMessage *falseBr = frame->controlFlow.ifInfo.falseBranch;
+                IoMessage *trueBr = fd->controlFlow.ifInfo.trueBranch;
+                IoMessage *falseBr = fd->controlFlow.ifInfo.falseBranch;
                 printf("IF_EVAL_BRANCH: condition=%d, evaluating %s branch\n",
                        condition,
                        condition ? "TRUE" : "FALSE");
@@ -1009,8 +1030,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
             }
 
             // Determine which branch to take
-            IoMessage *branch = condition ? frame->controlFlow.ifInfo.trueBranch
-                                           : frame->controlFlow.ifInfo.falseBranch;
+            IoMessage *branch = condition ? fd->controlFlow.ifInfo.trueBranch
+                                           : fd->controlFlow.ifInfo.falseBranch;
 
             if (branch) {
                 // Tail position optimization: if the if() is the last
@@ -1018,37 +1039,38 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // this frame instead of pushing a child. This enables TCO
                 // for the common pattern:
                 //   method(n, if(n <= 0, acc, recurse(n - 1, acc)))
-                if (!IOMESSAGEDATA(frame->message)->next) {
+                if (!IOMESSAGEDATA(fd->message)->next) {
                     // Preserve original Call so RETURN can check its
-                    // stop status even after TCO replaces frame->call
+                    // stop status even after TCO replaces fd->call
                     // (needed for relayStopStatus / ? operator)
-                    if (frame->call) {
-                        frame->savedCall = frame->call;
+                    if (fd->call) {
+                        fd->savedCall = fd->call;
                     }
-                    frame->message = branch;
-                    frame->target = frame->locals;
-                    frame->cachedTarget = frame->locals;
-                    frame->state = FRAME_STATE_START;
-                    if (frame->argValues) {
-                        io_free(frame->argValues);
-                        frame->argValues = NULL;
+                    fd->message = branch;
+                    fd->target = fd->locals;
+                    fd->cachedTarget = fd->locals;
+                    fd->state = FRAME_STATE_START;
+                    if (fd->argValues) {
+                        io_free(fd->argValues);
+                        fd->argValues = NULL;
                     }
-                    frame->argCount = 0;
-                    frame->currentArgIndex = 0;
+                    fd->argCount = 0;
+                    fd->currentArgIndex = 0;
                 } else {
                     // Not tail position: push branch frame
                     IoEvalFrame *branchFrame = IoState_pushFrame_(state);
-                    branchFrame->message = branch;
-                    branchFrame->target = frame->locals;
-                    branchFrame->locals = frame->locals;
-                    branchFrame->cachedTarget = frame->locals;
-                    branchFrame->state = FRAME_STATE_START;
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    IoEvalFrameData *branchFd = FRAME_DATA(branchFrame);
+                    branchFd->message = branch;
+                    branchFd->target = fd->locals;
+                    branchFd->locals = fd->locals;
+                    branchFd->cachedTarget = fd->locals;
+                    branchFd->state = FRAME_STATE_START;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
             } else {
                 // No branch for this condition, return boolean
-                frame->result = IOBOOL(frame->target, condition);
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->result = IOBOOL(fd->target, condition);
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
             }
             break;
         }
@@ -1060,37 +1082,39 @@ IoObject *IoState_evalLoop_(IoState *state) {
         case FRAME_STATE_WHILE_EVAL_CONDITION: {
             // Push a frame to evaluate the condition
             IoEvalFrame *condFrame = IoState_pushFrame_(state);
-            condFrame->message = frame->controlFlow.whileInfo.conditionMsg;
-            condFrame->target = frame->locals;
-            condFrame->locals = frame->locals;
-            condFrame->cachedTarget = frame->locals;
-            condFrame->state = FRAME_STATE_START;
+            IoEvalFrameData *condFd = FRAME_DATA(condFrame);
+            condFd->message = fd->controlFlow.whileInfo.conditionMsg;
+            condFd->target = fd->locals;
+            condFd->locals = fd->locals;
+            condFd->cachedTarget = fd->locals;
+            condFd->state = FRAME_STATE_START;
 
             // When condition returns, we need to convert it to boolean
-            frame->state = FRAME_STATE_WHILE_CHECK_CONDITION;
+            fd->state = FRAME_STATE_WHILE_CHECK_CONDITION;
             break;
         }
 
         case FRAME_STATE_WHILE_CHECK_CONDITION: {
-            // Condition has been evaluated, result is in frame->result
+            // Condition has been evaluated, result is in fd->result
             // Now convert to boolean by sending asBoolean message
-            IoObject *condResult = frame->result;
+            IoObject *condResult = fd->result;
 
             IoEvalFrame *boolFrame = IoState_pushFrame_(state);
-            boolFrame->message = state->asBooleanMessage;
-            boolFrame->target = condResult;
-            boolFrame->locals = condResult;
-            boolFrame->cachedTarget = condResult;
-            boolFrame->state = FRAME_STATE_START;
+            IoEvalFrameData *boolFd = FRAME_DATA(boolFrame);
+            boolFd->message = state->asBooleanMessage;
+            boolFd->target = condResult;
+            boolFd->locals = condResult;
+            boolFd->cachedTarget = condResult;
+            boolFd->state = FRAME_STATE_START;
 
             // When boolean conversion returns, check result and maybe eval body
-            frame->state = FRAME_STATE_WHILE_DECIDE;
+            fd->state = FRAME_STATE_WHILE_DECIDE;
             break;
         }
 
         case FRAME_STATE_WHILE_DECIDE: {
-            // Boolean result is in frame->result
-            int condition = ISTRUE(frame->result);
+            // Boolean result is in fd->result
+            int condition = ISTRUE(fd->result);
 
             if (state->showAllMessages) {
                 printf("WHILE_DECIDE: condition=%d\n", condition);
@@ -1099,55 +1123,56 @@ IoObject *IoState_evalLoop_(IoState *state) {
             if (!condition) {
                 // Condition is false - exit loop
                 // Return the last body result (stored in whileInfo) or nil
-                frame->result = frame->controlFlow.whileInfo.lastResult
-                    ? frame->controlFlow.whileInfo.lastResult
+                fd->result = fd->controlFlow.whileInfo.lastResult
+                    ? fd->controlFlow.whileInfo.lastResult
                     : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
             } else {
                 // Condition is true - evaluate body
                 IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
-                bodyFrame->message = frame->controlFlow.whileInfo.bodyMsg;
-                bodyFrame->target = frame->locals;
-                bodyFrame->locals = frame->locals;
-                bodyFrame->cachedTarget = frame->locals;
-                bodyFrame->state = FRAME_STATE_START;
-                bodyFrame->passStops = 1;  // Let break/continue propagate to us
+                IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
+                bodyFd->message = fd->controlFlow.whileInfo.bodyMsg;
+                bodyFd->target = fd->locals;
+                bodyFd->locals = fd->locals;
+                bodyFd->cachedTarget = fd->locals;
+                bodyFd->state = FRAME_STATE_START;
+                bodyFd->passStops = 1;  // Let break/continue propagate to us
 
-                frame->state = FRAME_STATE_WHILE_EVAL_BODY;
+                fd->state = FRAME_STATE_WHILE_EVAL_BODY;
             }
             break;
         }
 
         case FRAME_STATE_WHILE_EVAL_BODY: {
-            // Body has been evaluated, result is in frame->result
+            // Body has been evaluated, result is in fd->result
             // Store the result for potential return
-            frame->controlFlow.whileInfo.lastResult = frame->result;
+            fd->controlFlow.whileInfo.lastResult = fd->result;
 
             // Check for break/continue
             if (state->stopStatus == MESSAGE_STOP_STATUS_BREAK) {
                 // Break - exit loop with break value
                 IoState_resetStopStatus(state);
-                frame->result = state->returnValue ? state->returnValue : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->result = state->returnValue ? state->returnValue : state->ioNil;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             if (state->stopStatus == MESSAGE_STOP_STATUS_CONTINUE) {
                 // Continue - go back to condition
                 IoState_resetStopStatus(state);
-                frame->state = FRAME_STATE_WHILE_EVAL_CONDITION;
+                fd->state = FRAME_STATE_WHILE_EVAL_CONDITION;
                 break;
             }
 
             if (state->stopStatus == MESSAGE_STOP_STATUS_RETURN) {
                 // Return - route through CONTINUE_CHAIN so method
                 // frames can catch it (sets result = returnValue)
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             // Normal - loop back to condition
-            frame->state = FRAME_STATE_WHILE_EVAL_CONDITION;
+            fd->state = FRAME_STATE_WHILE_EVAL_CONDITION;
             break;
         }
 
@@ -1160,36 +1185,37 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // For subsequent iterations, we arrive here after body returns
 
             // Check if this is first iteration (lastResult is NULL)
-            if (frame->controlFlow.loopInfo.lastResult == NULL) {
+            if (fd->controlFlow.loopInfo.lastResult == NULL) {
                 // First iteration - push body frame
                 IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
-                bodyFrame->message = frame->controlFlow.loopInfo.bodyMsg;
-                bodyFrame->target = frame->locals;
-                bodyFrame->locals = frame->locals;
-                bodyFrame->cachedTarget = frame->locals;
-                bodyFrame->state = FRAME_STATE_START;
-                bodyFrame->passStops = 1;
+                IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
+                bodyFd->message = fd->controlFlow.loopInfo.bodyMsg;
+                bodyFd->target = fd->locals;
+                bodyFd->locals = fd->locals;
+                bodyFd->cachedTarget = fd->locals;
+                bodyFd->state = FRAME_STATE_START;
+                bodyFd->passStops = 1;
 
                 // Mark that we've started (use a non-null value)
-                frame->controlFlow.loopInfo.lastResult = state->ioNil;
-                frame->state = FRAME_STATE_LOOP_AFTER_BODY;
+                fd->controlFlow.loopInfo.lastResult = state->ioNil;
+                fd->state = FRAME_STATE_LOOP_AFTER_BODY;
                 break;
             }
 
             // Should not reach here - use LOOP_AFTER_BODY instead
-            frame->state = FRAME_STATE_LOOP_AFTER_BODY;
+            fd->state = FRAME_STATE_LOOP_AFTER_BODY;
             break;
         }
 
         case FRAME_STATE_LOOP_AFTER_BODY: {
             // Body has been evaluated
-            frame->controlFlow.loopInfo.lastResult = frame->result;
+            fd->controlFlow.loopInfo.lastResult = fd->result;
 
             // Check for break
             if (state->stopStatus == MESSAGE_STOP_STATUS_BREAK) {
                 IoState_resetStopStatus(state);
-                frame->result = state->returnValue ? state->returnValue : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->result = state->returnValue ? state->returnValue : state->ioNil;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
@@ -1200,18 +1226,19 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Check for return (propagate through CONTINUE_CHAIN)
             if (state->stopStatus == MESSAGE_STOP_STATUS_RETURN) {
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             // Loop again - push another body frame
             IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
-            bodyFrame->message = frame->controlFlow.loopInfo.bodyMsg;
-            bodyFrame->target = frame->locals;
-            bodyFrame->locals = frame->locals;
-            bodyFrame->cachedTarget = frame->locals;
-            bodyFrame->state = FRAME_STATE_START;
-            bodyFrame->passStops = 1;
+            IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
+            bodyFd->message = fd->controlFlow.loopInfo.bodyMsg;
+            bodyFd->target = fd->locals;
+            bodyFd->locals = fd->locals;
+            bodyFd->cachedTarget = fd->locals;
+            bodyFd->state = FRAME_STATE_START;
+            bodyFd->passStops = 1;
 
             // Stay in LOOP_AFTER_BODY to handle next iteration
             break;
@@ -1225,59 +1252,60 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Note: Currently unused - for primitive evaluates setup synchronously
             // and jumps directly to FOR_EVAL_BODY. This case exists for potential
             // future async setup evaluation.
-            frame->state = FRAME_STATE_FOR_EVAL_BODY;
+            fd->state = FRAME_STATE_FOR_EVAL_BODY;
             break;
 
         case FRAME_STATE_FOR_EVAL_BODY: {
             // Check if we need to initialize or continue
-            if (!frame->controlFlow.forInfo.initialized) {
+            if (!fd->controlFlow.forInfo.initialized) {
                 // First time - just evaluate body for first iteration
-                frame->controlFlow.forInfo.initialized = 1;
+                fd->controlFlow.forInfo.initialized = 1;
 
                 // Check if we should even start
-                double i = frame->controlFlow.forInfo.currentValue;
-                double end = frame->controlFlow.forInfo.endValue;
-                double incr = frame->controlFlow.forInfo.increment;
+                double i = fd->controlFlow.forInfo.currentValue;
+                double end = fd->controlFlow.forInfo.endValue;
+                double incr = fd->controlFlow.forInfo.increment;
 
                 if ((incr > 0 && i > end) || (incr < 0 && i < end)) {
                     // Range is empty, return nil
-                    frame->result = state->ioNil;
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    fd->result = state->ioNil;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                     break;
                 }
 
                 // Set the counter variable
                 IoObject *num = IoState_numberWithDouble_(state, i);
-                IoObject_setSlot_to_(frame->locals,
-                    frame->controlFlow.forInfo.counterName, num);
+                IoObject_setSlot_to_(fd->locals,
+                    fd->controlFlow.forInfo.counterName, num);
 
                 // Push body frame
                 IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
-                bodyFrame->message = frame->controlFlow.forInfo.bodyMsg;
-                bodyFrame->target = frame->locals;
-                bodyFrame->locals = frame->locals;
-                bodyFrame->cachedTarget = frame->locals;
-                bodyFrame->state = FRAME_STATE_START;
-                bodyFrame->passStops = 1;
+                IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
+                bodyFd->message = fd->controlFlow.forInfo.bodyMsg;
+                bodyFd->target = fd->locals;
+                bodyFd->locals = fd->locals;
+                bodyFd->cachedTarget = fd->locals;
+                bodyFd->state = FRAME_STATE_START;
+                bodyFd->passStops = 1;
 
-                frame->state = FRAME_STATE_FOR_AFTER_BODY;
+                fd->state = FRAME_STATE_FOR_AFTER_BODY;
                 break;
             }
 
             // Should not reach here
-            frame->state = FRAME_STATE_FOR_AFTER_BODY;
+            fd->state = FRAME_STATE_FOR_AFTER_BODY;
             break;
         }
 
         case FRAME_STATE_FOR_AFTER_BODY: {
             // Body has been evaluated
-            frame->controlFlow.forInfo.lastResult = frame->result;
+            fd->controlFlow.forInfo.lastResult = fd->result;
 
             // Check for break
             if (state->stopStatus == MESSAGE_STOP_STATUS_BREAK) {
                 IoState_resetStopStatus(state);
-                frame->result = state->returnValue ? state->returnValue : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->result = state->returnValue ? state->returnValue : state->ioNil;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
@@ -1289,39 +1317,40 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Check for return (propagate through CONTINUE_CHAIN)
             if (state->stopStatus == MESSAGE_STOP_STATUS_RETURN) {
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             // Increment counter
-            frame->controlFlow.forInfo.currentValue += frame->controlFlow.forInfo.increment;
-            double i = frame->controlFlow.forInfo.currentValue;
-            double end = frame->controlFlow.forInfo.endValue;
-            double incr = frame->controlFlow.forInfo.increment;
+            fd->controlFlow.forInfo.currentValue += fd->controlFlow.forInfo.increment;
+            double i = fd->controlFlow.forInfo.currentValue;
+            double end = fd->controlFlow.forInfo.endValue;
+            double incr = fd->controlFlow.forInfo.increment;
 
             // Check if we should continue
             if ((incr > 0 && i > end) || (incr < 0 && i < end)) {
                 // Done - return last result
-                frame->result = frame->controlFlow.forInfo.lastResult
-                    ? frame->controlFlow.forInfo.lastResult
+                fd->result = fd->controlFlow.forInfo.lastResult
+                    ? fd->controlFlow.forInfo.lastResult
                     : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             // Set the counter variable
             IoObject *num = IoState_numberWithDouble_(state, i);
-            IoObject_setSlot_to_(frame->locals,
-                frame->controlFlow.forInfo.counterName, num);
+            IoObject_setSlot_to_(fd->locals,
+                fd->controlFlow.forInfo.counterName, num);
 
             // Push body frame for next iteration
             IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
-            bodyFrame->message = frame->controlFlow.forInfo.bodyMsg;
-            bodyFrame->target = frame->locals;
-            bodyFrame->locals = frame->locals;
-            bodyFrame->cachedTarget = frame->locals;
-            bodyFrame->state = FRAME_STATE_START;
-            bodyFrame->passStops = 1;
+            IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
+            bodyFd->message = fd->controlFlow.forInfo.bodyMsg;
+            bodyFd->target = fd->locals;
+            bodyFd->locals = fd->locals;
+            bodyFd->cachedTarget = fd->locals;
+            bodyFd->state = FRAME_STATE_START;
+            bodyFd->passStops = 1;
 
             // Stay in FOR_AFTER_BODY
             break;
@@ -1332,23 +1361,23 @@ IoObject *IoState_evalLoop_(IoState *state) {
         // ============================================================
 
         case FRAME_STATE_FOREACH_EVAL_BODY: {
-            int idx = frame->controlFlow.foreachInfo.currentIndex;
-            int size = frame->controlFlow.foreachInfo.collectionSize;
-            int dir = frame->controlFlow.foreachInfo.direction;
+            int idx = fd->controlFlow.foreachInfo.currentIndex;
+            int size = fd->controlFlow.foreachInfo.collectionSize;
+            int dir = fd->controlFlow.foreachInfo.direction;
 
             // Check bounds
             if (dir > 0 ? (idx >= size) : (idx < 0)) {
                 // Done iterating
-                frame->result = frame->controlFlow.foreachInfo.lastResult
-                    ? frame->controlFlow.foreachInfo.lastResult
+                fd->result = fd->controlFlow.foreachInfo.lastResult
+                    ? fd->controlFlow.foreachInfo.lastResult
                     : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             // Get element from collection
-            IoObject *collection = frame->controlFlow.foreachInfo.collection;
-            IoObject *mapSource = frame->controlFlow.foreachInfo.mapSource;
+            IoObject *collection = fd->controlFlow.foreachInfo.collection;
+            IoObject *mapSource = fd->controlFlow.foreachInfo.mapSource;
             IoObject *element = NULL;
 
             if (ISLIST(collection)) {
@@ -1356,20 +1385,20 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // Re-check size (list may have been mutated)
                 int currentSize = (int)List_size(list);
                 if (dir > 0 ? (idx >= currentSize) : (idx < 0)) {
-                    frame->result = frame->controlFlow.foreachInfo.lastResult
-                        ? frame->controlFlow.foreachInfo.lastResult
+                    fd->result = fd->controlFlow.foreachInfo.lastResult
+                        ? fd->controlFlow.foreachInfo.lastResult
                         : state->ioNil;
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
                     break;
                 }
-                frame->controlFlow.foreachInfo.collectionSize = currentSize;
+                fd->controlFlow.foreachInfo.collectionSize = currentSize;
 
                 if (mapSource) {
                     // Map iteration: keys list, look up value from map
                     IoSymbol *key = (IoSymbol *)List_at_(list, idx);
-                    if (frame->controlFlow.foreachInfo.indexName) {
-                        IoObject_setSlot_to_(frame->locals,
-                            frame->controlFlow.foreachInfo.indexName, key);
+                    if (fd->controlFlow.foreachInfo.indexName) {
+                        IoObject_setSlot_to_(fd->locals,
+                            fd->controlFlow.foreachInfo.indexName, key);
                     }
                     element = IoMap_rawAt(mapSource, key);
                     if (!element) element = state->ioNil;
@@ -1381,55 +1410,56 @@ IoObject *IoState_evalLoop_(IoState *state) {
             if (!element) element = state->ioNil;
 
             // Set slot values
-            if (frame->controlFlow.foreachInfo.isEach) {
+            if (fd->controlFlow.foreachInfo.isEach) {
                 // "each" mode: send body message to element as target
             } else if (!mapSource) {
                 // List/Seq iteration: set index and value slots
-                if (frame->controlFlow.foreachInfo.indexName) {
-                    IoObject_setSlot_to_(frame->locals,
-                        frame->controlFlow.foreachInfo.indexName,
+                if (fd->controlFlow.foreachInfo.indexName) {
+                    IoObject_setSlot_to_(fd->locals,
+                        fd->controlFlow.foreachInfo.indexName,
                         IoState_numberWithDouble_(state, idx));
                 }
-                if (frame->controlFlow.foreachInfo.valueName) {
-                    IoObject_setSlot_to_(frame->locals,
-                        frame->controlFlow.foreachInfo.valueName, element);
+                if (fd->controlFlow.foreachInfo.valueName) {
+                    IoObject_setSlot_to_(fd->locals,
+                        fd->controlFlow.foreachInfo.valueName, element);
                 }
             } else {
                 // Map: value slot (indexName/key already set above)
-                if (frame->controlFlow.foreachInfo.valueName) {
-                    IoObject_setSlot_to_(frame->locals,
-                        frame->controlFlow.foreachInfo.valueName, element);
+                if (fd->controlFlow.foreachInfo.valueName) {
+                    IoObject_setSlot_to_(fd->locals,
+                        fd->controlFlow.foreachInfo.valueName, element);
                 }
             }
 
             // Push body frame
             IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
-            bodyFrame->message = frame->controlFlow.foreachInfo.bodyMsg;
-            if (frame->controlFlow.foreachInfo.isEach) {
+            IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
+            bodyFd->message = fd->controlFlow.foreachInfo.bodyMsg;
+            if (fd->controlFlow.foreachInfo.isEach) {
                 // "each": body runs with element as target
-                bodyFrame->target = element;
-                bodyFrame->locals = frame->locals;
-                bodyFrame->cachedTarget = element;
+                bodyFd->target = element;
+                bodyFd->locals = fd->locals;
+                bodyFd->cachedTarget = element;
             } else {
-                bodyFrame->target = frame->locals;
-                bodyFrame->locals = frame->locals;
-                bodyFrame->cachedTarget = frame->locals;
+                bodyFd->target = fd->locals;
+                bodyFd->locals = fd->locals;
+                bodyFd->cachedTarget = fd->locals;
             }
-            bodyFrame->state = FRAME_STATE_START;
-            bodyFrame->passStops = 1;
+            bodyFd->state = FRAME_STATE_START;
+            bodyFd->passStops = 1;
 
-            frame->state = FRAME_STATE_FOREACH_AFTER_BODY;
+            fd->state = FRAME_STATE_FOREACH_AFTER_BODY;
             break;
         }
 
         case FRAME_STATE_FOREACH_AFTER_BODY: {
-            frame->controlFlow.foreachInfo.lastResult = frame->result;
+            fd->controlFlow.foreachInfo.lastResult = fd->result;
 
             // Check for break
             if (state->stopStatus == MESSAGE_STOP_STATUS_BREAK) {
                 IoState_resetStopStatus(state);
-                frame->result = state->returnValue ? state->returnValue : state->ioNil;
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->result = state->returnValue ? state->returnValue : state->ioNil;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
@@ -1441,26 +1471,26 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Check for return (propagate through CONTINUE_CHAIN)
             if (state->stopStatus == MESSAGE_STOP_STATUS_RETURN) {
-                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 break;
             }
 
             // Increment/decrement index
-            frame->controlFlow.foreachInfo.currentIndex +=
-                frame->controlFlow.foreachInfo.direction;
+            fd->controlFlow.foreachInfo.currentIndex +=
+                fd->controlFlow.foreachInfo.direction;
 
             // Go back to EVAL_BODY (checks bounds at top)
-            frame->state = FRAME_STATE_FOREACH_EVAL_BODY;
+            fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
             break;
         }
 
         case FRAME_STATE_CALLCC_EVAL_BLOCK: {
             // Block body has finished evaluating
-            // The result is in frame->result (set by RETURN handler)
+            // The result is in fd->result (set by RETURN handler)
             // This is the "normal return" path - continuation was not invoked
 
             // Move to continue chain
-            frame->state = FRAME_STATE_CONTINUE_CHAIN;
+            fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
 
@@ -1470,15 +1500,15 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         case FRAME_STATE_CORO_WAIT_CHILD: {
             // Waiting for a child coroutine to complete.
-            // When we get here, the child has finished and set frame->result.
+            // When we get here, the child has finished and set fd->result.
             // Just continue the chain.
-            frame->state = FRAME_STATE_CONTINUE_CHAIN;
+            fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
 
         case FRAME_STATE_CORO_YIELDED: {
             // Resumed after yield/resume. Continue where we left off.
-            frame->state = FRAME_STATE_CONTINUE_CHAIN;
+            fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
 
@@ -1489,21 +1519,22 @@ IoObject *IoState_evalLoop_(IoState *state) {
         case FRAME_STATE_DO_EVAL: {
             // Push frame to evaluate the compiled code
             IoEvalFrame *childFrame = IoState_pushFrame_(state);
-            childFrame->message = frame->controlFlow.doInfo.codeMessage;
-            childFrame->target = frame->controlFlow.doInfo.evalTarget;
-            childFrame->locals = frame->controlFlow.doInfo.evalLocals;
-            childFrame->cachedTarget = frame->controlFlow.doInfo.evalTarget;
-            childFrame->state = FRAME_STATE_START;
+            IoEvalFrameData *childFd = FRAME_DATA(childFrame);
+            childFd->message = fd->controlFlow.doInfo.codeMessage;
+            childFd->target = fd->controlFlow.doInfo.evalTarget;
+            childFd->locals = fd->controlFlow.doInfo.evalLocals;
+            childFd->cachedTarget = fd->controlFlow.doInfo.evalTarget;
+            childFd->state = FRAME_STATE_START;
 
-            frame->state = FRAME_STATE_DO_WAIT;
+            fd->state = FRAME_STATE_DO_WAIT;
             break;
         }
 
         case FRAME_STATE_DO_WAIT: {
-            // Child frame has returned, result is in frame->result
+            // Child frame has returned, result is in fd->result
             // (set by RETURN handler when child completes)
             // Continue to next message in chain
-            frame->state = FRAME_STATE_CONTINUE_CHAIN;
+            fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
 
@@ -1515,7 +1546,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
 // Helper to activate a block without C recursion
 static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
-    IoBlock *block = (IoBlock *)callerFrame->slotValue;
+    IoEvalFrameData *callerFd = FRAME_DATA(callerFrame);
+    IoBlock *block = (IoBlock *)callerFd->slotValue;
     IoBlockData *blockData = (IoBlockData *)IoObject_dataPointer(block);
 
     // DEBUG
@@ -1533,14 +1565,14 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
 
     // Determine scope
     IoObject *scope =
-        blockData->scope ? blockData->scope : callerFrame->target;
+        blockData->scope ? blockData->scope : callerFd->target;
 
     // Create Call object
     IoCall *callObject = IoCall_with(
-        state, callerFrame->locals, // sender
-        callerFrame->target,        // target
-        callerFrame->message,       // message
-        callerFrame->slotContext,   // slotContext
+        state, callerFd->locals, // sender
+        callerFd->target,        // target
+        callerFd->message,       // message
+        callerFd->slotContext,   // slotContext
         block,                      // activated
         state->currentCoroutine     // coroutine
     );
@@ -1555,24 +1587,24 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
 
     // Bind arguments
     // Named formal parameters are pre-evaluated by the eval loop
-    // (stored in callerFrame->argValues). This eliminates C stack
+    // (stored in callerFd->argValues). This eliminates C stack
     // re-entrancy for the common case.
     List *argNames = blockData->argNames;
-    IoMessage *m = callerFrame->message;
+    IoMessage *m = callerFd->message;
     int argCount = IoMessage_argCount(m);
 
     LIST_FOREACH(argNames, i, name,
                  IoObject *arg;
                  if ((int)i < argCount) {
                      // Use pre-evaluated value if available
-                     if (callerFrame->argValues &&
-                         (int)i < callerFrame->argCount &&
-                         callerFrame->argValues[(int)i] != NULL) {
-                         arg = callerFrame->argValues[(int)i];
+                     if (callerFd->argValues &&
+                         (int)i < callerFd->argCount &&
+                         callerFd->argValues[(int)i] != NULL) {
+                         arg = callerFd->argValues[(int)i];
                      } else {
                          // Fallback: evaluate in sender's context (recursive)
                          arg = IoMessage_locals_valueArgAt_(
-                             m, callerFrame->locals, (int)i);
+                             m, callerFd->locals, (int)i);
                      }
                  } else {
                      // Unbound params (fewer args than params) default to nil
@@ -1586,14 +1618,15 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
 
     // Push new frame for block body evaluation
     IoEvalFrame *blockFrame = IoState_pushFrame_(state);
-    blockFrame->message = blockData->message;
-    blockFrame->target = blockLocals;
-    blockFrame->locals = blockLocals;
-    blockFrame->cachedTarget = blockLocals;
-    blockFrame->state = FRAME_STATE_START;
-    blockFrame->call = callObject;
-    blockFrame->blockLocals = blockLocals;
-    blockFrame->passStops = blockData->passStops;
+    IoEvalFrameData *blockFd = FRAME_DATA(blockFrame);
+    blockFd->message = blockData->message;
+    blockFd->target = blockLocals;
+    blockFd->locals = blockLocals;
+    blockFd->cachedTarget = blockLocals;
+    blockFd->state = FRAME_STATE_START;
+    blockFd->call = callObject;
+    blockFd->blockLocals = blockLocals;
+    blockFd->passStops = blockData->passStops;
 
     // Caller frame will wait for block frame to return
     // Keep callerFrame in ACTIVATE state - when blockFrame returns,
@@ -1606,10 +1639,11 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
 // stack flat for recursive calls (e.g., factorial(n-1, n*acc)).
 //
 // blockFrame is the CURRENT block body frame being reused.
-// blockFrame->slotValue contains the Block to tail-call.
-// blockFrame->message, ->target, ->locals, ->slotContext have the call info.
+// blockFd->slotValue contains the Block to tail-call.
+// blockFd->message, ->target, ->locals, ->slotContext have the call info.
 static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
-    IoBlock *block = (IoBlock *)blockFrame->slotValue;
+    IoEvalFrameData *blockFd = FRAME_DATA(blockFrame);
+    IoBlock *block = (IoBlock *)blockFd->slotValue;
     IoBlockData *blockData = (IoBlockData *)IoObject_dataPointer(block);
 
     // Create new block locals for the tail-called block
@@ -1618,14 +1652,14 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
 
     // Determine scope
     IoObject *scope =
-        blockData->scope ? blockData->scope : blockFrame->target;
+        blockData->scope ? blockData->scope : blockFd->target;
 
     // Create Call object
     IoCall *callObject = IoCall_with(
-        state, blockFrame->locals,     // sender (current block's locals)
-        blockFrame->target,            // target
-        blockFrame->message,           // message
-        blockFrame->slotContext,       // slotContext
+        state, blockFd->locals,     // sender (current block's locals)
+        blockFd->target,            // target
+        blockFd->message,           // message
+        blockFd->slotContext,       // slotContext
         block,                         // activated
         state->currentCoroutine        // coroutine
     );
@@ -1640,19 +1674,19 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
 
     // Bind arguments (same as activateBlock_)
     List *argNames = blockData->argNames;
-    IoMessage *m = blockFrame->message;
+    IoMessage *m = blockFd->message;
     int argCount = IoMessage_argCount(m);
 
     LIST_FOREACH(argNames, i, name,
                  IoObject *arg;
                  if ((int)i < argCount) {
-                     if (blockFrame->argValues &&
-                         (int)i < blockFrame->argCount &&
-                         blockFrame->argValues[(int)i] != NULL) {
-                         arg = blockFrame->argValues[(int)i];
+                     if (blockFd->argValues &&
+                         (int)i < blockFd->argCount &&
+                         blockFd->argValues[(int)i] != NULL) {
+                         arg = blockFd->argValues[(int)i];
                      } else {
                          arg = IoMessage_locals_valueArgAt_(
-                             m, blockFrame->locals, (int)i);
+                             m, blockFd->locals, (int)i);
                      }
                  } else {
                      // Unbound params (fewer args than params) default to nil
@@ -1664,25 +1698,25 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     IoObject_isReferenced_(callObject, 0);
 
     // REUSE the current frame: replace context with the tail-called block
-    blockFrame->message = blockData->message;
-    blockFrame->target = blockLocals;
-    blockFrame->locals = blockLocals;
-    blockFrame->cachedTarget = blockLocals;
-    blockFrame->state = FRAME_STATE_START;
-    blockFrame->call = callObject;
-    blockFrame->blockLocals = blockLocals;
-    blockFrame->passStops = blockData->passStops;
+    blockFd->message = blockData->message;
+    blockFd->target = blockLocals;
+    blockFd->locals = blockLocals;
+    blockFd->cachedTarget = blockLocals;
+    blockFd->state = FRAME_STATE_START;
+    blockFd->call = callObject;
+    blockFd->blockLocals = blockLocals;
+    blockFd->passStops = blockData->passStops;
 
     // Free pre-evaluated args from the previous call
-    if (blockFrame->argValues) {
-        io_free(blockFrame->argValues);
-        blockFrame->argValues = NULL;
+    if (blockFd->argValues) {
+        io_free(blockFd->argValues);
+        blockFd->argValues = NULL;
     }
-    blockFrame->argCount = 0;
-    blockFrame->currentArgIndex = 0;
-    blockFrame->result = NULL;
-    blockFrame->slotValue = NULL;
-    blockFrame->slotContext = NULL;
+    blockFd->argCount = 0;
+    blockFd->currentArgIndex = 0;
+    blockFd->result = NULL;
+    blockFd->slotValue = NULL;
+    blockFd->slotContext = NULL;
 
     // Signal control flow handling so the eval loop restarts
     // with the updated frame (don't process stale ACTIVATE state)
@@ -1699,12 +1733,13 @@ IoObject *IoMessage_locals_performOn_iterative(IoMessage *self,
 
     // Push initial frame
     IoEvalFrame *frame = IoState_pushFrame_(state);
-    frame->message = self;
-    frame->target = target;
-    frame->locals = locals;
-    frame->cachedTarget = target;
-    frame->state = FRAME_STATE_START;
-    frame->isNestedEvalRoot = 1;  // Mark this frame as a nested eval boundary
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+    fd->message = self;
+    fd->target = target;
+    fd->locals = locals;
+    fd->cachedTarget = target;
+    fd->state = FRAME_STATE_START;
+    fd->isNestedEvalRoot = 1;  // Mark this frame as a nested eval boundary
 
     // Track nested eval depth so the eval loop knows to return when
     // hitting an isNestedEvalRoot boundary during stop-status unwinding

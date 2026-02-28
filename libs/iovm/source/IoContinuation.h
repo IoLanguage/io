@@ -7,8 +7,10 @@ A first-class continuation that captures the execution state
 (frame stack) at a point in time. When invoked, it restores
 that state and continues execution from where it was captured.
 
-This enables advanced control flow patterns like generators,
-exceptions, backtracking, and cooperative multitasking.
+Continuations are one-shot by default. The escape pattern
+(invoking from within the callcc block) works without copying.
+For multi-shot or delayed invocation, use the copy method to
+create an independent deep copy of the continuation first.
 */
 
 #ifndef IoContinuation_DEFINED
@@ -28,10 +30,9 @@ extern "C" {
 typedef IoObject IoContinuation;
 
 typedef struct {
-    IoEvalFrame *capturedFrame;  // Deep copy of frame stack at capture time
+    IoEvalFrame *capturedFrame;  // Captured frame stack (GC-managed, not deep copied)
     IoObject *capturedLocals;    // The locals where callcc was invoked
     int invoked;                 // Has this continuation been invoked?
-    int multiShot;               // Can be invoked multiple times? (default: no)
 } IoContinuationData;
 
 // Proto and lifecycle
@@ -45,17 +46,16 @@ IOVM_API void IoContinuation_mark(IoContinuation *self);
 IOVM_API void IoContinuation_captureFrameStack_(IoContinuation *self,
                                                  IoEvalFrame *frame,
                                                  IoObject *locals);
-IOVM_API IoEvalFrame *IoContinuation_copyFrameStack_(IoEvalFrame *frame);
-IOVM_API void IoContinuation_freeFrameStack_(IoEvalFrame *frame);
 
 // Methods
 IOVM_API IO_METHOD(IoContinuation, invoke);
 IOVM_API IO_METHOD(IoContinuation, isInvoked);
-IOVM_API IO_METHOD(IoContinuation, setMultiShot);
+IOVM_API IO_METHOD(IoContinuation, copy);
 IOVM_API IO_METHOD(IoContinuation, frameCount);
 IOVM_API IO_METHOD(IoContinuation, frameStates);
 IOVM_API IO_METHOD(IoContinuation, frameMessages);
 IOVM_API IO_METHOD(IoContinuation, asMap);
+IOVM_API IO_METHOD(IoContinuation, fromMap);
 
 // callcc primitive (on Object)
 IOVM_API IO_METHOD(IoObject, callcc);
