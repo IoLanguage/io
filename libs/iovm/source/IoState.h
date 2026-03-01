@@ -167,6 +167,12 @@ struct IoState {
     int continuationInvoked;           // Set when a continuation replaces the frame stack
     int nestedEvalDepth;               // Depth of nested eval loops (for IoCoroutine_try)
 
+    // Slot mutation counter for inline cache invalidation.
+    // Incremented on every setSlot/updateSlot/removeSlot.
+    // Inline caches on IoMessageData store the version at cache time;
+    // a mismatch means the cache may be stale and needs re-lookup.
+    unsigned int slotVersion;
+
     // Error handling flag - set when IoState_error_ is called.
     // Helper functions check this and return early. The eval loop
     // checks it after CFunction returns and unwinds frames.

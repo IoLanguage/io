@@ -228,6 +228,7 @@ void IoState_new_atAddress(void *address) {
         self->continuationInvoked = 0;
         self->nestedEvalDepth = 0;
         self->errorRaised = 0;
+        self->slotVersion = 0;
 
         IoState_clearRetainStack(self);
 

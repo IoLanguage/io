@@ -82,7 +82,8 @@ typedef struct IoEvalFrameData {
     // Argument evaluation state (for lazy evaluation)
     int argCount;                // Total number of args
     int currentArgIndex;         // Which arg we're currently evaluating
-    IoObject **argValues;        // Evaluated argument values (array)
+    IoObject **argValues;        // Evaluated argument values (array or inlineArgs)
+    IoObject *inlineArgs[4];     // Inline buffer for ≤4 args (avoids heap alloc)
 
     // Result
     IoObject *result;            // Result of this frame
@@ -165,6 +166,9 @@ typedef struct IoEvalFrameData {
 
 // Access the frame's data payload via IoObject's dataPointer
 #define FRAME_DATA(frame) ((IoEvalFrameData *)IoObject_dataPointer(frame))
+
+// Maximum args that fit in the inline buffer (avoid heap allocation)
+#define FRAME_INLINE_ARG_MAX 4
 
 // Fast path: check if a body message is a cached literal with no chain
 // (e.g., nil, a number, or a string). These can be resolved without

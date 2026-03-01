@@ -485,6 +485,7 @@ IO_METHOD(IoObject, appendProto) {
 
     IoObject *proto = IoMessage_locals_valueArgAt_(m, locals, 0);
     IoObject_rawAppendProto_(self, proto);
+    IOSTATE->slotVersion++;
     return self;
 }
 
@@ -495,6 +496,7 @@ IO_METHOD(IoObject, prependProto) {
 
     IoObject *proto = IoMessage_locals_valueArgAt_(m, locals, 0);
     IoObject_rawPrependProto_(self, proto);
+    IOSTATE->slotVersion++;
     return self;
 }
 
@@ -506,6 +508,7 @@ IO_METHOD(IoObject, removeProto) {
 
     IoObject *proto = IoMessage_locals_valueArgAt_(m, locals, 0);
     IoObject_rawRemoveProto_(self, proto);
+    IOSTATE->slotVersion++;
     return self;
 }
 
@@ -515,6 +518,7 @@ IO_METHOD(IoObject, removeAllProtos) {
     */
 
     IoObject_rawRemoveAllProtos(self);
+    IOSTATE->slotVersion++;
     return self;
 }
 
@@ -528,6 +532,7 @@ IO_METHOD(IoObject, setProtos) {
     IoObject_rawRemoveAllProtos(self);
     LIST_FOREACH(IoList_rawList(ioList), i, v,
                  IoObject_rawAppendProto_(self, (IoObject *)v));
+    IOSTATE->slotVersion++;
     return self;
 }
 
@@ -789,6 +794,7 @@ void IoObject_setSlot_to_(IoObject *self, IoSymbol *slotName, IoObject *value) {
 void IoObject_removeSlot_(IoObject *self, IoSymbol *slotName) {
     IoObject_createSlotsIfNeeded(self);
     PHash_removeKey_(IoObject_slots(self), slotName);
+    IOSTATE->slotVersion++;
 }
 
 IoObject *IoObject_rawGetSlot_target_(IoObject *self, IoSymbol *slotName,
@@ -1038,6 +1044,7 @@ IO_METHOD(IoObject, protoSet_to_) {
     IoObject *slotValue = IoMessage_locals_valueArgAt_(m, locals, 1);
     if (IOSTATE->errorRaised) return IONIL(self);
     IoObject_inlineSetSlot_to_(self, slotName, slotValue);
+    IOSTATE->slotVersion++;
     return slotValue;
 }
 
@@ -1057,6 +1064,7 @@ IO_METHOD(IoObject, protoSetSlotWithType) {
     if (PHash_at_(IoObject_slots(slotValue), IOSTATE->typeSymbol) == NULL) {
         IoObject_inlineSetSlot_to_(slotValue, IOSTATE->typeSymbol, slotName);
     }
+    IOSTATE->slotVersion++;
     return slotValue;
 }
 
@@ -1102,6 +1110,7 @@ IO_METHOD(IoObject, protoUpdateSlot_to_) {
 
     if (obj) {
         IoObject_inlineSetSlot_to_(self, slotName, slotValue);
+        IOSTATE->slotVersion++;
     } else {
         IoState_error_(IOSTATE, m,
                        "Slot %s not found. Must define slot using := operator "

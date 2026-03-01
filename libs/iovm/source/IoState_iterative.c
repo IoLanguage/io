@@ -90,6 +90,7 @@ IoEvalFrame *IoState_pushFrame_(IoState *state) {
     fd->argCount = 0;
     fd->currentArgIndex = 0;
     fd->argValues = NULL;
+    // inlineArgs left uninitialized — set when used
     fd->result = NULL;
     fd->slotValue = NULL;
     fd->slotContext = NULL;
@@ -121,11 +122,11 @@ void IoState_popFrame_(IoState *state) {
         state->currentFrame = fd->parent;
         state->frameDepth--;
 
-        // Eagerly free argValues since they can be large
-        if (fd->argValues) {
+        // Free heap-allocated argValues (not inline buffer)
+        if (fd->argValues && fd->argValues != fd->inlineArgs) {
             io_free(fd->argValues);
-            fd->argValues = NULL;
         }
+        fd->argValues = NULL;
 
         // Clear only pointer fields so pooled frames don't hold stale
         // GC references. Without this, GC marking of pooled frames keeps
@@ -135,14 +136,19 @@ void IoState_popFrame_(IoState *state) {
         fd->locals = NULL;
         fd->cachedTarget = NULL;
         fd->parent = NULL;
+        fd->inlineArgs[0] = NULL;
+        fd->inlineArgs[1] = NULL;
+        fd->inlineArgs[2] = NULL;
+        fd->inlineArgs[3] = NULL;
         fd->result = NULL;
         fd->slotValue = NULL;
         fd->slotContext = NULL;
         fd->call = NULL;
         fd->savedCall = NULL;
         fd->blockLocals = NULL;
-        // Clear the controlFlow union (contains pointers in all variants)
-        memset(&fd->controlFlow, 0, sizeof(fd->controlFlow));
+        // Reset state so GC mark function won't walk stale controlFlow pointers.
+        // This is cheaper than memset of the ~80-byte controlFlow union.
+        fd->state = FRAME_STATE_START;
 
         // Return to pool if space available
         if (state->framePoolCount < FRAME_POOL_SIZE) {
@@ -510,47 +516,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 }
             }
 
-            // Check if this is a special form that needs lazy argument evaluation
-            IoSymbol *messageName = IoMessage_name(m);
-            int isSpecialForm = (messageName == state->ifSymbol ||
-                                 messageName == state->whileSymbol ||
-                                 messageName == state->loopSymbol ||
-                                 messageName == state->forSymbol ||
-                                 messageName == state->callccSymbol ||
-                                 messageName == state->foreachSymbol ||
-                                 messageName == state->reverseForeachSymbol ||
-                                 messageName == state->foreachLineSymbol ||
-                                 messageName == state->messageSymbol ||
-                                 messageName == state->repeatSymbol ||
-                                 messageName == state->doSymbol ||
-                                 messageName == state->lexicalDoSymbol ||
-                                 messageName == state->foreachSlotSymbol ||
-                                 messageName == state->cpuSecondsToRunSymbol ||
-                                 messageName == state->sortInPlaceSymbol ||
-                                 messageName == state->orSymbol ||
-                                 messageName == state->andSymbol);
-
-            // DEBUG
-            if (state->showAllMessages && messageName == state->ifSymbol) {
-                printf("SPECIAL FORM DETECTED: %s (skipping arg eval)\n", CSTRING(messageName));
-            }
-
-            // For ALL messages, skip to slot lookup and let the
-            // CFunction/Block handle its own argument evaluation.
-            // This preserves compatibility with existing CFunctions
-            // which use IoMessage_locals_valueArgAt_ to evaluate args.
-            //
-            // Control flow primitives (if, while, etc.) will receive
-            // unevaluated messages and handle them via the frame state
-            // machine, avoiding C stack re-entry.
-            //
-            // TODO: In the future, we could pre-evaluate args for
-            // non-control-flow CFunctions to enable full iterative
-            // evaluation, but that requires modifying all CFunctions.
-            (void)isSpecialForm; // Used for debug output only now
-            fd->argCount = 0;
-            fd->currentArgIndex = 0;
-            fd->argValues = NULL;
+            // Skip to slot lookup — special form detection is done in
+            // ACTIVATE where it actually matters for arg pre-evaluation.
             fd->state = FRAME_STATE_LOOKUP_SLOT;
             goto lookup_slot;  // Fast path: skip loop restart
         }
@@ -603,12 +570,30 @@ IoObject *IoState_evalLoop_(IoState *state) {
         lookup_slot:
         case FRAME_STATE_LOOKUP_SLOT: {
             // Perform slot lookup on target
-            IoSymbol *messageName = IoMessage_name(fd->message);
+            IoMessageData *lookupMd = IOMESSAGEDATA(fd->message);
+            IoSymbol *messageName = lookupMd->name;
             IoObject *slotValue;
             IoObject *slotContext;
 
-            slotValue = IoObject_rawGetSlot_context_(fd->target, messageName,
-                                                    &slotContext);
+            // Inline cache: if target has the same tag and global slot
+            // version hasn't changed since we cached, reuse the result.
+            // Only caches proto-chain hits (not direct slot hits on target).
+            if (lookupMd->inlineCacheTag == IoObject_tag(fd->target) &&
+                lookupMd->inlineCacheVersion == state->slotVersion) {
+                slotValue = lookupMd->inlineCacheValue;
+                slotContext = lookupMd->inlineCacheContext;
+            } else {
+                slotValue = IoObject_rawGetSlot_context_(fd->target, messageName,
+                                                        &slotContext);
+                // Cache only proto-chain hits (method lookups).
+                // Direct hits (local vars) change frequently and aren't worth caching.
+                if (slotValue && slotContext != fd->target) {
+                    lookupMd->inlineCacheTag = IoObject_tag(fd->target);
+                    lookupMd->inlineCacheValue = slotValue;
+                    lookupMd->inlineCacheContext = slotContext;
+                    lookupMd->inlineCacheVersion = state->slotVersion;
+                }
+            }
 
             if (slotValue) {
                 fd->slotValue = slotValue;
@@ -675,27 +660,36 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // - Short-circuit: or, and
                 // - Message reification: message
                 // ============================================================
-                IoSymbol *msgName = IoMessage_name(fd->message);
-                int isSpecialForm =
-                    (msgName == state->ifSymbol ||
-                     msgName == state->whileSymbol ||
-                     msgName == state->forSymbol ||
-                     msgName == state->loopSymbol ||
-                     msgName == state->callccSymbol ||
-                     msgName == state->methodSymbol ||
-                     msgName == state->blockSymbol ||
-                     msgName == state->foreachSymbol ||
-                     msgName == state->reverseForeachSymbol ||
-                     msgName == state->foreachLineSymbol ||
-                     msgName == state->messageSymbol ||
-                     msgName == state->repeatSymbol ||
-                     msgName == state->doSymbol ||
-                     msgName == state->lexicalDoSymbol ||
-                     msgName == state->foreachSlotSymbol ||
-                     msgName == state->cpuSecondsToRunSymbol ||
-                     msgName == state->sortInPlaceSymbol ||
-                     msgName == state->orSymbol ||
-                     msgName == state->andSymbol);
+                // Check cached special form flag (0=unchecked, 1=normal, 2=special)
+                IoMessageData *activateMd = IOMESSAGEDATA(fd->message);
+                int isSpecialForm;
+                if (activateMd->isSpecialForm == 0) {
+                    // First time: compute and cache
+                    IoSymbol *msgName = activateMd->name;
+                    isSpecialForm =
+                        (msgName == state->ifSymbol ||
+                         msgName == state->whileSymbol ||
+                         msgName == state->forSymbol ||
+                         msgName == state->loopSymbol ||
+                         msgName == state->callccSymbol ||
+                         msgName == state->methodSymbol ||
+                         msgName == state->blockSymbol ||
+                         msgName == state->foreachSymbol ||
+                         msgName == state->reverseForeachSymbol ||
+                         msgName == state->foreachLineSymbol ||
+                         msgName == state->messageSymbol ||
+                         msgName == state->repeatSymbol ||
+                         msgName == state->doSymbol ||
+                         msgName == state->lexicalDoSymbol ||
+                         msgName == state->foreachSlotSymbol ||
+                         msgName == state->cpuSecondsToRunSymbol ||
+                         msgName == state->sortInPlaceSymbol ||
+                         msgName == state->orSymbol ||
+                         msgName == state->andSymbol);
+                    activateMd->isSpecialForm = isSpecialForm ? 2 : 1;
+                } else {
+                    isSpecialForm = (activateMd->isSpecialForm == 2);
+                }
 
                 // Also skip pre-evaluation for CFunctions that ignore
                 // their args (e.g., IoObject_self used for thisContext,
@@ -730,7 +724,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     if (preEvalCount > 0) {
                         fd->argCount = preEvalCount;
                         fd->currentArgIndex = 0;
-                        fd->argValues = (IoObject **)io_calloc(preEvalCount, sizeof(IoObject *));
+                        // Use inline buffer for small arg counts (avoids heap alloc)
+                        if (preEvalCount <= FRAME_INLINE_ARG_MAX) {
+                            fd->argValues = fd->inlineArgs;
+                            memset(fd->inlineArgs, 0, preEvalCount * sizeof(IoObject *));
+                        } else {
+                            fd->argValues = (IoObject **)io_calloc(preEvalCount, sizeof(IoObject *));
+                        }
 
                         // Fast path: check if ALL args are simple cached literals
                         int allCached = 1;
@@ -929,7 +929,9 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
                 // Reset arg state
                 if (fd->argValues) {
-                    io_free(fd->argValues);
+                    if (fd->argValues != fd->inlineArgs) {
+                        io_free(fd->argValues);
+                    }
                     fd->argValues = NULL;
                 }
                 fd->argCount = 0;
@@ -1123,7 +1125,9 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     fd->cachedTarget = fd->locals;
                     fd->state = FRAME_STATE_START;
                     if (fd->argValues) {
-                        io_free(fd->argValues);
+                        if (fd->argValues != fd->inlineArgs) {
+                            io_free(fd->argValues);
+                        }
                         fd->argValues = NULL;
                     }
                     fd->argCount = 0;
@@ -1911,7 +1915,9 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
 
     // Free pre-evaluated args from the previous call
     if (blockFd->argValues) {
-        io_free(blockFd->argValues);
+        if (blockFd->argValues != blockFd->inlineArgs) {
+            io_free(blockFd->argValues);
+        }
         blockFd->argValues = NULL;
     }
     blockFd->argCount = 0;

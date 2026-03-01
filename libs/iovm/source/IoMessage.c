@@ -265,6 +265,10 @@ void IoMessage_mark(IoMessage *self) {
 
     IoObject_shouldMarkIfNonNull((IoObject *)DATA(self)->next);
     IoObject_shouldMarkIfNonNull((IoObject *)DATA(self)->label);
+
+    // Mark inline cache entries (prevent cached slot values from being collected)
+    IoObject_shouldMarkIfNonNull(DATA(self)->inlineCacheValue);
+    IoObject_shouldMarkIfNonNull(DATA(self)->inlineCacheContext);
 }
 
 void IoMessage_free(IoMessage *self) {
@@ -285,6 +289,7 @@ void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v) {
 
 void IoMessage_rawSetName_(IoMessage *self, IoObject *v) {
     DATA(self)->name = v ? IOREF(v) : NULL;
+    DATA(self)->isSpecialForm = 0; // Reset cached flag when name changes
 }
 
 void IoMessage_rawSetLabel_(IoMessage *self, IoObject *v) {

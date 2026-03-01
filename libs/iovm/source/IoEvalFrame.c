@@ -71,7 +71,7 @@ IoEvalFrame *IoEvalFrame_newWithState(void *vState) {
 void IoEvalFrame_free(IoEvalFrame *self) {
     IoEvalFrameData *fd = (IoEvalFrameData *)IoObject_dataPointer(self);
     if (fd) {
-        if (fd->argValues) {
+        if (fd->argValues && fd->argValues != fd->inlineArgs) {
             io_free(fd->argValues);
         }
         io_free(fd);
