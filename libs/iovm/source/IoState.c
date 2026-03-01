@@ -320,6 +320,11 @@ void IoState_setupSingletons(IoState *self) {
     IoObject_setSlot_to_(core, SIOSYMBOL("Message"), IoMessage_proto(self));
     IoObject_setSlot_to_(core, SIOSYMBOL("Call"), IoCall_proto(self));
 
+    // Cache Call tag/proto for inline allocation in block activation
+    self->callProto = IoState_protoWithId_(self, "Call");
+    self->callTag = IoObject_tag(self->callProto);
+    self->blockLocalsPoolSize = 0;
+
     self->nilMessage = IoMessage_newWithName_(self, SIOSYMBOL("nil"));
     IoMessage_rawSetCachedResult_(self->nilMessage, self->ioNil);
     IoState_retain_(self, self->nilMessage);

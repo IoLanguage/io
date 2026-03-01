@@ -132,6 +132,10 @@ void IoCoroutine_mark(IoCoroutine *self) {
         for (int i = 0; i < state->framePoolCount; i++) {
             IoObject_shouldMarkIfNonNull(state->framePool[i]);
         }
+        // Mark pooled blockLocals (they have PHash slots already allocated)
+        for (int i = 0; i < state->blockLocalsPoolSize; i++) {
+            IoObject_shouldMarkIfNonNull(state->blockLocalsPool[i]);
+        }
     }
 
 }

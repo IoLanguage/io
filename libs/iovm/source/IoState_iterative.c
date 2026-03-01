@@ -769,6 +769,20 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // ACTIVATION (args are pre-evaluated or not needed)
                 // ============================================================
                 if (ISBLOCK(slotValue)) {
+                    // Fast path: trivial method body (single cached literal).
+                    // Skip entire block activation (locals clone, Call object,
+                    // PHash creation, frame push/pop) and return directly.
+                    {
+                        IoBlockData *blockData =
+                            (IoBlockData *)IoObject_dataPointer(slotValue);
+                        IoMessage *bodyMsg = blockData->message;
+                        if (bodyMsg && BODY_IS_CACHED_LITERAL(bodyMsg)) {
+                            fd->result = CACHED_LITERAL_RESULT(bodyMsg);
+                            fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                            goto continue_chain;
+                        }
+                    }
+
                     // Tail Call Optimization: if this is the last message
                     // in a block body frame, reuse the frame instead of
                     // pushing a new one. This prevents stack overflow for
@@ -796,6 +810,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     fd->result =
                         activateFunc(slotValue, fd->target, fd->locals,
                                     fd->message, fd->slotContext);
+
 
 #ifdef DEBUG_EVAL_LOOP
                     fprintf(stderr, "evalLoop ACTIVATE: CFunction %s returned, result=%p, frame=%p\n",
@@ -1016,6 +1031,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     state->stopStatus = callStopStatus;
                     state->returnValue = result;
                 }
+            }
+
+            // Return blockLocals to pool for reuse (before retain pool pop)
+            if (fd->blockLocals &&
+                state->blockLocalsPoolSize < BLOCK_LOCALS_POOL_MAX) {
+                state->blockLocalsPool[state->blockLocalsPoolSize++] =
+                    fd->blockLocals;
             }
 
             if (fd->retainPoolMark) {
@@ -1757,31 +1779,42 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     // the ioStack so GC can collect unreferenced objects.
     uintptr_t retainPoolMark = IoState_pushRetainPool(state);
 
-    // Create block locals
-    IoObject *blockLocals = IOCLONE(state->localsProto);
-    IoObject_isLocals_(blockLocals, 1);
+    // Create or reuse block locals
+    IoObject *blockLocals;
+    PHash *bslots;
+    if (state->blockLocalsPoolSize > 0) {
+        // Reuse pooled blockLocals (already has PHash allocated)
+        blockLocals = state->blockLocalsPool[--state->blockLocalsPoolSize];
+        // Push onto ioStack so GC can reach it. Without this,
+        // the blockLocals is unreachable between pool removal and
+        // frame attachment — any GC triggered by IoCall_with or
+        // argument evaluation would sweep it.
+        IoState_stackRetain_(state, blockLocals);
+        bslots = IoObject_slots(blockLocals);
+        PHash_clean(bslots);
+    } else {
+        blockLocals = IOCLONE(state->localsProto);
+        IoObject_isLocals_(blockLocals, 1);
+        IoObject_createSlotsIfNeeded(blockLocals);
+        bslots = IoObject_slots(blockLocals);
+    }
+
 
     // Determine scope
     IoObject *scope =
         blockData->scope ? blockData->scope : callerFd->target;
 
     // Create Call object
-    IoCall *callObject = IoCall_with(
-        state, callerFd->locals, // sender
-        callerFd->target,        // target
-        callerFd->message,       // message
-        callerFd->slotContext,   // slotContext
-        block,                      // activated
-        state->currentCoroutine     // coroutine
-    );
+    IoCall *callObject = IoCall_with(state,
+        callerFd->locals, callerFd->target,
+        callerFd->message, callerFd->slotContext,
+        block, state->currentCoroutine);
 
-    // Set up block locals slots
-    IoObject_createSlotsIfNeeded(blockLocals);
-    PHash *bslots = IoObject_slots(blockLocals);
     PHash_at_put_(bslots, state->callSymbol, callObject);
     PHash_at_put_(bslots, state->selfSymbol, scope);
     PHash_at_put_(bslots, state->updateSlotSymbol,
                   state->localsUpdateSlotCFunc);
+
 
     // Bind arguments
     // Named formal parameters are pre-evaluated by the eval loop
@@ -1852,27 +1885,40 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
         IoState_clearTopPool(state);
     }
 
-    // Create new block locals for the tail-called block
-    IoObject *blockLocals = IOCLONE(state->localsProto);
-    IoObject_isLocals_(blockLocals, 1);
+    // NOTE: We do NOT return old blockLocals to the pool here.
+    // The new block's Call object references the old blockLocals
+    // as call sender/target (via blockFd->locals/target passed to
+    // IoCall_with below). Pooling the old blockLocals would clean
+    // its PHash, destroying slots that call sender still needs
+    // (e.g., the ? operator's "m" slot used by relayStopStatus).
+    // Only the RETURN handler pools blockLocals, when the block
+    // has fully completed and its locals are no longer referenced.
+
+    // Create or reuse block locals for the tail-called block
+    IoObject *blockLocals;
+    PHash *bslots;
+    if (state->blockLocalsPoolSize > 0) {
+        blockLocals = state->blockLocalsPool[--state->blockLocalsPoolSize];
+        IoState_stackRetain_(state, blockLocals);
+        bslots = IoObject_slots(blockLocals);
+        PHash_clean(bslots);
+    } else {
+        blockLocals = IOCLONE(state->localsProto);
+        IoObject_isLocals_(blockLocals, 1);
+        IoObject_createSlotsIfNeeded(blockLocals);
+        bslots = IoObject_slots(blockLocals);
+    }
 
     // Determine scope
     IoObject *scope =
         blockData->scope ? blockData->scope : blockFd->target;
 
     // Create Call object
-    IoCall *callObject = IoCall_with(
-        state, blockFd->locals,     // sender (current block's locals)
-        blockFd->target,            // target
-        blockFd->message,           // message
-        blockFd->slotContext,       // slotContext
-        block,                         // activated
-        state->currentCoroutine        // coroutine
-    );
+    IoCall *callObject = IoCall_with(state,
+        blockFd->locals, blockFd->target,
+        blockFd->message, blockFd->slotContext,
+        block, state->currentCoroutine);
 
-    // Set up block locals slots
-    IoObject_createSlotsIfNeeded(blockLocals);
-    PHash *bslots = IoObject_slots(blockLocals);
     PHash_at_put_(bslots, state->callSymbol, callObject);
     PHash_at_put_(bslots, state->selfSymbol, scope);
     PHash_at_put_(bslots, state->updateSlotSymbol,

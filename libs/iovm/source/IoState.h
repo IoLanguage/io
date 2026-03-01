@@ -123,6 +123,16 @@ struct IoState {
     void *numberDataFreeList;
     int numberDataFreeListSize;
 
+    // Block activation pools: pre-built blockLocals and Call objects
+    // retained so GC won't collect them. Returned to pool on block return.
+    #define BLOCK_LOCALS_POOL_MAX 1
+    IoObject *blockLocalsPool[BLOCK_LOCALS_POOL_MAX];
+    int blockLocalsPoolSize;
+
+    // Cached Call tag/proto for inline allocation
+    IoTag *callTag;
+    IoObject *callProto;
+
     // singletons
 
     IoObject *ioNil;
