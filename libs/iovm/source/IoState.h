@@ -125,7 +125,7 @@ struct IoState {
 
     // Block activation pools: pre-built blockLocals and Call objects
     // retained so GC won't collect them. Returned to pool on block return.
-    #define BLOCK_LOCALS_POOL_MAX 1
+    #define BLOCK_LOCALS_POOL_MAX 8
     IoObject *blockLocalsPool[BLOCK_LOCALS_POOL_MAX];
     int blockLocalsPoolSize;
 
@@ -134,7 +134,7 @@ struct IoState {
     IoObject *callProto;
 
     // Call object pool: reuses GC-managed Call objects across block activations
-    #define CALL_POOL_MAX 1
+    #define CALL_POOL_MAX 8
     IoObject *callPool[CALL_POOL_MAX];
     int callPoolSize;
 
