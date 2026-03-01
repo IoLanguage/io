@@ -133,6 +133,11 @@ struct IoState {
     IoTag *callTag;
     IoObject *callProto;
 
+    // Call object pool: reuses GC-managed Call objects across block activations
+    #define CALL_POOL_MAX 1
+    IoObject *callPool[CALL_POOL_MAX];
+    int callPoolSize;
+
     // singletons
 
     IoObject *ioNil;

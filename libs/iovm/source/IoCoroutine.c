@@ -136,6 +136,10 @@ void IoCoroutine_mark(IoCoroutine *self) {
         for (int i = 0; i < state->blockLocalsPoolSize; i++) {
             IoObject_shouldMarkIfNonNull(state->blockLocalsPool[i]);
         }
+        // Mark pooled Call objects (their IoCallData has pointer fields)
+        for (int i = 0; i < state->callPoolSize; i++) {
+            IoObject_shouldMarkIfNonNull(state->callPool[i]);
+        }
     }
 
 }

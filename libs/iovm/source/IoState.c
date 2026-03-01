@@ -324,6 +324,7 @@ void IoState_setupSingletons(IoState *self) {
     self->callProto = IoState_protoWithId_(self, "Call");
     self->callTag = IoObject_tag(self->callProto);
     self->blockLocalsPoolSize = 0;
+    self->callPoolSize = 0;
 
     self->nilMessage = IoMessage_newWithName_(self, SIOSYMBOL("nil"));
     IoMessage_rawSetCachedResult_(self->nilMessage, self->ioNil);

@@ -1040,6 +1040,21 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     fd->blockLocals;
             }
 
+            // Return Call object to pool for reuse
+            if (fd->call &&
+                state->callPoolSize < CALL_POOL_MAX) {
+                // Clear pointer fields for GC safety (pooled objects
+                // are marked, so stale pointers would keep dead objects alive)
+                IoCallData *cd = (IoCallData *)IoObject_dataPointer(fd->call);
+                cd->sender = state->ioNil;
+                cd->target = state->ioNil;
+                cd->message = state->ioNil;
+                cd->slotContext = state->ioNil;
+                cd->activated = state->ioNil;
+                cd->coroutine = state->ioNil;
+                state->callPool[state->callPoolSize++] = fd->call;
+            }
+
             if (fd->retainPoolMark) {
                 IoState_popRetainPoolExceptFor_(state, result);
             }
@@ -1804,11 +1819,27 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     IoObject *scope =
         blockData->scope ? blockData->scope : callerFd->target;
 
-    // Create Call object
-    IoCall *callObject = IoCall_with(state,
-        callerFd->locals, callerFd->target,
-        callerFd->message, callerFd->slotContext,
-        block, state->currentCoroutine);
+    // Create or reuse Call object
+    IoCall *callObject;
+    if (state->callPoolSize > 0) {
+        // Reuse pooled Call (already a valid collector object with
+        // allocated IoCallData). Just reset the fields.
+        callObject = state->callPool[--state->callPoolSize];
+        IoState_stackRetain_(state, callObject);
+    } else {
+        // Allocate new Call via IOCLONE
+        callObject = IOCLONE(state->callProto);
+    }
+    {
+        IoCallData *cd = (IoCallData *)IoObject_dataPointer(callObject);
+        cd->sender = callerFd->locals;
+        cd->target = callerFd->target;
+        cd->message = callerFd->message;
+        cd->slotContext = callerFd->slotContext;
+        cd->activated = block;
+        cd->coroutine = state->currentCoroutine;
+        cd->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
+    }
 
     PHash_at_put_(bslots, state->callSymbol, callObject);
     PHash_at_put_(bslots, state->selfSymbol, scope);
@@ -1913,11 +1944,24 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     IoObject *scope =
         blockData->scope ? blockData->scope : blockFd->target;
 
-    // Create Call object
-    IoCall *callObject = IoCall_with(state,
-        blockFd->locals, blockFd->target,
-        blockFd->message, blockFd->slotContext,
-        block, state->currentCoroutine);
+    // Create or reuse Call object
+    IoCall *callObject;
+    if (state->callPoolSize > 0) {
+        callObject = state->callPool[--state->callPoolSize];
+        IoState_stackRetain_(state, callObject);
+    } else {
+        callObject = IOCLONE(state->callProto);
+    }
+    {
+        IoCallData *cd = (IoCallData *)IoObject_dataPointer(callObject);
+        cd->sender = blockFd->locals;
+        cd->target = blockFd->target;
+        cd->message = blockFd->message;
+        cd->slotContext = blockFd->slotContext;
+        cd->activated = block;
+        cd->coroutine = state->currentCoroutine;
+        cd->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
+    }
 
     PHash_at_put_(bslots, state->callSymbol, callObject);
     PHash_at_put_(bslots, state->selfSymbol, scope);
