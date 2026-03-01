@@ -1540,9 +1540,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 break;
             }
 
-            // Set the counter variable
+            // Set the counter variable (direct PHash access since
+            // slots are guaranteed to exist from for-loop setup)
             IoObject *num = IoState_numberWithDouble_(state, i);
-            IoObject_setSlot_to_(fd->locals,
+            PHash_at_put_(IoObject_slots(fd->locals),
                 fd->controlFlow.forInfo.counterName, num);
 
             // Push body frame for next iteration
