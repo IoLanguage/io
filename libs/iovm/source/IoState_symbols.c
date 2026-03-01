@@ -8,7 +8,7 @@
 #include "IoNumber.h"
 
 #define MIN_CACHED_NUMBER -10
-#define MAX_CACHED_NUMBER 256
+#define MAX_CACHED_NUMBER 1024
 
 // numbers ----------------------------------
 

@@ -166,6 +166,15 @@ typedef struct IoEvalFrameData {
 // Access the frame's data payload via IoObject's dataPointer
 #define FRAME_DATA(frame) ((IoEvalFrameData *)IoObject_dataPointer(frame))
 
+// Fast path: check if a body message is a cached literal with no chain
+// (e.g., nil, a number, or a string). These can be resolved without
+// pushing a child frame — just use the cached result directly.
+#define BODY_IS_CACHED_LITERAL(bodyMsg) \
+    (IOMESSAGEDATA(bodyMsg)->cachedResult && !IOMESSAGEDATA(bodyMsg)->next)
+
+#define CACHED_LITERAL_RESULT(bodyMsg) \
+    (IOMESSAGEDATA(bodyMsg)->cachedResult)
+
 // Type check macro
 #define ISEVALFRAME(self) \
     IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoEvalFrame_rawClone)

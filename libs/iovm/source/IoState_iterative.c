@@ -27,6 +27,7 @@ and network-portable coroutines.
 static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame);
 static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame);
 
+
 // Debug: Validate that a frame's message field is a Message.
 // This should be called after every frame setup where message is assigned.
 #define VALIDATE_FRAME(f, location) do { \
@@ -68,14 +69,36 @@ IoEvalFrame *IoState_pushFrame_(IoState *state) {
 
     if (state->framePoolCount > 0) {
         // Reuse a pooled frame (already a valid collector object)
+        // Pointer fields were cleared on pool return (GC safety).
+        // Only initialize the fields we actually use.
         frame = state->framePool[--state->framePoolCount];
         fd = FRAME_DATA(frame);
-        // Reset data fields (argValues already freed on pool return)
-        memset(fd, 0, sizeof(IoEvalFrameData));
     } else {
         frame = IoEvalFrame_newWithState(state);
         fd = FRAME_DATA(frame);
     }
+
+    // Selective initialization: set only the fields that matter.
+    // The controlFlow union is left uninitialized — it's set by
+    // control flow primitives before use.
+    fd->message = NULL;
+    fd->target = NULL;
+    fd->locals = NULL;
+    fd->cachedTarget = NULL;
+    fd->parent = NULL;
+    fd->state = FRAME_STATE_START;
+    fd->argCount = 0;
+    fd->currentArgIndex = 0;
+    fd->argValues = NULL;
+    fd->result = NULL;
+    fd->slotValue = NULL;
+    fd->slotContext = NULL;
+    fd->call = NULL;
+    fd->savedCall = NULL;
+    fd->blockLocals = NULL;
+    fd->passStops = 0;
+    fd->isNestedEvalRoot = 0;
+    fd->retainPoolMark = 0;
 
     fd->parent = state->currentFrame;
     state->currentFrame = frame;
@@ -101,12 +124,25 @@ void IoState_popFrame_(IoState *state) {
         // Eagerly free argValues since they can be large
         if (fd->argValues) {
             io_free(fd->argValues);
+            fd->argValues = NULL;
         }
 
-        // Clear all fields so pooled frames don't hold stale GC references.
-        // Without this, GC marking of pooled frames keeps dead objects alive
-        // (e.g. WeakLink targets that should be collected).
-        memset(fd, 0, sizeof(IoEvalFrameData));
+        // Clear only pointer fields so pooled frames don't hold stale
+        // GC references. Without this, GC marking of pooled frames keeps
+        // dead objects alive (e.g. WeakLink targets that should be collected).
+        fd->message = NULL;
+        fd->target = NULL;
+        fd->locals = NULL;
+        fd->cachedTarget = NULL;
+        fd->parent = NULL;
+        fd->result = NULL;
+        fd->slotValue = NULL;
+        fd->slotContext = NULL;
+        fd->call = NULL;
+        fd->savedCall = NULL;
+        fd->blockLocals = NULL;
+        // Clear the controlFlow union (contains pointers in all variants)
+        memset(&fd->controlFlow, 0, sizeof(fd->controlFlow));
 
         // Return to pool if space available
         if (state->framePoolCount < FRAME_POOL_SIZE) {
@@ -292,7 +328,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
         IoMessage *m;
         IoMessageData *md;
 
-        // Validate frame integrity
+#ifdef DEBUG_FRAME_VALIDATION
+        // Validate frame integrity (enabled by -DDEBUG_FRAME_VALIDATION)
         if (!ISEVALFRAME(frame)) {
             fprintf(stderr, "CORRUPTION: currentFrame is not an EvalFrame! frame=%p, tag=%s\n",
                     (void*)frame,
@@ -333,6 +370,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             fflush(stderr);
             abort();
         }
+#endif
 
         // Check for signals (Ctrl-C, etc.)
         if (state->receivedSignal) {
@@ -376,6 +414,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         switch (fd->state) {
 
+        start_message:
         case FRAME_STATE_START: {
             // Starting evaluation of a message
             m = fd->message;
@@ -464,10 +503,11 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // If there's no next message, we can return immediately
                 if (!md->next) {
                     fd->state = FRAME_STATE_RETURN;
+                    break;
                 } else {
                     fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                    goto continue_chain;  // Fast path: skip loop restart
                 }
-                break;
             }
 
             // Check if this is a special form that needs lazy argument evaluation
@@ -512,7 +552,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             fd->currentArgIndex = 0;
             fd->argValues = NULL;
             fd->state = FRAME_STATE_LOOKUP_SLOT;
-            break;
+            goto lookup_slot;  // Fast path: skip loop restart
         }
 
         case FRAME_STATE_EVAL_ARGS: {
@@ -560,6 +600,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        lookup_slot:
         case FRAME_STATE_LOOKUP_SLOT: {
             // Perform slot lookup on target
             IoSymbol *messageName = IoMessage_name(fd->message);
@@ -573,6 +614,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 fd->slotValue = slotValue;
                 fd->slotContext = slotContext;
                 fd->state = FRAME_STATE_ACTIVATE;
+                goto activate;  // Fast path: skip loop restart
             } else if (IoObject_isLocals(fd->target)) {
                 // Slot not found on block locals — look up 'self' (the scope)
                 // and re-do the lookup there. This is the iterative equivalent
@@ -612,17 +654,12 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        activate:
         case FRAME_STATE_ACTIVATE: {
             // Activate the slot value (if activatable)
             IoObject *slotValue = fd->slotValue;
 
             if (IoObject_isActivatable(slotValue)) {
-                // ============================================================
-                // ARG PRE-EVALUATION
-                // Before calling any Block or CFunction, pre-evaluate all
-                // arguments iteratively. This eliminates C stack re-entrancy
-                // for argument evaluation (~95% of all re-entrant call sites).
-                //
                 // ============================================================
                 // ARG PRE-EVALUATION
                 // Before calling any Block or CFunction, pre-evaluate all
@@ -834,11 +871,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
                     // Normal return, continue chain
                     fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                    goto continue_chain;  // Fast path: skip loop restart
                 }
             } else {
                 // Not activatable - just return the value
                 fd->result = slotValue;
                 fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                goto continue_chain;  // Fast path: skip loop restart
             }
 #ifdef DEBUG_EVAL_LOOP
             fprintf(stderr, "evalLoop ACTIVATE: case done, frame=%p, state=%d\n",
@@ -848,6 +887,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        continue_chain:
         case FRAME_STATE_CONTINUE_CHAIN: {
             // Check for non-normal stop status (break, continue, return).
             // Stop status can be set by CFunctions like break/continue/return
@@ -894,6 +934,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 }
                 fd->argCount = 0;
                 fd->currentArgIndex = 0;
+                goto start_message;  // Fast path: skip loop restart
             } else {
                 // End of chain - return
                 fd->state = FRAME_STATE_RETURN;
@@ -984,6 +1025,26 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // If this was a nested eval root, exit the eval loop
             if (isNestedRoot) {
                 return result;
+            }
+
+            // Fast path: if parent is a hot loop state, jump directly
+            // to it instead of restarting the eval loop (saves frame
+            // fetch, safety checks, and switch dispatch per iteration).
+            frame = state->currentFrame;
+            if (frame) {
+                fd = FRAME_DATA(frame);
+                if (fd->state == FRAME_STATE_FOR_AFTER_BODY) {
+                    goto for_after_body;
+                }
+                if (fd->state == FRAME_STATE_FOREACH_AFTER_BODY) {
+                    goto foreach_after_body;
+                }
+                if (fd->state == FRAME_STATE_LOOP_AFTER_BODY) {
+                    goto loop_after_body;
+                }
+                if (fd->state == FRAME_STATE_WHILE_EVAL_BODY) {
+                    goto while_eval_body;
+                }
             }
             break;
         }
@@ -1139,6 +1200,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     : state->ioNil;
                 fd->state = FRAME_STATE_CONTINUE_CHAIN;
             } else {
+                // Fast path: body is a cached literal
+                if (BODY_IS_CACHED_LITERAL(fd->controlFlow.whileInfo.bodyMsg)) {
+                    fd->result = CACHED_LITERAL_RESULT(fd->controlFlow.whileInfo.bodyMsg);
+                    fd->state = FRAME_STATE_WHILE_EVAL_BODY;
+                    break;
+                }
+
                 // Condition is true - evaluate body
                 IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
                 IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
@@ -1154,6 +1222,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        while_eval_body:
         case FRAME_STATE_WHILE_EVAL_BODY: {
             // Body has been evaluated, result is in fd->result
             // Store the result for potential return
@@ -1197,6 +1266,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Check if this is first iteration (lastResult is NULL)
             if (fd->controlFlow.loopInfo.lastResult == NULL) {
+                // Mark that we've started (use a non-null value)
+                fd->controlFlow.loopInfo.lastResult = state->ioNil;
+
+                // Fast path: body is a cached literal
+                if (BODY_IS_CACHED_LITERAL(fd->controlFlow.loopInfo.bodyMsg)) {
+                    fd->result = CACHED_LITERAL_RESULT(fd->controlFlow.loopInfo.bodyMsg);
+                    fd->state = FRAME_STATE_LOOP_AFTER_BODY;
+                    break;
+                }
+
                 // First iteration - push body frame
                 IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
                 IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
@@ -1207,8 +1286,6 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 bodyFd->state = FRAME_STATE_START;
                 bodyFd->passStops = 1;
 
-                // Mark that we've started (use a non-null value)
-                fd->controlFlow.loopInfo.lastResult = state->ioNil;
                 fd->state = FRAME_STATE_LOOP_AFTER_BODY;
                 break;
             }
@@ -1218,6 +1295,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        loop_after_body:
         case FRAME_STATE_LOOP_AFTER_BODY: {
             // Body has been evaluated
             fd->controlFlow.loopInfo.lastResult = fd->result;
@@ -1238,6 +1316,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Check for return (propagate through CONTINUE_CHAIN)
             if (state->stopStatus == MESSAGE_STOP_STATUS_RETURN) {
                 fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                break;
+            }
+
+            // Fast path: body is a cached literal
+            if (BODY_IS_CACHED_LITERAL(fd->controlFlow.loopInfo.bodyMsg)) {
+                fd->result = CACHED_LITERAL_RESULT(fd->controlFlow.loopInfo.bodyMsg);
+                // Stay in LOOP_AFTER_BODY
                 break;
             }
 
@@ -1289,6 +1374,28 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 IoObject_setSlot_to_(fd->locals,
                     fd->controlFlow.forInfo.counterName, num);
 
+                // Fast path: body is a cached literal — run entire loop inline
+                if (BODY_IS_CACHED_LITERAL(fd->controlFlow.forInfo.bodyMsg)) {
+                    IoObject *cachedBody = CACHED_LITERAL_RESULT(fd->controlFlow.forInfo.bodyMsg);
+                    double loopIncr = fd->controlFlow.forInfo.increment;
+                    double loopEnd = fd->controlFlow.forInfo.endValue;
+                    IoSymbol *ctrName = fd->controlFlow.forInfo.counterName;
+                    PHash *localSlots = IoObject_slots(fd->locals);
+                    fd->controlFlow.forInfo.currentValue += loopIncr;
+                    for (;;) {
+                        double li = fd->controlFlow.forInfo.currentValue;
+                        if ((loopIncr > 0 && li > loopEnd) || (loopIncr < 0 && li < loopEnd)) {
+                            break;
+                        }
+                        PHash_at_put_(localSlots, ctrName,
+                            IoState_numberWithDouble_(state, li));
+                        fd->controlFlow.forInfo.currentValue += loopIncr;
+                    }
+                    fd->result = cachedBody;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                    break;
+                }
+
                 // Push body frame
                 IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
                 IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
@@ -1308,6 +1415,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        for_after_body:
         case FRAME_STATE_FOR_AFTER_BODY: {
             // Body has been evaluated
             fd->controlFlow.forInfo.lastResult = fd->result;
@@ -1334,6 +1442,31 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Increment counter
             fd->controlFlow.forInfo.currentValue += fd->controlFlow.forInfo.increment;
+
+            // Fast path: body is a cached literal — run remaining iterations
+            // in a tight C loop, bypassing the eval loop overhead entirely.
+            // This matches master's tight C for-loop performance.
+            if (BODY_IS_CACHED_LITERAL(fd->controlFlow.forInfo.bodyMsg)) {
+                IoObject *cachedBody = CACHED_LITERAL_RESULT(fd->controlFlow.forInfo.bodyMsg);
+                double incr = fd->controlFlow.forInfo.increment;
+                double end = fd->controlFlow.forInfo.endValue;
+                IoSymbol *counterName = fd->controlFlow.forInfo.counterName;
+                PHash *localSlots = IoObject_slots(fd->locals);
+
+                for (;;) {
+                    double i = fd->controlFlow.forInfo.currentValue;
+                    if ((incr > 0 && i > end) || (incr < 0 && i < end)) {
+                        fd->result = cachedBody;
+                        fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                        goto for_after_body_done;
+                    }
+                    PHash_at_put_(localSlots, counterName,
+                        IoState_numberWithDouble_(state, i));
+                    fd->controlFlow.forInfo.currentValue += incr;
+                }
+            }
+
+            {
             double i = fd->controlFlow.forInfo.currentValue;
             double end = fd->controlFlow.forInfo.endValue;
             double incr = fd->controlFlow.forInfo.increment;
@@ -1362,8 +1495,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
             bodyFd->cachedTarget = fd->locals;
             bodyFd->state = FRAME_STATE_START;
             bodyFd->passStops = 1;
+            }
 
             // Stay in FOR_AFTER_BODY
+            for_after_body_done:
             break;
         }
 
@@ -1442,6 +1577,46 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 }
             }
 
+            // Fast path: body is a cached literal — run remaining iterations
+            // in a tight C loop for forward List iteration (not "each", not map).
+            if (BODY_IS_CACHED_LITERAL(fd->controlFlow.foreachInfo.bodyMsg) &&
+                ISLIST(collection) && !mapSource &&
+                !fd->controlFlow.foreachInfo.isEach && dir > 0) {
+                IoObject *cachedBody = CACHED_LITERAL_RESULT(fd->controlFlow.foreachInfo.bodyMsg);
+                IoSymbol *indexName = fd->controlFlow.foreachInfo.indexName;
+                IoSymbol *valueName = fd->controlFlow.foreachInfo.valueName;
+                List *list = IoList_rawList(collection);
+
+                // First iteration slots already set above, advance to next
+                idx += dir;
+                for (;;) {
+                    int currentSize = (int)List_size(list);
+                    if (idx >= currentSize) break;
+                    IoObject *el = (IoObject *)List_at_(list, idx);
+                    if (!el) el = state->ioNil;
+
+                    if (indexName) {
+                        IoObject_setSlot_to_(fd->locals, indexName,
+                            IoState_numberWithDouble_(state, idx));
+                    }
+                    if (valueName) {
+                        IoObject_setSlot_to_(fd->locals, valueName, el);
+                    }
+                    idx++;
+                }
+                fd->controlFlow.foreachInfo.currentIndex = idx;
+                fd->result = cachedBody;
+                fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                break;
+            }
+
+            // Slower cached literal fallback (map, reverse, each)
+            if (BODY_IS_CACHED_LITERAL(fd->controlFlow.foreachInfo.bodyMsg)) {
+                fd->result = CACHED_LITERAL_RESULT(fd->controlFlow.foreachInfo.bodyMsg);
+                fd->state = FRAME_STATE_FOREACH_AFTER_BODY;
+                break;
+            }
+
             // Push body frame
             IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
             IoEvalFrameData *bodyFd = FRAME_DATA(bodyFrame);
@@ -1463,6 +1638,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+        foreach_after_body:
         case FRAME_STATE_FOREACH_AFTER_BODY: {
             fd->controlFlow.foreachInfo.lastResult = fd->result;
 
