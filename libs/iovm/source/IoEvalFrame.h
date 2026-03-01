@@ -99,6 +99,7 @@ typedef struct IoEvalFrameData {
     IoObject *blockLocals;       // Block's local context (NULL if not a block)
     int passStops;               // Whether to pass stop status (break/continue/return)
     int isNestedEvalRoot;        // True if this is a nested eval boundary
+    uintptr_t retainPoolMark;    // Retain pool mark for block activation (0 if none)
 
     // Control flow continuation info (only one active at a time)
     union {
@@ -178,6 +179,18 @@ IOVM_API void IoEvalFrame_mark(IoEvalFrame *self);
 IOVM_API void IoEvalFrame_reset(IoEvalFrame *self);
 IOVM_API const char *IoEvalFrame_stateName(IoFrameState state);
 IOVM_API IoFrameState IoEvalFrame_stateFromName(const char *name);
+
+// Io-visible methods
+IOVM_API IO_METHOD(IoEvalFrame, message);
+IOVM_API IO_METHOD(IoEvalFrame, target);
+IOVM_API IO_METHOD(IoEvalFrame, localContext);
+IOVM_API IO_METHOD(IoEvalFrame, state);
+IOVM_API IO_METHOD(IoEvalFrame, parent);
+IOVM_API IO_METHOD(IoEvalFrame, result);
+IOVM_API IO_METHOD(IoEvalFrame, depth);
+IOVM_API IO_METHOD(IoEvalFrame, call);
+IOVM_API IO_METHOD(IoEvalFrame, blockLocals);
+IOVM_API IO_METHOD(IoEvalFrame, description);
 
 #ifdef __cplusplus
 }

@@ -180,6 +180,7 @@ IOVM_API IO_METHOD(IoCoroutine, callStack);
 IOVM_API void IoCoroutine_rawPrintBackTrace(IoCoroutine *self);
 
 IOVM_API IO_METHOD(IoCoroutine, rawSignalException);
+IOVM_API IO_METHOD(IoCoroutine, currentFrame);
 
 #ifdef __cplusplus
 }

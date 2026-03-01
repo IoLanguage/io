@@ -78,6 +78,7 @@ void IoCoroutine_protoFinish(IoCoroutine *self) {
         {"freeStack", IoCoroutine_freeStack},
         {"setRecentInChain", IoCoroutine_setRecentInChain},
         {"rawSignalException", IoCoroutine_rawSignalException},
+        {"currentFrame", IoCoroutine_currentFrame},
         {NULL, NULL},
     };
 
@@ -133,10 +134,6 @@ void IoCoroutine_mark(IoCoroutine *self) {
         }
     }
 
-    // Mark the return value
-    if (DATA(self)->returnValue) {
-        IoObject_shouldMark(DATA(self)->returnValue);
-    }
 }
 
 // raw
@@ -1063,6 +1060,21 @@ IO_METHOD(IoCoroutine, setMessageDebugging) {
     IoState_updateDebuggingMode(IOSTATE);
 
     return self;
+}
+
+IO_METHOD(IoCoroutine, currentFrame) {
+    /*doc Coroutine currentFrame
+    Returns the current (topmost) EvalFrame of this coroutine,
+    or nil if no frames are active. Only works for the currently
+    executing coroutine.
+    */
+    IoState *state = IOSTATE;
+    if (self == state->currentCoroutine && state->currentFrame) {
+        return state->currentFrame;
+    }
+    // For non-current coroutines, the frame stack is saved in the coro data
+    IoEvalFrame *f = DATA(self)->frameStack;
+    return f ? (IoObject *)f : IONIL(self);
 }
 
 IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *locals,

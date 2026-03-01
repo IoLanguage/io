@@ -97,13 +97,16 @@ void IoState_popFrame_(IoState *state) {
         IoEvalFrameData *fd = FRAME_DATA(frame);
         state->currentFrame = fd->parent;
         state->frameDepth--;
-        fd->parent = NULL;
 
         // Eagerly free argValues since they can be large
         if (fd->argValues) {
             io_free(fd->argValues);
-            fd->argValues = NULL;
         }
+
+        // Clear all fields so pooled frames don't hold stale GC references.
+        // Without this, GC marking of pooled frames keeps dead objects alive
+        // (e.g. WeakLink targets that should be collected).
+        memset(fd, 0, sizeof(IoEvalFrameData));
 
         // Return to pool if space available
         if (state->framePoolCount < FRAME_POOL_SIZE) {
@@ -127,7 +130,11 @@ void IoState_popFrame_(IoState *state) {
 // the frame=NULL handler for coro switching / exit).
 static int IoState_unwindFramesForError_(IoState *state) {
     while (state->currentFrame) {
-        int isRoot = FRAME_DATA(state->currentFrame)->isNestedEvalRoot;
+        IoEvalFrameData *ufd = FRAME_DATA(state->currentFrame);
+        int isRoot = ufd->isNestedEvalRoot;
+        if (ufd->retainPoolMark) {
+            IoState_popRetainPool(state);
+        }
         IoState_popFrame_(state);
         if (isRoot) {
             // Hit a nested eval boundary. Re-set errorRaised so the
@@ -968,6 +975,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 }
             }
 
+            if (fd->retainPoolMark) {
+                IoState_popRetainPoolExceptFor_(state, result);
+            }
+
             IoState_popFrame_(state);
 
             // If this was a nested eval root, exit the eval loop
@@ -1559,6 +1570,13 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
         }
     }
 
+    // Push retain pool BEFORE creating block locals/call objects.
+    // Everything created during block activation and body execution
+    // lands above this mark. When the block returns, the pool is
+    // popped (keeping only the result), releasing temporaries from
+    // the ioStack so GC can collect unreferenced objects.
+    uintptr_t retainPoolMark = IoState_pushRetainPool(state);
+
     // Create block locals
     IoObject *blockLocals = IOCLONE(state->localsProto);
     IoObject_isLocals_(blockLocals, 1);
@@ -1627,6 +1645,7 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     blockFd->call = callObject;
     blockFd->blockLocals = blockLocals;
     blockFd->passStops = blockData->passStops;
+    blockFd->retainPoolMark = retainPoolMark;
 
     // Caller frame will wait for block frame to return
     // Keep callerFrame in ACTIVATE state - when blockFrame returns,
@@ -1645,6 +1664,13 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     IoEvalFrameData *blockFd = FRAME_DATA(blockFrame);
     IoBlock *block = (IoBlock *)blockFd->slotValue;
     IoBlockData *blockData = (IoBlockData *)IoObject_dataPointer(block);
+
+    // Clear retain pool top to release objects from the previous
+    // TCO iteration. The retain pool mark (from activateBlock_)
+    // stays in place; only objects above it are released.
+    if (blockFd->retainPoolMark) {
+        IoState_clearTopPool(state);
+    }
 
     // Create new block locals for the tail-called block
     IoObject *blockLocals = IOCLONE(state->localsProto);

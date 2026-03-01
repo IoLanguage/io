@@ -749,7 +749,9 @@ IO_METHOD(IoList, atInsert) {
     */
 
     int index = IoMessage_locals_intArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (IoList_checkIndex(self, m, 1, index, "List atInsert"))
         return IONIL(self);
@@ -765,6 +767,7 @@ IO_METHOD(IoList, removeAt) {
     */
 
     int index = IoMessage_locals_intArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *v = List_at_(DATA(self), index);
 
     if (IoList_checkIndex(self, m, 0, index, "Io List atInsert"))

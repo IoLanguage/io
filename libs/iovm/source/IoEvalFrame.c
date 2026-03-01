@@ -5,6 +5,7 @@
 
 #include "IoEvalFrame.h"
 #include "IoState.h"
+#include "IoNumber.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -30,6 +31,24 @@ IoEvalFrame *IoEvalFrame_proto(void *vState) {
     memset(fd, 0, sizeof(IoEvalFrameData));
 
     IoState_registerProtoWithId_(state, self, protoId);
+
+    {
+        IoMethodTable methodTable[] = {
+            {"message", IoEvalFrame_message},
+            {"target", IoEvalFrame_target},
+            {"locals", IoEvalFrame_localContext},
+            {"state", IoEvalFrame_state},
+            {"parent", IoEvalFrame_parent},
+            {"result", IoEvalFrame_result},
+            {"depth", IoEvalFrame_depth},
+            {"call", IoEvalFrame_call},
+            {"blockLocals", IoEvalFrame_blockLocals},
+            {"description", IoEvalFrame_description},
+            {NULL, NULL},
+        };
+        IoObject_addMethodTable_(self, methodTable);
+    }
+
     return self;
 }
 
@@ -230,4 +249,109 @@ void IoEvalFrame_reset(IoEvalFrame *self) {
 
     // Zero all fields
     memset(fd, 0, sizeof(IoEvalFrameData));
+}
+
+// ------- Io-visible methods -------
+
+IO_METHOD(IoEvalFrame, message) {
+    /*doc EvalFrame message
+    Returns the Message being evaluated in this frame.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->message ? (IoObject *)fd->message : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, target) {
+    /*doc EvalFrame target
+    Returns the target (receiver) of the message in this frame.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->target ? fd->target : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, localContext) {
+    /*doc EvalFrame locals
+    Returns the locals object (sender context) for this frame.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->locals ? fd->locals : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, state) {
+    /*doc EvalFrame state
+    Returns the current state of this frame as a Symbol
+    (e.g. "start", "activate", "if:evalBranch").
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return IOSYMBOL(IoEvalFrame_stateName(fd->state));
+}
+
+IO_METHOD(IoEvalFrame, parent) {
+    /*doc EvalFrame parent
+    Returns the parent frame, or nil if this is the bottom frame.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->parent ? (IoObject *)fd->parent : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, result) {
+    /*doc EvalFrame result
+    Returns the current result value of this frame, or nil.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->result ? fd->result : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, depth) {
+    /*doc EvalFrame depth
+    Returns the number of frames from this frame to the bottom
+    of the stack (inclusive). The bottom frame has depth 1.
+    */
+    int count = 0;
+    IoEvalFrame *f = self;
+    while (f) {
+        count++;
+        f = FRAME_DATA(f)->parent;
+    }
+    return IONUMBER(count);
+}
+
+IO_METHOD(IoEvalFrame, call) {
+    /*doc EvalFrame call
+    Returns the Call object for this frame (created during block/method
+    activation), or nil if this is not a block activation frame.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->call ? (IoObject *)fd->call : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, blockLocals) {
+    /*doc EvalFrame blockLocals
+    Returns the block's local context object, or nil if this frame
+    is not a block activation.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    return fd->blockLocals ? fd->blockLocals : IONIL(self);
+}
+
+IO_METHOD(IoEvalFrame, description) {
+    /*doc EvalFrame description
+    Returns a human-readable description of this frame, including
+    the message name, state, and source location.
+    */
+    IoEvalFrameData *fd = FRAME_DATA(self);
+    const char *stateName = IoEvalFrame_stateName(fd->state);
+
+    if (fd->message) {
+        const char *msgName = CSTRING(IoMessage_name(fd->message));
+        const char *label = IoMessage_rawLabel(fd->message)
+                                ? CSTRING(IoMessage_rawLabel(fd->message))
+                                : "?";
+        int line = IoMessage_rawLineNumber(fd->message);
+        char buf[512];
+        snprintf(buf, sizeof(buf), "%s %s:%d [%s]", msgName, label, line, stateName);
+        return IOSYMBOL(buf);
+    }
+
+    return IOSYMBOL(stateName);
 }
