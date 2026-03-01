@@ -176,7 +176,9 @@ IO_METHOD(IoSeq, atInsertSeq) {
     */
 
     size_t n = IoMessage_locals_sizetArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoSeq *otherSeq = IoMessage_locals_valueAsStringArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     IO_ASSERT_NOT_SYMBOL(self);
 
@@ -194,7 +196,9 @@ IO_METHOD(IoSeq, insertSeqEvery) {
     */
 
     IoSeq *otherSeq = IoMessage_locals_valueAsStringArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     size_t itemCount = IoMessage_locals_sizetArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     IO_ASSERT_NOT_SYMBOL(self);
 
@@ -248,7 +252,9 @@ IO_METHOD(IoSeq, removeSlice) {
     */
 
     long start = IoMessage_locals_longArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     long end = IoMessage_locals_longArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     IO_ASSERT_NOT_SYMBOL(self);
 
@@ -276,7 +282,9 @@ IO_METHOD(IoSeq, leaveThenRemove) {
     */
 
     size_t itemsToLeave = IoMessage_locals_sizetArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     size_t itemsToRemove = IoMessage_locals_sizetArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     IO_ASSERT_NOT_SYMBOL(self);
 
@@ -392,6 +400,7 @@ IO_METHOD(IoSeq, atPut) {
     */
 
     size_t i = IoMessage_locals_longArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     UArray *a = DATA(self);
 
     IO_ASSERT_NOT_SYMBOL(self);

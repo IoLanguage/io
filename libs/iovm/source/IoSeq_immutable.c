@@ -385,11 +385,13 @@ IO_METHOD(IoSeq, exclusiveSlice) {
     */
 
     long fromIndex = IoMessage_locals_longArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     long last = UArray_size(DATA(self));
     UArray *ba;
 
     if (IoMessage_argCount(m) > 1) {
         last = IoMessage_locals_longArgAt_(m, locals, 1);
+        if (IOSTATE->errorRaised) return IONIL(self);
     }
 
     ba = UArray_slice(DATA(self), fromIndex, last);
@@ -410,11 +412,13 @@ IO_METHOD(IoSeq, inclusiveSlice) {
     */
 
     long fromIndex = IoMessage_locals_longArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     long last = UArray_size(DATA(self));
     UArray *ba;
 
     if (IoMessage_argCount(m) > 1) {
         last = IoMessage_locals_longArgAt_(m, locals, 1);
+        if (IOSTATE->errorRaised) return IONIL(self);
     }
 
     if (last == -1) {

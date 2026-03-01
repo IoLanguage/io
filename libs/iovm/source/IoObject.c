@@ -1034,7 +1034,9 @@ IO_METHOD(IoObject, protoSet_to_) {
     */
 
     IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *slotValue = IoMessage_locals_valueArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject_inlineSetSlot_to_(self, slotName, slotValue);
     return slotValue;
 }
@@ -1047,7 +1049,9 @@ IO_METHOD(IoObject, protoSetSlotWithType) {
     */
 
     IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *slotValue = IoMessage_locals_valueArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject_inlineSetSlot_to_(self, slotName, slotValue);
     IoObject_createSlotsIfNeeded(slotValue);
     if (PHash_at_(IoObject_slots(slotValue), IOSTATE->typeSymbol) == NULL) {

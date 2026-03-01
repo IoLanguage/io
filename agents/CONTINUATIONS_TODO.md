@@ -365,7 +365,7 @@ entering the recursive evaluator, allowing control flow primitives to use the co
 - [x] Phase 0: Mechanical rename (`frame->` → `fd->` via FRAME_DATA macro)
 - [x] Phase 1: IoEvalFrame as IoObject (`typedef IoObject IoEvalFrame`, data behind `IoObject_dataPointer`)
 - [x] Phase 2: Performance recovery (IoObject-level frame pool, 256 entries)
-- [ ] Phase 3: Io-level frame introspection (expose frame chain to Io code)
+- [x] Phase 3: Io-level frame introspection (expose frame chain to Io code)
 
 **What changed:**
 - `IoEvalFrame` is now `typedef IoObject IoEvalFrame` — frames are GC-managed
@@ -374,8 +374,10 @@ entering the recursive evaluator, allowing control flow primitives to use the co
 - Continuations use grab-pointer capture (no deep copy); `copy` method for explicit snapshots
 - `IoCoroutine_mark` simplified: single `IoObject_shouldMarkIfNonNull(frame)` marks entire chain
 - `IoState_iterative_fast.c` excluded from build (dead code)
-- 30/30 C tests, 230 Io tests (3 pre-existing failures only)
+- 30/30 C tests, 239 Io tests (0 failures)
 - Frame pool gives 6x speedup (23.85s → 3.65s on 1M for-loop)
+- Block activation retain pool bracketing fixes WeakLink GC regression
+- IoList atInsert/removeAt errorRaised checks fix pre-existing test failures
 
 **FRAME_DATA NULL safety:** Must check for NULL before calling `FRAME_DATA()` since it
 dereferences a pointer. Pattern: `fd = frame ? FRAME_DATA(frame) : NULL;`
