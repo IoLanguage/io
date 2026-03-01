@@ -46,8 +46,12 @@ IoTag *IoObject_newTag(void *state) {
 
 IoObject *IoObject_justAlloc(IoState *state) {
     IoObject *child = Collector_newMarker(state->collector);
-    CollectorMarker_setObject_(child, io_calloc(1, sizeof(IoObjectData)));
-    IoObject_protos_(child, (IoObject **)io_calloc(2, sizeof(IoObject *)));
+    // Allocate IoObjectData + 2-pointer protos array in a single block.
+    // The protos array is placed immediately after the IoObjectData struct.
+    IoObjectData *data =
+        io_calloc(1, sizeof(IoObjectData) + 2 * sizeof(IoObject *));
+    CollectorMarker_setObject_(child, data);
+    IoObject_protos_(child, (IoObject **)(data + 1));
     return child;
 }
 
@@ -386,8 +390,19 @@ int IoObject_rawProtosCount(IoObject *self) {
 
 void IoObject_rawAppendProto_(IoObject *self, IoObject *p) {
     int count = IoObject_rawProtosCount(self);
-    IoObject_protos_(self, io_realloc(IoObject_protos(self),
-                                      (count + 2) * sizeof(IoObject *)));
+    IoObject **oldProtos = IoObject_protos(self);
+    IoObjectData *data = IoObject_deref(self);
+
+    if ((void *)oldProtos == (void *)(data + 1)) {
+        // Protos are inline (part of data block) - can't realloc
+        IoObject **newProtos =
+            (IoObject **)io_calloc(count + 2, sizeof(IoObject *));
+        memcpy(newProtos, oldProtos, (count + 1) * sizeof(IoObject *));
+        IoObject_protos_(self, newProtos);
+    } else {
+        IoObject_protos_(self, io_realloc(oldProtos,
+                                          (count + 2) * sizeof(IoObject *)));
+    }
     IoObject_protos(self)[count] = IOREF(p);
     IoObject_protos(self)[count + 1] = NULL;
 }
@@ -396,10 +411,17 @@ void IoObject_rawPrependProto_(IoObject *self, IoObject *p) {
     int count = IoObject_rawProtosCount(self);
     int oldSize = (count + 1) * sizeof(IoObject *);
     int newSize = oldSize + sizeof(IoObject *);
+    IoObject **oldProtos = IoObject_protos(self);
+    IoObjectData *data = IoObject_deref(self);
 
-    IoObject_protos_(self, io_realloc(IoObject_protos(self), newSize));
-
-    {
+    if ((void *)oldProtos == (void *)(data + 1)) {
+        // Protos are inline - allocate new array
+        IoObject **newProtos =
+            (IoObject **)io_calloc(1, newSize);
+        memcpy(newProtos + 1, oldProtos, oldSize);
+        IoObject_protos_(self, newProtos);
+    } else {
+        IoObject_protos_(self, io_realloc(oldProtos, newSize));
         void *src = IoObject_protos(self);
         void *dst = IoObject_protos(self) + 1;
         memmove(dst, src, oldSize);
@@ -641,9 +663,27 @@ void IoObject_dealloc(IoObject *self) // really io_free it
             PHash_free(IoObject_slots(self));
         }
 
-        io_free(IoObject_protos(self));
-        // memset(self, 0, sizeof(IoObjectData));
-        io_free(self->object);
+        {
+            IoObjectData *objData = self->object;
+            IoObject **protos = objData->protos;
+            int protosInline = ((void *)protos == (void *)(objData + 1));
+
+            // Try to recycle data+protos block for Number allocation
+            IoState *st = objData->tag ? (IoState *)objData->tag->state : NULL;
+            if (st && objData->tag == st->numberTag &&
+                protosInline &&
+                st->numberDataFreeListSize < NUMBER_DATA_POOL_MAX) {
+                // Put on freelist (will be zeroed on reuse)
+                objData->data.ptr = st->numberDataFreeList;
+                st->numberDataFreeList = objData;
+                st->numberDataFreeListSize++;
+            } else {
+                if (!protosInline) {
+                    io_free(protos);
+                }
+                io_free(objData);
+            }
+        }
     } else {
         // printf("IoObject_decrementMarkerCount(%p)\n", (void *)self);
         IoObject_decrementMarkerCount(self)

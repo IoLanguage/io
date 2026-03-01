@@ -22,6 +22,12 @@ void IoState_setupCachedNumbers(IoState *self) {
         List_append_(self->cachedNumbers, number);
         IoState_retain_(self, number);
     }
+
+    // Cache Number proto and tag for fast inline allocation
+    self->numberProto = IoState_protoWithId_(self, "Number");
+    self->numberTag = IoObject_tag(self->numberProto);
+    self->numberDataFreeList = NULL;
+    self->numberDataFreeListSize = 0;
 }
 
 IoObject *IoState_numberWithDouble_(IoState *self, double n) {
@@ -32,7 +38,40 @@ IoObject *IoState_numberWithDouble_(IoState *self, double n) {
         return List_at_(self->cachedNumbers, i - MIN_CACHED_NUMBER);
     }
 
-    return IoNumber_newWithDouble_(self, n);
+    // Inline Number allocation: bypass IOCLONE overhead
+    // (avoids pushCollectorPause/popCollectorPause which can trigger GC,
+    //  tag function dispatch, double Collector_addValue_, redundant field setup)
+
+    // 1. Get a CollectorMarker (recycled from freed list or fresh)
+    IoObject *child = Collector_newMarker(self->collector);
+
+    // 2. Get data+protos block from freelist or allocate new
+    IoObjectData *data;
+    if (self->numberDataFreeList) {
+        data = (IoObjectData *)self->numberDataFreeList;
+        self->numberDataFreeList = data->data.ptr;
+        self->numberDataFreeListSize--;
+        // Zero for correctness (flags, listeners, etc. must be 0)
+        memset(data, 0, sizeof(IoObjectData) + 2 * sizeof(IoObject *));
+    } else {
+        data = (IoObjectData *)io_calloc(
+            1, sizeof(IoObjectData) + 2 * sizeof(IoObject *));
+    }
+
+    // 3. Set up the Number object
+    CollectorMarker_setObject_(child, data);
+    data->tag = self->numberTag;
+    data->data.d = n;
+    data->slots = IoObject_slots(self->numberProto);
+    // Protos array is inline (immediately after IoObjectData)
+    IoObject **protos = (IoObject **)(data + 1);
+    protos[0] = self->numberProto;
+    data->protos = protos;
+
+    // 4. Stack retain for GC safety (Collector_newMarker already added to whites)
+    IoState_unreferencedStackRetain_(self, child);
+
+    return child;
 }
 
 // strings ----------------------------------

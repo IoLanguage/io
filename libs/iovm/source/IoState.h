@@ -116,6 +116,13 @@ struct IoState {
 
     List *cachedNumbers;
 
+    // Fast Number allocation: cached tag/proto + data block freelist
+    IoTag *numberTag;
+    IoObject *numberProto;
+    #define NUMBER_DATA_POOL_MAX 512
+    void *numberDataFreeList;
+    int numberDataFreeListSize;
+
     // singletons
 
     IoObject *ioNil;

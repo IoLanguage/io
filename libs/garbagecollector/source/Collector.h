@@ -16,7 +16,7 @@ extern "C" {
     COLLECTMARKER_FOREACH(self->grays, v, code;);                              \
     COLLECTMARKER_FOREACH(self->blacks, v, code;);
 
-//#define COLLECTOR_RECYCLE_FREED 1
+#define COLLECTOR_RECYCLE_FREED 1
 #define COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP 1
 
 typedef enum {
