@@ -1107,6 +1107,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Condition has been evaluated, now convert to boolean
             IoObject *condResult = fd->result;
 
+            // Fast path: ioTrue, ioFalse, ioNil already are booleans.
+            // Skip the asBoolean frame push for these common cases
+            // (comparisons like <=, ==, != always return ioTrue/ioFalse).
+            if (condResult == state->ioTrue ||
+                condResult == state->ioFalse ||
+                condResult == state->ioNil) {
+                fd->state = FRAME_STATE_IF_EVAL_BRANCH;
+                break;
+            }
+
             // Push frame to send 'asBoolean' message to result
             IoEvalFrame *boolFrame = IoState_pushFrame_(state);
             IoEvalFrameData *boolFd = FRAME_DATA(boolFrame);
@@ -1211,6 +1221,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Condition has been evaluated, result is in fd->result
             // Now convert to boolean by sending asBoolean message
             IoObject *condResult = fd->result;
+
+            // Fast path: skip asBoolean for true/false/nil singletons
+            if (condResult == state->ioTrue ||
+                condResult == state->ioFalse ||
+                condResult == state->ioNil) {
+                fd->state = FRAME_STATE_WHILE_DECIDE;
+                break;
+            }
 
             IoEvalFrame *boolFrame = IoState_pushFrame_(state);
             IoEvalFrameData *boolFd = FRAME_DATA(boolFrame);
