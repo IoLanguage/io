@@ -62,6 +62,13 @@ typedef struct {
     int newMarkerCount;
     int allocsPerSweep;
 #endif
+
+#ifdef COLLECTOR_USE_REFCOUNT
+    CollectorMarker **rcFreeList;
+    size_t rcFreeCount;
+    size_t rcFreeCapacity;
+    int inSweep;
+#endif
 } Collector;
 
 COLLECTOR_API Collector *Collector_new(void);
@@ -148,6 +155,11 @@ COLLECTOR_API void Collector_pushPause(Collector *self);
 COLLECTOR_API void Collector_popPause(Collector *self);
 COLLECTOR_API int Collector_isPaused(Collector *self);
 COLLECTOR_API double Collector_timeUsed(Collector *self);
+
+#ifdef COLLECTOR_USE_REFCOUNT
+COLLECTOR_API void Collector_rcEnqueue_(Collector *self, CollectorMarker *m);
+COLLECTOR_API void Collector_rcDrainFreeList_(Collector *self);
+#endif
 
 #include "Collector_inline.h"
 

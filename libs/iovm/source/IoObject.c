@@ -585,25 +585,16 @@ void IoObject_freeSlots(
 }
 
 void IoObject_willFree(IoObject *self) {
-    /*
-    // disabled until we keep a list of coros and can make sure their stacks are
-    marked after the
-    // willFree gc stage
-    if (IoObject_sentWillFree(self) == 0)
-    {
-            IoObject *context;
-            IoMessage *m = IOSTATE->willFreeMessage;
-            IoObject *finalizeSlotValue = IoObject_rawGetSlot_context_(self,
-    IoMessage_name(m), &context);
-
-            if (finalizeSlotValue)
-            {
-                    IoObject_perform(self, self, m);
-                    IoObject_sentWillFree_(self, 1);
-                    //IoObject_makeGray(self);
-            }
+#ifdef COLLECTOR_USE_REFCOUNT
+    if (IoObject_ownsSlots(self)) {
+        PHASH_FOREACH(IoObject_slots(self), k, v,
+            (void)k;
+            Collector_value_removingRefTo_(IOCOLLECTOR, v);
+        );
     }
-    */
+#else
+    (void)self;
+#endif
 }
 
 void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle

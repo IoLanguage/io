@@ -18,6 +18,12 @@ extern "C" {
 #define IOREF(value) IoObject_addingRef_((IoObject *)self, (IoObject *)value)
 //#define IOALLOCREF(value) IoObject_isReferenced_(value, 1)
 
+#ifdef COLLECTOR_USE_REFCOUNT
+#define IOUNREF(value) Collector_value_removingRefTo_(IOCOLLECTOR, (void *)(value))
+#else
+#define IOUNREF(value)
+#endif
+
 #define IOOBJECT_ISTYPE(self, typeName)                                        \
     IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)Io##typeName##_rawClone)
 
