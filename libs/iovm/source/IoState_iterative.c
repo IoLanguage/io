@@ -578,8 +578,12 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Inline cache: if target has the same tag and global slot
             // version hasn't changed since we cached, reuse the result.
             // Only caches proto-chain hits (not direct slot hits on target).
+            // Guard: a local slot on target shadows the cached proto value
+            // (e.g. false.isTrue overrides Object.isTrue).
             if (lookupMd->inlineCacheTag == IoObject_tag(fd->target) &&
-                lookupMd->inlineCacheVersion == state->slotVersion) {
+                lookupMd->inlineCacheVersion == state->slotVersion &&
+                !(IoObject_ownsSlots(fd->target) &&
+                  PHash_at_(IoObject_slots(fd->target), messageName))) {
                 slotValue = lookupMd->inlineCacheValue;
                 slotContext = lookupMd->inlineCacheContext;
             } else {
@@ -1430,8 +1434,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
                 // Set the counter variable
                 IoObject *num = IoState_numberWithDouble_(state, i);
+#ifdef COLLECTOR_USE_REFCOUNT
+                // Opt-in to RC tracking for for-loop counter Numbers
+                ((CollectorMarker *)num)->refCount = 1;
+#endif
                 IoObject_setSlot_to_(fd->locals,
                     fd->controlFlow.forInfo.counterName, num);
+                // Counter is now reachable via PHash slot; pop retain stack
+                Stack_pop(state->currentIoStack);
 
                 // Fast path: body is a cached literal — run entire loop inline
                 if (BODY_IS_CACHED_LITERAL(fd->controlFlow.forInfo.bodyMsg)) {
@@ -1446,8 +1456,25 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         if ((loopIncr > 0 && li > loopEnd) || (loopIncr < 0 && li < loopEnd)) {
                             break;
                         }
-                        PHash_at_put_(localSlots, ctrName,
-                            IoState_numberWithDouble_(state, li));
+#ifdef COLLECTOR_USE_REFCOUNT
+                        IoObject *oldCtr1 = (IoObject *)PHash_at_(localSlots, ctrName);
+#endif
+                        {
+                        IoObject *newCtr1 = IoState_numberWithDouble_(state, li);
+#ifdef COLLECTOR_USE_REFCOUNT
+                        ((CollectorMarker *)newCtr1)->refCount = 1;
+#endif
+                        PHash_at_put_(localSlots, ctrName, newCtr1);
+                        }
+                        // Counter is in PHash slot; pop retain to prevent
+                        // unbounded ioStack growth
+                        Stack_pop(state->currentIoStack);
+#ifdef COLLECTOR_USE_REFCOUNT
+                        if (oldCtr1) {
+                            Collector_value_removingRefTo_(state->collector, oldCtr1);
+                            Collector_rcDrainFreeList_(state->collector);
+                        }
+#endif
                         fd->controlFlow.forInfo.currentValue += loopIncr;
                     }
                     fd->result = cachedBody;
@@ -1519,8 +1546,23 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         fd->state = FRAME_STATE_CONTINUE_CHAIN;
                         goto for_after_body_done;
                     }
-                    PHash_at_put_(localSlots, counterName,
-                        IoState_numberWithDouble_(state, i));
+#ifdef COLLECTOR_USE_REFCOUNT
+                    IoObject *oldCtr2 = (IoObject *)PHash_at_(localSlots, counterName);
+#endif
+                    {
+                    IoObject *newCtr2 = IoState_numberWithDouble_(state, i);
+#ifdef COLLECTOR_USE_REFCOUNT
+                    ((CollectorMarker *)newCtr2)->refCount = 1;
+#endif
+                    PHash_at_put_(localSlots, counterName, newCtr2);
+                    }
+                    Stack_pop(state->currentIoStack);
+#ifdef COLLECTOR_USE_REFCOUNT
+                    if (oldCtr2) {
+                        Collector_value_removingRefTo_(state->collector, oldCtr2);
+                        Collector_rcDrainFreeList_(state->collector);
+                    }
+#endif
                     fd->controlFlow.forInfo.currentValue += incr;
                 }
             }
@@ -1543,8 +1585,21 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Set the counter variable (direct PHash access since
             // slots are guaranteed to exist from for-loop setup)
             IoObject *num = IoState_numberWithDouble_(state, i);
+#ifdef COLLECTOR_USE_REFCOUNT
+            ((CollectorMarker *)num)->refCount = 1;
+            IoObject *oldCtr3 = (IoObject *)PHash_at_(IoObject_slots(fd->locals),
+                fd->controlFlow.forInfo.counterName);
+#endif
             PHash_at_put_(IoObject_slots(fd->locals),
                 fd->controlFlow.forInfo.counterName, num);
+            // Counter is now reachable via PHash slot; pop retain stack
+            Stack_pop(state->currentIoStack);
+#ifdef COLLECTOR_USE_REFCOUNT
+            if (oldCtr3) {
+                Collector_value_removingRefTo_(state->collector, oldCtr3);
+                Collector_rcDrainFreeList_(state->collector);
+            }
+#endif
 
             // Push body frame for next iteration
             IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
@@ -1624,6 +1679,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     IoObject_setSlot_to_(fd->locals,
                         fd->controlFlow.foreachInfo.indexName,
                         IoState_numberWithDouble_(state, idx));
+                    Stack_pop(state->currentIoStack);
                 }
                 if (fd->controlFlow.foreachInfo.valueName) {
                     IoObject_setSlot_to_(fd->locals,
@@ -1658,6 +1714,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     if (indexName) {
                         IoObject_setSlot_to_(fd->locals, indexName,
                             IoState_numberWithDouble_(state, idx));
+                        Stack_pop(state->currentIoStack);
                     }
                     if (valueName) {
                         IoObject_setSlot_to_(fd->locals, valueName, el);
@@ -1927,13 +1984,6 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     IoEvalFrameData *blockFd = FRAME_DATA(blockFrame);
     IoBlock *block = (IoBlock *)blockFd->slotValue;
     IoBlockData *blockData = (IoBlockData *)IoObject_dataPointer(block);
-
-    // Clear retain pool top to release objects from the previous
-    // TCO iteration. The retain pool mark (from activateBlock_)
-    // stays in place; only objects above it are released.
-    if (blockFd->retainPoolMark) {
-        IoState_clearTopPool(state);
-    }
 
     // NOTE: We do NOT return old blockLocals to the pool here.
     // The new block's Call object references the old blockLocals
