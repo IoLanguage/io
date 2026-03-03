@@ -63,6 +63,7 @@ IoCoroutine *IoCoroutine_proto(void *state) {
     DATA(self)->frameStack = NULL;
     DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
     DATA(self)->returnValue = NULL;
+    DATA(self)->frameDepth = 0;
 
     return self;
 }
@@ -97,6 +98,7 @@ IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto) {
     DATA(self)->frameStack = NULL;
     DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
     DATA(self)->returnValue = NULL;
+    DATA(self)->frameDepth = 0;
     return self;
 }
 
@@ -164,6 +166,7 @@ void IoCoroutine_saveState_(IoCoroutine *self, IoState *state) {
     DATA(self)->frameStack = state->currentFrame;
     DATA(self)->stopStatus = state->stopStatus;
     DATA(self)->returnValue = state->returnValue;
+    DATA(self)->frameDepth = state->frameDepth;
     // ioStack is already per-coroutine
 }
 
@@ -173,14 +176,7 @@ void IoCoroutine_restoreState_(IoCoroutine *self, IoState *state) {
     state->stopStatus = DATA(self)->stopStatus;
     state->returnValue = DATA(self)->returnValue;
     state->currentIoStack = DATA(self)->ioStack;
-
-    // Recalculate frame depth
-    state->frameDepth = 0;
-    IoEvalFrame *f = state->currentFrame;
-    while (f) {
-        state->frameDepth++;
-        f = FRAME_DATA(f)->parent;
-    }
+    state->frameDepth = DATA(self)->frameDepth;
 }
 
 /*

@@ -49,6 +49,7 @@ typedef struct {
     Stack *ioStack;                   // Retain stack for GC
     int stopStatus;                   // Per-coroutine stop status
     IoObject *returnValue;            // Per-coroutine return value
+    int frameDepth;                   // Saved frame depth (avoids O(n) recalc on switch)
     int debuggingOn;
 } IoCoroutineData;
 
