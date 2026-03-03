@@ -655,55 +655,31 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // arguments iteratively. This eliminates C stack re-entrancy
                 // for argument evaluation (~95% of all re-entrant call sites).
                 //
-                // Skip pre-eval for special forms that handle their own args:
-                // - Control flow: if, while, for, loop, callcc
-                // - Block construction: method, block
-                // - Iteration: foreach, reverseForeach, foreachLine, foreachSlot
-                // - Unevaluated body: repeat, do, lexicalDo, cpuSecondsToRun
-                // - Sort with expression: sortInPlace
-                // - Short-circuit: or, and
-                // - Message reification: message
+                // Skip pre-eval for CFunctions with isLazyArgs flag set.
+                // The flag is set at init time on all special-form CFunctions
+                // (if, while, for, foreach, method, block, etc.) and
+                // automatically covers aliases (e.g., elseif := getSlot("if"))
+                // since they share the same CFunction object.
+                //
+                // Also skip for CFunctions using IoObject_self (thisContext,
+                // ifNil, etc.) which ignore their arguments entirely.
                 // ============================================================
-                // Check cached special form flag (0=unchecked, 1=normal, 2=special)
+                // Check cached flag (0=unchecked, 1=normal, 2=special)
                 IoMessageData *activateMd = IOMESSAGEDATA(fd->message);
                 int isSpecialForm;
                 if (activateMd->isSpecialForm == 0) {
-                    // First time: compute and cache
-                    IoSymbol *msgName = activateMd->name;
-                    isSpecialForm =
-                        (msgName == state->ifSymbol ||
-                         msgName == state->whileSymbol ||
-                         msgName == state->forSymbol ||
-                         msgName == state->loopSymbol ||
-                         msgName == state->callccSymbol ||
-                         msgName == state->methodSymbol ||
-                         msgName == state->blockSymbol ||
-                         msgName == state->foreachSymbol ||
-                         msgName == state->reverseForeachSymbol ||
-                         msgName == state->foreachLineSymbol ||
-                         msgName == state->messageSymbol ||
-                         msgName == state->repeatSymbol ||
-                         msgName == state->doSymbol ||
-                         msgName == state->lexicalDoSymbol ||
-                         msgName == state->foreachSlotSymbol ||
-                         msgName == state->cpuSecondsToRunSymbol ||
-                         msgName == state->sortInPlaceSymbol ||
-                         msgName == state->orSymbol ||
-                         msgName == state->andSymbol);
+                    isSpecialForm = 0;
+                    if (ISCFUNCTION(slotValue)) {
+                        IoCFunctionData *cfData =
+                            (IoCFunctionData *)IoObject_dataPointer(slotValue);
+                        if (cfData->isLazyArgs ||
+                            cfData->func == (IoUserFunction *)IoObject_self) {
+                            isSpecialForm = 1;
+                        }
+                    }
                     activateMd->isSpecialForm = isSpecialForm ? 2 : 1;
                 } else {
                     isSpecialForm = (activateMd->isSpecialForm == 2);
-                }
-
-                // Also skip pre-evaluation for CFunctions that ignore
-                // their args (e.g., IoObject_self used for thisContext,
-                // ifNil, etc.)
-                if (!isSpecialForm && ISCFUNCTION(slotValue)) {
-                    IoCFunctionData *cfData =
-                        (IoCFunctionData *)IoObject_dataPointer(slotValue);
-                    if (cfData->func == (IoUserFunction *)IoObject_self) {
-                        isSpecialForm = 1;
-                    }
                 }
 
                 if (!isSpecialForm && !fd->argValues) {

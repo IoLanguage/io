@@ -40,6 +40,52 @@
 
 void IoVMCodeInit(IoObject *context);
 
+// Mark CFunction objects whose arguments must not be pre-evaluated.
+// Called once during init after all protos are registered.
+// Aliases (e.g., false.elseif := Object getSlot("if")) automatically
+// inherit the flag since they reference the same CFunction object.
+static void IoState_markSlotLazyArgs_(IoState *self, const char *protoId,
+                                      const char *slotName) {
+    IoObject *proto = IoState_protoWithId_(self, protoId);
+    if (!proto) return;
+    IoObject *f = IoObject_rawGetSlot_(proto, SIOSYMBOL(slotName));
+    if (f && ISCFUNCTION(f)) {
+        ((IoCFunctionData *)IoObject_dataPointer(f))->isLazyArgs = 1;
+    }
+}
+
+static void IoState_markLazyArgsCFunctions_(IoState *self) {
+    // Control flow
+    IoState_markSlotLazyArgs_(self, "Object", "if");
+    IoState_markSlotLazyArgs_(self, "Object", "while");
+    IoState_markSlotLazyArgs_(self, "Object", "for");
+    IoState_markSlotLazyArgs_(self, "Object", "loop");
+    IoState_markSlotLazyArgs_(self, "Object", "callcc");
+    // Block/method construction
+    IoState_markSlotLazyArgs_(self, "Object", "method");
+    IoState_markSlotLazyArgs_(self, "Object", "block");
+    // Evaluation (body is lazy)
+    IoState_markSlotLazyArgs_(self, "Object", "do");
+    IoState_markSlotLazyArgs_(self, "Object", "lexicalDo");
+    IoState_markSlotLazyArgs_(self, "Object", "message");
+    IoState_markSlotLazyArgs_(self, "Object", "foreachSlot");
+    // List
+    IoState_markSlotLazyArgs_(self, "List", "foreach");
+    IoState_markSlotLazyArgs_(self, "List", "reverseForeach");
+    IoState_markSlotLazyArgs_(self, "List", "sortInPlace");
+    // Number
+    IoState_markSlotLazyArgs_(self, "Number", "repeat");
+    // Date
+    IoState_markSlotLazyArgs_(self, "Date", "cpuSecondsToRun");
+    // Sequence
+    IoState_markSlotLazyArgs_(self, "Sequence", "foreach");
+    // Map
+    IoState_markSlotLazyArgs_(self, "Map", "foreach");
+    // File
+    IoState_markSlotLazyArgs_(self, "File", "foreach");
+    IoState_markSlotLazyArgs_(self, "File", "foreachLine");
+}
+
 void IoState_new_atAddress(void *address) {
     IoState *self = (IoState *)address;
     IoCFunction *cFunctionProto;
@@ -250,6 +296,7 @@ void IoState_new_atAddress(void *address) {
         Collector_collect(self->collector);
         // io_show_mem("after IoState_clearRetainStack and Collector_collect");
         IoState_setupUserInterruptHandler(self);
+        IoState_markLazyArgsCFunctions_(self);
     }
 }
 
@@ -280,26 +327,7 @@ void IoState_setupQuickAccessSymbols(IoState *self) {
     self->typeSymbol = IoState_retainedSymbol(self, "type");
     self->updateSlotSymbol = IoState_retainedSymbol(self, "updateSlot");
 
-    // Special form symbols (for lazy evaluation)
-    self->ifSymbol = IoState_retainedSymbol(self, "if");
-    self->whileSymbol = IoState_retainedSymbol(self, "while");
-    self->loopSymbol = IoState_retainedSymbol(self, "loop");
-    self->forSymbol = IoState_retainedSymbol(self, "for");
-    self->callccSymbol = IoState_retainedSymbol(self, "callcc");
-    self->methodSymbol = IoState_retainedSymbol(self, "method");
-    self->blockSymbol = IoState_retainedSymbol(self, "block");
-    self->foreachSymbol = IoState_retainedSymbol(self, "foreach");
-    self->reverseForeachSymbol = IoState_retainedSymbol(self, "reverseForeach");
-    self->foreachLineSymbol = IoState_retainedSymbol(self, "foreachLine");
-    self->messageSymbol = IoState_retainedSymbol(self, "message");
-    self->repeatSymbol = IoState_retainedSymbol(self, "repeat");
-    self->doSymbol = IoState_retainedSymbol(self, "do");
-    self->lexicalDoSymbol = IoState_retainedSymbol(self, "lexicalDo");
-    self->foreachSlotSymbol = IoState_retainedSymbol(self, "foreachSlot");
-    self->cpuSecondsToRunSymbol = IoState_retainedSymbol(self, "cpuSecondsToRun");
-    self->sortInPlaceSymbol = IoState_retainedSymbol(self, "sortInPlace");
-    self->orSymbol = IoState_retainedSymbol(self, "or");
-    self->andSymbol = IoState_retainedSymbol(self, "and");
+
 
     self->runTargetSymbol = IoState_retainedSymbol(self, "runTarget");
     self->runMessageSymbol = IoState_retainedSymbol(self, "runMessage");

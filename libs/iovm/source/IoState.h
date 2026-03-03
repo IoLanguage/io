@@ -65,26 +65,7 @@ struct IoState {
     IoSymbol *typeSymbol;
     IoSymbol *updateSlotSymbol;
 
-    // Special form symbols (for lazy evaluation)
-    IoSymbol *ifSymbol;
-    IoSymbol *whileSymbol;
-    IoSymbol *loopSymbol;
-    IoSymbol *forSymbol;
-    IoSymbol *callccSymbol;
-    IoSymbol *methodSymbol;
-    IoSymbol *blockSymbol;
-    IoSymbol *foreachSymbol;
-    IoSymbol *reverseForeachSymbol;
-    IoSymbol *foreachLineSymbol;
-    IoSymbol *messageSymbol;
-    IoSymbol *repeatSymbol;
-    IoSymbol *doSymbol;
-    IoSymbol *lexicalDoSymbol;
-    IoSymbol *foreachSlotSymbol;
-    IoSymbol *cpuSecondsToRunSymbol;
-    IoSymbol *sortInPlaceSymbol;
-    IoSymbol *orSymbol;
-    IoSymbol *andSymbol;
+
 
     IoSymbol *runTargetSymbol;
     IoSymbol *runMessageSymbol;
