@@ -89,13 +89,18 @@ void IoContinuation_mark(IoContinuation *self) {
     IoObject_shouldMarkIfNonNull(DATA(self)->capturedFrame);
 }
 
+static IoEvalFrame *copyFrameChain_(IoState *state, IoEvalFrame *src);
+
 // Capture the current frame stack into this continuation.
-// Just grabs the pointer — no deep copy. Frames are GC-managed IoObjects
-// and survive as long as this continuation references them.
+// Deep copy the frame chain at capture time. This is necessary because
+// popFrame_ zeroes frame data when frames are popped, so a grab-pointer
+// capture would lose the frame state after normal return from callcc.
+// The deep copy ensures deferred and multi-shot invocations work correctly.
 void IoContinuation_captureFrameStack_(IoContinuation *self,
                                         IoEvalFrame *frame,
                                         IoObject *locals) {
-    DATA(self)->capturedFrame = frame;
+    IoState *state = IOSTATE;
+    DATA(self)->capturedFrame = copyFrameChain_(state, frame);
     DATA(self)->capturedLocals = locals;
     DATA(self)->invoked = 0;
 }

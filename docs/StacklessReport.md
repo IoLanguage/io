@@ -109,13 +109,13 @@ result println  // => "found it"
 |--------|-------------|
 | `invoke(value)` | Restore captured frames, return value at callcc site |
 | `copy` | Deep-copy the frame chain (enables multi-shot use) |
-| `setMultiShot` | Allow multiple invocations |
+| `isInvoked` | Returns true if this continuation has been invoked |
 | `frameCount` | Number of captured frames |
 | `frameStates` | List of state names per frame |
 | `frameMessages` | List of current messages per frame |
 | `asMap` / `fromMap` | Serialize/deserialize continuation state |
 
-Continuations are one-shot by default. Call `setMultiShot` or use `copy` for generators and backtracking patterns. See `docs/IoContinuationsExamples.md` for detailed examples.
+Continuations are one-shot by default. Use `copy` to create a fresh continuation for multi-shot patterns (generators, backtracking). See `docs/IoContinuationsExamples.md` for detailed examples.
 
 ### Frame Introspection
 
@@ -180,7 +180,7 @@ The cache stores `(tag, slotValue, context, version)` and only caches proto-chai
 
 ### Special Form Detection
 
-A per-message `isSpecialForm` flag (cached on first use) skips argument pre-evaluation for control flow primitives (`if`, `while`, `for`, `loop`, `callcc`, `method`, `block`, `foreach`, `and`, `or`, etc.). Arguments to these forms are evaluated lazily by the primitive itself.
+Each CFunction that needs lazy argument evaluation carries an `isLazyArgs` flag, set at VM init time. This includes control flow primitives (`if`, `while`, `for`, `loop`, `callcc`), block constructors (`method`, `block`), iteration (`foreach`, `foreachSlot`), and others. Since Io's `getSlot` returns the same CFunction object, aliases automatically inherit the flag (e.g., `false.elseif := Object getSlot("if")`). The result is cached per-message-site for fast subsequent lookups.
 
 ### Cached Literal Fast Paths
 
