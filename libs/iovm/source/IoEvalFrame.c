@@ -150,10 +150,12 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
             IoObject_shouldMarkIfNonNull(fd->controlFlow.foreachInfo.mapSource);
             break;
 
+#ifdef IO_CALLCC
         case FRAME_STATE_CALLCC_EVAL_BLOCK:
             IoObject_shouldMarkIfNonNull(fd->controlFlow.callccInfo.continuation);
             IoObject_shouldMarkIfNonNull(fd->controlFlow.callccInfo.blockLocals);
             break;
+#endif
 
         case FRAME_STATE_CORO_WAIT_CHILD:
         case FRAME_STATE_CORO_YIELDED:
@@ -195,7 +197,9 @@ const char *IoEvalFrame_stateName(IoFrameState state) {
         case FRAME_STATE_FOR_AFTER_BODY: return "for:afterBody";
         case FRAME_STATE_FOREACH_EVAL_BODY: return "foreach:evalBody";
         case FRAME_STATE_FOREACH_AFTER_BODY: return "foreach:afterBody";
+#ifdef IO_CALLCC
         case FRAME_STATE_CALLCC_EVAL_BLOCK: return "callcc:evalBlock";
+#endif
         case FRAME_STATE_CORO_WAIT_CHILD: return "coro:waitChild";
         case FRAME_STATE_CORO_YIELDED: return "coro:yielded";
         case FRAME_STATE_DO_EVAL: return "do:eval";
@@ -227,7 +231,9 @@ IoFrameState IoEvalFrame_stateFromName(const char *name) {
 	if (strcmp(name, "for:afterBody") == 0) return FRAME_STATE_FOR_AFTER_BODY;
 	if (strcmp(name, "foreach:evalBody") == 0) return FRAME_STATE_FOREACH_EVAL_BODY;
 	if (strcmp(name, "foreach:afterBody") == 0) return FRAME_STATE_FOREACH_AFTER_BODY;
+#ifdef IO_CALLCC
 	if (strcmp(name, "callcc:evalBlock") == 0) return FRAME_STATE_CALLCC_EVAL_BLOCK;
+#endif
 	if (strcmp(name, "coro:waitChild") == 0) return FRAME_STATE_CORO_WAIT_CHILD;
 	if (strcmp(name, "coro:yielded") == 0) return FRAME_STATE_CORO_YIELDED;
 	if (strcmp(name, "do:eval") == 0) return FRAME_STATE_DO_EVAL;

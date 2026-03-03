@@ -167,7 +167,9 @@ struct IoState {
 
     // Control flow handling flag (for non-reentrant primitives)
     int needsControlFlowHandling;      // Set by primitives that modify frame state
+#ifdef IO_CALLCC
     int continuationInvoked;           // Set when a continuation replaces the frame stack
+#endif
     int nestedEvalDepth;               // Depth of nested eval loops (for IoCoroutine_try)
 
     // Slot mutation counter for inline cache invalidation.

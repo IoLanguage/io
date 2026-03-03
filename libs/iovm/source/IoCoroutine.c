@@ -16,7 +16,9 @@ Now implemented using frame-based evaluation (no platform-specific assembly).
 #include "IoList.h"
 #include "IoBlock.h"
 #include "IoEvalFrame.h"
+#ifdef IO_CALLCC
 #include "IoContinuation.h"
+#endif
 #include <execinfo.h>
 
 //#define DEBUG

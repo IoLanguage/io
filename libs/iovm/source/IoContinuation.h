@@ -16,6 +16,12 @@ create an independent deep copy of the continuation first.
 #ifndef IoContinuation_DEFINED
 #define IoContinuation_DEFINED 1
 
+// callcc / first-class continuations are disabled by default.
+// They deep-copy the entire frame stack and can rewind execution past
+// cleanup code, corrupt handler stacks, and violate single-return
+// assumptions. Enable with -DIO_CALLCC at build time if needed.
+#ifdef IO_CALLCC
+
 #include "IoVMApi.h"
 #include "IoObject.h"
 #include "IoEvalFrame.h"
@@ -63,4 +69,6 @@ IOVM_API IO_METHOD(IoObject, callcc);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* IO_CALLCC */
 #endif

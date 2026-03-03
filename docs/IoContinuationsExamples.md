@@ -1,5 +1,7 @@
 # Io Continuations Examples
 
+> **Note:** `callcc` is disabled by default. It is guarded behind `#ifdef IO_CALLCC` because undelimited continuations deep-copy the entire frame stack and can rewind execution past cleanup code, corrupt handler stacks, and violate single-return assumptions. To enable, build with `-DIO_CALLCC`.
+
 First-class continuations are created with `callcc`, which calls a block with the current continuation as its argument. The continuation captures a deep copy of the execution state (frame stack) at the point of the `callcc` call.
 
 ## Escape Continuation (Early Return)

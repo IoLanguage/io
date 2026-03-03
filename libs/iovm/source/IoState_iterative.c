@@ -827,6 +827,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         break;  // loop restarts, frame=NULL handler takes over
                     }
 
+#ifdef IO_CALLCC
                     // Check if a continuation was invoked (frame stack replaced)
                     if (state->continuationInvoked) {
 #ifdef DEBUG_EVAL_LOOP
@@ -836,6 +837,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         state->continuationInvoked = 0;
                         break;
                     }
+#endif
 
                     // Only pop the retain pool if the ioStack hasn't been
                     // switched by a coroutine operation. If it HAS been
@@ -983,7 +985,9 @@ IoObject *IoState_evalLoop_(IoState *state) {
                          pd->state == FRAME_STATE_FOR_EVAL_BODY ||
                          pd->state == FRAME_STATE_FOR_AFTER_BODY ||
                          pd->state == FRAME_STATE_FOREACH_AFTER_BODY ||
+#ifdef IO_CALLCC
                          pd->state == FRAME_STATE_CALLCC_EVAL_BLOCK ||
+#endif
                          pd->state == FRAME_STATE_DO_WAIT ||
                          pd->state == FRAME_STATE_CONTINUE_CHAIN) {
                     pd->result = result;
@@ -1764,6 +1768,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
+#ifdef IO_CALLCC
         case FRAME_STATE_CALLCC_EVAL_BLOCK: {
             // Block body has finished evaluating
             // The result is in fd->result (set by RETURN handler)
@@ -1773,6 +1778,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
             fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
+#endif
 
         // ============================================================
         // COROUTINE STATES

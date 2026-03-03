@@ -52,7 +52,9 @@ typedef enum {
     FRAME_STATE_FOREACH_AFTER_BODY,   // After body, increment and check
 
     // Callcc states
+#ifdef IO_CALLCC
     FRAME_STATE_CALLCC_EVAL_BLOCK,    // Evaluating callcc block body
+#endif
 
     // Coroutine states
     FRAME_STATE_CORO_WAIT_CHILD,      // Waiting for child coroutine to complete
@@ -147,10 +149,12 @@ typedef struct IoEvalFrameData {
             IoObject *mapSource;          // Original Map (when collection is a keys list)
         } foreachInfo;
 
+#ifdef IO_CALLCC
         struct {
             IoObject *continuation;       // The Continuation object
             IoObject *blockLocals;        // Block's local context
         } callccInfo;
+#endif
 
         struct {
             IoObject *childCoroutine;     // Child coroutine we're waiting for

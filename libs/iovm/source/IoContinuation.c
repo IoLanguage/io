@@ -2,6 +2,8 @@
 // metadoc Continuation copyright Steve Dekorte 2002, 2025
 // metadoc Continuation license BSD revised
 
+#ifdef IO_CALLCC
+
 #include "IoContinuation.h"
 #include "IoState.h"
 #include "IoState_eval.h"
@@ -923,3 +925,5 @@ IO_METHOD(IoObject, callcc) {
 
     return state->ioNil;
 }
+
+#endif /* IO_CALLCC */

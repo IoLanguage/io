@@ -13,7 +13,10 @@ objects. When cloned, an Object will call its init slot (with no arguments).
 #include "IoObject.h"
 #undef IOOBJECT_C
 #include "IoCoroutine.h"
+#ifdef IO_CALLCC
 #include "IoContinuation.h"
+#endif
+#include "IoEvalFrame.h"
 #include "IoTag.h"
 #include "IoCFunction.h"
 #include "IoSeq.h"
@@ -171,7 +174,9 @@ IoObject *IoObject_protoFinish(void *state) {
         {"break", IoObject_break},
         {"continue", IoObject_continue},
         {"stopStatus", IoObject_stopStatus},
+#ifdef IO_CALLCC
         {"callcc", IoObject_callcc},
+#endif
 
         // utility
 

@@ -6,7 +6,7 @@ The `stackless` branch replaces Io's recursive C-stack-based evaluator with a he
 
 ### Goals
 
-1. **First-class continuations** — `callcc` captures the entire execution state as a serializable, network-transmittable object. Impossible with C stack recursion.
+1. **First-class continuations** — `callcc` captures the entire execution state as a serializable, network-transmittable object. Impossible with C stack recursion. **Note:** `callcc` is disabled by default (behind `#ifdef IO_CALLCC`) because undelimited continuations can rewind past cleanup code and corrupt handler stacks. Enable with `-DIO_CALLCC` at build time.
 2. **Portable coroutines** — No platform-specific assembly, no `setjmp`/`longjmp`, no `ucontext`, no fibers. Coroutine switching is just swapping a frame pointer.
 3. **No stack overflow** — Tail call optimization reuses frames. Deep recursion is bounded by heap, not C stack depth.
 4. **Performance** — The iterative evaluator with object pooling and inline caching is 1.1x–4x faster than the recursive evaluator across all benchmarks.

@@ -9,7 +9,9 @@
 #include "IoObject.h"
 #include "IoCall.h"
 #include "IoCoroutine.h"
+#ifdef IO_CALLCC
 #include "IoContinuation.h"
+#endif
 #include "IoEvalFrame.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
@@ -60,7 +62,9 @@ static void IoState_markLazyArgsCFunctions_(IoState *self) {
     IoState_markSlotLazyArgs_(self, "Object", "while");
     IoState_markSlotLazyArgs_(self, "Object", "for");
     IoState_markSlotLazyArgs_(self, "Object", "loop");
+#ifdef IO_CALLCC
     IoState_markSlotLazyArgs_(self, "Object", "callcc");
+#endif
     // Block/method construction
     IoState_markSlotLazyArgs_(self, "Object", "method");
     IoState_markSlotLazyArgs_(self, "Object", "block");
@@ -231,8 +235,10 @@ void IoState_new_atAddress(void *address) {
         IoObject_setSlot_to_(core, SIOSYMBOL("Map"), IoMap_proto(self));
         // IoObject_setSlot_to_(core, SIOSYMBOL("Range"), IoRange_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Coroutine"), self->mainCoroutine);
+#ifdef IO_CALLCC
         IoObject_setSlot_to_(core, SIOSYMBOL("Continuation"),
                              IoContinuation_proto(self));
+#endif
         IoObject_setSlot_to_(core, SIOSYMBOL("EvalFrame"),
                              IoEvalFrame_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Error"), IoError_proto(self));
@@ -271,7 +277,9 @@ void IoState_new_atAddress(void *address) {
         self->framePoolCount = 0;
         memset(self->framePool, 0, sizeof(self->framePool));
         self->needsControlFlowHandling = 0;
+#ifdef IO_CALLCC
         self->continuationInvoked = 0;
+#endif
         self->nestedEvalDepth = 0;
         self->errorRaised = 0;
         self->slotVersion = 0;

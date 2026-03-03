@@ -198,6 +198,7 @@ int test_list(IoState *state) {
     return 1;
 }
 
+#ifdef IO_CALLCC
 // Test callcc (call with current continuation)
 int test_callcc_normal(IoState *state) {
     printf("Test 11: callcc normal return... ");
@@ -268,6 +269,7 @@ int test_callcc_escape(IoState *state) {
     printf("PASSED\n");
     return 1;
 }
+#endif /* IO_CALLCC */
 
 // Test try/catch with Exception raise
 int test_try_catch(IoState *state) {
@@ -578,6 +580,7 @@ int test_tco_if_deep(IoState *state) {
 	return 1;
 }
 
+#ifdef IO_CALLCC
 // Test continuation introspection methods
 int test_continuation_introspection(IoState *state) {
 	printf("Test 27: Continuation introspection... ");
@@ -623,6 +626,7 @@ int test_continuation_introspection(IoState *state) {
 	printf("PASSED\n");
 	return 1;
 }
+#endif /* IO_CALLCC */
 
 // Test TCO through if with relayStopStatus (? operator)
 int test_tco_if_stop_status(IoState *state) {
@@ -708,6 +712,7 @@ int test_question_mark_continue(IoState *state) {
 	return 1;
 }
 
+#ifdef IO_CALLCC
 // Test Continuation asMap serialization
 int test_continuation_asMap(IoState *state) {
 	printf("Test 30: Continuation asMap... ");
@@ -754,6 +759,7 @@ int test_continuation_asMap(IoState *state) {
 	printf("PASSED\n");
 	return 1;
 }
+#endif /* IO_CALLCC */
 
 int main(int argc, char **argv) {
     printf("=== Iterative Evaluator Tests ===\n\n");
@@ -779,9 +785,11 @@ int main(int argc, char **argv) {
     total++; passed += test_nested_blocks(state);
     total++; passed += test_lazy_args(state);
     total++; passed += test_list(state);
+#ifdef IO_CALLCC
     total++; passed += test_callcc_normal(state);
     total++; passed += test_callcc_invoke(state);
     total++; passed += test_callcc_escape(state);
+#endif
     total++; passed += test_try_catch(state);
     total++; passed += test_try_no_exception(state);
     total++; passed += test_try_continues(state);
@@ -795,10 +803,14 @@ int main(int argc, char **argv) {
     total++; passed += test_tco_accumulator(state);
     total++; passed += test_tco_through_if(state);
     total++; passed += test_tco_if_deep(state);
+#ifdef IO_CALLCC
     total++; passed += test_continuation_introspection(state);
+#endif
     total++; passed += test_tco_if_stop_status(state);
     total++; passed += test_question_mark_continue(state);
+#ifdef IO_CALLCC
     total++; passed += test_continuation_asMap(state);
+#endif
 
     // Print summary
     printf("\n=== Results ===\n");
