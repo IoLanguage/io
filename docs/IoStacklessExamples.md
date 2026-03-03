@@ -71,7 +71,7 @@ The `@` operator returns a future that resolves when the coroutine completes:
 
 ```io
 obj := Object clone
-obj double := method(v, return v * 2)
+obj double := method(v, v * 2)
 future := obj @double(2)
 future println  // => 4
 ```
