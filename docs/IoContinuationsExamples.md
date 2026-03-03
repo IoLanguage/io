@@ -133,6 +133,120 @@ Each call to `amb` returns the first choice. If a later constraint fails, invoki
 | `frameMessages` | List of current messages per frame |
 | `asMap` / `fromMap` | Serialize/deserialize continuation state |
 
+## Resumable Exceptions
+
+The resumable exception system builds on the continuation infrastructure. `signal` is the resumable counterpart to `raise` — a handler can inspect the exception and supply a replacement value, resuming execution at the signal site.
+
+### Basic Signal and Resume
+
+```io
+result := withHandler(Exception,
+    block(e, resume, resume invoke(42)),
+    Exception signal("need value") + 1
+)
+result println  // => 43
+```
+
+`Exception signal("need value")` looks for a matching handler. The handler receives `(exception, resume)` and calls `resume invoke(42)`, which makes `signal` return 42. Then `42 + 1` evaluates to 43.
+
+### Auto-Resume (Handler Return Value)
+
+If the handler simply returns a value (without explicit `resume invoke`), that value becomes signal's return value:
+
+```io
+result := withHandler(Exception,
+    block(e, resume, 42),
+    Exception signal("need value") + 1
+)
+result println  // => 43
+```
+
+### Re-Raise from Handler
+
+A handler can decline to resume and re-raise the exception as non-resumable:
+
+```io
+e := try(
+    withHandler(Exception,
+        block(exc, resume, exc pass),
+        Exception signal("will re-raise")
+    )
+)
+e error println  // => "will re-raise"
+```
+
+### Custom Exception Types
+
+Handlers match by prototype chain using `isKindOf`:
+
+```io
+MyError := Exception clone do(type := "MyError")
+result := withHandler(MyError,
+    block(exc, resume, resume invoke("handled")),
+    MyError signal("custom error")
+)
+result println  // => "handled"
+```
+
+A handler for `MyError` won't catch a plain `Exception signal`. A handler for `Exception` catches everything (since all exception types descend from Exception).
+
+### Nested Handlers
+
+Handlers form a stack — inner handlers take priority:
+
+```io
+result := withHandler(Exception,
+    block(e, resume, resume invoke("outer")),
+    withHandler(Exception,
+        block(e, resume, resume invoke("inner")),
+        Exception signal("test")
+    )
+)
+result println  // => "inner"
+```
+
+### Multiple Signals in One Body
+
+A handler can handle multiple signals from the same body. It's called once per signal:
+
+```io
+count := 0
+result := withHandler(Exception,
+    block(e, resume,
+        count = count + 1
+        resume invoke(count)
+    ),
+    a := Exception signal("first")
+    b := Exception signal("second")
+    list(a, b)
+)
+result println  // => list(1, 2)
+```
+
+### Signal Inside Try
+
+Handlers installed outside a `try` are visible inside it (handler lookup walks the `parentCoroutine` chain):
+
+```io
+result := withHandler(Exception,
+    block(e, resume, resume invoke(99)),
+    e := try(Exception signal("inside try"))
+    if(e, "exception", "no exception")
+)
+result println  // => "no exception"
+```
+
+### Resumable Exception API
+
+| Method | Description |
+|--------|-------------|
+| `Exception signal(error)` | Resumable raise — finds handler, calls it, returns handler's result |
+| `withHandler(proto, handler, body)` | Install handler for exceptions matching `proto`, run body |
+| `resume invoke(value)` | In handler: make signal return `value` at signal site |
+| `exception pass` | In handler: re-raise as non-resumable exception |
+
+**Coexistence with raise:** `raise` is unchanged and always non-resumable. `signal` with no matching handler falls back to `raise`.
+
 ## Notes
 
 - Continuations are **one-shot by default**. Use `copy` to create a fresh continuation for multi-shot patterns.

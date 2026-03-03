@@ -131,6 +131,27 @@ while(f != nil,
 
 **EvalFrame methods:** `message`, `target`, `locals`, `state`, `parent`, `result`, `depth`, `call`, `blockLocals`, `description`
 
+### Resumable Exceptions
+
+`signal` is the resumable counterpart to `raise`. A handler installed with `withHandler` can inspect an exception and supply a replacement value, resuming execution at the signal site:
+
+```io
+result := withHandler(Exception,
+    block(e, resume, resume invoke(42)),
+    Exception signal("need value") + 1
+)
+result println  // => 43
+```
+
+**How it works:**
+
+- `withHandler(proto, handler, body)` pushes a handler entry onto the current coroutine's `handlerStack`, evaluates the body, then pops the handler.
+- `signal(error)` clones the exception, walks `handlerStack` from the current coroutine up through `parentCoroutine` (matching by `isKindOf`), and calls the first matching handler as a regular function. The handler's return value becomes signal's return value.
+- `raise(error)` is unchanged — non-resumable, unwinds frames via `errorRaised`.
+- If `signal` finds no matching handler, it falls back to `raise`.
+
+**Implementation:** Entirely in Io (`libs/iovm/io/A4_Exception.io`), no C changes. The body is evaluated directly via `doMessage` rather than in a child coroutine, which avoids a known interaction between continuation capture and nested C eval loops. Handler lookup walks the `parentCoroutine` chain, so handlers installed outside a `try` are visible inside it. See `docs/IoContinuationsExamples.md` for detailed examples.
+
 ### Portable Coroutines
 
 Coroutines work by saving and restoring the frame pointer — no C stack switching:
@@ -253,7 +274,7 @@ RC is a targeted optimization for allocation-heavy for-loops. It trades ~10% ove
 ## Test Results
 
 - **30/30** C tests (TCO, continuations, exceptions, coroutines, `?` operator, `asMap`)
-- **239/239** Io tests via `run.io` (230 original + 9 EvalFrame introspection tests)
+- **249/249** Io tests via `run.io` (230 original + 9 EvalFrame introspection + 10 resumable exception tests)
 - SwitchTest: 6 pre-existing failures (same on master, not in run.io suite)
 
 ---
@@ -271,6 +292,7 @@ RC is a targeted optimization for allocation-heavy for-loops. It trades ~10% ove
 | `libs/iovm/source/IoState_inline.h` | Inline helpers, pre-eval arg access |
 | `libs/iovm/source/IoState.h` | VM state, pools, cached symbols |
 | `libs/iovm/tests/correctness/EvalFrameTest.io` | Frame introspection tests |
+| `libs/iovm/tests/correctness/ResumableExceptionTest.io` | Resumable exception tests |
 | `libs/garbagecollector/source/Collector_inline.h` | RC increment/decrement (optional) |
 | `agents/C_STACK_ELIMINATION_PLAN.md` | Architecture design document |
 | `agents/CONTINUATIONS_TODO.md` | Phase tracker and implementation notes |
