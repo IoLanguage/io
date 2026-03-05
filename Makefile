@@ -44,36 +44,9 @@ IOVM_SRCS    := $(sort $(IOVM_SRCS) libs/iovm/source/IoVMInit.c)
 ALL_SRCS     := $(BASEKIT_SRCS) $(GC_SRCS) $(IOVM_SRCS) $(PARSON_SRCS)
 ALL_OBJS     := $(patsubst %.c,$(OBJDIR)/%.o,$(ALL_SRCS))
 
-# .io standard library files (order matters: bootstrap first, Importer last)
-IO_FILES := \
-    libs/iovm/io/List_bootstrap.io \
-    libs/iovm/io/Object_bootstrap.io \
-    libs/iovm/io/OperatorTable.io \
-    libs/iovm/io/Object.io \
-    libs/iovm/io/List.io \
-    libs/iovm/io/Exception.io \
-    libs/iovm/io/Actor.io \
-    libs/iovm/io/Sequence.io \
-    libs/iovm/io/Block.io \
-    libs/iovm/io/CFunction.io \
-    libs/iovm/io/Date.io \
-    libs/iovm/io/Debugger.io \
-    libs/iovm/io/Directory.io \
-    libs/iovm/io/Error.io \
-    libs/iovm/io/File.io \
-    libs/iovm/io/List_schwartzian.io \
-    libs/iovm/io/Map.io \
-    libs/iovm/io/Message.io \
-    libs/iovm/io/Number.io \
-    libs/iovm/io/Profiler.io \
-    libs/iovm/io/Sandbox.io \
-    libs/iovm/io/Serialize.io \
-    libs/iovm/io/System.io \
-    libs/iovm/io/UnitTest.io \
-    libs/iovm/io/Vector.io \
-    libs/iovm/io/Path.io \
-    libs/iovm/io/CLI.io \
-    libs/iovm/io/Importer.io
+# .io standard library files (load order defined by _imports.json)
+IO_IMPORTS  := libs/iovm/io/_imports.json
+IO_SOURCES  := $(wildcard libs/iovm/io/*.io)
 
 # --- Targets ---
 
@@ -91,7 +64,7 @@ clean:
 	rm -rf $(BUILD)
 
 regenerate: $(BINDIR)/io2c
-	$(BINDIR)/io2c VMCode IoState_doString_ $(IO_FILES) > libs/iovm/source/IoVMInit.c
+	$(BINDIR)/io2c VMCode IoState_doString_ $(IO_IMPORTS) > libs/iovm/source/IoVMInit.c
 
 # --- Binaries ---
 
@@ -102,13 +75,13 @@ $(BINDIR)/test_iterative_eval: $(OBJDIR)/libs/iovm/tests/test_iterative_eval.o $
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Host-native io2c (not WASM)
-$(BINDIR)/io2c: libs/iovm/tools/io2c.c | $(BINDIR)
-	$(HOST_CC) -o $@ $<
+$(BINDIR)/io2c: libs/iovm/tools/io2c.c deps/parson/parson.c | $(BINDIR)
+	$(HOST_CC) -Ideps/parson -o $@ libs/iovm/tools/io2c.c deps/parson/parson.c
 
 # --- Code generation ---
 
-libs/iovm/source/IoVMInit.c: $(BINDIR)/io2c $(IO_FILES)
-	$(BINDIR)/io2c VMCode IoState_doString_ $(IO_FILES) > $@
+libs/iovm/source/IoVMInit.c: $(BINDIR)/io2c $(IO_IMPORTS) $(IO_SOURCES)
+	$(BINDIR)/io2c VMCode IoState_doString_ $(IO_IMPORTS) > $@
 
 # --- Compilation ---
 
