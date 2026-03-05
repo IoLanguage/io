@@ -21,11 +21,7 @@ acceleration #endif
 #include "simd_cp.h"
 #else
 
-#ifdef _MSC_VER
-#pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
-#else
 #warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
-#endif
 
 #define __UNK__EMU__
 #include "simd_cp_emu.h"

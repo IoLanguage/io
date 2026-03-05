@@ -903,11 +903,7 @@ IO_METHOD(IoSeq, toBase) {
         return IONIL(self);
     }
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-    n = (uintptr_t)strtoull(IoSeq_asCString(self), NULL, 0);
-#else
     n = (uintptr_t)IoSeq_asDouble(self);
-#endif
 
     /* Build the converted string backwards. */
     *(--ptr) = '\0';

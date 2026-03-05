@@ -6,9 +6,6 @@
 #include <string.h>
 #include <stddef.h>
 #include <time.h>
-#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
-#include <setjmp.h>
-#endif
 #include <stdarg.h>
 #include <string.h>
 

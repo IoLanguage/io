@@ -7,9 +7,7 @@ Notes: first element of items is always 0x0.
 #define STACK_C
 #include "Stack.h"
 #undef STACK_C
-#if !defined(_MSC_VER)
 #include <inttypes.h>
-#endif
 
 Stack *Stack_new(void) {
     // size is the number of pointers, including the starting NULL.

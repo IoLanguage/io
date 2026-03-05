@@ -130,11 +130,9 @@ void BStream_writeUint32_(BStream *self, uint32_t v) {
     BStream_writeNumber_size_(self, (unsigned char *)(&v), sizeof(uint32_t));
 }
 
-#if !defined(__SYMBIAN32__)
 void BStream_writeInt64_(BStream *self, int64_t v) {
     BStream_writeNumber_size_(self, (unsigned char *)(&v), sizeof(int64_t));
 }
-#endif
 
 void BStream_writeDouble_(BStream *self, double v) {
     BStream_writeNumber_size_(self, (unsigned char *)(&v), sizeof(double));
@@ -199,13 +197,11 @@ int32_t BStream_readInt32(BStream *self) {
     return v;
 }
 
-#if !defined(__SYMBIAN32__)
 int64_t BStream_readInt64(BStream *self) {
     int64_t v;
     BStream_readNumber_size_(self, (unsigned char *)(&v), sizeof(int64_t));
     return v;
 }
-#endif
 
 double BStream_readDouble(BStream *self) {
     double v;
@@ -287,12 +283,10 @@ void BStream_writeTaggedInt32_(BStream *self, int32_t v) {
         BStream_writeInt32_(self, v);
     }
 }
-#if !defined(__SYMBIAN32__)
 void BStream_writeTaggedInt64_(BStream *self, int64_t v) {
     BStream_writeTag(self, BSTREAM_SIGNED_INT, 8, 0);
     BStream_writeInt64_(self, v);
 }
-#endif
 
 /*
 #if sizeof(double) != 8
@@ -417,11 +411,9 @@ intptr_t BStream_readTaggedPointer(BStream *self) {
         return (intptr_t)BStream_readInt32(self);
     }
 
-#if !defined(__SYMBIAN32__)
     if (t.byteCount == 8) {
         return (intptr_t)BStream_readInt64(self);
     }
-#endif
 
     BStream_error_(self, "unhandled pointer size");
     return 0;

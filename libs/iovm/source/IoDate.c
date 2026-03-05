@@ -365,12 +365,7 @@ IO_METHOD(IoDate, isDST) {
     */
 
     struct timezone tz = Date_timeZone(DATA(self));
-#if defined(__CYGWIN__) || defined(_WIN32)
-    IoState_error_(IOSTATE, m, "Not implemented on Windows.");
-    return IONIL(self);
-#else
     return IOBOOL(self, tz.tz_dsttime);
-#endif
 }
 
 IO_METHOD(IoDate, gmtOffsetSeconds) {
@@ -380,11 +375,7 @@ IO_METHOD(IoDate, gmtOffsetSeconds) {
 
     time_t t = time(NULL);
     const struct tm *tp = localtime(&t);
-#if defined(__CYGWIN__) || defined(_WIN32)
-    return IONUMBER(_timezone);
-#else
     return IONUMBER(tp->tm_gmtoff);
-#endif
 }
 
 IO_METHOD(IoDate, setGmtOffset) {
@@ -408,11 +399,7 @@ IO_METHOD(IoDate, gmtOffset) {
     const struct tm *tp = localtime(&t);
 
     char buf[6];
-#if defined(__CYGWIN__) || defined(_WIN32)
-    int minutes = _timezone / 60;
-#else
     int minutes = (int)(tp->tm_gmtoff / 60);
-#endif
     snprintf(buf, sizeof(buf), "%+03d%02d", minutes / 60, minutes % 60);
 
     return IOSYMBOL(buf);

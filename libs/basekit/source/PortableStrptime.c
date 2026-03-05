@@ -67,10 +67,6 @@ struct dtconv {
 extern int strncasecmp();
 #endif
 
-#if defined(_MSC_VER) && !defined(__SYMBIAN32__)
-#define strcasecmp _stricmp
-#define strncasecmp _strnicmp
-#endif
 
 int readndigits(char **const buf, const size_t count) {
     int result = 0;

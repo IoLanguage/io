@@ -31,18 +31,12 @@ static union {
 #define NAN (__nan_union.__d)
 #endif
 
-#if !defined(isnan) && defined(_MSC_VER)
-#define isnan _isnan
-#endif
 
 #define ISNUMBER(self)                                                         \
     IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoNumber_rawClone)
 #define IONUMBER(num) IoState_numberWithDouble_((IoState *)IOSTATE, (double)num)
 #define CNUMBER(self) IoObject_dataDouble((IoNumber *)self)
 
-#if defined WIN32 && !defined __MINGW32__
-#define log2(num) log(num) / log(2)
-#endif
 
 typedef IoObject IoNumber;
 

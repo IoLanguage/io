@@ -19,9 +19,6 @@ Now implemented using frame-based evaluation (no platform-specific assembly).
 #ifdef IO_CALLCC
 #include "IoContinuation.h"
 #endif
-#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
-#include <execinfo.h>
-#endif
 
 //#define DEBUG
 

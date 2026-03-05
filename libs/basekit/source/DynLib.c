@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
 /* WASM: no dynamic library loading */
 #define RTLD_NOW 0
 #define RTLD_GLOBAL 0
@@ -21,48 +20,6 @@ static void *dlopen(const char *path, int mode) { return NULL; }
 static int dlclose(void *handle) { return 0; }
 static const char *dlerror(void) { return "dynamic loading not supported on WASM"; }
 static void *dlsym(void *handle, const char *symbol) { return NULL; }
-
-#elif defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
-#include <windows.h>
-
-#define RTLD_NOW 0 /* don't support link flags */
-#define RTLD_GLOBAL 0
-
-static void *dlopen(const char *path, int mode) {
-    void *result;
-    result = (void *)LoadLibraryEx(path, NULL, 0);
-    if (result)
-        SetLastError(ERROR_SUCCESS);
-
-    return result;
-}
-
-static int dlclose(void *handle) { return FreeLibrary((HANDLE)handle); }
-
-static const char *dlerror(void) {
-    // XXX this will leak the error string
-
-    LPSTR buf;
-    DWORD err;
-    err = GetLastError();
-    if (err == ERROR_SUCCESS)
-        return (char *)0;
-
-    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                      FORMAT_MESSAGE_IGNORE_INSERTS |
-                      FORMAT_MESSAGE_FROM_SYSTEM,
-                  NULL, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                  (LPSTR)&buf, 0, NULL);
-    return buf;
-}
-
-static void *dlsym(void *handle, const char *symbol) {
-    return (void *)GetProcAddress((HANDLE)handle, symbol);
-}
-
-#else
-#include <dlfcn.h>
-#endif
 
 DynLib *DynLib_new(void) {
     DynLib *self = (DynLib *)io_calloc(1, sizeof(DynLib));
