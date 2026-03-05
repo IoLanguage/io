@@ -13,6 +13,7 @@ A mutable array of values. The first index is 0.
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoNumber.h"
+#include "IoEvalFrame.h"
 #include "IoBlock.h"
 
 static const char *protoId = "List";
@@ -223,17 +224,19 @@ long IoList_rawIndexOf_(IoList *self, IoObject *v) {
     return -1;
 }
 
-void IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending,
-                       int index, const char *methodName) {
+int IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending,
+                      int index, const char *methodName) {
     size_t max = List_size(DATA(self));
 
     if (allowsExtending) {
         max += 1;
     }
 
-    if (index < 0 || index >= max) {
+    if (index < 0 || (size_t)index >= max) {
         IoState_error_(IOSTATE, m, "index out of bounds\n");
+        return 1;
     }
+    return 0;
 }
 
 // immutable --------------------------------------------------------
@@ -362,7 +365,10 @@ void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m,
     *step = (IoMessage_argCount(m) == 3)
                 ? IoMessage_locals_intArgAt_(m, locals, 2)
                 : 1;
-    IOASSERT(step != 0, "step cannot be equal to zero");
+    if (*step == 0) {
+        IoState_error_(IOSTATE, m, "Io Assertion 'step cannot be equal to zero'");
+        return;
+    }
 
     *start = IoMessage_locals_intArgAt_(m, locals, 0);
     *end = (IoMessage_argCount(m) >= 2)
@@ -421,8 +427,32 @@ Step argument is also optional and defaults to 1.
 
 IO_METHOD(IoList, each) {
     IoState *state = IOSTATE;
-    IoObject *result = IONIL(self);
+
     IoMessage *doMessage = IoMessage_rawArgAt_(m, 0);
+
+    // Iterative path: use foreach frame state machine
+    if (state->currentFrame != NULL) {
+        IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+
+        fd->controlFlow.foreachInfo.collection = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = NULL;
+        fd->controlFlow.foreachInfo.valueName = NULL;
+        fd->controlFlow.foreachInfo.currentIndex = 0;
+        fd->controlFlow.foreachInfo.collectionSize = (int)List_size(DATA(self));
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = 1;
+        fd->controlFlow.foreachInfo.isEach = 1;
+        fd->controlFlow.foreachInfo.mapSource = NULL;
+
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;
+    }
+
+    // Recursive fallback
+    IoObject *result = IONIL(self);
     List *list = DATA(self);
 
     IoState_pushRetainPool(state);
@@ -449,17 +479,42 @@ list(1, 2, 3) foreach(v, writeln(v))</pre>
 */
 
     IoState *state = IOSTATE;
-    IoObject *result = IONIL(self);
-    IoSymbol *slotName = NULL;
-    IoSymbol *valueName;
-    IoMessage *doMessage;
-    List *list = DATA(self);
 
     if (IoMessage_argCount(m) == 1) {
         return IoList_each(self, locals, m);
     }
 
+    IoSymbol *slotName = NULL;
+    IoSymbol *valueName;
+    IoMessage *doMessage;
+
     IoMessage_foreachArgs(m, self, &slotName, &valueName, &doMessage);
+    if (state->errorRaised) return IONIL(self);
+
+    // Iterative path
+    if (state->currentFrame != NULL) {
+        IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+
+        fd->controlFlow.foreachInfo.collection = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = slotName;
+        fd->controlFlow.foreachInfo.valueName = valueName;
+        fd->controlFlow.foreachInfo.currentIndex = 0;
+        fd->controlFlow.foreachInfo.collectionSize = (int)List_size(DATA(self));
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = 1;
+        fd->controlFlow.foreachInfo.isEach = 0;
+        fd->controlFlow.foreachInfo.mapSource = NULL;
+
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;
+    }
+
+    // Recursive fallback
+    IoObject *result = IONIL(self);
+    List *list = DATA(self);
 
     IoState_pushRetainPool(state);
 
@@ -489,12 +544,37 @@ IO_METHOD(IoList, reverseForeach) {
     */
 
     IoState *state = IOSTATE;
-    IoObject *result = IONIL(self);
     IoSymbol *slotName, *valueName;
     IoMessage *doMessage;
-    long i;
 
     IoMessage_foreachArgs(m, self, &slotName, &valueName, &doMessage);
+    if (state->errorRaised) return IONIL(self);
+
+    // Iterative path
+    if (state->currentFrame != NULL) {
+        IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+        int size = (int)List_size(DATA(self));
+
+        fd->controlFlow.foreachInfo.collection = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = slotName;
+        fd->controlFlow.foreachInfo.valueName = valueName;
+        fd->controlFlow.foreachInfo.currentIndex = size - 1;
+        fd->controlFlow.foreachInfo.collectionSize = size;
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = -1;
+        fd->controlFlow.foreachInfo.isEach = 0;
+        fd->controlFlow.foreachInfo.mapSource = NULL;
+
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;
+    }
+
+    // Recursive fallback
+    IoObject *result = IONIL(self);
+    long i;
 
     IoState_pushRetainPool(state);
 
@@ -559,6 +639,7 @@ IO_METHOD(IoList, appendSeq) {
 
         if (other == self) {
             IoState_error_(IOSTATE, m, "can't add a list to itself\n");
+            return IONIL(self);
         } else {
             List *selfList = DATA(self);
             List *otherList = DATA(other);
@@ -668,9 +749,12 @@ IO_METHOD(IoList, atInsert) {
     */
 
     int index = IoMessage_locals_intArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
-    IoList_checkIndex(self, m, 1, index, "List atInsert");
+    if (IoList_checkIndex(self, m, 1, index, "List atInsert"))
+        return IONIL(self);
     List_at_insert_(DATA(self), index, IOREF(v));
     IoObject_isDirty_(self, 1);
     return self;
@@ -683,9 +767,11 @@ IO_METHOD(IoList, removeAt) {
     */
 
     int index = IoMessage_locals_intArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *v = List_at_(DATA(self), index);
 
-    IoList_checkIndex(self, m, 0, index, "Io List atInsert");
+    if (IoList_checkIndex(self, m, 0, index, "Io List atInsert"))
+        return IONIL(self);
     List_removeIndex_(DATA(self), index);
     IoObject_isDirty_(self, 1);
     return (v) ? v : IONIL(self);
@@ -710,7 +796,8 @@ IO_METHOD(IoList, atPut) {
     int index = IoMessage_locals_intArgAt_(m, locals, 0);
     IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
 
-    IoList_checkIndex(self, m, 0, index, "Io List atPut");
+    if (IoList_checkIndex(self, m, 0, index, "Io List atPut"))
+        return IONIL(self);
     IoList_rawAtPut(self, index, v);
     IoObject_isDirty_(self, 1);
     return self;
@@ -760,8 +847,10 @@ IO_METHOD(IoList, swapIndices) {
     int i = IoMessage_locals_intArgAt_(m, locals, 0);
     int j = IoMessage_locals_intArgAt_(m, locals, 1);
 
-    IoList_checkIndex(self, m, 0, i, "List swapIndices");
-    IoList_checkIndex(self, m, 0, j, "List swapIndices");
+    if (IoList_checkIndex(self, m, 0, i, "List swapIndices"))
+        return IONIL(self);
+    if (IoList_checkIndex(self, m, 0, j, "List swapIndices"))
+        return IONIL(self);
     List_swap_with_(DATA(self), i, j);
     IoObject_isDirty_(self, 1);
     return self;
@@ -869,6 +958,7 @@ IO_METHOD(IoList, sortInPlaceBy) {
     sc.state = IOSTATE;
     sc.locals = locals;
     sc.block = IoMessage_locals_blockArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     sc.blockMsg = IoMessage_new(IOSTATE);
     sc.argMsg1 = IoMessage_new(IOSTATE);
     sc.argMsg2 = IoMessage_new(IOSTATE);

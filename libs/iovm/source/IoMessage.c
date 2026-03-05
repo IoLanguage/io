@@ -265,6 +265,10 @@ void IoMessage_mark(IoMessage *self) {
 
     IoObject_shouldMarkIfNonNull((IoObject *)DATA(self)->next);
     IoObject_shouldMarkIfNonNull((IoObject *)DATA(self)->label);
+
+    // Mark inline cache entries (prevent cached slot values from being collected)
+    IoObject_shouldMarkIfNonNull(DATA(self)->inlineCacheValue);
+    IoObject_shouldMarkIfNonNull(DATA(self)->inlineCacheContext);
 }
 
 void IoMessage_free(IoMessage *self) {
@@ -285,6 +289,7 @@ void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v) {
 
 void IoMessage_rawSetName_(IoMessage *self, IoObject *v) {
     DATA(self)->name = v ? IOREF(v) : NULL;
+    DATA(self)->isSpecialForm = 0; // Reset cached flag when name changes
 }
 
 void IoMessage_rawSetLabel_(IoMessage *self, IoObject *v) {
@@ -449,11 +454,20 @@ IO_METHOD(IoMessage, doInContext) {
 IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
                                       IoObject *target) {
     IoState *state = IOSTATE;
+
+    // Use the iterative eval loop for message evaluation.
+    // This eliminates C stack recursion for message chains —
+    // only bounded recursion remains (for CFunction argument evaluation).
+    if (state->currentFrame) {
+        return IoMessage_locals_performOn_iterative(self, locals, target);
+    }
+
+    // No eval loop running (bootstrap only). Use a simple recursive
+    // evaluator as a fallback. This is only reached during VM
+    // initialization before the first eval loop is started.
     IoMessage *m = self;
     IoObject *result = target;
     IoObject *cachedTarget = target;
-    // IoObject *semicolonSymbol = state->semicolonSymbol;
-    // IoMessageData *md;
     IoMessageData *md;
 
     if (state->receivedSignal) {
@@ -461,10 +475,6 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
     }
 
     do {
-        // md = DATA(m);
-
-        // printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
-        // printf(" %s\n", CSTRING(IoMessage_name(m)));
         if (state->showAllMessages) {
             printf("M:%s:%s:%i\n", CSTRING(IoMessage_name(m)),
                    CSTRING(IoMessage_rawLabel(m)), IoMessage_rawLineNumber(m));
@@ -475,18 +485,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
         if (md->name == state->semicolonSymbol) {
             target = cachedTarget;
         } else {
-            result = md->cachedResult; // put it on the stack?
-            /*
-            if(state->debugOn)
-            {
-                    char *s = CSTRING(DATA(m)->name);
-                    printf("%s\n", s);
-                    if (strcmp(s, "clone") == 0)
-                    {
-                            printf("found '%s'\n", s);
-                    }
-            }
-            */
+            result = md->cachedResult;
 
             if (!result) {
                 IoState_pushRetainPool(state);
@@ -501,24 +500,16 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
                 result = IoObject_tag(target)->performFunc(target, locals, m);
 #endif
                 IoState_popRetainPoolExceptFor_(state, result);
+
+                if (state->errorRaised) {
+                    return state->ioNil;
+                }
             }
 
-            // IoObject_freeIfUnreferenced(target);
             target = result;
 
             if (state->stopStatus != MESSAGE_STOP_STATUS_NORMAL) {
                 return state->returnValue;
-                /*
-                result = state->returnValue;
-
-                if (result)
-                {
-                        //IoState_stackRetain_(state, result);
-                        return result;
-                }
-                printf("IoBlock no result!\n");
-                return state->ioNil;
-                */
             }
         }
     } while ((m = md->next));
@@ -555,6 +546,7 @@ IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals,
 
     if (!ISNUMBER(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Number");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return v;
@@ -606,6 +598,7 @@ IoObject *IoMessage_locals_seqArgAt_(IoMessage *self, IoObject *locals, int n) {
 
     if (!ISSEQ(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Sequence");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return v;
@@ -623,6 +616,7 @@ IoObject *IoMessage_locals_symbolArgAt_(IoMessage *self, IoObject *locals,
 
     if (!ISSEQ(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Sequence");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return IoSeq_rawAsSymbol(v);
@@ -635,6 +629,7 @@ IoObject *IoMessage_locals_mutableSeqArgAt_(IoMessage *self, IoObject *locals,
     if (!ISMUTABLESEQ(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n,
                                                    "mutable Sequence");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return v;
@@ -643,39 +638,49 @@ IoObject *IoMessage_locals_mutableSeqArgAt_(IoMessage *self, IoObject *locals,
 IoObject *IoMessage_locals_blockArgAt_(IoMessage *self, IoObject *locals,
                                        int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISBLOCK(v))
+    if (!ISBLOCK(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Block");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_dateArgAt_(IoMessage *self, IoObject *locals,
                                       int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISDATE(v))
+    if (!ISDATE(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Date");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_messageArgAt_(IoMessage *self, IoObject *locals,
                                          int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISMESSAGE(v))
+    if (!ISMESSAGE(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Message");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_listArgAt_(IoMessage *self, IoObject *locals,
                                       int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISLIST(v))
+    if (!ISLIST(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "List");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_mapArgAt_(IoMessage *self, IoObject *locals, int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISMAP(v))
+    if (!ISMAP(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Map");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
@@ -986,6 +991,7 @@ IO_METHOD(IoMessage, setArguments) {
     */
 
     IoList *ioList = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     List *newArgs = IoList_rawList(ioList);
 
     List_removeAll(DATA(self)->args);
@@ -1166,6 +1172,15 @@ void IoMessage_foreachArgs(IoMessage *self, IoObject *receiver,
     int offset;
 
     IoMessage_assertArgCount_receiver_(self, 2, receiver);
+
+    // IoState_error_ no longer longjmps — it returns normally.
+    // Must bail out before accessing args that may not exist.
+    if (IOSTATE->errorRaised) {
+        *indexSlotName = NULL;
+        *valueSlotName = NULL;
+        *doMessage = NULL;
+        return;
+    }
 
     if (IoMessage_argCount(self) > 2) {
         *indexSlotName = IoMessage_name(IoMessage_rawArgAt_(self, 0));

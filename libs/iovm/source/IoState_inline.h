@@ -16,6 +16,7 @@
 #define IOASSERT(value, message)                                               \
     if (!(value)) {                                                            \
         IoState_error_(IOSTATE, m, "Io Assertion '%s'", message);              \
+        return IONIL(self);                                                    \
     }
 
 #define IOCOLLECTOR (IOSTATE->collector)
@@ -144,8 +145,27 @@ IOINLINE void IoState_popRetainPoolExceptFor_(void *state, void *obj) {
 
 #define IOMESSAGEDATA(self) ((IoMessageData *)IoObject_dataPointer(self))
 
+/*
+ * Argument evaluation checks for pre-evaluated args first (from the
+ * iterative eval loop's arg pre-evaluation in FRAME_STATE_ACTIVATE).
+ * If pre-evaluated args are available, they're returned directly without
+ * any C stack recursion. Falls back to the recursive evaluator only
+ * when pre-evaluated args aren't available (bootstrap, legacy paths).
+ */
+
 IOINLINE IoObject *IoMessage_locals_quickValueArgAt_(IoMessage *self,
                                                      IoObject *locals, int n) {
+    IoState *state = IOSTATE;
+
+    // Check for pre-evaluated arguments from the iterative eval loop.
+    // The eval loop pre-evaluates args before calling CFunctions/blocks,
+    // so this avoids all C stack re-entrancy for argument evaluation.
+    if (state->currentFrame) {
+        IoObject *preEvaled = IoState_preEvalArgAt_(state, self, n);
+        if (preEvaled) return preEvaled;
+    }
+
+    // Fall back to direct evaluation (cached literals or recursive eval)
     IoMessage *m = (IoMessage *)List_at_(IOMESSAGEDATA(self)->args, n);
 
     if (m) {
@@ -156,26 +176,16 @@ IOINLINE IoObject *IoMessage_locals_quickValueArgAt_(IoMessage *self,
             return v;
         }
 
+        // Use recursive evaluator for argument evaluation
         return IoMessage_locals_performOn_(m, locals, locals);
     }
 
-    return IOSTATE->ioNil;
+    return state->ioNil;
 }
 
 IOINLINE IoObject *IoMessage_locals_valueArgAt_(IoMessage *self,
                                                 IoObject *locals, int n) {
     return IoMessage_locals_quickValueArgAt_(self, locals, n);
-    /*
-    List *args = IOMESSAGEDATA(self)->args;
-    IoMessage *m = (IoMessage *)List_at_(args, n);
-
-    if (m)
-    {
-            return IoMessage_locals_performOn_(m, locals, locals);
-    }
-
-    return IOSTATE->ioNil;
-    */
 }
 
 IOINLINE IoObject *IoMessage_locals_firstStringArg(IoMessage *self,

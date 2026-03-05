@@ -65,6 +65,8 @@ struct IoState {
     IoSymbol *typeSymbol;
     IoSymbol *updateSlotSymbol;
 
+
+
     IoSymbol *runTargetSymbol;
     IoSymbol *runMessageSymbol;
     IoSymbol *runLocalsSymbol;
@@ -94,6 +96,28 @@ struct IoState {
     IoMessage *asBooleanMessage;
 
     List *cachedNumbers;
+
+    // Fast Number allocation: cached tag/proto + data block freelist
+    IoTag *numberTag;
+    IoObject *numberProto;
+    #define NUMBER_DATA_POOL_MAX 512
+    void *numberDataFreeList;
+    int numberDataFreeListSize;
+
+    // Block activation pools: pre-built blockLocals and Call objects
+    // retained so GC won't collect them. Returned to pool on block return.
+    #define BLOCK_LOCALS_POOL_MAX 8
+    IoObject *blockLocalsPool[BLOCK_LOCALS_POOL_MAX];
+    int blockLocalsPoolSize;
+
+    // Cached Call tag/proto for inline allocation
+    IoTag *callTag;
+    IoObject *callProto;
+
+    // Call object pool: reuses GC-managed Call objects across block activations
+    #define CALL_POOL_MAX 8
+    IoObject *callPool[CALL_POOL_MAX];
+    int callPoolSize;
 
     // singletons
 
@@ -128,6 +152,36 @@ struct IoState {
 
     int stopStatus;
     void *returnValue;
+
+    // iterative evaluation frame stack (for continuations)
+    // IoEvalFrame is typedef IoObject, so this is IoObject *
+    IoObject *currentFrame;            // Top of the evaluation frame stack
+    int frameDepth;                    // Current frame depth
+    int maxFrameDepth;                 // Maximum allowed frame depth
+
+    // Frame object pool — reuses GC-managed IoEvalFrame objects
+    // Pooled frames remain valid collector objects, just parked for reuse.
+    #define FRAME_POOL_SIZE 256
+    IoObject *framePool[FRAME_POOL_SIZE];
+    int framePoolCount;
+
+    // Control flow handling flag (for non-reentrant primitives)
+    int needsControlFlowHandling;      // Set by primitives that modify frame state
+#ifdef IO_CALLCC
+    int continuationInvoked;           // Set when a continuation replaces the frame stack
+#endif
+    int nestedEvalDepth;               // Depth of nested eval loops (for IoCoroutine_try)
+
+    // Slot mutation counter for inline cache invalidation.
+    // Incremented on every setSlot/updateSlot/removeSlot.
+    // Inline caches on IoMessageData store the version at cache time;
+    // a mismatch means the cache may be stale and needs re-lookup.
+    unsigned int slotVersion;
+
+    // Error handling flag - set when IoState_error_ is called.
+    // Helper functions check this and return early. The eval loop
+    // checks it after CFunction returns and unwinds frames.
+    int errorRaised;
 
     // embedding
 
@@ -201,6 +255,11 @@ IOVM_API void IoState_runCLI(IoState *self);
 
 IOVM_API IoObject *IoState_objectWithPid_(IoState *self, PID_TYPE pid);
 IOVM_API int IoState_exitResult(IoState *self);
+
+// Check for pre-evaluated argument in the current eval frame.
+// Returns the pre-evaluated value if available, NULL otherwise.
+// Defined in IoState_iterative.c to avoid circular IoEvalFrame.h include.
+IOVM_API IoObject *IoState_preEvalArgAt_(IoState *self, IoMessage *msg, int n);
 
 #include "IoState_coros.h"
 #include "IoState_debug.h"

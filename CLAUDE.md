@@ -1,83 +1,112 @@
-# CLAUDE.md
+# Io Language VM
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## What is this?
 
-## Common Development Commands
+The Io programming language — a dynamic prototype-based language built on message passing. See `README.md` for the full project description and build instructions for all platforms.
 
-### Building Io
-
-```bash
-# Create build directory (one-time setup)
-mkdir build && cd build
-
-# Configure for development (debug mode)
-cmake ..
-
-# Configure for production (with optimizations)
-cmake -DCMAKE_BUILD_TYPE=release ..
-
-# Build the project
-make
-
-# Install (requires sudo on Unix systems)
-sudo make install
-```
-
-### Running Tests
+## Build
 
 ```bash
-# Run the main test suite (from build directory)
-io ../libs/iovm/tests/correctness/run.io
-
-# Run a specific test file
-io ../libs/iovm/tests/correctness/<TestName>Test.io
+cd build
+cmake --build .
 ```
 
-### Development Workflow
+The binary lands at `_build/binaries/io`. Tests at `_build/binaries/test_iterative_eval`.
+
+## Test
 
 ```bash
-# Clean rebuild
-cd build && make clean && make
+# Run a one-liner
+./_build/binaries/io -e '"hello" println'
 
-# Run the Io REPL
-io
+# Run a file
+./_build/binaries/io path/to/script.io
 
-# Execute an Io script
-io script.io
+# C test suite (iterative evaluator)
+./_build/binaries/test_iterative_eval
+
+# Io test suite (from build directory)
+io ../libs/iovm/tests/correctness/run.io            # Full suite
+io ../libs/iovm/tests/correctness/ListTest.io        # Single test
+IO_TEST_VERBOSE=1 io ../libs/iovm/tests/correctness/run.io  # Verbose
+
+# Quick smoke test for control flow + exceptions
+./_build/binaries/io -e 'if(true, "yes") println; for(i,1,3, i println); list(1,2,3) foreach(v, v println); e := try(1 unknownMethod); e error println; "done" println'
 ```
 
-## Architecture Overview
+## Project Structure
 
-### Core Structure
+```
+libs/iovm/source/     — Core VM implementation (C)
+libs/iovm/io/         — Io standard library (.io files, compiled to C via io2c)
+libs/iovm/tests/      — C test files
+tools/source/main.c   — REPL / CLI entry point
+agents/               — Design docs for the continuations/stackless work
+```
 
-The Io language is a dynamic, prototype-based programming language implemented in C. The architecture consists of:
+### Key Source Files
 
-1. **Virtual Machine Core** (`libs/iovm/`): The interpreter and runtime system
-   - Objects clone from prototypes (no classes)
-   - Everything is an object that responds to messages
-   - Message passing is the fundamental operation
-   - Coroutines provide lightweight concurrency
+| File | Purpose |
+|------|---------|
+| `IoState_iterative.c` | Iterative eval loop with frame state machine |
+| `IoState_eval.c` | Entry points (`IoState_doCString_`, `IoState_on_doCString_withLabel_`) |
+| `IoMessage.c` | `IoMessage_locals_performOn_` — recursive evaluator |
+| `IoBlock.c` | Block activation (currently uses recursive evaluator) |
+| `IoObject_flow.c` | Control flow primitives: `if`, `while`, `for`, `loop`, `break`, `continue`, `return` |
+| `IoCoroutine.c` | Coroutine implementation (frame-based, no C stack switching) |
+| `IoContinuation.c` | First-class continuations (`callcc`, capture, invoke) |
+| `IoEvalFrame.h/c` | Frame structure and state machine enums |
+| `IoState_inline.h` | Inline helpers, arg pre-evaluation |
+| `IoState.h` | VM state structure |
 
-2. **Foundation Libraries** (`libs/`):
-   - `basekit`: Cross-platform C utilities and data structures
-   - `coroutine`: Architecture-specific context switching (x86, x86_64, ARM64, PowerPC)
-   - `garbagecollector`: Mark-and-sweep garbage collection
+## Branch: `stackless` (off `continuations`)
 
-3. **Standard Library**: Split between C (`libs/iovm/source/`) and Io (`libs/iovm/io/`) implementations
-   - Core objects like IoObject, IoMessage, IoState in C
-   - Higher-level functionality in Io for flexibility
+Replacing C stack recursion with heap-allocated frames to enable:
+- First-class continuations (serializable, network-transmittable)
+- Portable coroutines (no platform-specific assembly)
+- No setjmp/longjmp, no ucontext, no fibers
 
-### Key Design Patterns
+See `agents/` for detailed design docs:
+- `CONTINUATIONS_TODO.md` — Phase tracker and implementation notes
+- `C_STACK_ELIMINATION_PLAN.md` — Overall architecture plan
+- `VM_EVAL_LOOP.md` — Eval loop design reference
 
-- **Prototype-based OOP**: Objects clone from prototypes rather than instantiating classes
-- **Message Passing**: All operations are messages sent to objects
-- **C Naming Convention**: `IoObjectName_methodName` for C functions
-- **Minimal Core**: Keep VM small, implement features in Io when possible
+## Important Conventions
 
-### Testing Approach
+### IoVMInit.c regeneration
+When `.io` files in `libs/iovm/io/` are modified, the generated `libs/iovm/source/IoVMInit.c` must be regenerated. CMake's `io2c` step doesn't track `.io` file changes, so force it:
+```bash
+rm libs/iovm/source/IoVMInit.c
+cd build && cmake --build .
+```
 
-Tests are written in Io using the built-in UnitTest framework. The test runner (`libs/iovm/tests/correctness/run.io`) discovers and executes all test files ending with `Test.io`.
+### Evaluator
+- **Iterative** (`IoState_iterative.c`): Frame state machine. Used for all evaluation including control flow, continuations, coroutine switching.
+- `IoMessage_locals_performOn_` redirects to the iterative eval loop when `currentFrame` is set. A bootstrap-only recursive fallback exists for VM initialization (before the first eval loop starts).
 
-### Build System
+### Special forms
+Messages whose arguments must NOT be pre-evaluated: `if`, `while`, `loop`, `for`, `callcc`, `method`, `block`, `foreach`, `reverseForeach`, `foreachLine`. Checked in two places in `IoState_iterative.c`.
 
-CMake-based build system with hierarchical CMakeLists.txt files. Each library manages its own build configuration and dependencies.
+### Error handling
+- C-level: `IoState_error_` sets `state->errorRaised = 1`. Eval loop unwinds frames.
+- Io-level: `Exception raise` calls `rawSignalException` which also sets `errorRaised`.
+- Helper functions return early on error (no longjmp). Eval loop handles all unwinding.
+
+### Debug compile flags
+- `DEBUG_EVAL_LOOP` — verbose iterative eval loop tracing
+- `DEBUG_CORO_EVAL` — coroutine operation tracing
+
+## Architecture (General)
+
+Every Io object is a `CollectorMarker` (`typedef struct CollectorMarker IoObject`). The marker's `object` field points to `IoObjectData` containing: a `tag` (vtable), `slots` (PHash cuckoo hash table), `protos` array, and a data union for primitive values.
+
+All operations are message sends. The parser produces message chains, then `IoMessage_opShuffle.c` rewrites them by operator precedence. Assignment operators: `:=` → `setSlot`, `=` → `updateSlot`, `::=` → `newSlot`.
+
+Standard library files in `libs/iovm/io/` are loaded in the explicit order listed in `CMakeLists.txt`: bootstrap files (`List_bootstrap.io`, `Object_bootstrap.io`, `OperatorTable.io`, `Object.io`, `List.io`, `Exception.io`) first, then alphabetical core, then `CLI.io`, `Importer.io` last.
+
+## Code Style
+
+- **Indentation**: Tabs in both C and Io code
+- **C naming**: `IoObjectName_methodName` (e.g., `IoList_append_`)
+- **C method macro**: `IO_METHOD(CLASS, NAME)` expands to `IoObject *CLASS_NAME(CLASS *self, IoObject *locals, IoMessage *m)`
+- **Io naming**: camelCase for methods, PascalCase for objects

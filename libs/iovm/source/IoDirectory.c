@@ -356,6 +356,7 @@ IO_METHOD(IoDirectory, items) {
     if (!dirp) {
         IoState_error_(IOSTATE, m, "Unable to open directory %s",
                        UTF8CSTRING(DATA(self)->path));
+        return IONIL(self);
     }
 
     while ((dp = readdir(dirp)) != NULL) {
@@ -436,6 +437,7 @@ IO_METHOD(IoDirectory, itemNamed)
         {
                 IoState_error_(IOSTATE, m, "Unable to open directory %s",
 UTF8CSTRING(DATA(self)->path));
+                return IONIL(self);
         }
 
         while ((dp = readdir(dirp)) != NULL)
@@ -510,6 +512,7 @@ IO_METHOD(IoDirectory, size) {
     if (!dirp) {
         IoState_error_(IOSTATE, m, "Unable to open directory %s",
                        UTF8CSTRING(DATA(self)->path));
+        return IONIL(self);
     }
 
     while ((dp = readdir(dirp)) != NULL) {

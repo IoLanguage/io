@@ -110,9 +110,9 @@ Object do(
 			// need to yield in coroDo to allow future to be added to queue
 			//self actorCoroutine := self coroDo(yield; actorProcessQueue) // coroDo refs stack!
 			self actorCoroutine := Coroutine clone //setStackSize(20000)
-			actorCoroutine setRunTarget(self)
-			actorCoroutine setRunLocals(self)
-			actorCoroutine setRunMessage(message(actorProcessQueue))
+			actorCoroutine setSlot("runTarget", self)
+			actorCoroutine setSlot("runLocals", self)
+			actorCoroutine setSlot("runMessage", message(actorProcessQueue))
 			Coroutine yieldingCoros atInsert(0, actorCoroutine)
 			//Coroutine yieldingCoros append(actorCoroutine)
 		)
@@ -171,14 +171,16 @@ Object do(
 	setSlot("@", method(
 		//writeln("@ ", call argAt(0))
 		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
-		f := Future clone setRunTarget(self) setRunMessage(m)
+		f := Future clone
+		f setSlot("runTarget", self)
+		f setSlot("runMessage", m)
 		self actorRun
 		self actorQueue append(f)
 		f futureProxy
 	))
-	
+
 	futureSend := getSlot("@")
-  
+
 	/*doc Object @@
 	Same as Object @, but returns nil instead of FutureProxy.
 	<br/>
@@ -188,7 +190,9 @@ Object do(
 	setSlot("@@", method(
 		//writeln(self type , "_", self uniqueId, " @@", call argAt(0)) //, " ", call argAt(0) label)
 		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
-		f := Future clone setRunTarget(self) setRunMessage(m)
+		f := Future clone
+		f setSlot("runTarget", self)
+		f setSlot("runMessage", m)
 		self actorRun
 		self actorQueue append(f)
 		nil

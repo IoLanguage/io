@@ -1,4 +1,5 @@
 #include "IoState.h"
+#include <stdio.h>
 
 void IoAddonsInit(IoObject *context);
 
@@ -32,7 +33,6 @@ int main(int argc, const char *argv[])
 	double collectorTime;
 	size_t sweepCount;
 #endif
-
 
 	self = IoState_new();
 #ifdef IOBINDINGS

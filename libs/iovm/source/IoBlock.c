@@ -80,6 +80,7 @@ IoState_lobby(IOSTATE), UArray_asCString(ba), "Block readFromStore");
         {
                 IoState_error_(IOSTATE, NULL, "Store found bad block code: %s",
 (char *)UArray_bytes(ba));
+                return;
         }
 
         IoBlock_copy_(self, newBlock);
@@ -240,26 +241,10 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals,
                  // gc may kick in while evaling locals, so we need to be safe
                  IoObject_setSlot_to_(blockLocals, name, arg););
 
-    if (Coro_stackSpaceAlmostGone(IoCoroutine_cid(state->currentCoroutine))) {
-        /*
-        IoCoroutine *currentCoroutine = state->currentCoroutine;
-        Coro *coro = IoCoroutine_cid(currentCoroutine);
-
-        printf("%p-%p block overflow %i/%i\n",
-                  (void *)currentCoroutine, (void *)coro,
-        Coro_bytesLeftOnStack(coro), Coro_stackSize(coro)); printf("message =
-        %s\n", CSTRING(IoMessage_name(selfData->message)));
-        */
-        {
-            IoCoroutine *newCoro = IoCoroutine_new(state);
-            IoCoroutine_try(newCoro, blockLocals, blockLocals,
-                            selfData->message);
-            result = IoCoroutine_rawResult(newCoro);
-        }
-    } else {
-        result = IoMessage_locals_performOn_(selfData->message, blockLocals,
-                                             blockLocals);
-    }
+    // With frame-based coroutines, no stack overflow check is needed
+    // (frames are heap-allocated, not using C stack)
+    result = IoMessage_locals_performOn_(selfData->message, blockLocals,
+                                         blockLocals);
 
     if (DATA(self)->passStops == 0) {
         state->returnValue = result;
@@ -399,6 +384,7 @@ IO_METHOD(IoBlock, code_) {
         DATA(self)->message = IOREF(newM);
     } else {
         IoState_error_(IOSTATE, m, "no messages found in compile string");
+        return IONIL(self);
     }
 
     return self;
@@ -442,6 +428,7 @@ IO_METHOD(IoBlock, argumentNames_) {
     */
 
     IoList *newArgNames = IoMessage_locals_listArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     List *rawNewArgNames = IoList_rawList(newArgNames);
 
     LIST_FOREACH(

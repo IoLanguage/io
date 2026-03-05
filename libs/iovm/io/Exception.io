@@ -65,6 +65,10 @@ Coroutine do(
 	//metadoc Coroutine category Core
 	//metadoc Coroutine description Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.
 
+	//doc Coroutine handlerStack The list of resumable exception handler entries for this coroutine, or nil.
+	//doc Coroutine setHandlerStack
+	handlerStack ::= nil
+
 	init := method(
 		recentInChain = nil
 	)
@@ -287,9 +291,9 @@ Coroutine do(
 	)
 
 	raiseException := method(e,
-		//doc Coroutine raiseException Sets exception in the receiver and resumes parent coroutine.
+		//doc Coroutine raiseException Sets exception in the receiver and signals the eval loop to unwind.
 		self setException(e)
-		resumeParentCoroutine
+		rawSignalException
 	)
 )
 
@@ -337,23 +341,38 @@ Object do(
 		See also documentation for Exception catch and pass.
 		*/
 		coro := Coroutine clone
-		coro setParentCoroutine(Scheduler currentCoroutine)
-		coro setRunTarget(call sender)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("parentCoroutine", Scheduler currentCoroutine)
+		coro setSlot("runTarget", call sender)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		coro run
 		if(coro exception, coro exception, nil)
 	)
 
+
+	withHandler := method(exceptionProto, handlerBlock,
+		/*doc Object withHandler(exceptionProto, handlerBlock, body)
+		Installs a resumable exception handler for exceptions matching exceptionProto,
+		runs body, then removes the handler. The handlerBlock receives (exception, resume).
+		To resume at the signal site, call resume invoke(value) or simply return a value.
+		*/
+		coro := Scheduler currentCoroutine
+		if(coro handlerStack isNil, coro setHandlerStack(list))
+		entry := list(exceptionProto, handlerBlock)
+		coro handlerStack append(entry)
+		result := call sender doMessage(call argAt(2), call sender)
+		coro handlerStack pop
+		result
+	)
 
 	coroFor := method(
 		/*doc Object coroFor(code)
 		Returns a new coro to be run in a context of sender.
 		*/
 		coro := Coroutine clone
-		coro setRunTarget(call sender)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", call sender)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		coro
 	)
 
@@ -363,9 +382,9 @@ Object do(
 		Returns a coro.
 		*/
 		coro := Coroutine clone
-		coro setRunTarget(call sender)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", call sender)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		Coroutine yieldingCoros atInsert(0, Scheduler currentCoroutine)
 		coro run
 		coro
@@ -381,9 +400,9 @@ Object do(
 		Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
 		*/
 		coro := Coroutine clone
-		coro setRunTarget(self)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", self)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		Coroutine yieldingCoros atInsert(0, coro)
 		coro
 	)
@@ -392,9 +411,9 @@ Object do(
 	coroWith := method(
 		//doc Object coroWith(code) Returns a new coro to be run in a context of receiver.
 		coro := Coroutine clone
-		coro setRunTarget(self)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", self)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		coro
 	)
 
@@ -512,6 +531,48 @@ MyErrorType := Error clone
 				writeln("Nested Exception: '", nestedException,  "'")
 				nestedException showStack
 		)
+	)
+
+	_findHandler := method(
+		/*doc Exception _findHandler
+		Walks handler stacks from the current coroutine up through the parentCoroutine chain.
+		Returns the first matching handler block for this exception type, or nil.
+		*/
+		coro := Scheduler currentCoroutine
+		while(coro isNil not,
+			if(coro handlerStack isNil not,
+				coro handlerStack reverseForeach(entry,
+					if(self isKindOf(entry at(0)),
+						return entry at(1)
+					)
+				)
+			)
+			coro = coro parentCoroutine
+		)
+		nil
+	)
+
+	_Resumption := Object clone do(
+		//doc Exception _Resumption A simple object whose invoke(v) returns v.
+		// Passed to handlers as the resume argument for API compatibility.
+		invoke := method(v, v)
+	)
+
+	signal := method(error, nestedException,
+		/*doc Exception signal(error, optionalNestedException)
+		Raises a resumable exception. If a matching handler is installed via withHandler,
+		the handler is called with (exception, resume). The handler can resume
+		execution at the signal site by calling resume invoke(value), or simply returning
+		a value (which auto-resumes). If no handler is found, falls back to non-resumable raise.
+		*/
+		coro := Scheduler currentCoroutine
+		exception := self clone setError(error) setCoroutine(coro) setNestedException(nestedException)
+		handler := exception _findHandler
+		if(handler isNil,
+			coro raiseException(exception)
+			return
+		)
+		handler call(exception, _Resumption)
 	)
 )
 

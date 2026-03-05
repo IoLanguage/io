@@ -32,11 +32,6 @@ cmake_minimum_required(VERSION 3.10)
 # spaces, or anything silly like that please.
 project(IoLanguage C)
 
-# Enable ASM language for coroutine support
-IF (NOT CMAKE_SYSTEM_NAME MATCHES "Windows")
-    enable_language(ASM)
-ENDIF()
-
 # Default config when building with gcc variants
 IF((CMAKE_C_COMPILER_ID STREQUAL "GNU") OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
     SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O")
@@ -68,7 +63,6 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # Definitions on where we can find headers and whatnot. Convenience definitions.
-set(COROUTINE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/coroutine/source)
 set(BASEKIT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/basekit/source)
 set(GARBAGECOLLECTOR_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source)
 set(IOVM_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/iovm/source)
