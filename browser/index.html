@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Io Language — REPL</title>
+<style>
+	::-webkit-scrollbar { width: 15px; height: 15px; }
+	::-webkit-scrollbar-track-piece { background-color: #191919; }
+	::-webkit-scrollbar-thumb:vertical { background-color: #555; }
+
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+
+	body {
+		font-family: 'Helvetica Neue', helvetica, sans-serif;
+		background-color: #191919;
+		color: #999;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		padding: 20px 30px;
+		overflow: hidden;
+	}
+
+	a {
+		text-decoration: none;
+		color: #999;
+	}
+	a:hover { color: #fff; }
+
+	nav {
+		padding-bottom: 15px;
+		border-bottom: 1px solid #444;
+		margin-bottom: 20px;
+		font-size: 14px;
+	}
+	nav .breadcrumb {
+		font-weight: bold;
+		color: #fff;
+	}
+	nav .breadcrumb a { color: #999; }
+	nav .breadcrumb a:hover { color: #fff; }
+	nav .breadcrumb .sep { color: #444; margin: 0 6px; }
+
+	.status {
+		font-weight: bold;
+		color: #fff;
+		font-size: 14px;
+		margin-bottom: 15px;
+		animation: fadein 2s;
+	}
+	.status.error { color: red; }
+	.status.ready { color: #999; }
+
+	@keyframes fadein {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	.repl {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		animation: fadein 1s;
+		min-height: 0;
+	}
+
+	.output {
+		flex: 1;
+		overflow-y: auto;
+		font-family: helvetica, sans-serif;
+		font-weight: bold;
+		font-size: 1em;
+		line-height: 1.4em;
+		border-left: 1px solid #666;
+		padding-left: 2em;
+		margin-bottom: 1em;
+		min-height: 100px;
+	}
+
+	.output .replPair {
+		white-space: pre-wrap;
+		margin-bottom: 0.5em;
+	}
+
+	.output .input-echo {
+		color: #fff;
+	}
+
+	.output .result {
+		white-space: pre-wrap;
+		color: #99c;
+	}
+
+	.output .result-error {
+		white-space: pre-wrap;
+		color: red;
+	}
+
+	.output .info {
+		color: #444;
+	}
+
+	.inputsection {
+		border-left: 1px solid #666;
+		padding-left: 2em;
+		padding-top: 0.5em;
+		padding-bottom: 0.5em;
+	}
+
+	#input {
+		font-family: helvetica, sans-serif;
+		font-weight: bold;
+		font-size: 1em;
+		color: #fff;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		width: 100%;
+		resize: none;
+		line-height: 1.4em;
+		overflow: hidden;
+	}
+	#input::placeholder { color: #444; }
+	#input:disabled { opacity: 0.3; }
+
+	.toolbar {
+		display: flex;
+		gap: 8px;
+		margin-top: 15px;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.button {
+		font-family: 'Helvetica Neue', sans-serif;
+		font-size: 1em;
+		font-weight: normal;
+		border: #444 1px solid;
+		background-color: transparent;
+		color: #666;
+		padding: 0.1em 0.5em;
+		cursor: pointer;
+	}
+	.button:hover {
+		border-color: #888;
+		color: #aaa;
+	}
+
+	.shortcut {
+		color: #444;
+		font-size: 0.85em;
+		margin-left: 2px;
+	}
+
+	@media only screen and (max-width: 585px) {
+		body { padding: 15px; }
+		.output, .inputsection { padding-left: 1em; }
+	}
+</style>
+</head>
+<body>
+	<nav>
+		<span class="breadcrumb">
+			<a href="https://iolanguage.org/">Io</a>
+			<span class="sep">/</span>
+			repl
+		</span>
+	</nav>
+
+	<div class="status" id="status">Loading Io compiled to WASM...</div>
+
+	<div class="repl" id="repl" style="opacity:0">
+		<div class="output" id="output"></div>
+		<div class="inputsection">
+			<textarea id="input" rows="1" autocomplete="off" spellcheck="false" disabled placeholder="loading..."></textarea>
+		</div>
+		<div class="toolbar">
+			<span class="button" id="eval-btn">eval <span class="shortcut">ctrl+return</span></span>
+			<span class="button" id="clear-btn">clear <span class="shortcut">ctrl+shift+u</span></span>
+		</div>
+	</div>
+
+	<script src="io.js"></script>
+</body>
+</html>

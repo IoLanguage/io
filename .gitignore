@@ -82,4 +82,5 @@ addons/*/docs/docs.txt
 IoInstallPrefix.h
 xcuserdata
 build
+browser/io_browser.wasm
 .idea

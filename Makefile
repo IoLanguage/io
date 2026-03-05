@@ -6,6 +6,8 @@
 #   make check          Run tests with wasmtime
 #   make clean          Remove build artifacts
 #   make regenerate     Regenerate IoVMInit.c from .io files
+#   make browser        Build browser/io_browser.wasm (reactor module)
+#   make serve          Serve browser REPL on localhost:8000
 
 WASI_SDK    ?= $(HOME)/wasi-sdk
 BUILD       := build
@@ -50,7 +52,7 @@ IO_SOURCES  := $(wildcard libs/iovm/io/*.io)
 
 # --- Targets ---
 
-.PHONY: all test check clean regenerate
+.PHONY: all test check clean regenerate browser serve
 
 all: $(BINDIR)/io_static
 
@@ -61,7 +63,7 @@ check: $(BINDIR)/io_static $(BINDIR)/test_iterative_eval
 	wasmtime --dir=. --dir=/tmp $(BINDIR)/io_static libs/iovm/tests/correctness/run.io
 
 clean:
-	rm -rf $(BUILD)
+	rm -rf $(BUILD) $(BROWSER_WASM)
 
 regenerate: $(BINDIR)/io2c
 	$(BINDIR)/io2c VMCode IoState_doString_ $(IO_IMPORTS) > libs/iovm/source/IoVMInit.c
@@ -88,6 +90,38 @@ libs/iovm/source/IoVMInit.c: $(BINDIR)/io2c $(IO_IMPORTS) $(IO_SOURCES)
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+# --- Browser (reactor module) ---
+
+BROWSER_DIR  := browser
+BROWSER_WASM := $(BROWSER_DIR)/io_browser.wasm
+BROWSER_OBJ  := $(OBJDIR)/browser/io_browser.o
+
+BROWSER_CFLAGS := $(CFLAGS)
+BROWSER_LDFLAGS := -lwasi-emulated-process-clocks -lwasi-emulated-signal \
+	-mexec-model=reactor \
+	-Wl,--export=io_init \
+	-Wl,--export=io_eval \
+	-Wl,--export=io_get_output \
+	-Wl,--export=io_get_output_len \
+	-Wl,--export=io_get_input_buf \
+	-Wl,--export=io_get_input_buf_size \
+	-Wl,--export=io_eval_input
+
+browser: $(BROWSER_WASM)
+
+$(BROWSER_WASM): $(BROWSER_OBJ) $(ALL_OBJS)
+	$(CC) $(BROWSER_CFLAGS) -o $@ $^ $(BROWSER_LDFLAGS)
+
+$(BROWSER_OBJ): browser/io_browser.c
+	@mkdir -p $(dir $@)
+	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
+
+serve: $(BROWSER_WASM)
+	@echo "Serving at http://localhost:8000"
+	python3 -m http.server 8000 -d $(BROWSER_DIR)
+
+# --- Directories ---
 
 $(BINDIR):
 	mkdir -p $@
