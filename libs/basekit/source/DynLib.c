@@ -13,7 +13,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+/* WASM: no dynamic library loading */
+#define RTLD_NOW 0
+#define RTLD_GLOBAL 0
+static void *dlopen(const char *path, int mode) { return NULL; }
+static int dlclose(void *handle) { return 0; }
+static const char *dlerror(void) { return "dynamic loading not supported on WASM"; }
+static void *dlsym(void *handle, const char *symbol) { return NULL; }
+
+#elif defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
 #include <windows.h>
 
 #define RTLD_NOW 0 /* don't support link flags */

@@ -50,15 +50,25 @@ file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/source/IoInstallPrefix.h "#define INSTALL
 
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
+# For cross-compilation (WASM), use IO2C_EXECUTABLE from the host build.
+if(IO2C_EXECUTABLE)
+    set(IO2C_CMD ${IO2C_EXECUTABLE})
+else()
+    set(IO2C_CMD ${PROJECT_BINARY_DIR}/_build/binaries/io2c)
+endif()
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
-    COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
-    DEPENDS io2c
+    COMMAND ${IO2C_CMD} VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
+    DEPENDS $<$<NOT:$<BOOL:${IO2C_EXECUTABLE}>>:io2c>
     )
 
 # Handle annoying NAN
-include(CheckCSourceRuns)
-check_c_source_runs("
+# Cross-compilation (WASM) can't run test programs, so hardcode.
+if(CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	add_definitions(-DUSE_BUILTIN_NAN)
+else()
+	include(CheckCSourceRuns)
+	check_c_source_runs("
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -70,8 +80,9 @@ int main(){
 	return strcmp(buf, \"nan\");
 }
 " HAVE_POSITIVE_NAN)
-if (NOT HAVE_POSITIVE_NAN)
-	add_definitions(-DUSE_BUILTIN_NAN)
+	if (NOT HAVE_POSITIVE_NAN)
+		add_definitions(-DUSE_BUILTIN_NAN)
+	endif()
 endif()
 
 # Marvelous flags, likely compiler dependent.
@@ -91,9 +102,17 @@ list(APPEND SRCS source/IoVMInit.c)
 list(APPEND SRCS ../../deps/parson/parson.c)
 file(GLOB HEADERS "source/*.h")
 
-# Now build the shared library
-add_library(iovmall SHARED ${SRCS})
-add_dependencies(iovmall io2c basekit garbagecollector)
+# Build shared library on native platforms, static on WASI
+if(CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	add_library(iovmall STATIC ${SRCS})
+else()
+	add_library(iovmall SHARED ${SRCS})
+endif()
+if(IO2C_EXECUTABLE)
+	add_dependencies(iovmall basekit garbagecollector)
+else()
+	add_dependencies(iovmall io2c basekit garbagecollector)
+endif()
 set_target_properties(iovmall PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(iovmall basekit garbagecollector)
 

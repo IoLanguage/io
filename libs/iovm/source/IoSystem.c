@@ -9,7 +9,13 @@ Contains methods related to the IoVM.
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
 #include "IoVersion.h"
-#ifndef WIN32
+
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+/* WASM: minimal headers */
+#include <unistd.h>
+#elif defined(WIN32)
+/* included below */
+#else
 #include "IoInstallPrefix.h"
 #endif
 
@@ -17,6 +23,7 @@ Contains methods related to the IoVM.
 #include <unistd.h>
 #endif
 
+#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
 #if defined(unix) || defined(__APPLE__) || defined(__NetBSD__) ||              \
     defined(__OpenBSD__)
 #include <sys/utsname.h>
@@ -27,6 +34,7 @@ Contains methods related to the IoVM.
 #include <sys/sysctl.h>
 #endif
 #endif
+#endif /* !__wasi__ */
 
 //#define WIN32
 #if defined(__CYGWIN__) || defined(_WIN32)
@@ -257,6 +265,10 @@ IO_METHOD(IoObject, system) {
     Makes a system call and returns a Number for the return value.
     */
 
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+    IoState_error_(IOSTATE, self, "System system is not supported on WASM");
+    return IONIL(self);
+#else
     IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
 
     char *buf = NULL;
@@ -272,6 +284,7 @@ IO_METHOD(IoObject, system) {
 #endif
 
     return IONUMBER(result);
+#endif
 }
 
 IO_METHOD(IoObject, memorySizeOfState) {
@@ -312,7 +325,11 @@ IO_METHOD(IoObject, platform) {
 
     char *platform = "Unknown";
 
-#if defined(__CYGWIN__)
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+
+    platform = "wasm";
+
+#elif defined(__CYGWIN__)
 
     platform = "cygwin";
 
@@ -390,7 +407,11 @@ IO_METHOD(IoObject, platformVersion) {
     Returns the version id of the OS.
     */
 
-#if defined(_WIN32)
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+
+    snprintf(platformVersion, sizeof(platformVersion), "wasi-0.1");
+
+#elif defined(_WIN32)
 
     OSVERSIONINFO os;
 
@@ -422,7 +443,9 @@ IO_METHOD(IoObject, activeCpus) {
     */
 
     int cpus = 1;
-#if defined(CTL_HW)
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+    /* WASM: no CPU detection, default to 1 */
+#elif defined(CTL_HW)
     int mib[2];
     size_t len = sizeof(cpus);
     mib[0] = CTL_HW;
@@ -518,7 +541,11 @@ IO_METHOD(IoObject, thisProcessPid) {
     Return the process id (pid) for this Io process.
     */
 
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+    return IONUMBER(1);
+#else
     return IONUMBER(getpid());
+#endif
 }
 
 /*doc System version

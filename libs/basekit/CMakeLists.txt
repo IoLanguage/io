@@ -14,17 +14,23 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/source/simd_cph/include)
 
 set(BASEKIT_LIBS)
 
-# Add dynamic loader library for those who need it
-if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
-	list(APPEND BASEKIT_LIBS dl m)
-endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+# Add dynamic loader library for those who need it (not available on WASI)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+		list(APPEND BASEKIT_LIBS dl m)
+	endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+endif()
 
 # Our library sources.
 file(GLOB SRCS "source/*.c")
 file(GLOB HEADERS "source/*.h")
 
-# Now build the shared library
-add_library(basekit SHARED ${SRCS})
+# Build shared library on native platforms, static on WASI
+if(CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	add_library(basekit STATIC ${SRCS})
+else()
+	add_library(basekit SHARED ${SRCS})
+endif()
 set_target_properties(basekit PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(basekit ${BASEKIT_LIBS})
 

@@ -16,9 +16,12 @@ ENDIF("${isSystemDir}" STREQUAL "-1")
 
 # Some platform specific stuff. Do we have a sane popen? By sane
 # we mean does it allow for a bidirectional pipe to be opened?
-if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSANE_POPEN")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
+# Not available on WASI.
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSANE_POPEN")
+	endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
+endif()
 
 # We want the binaries to go other places than here.
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
@@ -36,20 +39,23 @@ set(SRCS source/main.c)
 # Set up an empty LIBS so we can append to it things we may need to link in.
 set(LIBS)
 
-# Add dynamic loader library for those who need it
-if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
-	list(APPEND LIBS "-ldl")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+# Platform-specific libraries (not available on WASI)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	# Add dynamic loader library for those who need it
+	if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+		list(APPEND LIBS "-ldl")
+	endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
 
-# Add math library for those who need it
-if(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
-	list(APPEND LIBS "-lm")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
+	# Add math library for those who need it
+	if(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
+		list(APPEND LIBS "-lm")
+	endif(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
 
-# Add curses library for readline needs it
-if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-	list(APPEND LIBS "-lcurses")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+	# Add curses library for readline needs it
+	if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+		list(APPEND LIBS "-lcurses")
+	endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+endif()
 
 
 add_definitions("-DBUILDING_IOVMALL_DLL")
@@ -59,26 +65,29 @@ add_executable(io_static ${SRCS})
 add_dependencies(io_static iovmall_static)
 target_link_libraries(io_static iovmall_static ${LIBS})
 
-
-add_executable(io ${SRCS})
-add_dependencies(io basekit garbagecollector iovmall)
-target_link_libraries(io basekit garbagecollector iovmall ${LIBS})
+# Dynamic-linked binary (not available on WASI)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	add_executable(io ${SRCS})
+	add_dependencies(io basekit garbagecollector iovmall)
+	target_link_libraries(io basekit garbagecollector iovmall ${LIBS})
+endif()
 
 # The following add the install target, so we put io and io_static in our
 # install prefix.
-if(WIN32)
+if(CMAKE_SYSTEM_NAME STREQUAL "WASI")
+    # WASI: only static binary, no install
+elseif(WIN32)
     install(TARGETS io io_static DESTINATION ${CMAKE_INSTALL_PREFIX})
 else()
     install(TARGETS io io_static DESTINATION bin)
-endif(WIN32)
 
-# Eerie
+    # Eerie
+    add_custom_command(TARGET io
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/eerie ${CMAKE_BINARY_DIR}
+        )
 
-add_custom_command(TARGET io
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/eerie ${CMAKE_BINARY_DIR}
-    )
-
-IF(UNIX AND NOT APPLE)
-    install(CODE "execute_process(COMMAND ldconfig)")
-ENDIF(UNIX AND NOT APPLE)
+    IF(NOT APPLE)
+        install(CODE "execute_process(COMMAND ldconfig)")
+    ENDIF(NOT APPLE)
+endif()

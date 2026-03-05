@@ -41,8 +41,8 @@ IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
     SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
     SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
     
-    # Only use -msse2 flag for x86/x86_64 architectures.
-    if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+    # Only use -msse2 flag for x86/x86_64 architectures (not WASM).
+    if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64|wasm32")
         SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse2")
     endif()
     

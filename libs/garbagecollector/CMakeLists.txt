@@ -16,8 +16,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source)
 file(GLOB SRCS "source/*.c")
 file(GLOB HEADERS "source/*.h")
 
-# Now build the shared library
-add_library(garbagecollector SHARED ${SRCS})
+# Build shared library on native platforms, static on WASI
+if(CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	add_library(garbagecollector STATIC ${SRCS})
+else()
+	add_library(garbagecollector SHARED ${SRCS})
+endif()
 add_dependencies(garbagecollector basekit)
 set_target_properties(garbagecollector PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(garbagecollector basekit)

@@ -62,10 +62,16 @@ set(IOVMALL_STATIC_SRCS
 
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
+# For cross-compilation (WASM), use IO2C_EXECUTABLE from the host build.
+if(IO2C_EXECUTABLE)
+	set(IO2C_CMD ${IO2C_EXECUTABLE})
+else()
+	set(IO2C_CMD ${PROJECT_BINARY_DIR}/_build/binaries/io2c)
+endif()
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit.c
-	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit.c
-	DEPENDS io2c
+	COMMAND ${IO2C_CMD} VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit.c
+	DEPENDS $<$<NOT:$<BOOL:${IO2C_EXECUTABLE}>>:io2c>
 )
 
 # Include dirs, -I flags and whatnot
@@ -83,7 +89,12 @@ list(APPEND IOVMALL_STATIC_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit
 # ...And the static library. Refer to IOVMALL_STATIC_SRCS definition
 # up top.
 add_library(iovmall_static STATIC ${IOVMALL_STATIC_SRCS})
-add_dependencies(iovmall_static io2c basekit garbagecollector iovmall)
+if(CMAKE_SYSTEM_NAME STREQUAL "WASI")
+	# WASI: no shared libs, no io2c target (using external IO2C_EXECUTABLE)
+	add_dependencies(iovmall_static basekit garbagecollector)
+else()
+	add_dependencies(iovmall_static io2c basekit garbagecollector iovmall)
+endif()
 
 # Define the subdirectories we can reach from here that we want
 # to go into and build stuff.

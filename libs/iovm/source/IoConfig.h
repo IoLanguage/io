@@ -3,6 +3,13 @@
 
 /* ---------------------------------------------------------- */
 
+/* WASM/WASI — no C stack, no platform-specific jmp_buf detection needed */
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+#define IO_OS_TYPE wasi
+#define IO_PROCESSOR_TYPE wasm32
+
+#else /* native platforms: detect OS/processor from jmp_buf layout */
+
 #include <setjmp.h>
 
 /* Solaris 9 Sparc with GCC */
@@ -19,10 +26,9 @@
 #define IO_PROCESSOR_TYPE i386
 
 #endif
-#endif
 
 /* #if defined(__MACOSX__) && defined(_BSD_PPC_SETJMP_H_) */
-#if defined(_BSD_PPC_SETJMP_H_)
+#elif defined(_BSD_PPC_SETJMP_H_)
 /* OSX/PPC */
 #define IO_OS_TYPE darwin
 #define IO_PROCESSOR_TYPE powerpc
@@ -92,16 +98,10 @@
 #endif
 
 #elif defined(__NetBSD__)
-/* NetBSD. */
 /* NetBSD i386. */
 #define IO_OS_TYPE netbsd
 #define IO_PROCESSOR_TYPE i386
-#endif
 
-#elif defined(__SVR4) && defined(__sun)
-/* Solaris. */
-#if defined(SUN_PROGRAM_COUNTER)
-/* SunOS 9 */
-#define IO_OS_TYPE sunos
-#endif
-#endif
+#endif /* platform detection chain */
+
+#endif /* __wasi__ vs native */

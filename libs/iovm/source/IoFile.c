@@ -42,7 +42,11 @@ file close
 #define pclose(x) _pclose(x)
 #endif
 
-#if defined(__SYMBIAN32__)
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+/* WASM: no process pipes */
+static int pclose(FILE *f) { return 0; }
+static FILE *popen(const char *cmd, const char *mode) { return NULL; }
+#elif defined(__SYMBIAN32__)
 static int pclose(void *f) { return 0; }
 static int popen(void *f, int m) { return 0; }
 static int rename(void *a, void *b) { return 0; }
