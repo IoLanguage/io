@@ -1,6 +1,7 @@
 
 #include "IoObject.h"
 #include "IoNumber.h"
+#include "IoEvalFrame.h"
 
 // loops ---------------------------------------
 
@@ -12,37 +13,48 @@ IO_METHOD(IoObject, while) {
     */
 
     IoMessage_assertArgCount_receiver_(m, 2, self);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
-    {
+    IoState *state = IOSTATE;
+
+    // Bootstrap fallback: no eval loop running
+    if (!state->currentFrame) {
         IoObject *result = IONIL(self);
-        IoState *state = IOSTATE;
-        unsigned char c;
-
         IoState_resetStopStatus(state);
         IoState_pushRetainPool(state);
-
         for (;;) {
             IoObject *v;
             IoState_clearTopPool(state);
             IoState_stackRetain_(state, result);
             v = IoMessage_locals_valueArgAt_(m, locals, 0);
-            c = ISTRUE(
-                IoMessage_locals_performOn_(IOSTATE->asBooleanMessage, v, v));
-
-            if (!c) {
+            if (!ISTRUE(IoMessage_locals_performOn_(state->asBooleanMessage, v, v)))
                 break;
-            }
-
-            result = (IoObject *)IoMessage_locals_valueArgAt_(m, locals, 1);
-
-            if (IoState_handleStatus(state)) {
-                goto done;
-            }
+            result = IoMessage_locals_valueArgAt_(m, locals, 1);
+            if (IoState_handleStatus(state)) break;
         }
-    done:
         IoState_popRetainPoolExceptFor_(state, result);
         return result;
     }
+
+    IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+
+    // Get the argument messages (not evaluated yet)
+    IoMessage *conditionMsg = IoMessage_rawArgAt_(m, 0);
+    IoMessage *bodyMsg = IoMessage_rawArgAt_(m, 1);
+
+    // Set up control flow info
+    fd->controlFlow.whileInfo.conditionMsg = conditionMsg;
+    fd->controlFlow.whileInfo.bodyMsg = bodyMsg;
+    fd->controlFlow.whileInfo.lastResult = NULL;
+
+    // Change frame state to start WHILE evaluation
+    fd->state = FRAME_STATE_WHILE_EVAL_CONDITION;
+
+    // Signal that we've set up control flow handling
+    state->needsControlFlowHandling = 1;
+
+    return state->ioNil;
 }
 
 IO_METHOD(IoObject, loop) {
@@ -51,26 +63,41 @@ IO_METHOD(IoObject, loop) {
     */
 
     IoMessage_assertArgCount_receiver_(m, 1, self);
-    {
-        IoState *state = IOSTATE;
+    if (IOSTATE->errorRaised) return IONIL(self);
+
+    IoState *state = IOSTATE;
+
+    // Bootstrap fallback: no eval loop running
+    if (!state->currentFrame) {
         IoObject *result;
-
-        IoState_resetStopStatus(IOSTATE);
+        IoState_resetStopStatus(state);
         IoState_pushRetainPool(state);
-
         for (;;) {
             IoState_clearTopPool(state);
-
             result = IoMessage_locals_valueArgAt_(m, locals, 0);
-
-            if (IoState_handleStatus(IOSTATE)) {
-                goto done;
-            }
+            if (IoState_handleStatus(state)) break;
         }
-    done:
         IoState_popRetainPoolExceptFor_(state, result);
         return result;
     }
+
+    IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+
+    // Get the body message (not evaluated yet)
+    IoMessage *bodyMsg = IoMessage_rawArgAt_(m, 0);
+
+    // Set up control flow info
+    fd->controlFlow.loopInfo.bodyMsg = bodyMsg;
+    fd->controlFlow.loopInfo.lastResult = NULL;
+
+    // Change frame state to start LOOP evaluation
+    fd->state = FRAME_STATE_LOOP_EVAL_BODY;
+
+    // Signal that we've set up control flow handling
+    state->needsControlFlowHandling = 1;
+
+    return state->ioNil;
 }
 
 IO_METHOD(IoObject, for)
@@ -81,9 +108,12 @@ IO_METHOD(IoObject, for)
     */
 
     IoMessage_assertArgCount_receiver_(m, 4, self);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
-    {
-        IoState *state = IOSTATE;
+    IoState *state = IOSTATE;
+
+    // Bootstrap fallback: no eval loop running
+    if (!state->currentFrame) {
         IoMessage *indexMessage = IoMessage_rawArgAt_(m, 0);
         IoMessage *doMessage;
         IoObject *result = IONIL(self);
@@ -92,55 +122,68 @@ IO_METHOD(IoObject, for)
         double startValue = IoMessage_locals_doubleArgAt_(m, locals, 1);
         double endValue = IoMessage_locals_doubleArgAt_(m, locals, 2);
         double increment = 1;
-        IoNumber *num = NULL;
 
         if (IoMessage_argCount(m) > 4) {
             increment = IoMessage_locals_doubleArgAt_(m, locals, 3);
             doMessage = IoMessage_rawArgAt_(m, 4);
         } else {
             doMessage = IoMessage_rawArgAt_(m, 3);
-            //			if (startValue > endValue)
-            //			{
-            //				increment = -1;
-            //			}
         }
 
         IoState_resetStopStatus(state);
         IoState_pushRetainPool(state);
 
         for (i = startValue;; i += increment) {
-            if (increment > 0) {
-                if (i > endValue)
-                    break;
-            } else {
-                if (i < endValue)
-                    break;
-            }
-
-            /*if (result != locals && result != self)
-             * IoState_immediatelyFreeIfUnreferenced_(state, result);*/
+            if (increment > 0) { if (i > endValue) break; }
+            else { if (i < endValue) break; }
             IoState_clearTopPool(state);
-
-            {
-                num = IONUMBER(i);
-                IoObject_addingRef_(locals, num);
-                PHash_at_put_(IoObject_slots(locals), slotName, num);
-
-                // IoObject_setSlot_to_(self, slotName, num);
-            }
-
-            /*IoObject_setSlot_to_(locals, slotName, IONUMBER(i));*/
+            IoObject_addingRef_(locals, IONUMBER(i));
+            PHash_at_put_(IoObject_slots(locals), slotName, IONUMBER(i));
             result = IoMessage_locals_performOn_(doMessage, locals, self);
-
-            if (IoState_handleStatus(IOSTATE)) {
-                goto done;
-            }
+            if (IoState_handleStatus(state)) break;
         }
-
-    done:
         IoState_popRetainPoolExceptFor_(state, result);
         return result;
     }
+
+    IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+
+    IoMessage *indexMessage = IoMessage_rawArgAt_(m, 0);
+    IoSymbol *counterName = IoMessage_name(indexMessage);
+
+    double startValue = IoMessage_locals_doubleArgAt_(m, locals, 1);
+    if (state->errorRaised) return IONIL(self);
+    double endValue = IoMessage_locals_doubleArgAt_(m, locals, 2);
+    if (state->errorRaised) return IONIL(self);
+    double increment = 1;
+    IoMessage *doMessage;
+
+    if (IoMessage_argCount(m) > 4) {
+        increment = IoMessage_locals_doubleArgAt_(m, locals, 3);
+        if (state->errorRaised) return IONIL(self);
+        doMessage = IoMessage_rawArgAt_(m, 4);
+    } else {
+        doMessage = IoMessage_rawArgAt_(m, 3);
+    }
+
+    // Set up control flow info
+    fd->controlFlow.forInfo.bodyMsg = doMessage;
+    fd->controlFlow.forInfo.counterName = counterName;
+    fd->controlFlow.forInfo.startValue = startValue;
+    fd->controlFlow.forInfo.endValue = endValue;
+    fd->controlFlow.forInfo.increment = increment;
+    fd->controlFlow.forInfo.currentValue = startValue;
+    fd->controlFlow.forInfo.lastResult = NULL;
+    fd->controlFlow.forInfo.initialized = 0;
+
+    // Change frame state to start FOR evaluation
+    fd->state = FRAME_STATE_FOR_EVAL_BODY;
+
+    // Signal that we've set up control flow handling
+    state->needsControlFlowHandling = 1;
+
+    return state->ioNil;
 }
 
 IO_METHOD(IoObject, return ) {
@@ -213,13 +256,47 @@ IO_METHOD(IoObject, if) {
     Returns the result of the evaluated message or Nil if none was evaluated.
     */
 
-    IoObject *r = IoMessage_locals_valueArgAt_(m, locals, 0);
-    const int condition =
-        ISTRUE(IoMessage_locals_performOn_(IOSTATE->asBooleanMessage, r, r));
-    const int index = condition ? 1 : 2;
+    IoState *state = IOSTATE;
 
-    if (index < IoMessage_argCount(m))
-        return IoMessage_locals_valueArgAt_(m, locals, index);
+    // Bootstrap fallback: if no eval loop is running (currentFrame == NULL),
+    // evaluate inline. This only happens during VM initialization.
+    if (!state->currentFrame) {
+        IoObject *r = IoMessage_locals_valueArgAt_(m, locals, 0);
+        const int condition =
+            ISTRUE(IoMessage_locals_performOn_(state->asBooleanMessage, r, r));
+        const int index = condition ? 1 : 2;
+        if (index < IoMessage_argCount(m))
+            return IoMessage_locals_valueArgAt_(m, locals, index);
+        return IOBOOL(self, condition);
+    }
 
-    return IOBOOL(self, condition);
+    IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd = FRAME_DATA(frame);
+
+    // Get the argument messages (not evaluated yet)
+    IoMessage *conditionMsg = IoMessage_rawArgAt_(m, 0);
+    IoMessage *trueBranch = IoMessage_rawArgAt_(m, 1);
+    IoMessage *falseBranch = IoMessage_argCount(m) > 2 ? IoMessage_rawArgAt_(m, 2) : NULL;
+
+    // DEBUG
+    if (state->showAllMessages) {
+        printf("IF primitive: condition=%s, true=%s, false=%s\n",
+               conditionMsg ? CSTRING(IoMessage_name(conditionMsg)) : "NULL",
+               trueBranch ? CSTRING(IoMessage_name(trueBranch)) : "NULL",
+               falseBranch ? CSTRING(IoMessage_name(falseBranch)) : "NULL");
+    }
+
+    // Set up control flow info
+    fd->controlFlow.ifInfo.conditionMsg = conditionMsg;
+    fd->controlFlow.ifInfo.trueBranch = trueBranch;
+    fd->controlFlow.ifInfo.falseBranch = falseBranch;
+
+    // Change frame state to start IF evaluation
+    fd->state = FRAME_STATE_IF_EVAL_CONDITION;
+
+    // Signal that we've set up control flow handling
+    state->needsControlFlowHandling = 1;
+
+    // Return placeholder (will be replaced by actual result)
+    return state->ioNil;
 }

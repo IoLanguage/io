@@ -26,7 +26,6 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 # Include locations
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../libs/basekit/source
-	${CMAKE_CURRENT_SOURCE_DIR}/../libs/coroutine/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../libs/garbagecollector/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../libs/iovm/source
 )
@@ -62,8 +61,8 @@ target_link_libraries(io_static iovmall_static ${LIBS})
 
 
 add_executable(io ${SRCS})
-add_dependencies(io basekit coroutine garbagecollector iovmall)
-target_link_libraries(io basekit coroutine garbagecollector iovmall ${LIBS})
+add_dependencies(io basekit garbagecollector iovmall)
+target_link_libraries(io basekit garbagecollector iovmall ${LIBS})
 
 # The following add the install target, so we put io and io_static in our
 # install prefix.

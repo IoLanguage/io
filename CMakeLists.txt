@@ -35,9 +35,6 @@ endif()
 # spaces, or anything silly like that please.
 project(IoLanguage C)
 
-# Enable ASM language for ARM64 coroutine support
-enable_language(ASM)
-
 # Default config when building with gcc variants
 IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
     SET(CMAKE_BUILD_TYPE_DebugFast)
@@ -101,7 +98,6 @@ else()
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # Definitions on where we can find headers and whatnot. Convenience definitions.
-set(COROUTINE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/coroutine/source)
 set(BASEKIT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/basekit/source)
 set(GARBAGECOLLECTOR_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source)
 set(IOVM_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/iovm/source)
@@ -115,7 +111,6 @@ add_subdirectory(tools)
 make_build_bundle(_build)
 
 # Next we NEED to copy all the libs headers into one single dir in the bundle.
-copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(garbagecollector_headers ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(iovm_headers ${PROJECT_SOURCE_DIR}/libs/iovm/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)

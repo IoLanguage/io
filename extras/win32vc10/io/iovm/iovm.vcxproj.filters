@@ -307,19 +307,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\libs\iovm\io\A0_List.io">
+    <None Include="..\..\..\..\libs\iovm\io\List_bootstrap.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\A1_OperatorTable.io">
+    <None Include="..\..\..\..\libs\iovm\io\OperatorTable.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\A2_Object.io">
+    <None Include="..\..\..\..\libs\iovm\io\Object.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\A3_List.io">
+    <None Include="..\..\..\..\libs\iovm\io\List.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\A4_Exception.io">
+    <None Include="..\..\..\..\libs\iovm\io\Exception.io">
       <Filter>io</Filter>
     </None>
     <None Include="..\..\..\..\libs\iovm\io\Actor.io">
@@ -328,7 +328,7 @@
     <None Include="..\..\..\..\libs\iovm\io\AddonLoader.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\B_Sequence.io">
+    <None Include="..\..\..\..\libs\iovm\io\Sequence.io">
       <Filter>io</Filter>
     </None>
     <None Include="..\..\..\..\libs\iovm\io\Block.io">
@@ -382,13 +382,13 @@
     <None Include="..\..\..\..\libs\iovm\io\Vector.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\Y_Path.io">
+    <None Include="..\..\..\..\libs\iovm\io\Path.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\Z_CLI.io">
+    <None Include="..\..\..\..\libs\iovm\io\CLI.io">
       <Filter>io</Filter>
     </None>
-    <None Include="..\..\..\..\libs\iovm\io\Z_Importer.io">
+    <None Include="..\..\..\..\libs\iovm\io\Importer.io">
       <Filter>io</Filter>
     </None>
   </ItemGroup>

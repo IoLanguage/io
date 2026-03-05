@@ -13,7 +13,7 @@ Contains methods related to the IoVM.
 #include "IoInstallPrefix.h"
 #endif
 
-#if defined(linux) || defined(__MINGW64__)
+#if defined(linux) || defined(__MINGW64__) || defined(__APPLE__)
 #include <unistd.h>
 #endif
 

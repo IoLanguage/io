@@ -5,17 +5,24 @@
 #include "IoState.h"
 #include "IoObject.h"
 #include <time.h>
+#include <stdio.h>
 #include "PortableGettimeofday.h"
+
+// Define DEBUG_CORO_EVAL to enable verbose debug output
+// #define DEBUG_CORO_EVAL 1
 
 IoObject *IoState_tryToPerform(IoState *self, IoObject *target,
                                IoObject *locals, IoMessage *m) {
     IoCoroutine *tryCoro = IoCoroutine_newWithTry(self, target, locals, m);
 
-    if (IoCoroutine_rawException(tryCoro) != self->ioNil) {
+    IoObject *exc = IoCoroutine_rawException(tryCoro);
+
+    if (exc != self->ioNil) {
         IoState_exception_(self, tryCoro);
     }
 
-    return IoCoroutine_rawResult(tryCoro);
+    IoObject *result = IoCoroutine_rawResult(tryCoro);
+    return result;
 }
 
 void IoState_zeroSandboxCounts(IoState *self) {
@@ -39,6 +46,18 @@ void IoState_resetSandboxCounts(IoState *self) {
 
 IoObject *IoState_on_doCString_withLabel_(IoState *self, IoObject *target,
                                           const char *s, const char *label) {
+#ifdef DEBUG_CORO_EVAL
+    static int callDepth = 0;
+    Stack *ioStackBefore;
+    Stack *ioStackAfter;
+    callDepth++;
+    fprintf(stderr, ">>> on_doCString ENTER (depth=%d, label=%s)\n", callDepth, label ? label : "NULL");
+    fflush(stderr);
+    ioStackBefore = self->currentIoStack;
+    fprintf(stderr, "on_doCString: ioStack before push = %p\n", (void*)ioStackBefore);
+    fflush(stderr);
+#endif
+
     IoObject *result;
 
     IoState_pushRetainPool(self);
@@ -56,7 +75,25 @@ IoObject *IoState_on_doCString_withLabel_(IoState *self, IoObject *target,
         result = IoState_tryToPerform(self, target, target, m);
     }
 
+#ifdef DEBUG_CORO_EVAL
+    ioStackAfter = self->currentIoStack;
+    fprintf(stderr, "on_doCString: ioStack after tryToPerform = %p (was %p)\n",
+            (void*)ioStackAfter, (void*)ioStackBefore);
+    fflush(stderr);
+
+    if (ioStackBefore != ioStackAfter) {
+        fprintf(stderr, "WARNING: ioStack changed during tryToPerform!\n");
+        fflush(stderr);
+    }
+#endif
+
     IoState_popRetainPoolExceptFor_(self, result);
+
+#ifdef DEBUG_CORO_EVAL
+    fprintf(stderr, "<<< on_doCString EXIT (depth=%d, result=%p)\n", callDepth, (void*)result);
+    callDepth--;
+    fflush(stderr);
+#endif
 
     return result;
 }

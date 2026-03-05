@@ -46,6 +46,16 @@ typedef struct {
     // debugging info
     // int charNumber;
     int lineNumber;
+    uint8_t isSpecialForm;   // 0=unchecked, 1=normal, 2=special form
+
+    // Inline cache for monomorphic slot lookups.
+    // Caches the last (tag, value, context) result so repeated sends
+    // to objects of the same type skip the proto chain walk.
+    IoTag *inlineCacheTag;           // Tag of target at cache time (NULL = empty)
+    IoObject *inlineCacheValue;      // Cached slot value
+    IoObject *inlineCacheContext;    // Cached slot context
+    unsigned int inlineCacheVersion; // slotVersion at cache time
+
     IoSymbol *label;
 } IoMessageData;
 

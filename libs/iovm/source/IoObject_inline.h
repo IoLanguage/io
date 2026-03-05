@@ -232,23 +232,23 @@ IOINLINE IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref) {
 IOINLINE void IoObject_inlineSetSlot_to_(IoObject *self, IoSymbol *slotName,
                                          IoObject *value) {
     IoObject_createSlotsIfNeeded(self);
-    /*
-    if (!slotName->isSymbol)
-    {
-            printf("Io System Error: setSlot slotName not symbol\n");
-            exit(1);
-    }
-    */
+
+#ifdef COLLECTOR_USE_REFCOUNT
+    IoObject *oldValue = (IoObject *)PHash_at_(IoObject_slots(self), slotName);
+#endif
 
     PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value));
 
-    IoObject_isDirty_(self, 1);
-    /*
-    if(PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value)))
-    {
-            IoObject_isDirty_(self, 1);
+#ifdef COLLECTOR_USE_REFCOUNT
+    if (oldValue && oldValue != value) {
+        Collector_value_removingRefTo_(IOCOLLECTOR, oldValue);
+        // Don't drain here — the caller may still be using 'self' and
+        // draining could free objects unsafely. The for-loop fast paths
+        // drain explicitly where it's safe.
     }
-    */
+#endif
+
+    IoObject_isDirty_(self, 1);
 }
 
 IOINLINE_RECURSIVE IoObject *IoObject_rawGetSlot_context_(IoObject *self,

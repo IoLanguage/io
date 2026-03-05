@@ -16,7 +16,7 @@ extern "C" {
     COLLECTMARKER_FOREACH(self->grays, v, code;);                              \
     COLLECTMARKER_FOREACH(self->blacks, v, code;);
 
-//#define COLLECTOR_RECYCLE_FREED 1
+#define COLLECTOR_RECYCLE_FREED 1
 #define COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP 1
 
 typedef enum {
@@ -61,6 +61,13 @@ typedef struct {
 #ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
     int newMarkerCount;
     int allocsPerSweep;
+#endif
+
+#ifdef COLLECTOR_USE_REFCOUNT
+    CollectorMarker **rcFreeList;
+    size_t rcFreeCount;
+    size_t rcFreeCapacity;
+    int inSweep;
 #endif
 } Collector;
 
@@ -148,6 +155,11 @@ COLLECTOR_API void Collector_pushPause(Collector *self);
 COLLECTOR_API void Collector_popPause(Collector *self);
 COLLECTOR_API int Collector_isPaused(Collector *self);
 COLLECTOR_API double Collector_timeUsed(Collector *self);
+
+#ifdef COLLECTOR_USE_REFCOUNT
+COLLECTOR_API void Collector_rcEnqueue_(Collector *self, CollectorMarker *m);
+COLLECTOR_API void Collector_rcDrainFreeList_(Collector *self);
+#endif
 
 #include "Collector_inline.h"
 

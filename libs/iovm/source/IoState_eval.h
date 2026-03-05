@@ -19,6 +19,18 @@ IOVM_API IoObject *IoState_on_doCString_withLabel_(IoState *self,
                                                    const char *s,
                                                    const char *label);
 
+// iterative (non-recursive) evaluation
+
+IOVM_API IoObject *IoMessage_locals_performOn_iterative(IoMessage *self,
+                                                        IoObject *locals,
+                                                        IoObject *target);
+IOVM_API IoObject *IoMessage_locals_performOn_fast(IoMessage *self,
+                                                   IoObject *locals,
+                                                   IoObject *target);
+IOVM_API IoObject *IoState_evalLoop_(IoState *self);
+IOVM_API IoObject *IoState_pushFrame_(IoState *self);
+IOVM_API void IoState_popFrame_(IoState *self);
+
 // sandbox
 
 IOVM_API void IoState_zeroSandboxCounts(IoState *self);

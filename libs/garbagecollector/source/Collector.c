@@ -47,6 +47,13 @@ Collector *Collector_new(void) {
 
     self->clocksUsed = 0;
 
+#ifdef COLLECTOR_USE_REFCOUNT
+    self->rcFreeList = NULL;
+    self->rcFreeCount = 0;
+    self->rcFreeCapacity = 0;
+    self->inSweep = 0;
+#endif
+
     Collector_check(self);
 
     return self;
@@ -107,6 +114,11 @@ void Collector_free(Collector *self) {
     CollectorMarker_free(self->grays);
     CollectorMarker_free(self->blacks);
     CollectorMarker_free(self->freed);
+#ifdef COLLECTOR_USE_REFCOUNT
+    if (self->rcFreeList) {
+        io_free(self->rcFreeList);
+    }
+#endif
     io_free(self);
 }
 
@@ -210,6 +222,20 @@ float Collector_allocsPerSweep(Collector *self) { return self->allocsPerSweep; }
 CollectorMarker *Collector_newMarker(Collector *self) {
     CollectorMarker *m;
     BEGIN_TIMER
+
+    // Paths that bypass pushPause/popPause (e.g. IoState_numberWithDouble_)
+    // never trigger GC via popPause, so dead objects can accumulate without
+    // bound.  Collect here before allocating the new marker to bound memory
+    // growth.  The 50x multiplier amortizes the O(live_set) sweep cost:
+    // ~1 sweep per 500K allocations, <40ms overhead per cycle.
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+    if (self->pauseCount == 0 &&
+        self->newMarkerCount > self->allocsPerSweep * 50) {
+        self->newMarkerCount = 0;
+        Collector_collect(self);
+    }
+#endif
+
     m = self->freed->next;
 
     if (m->color != self->freed->color) {
@@ -217,6 +243,9 @@ CollectorMarker *Collector_newMarker(Collector *self) {
         // printf("new marker\n");
     } else {
         // printf("using recycled marker\n");
+#ifdef COLLECTOR_USE_REFCOUNT
+        m->refCount = 0;
+#endif
     }
 
     self->allocated++;
@@ -233,20 +262,6 @@ void Collector_addValue_(Collector *self, void *v) {
 #ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
     self->newMarkerCount++;
 #endif
-    // pauseCount is never zero here...
-    /*
-    if (self->pauseCount == 0)
-    {
-            if(self->allocated > self->allocatedSweepLevel)
-            {
-                    Collector_sweep(self);
-            }
-            else if (self->queuedMarks > 1.0)
-            {
-                    Collector_markPhase(self);
-            }
-    }
-    */
 }
 
 // collection ------------------------------------------------
@@ -373,7 +388,13 @@ size_t Collector_sweepPhase(Collector *self) {
         Collector_sendWillFreeCallbacks(self);
     }
 
+#ifdef COLLECTOR_USE_REFCOUNT
+    self->inSweep = 1;
+#endif
     freedCount = Collector_freeWhites(self);
+#ifdef COLLECTOR_USE_REFCOUNT
+    self->inSweep = 0;
+#endif
     self->sweepCount++;
     // printf("whites freed %i\n", (int)freedCount);
 
@@ -440,3 +461,28 @@ char *Collector_colorNameFor_(Collector *self, void *v) {
 double Collector_timeUsed(Collector *self) {
     return (double)self->clocksUsed / (double)CLOCKS_PER_SEC;
 }
+
+#ifdef COLLECTOR_USE_REFCOUNT
+
+void Collector_rcEnqueue_(Collector *self, CollectorMarker *m) {
+    if (self->rcFreeCount >= self->rcFreeCapacity) {
+        self->rcFreeCapacity = self->rcFreeCapacity ? self->rcFreeCapacity * 2 : 64;
+        self->rcFreeList = (CollectorMarker **)io_realloc(self->rcFreeList,
+            self->rcFreeCapacity * sizeof(CollectorMarker *));
+    }
+    self->rcFreeList[self->rcFreeCount++] = m;
+}
+
+void Collector_rcDrainFreeList_(Collector *self) {
+    while (self->rcFreeCount > 0) {
+        CollectorMarker *m = self->rcFreeList[--self->rcFreeCount];
+        if (m->refCount != 0) continue;
+        if (m->color == self->freed->color) continue;
+        if (m->color != self->whites->color) continue;
+        if (self->freeFunc) self->freeFunc(m);
+        Collector_makeFree_(self, m);
+        self->allocated--;
+    }
+}
+
+#endif

@@ -365,6 +365,7 @@ Object do(
 	setSlot("?",
 		method(
 			m := call argAt(0)
+			if(m isNil, return nil)
 			if (self getSlot(m name) != nil,
 				call relayStopStatus(m doInContext(self, call sender))
 			,

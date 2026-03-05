@@ -438,6 +438,7 @@ IO_METHOD(IoFile, open) {
             if (!IoFile_justExists(self)) {
                 IoState_error_(IOSTATE, m, "unable to create file '%s': %s",
                                UTF8CSTRING(DATA(self)->path), strerror(errno));
+                return IONIL(self);
             }
         }
 
@@ -447,6 +448,7 @@ IO_METHOD(IoFile, open) {
     if (DATA(self)->stream == NULL) {
         IoState_error_(IOSTATE, m, "unable to open file path '%s': %s",
                        UTF8CSTRING(DATA(self)->path), strerror(errno));
+        return IONIL(self);
     }
 
     return self;
@@ -465,6 +467,7 @@ IO_METHOD(IoFile, reopen) {
     DATA(self)->flags = IOFILE_FLAGS_NONE;
 
     IoMessage_assertArgCount_receiver_(m, 1, self);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     otherFile = IoMessage_locals_valueArgAt_(m, locals, 0);
     IOASSERT(ISFILE(otherFile), "arg must be a File");
@@ -488,7 +491,7 @@ IO_METHOD(IoFile, reopen) {
             IoState_error_(
                 IOSTATE, m, "unable to reopen to file '%s' with mode %s.",
                 UTF8CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode));
-            fclose(fp);
+            return IONIL(self);
         }
     }
 
@@ -710,7 +713,9 @@ IO_METHOD(IoFile, write) {
     int i;
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoFile_assertWrite(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     for (i = 0; i < IoMessage_argCount(m); i++) {
         IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, i);
@@ -737,6 +742,7 @@ IO_METHOD(IoFile, readLines) {
     }
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     {
         IoList *lines = IoList_new(state);
@@ -770,6 +776,7 @@ IO_METHOD(IoFile, readLine) {
     // char *path = UTF8CSTRING(DATA(self)->path); // tmp for debugging
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (feof(DATA(self)->stream) != 0) {
         clearerr(DATA(self)->stream);
@@ -805,6 +812,7 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals,
     size_t length = IoMessage_locals_sizetArgAt_(m, locals, 0);
     UArray *ba = UArray_new();
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     UArray_readNumberOfItems_fromCStream_(ba, length, DATA(self)->stream);
 
@@ -873,6 +881,7 @@ IO_METHOD(IoFile, rewind) {
     */
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (DATA(self)->stream) {
         rewind(DATA(self)->stream);
@@ -889,6 +898,7 @@ IO_METHOD(IoFile, position_) {
 
     long pos = IoMessage_locals_longArgAt_(m, locals, 0);
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (fseek(DATA(self)->stream, pos, 0) != 0) {
         IoState_error_(IOSTATE, m, "unable to set position %i file path '%s'",
@@ -904,6 +914,7 @@ IO_METHOD(IoFile, position) {
     */
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IONUMBER(ftell(DATA(self)->stream));
 }
 
@@ -913,6 +924,7 @@ IO_METHOD(IoFile, positionAtEnd) {
     */
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (DATA(self)->stream) {
         fseek(DATA(self)->stream, 0, SEEK_END);
@@ -927,6 +939,7 @@ IO_METHOD(IoFile, isAtEnd) {
     */
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
     return IOBOOL(self, feof(DATA(self)->stream) != 0);
 }
 
@@ -963,6 +976,7 @@ IO_METHOD(IoFile, assertOpen) {
     if (!DATA(self)->stream) {
         IoState_error_(IOSTATE, m, "file '%s' not yet open",
                        UTF8CSTRING(DATA(self)->path));
+        return IONIL(self);
     }
     return self;
 }
@@ -973,6 +987,7 @@ IO_METHOD(IoFile, assertWrite) {
     if ((strcmp(mode, "r+")) && (strcmp(mode, "a+")) && (strcmp(mode, "w"))) {
         IoState_error_(IOSTATE, m, "file '%s' not open for write",
                        UTF8CSTRING(DATA(self)->path));
+        return IONIL(self);
     }
 
     return self;
@@ -987,6 +1002,7 @@ IO_METHOD(IoFile, at) {
     int byte;
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoFile_position_(self, locals, m); /* works since first arg is the same */
     byte = fgetc(DATA(self)->stream);
 
@@ -1006,7 +1022,9 @@ IO_METHOD(IoFile, atPut) {
     int c = IoMessage_locals_intArgAt_(m, locals, 1);
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoFile_assertWrite(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoFile_position_(self, locals, m); // works since first arg is the same
 
     if (fputc(c, DATA(self)->stream) == EOF) {
@@ -1037,11 +1055,13 @@ aFile foreach(v, writeln("byte ", v))
     int i = 0;
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     result = IONIL(self);
 
     IoMessage_foreachArgs(m, self, &indexSlotName, &characterSlotName,
                           &doMessage);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     for (;;) {
         int c = getc(DATA(self)->stream);
@@ -1087,8 +1107,10 @@ aFile foreach(v, writeln("Line: ", v))
     IoState *state;
 
     IoFile_assertOpen(self, locals, m);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     IoMessage_foreachArgs(m, self, &indexSlotName, &lineSlotName, &doMessage);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     result = IONIL(self);
     state = IOSTATE;

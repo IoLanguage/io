@@ -13,6 +13,7 @@ A key/value dictionary appropriate for holding large key/value collections.
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoNumber.h"
+#include "IoEvalFrame.h"
 #include "IoList.h"
 #include "IoBlock.h"
 
@@ -133,6 +134,7 @@ IO_METHOD(IoMap, at) {
     */
 
     IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     void *result = PHash_at_(DATA(self), k);
 
     if (!result && IoMessage_argCount(m) > 1) {
@@ -148,7 +150,9 @@ IO_METHOD(IoMap, atPut) {
     */
 
     IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
+    if (IOSTATE->errorRaised) return IONIL(self);
     IoMap_rawAtPut(self, k, v);
     return self;
 }
@@ -160,6 +164,7 @@ IO_METHOD(IoMap, atIfAbsentPut) {
     */
 
     IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
+    if (IOSTATE->errorRaised) return IONIL(self);
 
     if (PHash_at_(DATA(self), k) == NULL) {
         IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
@@ -248,10 +253,37 @@ aMap foreach(k, v, myBlock(k, v))</pre>
     IoState *state = IOSTATE;
     IoSymbol *keyName, *valueName;
     IoMessage *doMessage;
-    PHash *p = DATA(self);
 
-    IoObject *result = IONIL(self);
     IoMessage_foreachArgs(m, self, &keyName, &valueName, &doMessage);
+    if (state->errorRaised) return IONIL(self);
+
+    // Iterative path: build keys list for index-based iteration
+    if (state->currentFrame != NULL) {
+        IoEvalFrame *frame = state->currentFrame;
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+        IoList *keysList = IoMap_rawKeys(self);
+        int keyCount = (int)List_size(IoList_rawList(keysList));
+
+        // Use keys list as collection, store original map for value lookup
+        fd->controlFlow.foreachInfo.collection = (IoObject *)keysList;
+        fd->controlFlow.foreachInfo.mapSource = self;
+        fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+        fd->controlFlow.foreachInfo.indexName = keyName;
+        fd->controlFlow.foreachInfo.valueName = valueName;
+        fd->controlFlow.foreachInfo.currentIndex = 0;
+        fd->controlFlow.foreachInfo.collectionSize = keyCount;
+        fd->controlFlow.foreachInfo.lastResult = NULL;
+        fd->controlFlow.foreachInfo.direction = 1;
+        fd->controlFlow.foreachInfo.isEach = 0;
+
+        fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;
+    }
+
+    // Recursive fallback
+    PHash *p = DATA(self);
+    IoObject *result = IONIL(self);
     IoState_pushRetainPool(state);
 
     PHASH_FOREACH(

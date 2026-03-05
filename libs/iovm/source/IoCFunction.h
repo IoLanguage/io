@@ -9,6 +9,7 @@
 
 #include "Common.h"
 #include "IoObject.h"
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,6 +31,7 @@ typedef struct {
     IoUserFunction *func;
     IoSymbol *uniqueName;
     clock_t profilerTime;
+    unsigned int isLazyArgs; // 1 = special form, args must not be pre-evaluated
 } IoCFunctionData;
 
 IOVM_API IoCFunction *IoCFunction_proto(void *state);

@@ -56,9 +56,32 @@ IOINLINE void Collector_makeFreed_(Collector *self, void *v)
         CollectorMarker_removeAndInsertAfter_(v, self->freed);
 }
 */
-#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+#ifdef COLLECTOR_USE_REFCOUNT
+
+IOINLINE void Collector_value_addingRefTo_(Collector *self, void *v,
+                                           void *ref) {
+    (void)self;
+    (void)v;
+    if (ref) {
+        ((CollectorMarker *)ref)->refCount++;
+    }
+}
+
+IOINLINE void Collector_value_removingRefTo_(Collector *self, void *ref) {
+    if (!ref) return;
+    CollectorMarker *m = (CollectorMarker *)ref;
+    if (m->refCount > 0) {
+        m->refCount--;
+        if (m->refCount == 0 && !self->inSweep) {
+            Collector_rcEnqueue_(self, m);
+        }
+    }
+}
+
+#elif defined(COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP)
 
 #define Collector_value_addingRefTo_(self, v, ref)
+#define Collector_value_removingRefTo_(self, ref)
 
 #else
 
@@ -66,14 +89,14 @@ IOINLINE void *Collector_value_addingRefTo_(Collector *self, void *v,
                                             void *ref) {
     if (Collector_markerIsBlack_(self, (CollectorMarker *)v) &&
         Collector_markerIsWhite_(self, (CollectorMarker *)ref))
-    // if (self->safeMode || (Collector_markerIsBlack_(self, (CollectorMarker
-    // *)v) && Collector_markerIsWhite_(self, (CollectorMarker *)ref)))
     {
         Collector_makeGray_(self, (CollectorMarker *)ref);
     }
 
     return ref;
 }
+
+#define Collector_value_removingRefTo_(self, ref)
 
 #endif
 

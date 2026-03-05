@@ -8,6 +8,8 @@
 #include "Common.h"
 #include "List.h"
 
+// #define COLLECTOR_USE_REFCOUNT 1
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -27,12 +29,19 @@ typedef void(CollectorDoFunc)(void *);
 
 typedef struct CollectorMarker CollectorMarker;
 
+#ifdef COLLECTOR_USE_REFCOUNT
+#define COLLECTOR_REFCOUNT_FIELD unsigned int refCount;
+#else
+#define COLLECTOR_REFCOUNT_FIELD
+#endif
+
 #define CollectorMarkerSansPointer                                             \
     CollectorMarker *prev;                                                     \
     CollectorMarker *next;                                                     \
     unsigned int color : 2;                                                    \
     unsigned int hash1;                                                        \
-    unsigned int hash2;
+    unsigned int hash2;                                                        \
+    COLLECTOR_REFCOUNT_FIELD
 
 /*
 #if !defined(COLLECTOROBJECTTYPE)
