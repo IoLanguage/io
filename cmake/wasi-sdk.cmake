@@ -33,6 +33,10 @@ set(BUILD_SHARED_LIBS OFF)
 # No threads in WASI (yet)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-exceptions")
 
+# WASI emulation libraries for clock(), signal(), etc.
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_WASI_EMULATED_PROCESS_CLOCKS -D_WASI_EMULATED_SIGNAL")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lwasi-emulated-process-clocks -lwasi-emulated-signal")
+
 # Ensure static linking
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")

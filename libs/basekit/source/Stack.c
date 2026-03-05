@@ -117,9 +117,13 @@ void Stack_popToMark_(Stack *self, intptr_t mark) {
     Stack_popMark(self);
 }
 
+static void Stack_appendToList_(void *list, void *item) {
+    List_append_((List *)list, item);
+}
+
 List *Stack_asList(const Stack *self) // slow
 {
     List *list = List_new();
-    Stack_do_on_(self, (StackDoOnCallback *)List_append_, list);
+    Stack_do_on_(self, Stack_appendToList_, list);
     return list;
 }

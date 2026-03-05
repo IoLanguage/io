@@ -228,9 +228,9 @@ void IoFile_justClose(IoFile *self) {
         if (stream != stdout && stream != stdin) {
             if (DATA(self)->flags == IOFILE_FLAGS_PIPE) {
                 int exitStatus = pclose(stream);
-#if !defined(_MSC_VER) &&                                                      \
-    !defined(__MINGW32__) /* No sys/wait.h in mingw, therefore can't use       \
-                             WIFEXITED, WEXITSTATUS, etc. */
+#if !defined(_MSC_VER) && !defined(__MINGW32__) &&                              \
+    !defined(__wasi__) && !defined(__EMSCRIPTEN__) &&                           \
+    !defined(__wasm__) /* No sys/wait.h on mingw/WASM */
                 if (WIFEXITED(exitStatus) == 1) {
                     exitStatus = WEXITSTATUS(exitStatus);
                     IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"),
@@ -383,9 +383,14 @@ IO_METHOD(IoFile, temporaryFile) {
     collected.
     */
 
+#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
+    IoState_error_(IOSTATE, m, "temporary files not supported on WASM", NULL);
+    return IONIL(self);
+#else
     IoFile *newFile = IoFile_new(IOSTATE);
     DATA(newFile)->stream = tmpfile();
     return newFile;
+#endif
 }
 
 IO_METHOD(IoFile, openForReading) {

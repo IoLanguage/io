@@ -127,10 +127,9 @@ ${${RESULT}})
         EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
         string(REGEX REPLACE "(..)/(..)/(....).*" "\\1.\\2.\\3" ${RESULT} 
 ${${RESULT}})
-    ELSE (WIN32)
-        MESSAGE(SEND_ERROR "date not implemented")
-        SET(${RESULT} 00.00.0000)
-    ENDIF (WIN32)
+    ELSE ()
+        SET(${RESULT} "01/01/2026")
+    ENDIF ()
 ENDMACRO (TODAY)
 
 TODAY(CMD_DATE)

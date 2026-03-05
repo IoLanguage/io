@@ -10,13 +10,13 @@ Contains methods related to the IoVM.
 #include "IoMessage_parser.h"
 #include "IoVersion.h"
 
+#include "IoInstallPrefix.h"
+
 #if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
 /* WASM: minimal headers */
 #include <unistd.h>
 #elif defined(WIN32)
 /* included below */
-#else
-#include "IoInstallPrefix.h"
 #endif
 
 #if defined(linux) || defined(__MINGW64__) || defined(__APPLE__)

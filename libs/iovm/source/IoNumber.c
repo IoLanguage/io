@@ -21,7 +21,9 @@ A container for a double (a 64bit floating point number on most platforms).
 #include <ctype.h>
 #include <assert.h>
 
+#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
 #include <setjmp.h>
+#endif
 #if defined(_BSD_PPC_SETJMP_H_)
 #include <machine/limits.h>
 #else
