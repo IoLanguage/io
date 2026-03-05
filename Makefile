@@ -53,14 +53,12 @@ IO_FILES := \
     libs/iovm/io/List.io \
     libs/iovm/io/Exception.io \
     libs/iovm/io/Actor.io \
-    libs/iovm/io/AddonLoader.io \
     libs/iovm/io/Sequence.io \
     libs/iovm/io/Block.io \
     libs/iovm/io/CFunction.io \
     libs/iovm/io/Date.io \
     libs/iovm/io/Debugger.io \
     libs/iovm/io/Directory.io \
-    libs/iovm/io/DynLib.io \
     libs/iovm/io/Error.io \
     libs/iovm/io/File.io \
     libs/iovm/io/List_schwartzian.io \

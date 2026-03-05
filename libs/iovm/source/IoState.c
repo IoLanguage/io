@@ -25,7 +25,6 @@
 #include "IoDuration.h"
 #include "IoSeq.h"
 #include "IoMessage_parser.h"
-#include "IoDynLib.h"
 #include "IoWeakLink.h"
 #include "IoError.h"
 
@@ -254,7 +253,6 @@ void IoState_new_atAddress(void *address) {
         // IoObject_setSlot_to_(core, SIOSYMBOL("EditLine"),
         // IoEditLine_proto(self));
 
-        IoObject_setSlot_to_(core, SIOSYMBOL("DynLib"), IoDynLib_proto(self));
 
         // self->store =
         // IoObject_setSlot_to_(core, SIOSYMBOL("Store"),      self->store);
