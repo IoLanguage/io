@@ -261,6 +261,10 @@ IoObject *demarshal(IoObject *self, IoObject *arg, intptr_t n) {
     } else if (ISBUFFER(arg)) {
         return arg;
     } else if (ISBLOCK(arg)) {
+        // Free the trampoline code allocated in marshal()
+        if (n != 0) {
+            io_free((void *)n);
+        }
         return arg;
     }
 
@@ -396,7 +400,6 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m,
             {
                     IoState_error_(IOSTATE, m, "DynLib error marshalling
             argument (%i) to call '%s'.", n + 1, CSTRING(callName));
-                    // FIXME this can leak memory.
                     io_free(params);
                     return IONIL(self);
             }
