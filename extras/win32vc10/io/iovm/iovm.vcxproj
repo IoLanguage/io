@@ -314,14 +314,14 @@ xcopy /Y /Q "$(SolutionDir)..\..\..\libs\iovm\source\*.h" "$(OutDir)headers\"
     <ClInclude Include="..\..\..\..\libs\iovm\source\PHash_struct.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\libs\iovm\io\A0_List.io" />
-    <None Include="..\..\..\..\libs\iovm\io\A1_OperatorTable.io" />
-    <None Include="..\..\..\..\libs\iovm\io\A2_Object.io" />
-    <None Include="..\..\..\..\libs\iovm\io\A3_List.io" />
-    <None Include="..\..\..\..\libs\iovm\io\A4_Exception.io" />
+    <None Include="..\..\..\..\libs\iovm\io\List_bootstrap.io" />
+    <None Include="..\..\..\..\libs\iovm\io\OperatorTable.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Object.io" />
+    <None Include="..\..\..\..\libs\iovm\io\List.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Exception.io" />
     <None Include="..\..\..\..\libs\iovm\io\Actor.io" />
     <None Include="..\..\..\..\libs\iovm\io\AddonLoader.io" />
-    <None Include="..\..\..\..\libs\iovm\io\B_Sequence.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Sequence.io" />
     <None Include="..\..\..\..\libs\iovm\io\Block.io" />
     <None Include="..\..\..\..\libs\iovm\io\CFunction.io" />
     <None Include="..\..\..\..\libs\iovm\io\Date.io" />
@@ -339,9 +339,9 @@ xcopy /Y /Q "$(SolutionDir)..\..\..\libs\iovm\source\*.h" "$(OutDir)headers\"
     <None Include="..\..\..\..\libs\iovm\io\System.io" />
     <None Include="..\..\..\..\libs\iovm\io\UnitTest.io" />
     <None Include="..\..\..\..\libs\iovm\io\Vector.io" />
-    <None Include="..\..\..\..\libs\iovm\io\Y_Path.io" />
-    <None Include="..\..\..\..\libs\iovm\io\Z_CLI.io" />
-    <None Include="..\..\..\..\libs\iovm\io\Z_Importer.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Path.io" />
+    <None Include="..\..\..\..\libs\iovm\io\CLI.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Importer.io" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\basekit\basekit.vcxproj">

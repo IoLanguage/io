@@ -102,7 +102,7 @@ Every Io object is a `CollectorMarker` (`typedef struct CollectorMarker IoObject
 
 All operations are message sends. The parser produces message chains, then `IoMessage_opShuffle.c` rewrites them by operator precedence. Assignment operators: `:=` → `setSlot`, `=` → `updateSlot`, `::=` → `newSlot`.
 
-Standard library files in `libs/iovm/io/` load alphabetically. Prefixes control ordering: `A0_`→`A4_` for bootstrap, then alphabetical core, then `Z_CLI.io`, `Z_Importer.io` last.
+Standard library files in `libs/iovm/io/` are loaded in the explicit order listed in `CMakeLists.txt`: bootstrap files (`List_bootstrap.io`, `Object_bootstrap.io`, `OperatorTable.io`, `Object.io`, `List.io`, `Exception.io`) first, then alphabetical core, then `CLI.io`, `Importer.io` last.
 
 ## Code Style
 

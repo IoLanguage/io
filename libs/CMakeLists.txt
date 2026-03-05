@@ -13,14 +13,14 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/lib)
 # Our Io source files to be "compiled" into a C source file.
 #file(GLOB IO_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/io/*.io")
 set(IO_SRCS
-	${CMAKE_CURRENT_SOURCE_DIR}/io/A0_List.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/A1_OperatorTable.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/A2_Object.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/A3_List.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/A4_Exception.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/List_bootstrap.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/OperatorTable.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Object.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/List.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Exception.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Actor.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/AddonLoader.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/B_Sequence.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Sequence.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Block.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/CFunction.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Date.io
@@ -39,9 +39,9 @@ set(IO_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/io/System.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/UnitTest.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Vector.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/Y_Path.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/Z_CLI.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/Z_Importer.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Path.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/CLI.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Importer.io
 )
 
 # Object files from every lib. Used to create iovmall static library.

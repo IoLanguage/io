@@ -263,7 +263,7 @@ but this requires modifying all CFunctions.
 ### Phase 4: Io Standard Library ✅ COMPLETE
 - [x] `if` works as C primitive (not needed in Io)
 - [x] `forEach` on List: C primitive with iterative eval (frame state machine)
-- [x] `map`, `select`: pure Io methods in `A0_List.io` using `foreach` internally
+- [x] `map`, `select`: pure Io methods in `List_bootstrap.io` using `foreach` internally
 - [x] `reverseForeach`, `foreachLine`, `foreachSlot`: iterative via `IoMessage_locals_performOn_` redirect
 - [x] Test control flow constructs (21/21 tests pass including callcc, exceptions, coros)
 

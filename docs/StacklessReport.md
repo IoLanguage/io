@@ -150,7 +150,7 @@ result println  // => 43
 - `raise(error)` is unchanged — non-resumable, unwinds frames via `errorRaised`.
 - If `signal` finds no matching handler, it falls back to `raise`.
 
-**Implementation:** Entirely in Io (`libs/iovm/io/A4_Exception.io`), no C changes. The body is evaluated directly via `doMessage` rather than in a child coroutine, which avoids a known interaction between continuation capture and nested C eval loops. Handler lookup walks the `parentCoroutine` chain, so handlers installed outside a `try` are visible inside it. See `docs/IoContinuationsExamples.md` for detailed examples.
+**Implementation:** Entirely in Io (`libs/iovm/io/Exception.io`), no C changes. The body is evaluated directly via `doMessage` rather than in a child coroutine, which avoids a known interaction between continuation capture and nested C eval loops. Handler lookup walks the `parentCoroutine` chain, so handlers installed outside a `try` are visible inside it. See `docs/IoContinuationsExamples.md` for detailed examples.
 
 ### Portable Coroutines
 
