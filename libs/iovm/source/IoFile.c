@@ -658,7 +658,8 @@ IO_METHOD(IoFile, remove) {
 
 #if defined(__SYMBIAN32__)
     error = -1;
-#elif defined(_MSC_VER) || defined(__MINGW32__)
+#elif defined(_MSC_VER) || defined(__MINGW32__) || defined(__wasi__) || \
+    defined(__EMSCRIPTEN__) || defined(__wasm__)
     if (IoFile_justExists(self)) {
         if (ISTRUE(IoFile_isDirectory(self, locals, m))) {
             error = rmdir(UTF8CSTRING(DATA(self)->path));

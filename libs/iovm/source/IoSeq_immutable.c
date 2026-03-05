@@ -896,8 +896,11 @@ IO_METHOD(IoSeq, toBase) {
     char buf[64], *ptr = buf + 64;
     uintptr_t n = 0;
 
+    if (IOSTATE->errorRaised) return IONIL(self);
+
     if (base < 2 || base > 36) {
         IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
+        return IONIL(self);
     }
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
