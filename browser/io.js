@@ -327,6 +327,14 @@ function initUI() {
 
 	document.getElementById("eval-btn").addEventListener("click", handleEval);
 	document.getElementById("clear-btn").addEventListener("click", clearOutput);
+
+	document.querySelectorAll(".topic").forEach((el) => {
+		el.addEventListener("click", () => {
+			inputEl.value = el.dataset.code;
+			autoResize();
+			handleEval();
+		});
+	});
 }
 
 // --- Boot ---
@@ -337,8 +345,7 @@ async function boot() {
 
 	try {
 		await loadIo();
-		statusEl.textContent = "Ready";
-		statusEl.className = "status ready";
+		statusEl.className = "status hidden";
 		replEl.style.opacity = "1";
 		inputEl.disabled = false;
 		inputEl.placeholder = "";

@@ -11,14 +11,15 @@
 
 	* { box-sizing: border-box; margin: 0; padding: 0; }
 
+	html, body { height: 100%; margin: 0; }
+
 	body {
-		font-family: 'Helvetica Neue', helvetica, sans-serif;
+		font-family: helvetica, sans;
+		font-size: 13px;
 		background-color: #191919;
 		color: #999;
-		height: 100vh;
 		display: flex;
 		flex-direction: column;
-		padding: 20px 30px;
 		overflow: hidden;
 	}
 
@@ -28,29 +29,35 @@
 	}
 	a:hover { color: #fff; }
 
-	nav {
-		padding-bottom: 15px;
-		border-bottom: 1px solid #444;
-		margin-bottom: 20px;
-		font-size: 14px;
+	header {
+		padding: 100px 0 0 12%;
 	}
-	nav .breadcrumb {
-		font-weight: bold;
+	header h1 {
+		font-family: "Helvetica Neue Bold", sans-serif;
+		font-size: 5em;
+		font-weight: 600;
 		color: #fff;
+		line-height: 1;
+		letter-spacing: 0;
 	}
-	nav .breadcrumb a { color: #999; }
-	nav .breadcrumb a:hover { color: #fff; }
-	nav .breadcrumb .sep { color: #444; margin: 0 6px; }
+	header h1 a { color: #fff; }
+	header .sub {
+		font-family: "Helvetica Neue Bold", sans-serif;
+		font-weight: 600;
+		font-size: 1em;
+		color: #fff;
+		margin-top: 0;
+	}
 
 	.status {
 		font-weight: bold;
 		color: #fff;
 		font-size: 14px;
-		margin-bottom: 15px;
+		padding: 15px 0 0 12%;
 		animation: fadein 2s;
 	}
 	.status.error { color: red; }
-	.status.ready { color: #999; }
+	.status.hidden { display: none; }
 
 	@keyframes fadein {
 		from { opacity: 0; }
@@ -58,24 +65,24 @@
 	}
 
 	.repl {
+		animation: fadein 1s;
+		padding: 30px 0 0 12%;
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		animation: fadein 1s;
 		min-height: 0;
 	}
 
 	.output {
 		flex: 1;
 		overflow-y: auto;
-		font-family: helvetica, sans-serif;
+		font-family: helvetica, sans;
 		font-weight: bold;
 		font-size: 1em;
 		line-height: 1.4em;
 		border-left: 1px solid #666;
 		padding-left: 2em;
-		margin-bottom: 1em;
-		min-height: 100px;
+		min-height: 0;
 	}
 
 	.output .replPair {
@@ -109,7 +116,7 @@
 	}
 
 	#input {
-		font-family: helvetica, sans-serif;
+		font-family: helvetica, sans;
 		font-weight: bold;
 		font-size: 1em;
 		color: #fff;
@@ -127,13 +134,13 @@
 	.toolbar {
 		display: flex;
 		gap: 8px;
-		margin-top: 15px;
+		padding: 15px 0;
 		flex-wrap: wrap;
 		align-items: center;
 	}
 
-	.button {
-		font-family: 'Helvetica Neue', sans-serif;
+	.button, .topic {
+		font-family: helvetica, sans;
 		font-size: 1em;
 		font-weight: normal;
 		border: #444 1px solid;
@@ -142,31 +149,25 @@
 		padding: 0.1em 0.5em;
 		cursor: pointer;
 	}
-	.button:hover {
+	.button:hover, .topic:hover {
 		border-color: #888;
 		color: #aaa;
 	}
 
-	.shortcut {
-		color: #444;
-		font-size: 0.85em;
-		margin-left: 2px;
-	}
-
 	@media only screen and (max-width: 585px) {
-		body { padding: 15px; }
+		header { padding-left: 20px; padding-top: 60px; }
+		.status { padding-left: 20px; }
+		.repl { padding-left: 20px; }
+		header h1 { font-size: 3.5em; }
 		.output, .inputsection { padding-left: 1em; }
 	}
 </style>
 </head>
 <body>
-	<nav>
-		<span class="breadcrumb">
-			<a href="https://iolanguage.org/">Io</a>
-			<span class="sep">/</span>
-			repl
-		</span>
-	</nav>
+	<header>
+		<h1><a href="https://iolanguage.org/">io</a></h1>
+		<div class="sub">/ repl</div>
+	</header>
 
 	<div class="status" id="status">Loading Io compiled to WASM...</div>
 
@@ -176,8 +177,18 @@
 			<textarea id="input" rows="1" autocomplete="off" spellcheck="false" disabled placeholder="loading..."></textarea>
 		</div>
 		<div class="toolbar">
-			<span class="button" id="eval-btn">eval <span class="shortcut">ctrl+return</span></span>
-			<span class="button" id="clear-btn">clear <span class="shortcut">ctrl+shift+u</span></span>
+			<span class="button" id="eval-btn">EVAL</span>
+			<span class="topic" data-code="&quot;Hello world!&quot; println">HELLO WORLD</span>
+			<span class="topic" data-code="System version">SYSTEM</span>
+			<span class="topic" data-code="2 ** 32">MATH</span>
+			<span class="topic" data-code="x := 42; x * 2">VARIABLES</span>
+			<span class="topic" data-code="if(1 < 2, &quot;yes&quot;, &quot;no&quot;)">CONDITIONS</span>
+			<span class="topic" data-code="list(1, 2, 3) map(x, x * x)">LISTS</span>
+			<span class="topic" data-code="for(i, 1, 5, i println)">FOR LOOP</span>
+			<span class="topic" data-code="list(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) foreach(i, v, writeln(i, &quot;: &quot;, v))">FOREACH</span>
+			<span class="topic" data-code="Lobby slotNames sort">LOBBY</span>
+			<span class="topic" data-code="Dog := Object clone do(speak := method(&quot;woof!&quot; println)); Dog speak">PROTOS</span>
+			<span class="button" id="clear-btn">CLEAR</span>
 		</div>
 	</div>
 
