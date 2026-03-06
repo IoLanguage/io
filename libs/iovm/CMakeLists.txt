@@ -10,15 +10,15 @@ add_subdirectory(tools)
 
 # Our Io source files to be "compiled" into a C source file.
 set(IO_SRCS
-    A0_List.io
-    A0_Object.io
-    A1_OperatorTable.io
-    A2_Object.io
-    A3_List.io
-    A4_Exception.io
+    List_bootstrap.io
+    Object_bootstrap.io
+    OperatorTable.io
+    Object.io
+    List.io
+    Exception.io
     Actor.io
     AddonLoader.io
-    B_Sequence.io
+    Sequence.io
     Block.io
     CFunction.io
     Date.io
@@ -37,9 +37,9 @@ set(IO_SRCS
     System.io
     UnitTest.io
     Vector.io
-    Y_Path.io
-    Z_CLI.io
-    Z_Importer.io
+    Path.io
+    CLI.io
+    Importer.io
     )
 # Prepend the source location to every file
 list(TRANSFORM IO_SRCS PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/io/)
@@ -80,7 +80,6 @@ add_definitions("-DBUILDING_IOVM_DLL")# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX
 
 # Include dirs, -I flags and whatnot
 include_directories(
-    ${COROUTINE_SOURCE_DIR}
     ${BASEKIT_SOURCE_DIR}
     ${BASEKIT_SOURCE_DIR}/simd_cph/include
     ${GARBAGECOLLECTOR_SOURCE_DIR}
@@ -89,21 +88,21 @@ include_directories(
 
 # Our library sources.
 file(GLOB IOVM_SRCS "${IOVM_SOURCE_DIR}/*.c")
+list(REMOVE_ITEM IOVM_SRCS "${IOVM_SOURCE_DIR}/IoState_iterative_fast.c")
 list(APPEND IOVM_SRCS 
     ${CMAKE_CURRENT_BINARY_DIR}/IoVMInit.c
     ${PARSON_SOURCE_DIR}/parson.c)
-set(SRCS ${IOVM_SRCS})
+
 file(GLOB HEADERS "source/*.h")
 
 # Now build the shared library
-add_library(iovmall SHARED ${SRCS})
+add_library(iovmall SHARED ${IOVM_SRCS})
 set_target_properties(iovmall PROPERTIES PUBLIC_HEADER "${HEADERS}")
-target_link_libraries(iovmall basekit coroutine garbagecollector)
+target_link_libraries(iovmall basekit garbagecollector)
 target_include_directories(iovmall PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # Now build the static library
 add_library(iovmall_static STATIC ${IOVM_SRCS})
-target_link_libraries(iovmall_static coroutine_static)
 target_link_libraries(iovmall_static basekit_static)
 target_link_libraries(iovmall_static garbagecollector_static)
 target_include_directories(iovmall_static PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
