@@ -7,6 +7,7 @@
 #include "Common.h"
 #include <stddef.h>
 #include "PortableStdint.h"
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,7 +15,7 @@ extern "C" {
 
 #define CHASH_MAXLOOP 5
 
-typedef int(CHashEqualFunc)(void *, void *);
+typedef bool(CHashEqualFunc)(void *, void *);
 typedef intptr_t(CHashHashFunc)(void *);
 
 typedef struct {
