@@ -52,7 +52,7 @@ IO_SOURCES  := $(wildcard libs/iovm/io/*.io)
 
 # --- Targets ---
 
-.PHONY: all test check clean regenerate browser serve
+.PHONY: all test check clean regenerate browser serve check-browser
 
 all: $(BINDIR)/io_static
 
@@ -95,31 +95,45 @@ $(OBJDIR)/%.o: %.c
 
 BROWSER_DIR  := browser
 BROWSER_WASM := $(BROWSER_DIR)/io_browser.wasm
-BROWSER_OBJ  := $(OBJDIR)/browser/io_browser.o
+BROWSER_OBJS := $(OBJDIR)/browser/io_browser.o $(OBJDIR)/browser/io_js_bridge.o
 
-BROWSER_CFLAGS := $(CFLAGS)
+BROWSER_CFLAGS := $(CFLAGS) -Ibrowser
 BROWSER_LDFLAGS := -lwasi-emulated-process-clocks -lwasi-emulated-signal \
 	-mexec-model=reactor \
+	-Wl,--allow-undefined \
 	-Wl,--export=io_init \
 	-Wl,--export=io_eval \
 	-Wl,--export=io_get_output \
 	-Wl,--export=io_get_output_len \
 	-Wl,--export=io_get_input_buf \
 	-Wl,--export=io_get_input_buf_size \
-	-Wl,--export=io_eval_input
+	-Wl,--export=io_eval_input \
+	-Wl,--export=io_get_bridge_buf \
+	-Wl,--export=io_get_bridge_buf_size \
+	-Wl,--export=io_send \
+	-Wl,--export=io_release \
+	-Wl,--export=io_get_lobby_handle
 
 browser: $(BROWSER_WASM)
 
-$(BROWSER_WASM): $(BROWSER_OBJ) $(ALL_OBJS)
+$(BROWSER_WASM): $(BROWSER_OBJS) $(ALL_OBJS)
 	$(CC) $(BROWSER_CFLAGS) -o $@ $^ $(BROWSER_LDFLAGS)
 
-$(BROWSER_OBJ): browser/io_browser.c
+$(OBJDIR)/browser/io_browser.o: browser/io_browser.c browser/io_js_bridge.h
+	@mkdir -p $(dir $@)
+	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/browser/io_js_bridge.o: browser/io_js_bridge.c browser/io_js_bridge.h
 	@mkdir -p $(dir $@)
 	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
 
 serve: $(BROWSER_WASM)
 	@echo "Serving at http://localhost:8000"
 	python3 -m http.server 8000 -d $(BROWSER_DIR)
+
+check-browser: $(BROWSER_WASM)
+	@test -d node_modules/playwright || npm install --no-save playwright
+	node browser/run_tests.mjs
 
 # --- Directories ---
 

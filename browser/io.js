@@ -1,9 +1,45 @@
-// Io VM — Browser WASM loader + WASI shim + REPL logic
+// Io VM — Browser WASM loader + WASI shim + JS bridge + REPL logic
 
 const IO_WASM_URL = "io_browser.wasm";
 
 let wasm = null;    // WebAssembly instance
 let memory = null;  // WASM linear memory
+
+// --- Unified handle table ---
+// JS holds real object references; WASM only sees integer handles.
+
+const jsHandles = new Map();
+let nextHandle = 1;
+
+function registerHandle(obj) {
+	if (obj == null) return 0;
+	const h = nextHandle++;
+	jsHandles.set(h, obj);
+	return h;
+}
+
+function getHandle(h) {
+	return jsHandles.get(h) || null;
+}
+
+function releaseHandle(h) {
+	jsHandles.delete(h);
+}
+
+// --- String helpers ---
+
+function readStringFromWasm(ptr, len) {
+	return new TextDecoder().decode(new Uint8Array(memory.buffer, ptr, len));
+}
+
+function writeStringToWasm(bufPtr, maxLen, str) {
+	const encoded = new TextEncoder().encode(str);
+	const bytes = new Uint8Array(memory.buffer);
+	const writeLen = Math.min(encoded.length, maxLen - 1);
+	bytes.set(encoded.subarray(0, writeLen), bufPtr);
+	bytes[bufPtr + writeLen] = 0; // null-terminate
+	return writeLen;
+}
 
 // --- Minimal WASI shim ---
 // The reactor binary still imports WASI symbols.
@@ -174,10 +210,390 @@ const wasi_snapshot_preview1 = {
 	},
 };
 
+// --- JS Bridge: binary serialization ---
+
+const TYPE_NIL    = 0;
+const TYPE_TRUE   = 1;
+const TYPE_FALSE  = 2;
+const TYPE_NUMBER = 3;
+const TYPE_STRING = 4;
+const TYPE_ARRAY  = 5;
+const TYPE_OBJECT = 6;
+const TYPE_JSREF  = 7;
+const TYPE_IOREF  = 8;
+const TYPE_ERROR  = 9;
+
+function getBridgeBuf() {
+	const ptr = wasm.exports.io_get_bridge_buf();
+	const size = wasm.exports.io_get_bridge_buf_size();
+	return { ptr, size };
+}
+
+function serializeToWasm(val, buf, offset) {
+	if (val === null || val === undefined) {
+		buf[offset] = TYPE_NIL;
+		return offset + 1;
+	}
+
+	if (val === true) {
+		buf[offset] = TYPE_TRUE;
+		return offset + 1;
+	}
+
+	if (val === false) {
+		buf[offset] = TYPE_FALSE;
+		return offset + 1;
+	}
+
+	if (typeof val === "number") {
+		buf[offset] = TYPE_NUMBER;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		view.setFloat64(offset + 1, val, true);
+		return offset + 9;
+	}
+
+	if (typeof val === "string") {
+		const encoded = new TextEncoder().encode(val);
+		buf[offset] = TYPE_STRING;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		view.setUint32(offset + 1, encoded.length, true);
+		buf.set(encoded, offset + 5);
+		return offset + 5 + encoded.length;
+	}
+
+	if (Array.isArray(val)) {
+		buf[offset] = TYPE_ARRAY;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		view.setUint32(offset + 1, val.length, true);
+		let pos = offset + 5;
+		for (const item of val) {
+			pos = serializeToWasm(item, buf, pos);
+		}
+		return pos;
+	}
+
+	// All objects (including plain objects) pass by reference JS→Io.
+	// Maps are only serialized as TYPE_OBJECT going Io→JS direction.
+	buf[offset] = TYPE_JSREF;
+	const h = registerHandle(val);
+	const view = new DataView(buf.buffer, buf.byteOffset);
+	view.setInt32(offset + 1, h, true);
+	return offset + 5;
+}
+
+function deserializeFromWasm(buf, offset) {
+	const type = buf[offset];
+	offset++;
+
+	switch (type) {
+	case TYPE_NIL:
+		return { value: null, offset };
+
+	case TYPE_TRUE:
+		return { value: true, offset };
+
+	case TYPE_FALSE:
+		return { value: false, offset };
+
+	case TYPE_NUMBER: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const val = view.getFloat64(offset, true);
+		return { value: val, offset: offset + 8 };
+	}
+
+	case TYPE_STRING: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const len = view.getUint32(offset, true);
+		offset += 4;
+		const str = new TextDecoder().decode(buf.subarray(offset, offset + len));
+		return { value: str, offset: offset + len };
+	}
+
+	case TYPE_ARRAY: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const count = view.getUint32(offset, true);
+		offset += 4;
+		const arr = [];
+		for (let i = 0; i < count; i++) {
+			const r = deserializeFromWasm(buf, offset);
+			arr.push(r.value);
+			offset = r.offset;
+		}
+		return { value: arr, offset };
+	}
+
+	case TYPE_OBJECT: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const count = view.getUint32(offset, true);
+		offset += 4;
+		const obj = {};
+		for (let i = 0; i < count; i++) {
+			const klen = view.getUint32(offset, true);
+			offset += 4;
+			const key = new TextDecoder().decode(buf.subarray(offset, offset + klen));
+			offset += klen;
+			const r = deserializeFromWasm(buf, offset);
+			obj[key] = r.value;
+			offset = r.offset;
+		}
+		return { value: obj, offset };
+	}
+
+	case TYPE_JSREF: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const h = view.getInt32(offset, true);
+		return { value: getHandle(h), offset: offset + 4 };
+	}
+
+	case TYPE_IOREF: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const h = view.getInt32(offset, true);
+		return { value: makeIoProxy(h), offset: offset + 4 };
+	}
+
+	case TYPE_ERROR: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const len = view.getUint32(offset, true);
+		offset += 4;
+		const msg = new TextDecoder().decode(buf.subarray(offset, offset + len));
+		return { value: new Error(msg), offset: offset + len };
+	}
+
+	default:
+		return { value: null, offset };
+	}
+}
+
+// --- JS Bridge: WASM imports (js module) ---
+
+const js = {
+	// js_call(handle, namePtr, nameLen, argc) — property get (0 args) or method call (1+ args)
+	js_call(handle, namePtr, nameLen, argc) {
+		try {
+			const obj = getHandle(handle);
+			if (obj == null) {
+				return serializeError("js_call: invalid handle");
+			}
+
+			const name = readStringFromWasm(namePtr, nameLen);
+			const prop = obj[name];
+
+			const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+			const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+
+			// Deserialize args from bridge_buf
+			const args = [];
+			let offset = 0;
+			for (let i = 0; i < argc; i++) {
+				const r = deserializeFromWasm(buf, offset);
+				args.push(r.value);
+				offset = r.offset;
+			}
+
+			let result;
+			if (argc > 0) {
+				// Method call: obj.name(args...)
+				if (typeof prop !== "function") {
+					return serializeError(`${name} is not a function`);
+				}
+				result = prop.apply(obj, args);
+			} else {
+				// Property get: if function, auto-call with 0 args
+				if (typeof prop === "function") {
+					result = prop.call(obj);
+				} else {
+					result = prop;
+				}
+			}
+
+			// Serialize result back to bridge_buf
+			serializeToWasm(result, buf, 0);
+			return 0;
+		} catch (e) {
+			return serializeError(e.message || String(e));
+		}
+	},
+
+	// js_get_prop(handle, namePtr, nameLen) — pure property get, never auto-call
+	js_get_prop(handle, namePtr, nameLen) {
+		try {
+			const obj = getHandle(handle);
+			if (obj == null) {
+				return serializeError("js_get_prop: invalid handle");
+			}
+
+			const name = readStringFromWasm(namePtr, nameLen);
+			const result = obj[name];
+
+			const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+			const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+			serializeToWasm(result, buf, 0);
+			return 0;
+		} catch (e) {
+			return serializeError(e.message || String(e));
+		}
+	},
+
+	// js_set_prop(handle, namePtr, nameLen) — value already in bridge_buf
+	js_set_prop(handle, namePtr, nameLen) {
+		try {
+			const obj = getHandle(handle);
+			if (obj == null) return;
+
+			const name = readStringFromWasm(namePtr, nameLen);
+
+			const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+			const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+			const { value } = deserializeFromWasm(buf, 0);
+
+			obj[name] = value;
+		} catch (e) {
+			// silently ignore set errors
+		}
+	},
+
+	// js_call_func(handle, argc) — invoke handle as function, args in bridge_buf
+	js_call_func(handle, argc) {
+		try {
+			const fn = getHandle(handle);
+			if (typeof fn !== "function") {
+				return serializeError("js_call_func: not a function");
+			}
+
+			const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+			const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+
+			const args = [];
+			let offset = 0;
+			for (let i = 0; i < argc; i++) {
+				const r = deserializeFromWasm(buf, offset);
+				args.push(r.value);
+				offset = r.offset;
+			}
+
+			const result = fn(...args);
+			serializeToWasm(result, buf, 0);
+			return 0;
+		} catch (e) {
+			return serializeError(e.message || String(e));
+		}
+	},
+
+	// js_typeof(handle, buf, sz) — write typeof string to buf, return length
+	js_typeof(handle, buf, sz) {
+		const obj = getHandle(handle);
+		const typeStr = typeof obj;
+		return writeStringToWasm(buf, sz, typeStr);
+	},
+
+	// js_get_global() — register globalThis, return handle
+	js_get_global() {
+		return registerHandle(globalThis);
+	},
+
+	// js_release(h) — release handle
+	js_release(h) {
+		releaseHandle(h);
+	},
+};
+
+function serializeError(msg) {
+	const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+	const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+	const encoded = new TextEncoder().encode(msg);
+	buf[0] = TYPE_ERROR;
+	const view = new DataView(memory.buffer, bufPtr);
+	view.setUint32(1, encoded.length, true);
+	buf.set(encoded, 5);
+	return -1;
+}
+
+// --- Io Proxy factory (for JS→Io object references) ---
+
+const ioProxyRegistry = typeof FinalizationRegistry !== "undefined"
+	? new FinalizationRegistry((handle) => {
+		if (wasm && wasm.exports.io_release) {
+			wasm.exports.io_release(handle);
+		}
+	})
+	: null;
+
+function makeIoProxy(ioHandle) {
+	const proxy = new Proxy({__ioHandle: ioHandle}, {
+		get(target, prop) {
+			if (prop === "__ioHandle") return target.__ioHandle;
+			if (prop === Symbol.toPrimitive || prop === "valueOf" || prop === "toString") {
+				return () => `[IoObject handle=${target.__ioHandle}]`;
+			}
+
+			// Return a function that sends a message to the Io object
+			return (...args) => {
+				return ioSend(target.__ioHandle, String(prop), ...args);
+			};
+		},
+
+		set(target, prop, value) {
+			ioSend(target.__ioHandle, "setSlot", String(prop), value);
+			return true;
+		},
+	});
+
+	if (ioProxyRegistry) {
+		ioProxyRegistry.register(proxy, ioHandle);
+	}
+
+	return proxy;
+}
+
+function ioSend(ioHandle, messageName, ...args) {
+	if (!wasm) throw new Error("Io VM not loaded");
+
+	const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+	const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+
+	// Serialize args to bridge_buf
+	let offset = 0;
+	for (const arg of args) {
+		offset = serializeToWasm(arg, buf, offset);
+	}
+
+	// Write message name to WASM memory (reuse input buf area)
+	const inputBufPtr = wasm.exports.io_get_input_buf();
+	const nameEncoded = new TextEncoder().encode(messageName);
+	const nameBytes = new Uint8Array(memory.buffer, inputBufPtr, nameEncoded.length);
+	nameBytes.set(nameEncoded);
+
+	const status = wasm.exports.io_send(ioHandle, inputBufPtr, nameEncoded.length, args.length);
+
+	// Deserialize result from bridge_buf
+	const resultBuf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+	const { value } = deserializeFromWasm(resultBuf, 0);
+
+	if (status !== 0) {
+		if (value instanceof Error) throw value;
+		throw new Error("Io message send failed");
+	}
+
+	return value;
+}
+
+// Public API: io.lobby and io.send
+const io = {
+	get lobby() {
+		if (!wasm) throw new Error("Io VM not loaded");
+		const h = wasm.exports.io_get_lobby_handle();
+		return makeIoProxy(h);
+	},
+
+	send(handle, msg, ...args) {
+		return ioSend(handle, msg, ...args);
+	},
+};
+
 // --- WASM loader ---
 
 async function loadIo() {
-	const importObject = { wasi_snapshot_preview1 };
+	const importObject = { wasi_snapshot_preview1, js };
 
 	const response = await fetch(IO_WASM_URL);
 	const { instance } = await WebAssembly.instantiateStreaming(response, importObject);
@@ -292,6 +708,9 @@ function initUI() {
 	outputEl = document.getElementById("output");
 	inputEl = document.getElementById("input");
 
+	// Guard UI wiring: test.html imports loadIo/ioEval but has no REPL elements
+	if (!outputEl || !inputEl) return;
+
 	inputEl.addEventListener("input", autoResize);
 
 	inputEl.addEventListener("keydown", (e) => {
@@ -342,6 +761,9 @@ function initUI() {
 async function boot() {
 	const statusEl = document.getElementById("status");
 	const replEl = document.getElementById("repl");
+
+	// Only run REPL boot when REPL elements exist (not on test.html)
+	if (!statusEl || !replEl) return;
 
 	try {
 		await loadIo();

@@ -27,6 +27,9 @@ Now implemented using frame-based evaluation (no platform-specific assembly).
 
 static const char *protoId = "Coroutine";
 
+// Function pointer for JS bridge GC marking (set by io_js_bridge.c)
+void (*IoJSBridge_markIoHandlesFunc)(void) = NULL;
+
 #define DATA(self) ((IoCoroutineData *)IoObject_dataPointer(self))
 
 IoCoroutine *IoMessage_locals_coroutineArgAt_(IoMessage *self, void *locals,
@@ -143,6 +146,12 @@ void IoCoroutine_mark(IoCoroutine *self) {
         for (int i = 0; i < state->callPoolSize; i++) {
             IoObject_shouldMarkIfNonNull(state->callPool[i]);
         }
+    }
+
+    // Mark Io objects referenced by JS via the bridge handle table
+    // (function pointer set by io_js_bridge.c at init time)
+    if (self == state->mainCoroutine && IoJSBridge_markIoHandlesFunc) {
+        IoJSBridge_markIoHandlesFunc();
     }
 
 }

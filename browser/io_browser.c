@@ -6,10 +6,18 @@
 #include "IoObject.h"
 #include "IoSeq.h"
 #include "UArray.h"
+#include "io_js_bridge.h"
 #include <stdlib.h>
 #include <string.h>
 
+// Import from js module (defined in io_js_bridge.c but we need it here for init)
+__attribute__((import_module("js"), import_name("js_get_global")))
+extern int js_get_global(void);
+
 static IoState *state = NULL;
+
+// Exposed for io_js_bridge.c (io_send, io_get_lobby_handle)
+IoState *io_bridge_state = NULL;
 
 // Input buffer: JS writes code here, then calls io_eval_input()
 #define INPUT_BUF_SIZE (64 * 1024)
@@ -78,6 +86,18 @@ int io_init(void) {
 	// Set minimal args so System args doesn't crash
 	const char *argv[] = {"io"};
 	IoState_argc_argv_(state, 1, argv);
+
+	// Register JS bridge (must be before Element so Element can inherit forward)
+	IoObject *jsObjProto = IoJSObject_proto(state);
+	int globalHandle = js_get_global();
+	IoObject *jsSingleton = IoJSObject_newWithHandle_(state, globalHandle);
+	IoObject_setSlot_to_(state->core,
+		IoState_symbolWithCString_(state, "JS"), jsSingleton);
+	IoObject_setSlot_to_(state->core,
+		IoState_symbolWithCString_(state, "JSObject"), jsObjProto);
+
+	// Expose state for JS bridge exports
+	io_bridge_state = state;
 
 	output_clear();
 	return 0;
