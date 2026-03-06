@@ -17,14 +17,15 @@ void IoState_setupCachedNumbers(IoState *self) {
 
     self->cachedNumbers = List_new();
 
+    IoNumber *number;
     for (i = MIN_CACHED_NUMBER; i < MAX_CACHED_NUMBER + 1; i++) {
-        IoNumber *number = IoNumber_newWithDouble_(self, i);
+        number = IoNumber_newWithDouble_(self, i);
         List_append_(self->cachedNumbers, number);
         IoState_retain_(self, number);
     }
 
     // Cache Number proto and tag for fast inline allocation
-    self->numberProto = IoState_protoWithId_(self, "Number");
+    self->numberProto = IoObject_firstProto(number);
     self->numberTag = IoObject_tag(self->numberProto);
     self->numberDataFreeList = NULL;
     self->numberDataFreeListSize = 0;
