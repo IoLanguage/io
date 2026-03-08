@@ -186,14 +186,10 @@
 
 #include <stddef.h>
 #include <limits.h>
-#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
-#include <signal.h>
-#else
-/* WASI lacks signal support; provide minimal sig_atomic_t fallback */
+/* No signal.h on WASM; provide minimal sig_atomic_t */
 typedef int sig_atomic_t;
 #ifndef SIG_ATOMIC_MAX
 #define SIG_ATOMIC_MAX INT_MAX
-#endif
 #endif
 
 /*

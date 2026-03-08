@@ -60,9 +60,6 @@ void IoState_updateDebuggingMode(IoState *self) {
     }
 }
 
-#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
-#include <signal.h>
-#endif
 
 static IoState *stateToReceiveControlC = NULL;
 static int multipleIoStates = 0;
@@ -125,8 +122,5 @@ void IoState_setupUserInterruptHandler(IoState *self) {
     }
 
     stateToReceiveControlC = self;
-#if !defined(__wasi__) && !defined(__EMSCRIPTEN__) && !defined(__wasm__)
-    signal(SIGINT, IoState_UserInterruptHandler);
-    signal(SIGTERM, IoState_UserInterruptHandler);
-#endif
+    /* WASM: no signal support */
 }

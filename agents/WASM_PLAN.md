@@ -188,26 +188,34 @@ WASI provides POSIX-like file APIs (`fopen`, `fread`, `opendir`, etc.) through w
 
 ---
 
-### Phase 4: Browser target (secondary)
+### Phase 4: Browser target
 
-**Goal**: Io runs in a browser via a JS glue module.
+**Goal**: Io REPL running in a browser, persistent state between evaluations.
 
-**Work items**:
-- Create `browser/io_glue.js` — WASM module loader + DOM/console imports
-- Map Io's `writeln` to `console.log`
-- Expose `externref` for JS/DOM objects accessible from Io
-- Implement `FinalizationRegistry` + `WeakRef` bridge for GC interop (as described in WASM.md)
-- Create browser REPL demo page
+#### Phase 4a: Browser REPL MVP
+- Custom C entry point (`browser/io_browser.c`) with `io_init()`, `io_eval()`, `io_get_output()` exports
+- Compiled with `-mexec-model=reactor` (exports `_initialize` + custom functions)
+- JS glue (`browser/io.js`) — WASM loader + minimal WASI shim (fd_write capture, clock, proc_exit)
+- HTML REPL (`browser/index.html`) — input, output, persistent eval
+- `make browser` / `make serve` targets
 
-**Difficulty**: Hard
+#### Phase 4b: DOM + fetch interop (follow-up)
+- WASM imports for DOM operations (querySelector, createElement, etc.)
+- JS objects held as integer handles in a JS-side table
+- Io wrapper objects: `DOM querySelector("h1")` returns an Io proxy
+- `fetch` via coroutine: Io coroutine suspends, JS resolves promise, resumes
 
-**Milestone**: Io REPL running in browser, can manipulate DOM objects.
+**Difficulty**: Medium (4a), Hard (4b)
+
+**Milestone**: Io REPL running in browser; `"hello" println` shows output; state persists across evals.
 
 ---
 
-## 3. GC Preparation (Phase 2 feature — compacting collector)
+### Phase 5: Compacting collector (optimization)
 
-Per WASM.md, compaction is phase 2. The current codebase is **moderately ready** (7/10).
+The current Baker treadmill collector works but fragments memory over time. A compacting collector would reduce memory usage for long-running browser sessions.
+
+The codebase is **moderately ready** (7/10).
 
 ### Types needing walkRefs
 

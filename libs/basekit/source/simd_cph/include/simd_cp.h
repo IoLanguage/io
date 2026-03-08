@@ -77,26 +77,6 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 
 #endif /* __GNUC__ */
 
-#ifdef _MSC_VER /* Microsoft VC Compiler */
-
-#ifdef _M_IX86 /* MSVC for X86 CPU  (same as GNUC?)*/
-#define __MSVC__X86__
-#define __FOUND
-#endif
-
-#ifdef _M_AMD64
-#define __MSVC__X86__
-#define __FOUND
-#endif
-
-#ifdef _M_ALPHA /* for Compaq Alpha CPU */
-#define __MSVC__AXP__
-#define __FOUND
-#define __SIMD_NO_SIMD__
-#endif
-
-#endif /* _WIN32 */
-
 #ifndef __FOUND
 #define __SIMD_EMU__
 //#warning simd_cp.h does not support or could not figure out your compiler
@@ -108,17 +88,13 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 /* Include the correct SIMD file */
 
 #if defined(__SIMD_NO_SIMD__) || defined(__SIMD_EMU__)
-#ifdef _MSC_VER
-#pragma message("Including Emulated SIMD support...")
-#else
 #warning Including Emulated SIMD support...
-#endif
 #define __UNK__EMU__
 #include <simd_cp_emu.h>
 #endif
 
-#if defined(__GNUC__X86__) || defined(__MSVC__X86__)
-/* gcc x86 compiler or msvc x86 */
+#if defined(__GNUC__X86__)
+/* gcc x86 compiler */
 #include <simd_cp_x86.h>
 #endif /* __GNUC__X86__ */
 

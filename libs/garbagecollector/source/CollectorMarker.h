@@ -14,16 +14,7 @@
 extern "C" {
 #endif
 
-#if defined(WIN32)
-#if defined(BUILDING_COLLECTOR_DLL) || defined(BUILDING_IOVMALL_DLL)
-#define COLLECTOR_API __declspec(dllexport)
-#else
-#define COLLECTOR_API __declspec(dllimport)
-#endif
-
-#else
 #define COLLECTOR_API
-#endif
 
 typedef void(CollectorDoFunc)(void *);
 

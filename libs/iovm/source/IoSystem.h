@@ -17,11 +17,7 @@ extern "C" {
 
 IoObject *IoSystem_proto(void *state);
 
-#if defined(__CYGWIN__) || defined(_WIN32)
-IO_METHOD(IoObject, shellExecute);
-#else
 IO_METHOD(IoObject, daemon);
-#endif
 IO_METHOD(IoObject, errorNumber);
 IO_METHOD(IoObject, errorNumberDescription);
 IO_METHOD(IoObject, exit);

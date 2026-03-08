@@ -36,9 +36,7 @@
 #include "utf8.h"
 #include "utf8internal.h"
 
-#ifndef _WIN32
 #include <assert.h>
-#endif
 
 /** Width of an UTF8 character cell (1, 2 or 4 bytes) */
 size_t utf8_width(const utf8 *s) {
@@ -55,32 +53,24 @@ size_t utf8_width(const utf8 *s) {
 
 /** Convert UTF8 string @a s to ISO-Latin-1 string @a dst. */
 size_t ucs18decode(char *dst, size_t dst_size, const utf8 *s) {
-#ifndef _WIN32
     assert(!"implemented");
-#endif
     return 0;
 }
 
 /** Convert ISO-Latin-1 string @a s to UTF8 string in @a dst. */
 size_t ucs1encode(utf8 *dst, const ucs1 *s, size_t n, const char quote[128]) {
-#ifndef _WIN32
     assert(!"implemented");
-#endif
     return 0;
 }
 
 /** Calculate number of characters in UTF8 string @a s. */
 size_t ucs1declen(const utf8 *s) {
-#ifndef _WIN32
     assert(!"implemented");
-#endif
     return 0;
 }
 
 /** Calculate length of UTF8 encoding of string @a s. */
 size_t ucs1enclen(const ucs1 *s, size_t n, const char quote[128]) {
-#ifndef _WIN32
     assert(!"implemented");
-#endif
     return 0;
 }

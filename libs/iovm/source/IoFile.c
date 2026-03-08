@@ -31,27 +31,11 @@ file close
 #include <sys/stat.h>
 /*#include <sys/wait.h>*/
 
-#if !defined(_MSC_VER) && !defined(__SYMBIAN32__)
-#include <unistd.h> /* ok, this isn't ANSI */
-#endif
+#include <unistd.h>
 
-#if defined(_MSC_VER) && !defined(__SYMBIAN32__)
-#include <direct.h>
-#define getcwd _getcwd
-#define popen(x, y) _popen(x, y)
-#define pclose(x) _pclose(x)
-#endif
-
-#if defined(__wasi__) || defined(__EMSCRIPTEN__) || defined(__wasm__)
 /* WASM: no process pipes */
 static int pclose(FILE *f) { return 0; }
 static FILE *popen(const char *cmd, const char *mode) { return NULL; }
-#elif defined(__SYMBIAN32__)
-static int pclose(void *f) { return 0; }
-static int popen(void *f, int m) { return 0; }
-static int rename(void *a, void *b) { return 0; }
-static char *getcwd(char *buf, int size) { return 0; }
-#endif
 
 static const char *protoId = "File";
 
@@ -228,25 +212,8 @@ void IoFile_justClose(IoFile *self) {
         if (stream != stdout && stream != stdin) {
             if (DATA(self)->flags == IOFILE_FLAGS_PIPE) {
                 int exitStatus = pclose(stream);
-#if !defined(_MSC_VER) && !defined(__MINGW32__) &&                              \
-    !defined(__wasi__) && !defined(__EMSCRIPTEN__) &&                           \
-    !defined(__wasm__) /* No sys/wait.h on mingw/WASM */
-                if (WIFEXITED(exitStatus) == 1) {
-                    exitStatus = WEXITSTATUS(exitStatus);
-                    IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"),
-                                         IONUMBER(exitStatus));
-                } else if (WIFSIGNALED(exitStatus) == 1) {
-                    exitStatus = WTERMSIG(exitStatus);
-                    IoObject_setSlot_to_(self, IOSYMBOL("termSignal"),
-                                         IONUMBER(exitStatus));
-                } else {
-                    printf("Did not exit normally. Returned %d (%d)\n",
-                           exitStatus, WEXITSTATUS(exitStatus));
-                }
-#else
                 IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"),
                                      IONUMBER(exitStatus));
-#endif
             } else {
                 fclose(stream);
                 DATA(self)->flags = IOFILE_FLAGS_NONE;
@@ -525,19 +492,8 @@ IO_METHOD(IoFile, popen) {
         IoFile_justClose(self);
     }
 
-#if defined(SANE_POPEN)
-    DATA(self)->mode = IOREF(IOSYMBOL("a+"));
-    DATA(self)->stream = popen(UTF8CSTRING(DATA(self)->path), "r+");
-#elif defined(__SYMBIAN32__)
-    /* Symbian does not implement popen.
-     * (There is popen3() but it is "internal and not intended for use.")
-     */
-    DATA(self)->mode = IOREF(IOSYMBOL("r"));
-    DATA(self)->stream = NULL;
-#else
     DATA(self)->mode = IOREF(IOSYMBOL("r"));
     DATA(self)->stream = popen(UTF8CSTRING(DATA(self)->path), "r");
-#endif
     if (DATA(self)->stream == NULL) {
         IoState_error_(IOSTATE, m, "error executing file path '%s'",
                        UTF8CSTRING(DATA(self)->path));
@@ -656,10 +612,6 @@ IO_METHOD(IoFile, remove) {
 
     int error = 0;
 
-#if defined(__SYMBIAN32__)
-    error = -1;
-#elif defined(_MSC_VER) || defined(__MINGW32__) || defined(__wasi__) || \
-    defined(__EMSCRIPTEN__) || defined(__wasm__)
     if (IoFile_justExists(self)) {
         if (ISTRUE(IoFile_isDirectory(self, locals, m))) {
             error = rmdir(UTF8CSTRING(DATA(self)->path));
@@ -667,9 +619,6 @@ IO_METHOD(IoFile, remove) {
             error = unlink(UTF8CSTRING(DATA(self)->path));
         }
     }
-#else
-    error = remove(UTF8CSTRING(DATA(self)->path));
-#endif
 
     if (error && IoFile_justExists(self)) {
         IoState_error_(IOSTATE, m, "error removing file '%s'",

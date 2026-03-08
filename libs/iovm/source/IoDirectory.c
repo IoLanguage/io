@@ -19,132 +19,15 @@ Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 #include "IoFile.h"
 #include <sys/stat.h>
 
-#if !defined(_MSC_VER) && !defined(__SYMBIAN32__)
-#include <unistd.h> /* ok, this isn't ANSI */
-#endif
-
-#if defined(_MSC_VER) && !defined(__SYMBIAN32__)
-#include <direct.h>
-#define getcwd _getcwd
-#endif
-
-#if defined(__SYMBIAN32__)
-static char *getcwd(char *buf, int size) { return 0; }
-#endif
-
-#ifndef _WIN32
-
+#include <unistd.h>
 #include <dirent.h>
 #include <sys/file.h>
-#include <unistd.h>
 #define MKDIR mkdir
-
-#else
-
-#include <windows.h>
-#ifndef __MINGW64__
-#define S_IRGRP 0
-#define S_IXGRP 0
-#define S_IROTH 0
-#define S_IXOTH 0
-#endif
-#ifndef __MINGW32__
-#define S_IRWXU 0
-#endif
-
-#define DT_UNKNOWN 0
-#define DT_DIR 1
-#define DT_REG 8
-#define DT_LNK 10
-#define MKDIR mkdir_win32
-
-struct dirent {
-    char d_name[MAX_PATH];
-    unsigned char d_type;
-};
-
-typedef struct {
-    WIN32_FIND_DATA wfd;
-    HANDLE hFind;
-    struct dirent de;
-    unsigned char valid;
-} DIR;
-
-static DIR *opendir(char *pSpec) {
-    DIR *pDir = io_calloc(1, sizeof *pDir);
-    char *longer_string =
-        io_calloc(1, (strlen(pSpec) + 3) * sizeof *longer_string);
-
-    strcpy(longer_string, pSpec);
-    strcat(longer_string, "/*");
-    pDir->hFind = FindFirstFile(longer_string, &pDir->wfd);
-    io_free(longer_string);
-    pDir->valid = pDir->hFind != INVALID_HANDLE_VALUE;
-
-    if (!pDir->valid) {
-        DWORD err = GetLastError();
-        if (err == ERROR_PATH_NOT_FOUND) {
-            io_free(pDir);
-            return (DIR *)0;
-        }
-    }
-
-    return pDir;
-}
-
-static void closedir(DIR *pDir) {
-    if (pDir->hFind != INVALID_HANDLE_VALUE) {
-        FindClose(pDir->hFind);
-    }
-
-    io_free(pDir);
-}
-
-static struct dirent *readdir(DIR *pDir) {
-    if (pDir->valid) {
-        strcpy(pDir->de.d_name, pDir->wfd.cFileName);
-        if (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            pDir->de.d_type = DT_DIR;
-        } else if (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_NORMAL) {
-            pDir->de.d_type = DT_REG;
-        }
-#ifdef FILE_ATTRIBUTE_REPARSE_POINT
-        else if (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) {
-            pDir->de.d_type = DT_LNK;
-        }
-#endif
-        else {
-            pDir->de.d_type = DT_UNKNOWN;
-        }
-        pDir->valid = FindNextFile(pDir->hFind, &pDir->wfd);
-        return &pDir->de;
-    }
-
-    return NULL;
-}
-
-typedef int mode_t_win32;
-
-int mkdir_win32(const char *path, mode_t_win32 mode) {
-    /* returns zero on sucess */
-    LPCTSTR lpPathName = path;
-    LPSECURITY_ATTRIBUTES lpSecurityAttributes = NULL;
-    return (CreateDirectory(lpPathName, lpSecurityAttributes) == 0);
-}
-
-/*
-int chdir(const char *path)
-{
-        LPCTSTR lpPathName = path;
-        return SetCurrentDirectory(lpPathName) ? 1 : -1;
-}
-*/
-#endif
 
 int isDirectory(struct dirent *dp, const char *path) {
     struct stat st;
 
-#if (defined _DIRENT_HAVE_D_TYPE && defined _BSD_SOURCE) || defined _WIN32
+#if defined _DIRENT_HAVE_D_TYPE && defined _BSD_SOURCE
     if (dp->d_type != DT_UNKNOWN) {
         // if it says so, let it be directory
         if (dp->d_type == DT_DIR) {
@@ -324,7 +207,6 @@ IO_METHOD(IoDirectory, exists) {
         path = IoMessage_locals_symbolArgAt_(m, locals, 0);
     }
 
-#if !defined(_WIN32) || defined(__CYGWIN__)
     dirp = opendir(UTF8CSTRING(path));
 
     if (!dirp) {
@@ -333,14 +215,6 @@ IO_METHOD(IoDirectory, exists) {
 
     (void)closedir(dirp);
     return IOTRUE(self);
-#else
-    {
-        DWORD d = GetFileAttributes(UTF8CSTRING(path));
-        return (d != INVALID_FILE_ATTRIBUTES) && (d & FILE_ATTRIBUTE_DIRECTORY)
-                   ? IOTRUE(self)
-                   : IOFALSE(self);
-    }
-#endif
 }
 
 IO_METHOD(IoDirectory, items) {
@@ -526,12 +400,8 @@ IO_METHOD(IoDirectory, size) {
 /* -------------------------------- */
 
 UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void) {
-#if defined(sparc) || defined(__sparc)
-    char *buf = getcwd(NULL, FILENAME_MAX + 1);
-#else
     char *buf = NULL;
     buf = (char *)getcwd(buf, 1024);
-#endif /* sparc || _sparc */
 
     if (!buf) {
         return UArray_newWithCString_copy_(".", 1);
