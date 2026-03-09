@@ -95,7 +95,7 @@ $(OBJDIR)/%.o: %.c
 
 BROWSER_DIR  := browser
 BROWSER_WASM := $(BROWSER_DIR)/io_browser.wasm
-BROWSER_OBJS := $(OBJDIR)/browser/io_browser.o $(OBJDIR)/browser/io_js_bridge.o
+BROWSER_OBJS := $(OBJDIR)/browser/io_browser.o $(OBJDIR)/browser/io_js_bridge.o $(OBJDIR)/browser/io_future.o
 
 BROWSER_CFLAGS := $(CFLAGS) -Ibrowser
 BROWSER_LDFLAGS := -lwasi-emulated-process-clocks -lwasi-emulated-signal \
@@ -112,7 +112,9 @@ BROWSER_LDFLAGS := -lwasi-emulated-process-clocks -lwasi-emulated-signal \
 	-Wl,--export=io_get_bridge_buf_size \
 	-Wl,--export=io_send \
 	-Wl,--export=io_release \
-	-Wl,--export=io_get_lobby_handle
+	-Wl,--export=io_get_lobby_handle \
+	-Wl,--export=io_resolve_future \
+	-Wl,--export=io_reject_future
 
 browser: $(BROWSER_WASM)
 
@@ -123,7 +125,11 @@ $(OBJDIR)/browser/io_browser.o: browser/io_browser.c browser/io_js_bridge.h
 	@mkdir -p $(dir $@)
 	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
 
-$(OBJDIR)/browser/io_js_bridge.o: browser/io_js_bridge.c browser/io_js_bridge.h
+$(OBJDIR)/browser/io_js_bridge.o: browser/io_js_bridge.c browser/io_js_bridge.h browser/io_future.h
+	@mkdir -p $(dir $@)
+	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/browser/io_future.o: browser/io_future.c browser/io_future.h
 	@mkdir -p $(dir $@)
 	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
 

@@ -226,30 +226,34 @@ WASI provides POSIX-like file APIs (`fopen`, `fread`, `opendir`, etc.) through w
 - Syntax errors in code string raise Io exceptions
 - Enables event handlers, callbacks, requestAnimationFrame, setTimeout
 
-#### Phase 4d: Promise/Future (async JS interop)
+#### Phase 4d: Callable IoProxy (Io blocks as JS callbacks) - COMPLETE
+- IoProxy uses function target with `apply` trap — Io objects are callable from JS
+- `block(x, x * 2)` crosses as TYPE_IOREF, JS gets a callable Proxy
+- When JS calls the Proxy, `apply` trap fires → `io_send(handle, "call", args...)`
+- Enables: `setTimeout(block(...), ms)`, `addEventListener("click", block(...))`, `Array.map(block(...))`, etc.
+- No C changes needed — JS-only change to `makeIoProxy`
 
-**Goal**: Io code can call async JS APIs and await results via coroutines.
+#### Phase 4e: Async — Run Loop, Futures, Scheduler
 
-```io
-response := JS fetch("/api/data")    // returns Future
-body := response text                // yields coroutine until resolved
-body println
-```
+JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, synchronous call that returns promptly. Three layers: eval loop yield-to-host, Future type with auto Promise detection, JS-side scheduler driving Io coroutines via `requestIdleCallback`/`requestAnimationFrame`.
 
-- Promise detection: JS side checks if return value has `.then` method
-- New Io `Future` type wrapping a pending result
-- JS `.then()` / `.catch()` wiring calls back into bridge on resolve/reject
-- Accessing Future value yields the current coroutine until ready
-- Rejection maps to Io exception
+**See [subplans/Async.md](subplans/Async.md) for full design.**
 
-**Difficulty**: Hard (touches coroutine system)
+**Step 1 COMPLETE**: IoFuture proto + TYPE_FUTURE wire format
+- `io_future.c`/`.h` — Future type with await, isReady, state, label, setLabel, forward, type methods
+- TYPE_FUTURE (12) wire type on both sides, auto-detection of JS thenables in serializeToWasm
+- `js_watch_promise` import wires `.then()`/`.catch()` to `io_resolve_future`/`io_reject_future` exports
+- `forward` delegates unrecognized messages (then, catch, etc.) to underlying JS Promise
+- 9 new browser tests (66/66 passing)
 
-**Milestone**: `JS fetch(url)` returns a Future; accessing its value yields and resumes correctly.
+**Remaining**: Steps 2-6 (FRAME_STATE_AWAIT_JS, eval loop yield, scheduler, rich JS objects)
 
-#### Phase 4e: BigInt (future)
+**Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code.
+
+#### Phase 4f: BigInt (future)
 
 - Vendor libtommath, create IoBigInt type, add TYPE_BIGINT to wire format
-- See BigInt.md for full design
+- See [subplans/BigInt.md](subplans/BigInt.md) for full design
 
 **Difficulty**: Medium
 
@@ -257,72 +261,9 @@ body println
 
 ### Phase 5: Compacting collector (optimization)
 
-The current Baker treadmill collector works but fragments memory over time. A compacting collector would reduce memory usage for long-running browser sessions.
+The current Baker treadmill collector fragments memory over time. A compacting collector would reduce memory usage for long-running browser sessions. Codebase is moderately ready (7/10). Not needed during WASM migration, but avoid making it harder (no new interior pointers, no new global caches).
 
-The codebase is **moderately ready** (7/10).
-
-#### Design
-
-**New GC hook needed**: A `remap` callback alongside the existing `mark` and `free` callbacks. Where `mark` visits references, `remap` must be able to **write back** updated addresses to pointer fields. The cleanest implementation is a single `walkRefs` function per primitive type that accepts a visitor, with both `mark` and `remap` implemented as thin wrappers over it:
-
-```c
-void IoObject_walkRefs(IoObject *self, IoRefVisitor *visitor, void *ctx);
-void IoObject_mark(IoObject *self);   // wraps walkRefs with mark visitor
-void IoObject_remap(IoObject *self);  // wraps walkRefs with remap visitor
-```
-
-Only a small number of Io primitives contain object references and need `walkRefs` — `IoObject`, `IoList`, `IoMessage`, `IoCoroutine`. Leaf primitives (`IoNumber`, `IoSeq`, `IoDate`, `IoFile`) contain no object references and need only a `memmove` during compaction.
-
-**50% boundary policy**: Compaction only moves objects **above the 50% memory mark** to lower addresses. Objects below 50% are never moved. This preserves JIT optimization assumptions for hot long-lived objects in the lower half, while allowing the upper half to act as a nursery zone. The midpoint should be dynamic:
-
-```c
-size_t midpoint = max(wasmMemorySize() / 2, liveObjectBytes() * 1.2);
-```
-
-**Recycling interaction**: `libgarbagecollector` has a `COLLECTOR_RECYCLE_FREED` mechanism (currently disabled via a commented-out `#define`). When compaction is added, recycling should only operate on freed slots **above the 50% boundary**, keeping the lower half stable and dense.
-
-**Compaction trigger**: Only fire under memory pressure, before calling `memory.grow`. Sequence: compact upper half -> if still above 80% full -> grow. This makes compaction a pressure relief valve rather than a routine operation.
-
-**JIT consideration**: Compaction invalidates JIT-learned access patterns. The 50% policy mitigates this by never moving JIT-hot lower-half objects. Compaction should be infrequent and ideally triggered between activity bursts.
-
-**Treadmill color as hotness proxy**: The Baker Treadmill's off-white segment (tenured/long-lived objects) naturally identifies hot objects without any separate heat tracking. During compaction, off-white objects in the lower half should be left in place.
-
-#### Types needing walkRefs
-
-| Type | Complexity | Key references |
-|------|-----------|----------------|
-| IoObject | Medium | slots (PHash k,v), protos[] (**interior pointer**), tag's walkRefs |
-| IoMessage | Medium | name, args, next, label, cachedResult, **inline cache value/context** |
-| IoEvalFrame | High | 15+ fields + control flow union (60-line switch) |
-| IoCoroutine | High | ioStack, frameStack chain, pooled frames/blockLocals/calls |
-| IoList | Easy | iterate items |
-| IoMap | Easy | iterate PHash k,v |
-| IoBlock | Easy | message, scope, argNames |
-| IoCall | Easy | 6 pointer fields |
-| IoContinuation | Medium | capturedLocals, capturedFrame chain |
-| IoCFunction | Easy | uniqueName |
-| IoFile | Easy | path, mode |
-| IoDirectory | Easy | path |
-| IoWeakLink | Easy | link (needs remap despite no mark func) |
-
-#### Known complications
-
-1. **Interior pointer in protos**: `IoObject_justAlloc` allocates `IoObjectData + protos[]` as one block. Protos pointer is `data + 1`. Compaction must either:
-   - Allocate protos separately (simpler, more fragments), or
-   - Remap interior pointer via offset calculation
-
-2. **Inline cache**: IoMessage caches slot lookups. Compaction must invalidate all caches or remap cached pointers.
-
-3. **argValues interior pointer**: IoEvalFrame's `argValues` may point to embedded `inlineArgs[4]` buffer.
-
-4. **COLLECTOR_RECYCLE_FREED**: Currently disabled. Keep disabled during compaction work.
-
-#### Recommendation
-
-Don't implement compaction during the WASM migration. But avoid making it harder:
-- Don't add new interior pointer patterns
-- Don't add new global caches of IoObject pointers
-- Keep mark functions as the single source of truth for reference traversal
+**See [subplans/CompactingGC.md](subplans/CompactingGC.md) for full design.**
 
 ---
 

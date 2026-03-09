@@ -238,6 +238,59 @@ const tests = [
 		'getter call',
 	], expect: "==> DIV\n" },
 	{ name: "jsfunction typeof", code: 'jsfunction("return 1;") typeof', expect: "==> function\n" },
+
+	// Io blocks as JS callbacks (callable IoProxy)
+	{ name: "Io block as JS callback", code: [
+		'caller := jsfunction("return arguments[0](42);")',
+		'caller call(block(x, x * 2))',
+	], expect: "==> 84\n" },
+	{ name: "Io block callback with multiple args", code: [
+		'adder := jsfunction("return arguments[0](3, 4);")',
+		'adder call(block(a, b, a + b))',
+	], expect: "==> 7\n" },
+	{ name: "Io block callback returning string", code: [
+		'greeter := jsfunction("return arguments[0](\\\"world\\\");")',
+		'greeter call(block(name, \"hello \" .. name))',
+	], expect: "==> hello world\n" },
+
+	// Promise then with Io block callback
+	{ name: "Promise then setup", code: [
+		'Lobby promiseResult := nil',
+		'p := JS get("Promise") resolve(99)',
+		'p then(block(v, Lobby setSlot("promiseResult", v)))',
+		'nil',
+	], expect: "", async: true },
+	{ name: "Promise then received", code: 'promiseResult', expect: "==> 99\n" },
+	{ name: "Promise chain", code: [
+		'Lobby chainResult := nil',
+		'JS get("Promise") resolve(10) then(block(v, v * 2)) then(block(v, Lobby setSlot("chainResult", v)))',
+		'nil',
+	], expect: "", async: true },
+	{ name: "Promise chain received", code: 'chainResult', expect: "==> 20\n" },
+
+	// IoFuture: Promise detection + auto-wrapping
+	{ name: "Future type", code: [
+		'Lobby futureTest := JS get("Promise") resolve(42)',
+		'futureTest type',
+	], expect: "==> Future\n" },
+	{ name: "Future pending before flush", code: [
+		'Lobby futureTest2 := JS get("Promise") resolve(99)',
+		'futureTest2 state',
+	], expect: "==> pending\n" },
+	{ name: "Future resolved after flush", code: 'futureTest state', expect: "==> resolved\n" },
+	{ name: "Future isReady", code: 'futureTest isReady', expect: "==> true\n" },
+	{ name: "Future await", code: 'futureTest await', expect: "==> 42\n" },
+	{ name: "Future reject setup", code: [
+		'Lobby futureReject := JS get("Promise") reject("oops")',
+		'nil',
+	], expect: "", async: true },
+	{ name: "Future reject state", code: 'futureReject state', expect: "==> rejected\n" },
+	{ name: "Future await rejected raises", code: 'try(futureReject await) type', expect: "==> Exception\n" },
+	{ name: "Future label", code: [
+		'f := JS get("Promise") resolve(1)',
+		'f setLabel("test label")',
+		'f label',
+	], expect: "==> test label\n" },
 ];
 
 function escapeText(s) {
@@ -263,6 +316,9 @@ async function runTests() {
 	let total = tests.length;
 
 	for (const t of tests) {
+		// Flush microtasks (Promise callbacks) between tests
+		await Promise.resolve();
+
 		const div = document.createElement("div");
 		div.className = "test";
 
@@ -274,6 +330,11 @@ async function runTests() {
 			}
 		} catch (e) {
 			result = { status: -1, output: "WASM error: " + e.message + "\n" };
+		}
+
+		// For async tests, flush microtasks + macrotask so Promise callbacks fire
+		if (t.async) {
+			await new Promise(r => setTimeout(r, 0));
 		}
 
 		let ok = false;

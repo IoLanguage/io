@@ -224,6 +224,7 @@ const TYPE_IOREF      = 8;
 const TYPE_ERROR      = 9;
 const TYPE_UNDEFINED  = 10;
 const TYPE_TYPEDARRAY = 11;
+const TYPE_FUTURE     = 12;
 
 // TypedArray itemType byte mapping (must match C side)
 const TYPED_ARRAY_CTORS = [
@@ -364,6 +365,15 @@ function serializeToWasm(val, buf, offset, visited) {
 		}
 		visited.delete(val);
 		return pos;
+	}
+
+	// Promise/thenable → TYPE_FUTURE (pass Promise by handle, C side creates IoFuture)
+	if (val != null && typeof val.then === "function") {
+		buf[offset] = TYPE_FUTURE;
+		const h = registerHandle(val);
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		view.setInt32(offset + 1, h, true);
+		return offset + 5;
 	}
 
 	// All other objects pass by reference JS→Io
@@ -620,6 +630,28 @@ const js = {
 		releaseHandle(h);
 	},
 
+	// js_watch_promise(promiseHandle, futureIoHandle) — wire .then()/.catch() on a Promise
+	js_watch_promise(promiseHandle, futureIoHandle) {
+		const promise = getHandle(promiseHandle);
+		if (!promise || typeof promise.then !== "function") return;
+
+		promise.then(
+			(value) => {
+				const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+				const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+				serializeToWasm(value, buf, 0);
+				wasm.exports.io_resolve_future(futureIoHandle);
+			},
+			(error) => {
+				const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
+				const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
+				const msg = error instanceof Error ? error.message : String(error);
+				serializeToWasm(msg, buf, 0);
+				wasm.exports.io_reject_future(futureIoHandle);
+			}
+		);
+	},
+
 	// js_new_function(codePtr, codeLen) — create Function from code string, return handle
 	js_new_function(codePtr, codeLen) {
 		try {
@@ -662,7 +694,11 @@ const ioProxyRegistry = typeof FinalizationRegistry !== "undefined"
 	: null;
 
 function makeIoProxy(ioHandle) {
-	const proxy = new Proxy({__ioHandle: ioHandle}, {
+	// Use a function target so the Proxy is callable (enables apply trap).
+	// This lets Io blocks be passed as JS callbacks (Promise.then, setTimeout, etc.)
+	const fn = function() {};
+	fn.__ioHandle = ioHandle;
+	const proxy = new Proxy(fn, {
 		get(target, prop) {
 			if (prop === "__ioHandle") return target.__ioHandle;
 			if (prop === Symbol.toPrimitive || prop === "valueOf" || prop === "toString") {
@@ -678,6 +714,10 @@ function makeIoProxy(ioHandle) {
 		set(target, prop, value) {
 			ioSend(target.__ioHandle, "setSlot", String(prop), value);
 			return true;
+		},
+
+		apply(target, thisArg, args) {
+			return ioSend(target.__ioHandle, "call", ...args);
 		},
 	});
 

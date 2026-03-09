@@ -13,6 +13,7 @@
 #include "PHash_inline.h"
 #include "IoState_symbols.h"
 #include "io_js_bridge.h"
+#include "io_future.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -55,6 +56,7 @@ int io_get_bridge_buf_size(void) { return BRIDGE_BUF_SIZE; }
 #define TYPE_ERROR      9
 #define TYPE_UNDEFINED 10
 #define TYPE_TYPEDARRAY 11
+#define TYPE_FUTURE     12
 
 // ---- WASM imports from "js" module ----
 
@@ -68,6 +70,7 @@ JS_IMPORT(js_typeof)     extern int js_typeof(int handle, char *buf, int sz);
 JS_IMPORT(js_get_global) extern int js_get_global(void);
 JS_IMPORT(js_release)    extern void js_release(int h);
 JS_IMPORT(js_new_function) extern int js_new_function(const char *code, int code_len);
+JS_IMPORT(js_watch_promise) extern void js_watch_promise(int promise_handle, int future_io_handle);
 
 // ---- Io handle table (for JS→Io references) ----
 
@@ -408,6 +411,20 @@ static IoObject *deserialize_buf_to_io(IoState *state, unsigned char **ptr, unsi
 			*ptr, ct, CENCODING_NUMBER, count, 1);
 		*ptr += byteLen;
 		return (IoObject *)IoSeq_newWithUArray_copy_(state, ua, 0);
+	}
+
+	case TYPE_FUTURE: {
+		if (*ptr + 4 > end) return state->ioNil;
+		int promiseH;
+		memcpy(&promiseH, *ptr, 4);
+		*ptr += 4;
+		IoObject *future = IoFuture_newWithPromiseHandle(state, promiseH);
+		// Register as ioHandle so JS can call io_resolve with it
+		int futureIoH = ioHandles_register(future);
+		if (futureIoH > 0) {
+			js_watch_promise(promiseH, futureIoH);
+		}
+		return future;
 	}
 
 	case TYPE_ERROR: {
@@ -804,4 +821,40 @@ int io_get_lobby_handle(void) {
 	if (!state) return 0;
 	IoObject *lobby = state->lobby;
 	return ioHandles_register(lobby);
+}
+
+// ---- io_resolve / io_reject: JS calls these when a Promise settles ----
+
+__attribute__((export_name("io_resolve_future")))
+int io_resolve_future(int future_io_handle) {
+	IoState *state = io_bridge_state;
+	if (!state) return -1;
+
+	IoObject *future = ioHandles_get(future_io_handle);
+	if (!future) return -1;
+
+	// Deserialize the resolved value from bridge_buf
+	unsigned char *ptr = bridge_buf;
+	unsigned char *end = bridge_buf + BRIDGE_BUF_SIZE;
+	IoObject *value = deserialize_buf_to_io(state, &ptr, end);
+
+	IoFuture_resolve(future, value);
+	return 0;
+}
+
+__attribute__((export_name("io_reject_future")))
+int io_reject_future(int future_io_handle) {
+	IoState *state = io_bridge_state;
+	if (!state) return -1;
+
+	IoObject *future = ioHandles_get(future_io_handle);
+	if (!future) return -1;
+
+	// Deserialize the error from bridge_buf
+	unsigned char *ptr = bridge_buf;
+	unsigned char *end = bridge_buf + BRIDGE_BUF_SIZE;
+	IoObject *error = deserialize_buf_to_io(state, &ptr, end);
+
+	IoFuture_reject(future, error);
+	return 0;
 }

@@ -7,6 +7,7 @@
 #include "IoSeq.h"
 #include "UArray.h"
 #include "io_js_bridge.h"
+#include "io_future.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -98,6 +99,9 @@ int io_init(void) {
 		IoState_symbolWithCString_(state, "JS"), jsSingleton);
 	IoObject_setSlot_to_(state->core,
 		IoState_symbolWithCString_(state, "JSObject"), jsObjProto);
+
+	// Register IoFuture proto
+	IoFuture_proto(state);
 
 	// Register jsfunction on Lobby
 	{

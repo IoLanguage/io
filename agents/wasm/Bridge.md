@@ -204,7 +204,7 @@ To consume an iterator's contents from Io, the JS side provides a helper method 
 
 ## Functions
 
-Io blocks cross as proxies. To create a real JS-side function (e.g., for an event handler callback), use `jsfunction`:
+### jsfunction (create JS functions from code strings)
 
 ```io
 handler := jsfunction("return arguments[0] + arguments[1];")
@@ -215,6 +215,31 @@ getter call          // -> page title string
 ```
 
 The string contains actual JS code passed to `new Function(...)`. No Io-to-JS translation, no subset semantics. The created function is a JSObject and can be passed to JS APIs that expect callbacks. Access arguments via the `arguments` object. Syntax errors in the code string raise an Io exception.
+
+### Io blocks as JS callbacks (callable IoProxy)
+
+Io blocks (and any Io objects) cross to JS as callable proxies. When JS calls an IoProxy as a function, it sends a `call` message to the Io object with the arguments:
+
+```io
+// Pass an Io block directly to a JS API expecting a callback
+caller := jsfunction("return arguments[0](42);")
+caller call(block(x, x * 2))   // -> 84
+
+// Works with Promise.then
+JS get("Promise") resolve(99) then(block(v, v println))
+
+// Works with setTimeout, addEventListener, etc.
+JS setTimeout(block("fired!" println), 100)
+```
+
+On the JS side, IoProxy uses a function target with an `apply` trap. When called, it re-enters WASM via `io_send` to dispatch the `call` message synchronously. Return values cross back through the bridge normally.
+
+This means `.then()` chains work — the Io block's return value becomes the next Promise's resolved value:
+
+```io
+JS get("Promise") resolve(10) then(block(v, v * 2)) then(block(v, v println))
+// prints: 20
+```
 
 ## Unsupported JS Types
 
@@ -227,22 +252,33 @@ These types throw immediately at the bridge boundary:
 
 ## Async / Promises
 
-### Io calling JS
+JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, synchronous call that returns promptly. Io never blocks, never spins.
 
-If a JS function returns a Promise (whether declared `async` or not), the bridge wraps it as an Io `Future`:
+### Io calling async JS
 
-1. Io calls a JS function
-2. Bridge detects the return value is a Promise (has `.then`)
-3. Bridge immediately returns an Io `Future`
-4. JS promise resolves or rejects
-5. Bridge sets the Future's result or raises an exception on it
-6. Io code accessing the Future's value yields the coroutine until ready
+If a JS function returns a Promise, the bridge automatically wraps it as an Io `Future`:
+
+1. Io calls a JS function (e.g., `JS fetch(url)`)
+2. JS side detects the return value is a Promise (has `.then`)
+3. Bridge returns an Io `Future` wrapping the Promise handle
+4. When Io code sends a message to the Future, the eval loop yields to JS (`FRAME_STATE_AWAIT_JS`)
+5. JS attaches `.then()` / `.catch()` on the Promise
+6. Promise resolves → JS calls `io_resume(value)` → eval loop resumes
+7. Future forwards the original message to the resolved value
+
+```io
+response := JS fetch("/api/data")    // returns Future, yields on use
+body := response text                // yields again
+body println
+```
 
 Synchronous JS functions return their result directly. No Future wrapping.
 
+**Not yet implemented.** Currently Promises cross as plain JSObject proxies. Io blocks can be passed as callbacks via `.then(block(...))` using the callable IoProxy mechanism, but there is no automatic yield/resume. See Plan.md Phase 4e for the full design.
+
 ### JS calling Io
 
-The bridge calls the Io handler synchronously and returns whatever it returns. Io is expected to return promptly. If the Io programmer needs to do long-running work, they schedule it in a separate coroutine and post results back as events.
+The bridge calls the Io handler synchronously and returns whatever it returns. Io is expected to return promptly. If the Io programmer needs to do long-running work, they schedule it in a separate coroutine and yield in small chunks. JS drives the Io Scheduler via `requestIdleCallback` / `requestAnimationFrame` to give coroutines time slices.
 
 ---
 
