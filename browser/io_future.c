@@ -134,12 +134,56 @@ IO_METHOD(IoObject, Future_setLabel) {
 	return self;
 }
 
-// forward — delegate unrecognized messages (like then/catch) to the JS Promise
-IO_METHOD(IoObject, Future_forward) {
+// then/catch/finally — delegate to the underlying JS Promise
+IO_METHOD(IoObject, Future_then) {
 	IoFutureData *data = DATA(self);
-	// Create a JSObject wrapping the same Promise handle and forward to it
 	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, data->promiseHandle);
 	return IoMessage_locals_performOn_(m, jsObj, jsObj);
+}
+
+IO_METHOD(IoObject, Future_catch) {
+	IoFutureData *data = DATA(self);
+	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, data->promiseHandle);
+	return IoMessage_locals_performOn_(m, jsObj, jsObj);
+}
+
+IO_METHOD(IoObject, Future_finally) {
+	IoFutureData *data = DATA(self);
+	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, data->promiseHandle);
+	return IoMessage_locals_performOn_(m, jsObj, jsObj);
+}
+
+// forward — auto-await, then replay message on the resolved value.
+// Instead of nesting eval loops (IoMessage_locals_performOn_), we redirect
+// the frame state machine to retry the lookup on the resolved value.
+// If pending, triggers yield to JS host; on resume, forward re-activates.
+IO_METHOD(IoObject, Future_forward) {
+	IoFutureData *data = DATA(self);
+
+	if (data->state == FUTURE_RESOLVED) {
+		IoObject *value = data->value ? data->value : IONIL(self);
+		// Redirect the eval loop: set target to resolved value, restart lookup
+		IoEvalFrame *frame = IOSTATE->currentFrame;
+		if (frame) {
+			IoEvalFrameData *fd = FRAME_DATA(frame);
+			fd->target = value;
+			fd->cachedTarget = value;
+			fd->slotValue = NULL;
+			fd->slotContext = NULL;
+			fd->state = FRAME_STATE_LOOKUP_SLOT;
+			IOSTATE->needsControlFlowHandling = 1;
+		}
+		return value;  // Ignored; frame state takes over
+	}
+
+	if (data->state == FUTURE_REJECTED) {
+		IoState_error_(IOSTATE, m, "Future rejected: %s",
+			data->value && ISSEQ(data->value) ? CSTRING(data->value) : "unknown error");
+		return IONIL(self);
+	}
+
+	// Pending — trigger await (yield to JS); on resume, forward re-activates
+	return IoObject_Future_await(self, locals, m);
 }
 
 // type — Io convention
@@ -179,6 +223,9 @@ IoObject *IoFuture_proto(void *state) {
 		{"state",    IoObject_Future_state},
 		{"label",    IoObject_Future_label},
 		{"setLabel", IoObject_Future_setLabel},
+		{"then",     IoObject_Future_then},
+		{"catch",    IoObject_Future_catch},
+		{"finally",  IoObject_Future_finally},
 		{"forward",  IoObject_Future_forward},
 		{"type",     IoObject_Future_type},
 		{NULL, NULL},

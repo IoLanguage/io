@@ -625,6 +625,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         }
                         break;
                     }
+                    if (state->needsControlFlowHandling) {
+                        state->needsControlFlowHandling = 0;
+                        break;
+                    }
                     fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
             } else {
@@ -636,6 +640,12 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     if (IoState_unwindFramesForError_(state)) {
                         return state->ioNil;
                     }
+                    break;
+                }
+                // forward may have set up control flow (e.g., IoFuture auto-await
+                // redirects to LOOKUP_SLOT on resolved value, or yields for JS Promise)
+                if (state->needsControlFlowHandling) {
+                    state->needsControlFlowHandling = 0;
                     break;
                 }
                 fd->state = FRAME_STATE_CONTINUE_CHAIN;
@@ -1836,9 +1846,11 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 return state->ioNil;
             }
             // Resumed: the future should now be resolved/rejected.
-            // Transition back to ACTIVATE to re-call Future_await,
-            // which will now return the value (resolved) or raise (rejected).
-            fd->state = FRAME_STATE_ACTIVATE;
+            // Re-do slot lookup so the appropriate handler runs:
+            // - Explicit await: re-finds "await" slot → ACTIVATE → Future_await returns value
+            // - Implicit forward: slot still not found → IoObject_forward → Future_forward
+            //   sees resolved state → frame redirect to resolved value
+            fd->state = FRAME_STATE_LOOKUP_SLOT;
             break;
         }
 

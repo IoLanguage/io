@@ -299,6 +299,24 @@ const tests = [
 	{ name: "await rejected Promise", code: [
 		'try(JS get("Promise") reject("boom") await) error containsSeq("boom")',
 	], expect: "==> true\n", asyncAwait: true },
+
+	// Implicit forward: auto-await + forward message to resolved value
+	{ name: "implicit forward on resolved", code: [
+		'f := JS get("Promise") resolve(list(1,2,3))',
+		'nil',
+	], expect: "", async: true },
+	{ name: "implicit forward size", code: [
+		'f size',
+	], expect: "==> 3\n" },
+	{ name: "implicit forward pending auto-await", code: [
+		'JS get("Promise") resolve(list(10,20,30)) size',
+	], expect: "==> 3\n", asyncAwait: true },
+	{ name: "implicit forward chain", code: [
+		'JS get("Promise") resolve("hello world") split(" ") size',
+	], expect: "==> 2\n", asyncAwait: true },
+	{ name: "implicit forward rejected raises", code: [
+		'try(JS get("Promise") reject("nope") size) type',
+	], expect: "==> Exception\n", asyncAwait: true },
 ];
 
 function escapeText(s) {

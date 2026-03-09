@@ -223,9 +223,16 @@ Steps 3 and 4 were originally planned separately but the implementation naturall
 - Error handling via `try()` across suspend/resume (Step 4)
 - Chained await support in `do_resume_eval` (Step 4)
 
-### Step 5: Implicit forward (optional, layered on top)
-- `IoFuture forward`: auto-await + replay message on resolved value
-- Makes `JS fetch(url) text` work without explicit `await`
+### Step 5: Implicit forward — auto-await on unrecognized messages — COMPLETE
+- `IoFuture forward`: when a message isn't found on a Future, `forward` handles it:
+  - **Resolved**: frame redirect — sets `fd->target` to resolved value, `fd->state = LOOKUP_SLOT`, replays message lookup. No nested eval loop needed.
+  - **Rejected**: raises error via `IoState_error_`
+  - **Pending**: triggers AWAIT_JS yield (same as explicit `await`). On resume, AWAIT_JS transitions to LOOKUP_SLOT (not ACTIVATE), which replays the entire slot lookup — `forward` is called again, now sees resolved state, and does the frame redirect.
+- Added `then`, `catch`, `finally` explicit methods delegating to underlying JS Promise via JSObject
+- `IoState_iterative.c` LOOKUP_SLOT: added `needsControlFlowHandling` check after `IoObject_forward()` calls (both non-locals and locals-no-scope paths). Without this, LOOKUP_SLOT would overwrite the forward's frame state redirect with CONTINUE_CHAIN.
+- `IoState_iterative.c` AWAIT_JS resume: changed from `FRAME_STATE_ACTIVATE` to `FRAME_STATE_LOOKUP_SLOT`. This is correct for both explicit `await` (re-finds "await" slot, re-activates) and implicit forward (re-does forward on resolved Future).
+- 5 new tests: resolved forward, pending auto-await, message chain, rejected raises
+- **Key insight**: `IoObject_forward()` is a direct C call from LOOKUP_SLOT, not through ACTIVATE. The CFunction it calls can set frame state and `needsControlFlowHandling`, but LOOKUP_SLOT must check the flag to avoid overwriting the redirect. On AWAIT_JS resume, `fd->slotValue` may be stale (from the failed original lookup), so going to LOOKUP_SLOT instead of ACTIVATE replays the full lookup correctly.
 
 ### Step 6: Rich JS-side objects for core async concerns (future)
 
