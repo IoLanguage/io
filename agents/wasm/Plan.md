@@ -254,7 +254,13 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 - Steps 3+4 (resolve/reject, error handling) subsumed — all tested end-to-end
 - 68/68 browser tests passing (2 new asyncAwait tests)
 
-**Remaining**: Steps 5-6 (implicit forward, rich JS objects)
+**Step 5 COMPLETE**: Implicit forward — auto-await on unrecognized messages
+- Future's `forward` method: resolved → frame redirect to resolved value; pending → AWAIT_JS yield; rejected → error
+- AWAIT_JS resume goes to LOOKUP_SLOT (not ACTIVATE) — correct for both explicit await and implicit forward
+- `then`/`catch`/`finally` explicit methods delegate to underlying JS Promise
+- 73/73 browser tests passing (5 new implicit forward tests)
+
+**Remaining**: Step 6 (rich JS objects — future work, driven by real use cases)
 
 **Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code.
 

@@ -179,15 +179,14 @@
 		<div class="toolbar">
 			<span class="button" id="eval-btn">EVAL</span>
 			<span class="topic" data-code="&quot;Hello world!&quot; println">HELLO WORLD</span>
-			<span class="topic" data-code="System version">SYSTEM</span>
-			<span class="topic" data-code="2 ** 32">MATH</span>
-			<span class="topic" data-code="x := 42; x * 2">VARIABLES</span>
-			<span class="topic" data-code="if(1 < 2, &quot;yes&quot;, &quot;no&quot;)">CONDITIONS</span>
 			<span class="topic" data-code="list(1, 2, 3) map(x, x * x)">LISTS</span>
-			<span class="topic" data-code="for(i, 1, 5, i println)">FOR LOOP</span>
-			<span class="topic" data-code="list(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) foreach(i, v, writeln(i, &quot;: &quot;, v))">FOREACH</span>
-			<span class="topic" data-code="Lobby slotNames sort">LOBBY</span>
 			<span class="topic" data-code="Dog := Object clone do(speak := method(&quot;woof!&quot; println)); Dog speak">PROTOS</span>
+			<span class="topic" data-code="JS get(&quot;Math&quot;) sqrt(144)">JS MATH</span>
+			<span class="topic" data-code='el := JS document createElement("div")&#10;el set("textContent", "Hello from Io!")&#10;s := el get("style")&#10;s setProperty("color", "#0ff")&#10;s setProperty("fontSize", "2em")&#10;s setProperty("padding", "0.5em 0 0 12%")&#10;JS document get("body") appendChild(el)&#10;"(element added to page)" println'>DOM</span>
+			<span class="topic" data-code='JS get("Promise") resolve(list(10, 20, 30)) size'>ASYNC</span>
+			<span class="topic" data-code='JS setTimeout(block(writeln("hello from the future!")), 1000)&#10;"(waiting 1 second...)" println'>CALLBACK</span>
+			<span class="topic" data-code='colors := list("#f0f", "#0ff", "#ff0", "#0f0")&#10;colors foreach(i, c,&#10;  el := JS document createElement("span")&#10;  el set("textContent", " io ")&#10;  s := el get("style")&#10;  s setProperty("color", c)&#10;  s setProperty("fontSize", "3em")&#10;  s setProperty("fontWeight", "bold")&#10;  s setProperty("padding", "0 0 0 " .. if(i == 0, "12%", "0"))&#10;  JS document get("body") appendChild(el)&#10;)&#10;"(added colorful elements)" println'>COLORS</span>
+			<span class="topic" data-code='btn := JS document createElement("button")&#10;btn set("textContent", "Click me!")&#10;s := btn get("style")&#10;s setProperty("margin", "1em 0 0 12%")&#10;s setProperty("padding", "0.5em 1em")&#10;s setProperty("fontSize", "1.2em")&#10;s setProperty("cursor", "pointer")&#10;count := 0&#10;btn addEventListener("click", block(count = count + 1; btn set("textContent", "Clicked " .. count .. " times")))&#10;JS document get("body") appendChild(btn)&#10;"(button added - try clicking it!)" println'>BUTTON</span>
 			<span class="button" id="clear-btn">CLEAR</span>
 		</div>
 	</div>

@@ -752,6 +752,9 @@ function ioSend(ioHandle, messageName, ...args) {
 
 	const status = wasm.exports.io_send(ioHandle, inputBufPtr, nameEncoded.length, args.length);
 
+	// Flush any printed output (e.g., from callback blocks)
+	flushCallbackOutput();
+
 	// Deserialize result from bridge_buf
 	const resultBuf = new Uint8Array(memory.buffer, bufPtr, bufSize);
 	const { value } = deserializeFromWasm(resultBuf, 0);
@@ -910,7 +913,35 @@ function handleEval() {
 
 	try {
 		const { status, output } = ioEval(code);
-		appendReplPair(code, output || null, status !== 0);
+		if (status === 2) {
+			// Async: eval yielded for a JS Promise.
+			// Show the input immediately, then fill in the result when it arrives.
+			const pair = document.createElement("div");
+			pair.className = "replPair";
+			const inputLine = document.createElement("div");
+			inputLine.className = "input-echo";
+			inputLine.textContent = code;
+			pair.appendChild(inputLine);
+			const resultLine = document.createElement("div");
+			resultLine.className = "result";
+			resultLine.textContent = "⏳ awaiting...";
+			pair.appendChild(resultLine);
+			outputEl.appendChild(pair);
+			outputEl.scrollTop = outputEl.scrollHeight;
+
+			// Wire up the async resolve callback
+			pendingAsyncResolve = (result) => {
+				if (result.output) {
+					resultLine.textContent = result.output;
+				} else {
+					resultLine.textContent = "(done)";
+				}
+				resultLine.className = result.status !== 0 ? "result-error" : "result";
+				outputEl.scrollTop = outputEl.scrollHeight;
+			};
+		} else {
+			appendReplPair(code, output || null, status !== 0);
+		}
 	} catch (e) {
 		appendReplPair(code, "Error: " + e.message, true);
 	}
@@ -918,6 +949,27 @@ function handleEval() {
 
 function clearOutput() {
 	outputEl.innerHTML = "";
+}
+
+// Flush any output produced by background callbacks (setTimeout, event handlers).
+// These fire outside of ioEval, so the output buffer isn't read by the REPL loop.
+function flushCallbackOutput() {
+	if (!wasm || !outputEl) return;
+	const outPtr = wasm.exports.io_get_output();
+	const outLen = wasm.exports.io_get_output_len();
+	if (outLen > 0) {
+		const text = readCString(outPtr);
+		if (text) {
+			const line = document.createElement("div");
+			line.className = "replPair";
+			const resultEl = document.createElement("div");
+			resultEl.className = "result";
+			resultEl.textContent = text;
+			line.appendChild(resultEl);
+			outputEl.appendChild(line);
+			outputEl.scrollTop = outputEl.scrollHeight;
+		}
+	}
 }
 
 function initUI() {
