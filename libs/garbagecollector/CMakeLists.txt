@@ -3,9 +3,6 @@
 #
 # Build the garbage collector library.
 
-# Output our dynamic library to the top-level _build hierarchy
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
-
 # Marvelous flags, likely compiler dependent.
 add_definitions("-DBUILDING_COLLECTOR_DLL")
 
@@ -22,19 +19,15 @@ add_dependencies(garbagecollector basekit)
 set_target_properties(garbagecollector PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(garbagecollector basekit)
 
-# ...And the static library
-#add_library(garbagecollector_static STATIC ${SRCS})
+# Now build the static library
+add_library(garbagecollector_static STATIC ${SRCS})
+add_dependencies(garbagecollector_static basekit_static)
+set_target_properties(garbagecollector_static PROPERTIES PUBLIC_HEADER "${HEADERS}")
+target_link_libraries(garbagecollector_static basekit_static)
 
 # The following add the install target, so we put libgarbagecollector.*
 # in our install prefix.
-if(WIN32)
-    install(TARGETS garbagecollector
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
-        PUBLIC_HEADER DESTINATION include/io
-        )
-else()
-    install(TARGETS garbagecollector
-        LIBRARY DESTINATION lib
-        PUBLIC_HEADER DESTINATION include/io
-        )
-endif(WIN32)
+install(
+  TARGETS garbagecollector
+  FILE_SET HEADERS
+)

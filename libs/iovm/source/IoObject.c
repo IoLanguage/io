@@ -1913,14 +1913,14 @@ IoNumber *IoObject_getNumberSlot(IoObject *self,
 UArray *IoObject_rawGetUArraySlot(IoObject *self, IoObject *locals,
                                   IoMessage *m, IoSymbol *slotName) {
     IoSeq *seq = IoObject_getSlot_(self, slotName);
-    IOASSERT(ISSEQ(seq), CSTRING(slotName));
+    IOASSERT0(ISSEQ(seq), CSTRING(slotName));
     return IoSeq_rawUArray(seq);
 }
 
 UArray *IoObject_rawGetMutableUArraySlot(IoObject *self, IoObject *locals,
                                          IoMessage *m, IoSymbol *slotName) {
     IoSeq *seq = IoObject_getSlot_(self, slotName);
-    IOASSERT(ISSEQ(seq), CSTRING(slotName));
+    IOASSERT0(ISSEQ(seq), CSTRING(slotName));
     return IoSeq_rawUArray(seq);
 }
 

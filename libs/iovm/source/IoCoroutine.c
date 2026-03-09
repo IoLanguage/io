@@ -19,7 +19,9 @@ Now implemented using frame-based evaluation (no platform-specific assembly).
 #ifdef IO_CALLCC
 #include "IoContinuation.h"
 #endif
+#ifdef __GLIBC__
 #include <execinfo.h>
+#endif
 
 //#define DEBUG
 
