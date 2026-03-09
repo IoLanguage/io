@@ -1,10 +1,20 @@
 # Io Language WASM Migration Plan
 
-## Overview
+## Strategic Direction
 
-Migrate the Io language VM from multi-platform C to **WASM-only**, targeting WASI (via wasmtime/Cranelift) as primary and browser as secondary. The stackless branch (now merged to master) eliminated C stack manipulation, making WASM compilation feasible.
+The goal is to **target WASM as Io's only platform**, eliminating all OS-specific dependencies and multi-platform C code. This dramatically simplifies maintenance and leverages WASM as a universal runtime. The primary target is **WASI** (using Wasmtime with Cranelift JIT) with browser as a secondary target.
 
-**Toolchain**: wasi-sdk (Clang-based, targets wasm32-wasi)
+## Key Architectural Decisions
+
+**Toolchain**: Compile Io's existing C implementation to WASM using wasi-sdk. Io's C codebase is already fairly portable and the stackless work has eliminated the biggest porting hazard (setjmp/longjmp and stack manipulation).
+
+**Memory**: Use WASM's `memory.grow` for dynamic heap expansion in 64KB pages rather than a static allocation. Start with ~16-32MB, grow on demand, no artificial ceiling.
+
+**Garbage Collector**: Keep Io's existing `libgarbagecollector` — an incremental tricolor Baker Treadmill collector — as the primary collector. Do **not** switch to WASM GC, whose nominal type system is a poor fit for Io's dynamic prototype-based object model.
+
+**External references** (browser target): Use `externref` for holding JS/DOM object references from within WASM. Use `FinalizationRegistry` on the JS side as a safety net, with Io's existing object `free` hook as the primary eager cleanup path. Use `WeakRef` for non-owning JS->WASM references to avoid cycles.
+
+**API bindings**: Replace platform-specific C bindings with WASI imports for the server target. For the browser target, expose DOM/fetch/WebSockets as WASM imports through a thin JS glue module. Long term, target the WASI component model for typed cross-language interop.
 
 ---
 
@@ -217,7 +227,33 @@ The current Baker treadmill collector works but fragments memory over time. A co
 
 The codebase is **moderately ready** (7/10).
 
-### Types needing walkRefs
+#### Design
+
+**New GC hook needed**: A `remap` callback alongside the existing `mark` and `free` callbacks. Where `mark` visits references, `remap` must be able to **write back** updated addresses to pointer fields. The cleanest implementation is a single `walkRefs` function per primitive type that accepts a visitor, with both `mark` and `remap` implemented as thin wrappers over it:
+
+```c
+void IoObject_walkRefs(IoObject *self, IoRefVisitor *visitor, void *ctx);
+void IoObject_mark(IoObject *self);   // wraps walkRefs with mark visitor
+void IoObject_remap(IoObject *self);  // wraps walkRefs with remap visitor
+```
+
+Only a small number of Io primitives contain object references and need `walkRefs` — `IoObject`, `IoList`, `IoMessage`, `IoCoroutine`. Leaf primitives (`IoNumber`, `IoSeq`, `IoDate`, `IoFile`) contain no object references and need only a `memmove` during compaction.
+
+**50% boundary policy**: Compaction only moves objects **above the 50% memory mark** to lower addresses. Objects below 50% are never moved. This preserves JIT optimization assumptions for hot long-lived objects in the lower half, while allowing the upper half to act as a nursery zone. The midpoint should be dynamic:
+
+```c
+size_t midpoint = max(wasmMemorySize() / 2, liveObjectBytes() * 1.2);
+```
+
+**Recycling interaction**: `libgarbagecollector` has a `COLLECTOR_RECYCLE_FREED` mechanism (currently disabled via a commented-out `#define`). When compaction is added, recycling should only operate on freed slots **above the 50% boundary**, keeping the lower half stable and dense.
+
+**Compaction trigger**: Only fire under memory pressure, before calling `memory.grow`. Sequence: compact upper half -> if still above 80% full -> grow. This makes compaction a pressure relief valve rather than a routine operation.
+
+**JIT consideration**: Compaction invalidates JIT-learned access patterns. The 50% policy mitigates this by never moving JIT-hot lower-half objects. Compaction should be infrequent and ideally triggered between activity bursts.
+
+**Treadmill color as hotness proxy**: The Baker Treadmill's off-white segment (tenured/long-lived objects) naturally identifies hot objects without any separate heat tracking. During compaction, off-white objects in the lower half should be left in place.
+
+#### Types needing walkRefs
 
 | Type | Complexity | Key references |
 |------|-----------|----------------|
@@ -235,7 +271,7 @@ The codebase is **moderately ready** (7/10).
 | IoDirectory | Easy | path |
 | IoWeakLink | Easy | link (needs remap despite no mark func) |
 
-### Known complications
+#### Known complications
 
 1. **Interior pointer in protos**: `IoObject_justAlloc` allocates `IoObjectData + protos[]` as one block. Protos pointer is `data + 1`. Compaction must either:
    - Allocate protos separately (simpler, more fragments), or
@@ -247,7 +283,7 @@ The codebase is **moderately ready** (7/10).
 
 4. **COLLECTOR_RECYCLE_FREED**: Currently disabled. Keep disabled during compaction work.
 
-### Recommendation for phase 1
+#### Recommendation
 
 Don't implement compaction during the WASM migration. But avoid making it harder:
 - Don't add new interior pointer patterns
@@ -256,7 +292,7 @@ Don't implement compaction during the WASM migration. But avoid making it harder
 
 ---
 
-## 4. Dependency Map
+## 3. Dependency Map
 
 ### Core (must compile for WASM)
 
@@ -294,7 +330,7 @@ Don't implement compaction during the WASM migration. But avoid making it harder
 
 ---
 
-## 5. Risk Assessment
+## 4. Risk Assessment
 
 ### Highest risk: io2c bootstrap
 
@@ -324,7 +360,7 @@ WASM's linear memory model with `memory.grow` is a good fit for Io's malloc-base
 
 ---
 
-## 6. Build Instructions (target state)
+## 5. Build Instructions (target state)
 
 ```bash
 # Install wasi-sdk
@@ -348,7 +384,7 @@ wasmtime --dir=.. _build/binaries/io.wasm -- ../libs/iovm/tests/correctness/run.
 
 ---
 
-## 7. File Change Summary
+## 6. File Change Summary
 
 ### New files
 - `cmake/wasi-sdk.cmake` — toolchain file

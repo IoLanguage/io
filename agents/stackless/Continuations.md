@@ -1,4 +1,4 @@
-# Continuations Implementation - TODO
+# Continuations Implementation
 
 ## CRITICAL: NO C STACK MANIPULATION
 
@@ -21,7 +21,7 @@ must check `IOSTATE->errorRaised` and return early. The eval loop checks
 
 ---
 
-## New VM Architecture
+## VM Architecture
 
 ### Core Concept
 
@@ -112,46 +112,22 @@ IO_METHOD(IoFalse, ifTrue) {
 - List/Array operations
 - Slot operations (setSlot, getSlot, etc.)
 
-**Can be Io:**
-- `if` - built on ifTrue/ifFalse
-- `forEach`, `map`, `select` - built on while/for
-- Most object methods
+### Stop Status Handling
 
-### Control Flow in Io
-
-```io
-// Built on ifTrue/ifFalse
-if := method(cond, then, else,
-    cond ifTrue(return then)
-    else
-)
-
-// forEach built on while (which is C)
-List forEach := method(indexName, valueName, body,
-    i := 0
-    while(i < self size,
-        call sender setSlot(indexName, i)
-        call sender setSlot(valueName, self at(i))
-        body doInContext(call sender)
-        i = i + 1
-    )
-)
+```c
+typedef enum {
+    STOP_NONE,
+    STOP_RETURN,
+    STOP_BREAK,
+    STOP_CONTINUE
+} StopStatus;
 ```
 
-## Eval Loop
+**return:** Unwind to `isBlockBoundary`, set result, continue after block.
+**break:** Unwind to `isLoopBoundary`, exit loop entirely.
+**continue:** Unwind to `isLoopBoundary`, restart loop iteration.
 
-See `VM_EVAL_LOOP.md` for detailed implementation.
-
-Core loop handles:
-1. End of message chain → return to caller
-2. Cached literals → use directly
-3. Slot lookup → find value
-4. Forward → handle missing slot
-5. Activation → CFunction or Block
-6. TCO → reuse frame when in tail position
-7. Stop status → handle return/break/continue
-
-## Argument Evaluation
+### Argument Evaluation
 
 **Fast path (synchronous):**
 - Literals (cached result)
@@ -183,46 +159,29 @@ IoObject *Frame_evaluateArgSync(Frame *frame, IoMessage *m, int i) {
 }
 ```
 
-## Stop Status Handling
-
-```c
-typedef enum {
-    STOP_NONE,
-    STOP_RETURN,
-    STOP_BREAK,
-    STOP_CONTINUE
-} StopStatus;
-```
-
-**return:** Unwind to `isBlockBoundary`, set result, continue after block.
-
-**break:** Unwind to `isLoopBoundary`, exit loop entirely.
-
-**continue:** Unwind to `isLoopBoundary`, restart loop iteration.
-
-## Implementation Layers
+### Implementation Layers
 
 ```
-┌─────────────────────────────────────────┐
-│  Io Code                                │
-│  - if, forEach, map, select, etc.       │
-├─────────────────────────────────────────┤
-│  Control Flow (C, frame manipulation)   │
-│  - ifTrue/ifFalse, while, for, loop     │
-│  - return, break, continue              │
-├─────────────────────────────────────────┤
-│  Core Primitives (C, non-reentrant)     │
-│  - Number, String, List, Map            │
-├─────────────────────────────────────────┤
-│  VM (C)                                 │
-│  - eval loop, frames, GC                │
-├─────────────────────────────────────────┤
-│  Platform Bindings (FFI)                │
-│  - JS for WASM, C libs for native       │
-└─────────────────────────────────────────┘
++------------------------------------------+
+|  Io Code                                 |
+|  - if, forEach, map, select, etc.        |
++------------------------------------------+
+|  Control Flow (C, frame manipulation)    |
+|  - ifTrue/ifFalse, while, for, loop      |
+|  - return, break, continue               |
++------------------------------------------+
+|  Core Primitives (C, non-reentrant)      |
+|  - Number, String, List, Map             |
++------------------------------------------+
+|  VM (C)                                  |
+|  - eval loop, frames, GC                 |
++------------------------------------------+
+|  Platform Bindings (FFI)                 |
+|  - JS for WASM, C libs for native        |
++------------------------------------------+
 ```
 
-## Result
+### Result
 
 - **No re-entrancy** - primitives never call evaluator
 - **Portable coroutines** - all state in frames (serializable)
@@ -230,9 +189,12 @@ typedef enum {
 - **TCO** - recursive calls in tail position reuse frames
 - **Minimal C** - ~300 lines eval loop + primitives
 
+---
+
 ## Work Items
 
-### Phase 1: Core VM ✅ COMPLETE
+### Phase 1: Core VM - COMPLETE
+
 - [x] Define new Frame structure (`IoEvalFrame.h`)
 - [x] Implement eval loop (~800 lines in `IoState_iterative.c`)
 - [x] Implement frame push/pop with pooling
@@ -240,7 +202,8 @@ typedef enum {
 - [x] Implement stop status handling for loops (break/continue)
 - [x] Add GC marking for frame stack (`IoEvalFrame_mark`)
 
-### Phase 2: Control Flow Primitives ✅ COMPLETE
+### Phase 2: Control Flow Primitives - COMPLETE
+
 - [x] Implement `if` with lazy branch evaluation (frame state machine)
 - [x] Implement `while` (loop with break/continue)
 - [x] Implement `for` (loop with break/continue)
@@ -248,19 +211,22 @@ typedef enum {
 - [x] `return`, `break`, `continue` work with existing stop status mechanism
 
 **Note:** `IoMessage_locals_performOn_` redirects to the iterative eval loop
-when `currentFrame` is set. All evaluation—including CFunction argument
-evaluation and block activation—goes through the iterative path. A bootstrap-
+when `currentFrame` is set. All evaluation — including CFunction argument
+evaluation and block activation — goes through the iterative path. A bootstrap-
 only recursive fallback remains for VM initialization before the first eval
 loop starts.
 
 ### Phase 3: Argument Evaluation - DEFERRED
+
 Current approach: Let CFunctions handle their own argument evaluation.
 Control flow primitives receive unevaluated messages.
 
 Future work could pre-evaluate args in the loop for full iterative evaluation,
-but this requires modifying all CFunctions.
+but this requires modifying all CFunctions. See "Future: Arg Pre-evaluation"
+section below for the detailed design.
 
-### Phase 4: Io Standard Library ✅ COMPLETE
+### Phase 4: Io Standard Library - COMPLETE
+
 - [x] `if` works as C primitive (not needed in Io)
 - [x] `forEach` on List: C primitive with iterative eval (frame state machine)
 - [x] `map`, `select`: pure Io methods in `List_bootstrap.io` using `foreach` internally
@@ -273,7 +239,8 @@ because it avoids the overhead of Io-level loop management. map/select were
 already Io-level methods from the start and work correctly through the iterative
 path since forEach is iterative.
 
-### Phase 5: Continuation API ✅ COMPLETE
+### Phase 5: Continuation API - COMPLETE
+
 - [x] Design continuation capture API (`IoContinuation.h`)
 - [x] Implement frame stack copy (`IoContinuation_copyFrameStack_`)
 - [x] Implement `callcc` primitive with frame state machine
@@ -304,7 +271,8 @@ Two mechanisms work together to keep frame stacks flat for recursive patterns:
    `relayStopStatus`/`?` operator from losing its RETURN status when TCO replaces
    `frame->call` after an in-place if optimization.
 
-### Phase 6: Coroutine Replacement ✅ COMPLETE
+### Phase 6: Coroutine Replacement - COMPLETE
+
 - [x] Implement coroutine as frame stack wrapper (IoCoroutineData with frameStack)
 - [x] Implement save/restore state functions
 - [x] Rewrite rawRun for frame-based operation
@@ -338,7 +306,7 @@ might raise an error must check `IOSTATE->errorRaised` and return early. Fixed s
 - Nested eval loops: clear `inRecursiveEval` on entry (for correct control flow path)
 
 **IoState_error_ Made Lightweight:**
-`IoState_error_` no longer calls `IoCoroutine_raiseError` → `rawReturnToParent`.
+`IoState_error_` no longer calls `IoCoroutine_raiseError` -> `rawReturnToParent`.
 Instead it creates the Exception inline and sets `errorRaised = 1`. The eval loop
 handles all frame unwinding: (1) the ACTIVATE handler catches errors during CFunction
 calls and pops the retain pool, (2) a top-of-loop generic handler catches errors from
@@ -347,7 +315,7 @@ handler takes over for coro switching / nested eval exit. This eliminates the SI
 that occurred when `rawReturnToParent` tried to unwind frames from deep inside a
 CFunction's C call stack.
 
-**Io-Level Exception Integration (FIXED):**
+**Io-Level Exception Integration:**
 Io-level exceptions now work via `rawSignalException` which sets `errorRaised = 1`,
 bridging Io-level exceptions to the eval loop's error handling. `Exception raise` and
 `Exception raiseFrom` use `raiseException` which calls `rawSignalException` on the
@@ -361,8 +329,9 @@ would see `state->currentFrame != NULL` and incorrectly try to use the iterative
 modifying the wrong frame. Fixed by adding `state->inRecursiveEval` flag that's set when
 entering the recursive evaluator, allowing control flow primitives to use the correct path.
 
-### Phase 7: GC-Managed Frames ✅ COMPLETE
-- [x] Phase 0: Mechanical rename (`frame->` → `fd->` via FRAME_DATA macro)
+### Phase 7: GC-Managed Frames - COMPLETE
+
+- [x] Phase 0: Mechanical rename (`frame->` -> `fd->` via FRAME_DATA macro)
 - [x] Phase 1: IoEvalFrame as IoObject (`typedef IoObject IoEvalFrame`, data behind `IoObject_dataPointer`)
 - [x] Phase 2: Performance recovery (IoObject-level frame pool, 256 entries)
 - [x] Phase 3: Io-level frame introspection (expose frame chain to Io code)
@@ -375,12 +344,159 @@ entering the recursive evaluator, allowing control flow primitives to use the co
 - `IoCoroutine_mark` simplified: single `IoObject_shouldMarkIfNonNull(frame)` marks entire chain
 - `IoState_iterative_fast.c` excluded from build (dead code)
 - 30/30 C tests, 239 Io tests (0 failures)
-- Frame pool gives 6x speedup (23.85s → 3.65s on 1M for-loop)
+- Frame pool gives 6x speedup (23.85s -> 3.65s on 1M for-loop)
 - Block activation retain pool bracketing fixes WeakLink GC regression
 - IoList atInsert/removeAt errorRaised checks fix pre-existing test failures
 
 **FRAME_DATA NULL safety:** Must check for NULL before calling `FRAME_DATA()` since it
 dereferences a pointer. Pattern: `fd = frame ? FRAME_DATA(frame) : NULL;`
+
+---
+
+## Future: Arg Pre-evaluation
+
+This is deferred Phase 3 work. The goal is to eliminate `IoMessage_locals_valueArgAt_`
+re-entrancy by pre-evaluating CFunction arguments in the eval loop.
+
+### Strategy
+
+After slot lookup, if the slot is a CFunction (not a block/method):
+1. Count arguments
+2. Push frames to evaluate each argument
+3. Store results in `frame->argValues`
+4. Then call the CFunction
+
+### Lazy vs Eager Arguments
+
+Some methods need unevaluated arguments:
+- `and(a, b)` - don't evaluate `b` if `a` is false
+- `or(a, b)` - don't evaluate `b` if `a` is true
+- Macro-style methods
+
+**Solution**: Check if the CFunction has an "eager" tag. Default to eager.
+Lazy methods (and/or/etc.) are marked specially.
+
+### Implementation Sketch
+
+**Modified LOOKUP_SLOT -> ACTIVATE transition:**
+```c
+case FRAME_STATE_LOOKUP_SLOT: {
+    // ... existing slot lookup code ...
+
+    if (slotValue) {
+        frame->slotValue = slotValue;
+        frame->slotContext = slotContext;
+
+        // Check if we need to pre-evaluate arguments
+        if (ISCFUNCTION(slotValue) && !IoCFunction_isLazy(slotValue)) {
+            int argCount = IoMessage_argCount(frame->message);
+            if (argCount > 0 && !state->inRecursiveEval) {
+                // Set up argument evaluation
+                frame->argCount = argCount;
+                frame->argValues = io_calloc(argCount, sizeof(IoObject*));
+                frame->currentArgIndex = 0;
+                frame->state = FRAME_STATE_EVAL_ARGS;
+                break;
+            }
+        }
+
+        frame->state = FRAME_STATE_ACTIVATE;
+    }
+    // ...
+}
+```
+
+**EVAL_ARGS state:**
+```c
+case FRAME_STATE_EVAL_ARGS: {
+    if (frame->currentArgIndex >= frame->argCount) {
+        // All arguments evaluated
+        frame->state = FRAME_STATE_ACTIVATE;
+        break;
+    }
+
+    IoMessage *argMsg = IoMessage_rawArgAt_(frame->message, frame->currentArgIndex);
+
+    // Check for cached result (literal)
+    if (IOMESSAGEDATA(argMsg)->cachedResult && !IOMESSAGEDATA(argMsg)->next) {
+        frame->argValues[frame->currentArgIndex] = IOMESSAGEDATA(argMsg)->cachedResult;
+        frame->currentArgIndex++;
+        break;
+    }
+
+    // Push frame to evaluate argument
+    IoEvalFrame *argFrame = IoState_pushFrame_(state);
+    argFrame->message = argMsg;
+    argFrame->target = frame->locals;
+    argFrame->locals = frame->locals;
+    argFrame->cachedTarget = frame->locals;
+    argFrame->state = FRAME_STATE_START;
+
+    // Result will be captured when argFrame returns
+    break;
+}
+```
+
+**Modified RETURN to capture arg results:**
+```c
+case FRAME_STATE_RETURN: {
+    // ... existing code ...
+
+    if (parent && parent->state == FRAME_STATE_EVAL_ARGS) {
+        parent->argValues[parent->currentArgIndex] = result;
+        parent->currentArgIndex++;
+    }
+    // ...
+}
+```
+
+**Modified IoMessage_locals_valueArgAt_:**
+```c
+IoObject *IoMessage_locals_valueArgAt_(IoMessage *m, IoObject *locals, int n) {
+    IoState *state = IOSTATE;
+
+    // Check for pre-evaluated arguments
+    if (state->currentFrame && state->currentFrame->argValues) {
+        if (n < state->currentFrame->argCount) {
+            IoObject *preEval = state->currentFrame->argValues[n];
+            if (preEval) return preEval;
+        }
+    }
+
+    // Fallback to recursive evaluation
+    IoMessage *argMessage = IoMessage_rawArgAt_(m, n);
+    return argMessage ? IoMessage_locals_performOn_(argMessage, locals, locals)
+                      : state->ioNil;
+}
+```
+
+### Files to Modify
+- `IoState_iterative.c` - LOOKUP_SLOT, EVAL_ARGS, RETURN cases
+- `IoMessage.c` - IoMessage_locals_valueArgAt_ and variants
+- `IoCFunction.h/c` - Add isLazy flag (optional, for and/or)
+
+---
+
+## Future: Remove Recursive Fallbacks
+
+After arg pre-evaluation is done:
+
+1. Ensure all control flow works without fallback
+2. Ensure doString/doMessage work without fallback
+3. Ensure collection iteration works without fallback
+4. Remove `inRecursiveEval` flag from IoState
+5. Remove recursive code paths from control flow primitives
+6. Remove `IoMessage_locals_performOn_` or keep only for legacy/bootstrap
+
+### Remaining Re-entrancy to Audit
+
+1. **Block activation from recursive context** - Blocks called via `IoBlock_activate`
+   when not in iterative context still use recursive eval
+2. **Dynamic method calls** - `perform`, `resend`, `super` may need conversion
+3. **Bootstrap** - Initial loading of Io files uses recursive eval
+   - This is acceptable since continuations aren't used during bootstrap
+
+---
 
 ## Files
 
@@ -392,10 +508,6 @@ dereferences a pointer. Pattern: `fd = frame ? FRAME_DATA(frame) : NULL;`
 - `libs/iovm/source/IoContinuation.h` - Continuation object header
 - `libs/iovm/source/IoContinuation.c` - Continuation capture (grab-pointer), invoke, copy, callcc, asMap/fromMap
 - `libs/iovm/source/IoCoroutine.c` - Coroutine with simplified GC marking
-
-### Documentation
-- `VM_EVAL_LOOP.md` - Detailed eval loop design
-- `CONTINUATIONS_TODO.md` - This file
 
 ### Tests
 - `libs/iovm/tests/test_iterative_eval.c` - 30 tests for iterative evaluator (coro, TCO, continuations, ? operator, asMap)
