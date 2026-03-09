@@ -10,6 +10,7 @@
 #include "IoMessage.h"
 #include "io_future.h"
 #include "io_js_bridge.h"
+#include "IoEvalFrame.h"
 #include <string.h>
 
 // ---- Future states ----
@@ -68,7 +69,7 @@ static IoTag *IoFuture_newTag(void *state) {
 
 // ---- Methods ----
 
-// await — if resolved, return value. If rejected, raise error. If pending, error (yield comes later).
+// await — if resolved, return value. If rejected, raise error. If pending, yield to JS.
 IO_METHOD(IoObject, Future_await) {
 	(void)locals; (void)m;
 	IoFutureData *data = DATA(self);
@@ -83,9 +84,21 @@ IO_METHOD(IoObject, Future_await) {
 		return IONIL(self);
 	}
 
-	// Pending — yield not yet implemented, raise error
-	IoState_error_(IOSTATE, m, "Future is pending (await with yield not yet implemented)");
-	return IONIL(self);
+	// Pending — suspend eval loop, yield to JS host
+	{
+		IoEvalFrame *frame = IOSTATE->currentFrame;
+		if (frame) {
+			IoEvalFrameData *fd = FRAME_DATA(frame);
+			fd->controlFlow.awaitInfo.future = self;
+			fd->state = FRAME_STATE_AWAIT_JS;
+			IOSTATE->awaitingJsPromise = 1;
+			IOSTATE->needsControlFlowHandling = 1;
+			return IONIL(self);  // Return value ignored; frame state takes over
+		}
+		// No frame (recursive eval fallback) — can't yield
+		IoState_error_(IOSTATE, m, "Future is pending (cannot yield outside eval loop)");
+		return IONIL(self);
+	}
 }
 
 // isReady — return true if resolved or rejected

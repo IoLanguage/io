@@ -273,6 +273,8 @@ void IoState_new_atAddress(void *address) {
         self->framePoolCount = 0;
         memset(self->framePool, 0, sizeof(self->framePool));
         self->needsControlFlowHandling = 0;
+        self->awaitingJsPromise = 0;
+        self->suspendedCoro = NULL;
 #ifdef IO_CALLCC
         self->continuationInvoked = 0;
 #endif

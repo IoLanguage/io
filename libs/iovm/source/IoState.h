@@ -171,6 +171,8 @@ struct IoState {
     int continuationInvoked;           // Set when a continuation replaces the frame stack
 #endif
     int nestedEvalDepth;               // Depth of nested eval loops (for IoCoroutine_try)
+    int awaitingJsPromise;             // Set when eval loop yields for a JS Promise
+    IoObject *suspendedCoro;           // Coroutine suspended on a JS Promise (for resume)
 
     // Slot mutation counter for inline cache invalidation.
     // Incremented on every setSlot/updateSlot/removeSlot.

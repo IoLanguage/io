@@ -689,6 +689,16 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
         state->nestedEvalDepth--;
         IoCoroutine_rawSetResult_(self, result);
 
+        // If eval loop yielded for a JS Promise, save the *active* coro's
+        // frame state. This may differ from self when try() did a frame swap
+        // (currentCoroutine is the child coro; self is the outer try-coro
+        // whose frames were already saved by the child swap).
+        if (state->awaitingJsPromise) {
+            IoCoroutine *activeCoro = IoState_currentCoroutine(state);
+            IoCoroutine_saveState_(activeCoro, state);
+            state->suspendedCoro = IoState_retain_(state, (IoObject *)activeCoro);
+        }
+
         // Restore previous coroutine if any
         if (previousCoro && previousCoro != self) {
             IoState_setCurrentCoroutine_(state, previousCoro);

@@ -169,6 +169,10 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
             IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.evalLocals);
             break;
 
+        case FRAME_STATE_AWAIT_JS:
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.awaitInfo.future);
+            break;
+
         default:
             break;
     }
@@ -204,6 +208,7 @@ const char *IoEvalFrame_stateName(IoFrameState state) {
         case FRAME_STATE_CORO_YIELDED: return "coro:yielded";
         case FRAME_STATE_DO_EVAL: return "do:eval";
         case FRAME_STATE_DO_WAIT: return "do:wait";
+        case FRAME_STATE_AWAIT_JS: return "await:js";
         default: return "unknown";
     }
 }
@@ -238,6 +243,7 @@ IoFrameState IoEvalFrame_stateFromName(const char *name) {
 	if (strcmp(name, "coro:yielded") == 0) return FRAME_STATE_CORO_YIELDED;
 	if (strcmp(name, "do:eval") == 0) return FRAME_STATE_DO_EVAL;
 	if (strcmp(name, "do:wait") == 0) return FRAME_STATE_DO_WAIT;
+	if (strcmp(name, "await:js") == 0) return FRAME_STATE_AWAIT_JS;
 	return FRAME_STATE_START;
 }
 

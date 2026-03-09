@@ -8,6 +8,8 @@
 #include "UArray.h"
 #include "io_js_bridge.h"
 #include "io_future.h"
+#include "IoEvalFrame.h"
+#include "IoCoroutine.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,6 +21,7 @@ static IoState *state = NULL;
 
 // Exposed for io_js_bridge.c (io_send, io_get_lobby_handle)
 IoState *io_bridge_state = NULL;
+
 
 // Input buffer: JS writes code here, then calls io_eval_input()
 #define INPUT_BUF_SIZE (64 * 1024)
@@ -119,7 +122,11 @@ int io_init(void) {
 	return 0;
 }
 
+// Forward declaration
+extern IoObject *IoState_evalLoop_(IoState *state);
+
 // Internal eval: takes a C string, captures output, returns status.
+// Returns: 0=success, 1=error, 2=awaiting JS Promise
 static int do_eval(const char *code) {
 	if (!state) return -1;
 
@@ -127,6 +134,12 @@ static int do_eval(const char *code) {
 	state->errorRaised = 0;
 
 	IoObject *result = IoState_doCString_(state, code);
+
+	// Check if eval yielded for a JS Promise
+	if (state->awaitingJsPromise) {
+		// state->suspendedCoro was saved by rawRun before restoring previous coro
+		return 2;
+	}
 
 	if (state->errorRaised) {
 		return 1;
@@ -148,12 +161,78 @@ static int do_eval(const char *code) {
 	return 0;
 }
 
+// Resume eval after a JS Promise resolves/rejects.
+// Returns: 0=success, 1=error, 2=still awaiting (chained await)
+static int do_resume_eval(void) {
+	if (!state || !state->suspendedCoro) return -1;
+
+	IoObject *coro = state->suspendedCoro;
+	state->suspendedCoro = NULL;
+	state->awaitingJsPromise = 0;
+
+	// Save current coro state
+	IoObject *previousCoro = (IoObject *)state->currentCoroutine;
+	IoCoroutine_saveState_((IoCoroutine *)previousCoro, state);
+
+	// Restore suspended coro
+	IoState_setCurrentCoroutine_(state, coro);
+	IoCoroutine_restoreState_((IoCoroutine *)coro, state);
+
+	// Re-enter eval loop — AWAIT_JS frame sees awaitingJsPromise=0,
+	// transitions to ACTIVATE, re-calls Future_await (now resolved).
+	state->nestedEvalDepth++;
+	IoObject *result = IoState_evalLoop_(state);
+	state->nestedEvalDepth--;
+	IoCoroutine_rawSetResult_((IoCoroutine *)coro, result);
+
+	// Check if we yielded again (chained await)
+	if (state->awaitingJsPromise) {
+		IoObject *activeCoro = (IoObject *)IoState_currentCoroutine(state);
+		IoCoroutine_saveState_((IoCoroutine *)activeCoro, state);
+		state->suspendedCoro = activeCoro;
+	}
+
+	// Restore previous coro
+	IoState_setCurrentCoroutine_(state, previousCoro);
+	IoCoroutine_restoreState_((IoCoroutine *)previousCoro, state);
+
+	if (state->awaitingJsPromise) {
+		return 2;
+	}
+
+	output_clear();
+	if (state->errorRaised) {
+		return 1;
+	}
+
+	// Show result
+	if (result && result != state->ioNil) {
+		IoSymbol *str = IoObject_asString_(result, NULL);
+		if (str && !state->errorRaised) {
+			const char *cstr = CSTRING(str);
+			if (cstr && strlen(cstr) > 0) {
+				output_append("==> ", 4);
+				output_append(cstr, strlen(cstr));
+				output_append("\n", 1);
+			}
+		}
+	}
+
+	return 0;
+}
+
 // Exported: evaluate code from the input buffer (preferred — no pointer issues).
 // JS writes code into io_get_input_buf(), then calls this.
 __attribute__((export_name("io_eval_input")))
 int io_eval_input(void) {
 	input_buf[INPUT_BUF_SIZE - 1] = '\0'; // safety
 	return do_eval(input_buf);
+}
+
+// Exported: resume eval after JS Promise settled.
+__attribute__((export_name("io_resume_eval")))
+int io_resume_eval(void) {
+	return do_resume_eval();
 }
 
 // Exported: evaluate an Io expression by pointer (for advanced use).

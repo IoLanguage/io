@@ -244,9 +244,17 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 - TYPE_FUTURE (12) wire type on both sides, auto-detection of JS thenables in serializeToWasm
 - `js_watch_promise` import wires `.then()`/`.catch()` to `io_resolve_future`/`io_reject_future` exports
 - `forward` delegates unrecognized messages (then, catch, etc.) to underlying JS Promise
-- 9 new browser tests (66/66 passing)
 
-**Remaining**: Steps 2-6 (FRAME_STATE_AWAIT_JS, eval loop yield, scheduler, rich JS objects)
+**Step 2 COMPLETE**: FRAME_STATE_AWAIT_JS + eval loop yield/resume
+- AWAIT_JS frame state in eval loop; `await` on pending Future suspends coro and yields to JS host
+- `io_resume_eval` WASM export resumes suspended coro when Promise settles
+- Saves *active* coroutine (handles `try()` child coro frame swap correctly)
+- `do_resume_eval` supports chained awaits (re-yields if another await is hit)
+- JS side: `resumeIfAwaiting()` + `pendingAsyncResolve` callback mechanism
+- Steps 3+4 (resolve/reject, error handling) subsumed — all tested end-to-end
+- 68/68 browser tests passing (2 new asyncAwait tests)
+
+**Remaining**: Steps 5-6 (implicit forward, rich JS objects)
 
 **Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code.
 

@@ -291,6 +291,14 @@ const tests = [
 		'f setLabel("test label")',
 		'f label',
 	], expect: "==> test label\n" },
+
+	// Async await: eval yields to JS, resumes when Promise resolves
+	{ name: "await resolved Promise", code: [
+		'JS get("Promise") resolve(42) await',
+	], expect: "==> 42\n", asyncAwait: true },
+	{ name: "await rejected Promise", code: [
+		'try(JS get("Promise") reject("boom") await) error containsSeq("boom")',
+	], expect: "==> true\n", asyncAwait: true },
 ];
 
 function escapeText(s) {
@@ -335,6 +343,14 @@ async function runTests() {
 		// For async tests, flush microtasks + macrotask so Promise callbacks fire
 		if (t.async) {
 			await new Promise(r => setTimeout(r, 0));
+		}
+
+		// For asyncAwait tests: ioEval returned status=2 (yielded for JS Promise).
+		// Wait for the Promise to settle and io_resume_eval to deliver the result.
+		if (t.asyncAwait && result && result.status === 2) {
+			result = await new Promise(resolve => {
+				pendingAsyncResolve = resolve;
+			});
 		}
 
 		let ok = false;

@@ -204,25 +204,24 @@ Both coroutines and Futures support `label` — a human-readable string for debu
 - 9 new browser tests covering: type detection, pending/resolved states, await, reject, error propagation, labels
 - **Note**: `Promise.resolve()` is async (microtask queue), so Futures start pending even for already-resolved Promises. They resolve after the next microtask flush.
 
-### Step 2: FRAME_STATE_AWAIT_JS + yield protocol
-- Add AWAIT_JS to eval loop state machine
-- `IoFuture await` sets the state when pending
-- Eval loop breaks out, writes (promiseHandle, futureIoHandle) to bridge_buf
-- `io_eval_input` returns `IO_EVAL_AWAITING = 2`
-- Test: verify eval loop yields and frame stack is preserved
+### Step 2: FRAME_STATE_AWAIT_JS + eval loop yield/resume — COMPLETE
+- FRAME_STATE_AWAIT_JS added to eval loop state machine (`IoEvalFrame.h/c`, `IoState_iterative.c`)
+- `IoFuture await` (pending case) sets AWAIT_JS frame state + `awaitingJsPromise` + `needsControlFlowHandling`
+- Eval loop AWAIT_JS handler: if `awaitingJsPromise`, yields (returns ioNil); on resume, transitions to ACTIVATE
+- `IoState.h`: added `awaitingJsPromise` and `suspendedCoro` fields
+- `IoCoroutine.c` rawRun: saves *active* coroutine (not `self`) when yielding — critical for `try()` which does child coro frame swap
+- `io_browser.c`: `do_eval` returns 2 when yielded; `do_resume_eval` restores suspended coro, re-enters eval loop
+- `io_resume_eval` WASM export; chained await support (re-saves active coro if still awaiting)
+- JS side: `resumeIfAwaiting()` called on Promise resolve/reject; `pendingAsyncResolve` callback for async test results
+- Tests: "await resolved Promise" and "await rejected Promise" (including `try()` across suspend/resume boundary)
+- **Key insight**: `try()` creates child coroutine via frame swap. Must save the child coro (active at yield time), not the outer try-coro. Parent's saved frames (with CORO_WAIT_CHILD) are preserved in the parent coro's data.
 
-### Step 3: io_resolve + resume
-- New WASM exports: `io_resolve(future_handle)`, `io_reject(future_handle)`
-- `io_resolve` deserializes value from bridge_buf, sets Future state, marks coro ready
-- New `io_scheduler_tick()` export: re-enters eval loop for ready coros
-- JS side: on yield, wire `.then()` and call `io_resolve` when done; schedule tick
-- Test: `JS get("Promise") resolve(42) await` works end-to-end (async path)
-
-### Step 4: Error handling + chaining
-- `io_reject` sets rejected state, raises Io exception on waiting coro
-- Chained awaits: `response await text await`
-- `try(JS fetch(badUrl) await)` catches rejection as Io exception
-- Test: rejection, chaining, error propagation
+### Steps 3+4 are subsumed by Step 2
+Steps 3 and 4 were originally planned separately but the implementation naturally included all functionality:
+- `io_resolve_future`/`io_reject_future` exports (from Step 1)
+- Resume path with `io_resume_eval` (Step 3)
+- Error handling via `try()` across suspend/resume (Step 4)
+- Chained await support in `do_resume_eval` (Step 4)
 
 ### Step 5: Implicit forward (optional, layered on top)
 - `IoFuture forward`: auto-await + replay message on resolved value

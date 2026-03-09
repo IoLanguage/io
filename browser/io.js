@@ -641,6 +641,8 @@ const js = {
 				const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
 				serializeToWasm(value, buf, 0);
 				wasm.exports.io_resolve_future(futureIoHandle);
+				// If the eval loop was awaiting this Promise, resume it
+				resumeIfAwaiting();
 			},
 			(error) => {
 				const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
@@ -648,6 +650,8 @@ const js = {
 				const msg = error instanceof Error ? error.message : String(error);
 				serializeToWasm(msg, buf, 0);
 				wasm.exports.io_reject_future(futureIoHandle);
+				// If the eval loop was awaiting this Promise, resume it
+				resumeIfAwaiting();
 			}
 		);
 	},
@@ -793,6 +797,35 @@ async function loadIo() {
 	wasm.exports.io_init();
 
 	return wasm;
+}
+
+// --- Async resume ---
+
+// Pending async eval callback (set by ioEval when status=2)
+let pendingAsyncResolve = null;
+
+function resumeIfAwaiting() {
+	if (!wasm) return;
+	const status = wasm.exports.io_resume_eval();
+
+	if (status === 2) {
+		// Still awaiting (chained await) — next resolve will resume again
+		return;
+	}
+
+	// Eval completed — read output and deliver to pending callback
+	const outPtr = wasm.exports.io_get_output();
+	const outLen = wasm.exports.io_get_output_len();
+	let output = "";
+	if (outLen > 0) {
+		output = readCString(outPtr);
+	}
+
+	if (pendingAsyncResolve) {
+		const resolve = pendingAsyncResolve;
+		pendingAsyncResolve = null;
+		resolve({ status, output });
+	}
 }
 
 // --- REPL interface ---
