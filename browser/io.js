@@ -212,16 +212,33 @@ const wasi_snapshot_preview1 = {
 
 // --- JS Bridge: binary serialization ---
 
-const TYPE_NIL    = 0;
-const TYPE_TRUE   = 1;
-const TYPE_FALSE  = 2;
-const TYPE_NUMBER = 3;
-const TYPE_STRING = 4;
-const TYPE_ARRAY  = 5;
-const TYPE_OBJECT = 6;
-const TYPE_JSREF  = 7;
-const TYPE_IOREF  = 8;
-const TYPE_ERROR  = 9;
+const TYPE_NIL        = 0;
+const TYPE_TRUE       = 1;
+const TYPE_FALSE      = 2;
+const TYPE_NUMBER     = 3;
+const TYPE_STRING     = 4;
+const TYPE_ARRAY      = 5;
+const TYPE_OBJECT     = 6;
+const TYPE_JSREF      = 7;
+const TYPE_IOREF      = 8;
+const TYPE_ERROR      = 9;
+const TYPE_UNDEFINED  = 10;
+const TYPE_TYPEDARRAY = 11;
+
+// TypedArray itemType byte mapping (must match C side)
+const TYPED_ARRAY_CTORS = [
+	Uint8Array,    // 0
+	Uint16Array,   // 1
+	Uint32Array,   // 2
+	Int8Array,     // 3
+	Int16Array,    // 4
+	Int32Array,    // 5
+	Float32Array,  // 6
+	Float64Array,  // 7
+];
+
+const TYPED_ARRAY_MAP = new Map();
+TYPED_ARRAY_CTORS.forEach((ctor, i) => TYPED_ARRAY_MAP.set(ctor, i));
 
 function getBridgeBuf() {
 	const ptr = wasm.exports.io_get_bridge_buf();
@@ -229,9 +246,14 @@ function getBridgeBuf() {
 	return { ptr, size };
 }
 
-function serializeToWasm(val, buf, offset) {
-	if (val === null || val === undefined) {
+function serializeToWasm(val, buf, offset, visited) {
+	if (val === null) {
 		buf[offset] = TYPE_NIL;
+		return offset + 1;
+	}
+
+	if (val === undefined) {
+		buf[offset] = TYPE_UNDEFINED;
 		return offset + 1;
 	}
 
@@ -261,19 +283,90 @@ function serializeToWasm(val, buf, offset) {
 		return offset + 5 + encoded.length;
 	}
 
+	// BigInt and Symbol rejection
+	if (typeof val === "bigint") {
+		throw new Error("bridge error: BigInt cannot cross the bridge");
+	}
+
+	if (typeof val === "symbol") {
+		throw new Error("bridge error: JS Symbol cannot cross the bridge");
+	}
+
+	// TypedArray → TYPE_TYPEDARRAY
+	if (ArrayBuffer.isView(val) && !(val instanceof DataView)) {
+		const itemType = TYPED_ARRAY_MAP.get(val.constructor);
+		if (itemType !== undefined) {
+			const view = new DataView(buf.buffer, buf.byteOffset);
+			buf[offset] = TYPE_TYPEDARRAY;
+			buf[offset + 1] = itemType;
+			view.setUint32(offset + 2, val.length, true);
+			const rawBytes = new Uint8Array(val.buffer, val.byteOffset, val.byteLength);
+			buf.set(rawBytes, offset + 6);
+			return offset + 6 + val.byteLength;
+		}
+	}
+
+	// Containers: Array, Map, Set — deep copy with cycle detection
+	if (!visited) visited = new Set();
+
 	if (Array.isArray(val)) {
+		if (visited.has(val)) {
+			throw new Error("bridge error: cyclic structure cannot be serialized");
+		}
+		visited.add(val);
 		buf[offset] = TYPE_ARRAY;
 		const view = new DataView(buf.buffer, buf.byteOffset);
 		view.setUint32(offset + 1, val.length, true);
 		let pos = offset + 5;
 		for (const item of val) {
-			pos = serializeToWasm(item, buf, pos);
+			pos = serializeToWasm(item, buf, pos, visited);
 		}
+		visited.delete(val);
 		return pos;
 	}
 
-	// All objects (including plain objects) pass by reference JS→Io.
-	// Maps are only serialized as TYPE_OBJECT going Io→JS direction.
+	if (val instanceof Map) {
+		if (visited.has(val)) {
+			throw new Error("bridge error: cyclic structure cannot be serialized");
+		}
+		visited.add(val);
+		buf[offset] = TYPE_OBJECT;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const entries = Array.from(val.entries());
+		view.setUint32(offset + 1, entries.length, true);
+		let pos = offset + 5;
+		for (const [k, v] of entries) {
+			const keyStr = String(k);
+			const keyEncoded = new TextEncoder().encode(keyStr);
+			const kview = new DataView(buf.buffer, buf.byteOffset);
+			kview.setUint32(pos, keyEncoded.length, true);
+			pos += 4;
+			buf.set(keyEncoded, pos);
+			pos += keyEncoded.length;
+			pos = serializeToWasm(v, buf, pos, visited);
+		}
+		visited.delete(val);
+		return pos;
+	}
+
+	if (val instanceof Set) {
+		if (visited.has(val)) {
+			throw new Error("bridge error: cyclic structure cannot be serialized");
+		}
+		visited.add(val);
+		const items = Array.from(val);
+		buf[offset] = TYPE_ARRAY;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		view.setUint32(offset + 1, items.length, true);
+		let pos = offset + 5;
+		for (const item of items) {
+			pos = serializeToWasm(item, buf, pos, visited);
+		}
+		visited.delete(val);
+		return pos;
+	}
+
+	// All other objects pass by reference JS→Io
 	buf[offset] = TYPE_JSREF;
 	const h = registerHandle(val);
 	const view = new DataView(buf.buffer, buf.byteOffset);
@@ -326,17 +419,17 @@ function deserializeFromWasm(buf, offset) {
 		const view = new DataView(buf.buffer, buf.byteOffset);
 		const count = view.getUint32(offset, true);
 		offset += 4;
-		const obj = {};
+		const map = new Map();
 		for (let i = 0; i < count; i++) {
 			const klen = view.getUint32(offset, true);
 			offset += 4;
 			const key = new TextDecoder().decode(buf.subarray(offset, offset + klen));
 			offset += klen;
 			const r = deserializeFromWasm(buf, offset);
-			obj[key] = r.value;
+			map.set(key, r.value);
 			offset = r.offset;
 		}
-		return { value: obj, offset };
+		return { value: map, offset };
 	}
 
 	case TYPE_JSREF: {
@@ -351,12 +444,43 @@ function deserializeFromWasm(buf, offset) {
 		return { value: makeIoProxy(h), offset: offset + 4 };
 	}
 
+	case TYPE_UNDEFINED:
+		return { value: undefined, offset };
+
+	case TYPE_TYPEDARRAY: {
+		const itemType = buf[offset];
+		offset++;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const count = view.getUint32(offset, true);
+		offset += 4;
+		const Ctor = TYPED_ARRAY_CTORS[itemType] || Uint8Array;
+		const bytesPerElem = Ctor.BYTES_PER_ELEMENT;
+		const byteLen = count * bytesPerElem;
+		// Copy bytes out and create typed array
+		const copy = new Uint8Array(byteLen);
+		copy.set(buf.subarray(offset, offset + byteLen));
+		const arr = new Ctor(copy.buffer, 0, count);
+		return { value: arr, offset: offset + byteLen };
+	}
+
 	case TYPE_ERROR: {
 		const view = new DataView(buf.buffer, buf.byteOffset);
 		const len = view.getUint32(offset, true);
 		offset += 4;
 		const msg = new TextDecoder().decode(buf.subarray(offset, offset + len));
-		return { value: new Error(msg), offset: offset + len };
+		offset += len;
+		// Read error handle (exception proxy)
+		let ioError = null;
+		if (offset + 4 <= buf.length) {
+			const errHandle = view.getInt32(offset, true);
+			offset += 4;
+			if (errHandle) {
+				ioError = makeIoProxy(errHandle);
+			}
+		}
+		const err = new Error(msg);
+		if (ioError) err.ioError = ioError;
+		return { value: err, offset };
 	}
 
 	default:
@@ -410,7 +534,7 @@ const js = {
 			serializeToWasm(result, buf, 0);
 			return 0;
 		} catch (e) {
-			return serializeError(e.message || String(e));
+			return serializeError(e.message || String(e), e);
 		}
 	},
 
@@ -430,7 +554,7 @@ const js = {
 			serializeToWasm(result, buf, 0);
 			return 0;
 		} catch (e) {
-			return serializeError(e.message || String(e));
+			return serializeError(e.message || String(e), e);
 		}
 	},
 
@@ -475,7 +599,7 @@ const js = {
 			serializeToWasm(result, buf, 0);
 			return 0;
 		} catch (e) {
-			return serializeError(e.message || String(e));
+			return serializeError(e.message || String(e), e);
 		}
 	},
 
@@ -497,7 +621,7 @@ const js = {
 	},
 };
 
-function serializeError(msg) {
+function serializeError(msg, originalError) {
 	const { ptr: bufPtr, size: bufSize } = getBridgeBuf();
 	const buf = new Uint8Array(memory.buffer, bufPtr, bufSize);
 	const encoded = new TextEncoder().encode(msg);
@@ -505,6 +629,12 @@ function serializeError(msg) {
 	const view = new DataView(memory.buffer, bufPtr);
 	view.setUint32(1, encoded.length, true);
 	buf.set(encoded, 5);
+	// Write error handle for exception proxy
+	let errHandle = 0;
+	if (originalError != null) {
+		errHandle = registerHandle(originalError);
+	}
+	view.setInt32(5 + encoded.length, errHandle, true);
 	return -1;
 }
 

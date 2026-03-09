@@ -20,6 +20,10 @@
 
 static const char *protoId = "JSObject";
 
+// ---- JsTypes undefined singleton ----
+
+IoObject *ioUndefined = NULL;
+
 #define HANDLE(self) ((int)(intptr_t)IoObject_dataPointer(self))
 #define SET_HANDLE(self, h) IoObject_setDataPointer_(self, (void *)(intptr_t)(h))
 
@@ -48,7 +52,9 @@ int io_get_bridge_buf_size(void) { return BRIDGE_BUF_SIZE; }
 #define TYPE_OBJECT 6
 #define TYPE_JSREF  7
 #define TYPE_IOREF  8
-#define TYPE_ERROR  9
+#define TYPE_ERROR      9
+#define TYPE_UNDEFINED 10
+#define TYPE_TYPEDARRAY 11
 
 // ---- WASM imports from "js" module ----
 
@@ -97,15 +103,66 @@ void IoJSBridge_markIoHandles(void) {
 	for (int i = 1; i < IO_HANDLES_MAX; i++) {
 		IoObject_shouldMarkIfNonNull(ioHandles[i]);
 	}
+	IoObject_shouldMarkIfNonNull(ioUndefined);
 }
 
 // ---- Serialization: Io → bridge_buf ----
 
-static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf, int maxLen) {
+// itemType byte mapping for TypedArray wire format (must match JS side)
+// 0=uint8, 1=uint16, 2=uint32, 3=int8, 4=int16, 5=int32, 6=float32, 7=float64
+static int ctype_to_wire_itemtype(CTYPE ct) {
+	switch (ct) {
+	case CTYPE_uint8_t:   return 0;
+	case CTYPE_uint16_t:  return 1;
+	case CTYPE_uint32_t:  return 2;
+	case CTYPE_int8_t:    return 3;
+	case CTYPE_int16_t:   return 4;
+	case CTYPE_int32_t:   return 5;
+	case CTYPE_float32_t: return 6;
+	case CTYPE_float64_t: return 7;
+	default:              return -1;
+	}
+}
+
+static CTYPE wire_itemtype_to_ctype(int wt) {
+	switch (wt) {
+	case 0: return CTYPE_uint8_t;
+	case 1: return CTYPE_uint16_t;
+	case 2: return CTYPE_uint32_t;
+	case 3: return CTYPE_int8_t;
+	case 4: return CTYPE_int16_t;
+	case 5: return CTYPE_int32_t;
+	case 6: return CTYPE_float32_t;
+	case 7: return CTYPE_float64_t;
+	default: return CTYPE_uint8_t;
+	}
+}
+
+// Bytes per element for each wire itemType
+static const int wire_itemtype_sizes[] = {
+	1, // 0: uint8
+	2, // 1: uint16
+	4, // 2: uint32
+	1, // 3: int8
+	2, // 4: int16
+	4, // 5: int32
+	4, // 6: float32
+	8, // 7: float64
+};
+
+#define VISITED_MAX 64
+
+static int serialize_io_to_buf_r(IoState *state, IoObject *obj, unsigned char *buf, int maxLen,
+                                  IoObject **visited, int *visitedCount) {
 	if (maxLen < 1) return 0;
 
 	if (obj == state->ioNil) {
 		buf[0] = TYPE_NIL;
+		return 1;
+	}
+
+	if (ioUndefined && obj == ioUndefined) {
+		buf[0] = TYPE_UNDEFINED;
 		return 1;
 	}
 
@@ -128,6 +185,21 @@ static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf
 	}
 
 	if (ISSEQ(obj)) {
+		UArray *uarray = IoSeq_rawUArray(obj);
+		// Numeric sequence (Vector) → TypedArray
+		if (uarray->encoding == CENCODING_NUMBER) {
+			int wt = ctype_to_wire_itemtype(uarray->itemType);
+			if (wt < 0) goto seq_as_string; // unsupported type, fall through to string
+			int count = (int)uarray->size;
+			int byteLen = count * uarray->itemSize;
+			if (maxLen < 6 + byteLen) return 0;
+			buf[0] = TYPE_TYPEDARRAY;
+			buf[1] = (unsigned char)wt;
+			memcpy(buf + 2, &count, 4);
+			memcpy(buf + 6, uarray->data, byteLen);
+			return 6 + byteLen;
+		}
+	seq_as_string:;
 		const char *str = CSTRING(obj);
 		int slen = (int)IoSeq_rawSize(obj);
 		if (maxLen < 5 + slen) return 0;
@@ -138,6 +210,13 @@ static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf
 	}
 
 	if (ISLIST(obj)) {
+		// Cycle detection for containers
+		for (int i = 0; i < *visitedCount; i++) {
+			if (visited[i] == obj) return -1; // cycle
+		}
+		if (*visitedCount >= VISITED_MAX) return -1;
+		visited[(*visitedCount)++] = obj;
+
 		List *list = IoList_rawList((IoList *)obj);
 		int count = (int)List_size(list);
 		if (maxLen < 5) return 0;
@@ -146,14 +225,22 @@ static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf
 		int offset = 5;
 		for (int i = 0; i < count; i++) {
 			IoObject *item = (IoObject *)List_at_(list, i);
-			int wrote = serialize_io_to_buf(state, item, buf + offset, maxLen - offset);
-			if (wrote == 0) return 0;
+			int wrote = serialize_io_to_buf_r(state, item, buf + offset, maxLen - offset, visited, visitedCount);
+			if (wrote <= 0) return wrote; // 0=overflow, -1=cycle
 			offset += wrote;
 		}
+		(*visitedCount)--;
 		return offset;
 	}
 
 	if (ISMAP(obj)) {
+		// Cycle detection for containers
+		for (int i = 0; i < *visitedCount; i++) {
+			if (visited[i] == obj) return -1; // cycle
+		}
+		if (*visitedCount >= VISITED_MAX) return -1;
+		visited[(*visitedCount)++] = obj;
+
 		PHash *hash = IoMap_rawHash((IoMap *)obj);
 		int count = (int)PHash_count(hash);
 		if (maxLen < 5) return 0;
@@ -168,10 +255,11 @@ static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf
 			offset += 4;
 			memcpy(buf + offset, kstr, klen);
 			offset += klen;
-			int wrote = serialize_io_to_buf(state, (IoObject *)v, buf + offset, maxLen - offset);
-			if (wrote == 0) return 0;
+			int wrote = serialize_io_to_buf_r(state, (IoObject *)v, buf + offset, maxLen - offset, visited, visitedCount);
+			if (wrote <= 0) { (*visitedCount)--; return wrote; }
 			offset += wrote;
 		);
+		(*visitedCount)--;
 		return offset;
 	}
 
@@ -192,6 +280,26 @@ static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf
 		memcpy(buf + 1, &h, 4);
 		return 5;
 	}
+}
+
+// Top-level serialize wrapper with cycle detection init
+static int serialize_io_to_buf(IoState *state, IoObject *obj, unsigned char *buf, int maxLen) {
+	IoObject *visited[VISITED_MAX];
+	int visitedCount = 0;
+	int result = serialize_io_to_buf_r(state, obj, buf, maxLen, visited, &visitedCount);
+	return result < 0 ? 0 : result; // -1 (cycle) → 0 (error) for callers that don't distinguish
+}
+
+// Serialize with cycle error reporting (for callers that can report errors)
+static int serialize_io_to_buf_checked(IoState *state, IoMessage *m, IoObject *obj, unsigned char *buf, int maxLen) {
+	IoObject *visited[VISITED_MAX];
+	int visitedCount = 0;
+	int result = serialize_io_to_buf_r(state, obj, buf, maxLen, visited, &visitedCount);
+	if (result == -1) {
+		IoState_error_(state, m, "bridge error: cyclic structure cannot be serialized");
+		return 0;
+	}
+	return result;
 }
 
 // ---- Deserialization: bridge_buf → Io ----
@@ -281,6 +389,26 @@ static IoObject *deserialize_buf_to_io(IoState *state, unsigned char **ptr, unsi
 		return obj ? obj : state->ioNil;
 	}
 
+	case TYPE_UNDEFINED:
+		return ioUndefined ? ioUndefined : state->ioNil;
+
+	case TYPE_TYPEDARRAY: {
+		if (*ptr + 5 > end) return state->ioNil;
+		int wt = (int)(**ptr);
+		(*ptr)++;
+		int count;
+		memcpy(&count, *ptr, 4);
+		*ptr += 4;
+		CTYPE ct = wire_itemtype_to_ctype(wt);
+		int itemSize = (wt >= 0 && wt < 8) ? wire_itemtype_sizes[wt] : 1;
+		int byteLen = count * itemSize;
+		if (*ptr + byteLen > end) return state->ioNil;
+		UArray *ua = UArray_newWithData_type_encoding_size_copy_(
+			*ptr, ct, CENCODING_NUMBER, count, 1);
+		*ptr += byteLen;
+		return (IoObject *)IoSeq_newWithUArray_copy_(state, ua, 0);
+	}
+
 	case TYPE_ERROR: {
 		if (*ptr + 4 > end) return state->ioNil;
 		int slen;
@@ -289,6 +417,8 @@ static IoObject *deserialize_buf_to_io(IoState *state, unsigned char **ptr, unsi
 		if (*ptr + slen > end) return state->ioNil;
 		// We don't raise here — caller checks for TYPE_ERROR before deserializing
 		*ptr += slen;
+		// Skip the error handle (4 bytes) if present
+		if (*ptr + 4 <= end) *ptr += 4;
 		return state->ioNil;
 	}
 
@@ -349,9 +479,10 @@ IO_METHOD(IoObject, JSObject_forward) {
 	// Serialize args to bridge_buf
 	int offset = 0;
 	for (int i = 0; i < argCount; i++) {
-		int wrote = serialize_io_to_buf(IOSTATE, args[i], bridge_buf + offset, BRIDGE_BUF_SIZE - offset);
+		int wrote = serialize_io_to_buf_checked(IOSTATE, m, args[i], bridge_buf + offset, BRIDGE_BUF_SIZE - offset);
 		if (wrote == 0) {
-			IoState_error_(IOSTATE, m, "JS bridge: argument serialization overflow");
+			if (!IOSTATE->errorRaised)
+				IoState_error_(IOSTATE, m, "JS bridge: argument serialization overflow");
 			return IONIL(self);
 		}
 		offset += wrote;
@@ -373,6 +504,12 @@ IO_METHOD(IoObject, JSObject_forward) {
 			int copyLen = errLen < (int)sizeof(errBuf) - 1 ? errLen : (int)sizeof(errBuf) - 1;
 			memcpy(errBuf, p, copyLen);
 			errBuf[copyLen] = '\0';
+			p += errLen;
+			// Read error handle (exception proxy)
+			int errHandle = 0;
+			if (p + 4 <= bridge_buf + BRIDGE_BUF_SIZE) {
+				memcpy(&errHandle, p, 4);
+			}
 			IoState_error_(IOSTATE, m, "JS error: %s", errBuf);
 		} else {
 			IoState_error_(IOSTATE, m, "JS bridge: call failed");
@@ -416,9 +553,10 @@ IO_METHOD(IoObject, JSObject_set) {
 	int nameLen = (int)IoSeq_rawSize(name);
 
 	// Serialize value into bridge_buf
-	int wrote = serialize_io_to_buf(IOSTATE, val, bridge_buf, BRIDGE_BUF_SIZE);
+	int wrote = serialize_io_to_buf_checked(IOSTATE, m, val, bridge_buf, BRIDGE_BUF_SIZE);
 	if (wrote == 0) {
-		IoState_error_(IOSTATE, m, "JS bridge: value serialization overflow");
+		if (!IOSTATE->errorRaised)
+			IoState_error_(IOSTATE, m, "JS bridge: value serialization overflow");
 		return IONIL(self);
 	}
 
@@ -461,9 +599,10 @@ IO_METHOD(IoObject, JSObject_call) {
 
 	int offset = 0;
 	for (int i = 0; i < argCount; i++) {
-		int wrote = serialize_io_to_buf(IOSTATE, args[i], bridge_buf + offset, BRIDGE_BUF_SIZE - offset);
+		int wrote = serialize_io_to_buf_checked(IOSTATE, m, args[i], bridge_buf + offset, BRIDGE_BUF_SIZE - offset);
 		if (wrote == 0) {
-			IoState_error_(IOSTATE, m, "JS bridge: argument serialization overflow");
+			if (!IOSTATE->errorRaised)
+				IoState_error_(IOSTATE, m, "JS bridge: argument serialization overflow");
 			return IONIL(self);
 		}
 		offset += wrote;
@@ -502,6 +641,18 @@ IO_METHOD(IoObject, JSObject_type) {
 // Set GC marking hook (defined in IoCoroutine.c)
 extern void (*IoJSBridge_markIoHandlesFunc)(void);
 
+// ---- JsTypes undefined type method ----
+
+IO_METHOD(IoObject, JsUndefined_type) {
+	(void)locals; (void)m;
+	return IoState_symbolWithCString_(IOSTATE, "undefined");
+}
+
+IO_METHOD(IoObject, JsUndefined_asString) {
+	(void)locals; (void)m;
+	return IoState_symbolWithCString_(IOSTATE, "undefined");
+}
+
 IoObject *IoJSObject_proto(void *state) {
 	// Wire up GC marking for ioHandles
 	IoJSBridge_markIoHandlesFunc = IoJSBridge_markIoHandles;
@@ -522,6 +673,21 @@ IoObject *IoJSObject_proto(void *state) {
 	SET_HANDLE(self, 0);
 	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 	IoObject_addMethodTable_(self, methodTable);
+
+	// Create JsTypes undefined singleton
+	IoObject *jsTypes = IoObject_new(state);
+	ioUndefined = IoObject_new(state);
+	IoMethodTable undefMethods[] = {
+		{"type",     IoObject_JsUndefined_type},
+		{"asString", IoObject_JsUndefined_asString},
+		{NULL, NULL},
+	};
+	IoObject_addMethodTable_(ioUndefined, undefMethods);
+	IoObject_setSlot_to_(jsTypes,
+		IoState_symbolWithCString_((IoState *)state, "undefined"), ioUndefined);
+	IoObject_setSlot_to_(((IoState *)state)->core,
+		IoState_symbolWithCString_((IoState *)state, "JsTypes"), jsTypes);
+
 	return self;
 }
 
@@ -562,12 +728,26 @@ int io_send(int io_handle, const char *name_ptr, int name_len, int argc) {
 	IoObject *result = IoMessage_locals_performOn_(msg, target, target);
 
 	if (state->errorRaised) {
-		// Serialize error
+		// Get error message from exception if available
 		const char *errMsg = "Io error";
+		int errHandle = 0;
+		IoObject *exception = IoCoroutine_rawException(state->currentCoroutine);
+		if (exception && exception != state->ioNil) {
+			// Try to get the error message
+			IoObject *errMsgObj = IoObject_rawGetSlot_(exception,
+				IoState_symbolWithCString_(state, "error"));
+			if (errMsgObj && ISSEQ(errMsgObj)) {
+				errMsg = CSTRING(errMsgObj);
+			}
+			// Register exception as handle for proxy access
+			errHandle = ioHandles_register(exception);
+			if (errHandle < 0) errHandle = 0;
+		}
 		int errLen = (int)strlen(errMsg);
 		bridge_buf[0] = TYPE_ERROR;
 		memcpy(bridge_buf + 1, &errLen, 4);
 		memcpy(bridge_buf + 5, errMsg, errLen);
+		memcpy(bridge_buf + 5 + errLen, &errHandle, 4);
 		state->errorRaised = 0;
 		return 1;
 	}

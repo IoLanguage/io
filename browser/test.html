@@ -98,6 +98,13 @@
 
 	<script src="io.js"></script>
 	<script>
+// Test fixtures: JS objects for bridge convention tests
+globalThis.__testMap = new Map([["x", 42]]);
+globalThis.__testSet = new Set([10, 20, 30]);
+globalThis.__testFloat32 = new Float32Array([1.5, 2.5, 3.5]);
+globalThis.__testUint8 = new Uint8Array([65, 66, 67]);
+globalThis.__testObj = { throwError() { throw new Error("test error msg"); } };
+
 const tests = [
 	{ name: "println", code: '"hello" println', expect: "hello\n" },
 	{ name: "arithmetic", code: "1 + 2", expect: "==> 3\n" },
@@ -157,9 +164,9 @@ const tests = [
 	// JS bridge: value marshaling
 	{ name: "JS Array round-trip", code: 'JS JSON parse("[1,2,3]") size', expect: "==> 3\n" },
 	{ name: "JS List to Array", code: 'JS JSON stringify(list(1,2,3))', expect: '==> [1,2,3]\n' },
-	{ name: "JS Map to Object", code: [
+	{ name: "Io Map round-trip", code: [
 		'm := Map clone atPut("a", 1)',
-		'JS JSON stringify(m)',
+		'JS JSON stringify(JS get("Object") fromEntries(m))',
 	], expect: '==> {"a":1}\n' },
 
 	// JS bridge: JSObject get/set
@@ -180,7 +187,40 @@ const tests = [
 
 	// JS bridge: boolean/nil marshaling
 	{ name: "JS true/false", code: 'JS isNaN(42)', expect: "==> false\n" },
-	{ name: "JS nil result", code: 'JS console log("test") == nil', expect: "==> true\n" },
+	{ name: "JS undefined result", code: 'JS console log("test") == JsTypes undefined', expect: "==> true\n" },
+
+	// Phase 1: JsTypes undefined + cycle detection + BigInt/Symbol rejection
+	{ name: "JsTypes undefined type", code: 'JsTypes undefined type', expect: "==> undefined\n" },
+	{ name: "undefined vs nil", code: [
+		'obj := JS JSON parse("{}")',
+		'obj get("nope") == nil',
+	], expect: "==> false\n" },
+	{ name: "undefined identity", code: [
+		'obj := JS JSON parse("{}")',
+		'obj get("nope") == JsTypes undefined',
+	], expect: "==> true\n" },
+	{ name: "BigInt rejection", code: "JS BigInt(42)", expectError: true },
+	{ name: "eval after error", code: "1 + 1", expect: "==> 2\n" },
+	{ name: "cycle detection", code: [
+		"a := list(1, 2); a append(a); nil",
+		"try(JS JSON stringify(a)) type",
+	], expect: "==> Exception\n" },
+	{ name: "eval after cycle", code: "1 + 1", expect: "==> 2\n" },
+
+	// Phase 2: Container symmetry (JS Map/Set)
+	{ name: "JS Map to Io Map", code: 'JS get("__testMap") at("x")', expect: "==> 42\n" },
+	{ name: "JS Set to Io List", code: 'JS get("__testSet") size', expect: "==> 3\n" },
+
+	// Phase 3: TypedArray / Vector
+	{ name: "Float32Array to Vector", code: 'JS get("__testFloat32") at(1)', expect: "==> 2.5\n" },
+	{ name: "Uint8Array to Sequence", code: 'JS get("__testUint8") size', expect: "==> 3\n" },
+	{ name: "vector to TypedArray", code: 'JS get("Array") from(vector(1,2,3)) size', expect: "==> 3\n" },
+
+	// Phase 4: Exception proxy
+	{ name: "JS error has message", code: [
+		'e := try(JS get("__testObj") throwError)',
+		'e error containsSeq("test error msg")',
+	], expect: "==> true\n" },
 ];
 
 function escapeText(s) {
@@ -211,13 +251,18 @@ async function runTests() {
 
 		let result;
 		const codes = Array.isArray(t.code) ? t.code : [t.code];
-		for (const c of codes) {
-			result = ioEval(c);
+		try {
+			for (const c of codes) {
+				result = ioEval(c);
+			}
+		} catch (e) {
+			result = { status: -1, output: "WASM error: " + e.message + "\n" };
 		}
 
 		let ok = false;
 		if (t.expectError) {
-			ok = result.status !== 0 || result.output.toLowerCase().includes("exception");
+			ok = result.status !== 0 || result.output.toLowerCase().includes("exception")
+				|| result.output.includes("WASM error");
 		} else {
 			ok = result.output === t.expect;
 		}
