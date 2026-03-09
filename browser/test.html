@@ -221,6 +221,23 @@ const tests = [
 		'e := try(JS get("__testObj") throwError)',
 		'e error containsSeq("test error msg")',
 	], expect: "==> true\n" },
+
+	// jsfunction: create JS functions from Io
+	{ name: "jsfunction basic", code: 'jsfunction("return 42;") call', expect: "==> 42\n" },
+	{ name: "jsfunction with args", code: [
+		'add := jsfunction("return arguments[0] + arguments[1];")',
+		'add call(3, 4)',
+	], expect: "==> 7\n" },
+	{ name: "jsfunction string return", code: 'jsfunction("return \\"hello\\";") call', expect: "==> hello\n" },
+	{ name: "jsfunction syntax error", code: 'try(jsfunction("{{invalid")) type', expect: "==> Exception\n" },
+	{ name: "jsfunction DOM access", code: [
+		'el := JS document createElement("div")',
+		'el set("id", "jsfn-test")',
+		'JS document body appendChild(el)',
+		'getter := jsfunction("return document.getElementById(\\"jsfn-test\\").tagName;")',
+		'getter call',
+	], expect: "==> DIV\n" },
+	{ name: "jsfunction typeof", code: 'jsfunction("return 1;") typeof', expect: "==> function\n" },
 ];
 
 function escapeText(s) {

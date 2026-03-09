@@ -71,6 +71,9 @@ static void browser_exception_callback(void *context, IoObject *coroutine) {
 
 void IoAddonsInit(IoObject *context) { (void)context; }
 
+// jsfunction CFunction (defined in io_js_bridge.c)
+extern IoObject *IoObject_jsfunction(IoObject *self, IoObject *locals, IoMessage *m);
+
 // Exported: initialize the Io VM. Call once on startup.
 __attribute__((export_name("io_init")))
 int io_init(void) {
@@ -95,6 +98,15 @@ int io_init(void) {
 		IoState_symbolWithCString_(state, "JS"), jsSingleton);
 	IoObject_setSlot_to_(state->core,
 		IoState_symbolWithCString_(state, "JSObject"), jsObjProto);
+
+	// Register jsfunction on Lobby
+	{
+		IoMethodTable jsfuncMethods[] = {
+			{"jsfunction", IoObject_jsfunction},
+			{NULL, NULL},
+		};
+		IoObject_addMethodTable_(state->lobby, jsfuncMethods);
+	}
 
 	// Expose state for JS bridge exports
 	io_bridge_state = state;

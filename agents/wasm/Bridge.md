@@ -204,13 +204,17 @@ To consume an iterator's contents from Io, the JS side provides a helper method 
 
 ## Functions
 
-Io blocks cross as proxies. If you need a real JS-side function (e.g., for an event handler callback), use `jsfunction`:
+Io blocks cross as proxies. To create a real JS-side function (e.g., for an event handler callback), use `jsfunction`:
 
 ```io
-handler := jsfunction("return event.target.value;")
+handler := jsfunction("return arguments[0] + arguments[1];")
+handler call(3, 4)   // -> 7
+
+getter := jsfunction("return document.title;")
+getter call          // -> page title string
 ```
 
-The string contains actual JS code. No Io-to-JS translation, no subset semantics.
+The string contains actual JS code passed to `new Function(...)`. No Io-to-JS translation, no subset semantics. The created function is a JSObject and can be passed to JS APIs that expect callbacks. Access arguments via the `arguments` object. Syntax errors in the code string raise an Io exception.
 
 ## Unsupported JS Types
 

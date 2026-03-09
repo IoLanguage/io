@@ -619,6 +619,19 @@ const js = {
 	js_release(h) {
 		releaseHandle(h);
 	},
+
+	// js_new_function(codePtr, codeLen) — create Function from code string, return handle
+	js_new_function(codePtr, codeLen) {
+		try {
+			const code = readStringFromWasm(codePtr, codeLen);
+			const fn = new Function(code);
+			const h = registerHandle(fn);
+			return h;
+		} catch (e) {
+			serializeError(e.message || String(e), e);
+			return 0;
+		}
+	},
 };
 
 function serializeError(msg, originalError) {

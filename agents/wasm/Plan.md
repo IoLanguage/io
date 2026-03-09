@@ -200,24 +200,58 @@ WASI provides POSIX-like file APIs (`fopen`, `fread`, `opendir`, etc.) through w
 
 ### Phase 4: Browser target
 
-**Goal**: Io REPL running in a browser, persistent state between evaluations.
+**Goal**: Io REPL running in a browser with full JS interop.
 
-#### Phase 4a: Browser REPL MVP
+#### Phase 4a: Browser REPL MVP - COMPLETE
 - Custom C entry point (`browser/io_browser.c`) with `io_init()`, `io_eval()`, `io_get_output()` exports
 - Compiled with `-mexec-model=reactor` (exports `_initialize` + custom functions)
 - JS glue (`browser/io.js`) — WASM loader + minimal WASI shim (fd_write capture, clock, proc_exit)
 - HTML REPL (`browser/index.html`) — input, output, persistent eval
 - `make browser` / `make serve` targets
 
-#### Phase 4b: DOM + fetch interop (follow-up)
-- WASM imports for DOM operations (querySelector, createElement, etc.)
-- JS objects held as integer handles in a JS-side table
-- Io wrapper objects: `DOM querySelector("h1")` returns an Io proxy
-- `fetch` via coroutine: Io coroutine suspends, JS resolves promise, resumes
+#### Phase 4b: Bidirectional Io-JS bridge - COMPLETE
+- Generic bridge replacing hand-wrapped DOM CFunctions (see Bridge.md)
+- JSObject proto with forward dispatch, get/set/at/call/typeof methods
+- Binary serialization protocol (12 type tags, 64KB shared buffer)
+- Handle tables: jsHandles (JS side, Map), ioHandles (C side, fixed array)
+- Deep copy for containers (List/Array, Map/Object, Set), proxy for opaque JS objects
+- TypedArray/Vector support, JS undefined singleton, cycle detection
+- Error propagation both directions via TYPE_ERROR
+- GC marking hook via function pointer (no link-time coupling)
+- FinalizationRegistry cleanup for JS->Io proxies
 
-**Difficulty**: Medium (4a), Hard (4b)
+#### Phase 4c: jsfunction (JS callbacks from Io) - COMPLETE
+- CFunction `jsfunction(codeString)` on Lobby — wraps `new Function(...)` on JS side, returns JSObject handle
+- WASM import `js_new_function(code_ptr, code_len) -> handle`
+- Syntax errors in code string raise Io exceptions
+- Enables event handlers, callbacks, requestAnimationFrame, setTimeout
 
-**Milestone**: Io REPL running in browser; `"hello" println` shows output; state persists across evals.
+#### Phase 4d: Promise/Future (async JS interop)
+
+**Goal**: Io code can call async JS APIs and await results via coroutines.
+
+```io
+response := JS fetch("/api/data")    // returns Future
+body := response text                // yields coroutine until resolved
+body println
+```
+
+- Promise detection: JS side checks if return value has `.then` method
+- New Io `Future` type wrapping a pending result
+- JS `.then()` / `.catch()` wiring calls back into bridge on resolve/reject
+- Accessing Future value yields the current coroutine until ready
+- Rejection maps to Io exception
+
+**Difficulty**: Hard (touches coroutine system)
+
+**Milestone**: `JS fetch(url)` returns a Future; accessing its value yields and resumes correctly.
+
+#### Phase 4e: BigInt (future)
+
+- Vendor libtommath, create IoBigInt type, add TYPE_BIGINT to wire format
+- See BigInt.md for full design
+
+**Difficulty**: Medium
 
 ---
 

@@ -67,6 +67,7 @@ JS_IMPORT(js_call_func)  extern int js_call_func(int handle, int argc);
 JS_IMPORT(js_typeof)     extern int js_typeof(int handle, char *buf, int sz);
 JS_IMPORT(js_get_global) extern int js_get_global(void);
 JS_IMPORT(js_release)    extern void js_release(int h);
+JS_IMPORT(js_new_function) extern int js_new_function(const char *code, int code_len);
 
 // ---- Io handle table (for JS→Io references) ----
 
@@ -634,6 +635,38 @@ IO_METHOD(IoObject, JSObject_typeof) {
 IO_METHOD(IoObject, JSObject_type) {
 	(void)locals; (void)m;
 	return IoState_symbolWithCString_(IOSTATE, "JSObject");
+}
+
+// ---- jsfunction(codeString) — create a JS function from a code string ----
+
+IO_METHOD(IoObject, jsfunction) {
+	IoSymbol *code = IoMessage_locals_seqArgAt_(m, locals, 0);
+	if (IOSTATE->errorRaised) return IONIL(self);
+	const char *ccode = CSTRING(code);
+	int codeLen = (int)IoSeq_rawSize(code);
+
+	int handle = js_new_function(ccode, codeLen);
+	if (handle <= 0) {
+		// Error details are in bridge_buf
+		if (bridge_buf[0] == TYPE_ERROR) {
+			unsigned char *p = bridge_buf + 1;
+			int errLen = 0;
+			if (p + 4 <= bridge_buf + BRIDGE_BUF_SIZE) {
+				memcpy(&errLen, p, 4);
+				p += 4;
+			}
+			char errBuf[1024];
+			int copyLen = errLen < (int)sizeof(errBuf) - 1 ? errLen : (int)sizeof(errBuf) - 1;
+			memcpy(errBuf, p, copyLen);
+			errBuf[copyLen] = '\0';
+			IoState_error_(IOSTATE, m, "jsfunction error: %s", errBuf);
+		} else {
+			IoState_error_(IOSTATE, m, "jsfunction: failed to create function");
+		}
+		return IONIL(self);
+	}
+
+	return IoJSObject_newWithHandle_(IOSTATE, handle);
 }
 
 // ---- JSObject proto ----
