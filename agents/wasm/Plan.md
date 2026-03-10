@@ -260,14 +260,20 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 - `then`/`catch`/`finally` explicit methods delegate to underlying JS Promise
 - 73/73 browser tests passing (5 new implicit forward tests)
 
-**Remaining**: Step 6 (rich JS objects — future work, driven by real use cases)
-
 **Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code.
 
-#### Phase 4f: BigInt (future)
+#### Phase 4f: BigInt
 
 - Vendor libtommath, create IoBigInt type, add TYPE_BIGINT to wire format
 - See [subplans/BigInt.md](subplans/BigInt.md) for full design
+
+**Difficulty**: Medium
+
+#### Phase 4g: Rich JS objects (future, driven by real use cases)
+
+- Formerly Async Step 6 — deferred until needed
+- JsXhrRequest, JsEvent, JsPersistence wrapping platform-specific JS objects
+- See [subplans/Async.md](subplans/Async.md) Step 6 for design
 
 **Difficulty**: Medium
 
