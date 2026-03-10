@@ -14,6 +14,7 @@
 #include "IoState_symbols.h"
 #include "io_js_bridge.h"
 #include "io_future.h"
+#include "IoBigInt.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -57,6 +58,7 @@ int io_get_bridge_buf_size(void) { return BRIDGE_BUF_SIZE; }
 #define TYPE_UNDEFINED 10
 #define TYPE_TYPEDARRAY 11
 #define TYPE_FUTURE     12
+#define TYPE_BIGINT     13
 
 // ---- WASM imports from "js" module ----
 
@@ -267,6 +269,24 @@ static int serialize_io_to_buf_r(IoState *state, IoObject *obj, unsigned char *b
 		return offset;
 	}
 
+	if (IoBigInt_isBigInt(obj)) {
+		// Wire format: [13][len:u32 LE][decimal_string]
+		int radixSize = 0;
+		mp_radix_size(IoBigInt_mp(obj), 10, &radixSize);
+		if (maxLen < 5 + radixSize) return 0;
+		char *tmp = malloc(radixSize + 1);
+		size_t written = 0;
+		mp_to_radix(IoBigInt_mp(obj), tmp, radixSize + 1, &written, 10);
+		int slen = (int)written;
+		// mp_to_radix includes null terminator in written, exclude it
+		if (slen > 0 && tmp[slen - 1] == '\0') slen--;
+		buf[0] = TYPE_BIGINT;
+		memcpy(buf + 1, &slen, 4);
+		memcpy(buf + 5, tmp, slen);
+		free(tmp);
+		return 5 + slen;
+	}
+
 	if (IS_JSOBJECT(obj)) {
 		if (maxLen < 5) return 0;
 		buf[0] = TYPE_JSREF;
@@ -425,6 +445,22 @@ static IoObject *deserialize_buf_to_io(IoState *state, unsigned char **ptr, unsi
 			js_watch_promise(promiseH, futureIoH);
 		}
 		return future;
+	}
+
+	case TYPE_BIGINT: {
+		if (*ptr + 4 > end) return state->ioNil;
+		int slen;
+		memcpy(&slen, *ptr, 4);
+		*ptr += 4;
+		if (*ptr + slen > end) return state->ioNil;
+		// Null-terminate for mp_read_radix
+		char *tmp = malloc(slen + 1);
+		memcpy(tmp, *ptr, slen);
+		tmp[slen] = '\0';
+		*ptr += slen;
+		IoObject *bigint = IoBigInt_newFromCString(state, tmp);
+		free(tmp);
+		return bigint;
 	}
 
 	case TYPE_ERROR: {

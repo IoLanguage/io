@@ -262,12 +262,11 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 
 **Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code.
 
-#### Phase 4f: BigInt
+#### Phase 4f: BigInt — COMPLETE
 
-- Vendor libtommath, create IoBigInt type, add TYPE_BIGINT to wire format
+- Vendored libtommath v1.3.0, created IoBigInt type, added TYPE_BIGINT (13) to wire format
+- Full arithmetic, comparison, conversion methods; JS BigInt round-trips losslessly
 - See [subplans/BigInt.md](subplans/BigInt.md) for full design
-
-**Difficulty**: Medium
 
 #### Phase 4g: Rich JS objects (future, driven by real use cases)
 

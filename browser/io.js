@@ -225,6 +225,7 @@ const TYPE_ERROR      = 9;
 const TYPE_UNDEFINED  = 10;
 const TYPE_TYPEDARRAY = 11;
 const TYPE_FUTURE     = 12;
+const TYPE_BIGINT     = 13;
 
 // TypedArray itemType byte mapping (must match C side)
 const TYPED_ARRAY_CTORS = [
@@ -284,9 +285,15 @@ function serializeToWasm(val, buf, offset, visited) {
 		return offset + 5 + encoded.length;
 	}
 
-	// BigInt and Symbol rejection
+	// BigInt → TYPE_BIGINT (decimal string wire format)
 	if (typeof val === "bigint") {
-		throw new Error("bridge error: BigInt cannot cross the bridge");
+		const str = val.toString();
+		const encoded = new TextEncoder().encode(str);
+		buf[offset] = TYPE_BIGINT;
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		view.setUint32(offset + 1, encoded.length, true);
+		buf.set(encoded, offset + 5);
+		return offset + 5 + encoded.length;
 	}
 
 	if (typeof val === "symbol") {
@@ -471,6 +478,15 @@ function deserializeFromWasm(buf, offset) {
 		copy.set(buf.subarray(offset, offset + byteLen));
 		const arr = new Ctor(copy.buffer, 0, count);
 		return { value: arr, offset: offset + byteLen };
+	}
+
+	case TYPE_BIGINT: {
+		const view = new DataView(buf.buffer, buf.byteOffset);
+		const len = view.getUint32(offset, true);
+		offset += 4;
+		const str = new TextDecoder().decode(buf.subarray(offset, offset + len));
+		offset += len;
+		return { value: BigInt(str), offset };
 	}
 
 	case TYPE_ERROR: {

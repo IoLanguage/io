@@ -8,6 +8,7 @@
 #include "UArray.h"
 #include "io_js_bridge.h"
 #include "io_future.h"
+#include "IoBigInt.h"
 #include "IoEvalFrame.h"
 #include "IoCoroutine.h"
 #include <stdlib.h>
@@ -105,6 +106,11 @@ int io_init(void) {
 
 	// Register IoFuture proto
 	IoFuture_proto(state);
+
+	// Register IoBigInt proto
+	IoObject *bigIntProto = IoBigInt_proto(state);
+	IoObject_setSlot_to_(state->core,
+		IoState_symbolWithCString_(state, "BigInt"), bigIntProto);
 
 	// Register jsfunction on Lobby
 	{

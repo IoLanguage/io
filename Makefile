@@ -22,14 +22,15 @@ CC          := $(WASI_SDK)/bin/clang
 AR          := $(WASI_SDK)/bin/llvm-ar
 
 CFLAGS      := --sysroot=$(WASI_SDK)/share/wasi-sysroot \
-               -D__wasi__ -DUSE_BUILTIN_NAN \
+               -D__wasi__ -DUSE_BUILTIN_NAN -D__STDC_IEC_559__ \
                -D_WASI_EMULATED_PROCESS_CLOCKS -D_WASI_EMULATED_SIGNAL \
                -fno-exceptions -O2 \
                -Ilibs/basekit/source \
                -Ilibs/basekit/source/simd_cph/include \
                -Ilibs/garbagecollector/source \
                -Ilibs/iovm/source \
-               -Ideps/parson
+               -Ideps/parson \
+               -Ideps/libtommath
 
 LDFLAGS     := -lwasi-emulated-process-clocks -lwasi-emulated-signal -static
 
@@ -39,11 +40,12 @@ BASEKIT_SRCS := $(wildcard libs/basekit/source/*.c)
 GC_SRCS      := $(wildcard libs/garbagecollector/source/*.c)
 IOVM_SRCS    := $(filter-out %/IoState_iterative_fast.c, $(wildcard libs/iovm/source/*.c))
 PARSON_SRCS  := deps/parson/parson.c
+TOMMATH_SRCS := $(wildcard deps/libtommath/*.c)
 
 # Ensure IoVMInit.c is included even before first generation
 IOVM_SRCS    := $(sort $(IOVM_SRCS) libs/iovm/source/IoVMInit.c)
 
-ALL_SRCS     := $(BASEKIT_SRCS) $(GC_SRCS) $(IOVM_SRCS) $(PARSON_SRCS)
+ALL_SRCS     := $(BASEKIT_SRCS) $(GC_SRCS) $(IOVM_SRCS) $(PARSON_SRCS) $(TOMMATH_SRCS)
 ALL_OBJS     := $(patsubst %.c,$(OBJDIR)/%.o,$(ALL_SRCS))
 
 # .io standard library files (load order defined by _imports.json)

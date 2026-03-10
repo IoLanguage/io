@@ -189,7 +189,7 @@ const tests = [
 	{ name: "JS true/false", code: 'JS isNaN(42)', expect: "==> false\n" },
 	{ name: "JS undefined result", code: 'JS console log("test") == JsTypes undefined', expect: "==> true\n" },
 
-	// Phase 1: JsTypes undefined + cycle detection + BigInt/Symbol rejection
+	// Phase 1: JsTypes undefined + cycle detection + BigInt
 	{ name: "JsTypes undefined type", code: 'JsTypes undefined type', expect: "==> undefined\n" },
 	{ name: "undefined vs nil", code: [
 		'obj := JS JSON parse("{}")',
@@ -199,8 +199,28 @@ const tests = [
 		'obj := JS JSON parse("{}")',
 		'obj get("nope") == JsTypes undefined',
 	], expect: "==> true\n" },
-	{ name: "BigInt rejection", code: "JS BigInt(42)", expectError: true },
-	{ name: "eval after error", code: "1 + 1", expect: "==> 2\n" },
+
+	// BigInt: round-trip across bridge
+	{ name: "BigInt from JS", code: 'JS get("BigInt") call(42) type', expect: "==> BigInt\n" },
+	{ name: "BigInt round-trip", code: 'JS get("BigInt") call(42) asString', expect: "==> 42\n" },
+	{ name: "BigInt large value", code: [
+		'b := JS get("BigInt") call("123456789012345678901234567890")',
+		'b asString',
+	], expect: "==> 123456789012345678901234567890\n" },
+	{ name: "BigInt to JS", code: [
+		'b := BigInt from(42)',
+		'toStr := jsfunction("return arguments[0].toString();")',
+		'toStr call(b)',
+	], expect: "==> 42\n" },
+	{ name: "BigInt arithmetic +", code: '(BigInt from(10) + BigInt from(20)) asString', expect: "==> 30\n" },
+	{ name: "BigInt arithmetic *", code: '(BigInt from(7) * BigInt from(6)) asString', expect: "==> 42\n" },
+	{ name: "BigInt comparison ==", code: 'BigInt from(42) == BigInt from(42)', expect: "==> true\n" },
+	{ name: "BigInt comparison <", code: 'BigInt from(1) < BigInt from(2)', expect: "==> true\n" },
+	{ name: "BigInt negate", code: 'BigInt from(5) negate asString', expect: "==> -5\n" },
+	{ name: "BigInt from string", code: 'BigInt from("999") asString', expect: "==> 999\n" },
+	{ name: "BigInt asNumber", code: 'BigInt from(42) asNumber', expect: "==> 42\n" },
+
+	{ name: "eval after bigint", code: "1 + 1", expect: "==> 2\n" },
 	{ name: "cycle detection", code: [
 		"a := list(1, 2); a append(a); nil",
 		"try(JS JSON stringify(a)) type",
