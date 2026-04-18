@@ -799,6 +799,17 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     fflush(stderr);
 #endif
 
+                    // Check if System exit was called during activation.
+                    // IoState_exit sets shouldExit and calls rawResume to swap
+                    // to the main coroutine. The nested eval loop (if any) will
+                    // pop all frames in its coroutine on the loop-top shouldExit
+                    // check. Either way, our local frame/fd may be stale (pointing
+                    // to a popped/cleared frame). Restart the loop so the top-level
+                    // shouldExit handler runs and pops any remaining frames.
+                    if (state->shouldExit) {
+                        break;
+                    }
+
                     // Check if an error was raised during CFunction execution.
                     // IoState_error_ creates the Exception and sets errorRaised.
                     // If the error was raised outside the recursive evaluator,
