@@ -392,7 +392,7 @@ Object do(
 
 	//doc Object isKindOf(anObject) Returns true if anObject is in the receiver's ancestors.
 
-	isKindOf := method(anObject, getSlot("self") ancestors contains(getSlot("anObject")))
+	isKindOf := method(anObject, getSlot("self") ancestors containsIdenticalTo(getSlot("anObject")))
 
 	/*doc Object super(aMessage)
 	Sends the message aMessage to the receiver's proto with the context of self. Example:
