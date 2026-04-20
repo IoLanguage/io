@@ -238,7 +238,10 @@ TEST_INLINE size_t IoLexer_currentLineNumber(IoLexer *self) {
             }
     }
     */
-    return line;
+    // Lines are 1-based. When `current` is at the very first character
+    // (before readSymbol has advanced it), the search returns 0 — but the
+    // first line is line 1.
+    return line == 0 ? 1 : line;
 }
 
 void IoLexer_clear(IoLexer *self) {
