@@ -681,9 +681,9 @@ IO_METHOD(IoFile, truncateToSize) {
 IO_METHOD(IoFile, moveTo_) {
     /*doc File moveTo(pathString)
     Moves the file specified by the receiver's path to the
-    new path pathString. Raises a File doesNotExist exception if the
-    file does not exist or a File nameConflict exception if the file
-    nameString already exists.
+    new path pathString. If a file already exists at pathString,
+    it is silently overwritten. Raises a File error exception if
+    the rename fails.
     */
 
     IoSymbol *newPath = IoMessage_locals_symbolArgAt_(m, locals, 0);
