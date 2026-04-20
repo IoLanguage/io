@@ -273,7 +273,7 @@ Io> list("a", "b", "cd") groupBy(i, v, i == 1) asJson
         m
     )
 
-    asString := method("list(" .. self join(", ") .. ")")
+    asString := method("list(" .. self map(asSimpleString) join(", ") .. ")")
     asSimpleString := method(
         result := self slice(0, 30) map(asSimpleString) asString
         if(result size > 40,
