@@ -228,11 +228,16 @@ SequenceTest := UnitTest clone do(
 		testRemoveAt := method(
 			assertRaisesException("abc" asMutable removeAt)
 			assertRaisesException("abc" asMutable removeAt(nil))
-			assertEquals("ab", "abc" asMutable removeAt(-1))
-			assertEquals("abc", "abc" asMutable removeAt(3))
-			assertEquals("bc", "abc" asMutable removeAt(0))
-			assertEquals("ac", "abc" asMutable removeAt(1))
-			assertEquals("ab", "abc" asMutable removeAt(2))
+			assertEquals(99, "abc" asMutable removeAt(-1))
+			assertEquals(nil, "abc" asMutable removeAt(3))
+			assertEquals(97, "abc" asMutable removeAt(0))
+			assertEquals(98, "abc" asMutable removeAt(1))
+			assertEquals(99, "abc" asMutable removeAt(2))
+
+			// verify mutation: removeAt mutates in place
+			s := "abc" asMutable
+			s removeAt(0)
+			assertEquals("bc", s)
 		)
 
 	testReplaceMap := method(

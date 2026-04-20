@@ -14,9 +14,15 @@ VectorTest := UnitTest clone do(
 	testRemoveAt := method(
 		assertRaisesException(vector(0, 1, 2) removeAt)
 		assertRaisesException(vector(0, 1, 2) removeAt(nil))
-		assertEquals(vector(1, 2), vector(0, 1, 2) removeAt(0))
-		assertEquals(vector(0, 2), vector(0, 1, 2) removeAt(1))
-		assertEquals(vector(0, 1), vector(0, 1, 2) removeAt(2))
+		assertEquals(0, vector(0, 1, 2) removeAt(0))
+		assertEquals(1, vector(0, 1, 2) removeAt(1))
+		assertEquals(2, vector(0, 1, 2) removeAt(2))
+		assertEquals(nil, vector(0, 1, 2) removeAt(5))
+
+		// verify mutation
+		v := vector(0, 1, 2)
+		v removeAt(0)
+		assertEquals(vector(1, 2), v)
 	)
 
 	testRemoveSlice := method(

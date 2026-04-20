@@ -232,17 +232,30 @@ IO_METHOD(IoSeq, atInsert)
 
 IO_METHOD(IoSeq, removeAt) {
     /*doc Sequence removeAt(index)
-    Removes the item at index. Returns self.
+    Removes the item at the specified index and returns the value removed.
+    Returns nil if the index is out of bounds.
     */
 
     long i = IoMessage_locals_longArgAt_(m, locals, 0);
+    UArray *a = DATA(self);
+    IoObject *result;
 
     IO_ASSERT_NOT_SYMBOL(self);
 
-    i = UArray_wrapPos_(DATA(self), i);
+    i = UArray_wrapPos_(a, i);
 
-    UArray_removeRange(DATA(self), i, 1);
-    return self;
+    if ((size_t)i >= UArray_size(a)) {
+        return IONIL(self);
+    }
+
+    if (UArray_isFloatType(a)) {
+        result = IONUMBER(UArray_doubleAt_(a, i));
+    } else {
+        result = IONUMBER(UArray_longAt_(a, i));
+    }
+
+    UArray_removeRange(a, i, 1);
+    return result;
 }
 
 IO_METHOD(IoSeq, removeSlice) {
