@@ -894,16 +894,16 @@ IO_METHOD(IoSeq, toBase) {
     const char *const table = "0123456789abcdefghijklmnopqrstuvwxyz";
     int base = IoMessage_locals_intArgAt_(m, locals, 0);
     char buf[64], *ptr = buf + 64;
-    uintptr_t n = 0;
+    unsigned long long n = 0;
 
     if (base < 2 || base > 36) {
         IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
     }
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
-    n = (uintptr_t)strtoull(IoSeq_asCString(self), NULL, 0);
+    n = strtoull(IoSeq_asCString(self), NULL, 0);
 #else
-    n = (uintptr_t)IoSeq_asDouble(self);
+    n = (unsigned long long)IoSeq_asDouble(self);
 #endif
 
     /* Build the converted string backwards. */

@@ -262,9 +262,12 @@ int IoNumber_compare(IoNumber *self, IoNumber *v) {
 }
 
 void IoNumber_Double_intoCString_(double n, char *s, size_t maxSize) {
-    if (n == (int)n) {
-        snprintf(s, maxSize, "%d", (int)n);
-    } else if (n > INT_MAX) {
+    // Use long long (64-bit) so integers up to 2^53 (double's exact-integer
+    // range) print without loss of precision.
+    if (n >= (double)LLONG_MIN && n <= (double)LLONG_MAX &&
+        n == (double)(long long)n) {
+        snprintf(s, maxSize, "%lld", (long long)n);
+    } else if (n > (double)LLONG_MAX || n < (double)LLONG_MIN) {
         snprintf(s, maxSize, "%e", n);
     } else {
         long l;
