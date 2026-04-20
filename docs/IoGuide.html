@@ -112,8 +112,6 @@
 <div class=indexItem><a href="#Primitives-File">File</a></div>
 <div class=indexItem><a href="#Primitives-Directory">Directory</a></div>
 <div class=indexItem><a href="#Primitives-Date">Date</a></div>
-<div class=indexItem><a href="#Primitives-Networking">Networking</a></div>
-<div class=indexItem><a href="#Primitives-XML">XML</a></div>
 <div class=indexItem><a href="#Primitives-Vector">Vector</a></div>
 
 <div class=indexSection><a href="#Embedding">Embedding</a></div>
@@ -207,8 +205,10 @@ practical
 	
 <div class=indent> 
 
-Io distributions are available at:
-<pre><a href="http://iolanguage.com">http://iolanguage.com</a></pre>
+Io source and releases are available at:
+<pre><a href="https://github.com/IoLanguage/io">https://github.com/IoLanguage/io</a></pre>
+The project site is:
+<pre><a href="https://iolanguage.org">https://iolanguage.org</a></pre>
 
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
@@ -220,7 +220,7 @@ Io distributions are available at:
 </td><td></td><td>
 
 
-	Follow the README.txt file in the download to compile and install io.
+	Follow the README.md in the source repository to build and run Io. The default build targets WebAssembly (WASI) via <a href="https://github.com/WebAssembly/wasi-sdk">wasi-sdk</a>; the resulting binary runs under <a href="https://wasmtime.dev/">wasmtime</a>, Node.js, or in a browser via the bundled browser REPL.
 <!--
 First compile the Io vm:
 
@@ -2109,92 +2109,6 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 
 <div class=pagebreak></div>
 
-	<a name="Primitives-Networking"></a>
-	<h3>Networking</h3>
-</td><td></td><td>
-
-
-All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using its objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
-<p>
-Creating a URL object:
-
-<pre>
-url := URL with("http://example.com/")
-</pre>
-
-Fetching an URL:
-
-<pre>
-data := url fetch  
-</pre>
-
-Streaming a URL to a file:
-
-<pre>
-url streamTo(File with("out.txt"))
-</pre>
-
-A simple whois client:
-
-<pre>
-whois := method(host,
-    socket := Socket clone \
-		setHost("rs.internic.net") setPort(43) 
-    socket connect streamWrite(host, "\n")
-    while(socket streamReadNextChunk, nil)
-    return socket readBuffer
-)
-</pre>
-
-A minimal web server:
-
-<pre>
-WebRequest := Object clone do(
-    handleSocket := method(aSocket,
-        aSocket streamReadNextChunk
-        request := aSocket readBuffer \
-			betweenSeq("GET ", " HTTP")
-        f := File with(request) 
-        if(f exists, 
-			f streamTo(aSocket)
-		, 
-			aSocket streamWrite("not found")
-		)
-        aSocket close
-    )
-)
-
-WebServer := Server clone do(
-    setPort(8000)
-    handleSocket := method(aSocket, 
-        WebRequest clone asyncSend(handleSocket(aSocket))
-    )
-)
-
-WebServer start
-</pre>
-
-
-</tr><tr><td colspan=3 class=sectionDivider></td></tr>
-<tr><td align=right>
-
-<div class=pagebreak></div>
-
-	<a name="Primitives-XML"></a>
-	<h3>XML</h3>
-</td><td></td><td>
-
-Using the XML parser to find the links in a web page:
-
-<pre>
-SGML // reference this to load the SGML addon
-xml := URL with("http://www.yahoo.com/") fetch asXML
-links := xml elementsWithName("a") map(attributes at("href"))
-</pre>
-
-
-</tr><tr><td colspan=3 class=sectionDivider></td></tr>
-<tr><td align=right>
 	<a name="Primitives-Vector"></a>
 	<h3>Vector</h3>
 </td><td></td><td>
@@ -2531,7 +2445,7 @@ Note that return values are always proper Io objects (as all values are objects 
 
 <div class=indent>
 
-Documentation on how to write bindings/addons forthcoming..
+On the WebAssembly target, host integration goes through a bidirectional Io&#8596;JavaScript bridge rather than native dynamic addons: Io code can call JS functions, and JS can call Io methods. See <a href="../browser/README.md">browser/README.md</a> and <a href="../agents/wasm/Bridge.md">agents/wasm/Bridge.md</a> for details and examples.
 
 </div>
 
