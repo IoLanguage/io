@@ -63,6 +63,9 @@ true do(
 	//doc true asSimpleString Returns true.
 	asSimpleString := "true"
 
+	//doc true asJson Returns "true".
+	asJson := "true"
+
 	//doc true not Does not eval argument and returns false.
 	not := false
 	
@@ -92,6 +95,8 @@ false do(
 	asString := "false"
 	//doc false asSimpleString Returns "false".
 	asSimpleString := "false"
+	//doc false asJson Returns "false".
+	asJson := "false"
 	//doc false not Returns true.
 	not := true
 	//doc false clone Returns self.
@@ -112,6 +117,8 @@ nil do(
 	type := "nil"
 	asString := type
 	asSimpleString := type
+	//doc nil asJson Returns "null".
+	asJson := "null"
 
 	setSlot("and", false)
 	or := method(v, v isTrue)
