@@ -21,16 +21,45 @@ static const char *protoId = "Map";
 
 #define DATA(self) ((PHash *)IoObject_dataPointer(self))
 
+int IoMap_compare(IoMap *self, IoMap *other);
+
 IoTag *IoMap_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
     IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMap_rawClone);
     IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMap_free);
     IoTag_markFunc_(tag, (IoTagMarkFunc *)IoMap_mark);
+    IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoMap_compare);
     // IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc
     // *)IoMap_writeToStream_); IoTag_readFromStreamFunc_(tag,
     // (IoTagReadFromStreamFunc *)IoMap_readFromStream_);
     return tag;
+}
+
+int IoMap_compare(IoMap *self, IoMap *other) {
+    if (!ISMAP(other)) {
+        return IoObject_defaultCompare(self, other);
+    }
+
+    size_t s1 = PHash_size(DATA(self));
+    size_t s2 = PHash_size(DATA(other));
+
+    if (s1 != s2) {
+        return s1 > s2 ? 1 : -1;
+    }
+
+    int mismatch = 0;
+    PHASH_FOREACH(DATA(self), k, v, {
+        if (mismatch) continue;
+        void *ov = PHash_at_(DATA(other), k);
+        if (ov == NULL) {
+            mismatch = 1;
+        } else {
+            int c = IoObject_compare((IoObject *)v, (IoObject *)ov);
+            if (c) mismatch = c < 0 ? -1 : 1;
+        }
+    });
+    return mismatch;
 }
 
 /*
