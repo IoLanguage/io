@@ -1,16 +1,10 @@
 #!/usr/local/bin/io
 
-// This code is a mess...
-
 docsPath := System args at(1)
-addonFolders := Directory with("addons") directories
-addonFolders foreach(folder,
-	System system("io tools/io/DocsExtractor.io " .. folder path)
-)
 
-// Parse the libs/iovm directory to generate the Core documentation
-// Any reason this was missing ? (Added 2010-09-019 rC)
-System system("io tools/io/DocsExtractor.io " .. "libs/iovm")
+// Inline doc extraction (no shelling out — works on WASM)
+doRelativeFile("DocsExtractor.io")
+DocsExtractor clone setPath("libs/iovm") extract
 
 prototypes := Map clone
 modules := Map clone
@@ -54,7 +48,6 @@ readFolder := method(path,
 	)
 )
 
-addonFolders foreach(f, readFolder(f path))
 readFolder("libs/iovm")
 
 // ------------------------------
@@ -205,113 +198,10 @@ jsonFile := File with(Path with(docsPath, "docs.json")) remove open
 jsonFile writeln(Categories items asJson)
 jsonFile close
 
-// CATEGORIES -------------------------------------------------------
+// TEMPLATES --------------------------------------------------------
 
-outFile := File with(Path with(docsPath, "index.html")) remove open
-outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>Io Reference</title>
-<META HTTP-EQUIV="EXPIRES" CONTENT=0>
-<link rel="stylesheet" href="../docs.css"/>
-<script src="../js/jquery.js" type="text/javascript"></script>
-<script src="../js/browser.js"></script>
-</head>
-<body>
-""")
-outFile writeln("<br>")
-outFile writeln("<h1>Io Reference</h1>")
-//outFile writeln("<div class=Version>version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " "))
-//outFile writeln(" generated on " .. Date clone now asString("%Y %m %d") .. "</div>")
-outFile writeln("<br><br><br><br><br>")
-
-outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
-outFile writeln("<tr id=\"categories-column\">")
-outFile writeln("<td id=\"categories\" class=\"column\" valign=\"top\">")
-outFile write(Categories linksHtml)
-outFile writeln("</td>")
-outFile writeln("</tr>")
-outFile writeln("</table>")
-outFile close
-
-// CATEGORY -------------------------------------------------------
-
-Categories sortedItems foreach(cat, 
-	cat sortedItems foreach(addon,
-		outFile := Directory with(Path with(docsPath, cat name)) createIfAbsent fileNamed("index.html") remove open
-		outFile writeln("""
-		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-		<html>
-		<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Io Reference</title>
-		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
-		<link rel="stylesheet" href="../../docs.css">
-		</head>
-		<body>
-		""")
-		outFile writeln("<br>")
-		outFile writeln("<h1>Io Reference</h1>")
-		outFile writeln("<br><br><br><br><br>")
-		outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
-		outFile writeln("<tr>")
-		outFile writeln("<td valign=\"top\" class=\"column\">")
-		outFile write(Categories setPath("..") linksHtml(cat name))
-		outFile writeln("</td>")
-		outFile writeln("<td valign=\"top\" class=\"column\">")
-		outFile write(cat linksHtml)
-		outFile writeln("</td>")	
-		outFile writeln("</tr>")
-		outFile writeln("</table>")
-  	outFile writeln("</body>")
-  	outFile writeln("</html>")
-		outFile close
-	)
-)
-
-
-// ADDON -------------------------------------------------------
-
-Categories sortedItems foreach(cat,
-	cat sortedItems foreach(addon,
-		addon sortedItems foreach(proto,
-			outFile := Directory with(Path with(docsPath, cat name, addon name)) createIfAbsent fileNamed("index.html") remove open
-			outFile writeln("""
-			<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-			<html>
-			<head>
-			<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-			<title>Io Reference</title>
-			<META HTTP-EQUIV="EXPIRES" CONTENT=0>
-			<link rel="stylesheet" href="../../../docs.css">
-			</head>
-			<body>
-			""")
-			outFile writeln("<br>")
-			outFile writeln("<h1>Io Reference</h1>")
-			outFile writeln("<br><br><br><br><br>")
-			outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
-			outFile writeln("<tr>")
-			outFile writeln("<td valign=\"top\" class=\"column\">")
-			outFile write(Categories setPath("../..") linksHtml(cat name))
-			outFile writeln("</td>")
-			outFile writeln("<td valign=\"top\" class=\"column\">")
-			outFile writeln(cat setPath("..") linksHtml(addon name))
-			outFile writeln("</td>")
-			outFile writeln("<td valign=\"top\" class=\"column\">")
-			outFile write(addon linksHtml)
-			outFile writeln("</td>")	
-			outFile writeln("</tr>")
-			outFile writeln("</table>")
-			outFile writeln("</body>")
-			outFile writeln("</html>")
-			outFile close
-		)
-	)
-)
-
-// PROTOS -------------------------------------------------------
+indexTemplate := File with("docs/templates/index.html.template") contents
+protoTemplate := File with("docs/templates/proto.html.template") contents
 
 Sequence do(
 	asHtml := method(
@@ -319,176 +209,106 @@ Sequence do(
 	)
 )
 
+columnTd := method(content,
+	"<td valign=\"top\" class=\"column\">\n" .. content .. "</td>\n"
+)
+
+renderIndex := method(title, cssPath, columns,
+	indexTemplate asMutable interpolateInPlace
+)
+
+descriptionHtml := method(p,
+	s := Sequence clone
+	if(p at("description"),
+		s appendSeq("<tr>\n<td align=right></td>\n<td></td>\n<td>" .. p at("description") .. "</td></tr>\n")
+	)
+	s appendSeq("<tr><td colspan=3>&nbsp;</td></tr>\n")
+	s appendSeq("<tr><td colspan=3>&nbsp;</td></tr>\n")
+	s
+)
+
+slotsHtml := method(protoName, slots,
+	s := Sequence clone
+	if(slots,
+		s appendSeq("<tr><td colspan=3>&nbsp;</td></tr>\n")
+		s appendSeq("<tr>\n<td align=right>\n</td>\n<td></td>\n<td>\n")
+		if(slots size > 0, s appendSeq("<hr align=left color=#ddd height=1>\n"))
+		s appendSeq("<br><br>\n")
+
+		slots keys sort foreach(k,
+			desc := slots at(k)
+			if(desc, desc = desc strip)
+			isPrivate := desc ?beginsWithSeq("Private")
+			isDeprecated := desc ?beginsWithSeq("Deprecated")
+			if(isPrivate, s appendSeq("<font color=#888>\n"))
+			if(isDeprecated, s appendSeq("<font color=#55a>\n"))
+			s appendSeq("<a name=\"" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\"></a><b>\n")
+			s appendSeq(k asHtml .. "\n")
+			s appendSeq("</b>\n<p>\n<div class=slotDescription>\n")
+			if(desc, s appendSeq(desc .. "\n"), s appendSeq("<div class=error>undocumented</div>\n"))
+			if(isPrivate or isDeprecated, s appendSeq("</font>\n"))
+			s appendSeq("</div>\n")
+		)
+	)
+	s appendSeq("</td>\n</tr>\n")
+	s
+)
+
+// CATEGORIES -------------------------------------------------------
+
+columns := "<tr>\n" .. columnTd(Categories linksHtml) .. "</tr>"
+outFile := File with(Path with(docsPath, "index.html")) remove open
+outFile write(renderIndex("Io Reference", "../docs.css", columns))
+outFile close
+
+// CATEGORY -------------------------------------------------------
+
+Categories sortedItems foreach(cat,
+	cat sortedItems foreach(addon,
+		columns := "<tr>\n" .. columnTd(Categories setPath("..") linksHtml(cat name)) .. columnTd(cat linksHtml) .. "</tr>"
+		outFile := Directory with(Path with(docsPath, cat name)) createIfAbsent fileNamed("index.html") remove open
+		outFile write(renderIndex("Io Reference", "../../docs.css", columns))
+		outFile close
+	)
+)
+
+// ADDON -------------------------------------------------------
+
+Categories sortedItems foreach(cat,
+	cat sortedItems foreach(addon,
+		addon sortedItems foreach(proto,
+			columns := "<tr>\n" .. columnTd(Categories setPath("../..") linksHtml(cat name)) .. columnTd(cat setPath("..") linksHtml(addon name)) .. columnTd(addon linksHtml) .. "</tr>"
+			outFile := Directory with(Path with(docsPath, cat name, addon name)) createIfAbsent fileNamed("index.html") remove open
+			outFile write(renderIndex("Io Reference", "../../../docs.css", columns))
+			outFile close
+		)
+	)
+)
+
+// PROTOS -------------------------------------------------------
+
 Categories sortedItems foreach(cat,
 	cat sortedItems foreach(addon,
 		addon items foreach(protoName, p,
-	
-	//writeln("protoName = ", protoName)
-	//p := prototypes at(protoName)
-	moduleName = p at("module")
-	outFile := Directory with(Path with(docsPath, cat name, moduleName, protoName)) createIfAbsent fileNamed("index.html") remove open
-	
-	outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-		<html>
-		<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>""" .. protoName .. """</title>
-		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
-		<link rel="stylesheet" href="../../../../docs.css">
-		</head>
-		<body>
-		""")
-		
-		
-	//----------------------------------------------
-	outFile writeln("<br>")
-	outFile writeln("<h1>Io Reference</h1>")
-	//outFile writeln("<br><br><br><br><br>")
-/*
-	outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
-	outFile writeln("<tr>")
-	outFile writeln("<td valign=\"top\" class=\"column\">")
-	//outFile write(Categories setPath("../..") linksHtml(cat name))
-	outFile write("<b>", cat name, "</b>", "&nbsp;&nbsp;<b><font color=#ccc>&gt;</font>")
-	
-	outFile writeln("</td>")
-	outFile writeln("<td valign=\"top\" class=\"column\">")
-//	outFile writeln(cat setPath("..") linksHtml(addon name))
-	outFile write("<b>", addon name, "</b>", "&nbsp;&nbsp;<b><font color=#ccc>&gt;</font>")
-	outFile writeln("</td>")
-	outFile writeln("<td valign=\"top\" class=\"column\">")
-	//outFile write(addon linksHtml(protoName))
-	outFile write("<b>", protoName, "</b>")
-	outFile writeln("</td>")	
-	outFile writeln("</tr>")
-	outFile writeln("</table>")
-	outFile writeln("</body>")
-	outFile writeln("</html>")
-*/
-	//----------------------------------------------
-		
-	//outFile writeln("<hr align=left color=#ccc height=1>")
-		
-	//	outFile writeln("<hr align=left color=#ddd height=1>")
-	outFile writeln("<br><br><br>")
-	outFile writeln("<br><br><br>")
-	outFile writeln("<a class='column' href='../../index.html'>", cat name, "</a>")
-	outFile writeln("&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;")
-	outFile writeln("<a class='column' href='../index.html'>", moduleName, "</a>")
-	outFile writeln("&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;")
-	outFile writeln("<b>", protoName, "</b>")
-	//outFile writeln("<h1>", protoName asMutable strip, " Proto</h1>")
-	//outFile writeln("<br><br><br><br><br><br>")
-	outFile writeln("<br><br><br>")
-	outFile writeln("<br><br><br>")
+			moduleName = p at("module")
+			outFile := Directory with(Path with(docsPath, cat name, moduleName, protoName)) createIfAbsent fileNamed("index.html") remove open
 
-	outFile writeln("<table border=0 cellspacing=0 style=\"margin-left:8em; width:40em; line-height:1.2em;\">")
-	
-	showSection := method(name, value,
-		outFile writeln("<tr>")
-		//outFile writeln("<td align=right><b>", name, "</b></td>")
-		outFile writeln("<td align=right></td>")
-		outFile writeln("<td></td>")
-		outFile writeln("<td>", value, "</td></tr>")
-	)
-	
-	showSpacer := method(
-		outFile writeln("<tr><td colspan=3>&nbsp;</td></tr>")
-	)
-	
-	//outFile writeln("<b>Protos:</b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
+			breadcrumbs := Sequence clone
+			breadcrumbs appendSeq("<a class='column' href='../../index.html'>")
+			breadcrumbs appendSeq(cat name)
+			breadcrumbs appendSeq("</a>\n&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;\n")
+			breadcrumbs appendSeq("<a class='column' href='../index.html'>")
+			breadcrumbs appendSeq(moduleName)
+			breadcrumbs appendSeq("</a>\n&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;\n<b>")
+			breadcrumbs appendSeq(protoName)
+			breadcrumbs appendSeq("</b>")
+			description := descriptionHtml(p)
+			slots := slotsHtml(protoName, p at("slots"))
+			title := protoName
+			cssPath := "../../../../docs.css"
 
-	showMeta := method(name,
-		if(p at(name), showSection("<span class=proto" .. name asCapitalized .. ">" .. name .. "</span>", p at(name)))
-	)
-	
-	//showMeta("module")	
-	//showMeta("category")
-	//showMeta("copyright")
-	//showMeta("license")
-	//showMeta("credits")
-	showMeta("description")
-	//p keys map(s, "[" .. s .. "]") println
-
-	showSpacer
-	showSpacer
-
-	slots := p at("slots")
-	if (slots,
-		slotNames := slots keys //sort
-		/*
-		outFile writeln("<tr>")
-		outFile writeln("<td align=right>")
-		//outFile writeln("<h3>index</h3>")
-		outFile writeln("</td>")
-		outFile writeln("<td></td>")
-		outFile writeln("<td>")
-		
-		//outFile writeln("<div class=slotIndex>")
-		
-		
-		try(
-			if(Lobby perform(protoName),
-				names := getSlot(protoName) slotNames remove("type") select(beginsWithSeq("_") not)
-				slotNames foreach(slotName,
-					n := slotName beforeSeq("(") asSymbol 
-					if(names contains(n), names remove(n))
-				)
-				slotNames appendSeq(names)
-			)
-		)
-		
-		slotNames = slotNames sort remove("init")
-		
-		slotNames foreach(k,
-			s := slots at(k)
-			outFile writeln("<a href=\"#" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\">")
-			if(k containsSeq("("), k = k beforeSeq("(") .. "()")
-			outFile writeln(k asHtml)
-			if(s ?args, outFile writeln("()"))
-			outFile writeln("</a><br>")
-		)
-
-		outFile writeln("</td>")
-		outFile writeln("</tr>")
-*/
-		showSpacer
-		
-		outFile writeln("<tr>")
-		outFile writeln("<td align=right>")
-		//outFile writeln("<h3>slots</h3>")
-		outFile writeln("</td>")
-		outFile writeln("<td></td>")
-		outFile writeln("<td>")
-		if(slots size > 0, outFile writeln("<hr align=left color=#ddd height=1>"))
-		outFile writeln("<br><br>")
-		//slotNames = slotNames map(asMutable strip asSymbol)
-		
-		slotNames sort foreach(k,
-			s := slots at(k)
-			if(s, s = s strip)
-			isPrivate := s ?beginsWithSeq("Private")
-			if(isPrivate, outFile writeln("<font color=#888>"))
-			isDeprecated := s ?beginsWithSeq("Deprecated")
-			if(isDeprecated, outFile writeln("<font color=#55a>"))
-			outFile writeln("<a name=\"" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\"></a><b>")
-			outFile writeln(k asHtml)
-			//if(s ?args, outFile writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
-			outFile writeln("</b>")
-			outFile writeln("<p>")
-			outFile writeln("<div class=slotDescription>")
-			if(s, outFile writeln(s), outFile writeln("<div class=error>undocumented</div>"))
-			if(isPrivate or isDeprecated, outFile writeln("</font>"))
-			outFile writeln("</div>")
+			outFile write(protoTemplate asMutable interpolateInPlace)
+			outFile close
 		)
 	)
-	outFile writeln("</td>")
-	outFile writeln("</tr>")	
-
-	outFile writeln("</table>")
-	outFile writeln("<br><br><br><br><br>")
-	outFile writeln("</body>")
-	outFile writeln("</html>")
-	outFile close
-	//System exit
-)))
+)

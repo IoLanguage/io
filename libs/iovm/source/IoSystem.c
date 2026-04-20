@@ -9,92 +9,14 @@ Contains methods related to the IoVM.
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
 #include "IoVersion.h"
-#ifndef WIN32
+
 #include "IoInstallPrefix.h"
-#endif
 
-#if defined(linux) || defined(__MINGW64__) || defined(__APPLE__)
 #include <unistd.h>
-#endif
-
-#if defined(unix) || defined(__APPLE__) || defined(__NetBSD__) ||              \
-    defined(__OpenBSD__)
-#include <sys/utsname.h>
-#if defined(__NetBSD__) || defined(__OpenBSD__)
-#include <sys/param.h>
-#endif
-#if defined(HAVE_SYS_SYSCTL_H) && !defined(__GLIBC__)
-#include <sys/sysctl.h>
-#endif
-#endif
-
-//#define WIN32
-#if defined(__CYGWIN__) || defined(_WIN32)
-#include <windows.h>
-#endif
-
-#ifdef WIN32
-#include <windows.h>
-#define _fullpath(res, path, size)                                             \
-    (GetFullPathName((path), (size), (res), NULL) ? (res) : NULL)
-
-#ifndef __CYGWIN__
-static void setenv(const char *varName, const char *value, int force) {
-    const char *safeValue;
-    char *buf;
-
-    if (!varName) {
-        return;
-    }
-
-    if (!value) {
-        safeValue = "";
-    } else {
-        safeValue = value;
-    }
-
-    // buffer for var and value plus '=' and the \0
-    buf = (char *)io_calloc(1, strlen(varName) + strlen(safeValue) + 2);
-
-    if (!buf) {
-        return;
-    }
-
-    strcpy(buf, varName);
-    strcat(buf, "=");
-    strcat(buf, safeValue);
-
-    _putenv(buf);
-    io_free(buf);
-}
-
-//#define setenv(k, v, o) SetEnvironmentVariable((k), (v)) // removed by james
-// burgess #define getpid GetCurrentProcessId  // removed by james burgess
-//#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
-#endif
-
-IO_METHOD(IoObject, installPrefix) {
-
-    char acPath[256];
-    char root[256];
-    if (GetModuleFileName(NULL, acPath, 256) != 0) {
-        // guaranteed file name of at least one character after path
-        strcpy(strrchr(acPath, '\\'), "\\.");
-        _fullpath(root, acPath, 256);
-    }
-
-    return IoState_symbolWithCString_(IOSTATE, root);
-}
-#endif
 
 IoObject *IoSystem_proto(void *state) {
     IoMethodTable methodTable[] = {
-#ifdef WIN32
-        {"shellExecute", IoObject_shellExecute},
-        {"installPrefix", IoObject_installPrefix},
-#else
         {"daemon", IoObject_daemon},
-#endif
         {"errorNumber", IoObject_errorNumberDescription},
         {"exit", IoObject_exit},
         {"getEnvironmentVariable", IoObject_getEnvironmentVariable},
@@ -132,10 +54,8 @@ IoObject *IoSystem_proto(void *state) {
     Returns the root path where io was installed. The default is /usr/local.
     */
 
-#ifndef WIN32
     IoObject_setSlot_to_(self, IOSYMBOL("installPrefix"),
                          IOSYMBOL(INSTALL_PREFIX));
-#endif
 
     return self;
 }
@@ -155,63 +75,10 @@ IO_METHOD(IoObject, errorNumber)
 #include <stdio.h>
 #include <errno.h>
 
-#ifdef WIN32
-#include <shellapi.h>
-#include "IoError.h"
-#include <stdint.h>
-IO_METHOD(IoObject, shellExecute) {
-    LPCTSTR operation;
-    LPCTSTR file;
-    LPCTSTR parameters;
-    LPCTSTR directory;
-    int displayFlag;
-    int64_t result;
-
-    operation = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
-    file = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 1));
-    parameters = IoMessage_argCount(m) > 2
-                     ? CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 2))
-                     : NULL;
-    directory = IoMessage_argCount(m) > 3
-                    ? CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 3))
-                    : NULL;
-    displayFlag = IoMessage_argCount(m) > 4
-                      ? IoMessage_locals_intArgAt_(m, locals, 4)
-                      : SW_SHOWNORMAL;
-
-    result = (int64_t)ShellExecute(NULL, operation, file, parameters, directory,
-                                   displayFlag);
-
-    if (result > 32) {
-        return self;
-    } else {
-        return (IoObject *)IoError_newWithMessageFormat_(
-            IOSTATE, "ShellExecute Error %i", result);
-    }
-}
-#else
-#ifdef daemon
 IO_METHOD(IoObject, daemon) {
-    /*doc System daemon(dontChroot, dontRedirectOutputStreams)
-    Become a daemon process.  If dontChroot is false, the process will change
-    its directory to /.  If dontRedirectOutputStreams is false, stdout and
-    stderr are redirected to /dev/null.
-    */
-    if (daemon(IoMessage_locals_boolArgAt_(m, locals, 0),
-               IoMessage_locals_boolArgAt_(m, locals, 1))) {
-        IoState_error_(IOSTATE, self,
-                       "Daemonize failed. See System errorNumberDescription.");
-    }
-
+    IoState_error_(IOSTATE, self, "daemon is not supported on WASM.");
     return self;
 }
-#else
-IO_METHOD(IoObject, daemon) {
-    IoState_error_(IOSTATE, self, "no daemon function found on this platform.");
-    return self;
-}
-#endif
-#endif
 
 IO_METHOD(IoObject, errorNumberDescription) {
     /*doc System errorNumber
@@ -257,21 +124,8 @@ IO_METHOD(IoObject, system) {
     Makes a system call and returns a Number for the return value.
     */
 
-    IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
-
-    char *buf = NULL;
-    int result = 0;
-    buf = (char *)getcwd(buf, 1024);
-
-    // printf("CURDIR: [%s]\n", buf);
-    // printf("SYSTEM: [%s]\n", CSTRING(s));
-    result = system(CSTRING(s));
-    // printf("system result = %i\n", result);
-#if !defined(_WIN32) || defined(__CYGWIN__)
-    result /= 256;
-#endif
-
-    return IONUMBER(result);
+    IoState_error_(IOSTATE, self, "System system is not supported on WASM");
+    return IONIL(self);
 }
 
 IO_METHOD(IoObject, memorySizeOfState) {
@@ -310,77 +164,7 @@ IO_METHOD(IoObject, platform) {
     Returns a string description of the platform.
     */
 
-    char *platform = "Unknown";
-
-#if defined(__CYGWIN__)
-
-    platform = "cygwin";
-
-#elif defined(__MINGW32__)
-
-    platform = "mingw";
-
-#elif defined(_WIN32)
-
-    OSVERSIONINFO os;
-
-    os.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&os);
-
-    switch (os.dwPlatformId) {
-    case VER_PLATFORM_WIN32_WINDOWS:
-        switch (os.dwMinorVersion) {
-        case 0:
-            platform = "Windows 95";
-            break;
-        case 10:
-            platform = "Windows 98";
-            break;
-        case 90:
-            platform = "Windows ME";
-            break;
-        default:
-            platform = "Windows 9X";
-            break;
-        }
-        break;
-
-    case VER_PLATFORM_WIN32_NT:
-        if (os.dwMajorVersion == 3 || os.dwMajorVersion == 4) {
-            platform = "Windows NT";
-        } else if (os.dwMajorVersion == 5) {
-            switch (os.dwMinorVersion) {
-            case 0:
-                platform = "Windows 2000";
-                break;
-            case 1:
-                platform = "Windows XP";
-                break;
-            default:
-                platform = "Windows";
-                break;
-            }
-        } else {
-            platform = "Windows";
-        }
-        break;
-
-    default:
-        platform = "Windows";
-    }
-
-#elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__) ||            \
-    defined(__OpenBSD__)
-    /* Why Apple and NetBSD don't define 'unix' I'll never know. */
-    struct utsname os;
-    int ret = uname(&os);
-
-    if (ret == 0) {
-        platform = os.sysname;
-    }
-#endif
-
-    return IoState_symbolWithCString_(IOSTATE, platform);
+    return IoState_symbolWithCString_(IOSTATE, "wasm");
 }
 
 IO_METHOD(IoObject, platformVersion) {
@@ -390,28 +174,7 @@ IO_METHOD(IoObject, platformVersion) {
     Returns the version id of the OS.
     */
 
-#if defined(_WIN32)
-
-    OSVERSIONINFO os;
-
-    os.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&os);
-
-    snprintf(platformVersion, sizeof(platformVersion) - 1, "%d.%d",
-             os.dwMajorVersion, os.dwMinorVersion);
-
-#elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__) ||            \
-    defined(__OpenBSD__)
-    /* Why Apple and NetBSD don't define 'unix' I'll never know. */
-    struct utsname os;
-    int ret = uname(&os);
-
-    if (ret == 0) {
-        snprintf(platformVersion, 256, "%s.%s", os.version, os.release);
-        // sprintf(platformVersion, (size_t)sizeof(platformVersion) - 1, (const
-        // char *)os.release);
-    }
-#endif
+    snprintf(platformVersion, sizeof(platformVersion), "wasi-0.1");
 
     return IoState_symbolWithCString_(IOSTATE, platformVersion);
 }
@@ -421,31 +184,7 @@ IO_METHOD(IoObject, activeCpus) {
     Returns the number of active CPUs.
     */
 
-    int cpus = 1;
-#if defined(CTL_HW)
-    int mib[2];
-    size_t len = sizeof(cpus);
-    mib[0] = CTL_HW;
-#if defined(HW_AVAILCPU)
-    mib[1] = HW_AVAILCPU;
-#elif defined(HW_NCPU)
-    mib[1] = HW_NCPU;
-#else
-#error
-#endif
-    sysctl(mib, 2, &cpus, &len, NULL, 0);
-#elif defined(_SC_NPROCESSORS_ONLN)
-    cpus = sysconf(_SC_NPROCESSORS_ONLN);
-#elif defined(_SC_NPROC_ONLN)
-    cpus = sysconf(_SC_NPROC_ONLN);
-#elif defined(WIN32)
-    SYSTEM_INFO si;
-    GetSystemInfo(&si);
-    cpus = si.dwNumberOfProcessors;
-#else
-#error
-#endif
-    return IONUMBER(cpus);
+    return IONUMBER(1);
 }
 
 #include "PortableUsleep.h"
@@ -518,7 +257,7 @@ IO_METHOD(IoObject, thisProcessPid) {
     Return the process id (pid) for this Io process.
     */
 
-    return IONUMBER(getpid());
+    return IONUMBER(1);
 }
 
 /*doc System version

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Io Language — REPL</title>
+<style>
+	::-webkit-scrollbar { width: 15px; height: 15px; }
+	::-webkit-scrollbar-track-piece { background-color: #191919; }
+	::-webkit-scrollbar-thumb:vertical { background-color: #555; }
+
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+
+	html, body { height: 100%; margin: 0; }
+
+	body {
+		font-family: helvetica, sans;
+		font-size: 13px;
+		background-color: #191919;
+		color: #999;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	a {
+		text-decoration: none;
+		color: #999;
+	}
+	a:hover { color: #fff; }
+
+	header {
+		padding: 100px 0 0 12%;
+	}
+	header h1 {
+		font-family: "Helvetica Neue Bold", sans-serif;
+		font-size: 5em;
+		font-weight: 600;
+		color: #fff;
+		line-height: 1;
+		letter-spacing: 0;
+	}
+	header h1 a { color: #fff; }
+	header .sub {
+		font-family: "Helvetica Neue Bold", sans-serif;
+		font-weight: 600;
+		font-size: 1em;
+		color: #fff;
+		margin-top: 0;
+	}
+
+	.status {
+		font-weight: bold;
+		color: #fff;
+		font-size: 14px;
+		padding: 15px 0 0 12%;
+		animation: fadein 2s;
+	}
+	.status.error { color: red; }
+	.status.hidden { display: none; }
+
+	@keyframes fadein {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	.repl {
+		animation: fadein 1s;
+		padding: 30px 0 0 12%;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	.output {
+		flex: 1;
+		overflow-y: auto;
+		font-family: helvetica, sans;
+		font-weight: bold;
+		font-size: 1em;
+		line-height: 1.4em;
+		border-left: 1px solid #666;
+		padding-left: 2em;
+		min-height: 0;
+	}
+
+	.output .replPair {
+		white-space: pre-wrap;
+		margin-bottom: 0.5em;
+	}
+
+	.output .input-echo {
+		color: #fff;
+	}
+
+	.output .result {
+		white-space: pre-wrap;
+		color: #99c;
+	}
+
+	.output .result-error {
+		white-space: pre-wrap;
+		color: red;
+	}
+
+	.output .info {
+		color: #444;
+	}
+
+	.inputsection {
+		border-left: 1px solid #666;
+		padding-left: 2em;
+		padding-top: 0.5em;
+		padding-bottom: 0.5em;
+	}
+
+	#input {
+		font-family: helvetica, sans;
+		font-weight: bold;
+		font-size: 1em;
+		color: #fff;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		width: 100%;
+		resize: none;
+		line-height: 1.4em;
+		overflow: hidden;
+	}
+	#input::placeholder { color: #444; }
+	#input:disabled { opacity: 0.3; }
+
+	.toolbar {
+		display: flex;
+		gap: 8px;
+		padding: 15px 0;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.button, .topic {
+		font-family: helvetica, sans;
+		font-size: 1em;
+		font-weight: normal;
+		border: #444 1px solid;
+		background-color: transparent;
+		color: #666;
+		padding: 0.1em 0.5em;
+		cursor: pointer;
+	}
+	.button:hover, .topic:hover {
+		border-color: #888;
+		color: #aaa;
+	}
+
+	@media only screen and (max-width: 585px) {
+		header { padding-left: 20px; padding-top: 60px; }
+		.status { padding-left: 20px; }
+		.repl { padding-left: 20px; }
+		header h1 { font-size: 3.5em; }
+		.output, .inputsection { padding-left: 1em; }
+	}
+</style>
+</head>
+<body>
+	<header>
+		<h1><a href="https://iolanguage.org/">io</a></h1>
+		<div class="sub">/ repl</div>
+	</header>
+
+	<div class="status" id="status">Loading Io compiled to WASM...</div>
+
+	<div class="repl" id="repl" style="opacity:0">
+		<div class="output" id="output"></div>
+		<div class="inputsection">
+			<textarea id="input" rows="1" autocomplete="off" spellcheck="false" disabled placeholder="loading..."></textarea>
+		</div>
+		<div class="toolbar">
+			<span class="button" id="eval-btn">EVAL</span>
+			<span class="topic" data-code="&quot;Hello world!&quot; println">HELLO WORLD</span>
+			<span class="topic" data-code="list(1, 2, 3) map(x, x * x)">LISTS</span>
+			<span class="topic" data-code="Dog := Object clone do(speak := method(&quot;woof!&quot; println)); Dog speak">PROTOS</span>
+			<span class="topic" data-code="JS get(&quot;Math&quot;) sqrt(144)">JS MATH</span>
+			<span class="topic" data-code='el := JS document createElement("div")&#10;el set("textContent", "Hello from Io!")&#10;s := el get("style")&#10;s setProperty("color", "#0ff")&#10;s setProperty("fontSize", "2em")&#10;s setProperty("padding", "0.5em 0 0 12%")&#10;JS document get("body") appendChild(el)&#10;"(element added to page)" println'>DOM</span>
+			<span class="topic" data-code='JS get("Promise") resolve(list(10, 20, 30)) size'>ASYNC</span>
+			<span class="topic" data-code='JS setTimeout(block(writeln("hello from the future!")), 1000)&#10;"(waiting 1 second...)" println'>CALLBACK</span>
+			<span class="topic" data-code='colors := list("#f0f", "#0ff", "#ff0", "#0f0")&#10;colors foreach(i, c,&#10;  el := JS document createElement("span")&#10;  el set("textContent", " io ")&#10;  s := el get("style")&#10;  s setProperty("color", c)&#10;  s setProperty("fontSize", "3em")&#10;  s setProperty("fontWeight", "bold")&#10;  s setProperty("padding", "0 0 0 " .. if(i == 0, "12%", "0"))&#10;  JS document get("body") appendChild(el)&#10;)&#10;"(added colorful elements)" println'>COLORS</span>
+			<span class="topic" data-code='btn := JS document createElement("button")&#10;btn set("textContent", "Click me!")&#10;s := btn get("style")&#10;s setProperty("margin", "1em 0 0 12%")&#10;s setProperty("padding", "0.5em 1em")&#10;s setProperty("fontSize", "1.2em")&#10;s setProperty("cursor", "pointer")&#10;count := 0&#10;btn addEventListener("click", block(count = count + 1; btn set("textContent", "Clicked " .. count .. " times")))&#10;JS document get("body") appendChild(btn)&#10;"(button added - try clicking it!)" println'>BUTTON</span>
+			<span class="button" id="clear-btn">CLEAR</span>
+		</div>
+	</div>
+
+	<script src="io.js"></script>
+</body>
+</html>

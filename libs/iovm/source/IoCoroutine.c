@@ -19,7 +19,6 @@ Now implemented using frame-based evaluation (no platform-specific assembly).
 #ifdef IO_CALLCC
 #include "IoContinuation.h"
 #endif
-#include <execinfo.h>
 
 //#define DEBUG
 
@@ -27,6 +26,9 @@ Now implemented using frame-based evaluation (no platform-specific assembly).
 // #define DEBUG_CORO_EVAL 1
 
 static const char *protoId = "Coroutine";
+
+// Function pointer for JS bridge GC marking (set by io_js_bridge.c)
+void (*IoJSBridge_markIoHandlesFunc)(void) = NULL;
 
 #define DATA(self) ((IoCoroutineData *)IoObject_dataPointer(self))
 
@@ -144,6 +146,12 @@ void IoCoroutine_mark(IoCoroutine *self) {
         for (int i = 0; i < state->callPoolSize; i++) {
             IoObject_shouldMarkIfNonNull(state->callPool[i]);
         }
+    }
+
+    // Mark Io objects referenced by JS via the bridge handle table
+    // (function pointer set by io_js_bridge.c at init time)
+    if (self == state->mainCoroutine && IoJSBridge_markIoHandlesFunc) {
+        IoJSBridge_markIoHandlesFunc();
     }
 
 }
@@ -680,6 +688,16 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
         IoObject *result = IoState_evalLoop_(state);
         state->nestedEvalDepth--;
         IoCoroutine_rawSetResult_(self, result);
+
+        // If eval loop yielded for a JS Promise, save the *active* coro's
+        // frame state. This may differ from self when try() did a frame swap
+        // (currentCoroutine is the child coro; self is the outer try-coro
+        // whose frames were already saved by the child swap).
+        if (state->awaitingJsPromise) {
+            IoCoroutine *activeCoro = IoState_currentCoroutine(state);
+            IoCoroutine_saveState_(activeCoro, state);
+            state->suspendedCoro = IoState_retain_(state, (IoObject *)activeCoro);
+        }
 
         // Restore previous coroutine if any
         if (previousCoro && previousCoro != self) {

@@ -186,7 +186,11 @@
 
 #include <stddef.h>
 #include <limits.h>
-#include <signal.h>
+/* No signal.h on WASM; provide minimal sig_atomic_t */
+typedef int sig_atomic_t;
+#ifndef SIG_ATOMIC_MAX
+#define SIG_ATOMIC_MAX INT_MAX
+#endif
 
 /*
  *  For gcc with _STDINT_H, fill in the PRINTF_INT*_MODIFIER macros, and

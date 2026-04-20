@@ -72,9 +72,7 @@ BASEKIT_API void BStream_writeByte_(BStream *self, unsigned char v);
 BASEKIT_API void BStream_writeUint8_(BStream *self, uint8_t v);
 BASEKIT_API void BStream_writeUint32_(BStream *self, uint32_t v);
 BASEKIT_API void BStream_writeInt32_(BStream *self, int32_t v);
-#if !defined(__SYMBIAN32__)
 BASEKIT_API void BStream_writeInt64_(BStream *self, int64_t v);
-#endif
 BASEKIT_API void BStream_writeDouble_(BStream *self, double v);
 BASEKIT_API void BStream_writeData_length_(BStream *self,
                                            const unsigned char *data,
@@ -89,9 +87,7 @@ BASEKIT_API unsigned char BStream_readByte(BStream *self);
 BASEKIT_API uint8_t BStream_readUint8(BStream *self);
 BASEKIT_API uint32_t BStream_readUint32(BStream *self);
 BASEKIT_API int32_t BStream_readInt32(BStream *self);
-#if !defined(__SYMBIAN32__)
 BASEKIT_API int64_t BStream_readInt64(BStream *self);
-#endif
 BASEKIT_API double BStream_readDouble(BStream *self);
 BASEKIT_API uint8_t *BStream_readDataOfLength_(BStream *self, size_t length);
 BASEKIT_API void BStream_readUArray_(BStream *self, UArray *b);
@@ -103,9 +99,7 @@ BASEKIT_API const char *BStream_readCString(BStream *self);
 BASEKIT_API void BStream_writeTaggedUint8_(BStream *self, uint8_t v);
 BASEKIT_API void BStream_writeTaggedUint32_(BStream *self, uint32_t v);
 BASEKIT_API void BStream_writeTaggedInt32_(BStream *self, int32_t v);
-#if !defined(__SYMBIAN32__)
 BASEKIT_API void BStream_writeTaggedInt64_(BStream *self, int64_t v);
-#endif
 BASEKIT_API void BStream_writeTaggedDouble_(BStream *self, double v);
 BASEKIT_API void BStream_writeTaggedData_length_(BStream *self,
                                                  const unsigned char *data,
@@ -118,9 +112,7 @@ BASEKIT_API void BStream_writeTaggedUArray_(BStream *self, UArray *ba);
 BASEKIT_API uint8_t BStream_readTaggedUint8(BStream *self);
 BASEKIT_API uint32_t BStream_readTaggedUint32(BStream *self);
 BASEKIT_API int32_t BStream_readTaggedInt32(BStream *self);
-#if !defined(__SYMBIAN32__)
 BASEKIT_API int64_t BStream_readTaggedInt64(BStream *self);
-#endif
 BASEKIT_API double BStream_readTaggedDouble(BStream *self);
 BASEKIT_API void BStream_readTaggedUArray_(BStream *self, UArray *b);
 BASEKIT_API UArray *BStream_readTaggedUArray(BStream *self);

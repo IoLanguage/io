@@ -60,7 +60,6 @@ void IoState_updateDebuggingMode(IoState *self) {
     }
 }
 
-#include <signal.h>
 
 static IoState *stateToReceiveControlC = NULL;
 static int multipleIoStates = 0;
@@ -123,6 +122,5 @@ void IoState_setupUserInterruptHandler(IoState *self) {
     }
 
     stateToReceiveControlC = self;
-    signal(SIGINT, IoState_UserInterruptHandler);
-    signal(SIGTERM, IoState_UserInterruptHandler);
+    /* WASM: no signal support */
 }

@@ -1804,11 +1804,7 @@ IO_METHOD(IoObject, uniqueId) {
     Returns a Number containing a unique id for the receiver.
     */
     char s[32];
-#if defined(_MSC_VER) || defined(__MINGW32__)
-    sprintf(s, "0x%p", (void *)IoObject_deref(self));
-#else
     sprintf(s, "%p", (void *)IoObject_deref(self));
-#endif
     return IOSYMBOL(s);
     // return IONUMBER((double)((size_t)IoObject_deref(self)));
 }

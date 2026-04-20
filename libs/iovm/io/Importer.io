@@ -97,35 +97,8 @@ Importer := Object clone do(
 	)
 
 
-	//doc Importer FolderImporter An Importer for objects laid out as folders with files as methods.
-	FolderImporter := Object clone do(
-		importsFrom := "folder"
-
-		import := method(protoName,
-			//writeln("FolderImporter import(", protoName, ")")
-			if(hasAddon := AddonLoader hasAddonNamed(protoName),
-				AddonLoader loadAddonNamed(protoName)
-			)
-			hasAddon
-		)
-	)
-
-	//doc Importer AddonImporter An Importer for addon modules.
-	AddonImporter := Object clone do(
-		importsFrom := "dll"
-
-		import := method(protoName,
-			//writeln("AddonImporter import(", protoName, ")")
-			if(hasAddon := AddonLoader hasAddonNamed(protoName),
-				AddonLoader loadAddonNamed(protoName)
-			)
-			hasAddon
-		)
-	)
-
-
 	//doc Importer importers List of Importer objects.
-	importers := list(FileImporter, FolderImporter, AddonImporter)
+	importers := list(FileImporter)
 
 	//doc Importer import(originalCallMessage) Imports an object or addon for the given Message.
 	import := method(originalCall,

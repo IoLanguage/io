@@ -81,11 +81,7 @@ typedef union {
 
 #ifdef __UNK__EMU__ /* Unknown System/Emulation */
 
-#ifdef _MSC_VER
-#pragma message("using SIMD Emulation")
-#else
 #warning "using SIMD Emulation"
-#endif
 
 /* v0 = v1 {mask} v2, where mask controlls which packed values are copied */
 #define simd_copy(v1, v2, m, v0)                                               \

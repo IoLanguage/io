@@ -270,7 +270,7 @@ UArray *UArray_newWithData_type_size_copy_(void *bytes, CTYPE type, size_t size,
                                            int copy) {
     UArray *self = (UArray *)io_calloc(1, sizeof(UArray));
     UArray_setData_type_size_copy_(self, bytes, type, size, copy);
-    self->encoding = CENCODING_ASCII;
+    self->encoding = CENCODING_UTF8;
     return self;
 }
 

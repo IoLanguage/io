@@ -2,36 +2,40 @@
 
 ## What is this?
 
-The Io programming language — a dynamic prototype-based language built on message passing. See `README.md` for the full project description and build instructions for all platforms.
+The Io programming language — a dynamic prototype-based language built on message passing, targeting WASM/WASI.
 
 ## Build
 
+Requires [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) and [wasmtime](https://wasmtime.dev/).
+
 ```bash
-cd build
-cmake --build .
+make            # build build/bin/io_static (WASM binary)
+make test       # build build/bin/test_iterative_eval
+make check      # run both test suites with wasmtime
+make clean      # remove build artifacts
+make regenerate # regenerate IoVMInit.c from .io files
 ```
 
-The binary lands at `_build/binaries/io`. Tests at `_build/binaries/test_iterative_eval`.
+Set `WASI_SDK` if wasi-sdk is not at `~/wasi-sdk`:
+```bash
+make WASI_SDK=/opt/wasi-sdk
+```
 
 ## Test
 
 ```bash
 # Run a one-liner
-./_build/binaries/io -e '"hello" println'
+wasmtime build/bin/io_static -e '"hello" println'
 
 # Run a file
-./_build/binaries/io path/to/script.io
+wasmtime --dir=. build/bin/io_static path/to/script.io
 
 # C test suite (iterative evaluator)
-./_build/binaries/test_iterative_eval
+wasmtime build/bin/test_iterative_eval
 
-# Io test suite (from build directory)
-io ../libs/iovm/tests/correctness/run.io            # Full suite
-io ../libs/iovm/tests/correctness/ListTest.io        # Single test
-IO_TEST_VERBOSE=1 io ../libs/iovm/tests/correctness/run.io  # Verbose
-
-# Quick smoke test for control flow + exceptions
-./_build/binaries/io -e 'if(true, "yes") println; for(i,1,3, i println); list(1,2,3) foreach(v, v println); e := try(1 unknownMethod); e error println; "done" println'
+# Io test suite
+wasmtime --dir=. --dir=/tmp build/bin/io_static libs/iovm/tests/correctness/run.io
+IO_TEST_VERBOSE=1 wasmtime --dir=. --dir=/tmp build/bin/io_static libs/iovm/tests/correctness/run.io
 ```
 
 ## Project Structure
@@ -74,10 +78,10 @@ See `agents/` for detailed design docs:
 ## Important Conventions
 
 ### IoVMInit.c regeneration
-When `.io` files in `libs/iovm/io/` are modified, the generated `libs/iovm/source/IoVMInit.c` must be regenerated. CMake's `io2c` step doesn't track `.io` file changes, so force it:
+When `.io` files in `libs/iovm/io/` are modified, the generated `libs/iovm/source/IoVMInit.c` must be regenerated:
 ```bash
-rm libs/iovm/source/IoVMInit.c
-cd build && cmake --build .
+make regenerate
+make
 ```
 
 ### Evaluator
@@ -102,7 +106,7 @@ Every Io object is a `CollectorMarker` (`typedef struct CollectorMarker IoObject
 
 All operations are message sends. The parser produces message chains, then `IoMessage_opShuffle.c` rewrites them by operator precedence. Assignment operators: `:=` → `setSlot`, `=` → `updateSlot`, `::=` → `newSlot`.
 
-Standard library files in `libs/iovm/io/` are loaded in the explicit order listed in `CMakeLists.txt`: bootstrap files (`List_bootstrap.io`, `Object_bootstrap.io`, `OperatorTable.io`, `Object.io`, `List.io`, `Exception.io`) first, then alphabetical core, then `CLI.io`, `Importer.io` last.
+Standard library files in `libs/iovm/io/` are loaded in the explicit order listed in the `Makefile` `IO_FILES` variable: bootstrap files (`List_bootstrap.io`, `Object_bootstrap.io`, `OperatorTable.io`, `Object.io`, `List.io`, `Exception.io`) first, then alphabetical core, then `CLI.io`, `Importer.io` last.
 
 ## Code Style
 

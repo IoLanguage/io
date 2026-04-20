@@ -6,10 +6,6 @@
 A container for a double (a 64bit floating point number on most platforms).
 */
 
-#ifdef _MSC_VER
-#define _USE_MATH_DEFINES
-#endif
-
 #include "IoNumber.h"
 #include "IoObject.h"
 #include "IoState.h"
@@ -21,27 +17,12 @@ A container for a double (a 64bit floating point number on most platforms).
 #include <ctype.h>
 #include <assert.h>
 
-#include <setjmp.h>
-#if defined(_BSD_PPC_SETJMP_H_)
-#include <machine/limits.h>
-#else
 #include <limits.h>
-#endif
 
-#if defined(__SYMBIAN32__)
-/* TODO: Fix symbian constants */
-#define FLT_MAX 0.0
-#define FLT_MIN 0.0
-#else
 #include <float.h>
-#endif
 
 #ifndef log2
 double log2(double n) { return log(n) / log(2); }
-#endif
-
-#ifdef __FreeBSD__
-#define log2(x) (log(x) / M_LN2)
 #endif
 
 #define DATA(self) CNUMBER(self)
@@ -304,11 +285,7 @@ void IoNumber_print(IoNumber *self) {
 
 // -----------------------------------------------------------
 
-#ifdef _WIN32
-#include <winsock2.h>
-#else
 #include <arpa/inet.h>
-#endif
 
 // IO_METHOD(IoNumber, htonl)
 //{

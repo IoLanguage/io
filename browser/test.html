@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Io Language — Tests</title>
+<style>
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+	html, body { height: 100%; }
+
+	body {
+		font-family: helvetica, sans;
+		font-size: 13px;
+		background-color: #191919;
+		color: #999;
+		padding: 100px 0 40px 12%;
+	}
+
+	h1 {
+		font-family: "Helvetica Neue Bold", sans-serif;
+		font-size: 5em;
+		font-weight: 600;
+		color: #fff;
+		line-height: 1;
+	}
+	.sub {
+		font-family: "Helvetica Neue Bold", sans-serif;
+		font-weight: 600;
+		font-size: 1em;
+		color: #fff;
+	}
+
+	#status {
+		font-weight: bold;
+		color: #fff;
+		font-size: 14px;
+		padding: 15px 0;
+	}
+
+	#results {
+		border-left: 1px solid #666;
+		padding-left: 2em;
+		margin-top: 20px;
+	}
+
+	.test {
+		margin-bottom: 0.6em;
+		font-weight: bold;
+		font-size: 1em;
+		line-height: 1.4em;
+	}
+
+	.test .label { color: #fff; }
+	.test .pass { color: #6c6; }
+	.test .fail { color: #c66; }
+
+	.test .detail {
+		font-weight: normal;
+		color: #666;
+		white-space: pre-wrap;
+		margin-left: 1em;
+	}
+
+	#summary {
+		margin-top: 1em;
+		font-weight: bold;
+		font-size: 14px;
+	}
+	#summary.all-pass { color: #6c6; }
+	#summary.has-fail { color: #c66; }
+
+	.button {
+		font-family: helvetica, sans;
+		font-size: 1em;
+		border: #444 1px solid;
+		background-color: transparent;
+		color: #666;
+		padding: 0.1em 0.5em;
+		cursor: pointer;
+		margin-top: 15px;
+		display: inline-block;
+	}
+	.button:hover {
+		border-color: #888;
+		color: #aaa;
+	}
+</style>
+</head>
+<body>
+	<h1>io</h1>
+	<div class="sub">/ tests</div>
+
+	<div id="status">Loading Io VM...</div>
+	<div id="sandbox" style="display:none"></div>
+	<div id="results"></div>
+	<div id="summary"></div>
+	<span class="button" onclick="location.reload()">RE-RUN</span>
+
+	<script src="io.js"></script>
+	<script>
+// Test fixtures: JS objects for bridge convention tests
+globalThis.__testMap = new Map([["x", 42]]);
+globalThis.__testSet = new Set([10, 20, 30]);
+globalThis.__testFloat32 = new Float32Array([1.5, 2.5, 3.5]);
+globalThis.__testUint8 = new Uint8Array([65, 66, 67]);
+globalThis.__testObj = { throwError() { throw new Error("test error msg"); } };
+
+const tests = [
+	{ name: "println", code: '"hello" println', expect: "hello\n" },
+	{ name: "arithmetic", code: "1 + 2", expect: "==> 3\n" },
+	{ name: "persistent state", code: ["x := 42", "x * 2"], expect: "==> 84\n" },
+	{ name: "list ops", code: "list(1,2,3) size", expect: "==> 3\n" },
+	{ name: "string methods", code: '"hello" asMutable uppercase', expect: "==> HELLO\n" },
+	{ name: "block/method", code: "method(x, x * x) call(7)", expect: "==> 49\n" },
+	{ name: "error handling", code: "try(nil foo) type", expect: "==> Exception\n" },
+
+	// DOM via JS bridge
+	{ name: "document body", code: "JS document body tagName", expect: "==> BODY\n" },
+	{ name: "createElement", code: 'JS document createElement("div") tagName', expect: "==> DIV\n" },
+	{ name: "set/get textContent", code: [
+		'el := JS document createElement("span")',
+		'el set("textContent", "hello dom")',
+		'el textContent',
+	], expect: "==> hello dom\n" },
+	{ name: "setAttribute / getAttribute", code: [
+		'el := JS document createElement("div")',
+		'el setAttribute("data-x", "42")',
+		'el getAttribute("data-x")',
+	], expect: "==> 42\n" },
+	{ name: "querySelector body", code: 'JS document querySelector("body") tagName', expect: "==> BODY\n" },
+	{ name: "appendChild + children", code: [
+		'parent := JS document createElement("div")',
+		'parent appendChild(JS document createElement("span"))',
+		'parent appendChild(JS document createElement("span"))',
+		'parent get("children") length',
+	], expect: "==> 2\n" },
+	{ name: "set/get innerHTML", code: [
+		'el := JS document createElement("div")',
+		'el set("innerHTML", "<b>bold</b>")',
+		'el innerHTML',
+	], expect: "==> <b>bold</b>\n" },
+	{ name: "style setProperty / getPropertyValue", code: [
+		'el := JS document createElement("div")',
+		'el style setProperty("color", "red")',
+		'el style getPropertyValue("color")',
+	], expect: "==> red\n" },
+	{ name: "classList add / contains", code: [
+		'el := JS document createElement("div")',
+		'el classList add("foo")',
+		'el classList contains("foo")',
+	], expect: "==> true\n" },
+	{ name: "getElementById", code: 'JS document getElementById("sandbox") tagName', expect: "==> DIV\n" },
+	{ name: "querySelectorAll", code: 'JS document querySelectorAll("meta") length > 0', expect: "==> true\n" },
+
+	// JS bridge: property access
+	{ name: "JS Math sqrt", code: "JS Math sqrt(144)", expect: "==> 12\n" },
+	{ name: "JS Math PI", code: "JS Math PI > 3", expect: "==> true\n" },
+	{ name: "JS typeof", code: "JS Math typeof", expect: "==> object\n" },
+
+	// JS bridge: method call
+	{ name: "JS parseInt", code: 'JS parseInt("42")', expect: "==> 42\n" },
+	{ name: "JS isNaN", code: "JS isNaN(0/0)", expect: "==> true\n" },
+
+	// JS bridge: value marshaling
+	{ name: "JS Array round-trip", code: 'JS JSON parse("[1,2,3]") size', expect: "==> 3\n" },
+	{ name: "JS List to Array", code: 'JS JSON stringify(list(1,2,3))', expect: '==> [1,2,3]\n' },
+	{ name: "Io Map round-trip", code: [
+		'm := Map clone atPut("a", 1)',
+		'JS JSON stringify(JS get("Object") fromEntries(m))',
+	], expect: '==> {"a":1}\n' },
+
+	// JS bridge: JSObject get/set
+	{ name: "JSObject set/get", code: [
+		'obj := JS JSON parse("{}")',
+		'obj set("x", 42)',
+		'obj get("x")',
+	], expect: "==> 42\n" },
+
+	// JS bridge: JSObject at (array index)
+	{ name: "JSObject at", code: [
+		'arr := JS JSON parse("[10,20,30]")',
+		'arr at(1)',
+	], expect: "==> 20\n" },
+
+	// JS bridge: chained property access
+	{ name: "JS chained access", code: 'JS JSON stringify(JS JSON parse("[4,5]"))', expect: "==> [4,5]\n" },
+
+	// JS bridge: boolean/nil marshaling
+	{ name: "JS true/false", code: 'JS isNaN(42)', expect: "==> false\n" },
+	{ name: "JS undefined result", code: 'JS console log("test") == JsTypes undefined', expect: "==> true\n" },
+
+	// Phase 1: JsTypes undefined + cycle detection + BigInt
+	{ name: "JsTypes undefined type", code: 'JsTypes undefined type', expect: "==> undefined\n" },
+	{ name: "undefined vs nil", code: [
+		'obj := JS JSON parse("{}")',
+		'obj get("nope") == nil',
+	], expect: "==> false\n" },
+	{ name: "undefined identity", code: [
+		'obj := JS JSON parse("{}")',
+		'obj get("nope") == JsTypes undefined',
+	], expect: "==> true\n" },
+
+	// BigInt: round-trip across bridge
+	{ name: "BigInt from JS", code: 'JS get("BigInt") call(42) type', expect: "==> BigInt\n" },
+	{ name: "BigInt round-trip", code: 'JS get("BigInt") call(42) asString', expect: "==> 42\n" },
+	{ name: "BigInt large value", code: [
+		'b := JS get("BigInt") call("123456789012345678901234567890")',
+		'b asString',
+	], expect: "==> 123456789012345678901234567890\n" },
+	{ name: "BigInt to JS", code: [
+		'b := BigInt from(42)',
+		'toStr := jsfunction("return arguments[0].toString();")',
+		'toStr call(b)',
+	], expect: "==> 42\n" },
+	{ name: "BigInt arithmetic +", code: '(BigInt from(10) + BigInt from(20)) asString', expect: "==> 30\n" },
+	{ name: "BigInt arithmetic *", code: '(BigInt from(7) * BigInt from(6)) asString', expect: "==> 42\n" },
+	{ name: "BigInt comparison ==", code: 'BigInt from(42) == BigInt from(42)', expect: "==> true\n" },
+	{ name: "BigInt comparison <", code: 'BigInt from(1) < BigInt from(2)', expect: "==> true\n" },
+	{ name: "BigInt negate", code: 'BigInt from(5) negate asString', expect: "==> -5\n" },
+	{ name: "BigInt from string", code: 'BigInt from("999") asString', expect: "==> 999\n" },
+	{ name: "BigInt asNumber", code: 'BigInt from(42) asNumber', expect: "==> 42\n" },
+
+	{ name: "eval after bigint", code: "1 + 1", expect: "==> 2\n" },
+	{ name: "cycle detection", code: [
+		"a := list(1, 2); a append(a); nil",
+		"try(JS JSON stringify(a)) type",
+	], expect: "==> Exception\n" },
+	{ name: "eval after cycle", code: "1 + 1", expect: "==> 2\n" },
+
+	// Phase 2: Container symmetry (JS Map/Set)
+	{ name: "JS Map to Io Map", code: 'JS get("__testMap") at("x")', expect: "==> 42\n" },
+	{ name: "JS Set to Io List", code: 'JS get("__testSet") size', expect: "==> 3\n" },
+
+	// Phase 3: TypedArray / Vector
+	{ name: "Float32Array to Vector", code: 'JS get("__testFloat32") at(1)', expect: "==> 2.5\n" },
+	{ name: "Uint8Array to Sequence", code: 'JS get("__testUint8") size', expect: "==> 3\n" },
+	{ name: "vector to TypedArray", code: 'JS get("Array") from(vector(1,2,3)) size', expect: "==> 3\n" },
+
+	// Phase 4: Exception proxy
+	{ name: "JS error has message", code: [
+		'e := try(JS get("__testObj") throwError)',
+		'e error containsSeq("test error msg")',
+	], expect: "==> true\n" },
+
+	// jsfunction: create JS functions from Io
+	{ name: "jsfunction basic", code: 'jsfunction("return 42;") call', expect: "==> 42\n" },
+	{ name: "jsfunction with args", code: [
+		'add := jsfunction("return arguments[0] + arguments[1];")',
+		'add call(3, 4)',
+	], expect: "==> 7\n" },
+	{ name: "jsfunction string return", code: 'jsfunction("return \\"hello\\";") call', expect: "==> hello\n" },
+	{ name: "jsfunction syntax error", code: 'try(jsfunction("{{invalid")) type', expect: "==> Exception\n" },
+	{ name: "jsfunction DOM access", code: [
+		'el := JS document createElement("div")',
+		'el set("id", "jsfn-test")',
+		'JS document body appendChild(el)',
+		'getter := jsfunction("return document.getElementById(\\"jsfn-test\\").tagName;")',
+		'getter call',
+	], expect: "==> DIV\n" },
+	{ name: "jsfunction typeof", code: 'jsfunction("return 1;") typeof', expect: "==> function\n" },
+
+	// Io blocks as JS callbacks (callable IoProxy)
+	{ name: "Io block as JS callback", code: [
+		'caller := jsfunction("return arguments[0](42);")',
+		'caller call(block(x, x * 2))',
+	], expect: "==> 84\n" },
+	{ name: "Io block callback with multiple args", code: [
+		'adder := jsfunction("return arguments[0](3, 4);")',
+		'adder call(block(a, b, a + b))',
+	], expect: "==> 7\n" },
+	{ name: "Io block callback returning string", code: [
+		'greeter := jsfunction("return arguments[0](\\\"world\\\");")',
+		'greeter call(block(name, \"hello \" .. name))',
+	], expect: "==> hello world\n" },
+
+	// Promise then with Io block callback
+	{ name: "Promise then setup", code: [
+		'Lobby promiseResult := nil',
+		'p := JS get("Promise") resolve(99)',
+		'p then(block(v, Lobby setSlot("promiseResult", v)))',
+		'nil',
+	], expect: "", async: true },
+	{ name: "Promise then received", code: 'promiseResult', expect: "==> 99\n" },
+	{ name: "Promise chain", code: [
+		'Lobby chainResult := nil',
+		'JS get("Promise") resolve(10) then(block(v, v * 2)) then(block(v, Lobby setSlot("chainResult", v)))',
+		'nil',
+	], expect: "", async: true },
+	{ name: "Promise chain received", code: 'chainResult', expect: "==> 20\n" },
+
+	// IoFuture: Promise detection + auto-wrapping
+	{ name: "Future type", code: [
+		'Lobby futureTest := JS get("Promise") resolve(42)',
+		'futureTest type',
+	], expect: "==> Future\n" },
+	{ name: "Future pending before flush", code: [
+		'Lobby futureTest2 := JS get("Promise") resolve(99)',
+		'futureTest2 state',
+	], expect: "==> pending\n" },
+	{ name: "Future resolved after flush", code: 'futureTest state', expect: "==> resolved\n" },
+	{ name: "Future isReady", code: 'futureTest isReady', expect: "==> true\n" },
+	{ name: "Future await", code: 'futureTest await', expect: "==> 42\n" },
+	{ name: "Future reject setup", code: [
+		'Lobby futureReject := JS get("Promise") reject("oops")',
+		'nil',
+	], expect: "", async: true },
+	{ name: "Future reject state", code: 'futureReject state', expect: "==> rejected\n" },
+	{ name: "Future await rejected raises", code: 'try(futureReject await) type', expect: "==> Exception\n" },
+	{ name: "Future label", code: [
+		'f := JS get("Promise") resolve(1)',
+		'f setLabel("test label")',
+		'f label',
+	], expect: "==> test label\n" },
+
+	// Async await: eval yields to JS, resumes when Promise resolves
+	{ name: "await resolved Promise", code: [
+		'JS get("Promise") resolve(42) await',
+	], expect: "==> 42\n", asyncAwait: true },
+	{ name: "await rejected Promise", code: [
+		'try(JS get("Promise") reject("boom") await) error containsSeq("boom")',
+	], expect: "==> true\n", asyncAwait: true },
+
+	// Implicit forward: auto-await + forward message to resolved value
+	{ name: "implicit forward on resolved", code: [
+		'f := JS get("Promise") resolve(list(1,2,3))',
+		'nil',
+	], expect: "", async: true },
+	{ name: "implicit forward size", code: [
+		'f size',
+	], expect: "==> 3\n" },
+	{ name: "implicit forward pending auto-await", code: [
+		'JS get("Promise") resolve(list(10,20,30)) size',
+	], expect: "==> 3\n", asyncAwait: true },
+	{ name: "implicit forward chain", code: [
+		'JS get("Promise") resolve("hello world") split(" ") size',
+	], expect: "==> 2\n", asyncAwait: true },
+	{ name: "implicit forward rejected raises", code: [
+		'try(JS get("Promise") reject("nope") size) type',
+	], expect: "==> Exception\n", asyncAwait: true },
+];
+
+function escapeText(s) {
+	return JSON.stringify(s);
+}
+
+async function runTests() {
+	const statusEl = document.getElementById("status");
+	const resultsEl = document.getElementById("results");
+	const summaryEl = document.getElementById("summary");
+
+	try {
+		await loadIo();
+	} catch (e) {
+		statusEl.textContent = "Failed to load: " + e.message;
+		statusEl.style.color = "#c66";
+		return;
+	}
+
+	statusEl.textContent = "Running tests...";
+
+	let passed = 0;
+	let total = tests.length;
+
+	for (const t of tests) {
+		// Flush microtasks (Promise callbacks) between tests
+		await Promise.resolve();
+
+		const div = document.createElement("div");
+		div.className = "test";
+
+		let result;
+		const codes = Array.isArray(t.code) ? t.code : [t.code];
+		try {
+			for (const c of codes) {
+				result = ioEval(c);
+			}
+		} catch (e) {
+			result = { status: -1, output: "WASM error: " + e.message + "\n" };
+		}
+
+		// For async tests, flush microtasks + macrotask so Promise callbacks fire
+		if (t.async) {
+			await new Promise(r => setTimeout(r, 0));
+		}
+
+		// For asyncAwait tests: ioEval returned status=2 (yielded for JS Promise).
+		// Wait for the Promise to settle and io_resume_eval to deliver the result.
+		if (t.asyncAwait && result && result.status === 2) {
+			result = await new Promise(resolve => {
+				pendingAsyncResolve = resolve;
+			});
+		}
+
+		let ok = false;
+		if (t.expectError) {
+			ok = result.status !== 0 || result.output.toLowerCase().includes("exception")
+				|| result.output.includes("WASM error");
+		} else {
+			ok = result.output === t.expect;
+		}
+
+		if (ok) {
+			passed++;
+			div.innerHTML = '<span class="pass">PASS</span> <span class="label">' +
+				t.name + '</span>';
+		} else {
+			let detail = "";
+			if (t.expectError) {
+				detail = "expected error, got status=" + result.status +
+					" output=" + escapeText(result.output);
+			} else {
+				detail = "expected " + escapeText(t.expect) +
+					"\n     got " + escapeText(result.output);
+			}
+			div.innerHTML = '<span class="fail">FAIL</span> <span class="label">' +
+				t.name + '</span>' +
+				'<div class="detail">' + detail + '</div>';
+		}
+
+		resultsEl.appendChild(div);
+	}
+
+	statusEl.style.display = "none";
+	summaryEl.textContent = passed + " / " + total + " passed";
+	summaryEl.className = passed === total ? "all-pass" : "has-fail";
+}
+
+runTests();
+	</script>
+</body>
+</html>

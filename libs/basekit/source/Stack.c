@@ -7,9 +7,7 @@ Notes: first element of items is always 0x0.
 #define STACK_C
 #include "Stack.h"
 #undef STACK_C
-#if !defined(_MSC_VER)
 #include <inttypes.h>
-#endif
 
 Stack *Stack_new(void) {
     // size is the number of pointers, including the starting NULL.
@@ -117,9 +115,13 @@ void Stack_popToMark_(Stack *self, intptr_t mark) {
     Stack_popMark(self);
 }
 
+static void Stack_appendToList_(void *list, void *item) {
+    List_append_((List *)list, item);
+}
+
 List *Stack_asList(const Stack *self) // slow
 {
     List *list = List_new();
-    Stack_do_on_(self, (StackDoOnCallback *)List_append_, list);
+    Stack_do_on_(self, Stack_appendToList_, list);
     return list;
 }

@@ -62,7 +62,10 @@ typedef enum {
 
     // doString/doMessage/doFile states
     FRAME_STATE_DO_EVAL,              // Ready to evaluate compiled code
-    FRAME_STATE_DO_WAIT               // Waiting for evaluation result
+    FRAME_STATE_DO_WAIT,              // Waiting for evaluation result
+
+    // Async states (browser/WASM)
+    FRAME_STATE_AWAIT_JS              // Suspended waiting for JS Promise
 } IoFrameState;
 
 // Frame data payload — stored in IoObject's dataPointer
@@ -165,6 +168,10 @@ typedef struct IoEvalFrameData {
             IoObject *evalTarget;         // Target for evaluation (self)
             IoObject *evalLocals;         // Locals for evaluation (context)
         } doInfo;
+
+        struct {
+            IoObject *future;             // The IoFuture being awaited
+        } awaitInfo;
     } controlFlow;
 } IoEvalFrameData;
 

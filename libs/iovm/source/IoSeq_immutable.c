@@ -896,15 +896,14 @@ IO_METHOD(IoSeq, toBase) {
     char buf[64], *ptr = buf + 64;
     unsigned long long n = 0;
 
+    if (IOSTATE->errorRaised) return IONIL(self);
+
     if (base < 2 || base > 36) {
         IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
+        return IONIL(self);
     }
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-    n = strtoull(IoSeq_asCString(self), NULL, 0);
-#else
     n = (unsigned long long)IoSeq_asDouble(self);
-#endif
 
     /* Build the converted string backwards. */
     *(--ptr) = '\0';
