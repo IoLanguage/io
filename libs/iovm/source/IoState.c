@@ -653,8 +653,6 @@ void IoState_runCLI(IoState *self) {
 
     if (e != self->ioNil) {
         self->exitResult = -1;
-    } else if (!self->shouldExit && ISNUMBER(result)) {
-        self->exitResult = CNUMBER(result);
     }
 }
 
