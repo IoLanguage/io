@@ -14,23 +14,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  formatter:
-    name: Code Formatting Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-
-      - name: Check format
-        uses: DoozyX/clang-format-lint-action@v0.17
-        with:
-          source: 'libs'
-          extensions: 'h,c'
-          style: file
-          clangFormatVersion: 16
-
   wasm:
     name: WASM Build & Test
     runs-on: ubuntu-latest

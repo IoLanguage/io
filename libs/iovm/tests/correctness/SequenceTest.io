@@ -27,13 +27,11 @@ SequenceTest := UnitTest clone do(
 		assertEquals(1, "1 2" asNumber)
 		assertEquals(1.2, "1.2" asNumber)
 		//assertEquals(Number constants nan, "five" asNumber)
-		// Windows systems print out NaN constants differently depending on class
-		if(isOnWindows,
-			assertEquals(Number constants nan asString, "-1.#IND") // 0/0
-			assertEquals("" asNumber asString, "1.#QNAN") // Explicit quiet NaN
-		,
-			assertEquals(Number constants nan asString, "" asNumber asString)
-		)
+		// NaN stringification varies across libc / wasi-sdk versions
+		// ("nan", "NaN", "-nan", "nan(0x...)"), so check the NaN-ness
+		// directly instead of comparing printed forms.
+		assertTrue("" asNumber isNan)
+		assertTrue(Number constants nan isNan)
 	)
 
 	testAsString := method(
