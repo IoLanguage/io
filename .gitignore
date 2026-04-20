@@ -79,7 +79,6 @@ addons/*/docs/docs.txt
 *.pbxuser
 *.mode1v3
 *~
-IoInstallPrefix.h
 xcuserdata
 build
 browser/io_browser.wasm

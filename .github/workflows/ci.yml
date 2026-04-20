@@ -24,12 +24,12 @@ jobs:
           submodules: 'recursive'
 
       - name: Check format
-        uses: DoozyX/clang-format-lint-action@v0.12
+        uses: DoozyX/clang-format-lint-action@v0.17
         with:
           source: 'libs'
           extensions: 'h,c'
           style: file
-          clangFormatVersion: 12
+          clangFormatVersion: 16
 
   wasm:
     name: WASM Build & Test
