@@ -293,17 +293,17 @@ IoSymbol *IoSeq_rawAsUnescapedSymbol(IoSeq *self) {
 
 double IoSeq_rawAsDoubleFromHex(IoSeq *self) {
     char *s = IoSeq_asCString(self);
-    unsigned int i;
+    unsigned long long i;
 
-    sscanf(s, "%x", &i);
+    sscanf(s, "%llx", &i);
     return (double)i;
 }
 
 double IoSeq_rawAsDoubleFromOctal(IoSeq *self) {
     char *s = IoSeq_asCString(self);
-    unsigned int i;
+    unsigned long long i;
 
-    sscanf(s, "%o", &i);
+    sscanf(s, "%llo", &i);
     return (double)i;
 }
 

@@ -82,13 +82,7 @@ NumberTest := UnitTest clone do(
 		assertEquals("1.1000000000000001", 1.1 asString)
 		assertEquals("1.2", 1.2 asString)
 
-		# Windows formats exponents to 3 digits
-		plat := System platform
-		isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
-		if(isOnWindows,
-			mersenne8 := "2.147484e+009",
-			mersenne8 := "2.147484e+09")
-		assertEquals(mersenne8, 2147483648 asString)
+		assertEquals("2147483648", 2147483648 asString)
 
 		# Test the one argument form
 		assertEquals("1.000000", 1 asString(0))

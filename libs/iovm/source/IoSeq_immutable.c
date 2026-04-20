@@ -894,7 +894,7 @@ IO_METHOD(IoSeq, toBase) {
     const char *const table = "0123456789abcdefghijklmnopqrstuvwxyz";
     int base = IoMessage_locals_intArgAt_(m, locals, 0);
     char buf[64], *ptr = buf + 64;
-    uintptr_t n = 0;
+    unsigned long long n = 0;
 
     if (IOSTATE->errorRaised) return IONIL(self);
 
@@ -903,7 +903,7 @@ IO_METHOD(IoSeq, toBase) {
         return IONIL(self);
     }
 
-    n = (uintptr_t)IoSeq_asDouble(self);
+    n = (unsigned long long)IoSeq_asDouble(self);
 
     /* Build the converted string backwards. */
     *(--ptr) = '\0';
