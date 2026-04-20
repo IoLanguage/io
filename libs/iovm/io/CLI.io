@@ -162,8 +162,10 @@ CLI := Object clone do(
         loop(
             # Write out prompt and read line.
             if(nextLine := lineReader readLine(prompt),
-                # Add what we read to the line we've been building up
-                line = line .. nextLine
+                # Add what we read to the line we've been building up,
+                # preserving the newline so tokens on different lines
+                # don't get fused together.
+                line = if(line size == 0, nextLine, line .. "\n" .. nextLine)
             ,
                 # Note: readLine method returns nil if ^D was pressed.
                 context exit
