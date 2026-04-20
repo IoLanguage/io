@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
     branches:
       - master
@@ -31,84 +31,45 @@ jobs:
           style: file
           clangFormatVersion: 12
 
-  unix:
-    name: Unix Build (${{ matrix.os }} - ${{ matrix.build_type }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ macOS-latest, ubuntu-latest ]
-        build_type: [ Debug, Release ]
-        include:
-          # Test on Apple Silicon
-          - os: macos-14
-            build_type: Release
-          # Test on older macOS
-          - os: macos-12
-            build_type: Release
-
+  wasm:
+    name: WASM Build & Test
+    runs-on: ubuntu-latest
+    env:
+      WASI_SDK_VERSION: "24"
+      WASI_SDK_FULL: "24.0"
+      WASMTIME_VERSION: "v27.0.0"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
 
-      - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.14
-
-      - name: Build
+      - name: Install wasi-sdk
         run: |
-          mkdir build
-          cd build
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
-          make -j$([ "$(uname)" = "Darwin" ] && sysctl -n hw.ncpu || nproc)
+          mkdir -p "$HOME/wasi-sdk"
+          curl -L -o /tmp/wasi-sdk.tar.gz \
+            "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_SDK_VERSION}/wasi-sdk-${WASI_SDK_FULL}-x86_64-linux.tar.gz"
+          tar -xzf /tmp/wasi-sdk.tar.gz -C "$HOME/wasi-sdk" --strip-components=1
+          "$HOME/wasi-sdk/bin/clang" --version
 
-      - name: Install
+      - name: Install wasmtime
         run: |
-          cd build
-          sudo make install
+          curl -L -o /tmp/wasmtime.tar.xz \
+            "https://github.com/bytecodealliance/wasmtime/releases/download/${WASMTIME_VERSION}/wasmtime-${WASMTIME_VERSION}-x86_64-linux.tar.xz"
+          mkdir -p "$HOME/wasmtime"
+          tar -xJf /tmp/wasmtime.tar.xz -C "$HOME/wasmtime" --strip-components=1
+          echo "$HOME/wasmtime" >> "$GITHUB_PATH"
+          "$HOME/wasmtime/wasmtime" --version
 
-      - name: Test
-        run: |
-          cd build
-          ./_build/binaries/io --version
-          ./_build/binaries/io ../libs/iovm/tests/correctness/run.io
+      - name: Build io_static
+        run: make -j$(nproc)
+
+      - name: Build test_iterative_eval
+        run: make -j$(nproc) test
+
+      - name: Run tests
+        run: make check
         timeout-minutes: 10
 
-      - name: Test Samples
-        if: matrix.build_type == 'Release'
-        run: |
-          cd build
-          for sample in ../samples/misc/*.io; do
-            if [ -f "$sample" ]; then
-              echo "Testing: $(basename $sample)"
-              timeout 5s ./_build/binaries/io "$sample" || echo "Sample timed out or failed: $sample"
-            fi
-          done
-
-  windows:
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-
-      - name: Build
-        run: |
-          mkdir build
-          cd build
-          cmake -G"MinGW Makefiles" ..
-          make
-
-      - name: Install
-        run: |
-          cd build
-          make install
-
-      - name: Test
-        run: |
-          cd build
-          & _build/binaries/io_static.exe --% --version
-          & _build/binaries/io_static.exe --% ../libs/iovm/tests/correctness/run.io
+      - name: Build browser REPL
+        run: make -j$(nproc) browser
