@@ -75,11 +75,10 @@ struct timezone Date_timeZone(const Date *self) {
 void Date_setTimeZone_(Date *self, struct timezone tz) { self->tz = tz; }
 
 void Date_convertToTimeZone_(Date *self, struct timezone tz) {
-    double s = Date_asSeconds(self) +
-               60 * (self->tz.tz_minuteswest - (self->tz.tz_dsttime ? 60 : 0)) -
-               60 * (tz.tz_minuteswest - (tz.tz_dsttime ? 60 : 0));
-
-    Date_fromSeconds_(self, s);
+    // tv_sec is always UTC seconds since 1970 — changing timezones updates the
+    // tz metadata only, not the instant it points to. Previously tv_sec was
+    // shifted so localtime() would display the target-zone wall clock, which
+    // broke asNumber (issue #5).
     Date_setTimeZone_(self, tz);
 }
 
