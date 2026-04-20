@@ -1,8 +1,8 @@
 # The Io Language
 
-_Note: This document is a reference for setting up and configuring Io. For a guide to the language itself, see <http://iolanguage.org/guide/guide.html>._
+_This is a reference for building and running Io. For a guide to the language itself, see <http://iolanguage.org/guide/guide.html>._
 
-# Table of Contents
+## Contents
 
 * [What is Io?](#what-is-io)
 	* [Example Code](#example-code)
@@ -10,23 +10,23 @@ _Note: This document is a reference for setting up and configuring Io. For a gui
 * [Platform](#platform)
 * [Building](#building)
 * [Running](#running)
+* [Browser REPL](#browser-repl)
 * [Running Tests](#running-tests)
 * [Extending Io](#extending-io)
 
 What is Io?
-=====
+===========
 
-Io is a dynamic prototype-based programming language in the same realm as
-Smalltalk and Self. It revolves around the idea of message passing from object
-to object.
+Io is a dynamic prototype-based programming language in the same family as
+Smalltalk and Self. Everything is a message send from one object to another.
 
-For further information, the programming guide and reference manual can be
-found in the `docs` folder.
+The programming guide and reference manual live in the `docs` folder.
 
 
 Example Code
----
-Basic Math
+------------
+
+Basic math:
 
 ```Io
 Io> 1 + 1
@@ -36,7 +36,7 @@ Io> 2 sqrt
 ==> 1.4142135623730951
 ```
 
-Lists
+Lists:
 
 ```Io
 Io> d := List clone append(30, 10, 5, 20)
@@ -49,7 +49,7 @@ Io> d select (>10)
 ==> list(20, 30)
 ```
 
-Objects
+Objects:
 
 ```Io
 Io> Contact := Object clone
@@ -57,13 +57,8 @@ Io> Contact := Object clone
   type = "Contact"
 
 Io> Contact name ::= nil
-==> nil
-
 Io> Contact address ::= nil
-==> nil
-
 Io> Contact city ::= nil
-==> nil
 
 Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCity("London")
 ==>  Contact_0x7fbc3be2b470:
@@ -72,10 +67,6 @@ Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCit
   name             = "Holmes"
 
 Io> Contact fullAddress := method(list(name, address, city) join("\n"))
-==> method(
-    list(name, address, city) join("\n")
-)
-
 Io> holmes fullAddress
 ==> Holmes
 221B Baker St
@@ -84,7 +75,8 @@ London
 
 
 Quick Links
----
+-----------
+
 * Wikipedia overview: <https://en.wikipedia.org/wiki/Io_(programming_language)>
 * c2 wiki discussion: <http://wiki.c2.com/?IoLanguage>
 
@@ -92,9 +84,9 @@ Quick Links
 Platform
 ========
 
-Io targets WebAssembly. The VM compiles to a single WASI binary that runs
-under any WASI host (wasmtime, Node, browsers via WASI shims) and ships with
-a browser REPL and a bidirectional Io↔JavaScript bridge.
+Io targets WebAssembly. A single WASI binary runs under any WASI host
+(wasmtime, Node, browsers via WASI shims) and ships with a browser REPL and
+a bidirectional Io↔JavaScript bridge.
 
 If you need the previous native build (CMake, dynamic addons, Eerie package
 manager), use the `native` branch or the `v2026.04-native-final` tag. The
@@ -104,7 +96,7 @@ manager), use the `native` branch or the `v2026.04-native-final` tag. The
 Building
 ========
 
-Requires [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) and
+Prerequisites: [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) and
 [wasmtime](https://wasmtime.dev/).
 
 ```
@@ -113,7 +105,7 @@ cd io
 make
 ```
 
-If wasi-sdk is not at `~/wasi-sdk`, set `WASI_SDK`:
+If wasi-sdk is not installed at `~/wasi-sdk`, point `WASI_SDK` at it:
 
 ```
 make WASI_SDK=/opt/wasi-sdk
@@ -121,13 +113,16 @@ make WASI_SDK=/opt/wasi-sdk
 
 Make targets:
 
-| Target            | What it does                                   |
-|-------------------|------------------------------------------------|
-| `make`            | Build `build/bin/io_static` (WASI binary)      |
-| `make test`       | Build `build/bin/test_iterative_eval`          |
-| `make check`      | Run both test suites under wasmtime            |
-| `make clean`      | Remove build artifacts                         |
-| `make regenerate` | Regenerate `IoVMInit.c` from `.io` sources     |
+| Target              | What it does                                      |
+|---------------------|---------------------------------------------------|
+| `make`              | Build `build/bin/io_static` (WASI CLI binary)     |
+| `make test`         | Build `build/bin/test_iterative_eval`             |
+| `make check`        | Run both test suites under wasmtime               |
+| `make browser`      | Build `browser/io_browser.wasm` (browser REPL)    |
+| `make serve`        | Serve the browser REPL at <http://localhost:8000> |
+| `make check-browser`| Run browser tests under Playwright                |
+| `make regenerate`   | Regenerate `IoVMInit.c` from `.io` sources        |
+| `make clean`        | Remove build artifacts                            |
 
 
 Running
@@ -139,7 +134,7 @@ Run a one-liner:
 wasmtime build/bin/io_static -e '"hello" println'
 ```
 
-Run a file (pass `--dir=.` so the WASI sandbox can read it):
+Run a script (pass `--dir=.` so the WASI sandbox can read the file):
 
 ```
 wasmtime --dir=. build/bin/io_static path/to/script.io
@@ -151,8 +146,16 @@ Start the REPL:
 wasmtime build/bin/io_static
 ```
 
-Browser REPL: see `browser/README.md` for embedding Io in a web page via
-the JavaScript bridge.
+
+Browser REPL
+============
+
+```
+make serve
+```
+
+Then open <http://localhost:8000>. See `browser/README.md` for details on
+embedding the REPL in a page and calling between Io and JavaScript.
 
 
 Running Tests
@@ -175,8 +178,7 @@ Set `IO_TEST_VERBOSE=1` for per-test output.
 Extending Io
 ============
 
-The native addon system (`DynLib`, Eerie, `AddonLoader`) is not available on
-WebAssembly. Integration with host environments goes through the JavaScript
-bridge instead — Io code can call any JS function, and JS can call Io methods
-bidirectionally. See `browser/README.md` and `agents/wasm/Bridge.md` for
-details.
+The native addon system (`DynLib`, `AddonLoader`, Eerie) is not available on
+WebAssembly. Host integration goes through the JavaScript bridge instead: Io
+code can call JS functions, and JS can call Io methods. See
+`browser/README.md` and `agents/wasm/Bridge.md`.
