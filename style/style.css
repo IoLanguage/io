@@ -643,11 +643,9 @@ p code, li code {
 
 /* Chapter hero */
 .hero {
-  background-color: #faf9f6;
   background-repeat: no-repeat;
   background-position: right center;
   background-size: contain;
-  background-blend-mode: multiply;
   min-height: 320px;
   padding: 60px 0 80px;
   margin: 20px 0 60px;

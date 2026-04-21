@@ -202,7 +202,7 @@ Uppercase words designate elements the lexer treats as tokens.
 Source: /docs/Book/Concurrency/
 
 ---
-heroImage: ../images/Concurrency.jpg
+heroImage: ../images/Concurrency.png
 ---
 
 # Concurrency
@@ -323,7 +323,7 @@ It's also possible to pause and resume an object. See the concurrency methods of
 Source: /docs/Book/Control%20Flow/
 
 ---
-heroImage: ../images/Control Flow.jpg
+heroImage: ../images/Control Flow.png
 ---
 
 # Control Flow
@@ -732,7 +732,7 @@ MyErrorType := Error clone
 Source: /docs/Book/Introduction/
 
 ---
-heroImage: ../images/Introduction.jpg
+heroImage: ../images/Introduction.png
 ---
 
 # Introduction
@@ -910,7 +910,7 @@ System launchPath
 Source: /docs/Book/Objects/
 
 ---
-heroImage: ../images/Objects.jpg
+heroImage: ../images/Objects.png
 ---
 
 # Objects
@@ -1196,7 +1196,7 @@ Io> method(a, a * 2) code
 Source: /docs/Book/Primitives/
 
 ---
-heroImage: ../images/Primitives.jpg
+heroImage: ../images/Primitives.png
 ---
 
 # Primitives
@@ -1893,7 +1893,7 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 Source: /docs/Book/Syntax/
 
 ---
-heroImage: ../images/Syntax.jpg
+heroImage: ../images/Syntax.png
 ---
 
 # Syntax

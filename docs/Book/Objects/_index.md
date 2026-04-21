@@ -1,5 +1,5 @@
 ---
-heroImage: ../images/Objects.jpg
+heroImage: ../images/Objects.png
 ---
 
 # Objects

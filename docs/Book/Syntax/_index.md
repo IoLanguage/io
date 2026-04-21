@@ -1,5 +1,5 @@
 ---
-heroImage: ../images/Syntax.jpg
+heroImage: ../images/Syntax.png
 ---
 
 # Syntax

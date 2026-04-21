@@ -1,5 +1,5 @@
 ---
-heroImage: ../images/Introduction.jpg
+heroImage: ../images/Introduction.png
 ---
 
 # Introduction

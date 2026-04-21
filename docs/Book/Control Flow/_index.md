@@ -1,5 +1,5 @@
 ---
-heroImage: ../images/Control Flow.jpg
+heroImage: ../images/Control Flow.png
 ---
 
 # Control Flow

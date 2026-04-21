@@ -1,5 +1,5 @@
 ---
-heroImage: ../images/Concurrency.jpg
+heroImage: ../images/Concurrency.png
 ---
 
 # Concurrency

@@ -1,5 +1,5 @@
 ---
-heroImage: ../images/Primitives.jpg
+heroImage: ../images/Primitives.png
 ---
 
 # Primitives
