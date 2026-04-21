@@ -201,6 +201,10 @@ Uppercase words designate elements the lexer treats as tokens.
 <!-- Page: docs/Book/Concurrency -->
 Source: /docs/Book/Concurrency/
 
+---
+heroImage: ../images/Concurrency.jpg
+---
+
 # Concurrency
 
 Coroutines, actors, futures, and Io's concurrency model.
@@ -317,6 +321,10 @@ It's also possible to pause and resume an object. See the concurrency methods of
 
 <!-- Page: docs/Book/Control Flow -->
 Source: /docs/Book/Control%20Flow/
+
+---
+heroImage: ../images/Control Flow.jpg
+---
 
 # Control Flow
 
@@ -723,6 +731,10 @@ MyErrorType := Error clone
 <!-- Page: docs/Book/Introduction -->
 Source: /docs/Book/Introduction/
 
+---
+heroImage: ../images/Introduction.jpg
+---
+
 # Introduction
 
 The origins, philosophy, and influences behind Io.
@@ -896,6 +908,10 @@ System launchPath
 
 <!-- Page: docs/Book/Objects -->
 Source: /docs/Book/Objects/
+
+---
+heroImage: ../images/Objects.jpg
+---
 
 # Objects
 
@@ -1178,6 +1194,10 @@ Io> method(a, a * 2) code
 
 <!-- Page: docs/Book/Primitives -->
 Source: /docs/Book/Primitives/
+
+---
+heroImage: ../images/Primitives.jpg
+---
 
 # Primitives
 
@@ -1871,6 +1891,10 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 
 <!-- Page: docs/Book/Syntax -->
 Source: /docs/Book/Syntax/
+
+---
+heroImage: ../images/Syntax.jpg
+---
 
 # Syntax
 

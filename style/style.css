@@ -641,6 +641,28 @@ p code, li code {
   flex-shrink: 0;
 }
 
+/* Chapter hero */
+.hero {
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+  min-height: 320px;
+  padding: 60px 0 80px;
+  margin: 20px 0 60px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 200;
+  letter-spacing: -1.5px;
+  color: #1a1a1a;
+  margin: 0;
+  max-width: 50%;
+  line-height: 1.05;
+}
+
 /* Desktop heading weights */
 @media (min-width: 701px) {
   .header h1 { font-weight: 400; }
@@ -666,6 +688,13 @@ p code, li code {
   .timeline-footer { padding-left: 28px; padding-right: 28px; }
   .timeline-footer-rule { margin-left: -28px; margin-right: -28px; }
   .tl-col { width: 180px; }
+  .hero {
+    min-height: 200px;
+    padding: 30px 0 40px;
+    margin: 10px 0 30px;
+    background-size: 50% auto;
+  }
+  .hero-title { font-size: 42px; max-width: 60%; }
 }
 
 /* Print */

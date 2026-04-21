@@ -1,3 +1,7 @@
+---
+heroImage: ../images/Objects.jpg
+---
+
 # Objects
 
 Slots, prototypes, cloning, and differential inheritance.

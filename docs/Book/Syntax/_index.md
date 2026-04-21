@@ -1,3 +1,7 @@
+---
+heroImage: ../images/Syntax.jpg
+---
+
 # Syntax
 
 Io's minimal grammar: expressions, messages, and operators.

@@ -185,8 +185,29 @@ function blocksToHtml (blocks) {
     }).join("");
 }
 
+function parseFrontmatter (lines) {
+    if (lines.length === 0 || lines[0].trim() !== "---") return { meta: {}, rest: lines };
+    let i = 1;
+    const meta = {};
+    while (i < lines.length && lines[i].trim() !== "---") {
+        const m = lines[i].match(/^([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(.*)$/);
+        if (m) {
+            let value = m[2].trim();
+            if ((value.startsWith('"') && value.endsWith('"')) ||
+                (value.startsWith("'") && value.endsWith("'"))) {
+                value = value.slice(1, -1);
+            }
+            meta[m[1]] = value;
+        }
+        i++;
+    }
+    if (i >= lines.length) return { meta: {}, rest: lines };
+    return { meta, rest: lines.slice(i + 1) };
+}
+
 export function parseMarkdown (text) {
-    const lines = text.split("\n");
+    const rawLines = text.split("\n");
+    const { meta, rest: lines } = parseFrontmatter(rawLines);
     const allBlocks = parseBlocks(lines);
 
     // Extract title from first h1
@@ -254,5 +275,8 @@ export function parseMarkdown (text) {
     const result = { title };
     if (subtitle) result.subtitle = subtitle;
     result.content = content;
+    for (const key of Object.keys(meta)) {
+        result[key] = meta[key];
+    }
     return result;
 }

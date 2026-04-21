@@ -1,3 +1,7 @@
+---
+heroImage: ../images/Primitives.jpg
+---
+
 # Primitives
 
 Built-in objects: numbers, strings, lists, maps, files, and more.

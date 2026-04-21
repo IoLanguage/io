@@ -144,6 +144,8 @@ export class PageIndex {
     }
 
     computePageHtml () {
+        const heroImage = this.json.heroImage;
+
         // Header
         let headerHtml = '<div class="header">';
         if (this.isRoot) {
@@ -153,12 +155,21 @@ export class PageIndex {
             const backHref = this.backUrl || "../index.html";
             const backLabel = this.backTitle || this.parentTitle;
             headerHtml += "<div>";
-            headerHtml += `<h1>${this.pageTitle}</h1>`;
+            if (!heroImage) headerHtml += `<h1>${this.pageTitle}</h1>`;
             headerHtml += `<a class="back-link" href="${backHref}">&larr; ${backLabel}</a>`;
             headerHtml += "</div>";
             headerHtml += `<a class="brand" href="${backHref}">${this.topTitle}</a>`;
         }
         headerHtml += "</div>";
+
+        // Hero (large title + background image)
+        let heroHtml = "";
+        if (heroImage && !this.isRoot) {
+            const encoded = encodeURI(heroImage).replace(/'/g, "%27");
+            heroHtml = `<div class="hero" style="background-image: url('${encoded}')">`;
+            heroHtml += `<h1 class="hero-title">${this.pageTitle}</h1>`;
+            heroHtml += "</div>";
+        }
 
         // Intro
         let introHtml = "";
@@ -169,7 +180,7 @@ export class PageIndex {
         // Content
         const contentHtml = this.children.map(c => c.computeHtml()).join("");
 
-        return headerHtml + introHtml + contentHtml;
+        return headerHtml + heroHtml + introHtml + contentHtml;
     }
 
     computeDocumentTitle () {

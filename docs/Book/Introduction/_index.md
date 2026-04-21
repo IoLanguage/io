@@ -1,3 +1,7 @@
+---
+heroImage: ../images/Introduction.jpg
+---
+
 # Introduction
 
 The origins, philosophy, and influences behind Io.

@@ -1,3 +1,7 @@
+---
+heroImage: ../images/Concurrency.jpg
+---
+
 # Concurrency
 
 Coroutines, actors, futures, and Io's concurrency model.
