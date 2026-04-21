@@ -17,7 +17,7 @@ A small, prototype-based programming language — now targeting WASM/WASI.
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
-Everything in Io is an object and **every expression is a message send — including assignment, operators, and control flow**. Message trees are first-class values, so the language gets by with a tiny core and a uniform syntax: **no keywords, no statements, and no special forms at the parser level**.
+Io's syntax contains only expressions and all values are objects. **Every expression is a message send** — including assignment, operators, and control flow — so the core stays tiny, with **no keywords, no statements, and no special forms**.
 
 The VM is written in portable C and now targets WebAssembly (WASI) by default. The same binary runs under wasmtime, Node.js, or directly in the browser via a bidirectional Io↔JavaScript bridge.
 
