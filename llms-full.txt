@@ -2063,7 +2063,7 @@ https://iolanguage.org
 An example of running a script:
 
 ```
-io samples/misc/HelloWorld.io
+wasmtime --dir=. build/bin/io_static samples/misc/HelloWorld.io
 ```
 
 There is no main() function or object that gets executed first in Io. Scripts are executed when compiled.
@@ -2078,16 +2078,10 @@ There is no main() function or object that gets executed first in Io. Scripts ar
 Running:
 
 ```
-./_build/binaries/io
+wasmtime --dir=. build/bin/io_static
 ```
 
-Or, if Io is installed, running:
-
-```
-io
-```
-
-will open the Io interpreter prompt.
+will open the Io interpreter prompt. The same binary can also be invoked under Node.js, or loaded into a browser REPL that talks to the VM through the Io↔JavaScript bridge.
 
 You can evaluate code by entering it directly. Example:
 
@@ -2139,15 +2133,10 @@ Exploring further:
 ```
 Io> Protos
 ==>  Object_0x20bff0:
-  Addons           = Object_0x20c6f0
   Core             = Object_0x20c4b0
-
-Io> Protos Addons
-==>  Object_0x20c6f0:
-  ReadLine         = Object_0x366a10
 ```
 
-Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
+On the WASM target there is no `Addons` hierarchy — what were once C-level addons are now either folded into the core VM or reached through the Io↔JavaScript bridge exposed by the host.
 
 Inspecting a method will print a decompiled version of it:
 
@@ -2910,7 +2899,7 @@ Io> test
 ==> abc
 ```
 
-Internally, break, continue and return all work by setting a IoState internal variable called "stopStatus" which is monitored by the loop and message evaluation code.
+Internally, `break`, `continue`, and `return` are handled by the iterative evaluator's frame state machine: each sets a non-local control signal on the current frame, and the eval loop unwinds frames until it reaches the enclosing loop or block.
 
 
 
@@ -2930,6 +2919,8 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 ### Coroutines
 
 Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
+
+Under the stackless evaluator, a coroutine is simply a chain of heap-allocated evaluation frames. Switching coroutines is a matter of changing which frame chain the eval loop is walking — there is no platform-specific assembly, no `setjmp`/`longjmp`, and no `ucontext` or fibers. The same C code works on every host, including WebAssembly, which hides the native call stack entirely.
 
 
 
@@ -3093,6 +3084,22 @@ Custom exception types can be implemented by simply cloning an existing Exceptio
 ```
 MyErrorType := Error clone
 ```
+
+
+
+
+### Resumable Exceptions
+
+Because evaluation state lives in heap-allocated frames, the frame that raised an exception is still a live, inspectable object when a handler runs. A handler can choose to *resume* the computation at the point of the raise — returning a value in place of the exception — instead of unwinding past it. This enables Smalltalk- or Common-Lisp-style condition handling where the handler decides whether to retry, substitute a value, or abort.
+
+
+
+
+## Continuations
+
+The iterative evaluator makes first-class continuations straightforward: `callcc` snapshots the current frame chain as an ordinary Io object. That object can be stored, invoked later, or — because it's just a graph of Io values — serialized and resumed in another process.
+
+`callcc` is not exposed in the top-level Lobby because it's easy to misuse. Where continuations are needed, they're reachable through the VM's reflective interface.
 
 
 
@@ -3541,19 +3548,7 @@ dt := Date secondsToRun(
 writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")
 ```
 
-Which when run on 2Ghz Mac Laptop, outputs:
-
-```
-1.255 GFLOPS
-```
-
-A similar bit of C code (without SIMD acceleration) outputs:
-
-```
-0.479 GFLOPS
-```
-
-So for this example, Io is about three times faster than plain C.
+Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration. Current throughput depends on the WASM host; SIMD availability on the WASM target follows whatever the runtime supports.
 
 
 
@@ -3644,8 +3639,9 @@ asUCS4
 
 ## Embedding
 
+On the default WASM target, the "embedding" surface is a single WebAssembly module: a host (wasmtime, Node.js, a browser) loads `io_static.wasm`, imports its few WASI functions, and drives it by feeding source strings or messages. The Io↔JavaScript bridge on browser/Node hosts plays the role that native addons and direct C embedding played in earlier Io releases.
 
-
+The C-level embedding API described below still reflects how the VM is structured internally, and is accurate if you build the VM as a plain C library rather than a WASM module. Use it as a reference for the shape of the API and the relationship between `IoState`, coroutines, and Io objects.
 
 ### Conventions
 
