@@ -14,7 +14,7 @@
 - [Primitives](/docs/Book/Primitives/): Built-in objects: numbers, strings, lists, maps, files, and more.
 - [Syntax](/docs/Book/Syntax/): Io's minimal grammar: expressions, messages, and operators.
 - [Guide](/docs/Guide/): Comprehensive language guide: syntax, messages, objects, control flow, concurrency, and more.
-- [Reference](/docs/Reference/): Auto-generated API reference extracted from //doc, //metadoc, and /doc ... / comments in the Io source tree.
+- [Reference](/docs/Reference/): Browse every built-in object and method in Io's standard library.
 - [Style Guide](/docs/Style%20Guide/): How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.
 - [Technical Notes](/docs/Technical%20Notes/): Implementation notes and design docs on WASM targeting, stackless evaluation, and future work.
 - [Future Work](/docs/Technical%20Notes/Future%20Work/): Design notes and proposals for upcoming changes.

@@ -1,6 +1,6 @@
 # Reference
 
-Auto-generated API reference extracted from `//doc`, `//metadoc`, and `/*doc ... */` comments in the Io source tree.
+Browse every built-in object and method in Io's standard library.
 
 ## Objects
 
