@@ -2,8 +2,6 @@
 
 The false singleton — Io's representation of boolean falsity.
 
-- **category**: Core
-
 ## and
 
 Returns false.

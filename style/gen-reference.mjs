@@ -186,8 +186,10 @@ for (const [proto, bucket] of byProto) {
     const desc = (bucket.metadoc.get("description") || "").trim();
     if (desc) page += `${desc}\n\n`;
 
-    // Other metadoc fields surface as a small list (category, module, copyright...)
-    const otherMeta = [...bucket.metadoc.entries()].filter(([k]) => k !== "description");
+    // Other metadoc fields surface as a small list. Hide boilerplate
+    // (copyright/license/credits/author) and anything already rendered.
+    const hiddenMeta = new Set(["description", "copyright", "license", "credits", "author", "category"]);
+    const otherMeta = [...bucket.metadoc.entries()].filter(([k]) => !hiddenMeta.has(k));
     if (otherMeta.length > 0) {
         for (const [k, v] of otherMeta) {
             page += `- **${k}**: ${v.trim()}\n`;

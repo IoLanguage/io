@@ -3,10 +3,6 @@
 Object wrapper for an Io coroutine.
 Now implemented using frame-based evaluation (no platform-specific assembly).
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
-
 ## backTraceString
 
 Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.

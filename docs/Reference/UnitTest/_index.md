@@ -2,8 +2,6 @@
 
 An object for organizing and running unit tests validated by assertions.
 
-- **category**: Testing
-
 ## assertEquals(a,
 
 b) Fail the running test if a != b.

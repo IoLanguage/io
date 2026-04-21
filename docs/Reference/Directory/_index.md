@@ -5,11 +5,6 @@ if a path begins with a "/" it's the root,
 if it beings with a "./" it's the launch path,
 if not specified, "./" is assumed.""")
 
-- **category**: FileSystem
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **credits**: Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
-
 ## accessibleAncestors
 
 Returns a list of accessible ancestor directories.

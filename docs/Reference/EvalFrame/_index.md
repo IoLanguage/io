@@ -3,10 +3,6 @@
 Returns a human-readable description of this frame, including
 the message name, state, and source location.
 
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
-- **category**: Core
-
 ## blockLocals
 
 Returns the block's local context object, or nil if this frame

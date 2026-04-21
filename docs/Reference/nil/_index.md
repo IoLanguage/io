@@ -2,8 +2,6 @@
 
 nil is a singleton object that is used as a placeholder and to mean false in Io.
 
-- **category**: Core
-
 ## and(expression)
 
 Returns nil without evaluating expression.

@@ -2,10 +2,6 @@
 
 Contains methods related to the compiling code.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## messageForString(aString, optionalLabelString)
 
 Returns the compiled message object for aString.

@@ -8,10 +8,6 @@ encoding <li> Symbol or String: A unique immutable Sequence, typically in a
 character encoding
 </ul>
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## -(aSeq)
 
 Vector subtraction - Subtracts the values of aSeq from the corresponding

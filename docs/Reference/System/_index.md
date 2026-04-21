@@ -2,10 +2,6 @@
 
 Contains methods related to the IoVM.
 
-- **category**: Core
-- **copyright**: Steve Dekorte, 2002
-- **license**: BSD revised
-
 ## activeCpus
 
 Returns the number of active CPUs.

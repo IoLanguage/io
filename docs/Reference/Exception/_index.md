@@ -51,8 +51,6 @@ Custom exception types can be implemented by simply cloning an existing Exceptio
 MyErrorType := Error clone
 </pre>
 
-- **category**: Core
-
 ## _findHandler
 
 Walks handler stacks from the current coroutine up through the parentCoroutine chain.

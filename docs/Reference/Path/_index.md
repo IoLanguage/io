@@ -2,8 +2,6 @@
 
 Path manipulation: joining, splitting, absolute/relative conversion, and tilde expansion.
 
-- **category**: FileSystem
-
 ## absolute
 
 Returns an absolute version of the path.

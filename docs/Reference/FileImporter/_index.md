@@ -2,8 +2,6 @@
 
 An Importer for local source files.
 
-- **category**: Core
-
 ## importPath(path)
 
 Performs Lobby doFile(path). Can override to deal with other formats.

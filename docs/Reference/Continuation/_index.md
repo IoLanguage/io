@@ -3,10 +3,6 @@
 A first-class continuation captured by `callcc`. Represents a resumable
 snapshot of execution state; invoking it re-enters the captured context.
 
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
-- **category**: Core
-
 ## asMap
 
 Returns a Map representation of the captured continuation state.

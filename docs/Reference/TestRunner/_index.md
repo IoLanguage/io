@@ -2,8 +2,6 @@
 
 Core testing object responsible for running tests, collected by UnitTests and TestSuites.
 
-- **category**: Testing
-
 ## name
 
 Returns the name of the TestRunner.

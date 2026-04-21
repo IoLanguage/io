@@ -2,8 +2,6 @@
 
 Io's coroutine scheduler.
 
-- **category**: Core
-
 ## currentCoroutine
 
 Returns the currently running coroutine.

@@ -2,10 +2,6 @@
 
 Sandbox can be used to run separate instances of Io within the same process.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## doSandboxString(aString)
 
 Evaluate aString inside the Sandbox.

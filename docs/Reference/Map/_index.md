@@ -2,10 +2,6 @@
 
 A key/value dictionary appropriate for holding large key/value collections.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## asJson
 
 Converts a Map to a string that represents contents in JSON-compilant form

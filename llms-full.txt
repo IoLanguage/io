@@ -2205,10 +2205,6 @@ Source: /docs/Reference/Block/
 Blocks are anonymous functions (messages with their own locals object).
 They are typically used to represent object methods.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## argumentNames
 
 Returns a List of strings containing the argument names of the receiver.
@@ -2309,10 +2305,6 @@ Source: /docs/Reference/Call/
 
 Call stores slots related to activation.
 
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **category**: Core
-
 ## activated
 
 Returns the activated value.
@@ -2408,10 +2400,6 @@ slot is activated. The for, if, while and clone methods of the Lobby
 are examples of CFunctions. CFunctions are useful for implementing
 methods that require the speed of C or binding to a C library.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## ==(anObject)
 
 Returns self if the argument is a CFunction with the same internal C
@@ -2482,10 +2470,6 @@ By adjusting the allocsPerSweep and sweepsPerGeneration appropriately, the
 collector can be tuned efficiently for various usage cases.
 
 Generally, the more objects in your heap, the larger you'll want this number.
-
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **category**: Core
 
 ## allObjects
 
@@ -2560,10 +2544,6 @@ Source: /docs/Reference/Compiler/
 
 Contains methods related to the compiling code.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## messageForString(aString, optionalLabelString)
 
 Returns the compiled message object for aString.
@@ -2591,10 +2571,6 @@ Source: /docs/Reference/Continuation/
 
 A first-class continuation captured by `callcc`. Represents a resumable
 snapshot of execution state; invoking it re-enters the captured context.
-
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
-- **category**: Core
 
 ## asMap
 
@@ -2655,10 +2631,6 @@ Source: /docs/Reference/Coroutine/
 
 Object wrapper for an Io coroutine.
 Now implemented using frame-based evaluation (no platform-specific assembly).
-
-- **category**: Core
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
 
 ## backTraceString
 
@@ -2856,11 +2828,6 @@ Source: /docs/Reference/Date/
 # Date
 
 An absolute point in time, represented as seconds since the epoch.
-
-- **category**: Time
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **credits**: fromString method by Sean Perry
 
 ## -(aDurationOrDate)
 
@@ -3101,10 +3068,6 @@ Source: /docs/Reference/Debugger/
 
 Contains methods related to the IoVM debugger.
 
-- **category**: Debug
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## debuggerCoroutine
 
 Returns the coroutine used for the debugger.
@@ -3129,11 +3092,6 @@ The Directory object supports accessing filesystem directories. A note on paths;
 if a path begins with a "/" it's the root,
 if it beings with a "./" it's the launch path,
 if not specified, "./" is assumed.""")
-
-- **category**: FileSystem
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **credits**: Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 
 ## accessibleAncestors
 
@@ -3300,8 +3258,6 @@ Source: /docs/Reference/DirectoryCollector/
 
 An object to collect multiple UnitTests defined in *Test.io files within a given directory (System launchPath directory by default).
 
-- **category**: Testing
-
 ## with(aPath)
 
 Returns a new instance with the provided path.
@@ -3315,10 +3271,6 @@ Source: /docs/Reference/Duration/
 # Duration
 
 A container for a duration of time.
-
-- **category**: Time
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
 
 ## -
 
@@ -3420,10 +3372,6 @@ Source: /docs/Reference/Error/
 
 An object that contains error information and flow control based on errors.
 
-- **category**: Core
-- **copyright**: Rich Collins 2008
-- **license**: BSD revised
-
 ## ifError(code)
 
 Evaluates code in the context of sender. Returns self.
@@ -3457,10 +3405,6 @@ Source: /docs/Reference/EvalFrame/
 
 Returns a human-readable description of this frame, including
 the message name, state, and source location.
-
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
-- **category**: Core
 
 ## blockLocals
 
@@ -3561,8 +3505,6 @@ Custom exception types can be implemented by simply cloning an existing Exceptio
 MyErrorType := Error clone
 </pre>
 
-- **category**: Core
-
 ## _findHandler
 
 Walks handler stacks from the current coroutine up through the parentCoroutine chain.
@@ -3620,8 +3562,6 @@ Source: /docs/Reference/false/
 # false
 
 The false singleton — Io's representation of boolean falsity.
-
-- **category**: Core
 
 ## and
 
@@ -3696,11 +3636,6 @@ file rewind
 lines foreach(line, file write(line, "\n"))
 file close
 </pre>
-
-- **category**: FileSystem
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **credits**: Initial version contributed by Miles Egan.
 
 ## appendToContents(aSeq)
 
@@ -4077,8 +4012,6 @@ Source: /docs/Reference/FileCollector/
 
 An object to collect multiple UnitTests defined in the current file.
 
-- **category**: Testing
-
 
 ---
 
@@ -4088,8 +4021,6 @@ Source: /docs/Reference/FileImporter/
 # FileImporter
 
 An Importer for local source files.
-
-- **category**: Core
 
 ## importPath(path)
 
@@ -4112,8 +4043,6 @@ Source: /docs/Reference/Importer/
 # Importer
 
 A simple search path based auto-importer.
-
-- **category**: Core
 
 ## addSearchPath(path)
 
@@ -4160,10 +4089,6 @@ Source: /docs/Reference/List/
 # List
 
 A mutable array of values. The first index is 0.
-
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
 
 ## append(anObject1, anObject2, ...)
 
@@ -4540,10 +4465,6 @@ Source: /docs/Reference/Map/
 
 A key/value dictionary appropriate for holding large key/value collections.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## asJson
 
 Converts a Map to a string that represents contents in JSON-compilant form
@@ -4681,10 +4602,6 @@ a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for
 now.
-
-- **category**: Core
-- **copyright**: Steve Dekorte; Jonathan Wright, 2002, 2006
-- **license**: BSD revised
 
 ## appendArg(aMessage)
 
@@ -4891,8 +4808,6 @@ Source: /docs/Reference/MutableSequence/
 A Sequence whose contents can be modified in place. MutableSequence is the
 receiver for the mutating methods of Sequence (append, insert, remove, etc.).
 
-- **category**: Core
-
 ## IoSeq_insertSeqEvery(aSequence, aNumberOfItems)
 
 Inserts aSequence every aNumberOfItems.  Returns self.
@@ -4911,8 +4826,6 @@ Source: /docs/Reference/nil/
 # nil
 
 nil is a singleton object that is used as a placeholder and to mean false in Io.
-
-- **category**: Core
 
 ## and(expression)
 
@@ -4971,10 +4884,6 @@ Source: /docs/Reference/Number/
 # Number
 
 A container for a double (a 64bit floating point number on most platforms).
-
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
 
 ## -(aNumber)
 
@@ -5412,10 +5321,6 @@ Source: /docs/Reference/Object/
 An Object is a key/value dictionary with string keys and values of any type.
 The prototype Object contains a clone slot that is a CFunction that creates new
 objects. When cloned, an Object will call its init slot (with no arguments).
-
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
 
 ## -(aNumber)
 
@@ -6223,8 +6128,6 @@ Source: /docs/Reference/Path/
 
 Path manipulation: joining, splitting, absolute/relative conversion, and tilde expansion.
 
-- **category**: FileSystem
-
 ## absolute
 
 Returns an absolute version of the path.
@@ -6255,10 +6158,6 @@ Source: /docs/Reference/Profiler/
 
 Basic support for profiling Io code execution.
 
-- **category**: Debug
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## reset
 
 Resets the profilerTime on all Block objects in the system.
@@ -6276,10 +6175,6 @@ Source: /docs/Reference/Sandbox/
 # Sandbox
 
 Sandbox can be used to run separate instances of Io within the same process.
-
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
 
 ## doSandboxString(aString)
 
@@ -6314,8 +6209,6 @@ Source: /docs/Reference/Scheduler/
 # Scheduler
 
 Io's coroutine scheduler.
-
-- **category**: Core
 
 ## currentCoroutine
 
@@ -6352,10 +6245,6 @@ Buffer: A mutable Sequence of single byte elements, typically in a binary
 encoding <li> Symbol or String: A unique immutable Sequence, typically in a
 character encoding
 </ul>
-
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
 
 ## -(aSeq)
 
@@ -7387,10 +7276,6 @@ High-performance iterative evaluator with aggressive optimizations:
 - Inline fast paths for common cases
 - Local variable caching
 
-- **copyright**: Steve Dekorte 2002, 2025
-- **license**: BSD revised
-- **category**: Core
-
 
 ---
 
@@ -7400,10 +7285,6 @@ Source: /docs/Reference/System/
 # System
 
 Contains methods related to the IoVM.
-
-- **category**: Core
-- **copyright**: Steve Dekorte, 2002
-- **license**: BSD revised
 
 ## activeCpus
 
@@ -7541,8 +7422,6 @@ Source: /docs/Reference/TestRunner/
 
 Core testing object responsible for running tests, collected by UnitTests and TestSuites.
 
-- **category**: Testing
-
 ## name
 
 Returns the name of the TestRunner.
@@ -7568,8 +7447,6 @@ Source: /docs/Reference/true/
 # true
 
 The true singleton — Io's representation of boolean truth.
-
-- **category**: Core
 
 ## and
 
@@ -7633,8 +7510,6 @@ Source: /docs/Reference/UnitTest/
 
 An object for organizing and running unit tests validated by assertions.
 
-- **category**: Testing
-
 ## assertEquals(a,
 
 b) Fail the running test if a != b.
@@ -7697,10 +7572,6 @@ collecting it. The link reference is set with the setLink() method.
 After the garbage collector collects an object, it informs any
 (uncollected) WeakLink objects whose link value pointed to that
 object by calling their "collectedLink" method.
-
-- **copyright**: Steve Dekorte, 2002
-- **license**: BSD revised
-- **category**: Core
 
 ## link
 

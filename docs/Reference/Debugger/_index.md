@@ -2,10 +2,6 @@
 
 Contains methods related to the IoVM debugger.
 
-- **category**: Debug
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## debuggerCoroutine
 
 Returns the coroutine used for the debugger.

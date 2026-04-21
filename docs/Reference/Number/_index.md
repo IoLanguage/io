@@ -2,10 +2,6 @@
 
 A container for a double (a 64bit floating point number on most platforms).
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## -(aNumber)
 
 Returns a new number that is the difference of the receiver and aNumber.

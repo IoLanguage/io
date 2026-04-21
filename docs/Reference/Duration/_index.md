@@ -2,10 +2,6 @@
 
 A container for a duration of time.
 
-- **category**: Time
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## -
 
 Returns a new Duration of the two subtracted.

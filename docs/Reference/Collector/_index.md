@@ -19,10 +19,6 @@ collector can be tuned efficiently for various usage cases.
 
 Generally, the more objects in your heap, the larger you'll want this number.
 
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **category**: Core
-
 ## allObjects
 
 Returns a List containing all objects known to the collector.

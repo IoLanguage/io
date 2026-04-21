@@ -9,43 +9,43 @@
 - [Exceptions](/docs/Future%20Work/Exceptions/): Design notes on the current exception system and proposed improvements.
 - [Guide](/docs/Guide/): Comprehensive language guide: syntax, messages, objects, control flow, concurrency, and more.
 - [Reference](/docs/Reference/)
-- [Block](/docs/Reference/Block/)
-- [Call](/docs/Reference/Call/)
+- [Block](/docs/Reference/Block/): Blocks are anonymous functions (messages with their own locals object). They are typically used to represent object methods.
+- [Call](/docs/Reference/Call/): Call stores slots related to activation.
 - [CFunction](/docs/Reference/CFunction/)
 - [Collector](/docs/Reference/Collector/)
-- [Compiler](/docs/Reference/Compiler/)
-- [Continuation](/docs/Reference/Continuation/)
-- [Coroutine](/docs/Reference/Coroutine/)
-- [Date](/docs/Reference/Date/)
-- [Debugger](/docs/Reference/Debugger/)
+- [Compiler](/docs/Reference/Compiler/): Contains methods related to the compiling code.
+- [Continuation](/docs/Reference/Continuation/): A first-class continuation captured by callcc. Represents a resumable snapshot of execution state; invoking it re-enters the captured context.
+- [Coroutine](/docs/Reference/Coroutine/): Object wrapper for an Io coroutine. Now implemented using frame-based evaluation (no platform-specific assembly).
+- [Date](/docs/Reference/Date/): An absolute point in time, represented as seconds since the epoch.
+- [Debugger](/docs/Reference/Debugger/): Contains methods related to the IoVM debugger.
 - [Directory](/docs/Reference/Directory/)
-- [DirectoryCollector](/docs/Reference/DirectoryCollector/)
-- [Duration](/docs/Reference/Duration/)
-- [Error](/docs/Reference/Error/)
-- [EvalFrame](/docs/Reference/EvalFrame/)
+- [DirectoryCollector](/docs/Reference/DirectoryCollector/): An object to collect multiple UnitTests defined in *Test.io files within a given directory (System launchPath directory by default).
+- [Duration](/docs/Reference/Duration/): A container for a duration of time.
+- [Error](/docs/Reference/Error/): An object that contains error information and flow control based on errors.
+- [EvalFrame](/docs/Reference/EvalFrame/): Returns a human-readable description of this frame, including the message name, state, and source location.
 - [Exception](/docs/Reference/Exception/)
-- [false](/docs/Reference/false/)
+- [false](/docs/Reference/false/): The false singleton — Io's representation of boolean falsity.
 - [File](/docs/Reference/File/)
-- [FileCollector](/docs/Reference/FileCollector/)
-- [FileImporter](/docs/Reference/FileImporter/)
-- [Importer](/docs/Reference/Importer/)
-- [List](/docs/Reference/List/)
-- [Map](/docs/Reference/Map/)
+- [FileCollector](/docs/Reference/FileCollector/): An object to collect multiple UnitTests defined in the current file.
+- [FileImporter](/docs/Reference/FileImporter/): An Importer for local source files.
+- [Importer](/docs/Reference/Importer/): A simple search path based auto-importer.
+- [List](/docs/Reference/List/): A mutable array of values. The first index is 0.
+- [Map](/docs/Reference/Map/): A key/value dictionary appropriate for holding large key/value collections.
 - [Message](/docs/Reference/Message/)
-- [MutableSequence](/docs/Reference/MutableSequence/)
-- [nil](/docs/Reference/nil/)
-- [Number](/docs/Reference/Number/)
+- [MutableSequence](/docs/Reference/MutableSequence/): A Sequence whose contents can be modified in place. MutableSequence is the receiver for the mutating methods of Sequence (append, insert, remove, etc.).
+- [nil](/docs/Reference/nil/): nil is a singleton object that is used as a placeholder and to mean false in Io.
+- [Number](/docs/Reference/Number/): A container for a double (a 64bit floating point number on most platforms).
 - [Object](/docs/Reference/Object/)
-- [Path](/docs/Reference/Path/)
-- [Profiler](/docs/Reference/Profiler/)
-- [Sandbox](/docs/Reference/Sandbox/)
-- [Scheduler](/docs/Reference/Scheduler/)
+- [Path](/docs/Reference/Path/): Path manipulation: joining, splitting, absolute/relative conversion, and tilde expansion.
+- [Profiler](/docs/Reference/Profiler/): Basic support for profiling Io code execution.
+- [Sandbox](/docs/Reference/Sandbox/): Sandbox can be used to run separate instances of Io within the same process.
+- [Scheduler](/docs/Reference/Scheduler/): Io's coroutine scheduler.
 - [Sequence](/docs/Reference/Sequence/)
 - [State](/docs/Reference/State/)
-- [System](/docs/Reference/System/)
-- [TestRunner](/docs/Reference/TestRunner/)
-- [true](/docs/Reference/true/)
-- [UnitTest](/docs/Reference/UnitTest/)
+- [System](/docs/Reference/System/): Contains methods related to the IoVM.
+- [TestRunner](/docs/Reference/TestRunner/): Core testing object responsible for running tests, collected by UnitTests and TestSuites.
+- [true](/docs/Reference/true/): The true singleton — Io's representation of boolean truth.
+- [UnitTest](/docs/Reference/UnitTest/): An object for organizing and running unit tests validated by assertions.
 - [WeakLink](/docs/Reference/WeakLink/)
 - [Stackless](/docs/Stackless/): Io's iterative evaluator, continuations, and coroutines.
 - [Stackless VM Examples](/docs/Stackless/Examples/)

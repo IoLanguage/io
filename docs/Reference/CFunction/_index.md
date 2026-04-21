@@ -7,10 +7,6 @@ slot is activated. The for, if, while and clone methods of the Lobby
 are examples of CFunctions. CFunctions are useful for implementing
 methods that require the speed of C or binding to a C library.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## ==(anObject)
 
 Returns self if the argument is a CFunction with the same internal C

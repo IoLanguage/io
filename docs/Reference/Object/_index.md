@@ -4,10 +4,6 @@ An Object is a key/value dictionary with string keys and values of any type.
 The prototype Object contains a clone slot that is a CFunction that creates new
 objects. When cloned, an Object will call its init slot (with no arguments).
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## -(aNumber)
 
 Returns the negative version of aNumber.

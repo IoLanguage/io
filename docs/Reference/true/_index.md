@@ -2,8 +2,6 @@
 
 The true singleton — Io's representation of boolean truth.
 
-- **category**: Core
-
 ## and
 
 Evaluates the argument and returns the result.

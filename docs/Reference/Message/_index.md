@@ -22,10 +22,6 @@ changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for
 now.
 
-- **category**: Core
-- **copyright**: Steve Dekorte; Jonathan Wright, 2002, 2006
-- **license**: BSD revised
-
 ## appendArg(aMessage)
 
 Adds aMessage to the argument list of receiver. Examples:

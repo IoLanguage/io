@@ -2,10 +2,6 @@
 
 Call stores slots related to activation.
 
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **category**: Core
-
 ## activated
 
 Returns the activated value.

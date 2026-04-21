@@ -3,10 +3,6 @@
 Blocks are anonymous functions (messages with their own locals object).
 They are typically used to represent object methods.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## argumentNames
 
 Returns a List of strings containing the argument names of the receiver.

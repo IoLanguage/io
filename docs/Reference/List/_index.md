@@ -2,10 +2,6 @@
 
 A mutable array of values. The first index is 0.
 
-- **category**: Core
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-
 ## append(anObject1, anObject2, ...)
 
 Appends the arguments to the end of the list. Returns self.

@@ -10,11 +10,6 @@ lines foreach(line, file write(line, "\n"))
 file close
 </pre>
 
-- **category**: FileSystem
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **credits**: Initial version contributed by Miles Egan.
-
 ## appendToContents(aSeq)
 
 Appends to the contents of the file with aSeq. Returns self.

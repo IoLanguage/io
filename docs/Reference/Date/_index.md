@@ -2,11 +2,6 @@
 
 An absolute point in time, represented as seconds since the epoch.
 
-- **category**: Time
-- **copyright**: Steve Dekorte 2002
-- **license**: BSD revised
-- **credits**: fromString method by Sean Perry
-
 ## -(aDurationOrDate)
 
 Return a new Date with the receiver's value minus an amount of time

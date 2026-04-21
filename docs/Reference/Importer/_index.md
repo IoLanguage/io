@@ -2,8 +2,6 @@
 
 A simple search path based auto-importer.
 
-- **category**: Core
-
 ## addSearchPath(path)
 
 Add a search path to the auto importer. Relative paths are made absolute before adding.

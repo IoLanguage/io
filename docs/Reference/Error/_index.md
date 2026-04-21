@@ -2,10 +2,6 @@
 
 An object that contains error information and flow control based on errors.
 
-- **category**: Core
-- **copyright**: Rich Collins 2008
-- **license**: BSD revised
-
 ## ifError(code)
 
 Evaluates code in the context of sender. Returns self.
