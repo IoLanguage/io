@@ -653,10 +653,14 @@ p code, li code {
   align-items: center;
 }
 
-/* Wide variant — image spans the full hero width */
+/* Wide variant — image spans the full page width (breaks out of page padding) */
 .hero.hero-wide {
   background-size: 100% auto;
   background-position: center;
+  margin-left: -70px;
+  margin-right: -70px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 .hero-title {
@@ -699,6 +703,13 @@ p code, li code {
     padding: 30px 0 40px;
     margin: 10px 0 30px;
     background-size: 50% auto;
+  }
+  .hero.hero-wide {
+    margin-left: -28px;
+    margin-right: -28px;
+    padding-left: 28px;
+    padding-right: 28px;
+    background-size: 100% auto;
   }
   .hero-title { font-size: 42px; max-width: 60%; }
 }
