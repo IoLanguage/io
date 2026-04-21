@@ -188,7 +188,7 @@ Io> test
 ```
 
 
-Internally, break, continue and return all work by setting a IoState internal variable called "stopStatus" which is monitored by the loop and message evaluation code.
+Internally, `break`, `continue`, and `return` are handled by the iterative evaluator's frame state machine: each sets a non-local control signal on the current frame, and the eval loop unwinds frames until it reaches the enclosing loop or block.
 
 
 
@@ -210,129 +210,6 @@ The comparison methods:
 
 return either the true or false. The compare() method is used to implement the comparison methods and returns -1, 0 or 1 which mean less-than, equal-to or greater-than, respectively.
 
-
-
-
-## Loops
-
-### loop
-
-The loop method can be used for "infinite" loops:
-
-```io
-loop("foo" println)
-```
-
-
-### repeat
-
-The Number repeat method can be used to repeat a loop a given number of times.
-
-```io
-3 repeat("foo" print)
-==> foofoofoo
-```
-
-
-### while
-
-Arguments:
-
-```io
-while(<condition>, <do message>)
-```
-
-
-Example:
-
-```io
-a := 1
-while(a < 10,
-a print
-a = a + 1
-)
-```
-
-
-### for
-
-Arguments:
-
-```io
-for(<counter>, <start>, <end>,
-<optional step>, <do message>)
-```
-
-
-The start and end messages are only evaluated once, when the loop starts. Example:
-
-```io
-for(a, 0, 10,
-a println
-)
-```
-
-
-Example with a step:
-
-```io
-for(x, 0, 10, 3, x println)
-```
-
-
-Which would print:
-
-```io
-0
-3
-6
-9
-```
-
-
-To reverse the order of the loop, add a negative step:
-
-```io
-for(a, 10, 0, -1, a println)
-```
-
-
-Note: the first value will be the first value of the loop variable and the last will be the last value on the final pass through the loop. So a loop of 1 to 10 will loop 10 times and a loop of 0 to 10 will loop 11 times.
-
-
-### break, continue
-
-loop, repeat, while and for support the break and continue methods. Example:
-
-```io
-for(i, 1, 10,
-if(i == 3, continue)
-if(i == 7, break)
-i print
-)
-```
-
-
-Output:
-
-```io
-12456
-```
-
-
-#### return
-
-Any part of a block can return immediately using the return method. Example:
-
-```io
-Io> test := method(123 print; return "abc"; 456 print)
-Io> test
-123
-==> abc
-```
-
-
-Internally, break, continue and return all work by setting a IoState internal variable called "stopStatus" which is monitored by the loop and message evaluation code.
 
 
 
@@ -402,3 +279,17 @@ Custom exception types can be implemented by simply cloning an existing Exceptio
 ```io
 MyErrorType := Error clone
 ```
+
+
+### Resumable Exceptions
+
+Because evaluation state lives in heap-allocated frames, the frame that raised an exception is still a live, inspectable object when a handler runs. A handler can choose to *resume* the computation at the point of the raise — returning a value in place of the exception — instead of unwinding past it. This enables Smalltalk- or Common-Lisp-style condition handling where the handler decides whether to retry, substitute a value, or abort.
+
+
+
+
+## Continuations
+
+The iterative evaluator makes first-class continuations straightforward: `callcc` snapshots the current frame chain as an ordinary Io object. That object can be stored, invoked later, or — because it's just a graph of Io values — serialized and resumed in another process.
+
+`callcc` is not exposed in the top-level Lobby because it's easy to misuse. Where continuations are needed, they're reachable through the VM's reflective interface.

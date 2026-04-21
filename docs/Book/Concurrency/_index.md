@@ -10,6 +10,8 @@ Coroutines, actors, futures, and Io's concurrency model.
 
 Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
 
+Under the stackless evaluator, a coroutine is simply a chain of heap-allocated evaluation frames. Switching coroutines is a matter of changing which frame chain the eval loop is walking — there is no platform-specific assembly, no `setjmp`/`longjmp`, and no `ucontext` or fibers. The same C code works on every host, including WebAssembly, which hides the native call stack entirely.
+
 
 ### Scheduler
 
@@ -112,3 +114,14 @@ An object will automatically yield between processing each of its asynchronous m
 ### Pause and Resume
 
 It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.
+
+
+
+
+## Continuations
+
+Because evaluation state lives in heap-allocated frames rather than on the C stack, Io supports first-class continuations. `callcc` captures the current computation — its frame chain and local state — as a first-class object that can be stored, invoked later, or even serialized and resumed in another process.
+
+The same property also makes it possible to model resumable exceptions: a handler can choose to resume the computation at the point of the raise, rather than unwinding past it, enabling Smalltalk- or Common-Lisp-style condition systems.
+
+Because `callcc` is easy to misuse, it is not exposed in the top-level Lobby. It is available where needed through the VM's reflective interface.

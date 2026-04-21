@@ -1,0 +1,35 @@
+{
+  "title": "Timeline",
+  "subtitle": "Milestones in Io's history, from 2002 to today.",
+  "pageLayout": "timeline",
+  "content": [
+    {
+      "type": "ContentTimeline",
+      "items": [
+        { "date": "2002-03", "title": "Io created", "subtitle": "Steve Dekorte begins work on Io as a minimal prototype-based language." },
+        { "date": "2002-04", "title": "First public release", "subtitle": "Io goes public on a Yahoo! Groups mailing list; the earliest public releases and programming guide appear. Patches are exchanged by email." },
+        { "date": "2002-08", "title": "Actors and coroutines", "subtitle": "Beta 2002-08-11 adds concurrency: Actors (object-oriented threads) implemented with coroutines and cooperative <code>yield</code>." },
+        { "date": "2002-08", "title": "Addon system", "subtitle": "First addon libraries land: Directory, XML (expat), MD5, Blowfish, regex, and OpenGL/GLUT &mdash; establishing the addon model that grows rapidly over the next year." },
+        { "date": "2002-09", "title": "Networking", "subtitle": "Sockets addon adds TCP servers and clients; UDP follows a week later. Async DNS arrives in November, and IoServer becomes a dedicated build target." },
+        { "date": "2002-10", "title": "Incremental GC", "subtitle": "Mark-and-sweep is replaced with an incremental tri-color collector with write barrier &mdash; trading a small throughput hit for far better real-time pause behavior." },
+        { "date": "2002-12", "title": "Weak links", "subtitle": "A <code>WeakLink</code> primitive is added, letting objects reference each other without preventing collection &mdash; useful for caches and back-pointers." },
+        { "date": "2003-02", "title": "Addon explosion", "subtitle": "Rapid expansion: curses, JPEG/TIFF, zlib, Perl5 regex, Objective-C bridge, SGML, SQLite, and more &mdash; Io becomes usable for real-world scripting and embedding." },
+        { "date": "2003-04", "title": "Futures", "subtitle": "<code>@</code> returns a transparent future that becomes its result when touched; <code>@@</code> fires and forgets. Deadlocks are detected by walking the future graph." },
+        { "date": "2004-07", "title": "Vector primitive (SIMD)", "subtitle": "A numeric <code>Vector</code> type with AltiVec acceleration lands &mdash; around 1 Gflops on a 1.2&nbsp;GHz G4. Strings, buffers, and numeric vectors unify under <code>Sequence</code>." },
+        { "date": "2005-07", "title": "Lua Workshop talk", "subtitle": "Steve presents Io at the Lua Workshop, contrasting message-tree semantics with Lua&rsquo;s table-based model." },
+        { "date": "2005-10", "title": "OOPSLA / DLS", "subtitle": "Io is presented at the ACM Dynamic Languages Symposium, co-located with OOPSLA&rsquo;05 in San Diego, bringing the language to a wider research audience." },
+        { "date": "2005-12", "title": "Public DARCS repository", "subtitle": "A public source repository hosted at iolanguage.com/darcs/Io replaces the email-patch workflow." },
+        { "date": "2007-03", "title": "Migration to git", "subtitle": "Source history moves from DARCS to git, hosted on iolanguage.com." },
+        { "date": "2008-02", "title": "Published on GitHub", "subtitle": "The Io repository appears at <a href=\"https://github.com/IoLanguage/io\">github.com/IoLanguage/io</a>, making issues and pull requests the primary contribution channel." },
+        { "date": "2009-10", "title": "Portable ucontext", "subtitle": "Russ Cox&rsquo;s portable ucontext replaces platform-specific coroutine code, enabling cross-platform support including 64-bit macOS." },
+        { "date": "2010-05", "title": "CMake build system", "subtitle": "The build moves from hand-written Makefiles to CMake, simplifying ports and addon builds." },
+        { "date": "2012-01", "title": "Io Book on Apple iBooks", "subtitle": "Steve Dekorte publishes <em>Io</em> on the Apple iBooks Store on 2012-01-23 &mdash; a compact introduction to the language, prototypes, messages, and concurrency." },
+        { "date": "2017-11", "title": "Eerie package manager", "subtitle": "Josip Lisec&rsquo;s <code>Eerie</code> package manager is rewritten by Ales Tsurko under the IoLanguage org, with heavy activity through 2021." },
+        { "date": "2025-07", "title": "ARM64 coroutines", "subtitle": "Native ARM64 coroutine support lands for Apple Silicon and modern Linux." },
+        { "date": "2026-02", "title": "Stackless evaluator", "subtitle": "The recursive C-stack evaluator is replaced with a heap-allocated frame state machine &mdash; enabling TCO, robust exception unwinding, and first-class continuations.", "href": "../docs/Technical%20Notes/Stackless/index.html" },
+        { "date": "2026-03", "title": "WASM/WASI port", "subtitle": "Io cross-compiles to WebAssembly. A bidirectional Io&harr;JavaScript bridge replaces the native addon model.", "href": "../docs/Technical%20Notes/WASM/index.html" },
+        { "date": "2026-04", "title": "WASM merged to master", "subtitle": "The WASM branch becomes the default target. Book and site restructured for the new era." }
+      ]
+    }
+  ]
+}

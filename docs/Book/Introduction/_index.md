@@ -24,24 +24,20 @@ In Io, all values are objects (of which, anything can change at runtime, includi
 
 ## Getting Started
 
-Io distributions are available at:
-
-```io
-[http://iolanguage.com](http://iolanguage.com)
-```
+Io is distributed as a single WebAssembly module (`io_static.wasm`) that runs under any WASM host — [wasmtime](https://wasmtime.dev), Node.js, or a browser. Source and build instructions live at [github.com/IoLanguage/io](https://github.com/IoLanguage/io).
 
 
 
 ### Interactive Mode
 
-If Io is installed, running:
+To start the REPL, run the WASM binary under wasmtime:
 
 ```io
-io
+wasmtime --dir=. build/bin/io_static
 ```
 
 
-will open the Io interpreter prompt.
+This opens the Io interpreter prompt.
 
 You can evaluate code by entering it directly. Example:
 
@@ -96,19 +92,9 @@ Exploring further:
 ```io
 Io> Protos
 ==>  Object_0x20bff0:
-Addons = Object_0x20c6f0
 Core = Object_0x20c4b0
 ```
 
-
-```io
-Io> Protos Addons
-==>  Object_0x20c6f0:
-ReadLine = Object_0x366a10
-```
-
-
-Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
 
 Inspecting a method will print a decompiled version of it:
 

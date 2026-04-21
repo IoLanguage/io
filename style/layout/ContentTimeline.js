@@ -1,4 +1,5 @@
 import { ContentBase } from "./ContentBase.js";
+import { slugify } from "./MarkdownParser.js";
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -7,6 +8,7 @@ export class ContentTimeline extends ContentBase {
     computeHtml () {
         const items = this.json.items || [];
         if (!items.length) return "";
+        const title = this.json.title || "";
 
         // Group events by month into columns
         const columns = [];
@@ -14,18 +16,21 @@ export class ContentTimeline extends ContentBase {
         for (const item of items) {
             const [year, month] = item.date.split("-").map(Number);
             const key = item.date;
+            const ev = {
+                title: item.title,
+                subtitle: item.subtitle || "",
+                href: item.href || ""
+            };
             if (key !== currentKey) {
                 columns.push({
                     year,
                     month,
                     monthIndex: year * 12 + month,
-                    events: [{ title: item.title, subtitle: item.subtitle || "" }]
+                    events: [ev]
                 });
                 currentKey = key;
             } else {
-                columns[columns.length - 1].events.push({
-                    title: item.title, subtitle: item.subtitle || ""
-                });
+                columns[columns.length - 1].events.push(ev);
             }
         }
 
@@ -46,16 +51,18 @@ export class ContentTimeline extends ContentBase {
                 : monthName;
             prevYear = col.year;
 
-            // Proportional spacing
+            // Proportional spacing: linear in months, with a floor so adjacent
+            // events stay readable and a soft ceiling so multi-decade gaps
+            // don't produce excessive blank track.
+            const PX_PER_MONTH = 8;
+            const MIN_MARGIN = 60;
+            const MAX_MARGIN = 1400;
             let margin;
             if (i === 0) {
                 margin = 100;
             } else {
                 const diff = col.monthIndex - prevMonthIndex;
-                if (diff <= 1) margin = 60;
-                else if (diff === 2) margin = 100;
-                else if (diff === 3) margin = 160;
-                else margin = Math.min(160 + (diff - 3) * 28, 400);
+                margin = Math.max(MIN_MARGIN, Math.min(diff * PX_PER_MONTH, MAX_MARGIN));
             }
             prevMonthIndex = col.monthIndex;
 
@@ -79,8 +86,11 @@ export class ContentTimeline extends ContentBase {
             return { dateLabel, margin, aboveEvents, belowEvents };
         });
 
+        let html = "";
+        if (title) html += `<h2 id="${slugify(title)}">${title}</h2>`;
+
         // Toolbar (event listeners attached in postRender)
-        let html = '<div class="timeline-toolbar">';
+        html += '<div class="timeline-toolbar">';
         html += '<button class="zoom-btn zoom-btn-minus">&minus;</button>';
         html += '<button class="zoom-btn zoom-btn-plus">&plus;</button>';
         html += '<button class="details-toggle">Hide Details</button>';
@@ -94,6 +104,10 @@ export class ContentTimeline extends ContentBase {
             html += `<div class="axis-year axis-year-end">${endYear}</div>`;
         }
 
+        const renderTitle = (ev) => ev.href
+            ? `<div class="event-title"><a class="event-link" href="${ev.href}">${ev.title}<span class="event-link-arrow">&rarr;</span></a></div>`
+            : `<div class="event-title">${ev.title}</div>`;
+
         for (const col of colData) {
             html += `<div class="tl-col" style="margin-left: ${col.margin}px;">`;
 
@@ -104,7 +118,7 @@ export class ContentTimeline extends ContentBase {
                     const ev = col.aboveEvents[j];
                     html += '<div class="event">';
                     if (j === 0) html += `<div class="event-date">${col.dateLabel}</div>`;
-                    html += `<div class="event-title">${ev.title}</div>`;
+                    html += renderTitle(ev);
                     if (ev.subtitle) html += `<div class="event-desc">${ev.subtitle}</div>`;
                     html += "</div>";
                 }
@@ -122,7 +136,7 @@ export class ContentTimeline extends ContentBase {
                     if (j === 0 && col.aboveEvents.length === 0) {
                         html += `<div class="event-date">${col.dateLabel}</div>`;
                     }
-                    html += `<div class="event-title">${ev.title}</div>`;
+                    html += renderTitle(ev);
                     if (ev.subtitle) html += `<div class="event-desc">${ev.subtitle}</div>`;
                     html += "</div>";
                 }

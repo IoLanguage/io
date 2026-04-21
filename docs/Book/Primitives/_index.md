@@ -463,7 +463,9 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 
 ### Networking
 
-All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using its objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
+On the WASM target, networking is handled through the host: under Node.js via the built-in `net`/`http`/`fetch` APIs, under wasmtime via WASI sockets (where granted), and in the browser via `fetch`, `WebSocket`, and related Web APIs. These are reached through the Io↔JavaScript bridge rather than a dedicated Io `Socket` addon.
+
+The examples below use the classic Io `Socket` / `Server` / `URL` interface, which is preserved as a thin Io-level wrapper over the host's networking facilities. From Io's perspective, reads and writes still appear synchronous because the calling coroutine yields until the underlying host operation completes.
 
 
 Creating a URL object:
@@ -540,7 +542,6 @@ WebServer start
 Using the XML parser to find the links in a web page:
 
 ```io
-SGML // reference this to load the SGML addon
 xml := URL with("[http://www.yahoo.com](http://www.yahoo.com)/") fetch asXML
 links := xml elementsWithName("a") map(attributes at("href"))
 ```
@@ -584,18 +585,7 @@ writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")
 ```
 
 
-Which when run on 2Ghz Mac Laptop, outputs:
-
-```io
-1.255 GFLOPS
-```
-
-
-A similar bit of C code (without SIMD acceleration) outputs:
-
-```io
-0.479 GFLOPS
-```
+Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration. Current throughput depends on the WASM host; SIMD availability on the WASM target follows whatever the runtime supports.
 
 
 So for this example, Io is about three times faster than plain C.

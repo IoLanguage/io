@@ -30,7 +30,7 @@ The VM is written in portable C and now targets WebAssembly (WASI) by default. T
 - **Runtime Introspection** — Slots, protos, message trees, and block source code are all inspectable and modifiable at runtime.
 - **Actors and Futures** — Any object can receive `asyncSend` or `futureSend` messages and run its own coroutine. Futures are transparent (they become their result) and detect deadlocks automatically.
 - **Coroutines Everywhere** — Concurrency uses cooperative user-level coroutines rather than OS threads, scaling to thousands of active tasks without thread-level overhead.
-- **First-Class Continuations** — `callcc` captures the current computation as a value that can be stored, invoked later, or serialized.
+- **First-Class Continuations** — the VM is callcc-capable: the current computation can be captured as a first-class value and later resumed, stored, or serialized.
 - **Unified Sequences** — Strings, buffers, and numeric vectors share one `Sequence` primitive, with multiple item types, text encodings, and SIMD acceleration on float vectors.
 - **WASM/WASI Target** — The default build produces a single WebAssembly module that runs under wasmtime, Node.js, or in browsers, with full access to the DOM when hosted in a page.
 - **Io↔JS Bridge** — Host integration on the browser target is bidirectional: Io can call JavaScript functions and JavaScript can call Io methods, replacing the native-addon model of earlier Io releases.
@@ -38,6 +38,8 @@ The VM is written in portable C and now targets WebAssembly (WASI) by default. T
 
 - [Documentation](docs/index.html) — Guides, tutorial, language reference, and design notes.
 - [Source on GitHub](https://github.com/IoLanguage/io) — Io language VM source repository.
+- FAQ
+- Timeline
 
 For AI agents: [llms.txt](llms.txt) (curated index) and [llms-full.txt](llms-full.txt) (full content).
 
@@ -217,6 +219,8 @@ Coroutines, actors, futures, and Io's concurrency model.
 
 Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
 
+Under the stackless evaluator, a coroutine is simply a chain of heap-allocated evaluation frames. Switching coroutines is a matter of changing which frame chain the eval loop is walking — there is no platform-specific assembly, no `setjmp`/`longjmp`, and no `ucontext` or fibers. The same C code works on every host, including WebAssembly, which hides the native call stack entirely.
+
 
 ### Scheduler
 
@@ -319,6 +323,17 @@ An object will automatically yield between processing each of its asynchronous m
 ### Pause and Resume
 
 It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.
+
+
+
+
+## Continuations
+
+Because evaluation state lives in heap-allocated frames rather than on the C stack, Io supports first-class continuations. `callcc` captures the current computation — its frame chain and local state — as a first-class object that can be stored, invoked later, or even serialized and resumed in another process.
+
+The same property also makes it possible to model resumable exceptions: a handler can choose to resume the computation at the point of the raise, rather than unwinding past it, enabling Smalltalk- or Common-Lisp-style condition systems.
+
+Because `callcc` is easy to misuse, it is not exposed in the top-level Lobby. It is available where needed through the VM's reflective interface.
 
 
 ---
@@ -516,7 +531,7 @@ Io> test
 ```
 
 
-Internally, break, continue and return all work by setting a IoState internal variable called "stopStatus" which is monitored by the loop and message evaluation code.
+Internally, `break`, `continue`, and `return` are handled by the iterative evaluator's frame state machine: each sets a non-local control signal on the current frame, and the eval loop unwinds frames until it reaches the enclosing loop or block.
 
 
 
@@ -538,129 +553,6 @@ The comparison methods:
 
 return either the true or false. The compare() method is used to implement the comparison methods and returns -1, 0 or 1 which mean less-than, equal-to or greater-than, respectively.
 
-
-
-
-## Loops
-
-### loop
-
-The loop method can be used for "infinite" loops:
-
-```io
-loop("foo" println)
-```
-
-
-### repeat
-
-The Number repeat method can be used to repeat a loop a given number of times.
-
-```io
-3 repeat("foo" print)
-==> foofoofoo
-```
-
-
-### while
-
-Arguments:
-
-```io
-while(<condition>, <do message>)
-```
-
-
-Example:
-
-```io
-a := 1
-while(a < 10,
-a print
-a = a + 1
-)
-```
-
-
-### for
-
-Arguments:
-
-```io
-for(<counter>, <start>, <end>,
-<optional step>, <do message>)
-```
-
-
-The start and end messages are only evaluated once, when the loop starts. Example:
-
-```io
-for(a, 0, 10,
-a println
-)
-```
-
-
-Example with a step:
-
-```io
-for(x, 0, 10, 3, x println)
-```
-
-
-Which would print:
-
-```io
-0
-3
-6
-9
-```
-
-
-To reverse the order of the loop, add a negative step:
-
-```io
-for(a, 10, 0, -1, a println)
-```
-
-
-Note: the first value will be the first value of the loop variable and the last will be the last value on the final pass through the loop. So a loop of 1 to 10 will loop 10 times and a loop of 0 to 10 will loop 11 times.
-
-
-### break, continue
-
-loop, repeat, while and for support the break and continue methods. Example:
-
-```io
-for(i, 1, 10,
-if(i == 3, continue)
-if(i == 7, break)
-i print
-)
-```
-
-
-Output:
-
-```io
-12456
-```
-
-
-#### return
-
-Any part of a block can return immediately using the return method. Example:
-
-```io
-Io> test := method(123 print; return "abc"; 456 print)
-Io> test
-123
-==> abc
-```
-
-
-Internally, break, continue and return all work by setting a IoState internal variable called "stopStatus" which is monitored by the loop and message evaluation code.
 
 
 
@@ -732,6 +624,20 @@ MyErrorType := Error clone
 ```
 
 
+### Resumable Exceptions
+
+Because evaluation state lives in heap-allocated frames, the frame that raised an exception is still a live, inspectable object when a handler runs. A handler can choose to *resume* the computation at the point of the raise — returning a value in place of the exception — instead of unwinding past it. This enables Smalltalk- or Common-Lisp-style condition handling where the handler decides whether to retry, substitute a value, or abort.
+
+
+
+
+## Continuations
+
+The iterative evaluator makes first-class continuations straightforward: `callcc` snapshots the current frame chain as an ordinary Io object. That object can be stored, invoked later, or — because it's just a graph of Io values — serialized and resumed in another process.
+
+`callcc` is not exposed in the top-level Lobby because it's easy to misuse. Where continuations are needed, they're reachable through the VM's reflective interface.
+
+
 ---
 
 <!-- Page: docs/Book/Introduction -->
@@ -763,24 +669,20 @@ In Io, all values are objects (of which, anything can change at runtime, includi
 
 ## Getting Started
 
-Io distributions are available at:
-
-```io
-[http://iolanguage.com](http://iolanguage.com)
-```
+Io is distributed as a single WebAssembly module (`io_static.wasm`) that runs under any WASM host — [wasmtime](https://wasmtime.dev), Node.js, or a browser. Source and build instructions live at [github.com/IoLanguage/io](https://github.com/IoLanguage/io).
 
 
 
 ### Interactive Mode
 
-If Io is installed, running:
+To start the REPL, run the WASM binary under wasmtime:
 
 ```io
-io
+wasmtime --dir=. build/bin/io_static
 ```
 
 
-will open the Io interpreter prompt.
+This opens the Io interpreter prompt.
 
 You can evaluate code by entering it directly. Example:
 
@@ -835,19 +737,9 @@ Exploring further:
 ```io
 Io> Protos
 ==>  Object_0x20bff0:
-Addons = Object_0x20c6f0
 Core = Object_0x20c4b0
 ```
 
-
-```io
-Io> Protos Addons
-==>  Object_0x20c6f0:
-ReadLine = Object_0x366a10
-```
-
-
-Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
 
 Inspecting a method will print a decompiled version of it:
 
@@ -1666,7 +1558,9 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 
 ### Networking
 
-All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using its objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
+On the WASM target, networking is handled through the host: under Node.js via the built-in `net`/`http`/`fetch` APIs, under wasmtime via WASI sockets (where granted), and in the browser via `fetch`, `WebSocket`, and related Web APIs. These are reached through the Io↔JavaScript bridge rather than a dedicated Io `Socket` addon.
+
+The examples below use the classic Io `Socket` / `Server` / `URL` interface, which is preserved as a thin Io-level wrapper over the host's networking facilities. From Io's perspective, reads and writes still appear synchronous because the calling coroutine yields until the underlying host operation completes.
 
 
 Creating a URL object:
@@ -1743,7 +1637,6 @@ WebServer start
 Using the XML parser to find the links in a web page:
 
 ```io
-SGML // reference this to load the SGML addon
 xml := URL with("[http://www.yahoo.com](http://www.yahoo.com)/") fetch asXML
 links := xml elementsWithName("a") map(attributes at("href"))
 ```
@@ -1787,18 +1680,7 @@ writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")
 ```
 
 
-Which when run on 2Ghz Mac Laptop, outputs:
-
-```io
-1.255 GFLOPS
-```
-
-
-A similar bit of C code (without SIMD acceleration) outputs:
-
-```io
-0.479 GFLOPS
-```
+Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration. Current throughput depends on the WASM host; SIMD availability on the WASM target follows whatever the runtime supports.
 
 
 So for this example, Io is about three times faster than plain C.
@@ -4525,6 +4407,24 @@ Source: /docs/Technical%20Notes/Stackless/
 
 Io's iterative evaluator, continuations, and coroutines.
 
+## About
+
+Historically Io evaluated messages by recursive descent in C — every Io call nested a real C frame. That model is simple, but it couples the language to the host platform in ways that become painful as the VM grows: the depth of Io recursion is bounded by the host’s C stack; capturing the in-flight computation requires copying raw stack memory; coroutine switching needs platform-specific assembly (`setjmp`/`longjmp`, `ucontext`, Windows fibers); and targets like WebAssembly don’t expose the native stack at all.
+
+A **C-stackless** evaluator moves all evaluation state into heap-allocated *frames*. The C code becomes a flat loop that pops the current frame, steps its state machine, and pushes new frames for sub-expressions. The C stack stays shallow — one loop iteration deep — regardless of how deep the Io call graph gets.
+
+### Why it matters
+
+- **First-class continuations** — `callcc` becomes a simple matter of snapshotting the frame chain. No `makecontext`, no copying raw C stack bytes, no fragile reassembly. Continuations become ordinary Io objects that can be stored and invoked later.
+- **Portable coroutines** — switching coroutines is just swapping which frame chain the eval loop is running. No platform-specific assembly, no ucontext, no fibers. The same C code works on macOS, Linux, Windows, ARM64, and WASM.
+- **Tail-call optimization** — reusing the current frame instead of pushing a new one is trivial when frames are explicit heap objects. Deep tail-recursive Io programs no longer blow the host stack.
+- **Robust exception unwinding** — raising an exception becomes a loop that pops frames until a handler is found. No `longjmp` hopping over C code that expected to run cleanup, and no reliance on C++-style unwinding.
+- **Resumable exceptions** — because the raising frame is a live, inspectable object, a handler can choose to *resume* the computation at the point of the raise instead of unwinding past it. This lets you model Smalltalk- or Common-Lisp-style condition systems where the handler decides whether to retry, substitute a value, or abort.
+- **Serializable execution state** — the full active computation — frame chain, local slots, pending messages — is a reachable graph of Io objects. It can be serialized to disk or sent over the network, then deserialized and resumed in another process, letting a running task migrate hosts, checkpoint and recover, or survive a VM restart.
+- **WASM compatibility** — WebAssembly intentionally hides the native call stack, which makes classical coroutine implementations impossible. A C-stackless design ports cleanly because it never depended on the C stack in the first place.
+- **Introspection and debugging** — the entire call stack is a reachable chain of Io objects. A debugger can walk it, print it, modify it, or resume from any point, without needing to reach into native memory.
+The cost is some throughput relative to a tightly coded recursive evaluator — the loop carries more explicit state than a C call frame would. In return, Io gets a single, portable, inspectable runtime with capabilities that would be impractical otherwise.
+
 - Report
 - Examples
 
@@ -5173,6 +5073,23 @@ Source: /docs/Technical%20Notes/WASM/
 
 Running Io in the browser via WebAssembly.
 
+## About
+
+Historically the Io VM was a native C binary with a per-platform build matrix (macOS, Linux, Windows, BSD), platform-specific coroutine assembly, and a native addon model that compiled C extensions against the host toolchain. That model works, but every new platform multiplies the work: new assembly for coroutines, new build recipes, new binary artifacts, new ways for addons to break.
+
+Compiling the VM to **WebAssembly** collapses that matrix to a single portable module. The same `io_static.wasm` runs under [wasmtime](https://wasmtime.dev), Node.js, and directly in the browser, with no platform-specific code paths in the VM itself.
+
+### Why it matters
+
+- **One binary, every host** — a single WASM module replaces the per-OS and per-architecture build matrix. No cross-compilation toolchains, no CI jobs for each target, no separate releases. If your environment has a WASM runtime, it can run Io.
+- **Runs in the browser** — the same VM that runs on the command line loads as a script tag. Io programs get direct access to the DOM, `fetch`, Web Audio, WebGL — any capability the host page exposes — without a separate “web Io” fork.
+- **Bidirectional Io&harr;JavaScript bridge** — the old native-addon model is replaced by a symmetric bridge: Io can call any JavaScript function and receive JS objects as Io values; JavaScript can call Io methods and pass JS values as arguments. One mechanism replaces what used to require a per-library C addon.
+- **Access to the JavaScript ecosystem** — through the bridge, Io programs can reach the roughly two million packages on npm and every Web API the browser exposes. The classic Io distribution shipped a few dozen hand-written addons covering networking, databases, graphics, crypto, and serialization; the JS ecosystem already covers all of those, plus machine learning, 3D rendering, audio synthesis, protocol implementations, cloud SDKs, and much more — without anyone writing a line of binding code. Io inherits decades of JavaScript library work as a side effect of the port.
+- **Embeddable by design** — a WASM module is an embeddable artifact. Native apps can host Io through wasmtime or wasmer; server-side JS can host it through Node; the browser hosts it directly. Embedding no longer means linking C libraries and matching ABIs.
+- **Sandboxed by default** — WASM modules only see the capabilities their host grants. File-system and network access flow through WASI or host-supplied JS, not raw syscalls, so an Io program can’t silently reach parts of the system the host didn’t intend to expose.
+- **Forces a cleaner core** — the WASM target doesn’t expose the native C stack, which ruled out the old ucontext/setjmp coroutine implementations and motivated the stackless evaluator. The discipline that came with the port left the VM smaller, more portable, and easier to reason about.
+Trade-offs are real: the WASM target is early-access, JIT throughput depends on the host runtime, and some classic native addons (notably anything linking C libraries) don’t carry over — their roles are now filled by JavaScript libraries reached through the bridge.
+
 - Browser Target
 - DOM Interop
 
@@ -5779,3 +5696,47 @@ Any object can act as an actor — just send it async messages.
 - Read the [Book](../Book/index.html) for a deeper walkthrough of the language.
 - Skim the [Reference](../Reference/index.html) for a complete list of built-in objects and methods.
 - Browse the [Guide](../Guide/index.html) for idioms and conventions.
+
+
+---
+
+<!-- Page: FAQ -->
+Source: /FAQ/
+
+# FAQ
+
+Common questions about Io — its origins, philosophy, and practical use.
+
+
+---
+
+<!-- Page: Timeline -->
+Source: /Timeline/
+
+# Timeline
+
+Milestones in Io's history, from 2002 to today.
+
+- **2002-03** — Io created: Steve Dekorte begins work on Io as a minimal prototype-based language.
+- **2002-04** — First public release: Io goes public on a Yahoo! Groups mailing list; the earliest public releases and programming guide appear. Patches are exchanged by email.
+- **2002-08** — Actors and coroutines: Beta 2002-08-11 adds concurrency: Actors (object-oriented threads) implemented with coroutines and cooperative yield.
+- **2002-08** — Addon system: First addon libraries land: Directory, XML (expat), MD5, Blowfish, regex, and OpenGL/GLUT — establishing the addon model that grows rapidly over the next year.
+- **2002-09** — Networking: Sockets addon adds TCP servers and clients; UDP follows a week later. Async DNS arrives in November, and IoServer becomes a dedicated build target.
+- **2002-10** — Incremental GC: Mark-and-sweep is replaced with an incremental tri-color collector with write barrier — trading a small throughput hit for far better real-time pause behavior.
+- **2002-12** — Weak links: A WeakLink primitive is added, letting objects reference each other without preventing collection — useful for caches and back-pointers.
+- **2003-02** — Addon explosion: Rapid expansion: curses, JPEG/TIFF, zlib, Perl5 regex, Objective-C bridge, SGML, SQLite, and more — Io becomes usable for real-world scripting and embedding.
+- **2003-04** — Futures: @ returns a transparent future that becomes its result when touched; @@ fires and forgets. Deadlocks are detected by walking the future graph.
+- **2004-07** — Vector primitive (SIMD): A numeric Vector type with AltiVec acceleration lands — around 1 Gflops on a 1.2 GHz G4. Strings, buffers, and numeric vectors unify under Sequence.
+- **2005-07** — Lua Workshop talk: Steve presents Io at the Lua Workshop, contrasting message-tree semantics with Lua’s table-based model.
+- **2005-10** — OOPSLA / DLS: Io is presented at the ACM Dynamic Languages Symposium, co-located with OOPSLA’05 in San Diego, bringing the language to a wider research audience.
+- **2005-12** — Public DARCS repository: A public source repository hosted at iolanguage.com/darcs/Io replaces the email-patch workflow.
+- **2007-03** — Migration to git: Source history moves from DARCS to git, hosted on iolanguage.com.
+- **2008-02** — Published on GitHub: The Io repository appears at github.com/IoLanguage/io, making issues and pull requests the primary contribution channel.
+- **2009-10** — Portable ucontext: Russ Cox’s portable ucontext replaces platform-specific coroutine code, enabling cross-platform support including 64-bit macOS.
+- **2010-05** — CMake build system: The build moves from hand-written Makefiles to CMake, simplifying ports and addon builds.
+- **2012-01** — Io Book on Apple iBooks: Steve Dekorte publishes Io on the Apple iBooks Store on 2012-01-23 — a compact introduction to the language, prototypes, messages, and concurrency.
+- **2017-11** — Eerie package manager: Josip Lisec’s Eerie package manager is rewritten by Ales Tsurko under the IoLanguage org, with heavy activity through 2021.
+- **2025-07** — ARM64 coroutines: Native ARM64 coroutine support lands for Apple Silicon and modern Linux.
+- **2026-02** — Stackless evaluator: The recursive C-stack evaluator is replaced with a heap-allocated frame state machine — enabling TCO, robust exception unwinding, and first-class continuations.
+- **2026-03** — WASM/WASI port: Io cross-compiles to WebAssembly. A bidirectional Io&harr;JavaScript bridge replaces the native addon model.
+- **2026-04** — WASM merged to master: The WASM branch becomes the default target. Book and site restructured for the new era.
