@@ -329,6 +329,7 @@ Source: /docs/Book/Control%20Flow/
 ---
 heroImage: ../images/Control Flow.png
 heroLayout: wide
+heroAspect: 1024 / 681
 ---
 
 # Control Flow

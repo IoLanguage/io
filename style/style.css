@@ -9,11 +9,12 @@ body {
 }
 
 .page {
+  --page-padding-x: 70px;
   max-width: 960px;
   margin: 40px auto;
   background: #faf9f6;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  padding: 60px 70px 80px;
+  padding: 60px var(--page-padding-x) 80px;
   opacity: 0;
 }
 
@@ -654,15 +655,16 @@ p code, li code {
 }
 
 /* Wide variant — image spans the full page width (breaks out of page padding).
-   aspect-ratio can be overridden per-page via inline style / --hero-aspect. */
+   --hero-aspect (from the page's heroAspect frontmatter) should match the
+   image's natural aspect ratio; falls back to 2/1 if unset. */
 .hero.hero-wide {
   background-size: 100% auto;
   background-position: center;
-  margin-left: -70px;
-  margin-right: -70px;
-  padding-left: 70px;
-  padding-right: 70px;
-  aspect-ratio: var(--hero-aspect, 1024 / 681);
+  margin-left: calc(var(--page-padding-x) * -1);
+  margin-right: calc(var(--page-padding-x) * -1);
+  padding-left: var(--page-padding-x);
+  padding-right: var(--page-padding-x);
+  aspect-ratio: var(--hero-aspect, 2 / 1);
   min-height: 0;
 }
 
@@ -686,7 +688,12 @@ p code, li code {
 
 /* Responsive */
 @media (max-width: 700px) {
-  .page { margin: 0; padding: 32px 28px 48px; box-shadow: none; }
+  .page {
+    --page-padding-x: 28px;
+    margin: 0;
+    padding: 32px var(--page-padding-x) 48px;
+    box-shadow: none;
+  }
   .header { flex-direction: column; gap: 8px; margin-bottom: 32px; }
   .header .brand { order: -1; }
   .section-two-col { grid-template-columns: 1fr; gap: 12px 0; }
@@ -707,13 +714,7 @@ p code, li code {
     margin: 10px 0 30px;
     background-size: 50% auto;
   }
-  .hero.hero-wide {
-    margin-left: -28px;
-    margin-right: -28px;
-    padding-left: 28px;
-    padding-right: 28px;
-    background-size: 100% auto;
-  }
+  .hero.hero-wide { background-size: 100% auto; }
   .hero-title { font-size: 42px; max-width: 60%; }
 }
 

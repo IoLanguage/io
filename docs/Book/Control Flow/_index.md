@@ -1,6 +1,7 @@
 ---
 heroImage: ../images/Control Flow.png
 heroLayout: wide
+heroAspect: 1024 / 681
 ---
 
 # Control Flow
