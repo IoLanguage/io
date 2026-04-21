@@ -793,7 +793,78 @@ p code, li code {
   .page-timeline .timeline-toolbar,
   .page-timeline .timeline-footer { padding-left: 28px; padding-right: 28px; }
   .page-timeline .timeline-footer-rule { margin-left: -28px; margin-right: -28px; }
-  .tl-col { width: 180px; }
+
+  /* Mobile: flip the horizontal timeline into a vertical list with the
+     axis line running down the left side. Keeps the same typography. */
+  .page-timeline {
+    height: auto;
+    overflow: visible;
+  }
+  .page-timeline .timeline-toolbar { display: none; }
+  .timeline-wrap {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+    cursor: auto !important;
+    padding: 0 28px;
+  }
+  .timeline-track {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 0;
+    min-width: 0;
+    height: auto;
+    zoom: 1 !important;
+  }
+  /* Vertical axis line running down the left. */
+  .timeline-track::before {
+    top: 16px;
+    bottom: 16px;
+    left: 7px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    transform: none;
+  }
+  .axis-year { display: none; }
+
+  /* Each time-point is a row in the list; above/below stacks vertically. */
+  .tl-col {
+    width: auto !important;
+    margin-left: 0 !important;
+    padding: 14px 0 14px 40px;
+    position: relative;
+  }
+  /* Dot on the axis line. */
+  .tl-col::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 22px;
+    width: 10px;
+    height: 10px;
+    background: #2a2a2a;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .tl-above, .tl-below {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  .tl-above:empty, .tl-below:empty { display: none; }
+  .tl-below:not(:empty) { margin-top: 14px; }
+  /* Stems don't apply in list mode. */
+  .tl-stem { display: none; }
+
+  .event { width: 100%; }
+  .event-desc { max-width: none; }
+
+  .scroll-hint { display: none; }
+  /* End spacer from desktop is unnecessary in list mode. */
+  .timeline-track > div[style*="width: 120px"] { display: none; }
   .hero {
     min-height: 200px;
     padding: 30px 0 40px;
