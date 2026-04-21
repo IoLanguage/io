@@ -34,7 +34,7 @@ The VM is written in portable C and now targets WebAssembly (WASI) by default. T
 - **Unified Sequences** — Strings, buffers, and numeric vectors share one `Sequence` primitive, with multiple item types, text encodings, and SIMD acceleration on float vectors.
 - **WASM/WASI Target** — The default build produces a single WebAssembly module that runs under wasmtime, Node.js, or in browsers, with full access to the DOM when hosted in a page.
 - **Io↔JS Bridge** — Host integration on the browser target is bidirectional: Io can call JavaScript functions and JavaScript can call Io methods, replacing the native-addon model of earlier Io releases.
-- **Embeddable Core** — The VM is a multi-state C library under a BSD license, designed to be linked into other applications and driven through a small embedding API.
+- **Embeddable Core** — The VM ships as a single WebAssembly module under a BSD license, embeddable in any WASM host — browsers, Node.js, or native apps via wasmtime or wasmer.
 
 - [Documentation](docs/index.html) — Guides, tutorial, language reference, and design notes.
 - [Source on GitHub](https://github.com/IoLanguage/io) — Io language VM source repository.
