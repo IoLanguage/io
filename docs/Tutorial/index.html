@@ -9,7 +9,13 @@
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-  <div class="page loaded"><div class="header"><div><h1>Tutorial</h1><a class="back-link" href="../index.html">&larr; Documentation</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.</p><nav class="toc"><ul><li><a href="#math">Math</a></li><li><a href="#variables">Variables</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#lists">Lists</a></li><li><a href="#loops">Loops</a></li><li><a href="#strings">Strings</a></li></ul></nav><h2 id="math">Math</h2><div class="section"><div class="section-body"><pre><code>Io&gt; 1+1
+  <div class="page loaded"><div class="header"><div><h1>Tutorial</h1><a class="back-link" href="../index.html">&larr; Documentation</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.</p><nav class="toc"><ul><li><a href="#getting-started">Getting Started</a></li><li><a href="#math">Math</a></li><li><a href="#variables">Variables</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#lists">Lists</a></li><li><a href="#loops">Loops</a></li><li><a href="#strings">Strings</a></li><li><a href="#maps">Maps</a></li><li><a href="#objects-and-prototypes">Objects and Prototypes</a></li><li><a href="#methods">Methods</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#inheritance">Inheritance</a></li><li><a href="#introspection">Introspection</a></li><li><a href="#exceptions">Exceptions</a></li><li><a href="#file-io">File I/O</a></li><li><a href="#coroutines">Coroutines</a></li><li><a href="#actors-and-futures">Actors and Futures</a></li><li><a href="#next-steps">Next Steps</a></li></ul></nav><h2 id="getting-started">Getting Started</h2><div class="section"><div class="section-body"><p>Run the REPL and exit with <code>exit</code> or Ctrl-D:</p><pre><code>$ io
+Io 2025
+Io&gt; "hello" println
+hello
+==&gt; hello
+
+Io&gt; exit</code></pre><p>Run a script file:</p><pre><code>$ io script.io</code></pre><p>Evaluate a single expression:</p><pre><code>$ io -e '"hello" println'</code></pre></div></div><h2 id="math">Math</h2><div class="section"><div class="section-body"><pre><code>Io&gt; 1+1
 ==&gt; 2
 
 Io&gt; 2 sin
@@ -111,7 +117,119 @@ Io&gt; s exSlice(10)
 ==&gt; "test"
 
 Io&gt; s exSlice(2, 10)
-==&gt; "is is a "</code></pre></div></div></div>
+==&gt; "is is a "</code></pre></div></div><h2 id="maps">Maps</h2><div class="section"><div class="section-body"><pre><code>Io&gt; m := Map clone
+==&gt; Map_0x...
+
+Io&gt; m atPut("first", "Alice")
+Io&gt; m atPut("age", 30)
+
+Io&gt; m at("first")
+==&gt; Alice
+
+Io&gt; m keys
+==&gt; list("first", "age")
+
+Io&gt; m size
+==&gt; 2
+
+Io&gt; m foreach(k, v, writeln(k, " = ", v))
+first = Alice
+age = 30</code></pre></div></div><h2 id="objects-and-prototypes">Objects and Prototypes</h2><div class="section"><div class="section-body"><p>Every object is cloned from another. There are no classes &mdash; only prototypes.</p><pre><code>Io&gt; Dog := Object clone
+==&gt; Dog_0x...
+
+Io&gt; Dog name := "Rex"
+==&gt; "Rex"
+
+Io&gt; Dog bark := method("woof!" println)
+==&gt; method(...)
+
+Io&gt; Dog bark
+woof!
+==&gt; "woof!"</code></pre><p>Clone an instance. Slots set on the clone override slots inherited from the prototype.</p><pre><code>Io&gt; fido := Dog clone
+==&gt; Dog_0x...
+
+Io&gt; fido name
+==&gt; "Rex"
+
+Io&gt; fido name := "Fido"
+Io&gt; fido name
+==&gt; "Fido"
+
+Io&gt; Dog name
+==&gt; "Rex"</code></pre></div></div><h2 id="methods">Methods</h2><div class="section"><div class="section-body"><p><code>method(args..., body)</code> creates a callable with its own local scope.</p><pre><code>Io&gt; square := method(x, x * x)
+Io&gt; square(5)
+==&gt; 25
+
+Io&gt; Dog greet := method(other, "Hi, " .. other name .. "!" println)
+Io&gt; fido greet(Dog clone setName("Spot"))
+Hi, Spot!</code></pre><p>Methods see the receiver as <code>self</code>. Assignment without a prefix writes into the receiver's slots.</p><pre><code>Io&gt; Counter := Object clone do(
+    n := 0
+    bump := method(n = n + 1)
+)
+
+Io&gt; c := Counter clone
+Io&gt; c bump; c bump; c bump
+Io&gt; c n
+==&gt; 3</code></pre></div></div><h2 id="blocks">Blocks</h2><div class="section"><div class="section-body"><p><code>block</code> is like <code>method</code>, but lexically scoped &mdash; it closes over the context where it was defined, not the receiver of the call.</p><pre><code>Io&gt; makeAdder := method(x, block(y, x + y))
+Io&gt; add3 := makeAdder(3)
+Io&gt; add3 call(4)
+==&gt; 7</code></pre></div></div><h2 id="inheritance">Inheritance</h2><div class="section"><div class="section-body"><p>Clone to inherit. Override slots in the clone. <code>proto</code> points back to the parent.</p><pre><code>Io&gt; Animal := Object clone do(
+    sound := "..."
+    speak := method(sound println)
+)
+
+Io&gt; Cat := Animal clone do(sound := "meow")
+Io&gt; Cat speak
+meow
+
+Io&gt; Cat proto == Animal
+==&gt; true</code></pre><p>Multiple inheritance: append protos to the <code>protos</code> list.</p><pre><code>Io&gt; Swimmer := Object clone do(swim := method("swimming" println))
+Io&gt; Flyer   := Object clone do(fly  := method("flying"  println))
+Io&gt; Duck    := Object clone
+Io&gt; Duck appendProto(Swimmer); Duck appendProto(Flyer)
+Io&gt; Duck swim
+swimming
+Io&gt; Duck fly
+flying</code></pre></div></div><h2 id="introspection">Introspection</h2><div class="section"><div class="section-body"><p>Every object knows its slots and protos at runtime.</p><pre><code>Io&gt; fido slotNames
+==&gt; list("name")
+
+Io&gt; Dog slotNames
+==&gt; list("name", "bark", "greet")
+
+Io&gt; fido getSlot("name")
+==&gt; "Fido"
+
+Io&gt; fido proto == Dog
+==&gt; true
+
+Io&gt; fido hasSlot("bark")
+==&gt; true</code></pre></div></div><h2 id="exceptions">Exceptions</h2><div class="section"><div class="section-body"><pre><code>Io&gt; try(
+    Exception raise("something broke")
+) catch(Exception, e,
+    writeln("caught: ", e error)
+)
+caught: something broke</code></pre><p>A method can also <code>return</code> early or raise with <code>Exception raise</code>.</p></div></div><h2 id="file-io">File I/O</h2><div class="section"><div class="section-body"><pre><code>Io&gt; f := File with("hello.txt")
+Io&gt; f openForUpdating
+Io&gt; f write("hello, world\n")
+Io&gt; f close
+
+Io&gt; File with("hello.txt") contents
+==&gt; "hello, world\n"</code></pre><p>Iterate lines:</p><pre><code>Io&gt; File with("hello.txt") openForReading foreachLine(line, line println)</code></pre></div></div><h2 id="coroutines">Coroutines</h2><div class="section"><div class="section-body"><p>Coroutines are cooperative, scheduled in-process. <code>yield</code> hands control back to the scheduler.</p><pre><code>Io&gt; task := method(n, for(i, 1, n, writeln("tick ", i); yield))
+
+Io&gt; task(3) @@; task(3) @@
+Io&gt; Scheduler waitForCorosToComplete
+tick 1
+tick 1
+tick 2
+tick 2
+tick 3
+tick 3</code></pre></div></div><h2 id="actors-and-futures">Actors and Futures</h2><div class="section"><div class="section-body"><p>Send a message asynchronously with <code>@</code> (returns a future) or <code>@@</code> (no return).</p><pre><code>Io&gt; slow := Object clone
+Io&gt; slow compute := method(x, System sleep(1); x * x)
+
+Io&gt; f := slow @compute(5)
+Io&gt; "doing other work..." println
+Io&gt; f                          // blocks until ready
+==&gt; 25</code></pre><p>Any object can act as an actor &mdash; just send it async messages.</p></div></div><h2 id="next-steps">Next Steps</h2><div class="section"><div class="section-body"><ul><li>Read the <a href="../Book/index.html">Book</a> for a deeper walkthrough of the language.</li><li>Skim the <a href="../Reference/index.html">Reference</a> for a complete list of built-in objects and methods.</li><li>Browse the <a href="../Guide/index.html">Guide</a> for idioms and conventions.</li></ul></div></div></div>
   <script src="../../style/layout/layout.js" type="module"></script>
 </body>
 </html>

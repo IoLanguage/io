@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>Primitives – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Primitives</h1><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Built-in objects: numbers, strings, lists, maps, files, and more.</p><h2 id="primitives">Primitives</h2><div class="section"><div class="section-body"><p>Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as its hidden data and its methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.</p><p>This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.</p><h3 id="object">Object</h3><h4 id="the-operator">The ? Operator</h4><p>Sometimes it's desirable to conditionally call a method only if it exists (to avoid raising an exception). Example:</p><pre><code>if(obj getSlot("foo"), obj foo)</code></pre><p>Putting a "?" before a message has the same effect:</p><pre><code>obj ?foo</code></pre><h3 id="list">List</h3><p>A List is an array of references and supports all the standard array manipulation and enumeration methods. Examples:</p><p>Create an empty list:</p><pre><code>a := List clone</code></pre><p>Create a list of arbitrary objects using the list() method:</p><pre><code>a := list(33, "a")</code></pre><p>Append an item:</p><pre><code>a append("b")
+==&gt; list(33, "a", "b")</code></pre><p>Get the list size:</p><pre><code>a size
+==&gt; 3</code></pre><p>Get the item at a given index (List indexes begin at zero):</p><pre><code>a at(1)
+==&gt; "a"</code></pre><p>Note: List indexes begin at zero and nil is returned if the accessed index doesn't exist.</p><p>Set the item at a given index:</p><pre><code>a atPut(2, "foo")
+==&gt; list(33, "a", "foo", "b")</code></pre><pre><code>a atPut(6, "Fred")
+==&gt; Exception: index out of bounds</code></pre><p>Remove an item at a given index:</p><pre><code>a remove("foo")
+==&gt; list(33, "a", "b")</code></pre><p>Inserting an item at a given index:</p><pre><code>a atInsert(2, "foo")
+==&gt; list(33, "a", "foo", "56")</code></pre><h4 id="foreach">foreach</h4><p>The foreach, map and select methods can be used in three forms:</p><pre><code>Io&gt; a := list(65, 21, 122)</code></pre><p>In the first form, the first argument is used as an index variable, the second as a value variable and the 3rd as the expression to evaluate for each value.</p><pre><code>Io&gt; a foreach(i, v, write(i, ":", v, ", "))
+==&gt; 0:65, 1:21, 2:122,</code></pre><p>The second form removes the index argument:</p><pre><code>Io&gt; a foreach(v, v println)
+==&gt; 65
+21
+122</code></pre><p>The third form removes the value argument and simply sends the expression as a message to each value:</p><pre><code>Io&gt; a foreach(println)
+==&gt; 65
+21
+122</code></pre><h4 id="map-and-select">map and select</h4><p>Io's map and select (known as filter in some other languages) methods allow arbitrary expressions as the map/select predicates.</p><pre><code>Io&gt; numbers := list(1, 2, 3, 4, 5, 6)</code></pre><pre><code>Io&gt; numbers select(isOdd)
+==&gt; list(1, 3, 5)</code></pre><pre><code>Io&gt; numbers select(x, x isOdd)
+==&gt; list(1, 3, 5)</code></pre><pre><code>Io&gt; numbers select(i, x, x isOdd)
+==&gt; list(1, 3, 5)</code></pre><pre><code>Io&gt; numbers map(x, x*2)
+==&gt; list(2, 4, 6, 8, 10, 12)</code></pre><pre><code>Io&gt; numbers map(i, x, x+i)
+==&gt; list(1, 3, 5, 7, 9, 11)</code></pre><pre><code>Io&gt; numbers map(*3)
+==&gt; list(3, 6, 9, 12, 15, 18)</code></pre><p>The map and select methods return new lists. To do the same operations in-place, you can use selectInPlace() and mapInPlace() methods.</p><h3 id="sequence">Sequence</h3><p>In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String. Literal strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling its asMutable method and then perform the mutation operations on the copy. Common string operations Getting the length of a string:</p><pre><code>"abc" size
+==&gt; 3</code></pre><p>Checking if a string contains a substring:</p><pre><code>"apples" containsSeq("ppl")
+==&gt; true</code></pre><p>Getting the character (byte) at position N:</p><pre><code>"Kavi" at(1)
+==&gt; 97</code></pre><p>Slicing:</p><pre><code>"Kirikuro" slice(0, 2)
+==&gt; "Ki"</code></pre><pre><code>"Kirikuro" slice(-2)  # NOT: slice(-2, 0)!
+==&gt; "ro"</code></pre><pre><code>Io&gt; "Kirikuro" slice(0, -2)
+# "Kiriku"</code></pre><p>Stripping whitespace:</p><pre><code>"  abc  " asMutable strip
+==&gt; "abc"</code></pre><pre><code>"  abc  " asMutable lstrip
+==&gt; "abc  "</code></pre><pre><code>"  abc  " asMutable rstrip
+==&gt; "  abc"</code></pre><p>Converting to upper/lowercase:</p><pre><code>"Kavi" asUppercase
+==&gt; "KAVI"
+"Kavi" asLowercase
+==&gt; "kavi"</code></pre><p>Splitting a string:</p><pre><code>"the quick brown fox" split
+==&gt; list("the", "quick", "brown", "fox")</code></pre><p>Splitting by others character is possible as well.</p><pre><code>"a few good men" split("e")
+==&gt; list("a f", "w good m", "n")</code></pre><p>Converting to number:</p><pre><code>"13" asNumber
+==&gt; 13
+"a13" asNumber
+==&gt; nil</code></pre><p>String interpolation:</p><pre><code>name := "Fred"
+==&gt; Fred
+"My name is #{name}" interpolate
+==&gt; My name is Fred</code></pre><p>Interpolate will eval anything with #{} as Io code in the local context. The code may include loops or anything else but needs to return an object that responds to asString.</p><h3 id="ranges">Ranges</h3><p>A range is a container containing a start and an end point, and instructions on how to get from the start, to the end. Using Ranges is often convenient when creating large lists of sequential data as they can be easily converted to lists, or as a replacement for the for() method.</p><h4 id="the-range-protocol">The Range protocol</h4><p>Each object that can be used in Ranges needs to implement a "nextInSequence" method which takes a single optional argument (the number of items to skip in the sequence of objects), and return the next item after that skip value. The default skip value is 1. The skip value of 0 is undefined. An example:</p><pre><code>Number nextInSequence := method(skipVal,
+if(skipVal isNil, skipVal = 1)
+self + skipVal
+)</code></pre><p>With this method on Number (it's already there in the standard libraries), you can then use Numbers in Ranges, as demonstrated below:</p><pre><code>1 to(5) foreach(v, v println)</code></pre><p>The above will print 1 through 5, each on its own line.</p><h3 id="file">File</h3><p>The methods openForAppending, openForReading, or openForUpdating are used for opening files. To erase an existing file before opening a new open, the remove method can be used. Example:</p><pre><code>f := File with("foo.txt)
+f remove
+f openForUpdating
+f write("hello world!")
+f close</code></pre><h3 id="directory">Directory</h3><p>Creating a directory object:</p><pre><code>dir := Directory with("/Users/steve/")</code></pre><p>Get a list of file objects for all the files in a directory:</p><pre><code>files := dir files
+==&gt; list(File_0x820c40, File_0x820c40, ...)</code></pre><p>Get a list of both the file and directory objects in a directory:</p><pre><code>items := Directory items
+==&gt; list(Directory_0x8446b0, File_0x820c40, ...)</code></pre><pre><code>items at(4) name
+==&gt; DarkSide-0.0.1 # a directory name</code></pre><p>Setting a Directory object to a certain directory and using it:</p><pre><code>root := Directory clone setPath("c:/")
+==&gt; Directory_0x8637b8</code></pre><pre><code>root fileNames
+==&gt; list("AUTOEXEC.BAT", "boot.ini", "CONFIG.SYS", ...)</code></pre><p>Testing for existence:</p><pre><code>Directory clone setPath("q:/") exists
+==&gt; false</code></pre><p>Getthing the current working directory:</p><pre><code>Directory currentWorkingDirectory
+==&gt; "/cygdrive/c/lang/IoFull-Cygwin-2006-04-20"</code></pre><h3 id="date">Date</h3><p>Creating a new date instance:</p><pre><code>d := Date clone</code></pre><p>Setting it to the current date/time:</p><pre><code>d now</code></pre><p>Getting the date/time as a number, in seconds:</p><pre><code>Date now asNumber
+==&gt; 1147198509.417114</code></pre><p>Getting individual parts of a Date object:</p><pre><code>d := Date now
+==&gt; 2006-05-09 21:53:03 EST
+d
+==&gt; 2006-05-09 21:53:03 EST
+d year
+==&gt; 2006
+d month
+==&gt; 5
+d day
+==&gt; 9
+d hour
+==&gt; 21
+d minute
+==&gt; 53
+d second
+==&gt; 3.747125</code></pre><p>Find how long it takes to execute some code:</p><pre><code>Date cpuSecondsToRun(100000 repeat(1+1))
+==&gt; 0.02</code></pre><h3 id="networking">Networking</h3><p>All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using its objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.</p><p>Creating a URL object:</p><pre><code>url := URL with("[http://example.com](http://example.com)/")</code></pre><p>Fetching an URL:</p><pre><code>data := url fetch</code></pre><p>Streaming a URL to a file:</p><pre><code>url streamTo(File with("out.txt"))</code></pre><p>A simple whois client:</p><pre><code>whois := method(host,
+socket := Socket clone \
+setHostName("rs.internic.net") setPort(43)
+socket connect streamWrite(host, "\n")
+while(socket streamReadNextChunk, nil)
+return socket readBuffer
+)</code></pre><p>A minimal web server:</p><pre><code>WebRequest := Object clone do(
+handleSocket := method(aSocket,
+aSocket streamReadNextChunk
+request := aSocket readBuffer \
+betweenSeq("GET ", " HTTP")
+f := File with(request)
+if(f exists,
+f streamTo(aSocket)
+,
+aSocket streamWrite("not found")
+)
+aSocket close
+)
+)</code></pre><pre><code>WebServer := Server clone do(
+setPort(8000)
+handleSocket := method(aSocket,
+WebRequest clone asyncSend(handleSocket(aSocket))
+)
+)</code></pre><pre><code>WebServer start</code></pre><h3 id="xml">XML</h3><p>Using the XML parser to find the links in a web page:</p><pre><code>SGML // reference this to load the SGML addon
+xml := URL with("[http://www.yahoo.com](http://www.yahoo.com)/") fetch asXML
+links := xml elementsWithName("a") map(attributes at("href"))</code></pre><h3 id="vector">Vector</h3><p>Io's Vectors are built on its Sequence primitive and are defined as:</p><pre><code>Vector := Sequence clone setItemType("float32")</code></pre><p>The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.</p><p>Here's a small example:</p><pre><code>iters := 1000
+size := 1024
+ops := iters * size</code></pre><pre><code>v1 := Vector clone setSize(size) rangeFill
+v2 := Vector clone setSize(size) rangeFill</code></pre><pre><code>dt := Date secondsToRun(
+iters repeat(v1 *= v2)
+)</code></pre><pre><code>writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")</code></pre><p>Which when run on 2Ghz Mac Laptop, outputs:</p><pre><code>1.255 GFLOPS</code></pre><p>A similar bit of C code (without SIMD acceleration) outputs:</p><pre><code>0.479 GFLOPS</code></pre><p>So for this example, Io is about three times faster than plain C.</p></div></div><h2 id="unicode">Unicode</h2><div class="section"><div class="section-body"><h3 id="sequences">Sequences</h3><p>In Io, symbols, strings, and vectors are unified into a single Sequence prototype which is an array of any available hardware data type such as:</p><pre><code>uint8, uint16, uint32, uint64
+int8, int16, int32, int64
+float32, float64</code></pre><h3 id="encodings">Encodings</h3><p>Also, a Sequence has a encoding attribute, which can be:</p><pre><code>number, ascii, ucs2, ucs4, utf8</code></pre><p>UCS-2 and UCS-4 are the fixed character width versions of UTF-16 and UTF-32, respectively. A String is just a Sequence with a text encoding, a Symbol is an immutable String and a Vector is a Sequence with a number encoding.</p><p>UTF encodings are assumed to be big endian.</p><p>Except for input and output, all strings should be kept in a fixed character width encoding. This design allows for a simpler implementation, code sharing between vector and string ops, fast index-based access, and SIMD acceleration of Sequence operations. All Sequence methods will do automatic type conversions as needed.</p><h3 id="source-code">Source Code</h3><p>Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, its symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:</p><pre><code>Io&gt; "hello" encoding
+==&gt; ascii</code></pre><pre><code>Io&gt; "π" encoding
+==&gt; ucs2</code></pre><pre><code>Io&gt; "∞" encoding
+==&gt; ucs2</code></pre><p>We can also inspect the internal representation:</p><pre><code>Io&gt; "π" itemType
+==&gt; uint16</code></pre><pre><code>Io&gt; "π" itemSize
+==&gt; 2</code></pre><h3 id="conversion">Conversion</h3><p>The Sequence object has a number of conversion methods:</p><pre><code>asUTF8
+asUCS2
+asUCS4</code></pre></div></div><h2 id="importing">Importing</h2><div class="section"><div class="section-body"><p>The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using its addSearchPath() method.</p></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

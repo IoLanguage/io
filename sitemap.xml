@@ -3,6 +3,13 @@
   <url><loc>/</loc></url>
   <url><loc>/docs/</loc></url>
   <url><loc>/docs/Book/</loc></url>
+  <url><loc>/docs/Book/Appendix/</loc></url>
+  <url><loc>/docs/Book/Concurrency/</loc></url>
+  <url><loc>/docs/Book/Control%20Flow/</loc></url>
+  <url><loc>/docs/Book/Introduction/</loc></url>
+  <url><loc>/docs/Book/Objects/</loc></url>
+  <url><loc>/docs/Book/Primitives/</loc></url>
+  <url><loc>/docs/Book/Syntax/</loc></url>
   <url><loc>/docs/Guide/</loc></url>
   <url><loc>/docs/Reference/</loc></url>
   <url><loc>/docs/Style%20Guide/</loc></url>

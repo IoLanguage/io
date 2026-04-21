@@ -53,7 +53,7 @@ Guides, tutorial, language reference, and design notes.
 
 - Guide
 - Tutorial
-- [Book](Book/index.html) — The original Io book, converted from the iBooks Author bundle.
+- Book
 - Reference
 - Style Guide
 - Technical Notes
@@ -66,655 +66,261 @@ Source: /docs/Book/
 
 # Book
 
-The original Io book, converted from the iBooks Author bundle.
+The original Io book, organized by chapter.
 
-# Introduction
-
-
-## Overview
-
-Io is a dynamic prototype-based programming language. The ideas in Io are mostly inspired by Smalltalk[1] (all values are objects), Self[2] (prototype-based), NewtonScript[3] (differential inheritance), Act1[4] (actors and futures for concurrency), Lisp[5] (code is a runtime inspectable / modifiable tree) and Lua[6] (small, embeddable).
-
-
-
-
-## Perspective
-
-The focus of programming language research for the last thirty years has been to combine the expressive power of high level languages like Smalltalk and the performance of low level language like C with little attention paid to advancing expressive power itself. The result has been a series of languages which are neither as fast as C or as expressive as Smalltalk. Io's purpose is to refocus attention on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics.
-
-In Io, all values are objects (of which, anything can change at runtime, including slots, methods and inheritance), all code is made up of expressions (which are runtime inspectable and modifiable) and all expressions are made up of dynamic message sends (including assignment and control structures). Execution contexts themselves are objects and activatable objects such as methods/blocks and functions are unified into blocks with assignable scope. Concurrency is made more easily manageable through actors and implemented using coroutines for scalability.
+- Introduction
+- Syntax
+- Objects
+- Control Flow
+- Concurrency
+- Primitives
+- Appendix
 
 
+---
+
+<!-- Page: docs/Book/Appendix -->
+Source: /docs/Book/Appendix/
+
+# Appendix
+
+Grammar reference and citations.
+
+## Grammar
+
+#### messages
+
+expression ::= { message | sctpad }
+
+message ::= [wcpad] symbol [scpad] [arguments]
+
+arguments ::= Open [argument [ { Comma argument } ]] Close
+
+argument ::= [wcpad] expression [wcpad]
 
 
-## Getting Started
 
-Io distributions are available at:
+#### symbols
+
+symbol ::= Identifier | number | Opereator | quote
+
+Identifier ::= { letter | digit | "_" }
+
+Operator ::= { ":" | "." | "'" | "~" | "!" | "@" | "$" |
+
+"%" | "^" | "&" | "*" | "-" | "+" | "/" | "=" | "{" | "}" |
+
+"[" | "]" | "|" | "\" | "<" | ">" | "?" }
+
+
+
+#### quotes
+
+quote ::= MonoQuote | TriQuote
+
+MonoQuote ::= """ [ "\"" | not(""")] """
+
+TriQuote ::= """"" [ not(""""")] """""
+
+
+
+#### spans
+
+Terminator ::= { [separator] ";" | "\n" | "\r" [separator] }
+
+separator ::= { " " | "\f" | "\t" | "\v" }
+
+whitespace ::= { " " | "\f" | "\r" | "\t" | "\v" | "\n" }
+
+sctpad ::= { separator | Comment | Terminator }
+
+scpad ::= { separator | Comment }
+
+wcpad ::= { whitespace | Comment }
+
+
+#### comments
+
+Comment ::= slashStarComment | slashSlashComment | poundComment
+
+slashStarComment ::= "/*" [not("*/")] "*/"
+
+slashSlashComment ::= "//" [not("\n")] "\n"
+
+poundComment ::= "#" [not("\n")] "\n"
+
+
+
+#### numbers
+
+number ::= HexNumber | Decimal
+
+HexNumber ::= "0" anyCase("x") { [ digit | hexLetter ] }
+
+hexLetter ::= "a" | "b" | "c" | "d" | "e" | "f"
+
+Decimal ::= digits | "." digits |
+
+digits "." digits ["e" [-] digits]
+
+
+
+#### characters
+
+Comma ::= ","
+
+Open ::= "(" | "[" | "{"
+
+Close ::= ")" | "]" | "}"
+
+letter ::= "a" ... "z" | "A" ... "Z"
+
+digit ::= "0" ... "9"
+
+digits ::= { digit }
+
+
+
+Uppercase words designate elements the lexer treats as tokens.
+
+
+
+
+## References
+
+1. Goldberg, A et al. *Smalltalk-80: The Language and Its Implementation.* Addison-Wesley, 1983.
+2. Ungar, D and Smith, RB. *Self: The Power of Simplicity.* OOPSLA, 1987.
+3. Smith, W. *Class-based NewtonScript Programming.* PIE Developers magazine, Jan 1994.
+4. Lieberman, H. *Concurrent Object-Oriented Programming in Act 1.* MIT AI Lab, 1987.
+5. McCarthy, J et al. *LISP I programmer's manual.* MIT Press, 1960.
+6. Ierusalimschy, R, et al. *Lua: an extensible extension language.*
+
+
+---
+
+<!-- Page: docs/Book/Concurrency -->
+Source: /docs/Book/Concurrency/
+
+# Concurrency
+
+Coroutines, actors, futures, and Io's concurrency model.
+
+## Coroutines
+
+Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
+
+
+### Scheduler
+
+The Scheduler object is responsible for resuming coroutines that are yielding. The current scheduling system uses a simple first-in-first-out policy with no priorities.
+
+
+
+
+
+## Actors
+
+An actor is an object with its own thread (in our case, its own coroutine) which it uses to process its queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing using the asyncSend() or futureSend() messages. Examples:
+
+Synchronous:
 
 ```io
-[http://iolanguage.com](http://iolanguage.com)
+result := self foo
 ```
 
 
+Asynchronous, immediately returns a Future:
 
-### Interactive Mode
-
-If Io is installed, running:
 
 ```io
-io
+futureResult := self futureSend(foo)
 ```
 
 
-will open the Io interpreter prompt.
+Asynchronous, immediately returns nil:
 
-You can evaluate code by entering it directly. Example:
 
 ```io
-Io> "Hello world!" println
-==> Hello world!
+self asyncSend(foo)
 ```
 
 
-Expressions are evaluated in the context of the Lobby:
+When an object receives an asynchronous message it puts the message in its queue and, if it doesn't already have one, starts a coroutine to process the messages in its queue. Queued messages are processed sequentially in a first-in-first-out order. Control can be yielded to other coroutines by calling "yield".
+
+Example:
 
 ```io
-Io> print
-[printout of lobby contents]
+obj1 := Object clone
+obj1 test := method(for(n, 1, 3, n print; yield))
+obj2 := obj1 clone
+obj1 asyncSend(test); obj2 asyncSend(test)
+while(Scheduler yieldingCoros size > 1, yield)
 ```
 
 
-If you have a .iorc file in your home folder, it will be evaled before the interactive prompt starts.
+This would print "112233".
 
-
-#### Inspecting objects
-
-You can get a list of the slots of an object like this:
+Here's a more real world example:
 
 ```io
-Io> someObject slotNames
-```
-
-
-To show them in sorted order:
-
-```io
-Io> someObject slotNames sort
-```
-
-
-For a nicely formatted description of an object, the slotSummary method is handy:
-
-```io
-Io> slotSummary
-==>  Object_0x20c4e0:
-Lobby = Object_0x20c4e0
-Protos = Object_0x20bff0
-exit = method(...)
-forward = method(...)
-```
-
-
-
-Exploring further:
-
-```io
-Io> Protos
-==>  Object_0x20bff0:
-Addons = Object_0x20c6f0
-Core = Object_0x20c4b0
-```
-
-
-```io
-Io> Protos Addons
-==>  Object_0x20c6f0:
-ReadLine = Object_0x366a10
-```
-
-
-Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
-
-Inspecting a method will print a decompiled version of it:
-
-
-```io
-Io> Lobby getSlot("forward")
-==> # io/Z_Importer.io:65
-method(
-Importer import(call)
+HttpServer handleRequest := method(aSocket,
+HttpRequestHandler clone asyncSend(
+handleRequest(aSocket)
+)
 )
 ```
 
 
-#### doFile and doString
 
-A script can be run from the interactive mode using the doFile method:
+## Futures
+
+Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs to minimize blocking while also freeing the programmer from managing the fine details of synchronization.
+
+
+### Auto Deadlock Detection
+
+An advantage of using futures is that when a future requires a wait, it will check to see if pausing to wait for the result would cause a deadlock and if so, avoid the deadlock and raise an exception. It performs this check by traversing the list of connected futures.
+
+
+### Futures and the Command Line Interface
+
+The command line will attempt to print the result of expressions evaluated in it, so if the result is a Future, it will attempt to print it and this will wait on the result of Future. Example:
 
 ```io
-doFile("scriptName.io")
+Io> q := method(wait(1))
+Io> futureSend(q)
+[1-second delay]
+==> nil
 ```
 
 
-The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:
+To avoid this, just make sure the Future isn't the result. Example:
 
 ```io
-someObject doFile("scriptName.io")
+Io> futureSend(q); nil
+[no delay]
+==> nil
 ```
 
 
-The doString method can be used to evaluate a string:
+### Yield
 
-```io
-Io> doString("1+1")
-==> 2
-```
+An object will automatically yield between processing each of its asynchronous messages. The yield method only needs to be called if a yield is required during an asynchronous message execution.
 
 
-And to evaluate a string in the context of a particular object:
+### Pause and Resume
 
-```io
-someObject doString("1 + 1")
-```
+It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.
 
 
-### Command Line Arguments
+---
 
-Example of printing out command line arguments:
-
-```io
-System args foreach(k, v, write("'", v, "'\n"))
-```
-
-
-### launchPath
-
-The System "launchPath" slot is set to the location of the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
-
-```io
-System launchPath
-```
-
-
-
-# Syntax
-
-
-## Expressions
-
-Io has no keywords or statements. Everything is an expression composed entirely of messages, each of which is a runtime accessible object. The informal BNF description:
-
-```io
-exp        ::= { message | terminator }
-message    ::= symbol [arguments]
-arguments  ::= "(" [exp [ { "," exp } ]] ")"
-symbol     ::= identifier | number | string
-terminator ::= "\n" | ";"
-```
-
-
-For performance reasons, String and Number literal messages have their results cached in their message objects.
-
-
-## Messages
-
-Message arguments are passed as expressions and evaluated by the receiver. Selective evaluation of arguments can be used to implement control flow. Examples:
-
-```io
-for(i, 1, 10, i println)
-a := if(b == 0, c + 1, d)
-```
-
-
-In the above code, "for" and "if" are just normal messages, not special forms or keywords.
-
-Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:
-
-```io
-people select(person, person age < 30)
-names := people map(person, person name)
-```
-
-
-Methods like map and select will typically apply the expression directly to the values if only the expression is provided:
-
-```io
-people select(age < 30)
-names := people map(name)
-```
-
-
-There is also some syntax sugar for operators (including assignment), which are handled by an Io macro executed on the expression after it is compiled into a message tree. Some sample source code:
-
-```io
-Account := Object clone
-Account balance := 0
-Account deposit := method(amount,
-balance = balance + amount
-)
-```
-
-
-```io
-account := Account clone
-account deposit(10.00)
-account balance println
-```
-
-
-Like Self[2], Io's syntax does not distinguish between accessing a slot containing a method from one containing a variable.
-
-
-
-## Operators
-
-An operator is just a message whose name contains no alphanumeric characters (other than ";", "_", '"' or ".") or is one of the following words: or, and, return. Example:
-
-```io
-1 + 2
-```
-
-
-This just gets compiled into the normal message:
-
-```io
-1 +(2)
-```
-
-
-Which is the form you can use if you need to do grouping:
-
-```io
-1 +(2 * 4)
-```
-
-
-Standard operators follow C's precedence order, so:
-
-```io
-1 + 2 * 3 + 4
-```
-
-
-Is parsed as:
-
-```io
-1 +(2 *(3)) +(4)
-```
-
-
-User defined operators (that don't have a standard operator name) are performed left to right.
-
-
-## Assignment
-
-Io has three assignment operators:
-
-
-These operators are compiled to normal messages whose methods can be overridden.
-
-
-For example:
-
-
-On Locals objects, updateSlot is overridden so it will update the slot in the object in which the method was activated if the slot is not found the locals. This is done so update assignments in methods don't require self to be an explicit target.
-
-
-
-## Numbers
-
-The following are examples of valid number formats:
-
-```io
-123
-123.456
-0.456
-.456
-123e-4
-123e4
-123.456e-7
-123.456e2
-```
-
-
-Hex numbers are also supported (in any casing):
-
-```io
-0x0
-0x0F
-0XeE
-```
-
-
-
-## Strings
-
-Strings can be defined surrounded by a single set of double quotes with escaped quotes (and other escape characters) within.
-
-```io
-s := "this is a \"test\".\nThis is only a test."
-```
-
-
-Or for strings with non-escaped characters and/or spanning many lines, triple quotes can be used.
-
-```io
-s := """this is a "test".
-This is only a test."""
-```
-
-
-## Comments
-
-Comments of the //, /**/ and # style are supported. Examples:
-
-```io
-a := b // add a comment to a line
-```
-
-
-```io
-/* comment out a group
-a := 1
-b := 2
-*/
-```
-
-
-The "#" style is useful for unix scripts:
-
-```io
-#!/usr/local/bin/io
-```
-
-
-That's it! You now know everything there is to know about Io's syntax. Control flow, objects, methods, exceptions are expressed with the syntax and semantics described above.
-
-
-
-
-
-
-
-# Objects
-
-
-## Overview
-
-Io's guiding design principle is simplicity and power through conceptual unification.
-
-
-## Prototypes
-
-In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and its value can be any type of object.
-
-
-### clone and init
-
-New objects are made by cloning existing ones. A clone is an empty object that has the parent in its list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
-
-```io
-me := Person clone
-```
-
-
-To add an instance variable or method, simply set it:
-
-```io
-myDog name := "rover"
-myDog sit := method("I'm sitting\n" print)
-```
-
-
-When an object is cloned, its "init" slot will be called if it has one.
-
-
-### Inheritance
-
-When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
-
-Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating the equivalent of a subclass:
-
-```io
-Io> Dog := Object clone
-==> Object_0x4a7c0
-```
-
-
-The above code sets the Lobby slot "Dog" to a clone of the Object object; the protos list of this new object contains only a reference to Object, essentially indicating that a subclass of Object has been created.
-
-
-
-Instance variables and methods are inherited from the objects referenced in the protos list. If a slot is set, it creates a new slot in our object instead of changing the protos:
-
-```io
-Io> Dog color := "red"
-Io> Dog
-==> Object_0x4a7c0:
-color := "red"
-```
-
-
-#### Multiple Inheritance
-
-You can add any number of protos to an object's protos list. When responding to a message, the lookup mechanism does a depth first search of the proto chain.
-
-
-
-## Methods
-
-A method is an anonymous function which, when called, creates an object to store its locals and sets the local's proto pointer and its self slot to the target of the message. The Object method method() can be used to create methods. Example:
-
-```io
-method((2 + 2) print)
-```
-
-
-An example of using a method in an object:
-
-```io
-Dog := Object clone
-Dog bark := method("woof!" print)
-```
-
-
-The above code creates a new "subclass" of object named Dog and adds a bark slot containing a block that prints "woof!". Example of calling this method:
-
-```io
-Dog bark
-```
-
-
-The default return value of a block is the result of the last expression.
-
-
-#### Arguments
-
-Methods can also be defined to take arguments. Example:
-
-```io
-add := method(a, b, a + b)
-```
-
-
-The general form is:
-
-```io
-method(<arg name 0>, <arg name 1>, ..., <do message>)
-```
-
-
-### Blocks
-
-A block is the same as a method except it is lexically scoped. That is, variable lookups continue in the context of where the block was created instead of the target of the message which activated the block. A block can be created using the Object method block(). Example of creating a block:
-
-```io
-b := block(a, a + b)
-```
-
-
-#### Blocks vs. Methods
-
-This is sometimes a source of confusion so it's worth explaining in detail. Both methods and blocks create an object to hold their locals when they are called. The difference is what the "proto" and "self" slots of that locals object are set to. In a method, those slots are set to the target of the message. In a block, they're set to the locals object where the block was created. So a failed variable lookup in a block's locals continue in the locals where it was created. And a failed variable lookup in a method's locals continue in the object to which the message that activated it was sent.
-
-
-#### call and self slots
-
-When a locals object is created, its self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and its call slot is set to a Call object that can be used to access information about the block activation:
-
-
-#### Variable Arguments
-
-The "call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io:
-
-```io
-myif := method(
-(call sender doMessage(call message argAt(0))) ifTrue(
-call sender doMessage(call message argAt(1))) ifFalse(
-call sender doMessage(call message argAt(2)))
-)
-```
-
-
-```io
-myif(foo == bar, write("true\n"), write("false\n"))
-```
-
-
-The doMessage() method evaluates the argument in the context of the receiver. A shorter way to express this is to use the evalArgAt() method on the call object:
-
-```io
-myif := method(
-call evalArgAt(0) ifTrue(
-call evalArgAt(1)) ifFalse(
-call evalArgAt(2))
-)
-```
-
-
-```io
-myif(foo == bar, write("true\n"), write("false\n"))
-```
-
-
-#### Forward
-
-If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here's an example of how to print the information related lookup that failed:
-
-```io
-MyObject forward := method(
-write("sender = ", call sender, "\n")
-write("message name = ", call message name, "\n")
-args := call message argsEvaluatedIn(call sender)
-args foreach(i, v, write("arg", i, " = ", v, "\n") )
-)
-```
-
-
-#### Resend
-
-Sends the current message to the receiver's protos with self as the context. Example:
-
-```io
-A := Object clone
-A m := method(write("in A\n"))
-B := A clone
-B m := method(write("in B\n"); resend)
-B m
-```
-
-
-will print:
-
-```io
-in B
-in A
-```
-
-
-For sending other messages to the receiver's proto, super is used.
-
-
-#### Super
-
-Sometimes it's necessary to send a message directly to a proto. Example:
-
-```io
-Dog := Object clone
-Dog bark := method(writeln("woof!"))
-```
-
-
-```io
-fido := Dog clone
-fido bark := method(
-writeln("ruf!")
-super(bark)
-)
-```
-
-
-Both resend and super are implemented in Io.
-
-
-
-## Introspection
-
-Using the following methods you can introspect the entire Io namespace. There are also methods for modifying any and all of these attributes at runtime.
-
-
-### slotNames
-
-The slotNames method returns a list of the names of an object's slots:
-
-```io
-Io> Dog slotNames
-==> list("bark")
-```
-
-
-### protos
-
-The protos method returns a list of the objects which an object inherits from:
-
-```io
-Io> Dog protos
-==> list("Object")
-```
-
-
-### getSlot
-
-The "getSlot" method can be used to get the value of a block in a slot without activating it:
-
-```io
-myMethod := Dog getSlot("bark")
-```
-
-
-Above, we've set the locals object's "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method:
-
-```io
-otherObject newMethod := getSlot("myMethod")
-```
-
-
-Here, the target of the getSlot method is the locals object.’
-
-
-### code
-
-The arguments and expressions of methods are open to introspection. A useful convenience method is "code", which returns a string representation of the source code of the method in a normalized form.
-
-```io
-Io> method(a, a * 2) code
-==> "method(a, a *(2))"
-```
-
-
+<!-- Page: docs/Book/Control Flow -->
+Source: /docs/Book/Control%20Flow/
 
 # Control Flow
 
+Branching, loops, exceptions, and scope.
 
 ## Branching
 
@@ -1112,124 +718,470 @@ MyErrorType := Error clone
 ```
 
 
+---
 
+<!-- Page: docs/Book/Introduction -->
+Source: /docs/Book/Introduction/
 
+# Introduction
 
-# Concurrency
+The origins, philosophy, and influences behind Io.
 
+## Overview
 
-## Coroutines
-
-Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
-
-
-### Scheduler
-
-The Scheduler object is responsible for resuming coroutines that are yielding. The current scheduling system uses a simple first-in-first-out policy with no priorities.
+Io is a dynamic prototype-based programming language. The ideas in Io are mostly inspired by Smalltalk[1] (all values are objects), Self[2] (prototype-based), NewtonScript[3] (differential inheritance), Act1[4] (actors and futures for concurrency), Lisp[5] (code is a runtime inspectable / modifiable tree) and Lua[6] (small, embeddable).
 
 
 
 
+## Perspective
 
-## Actors
+The focus of programming language research for the last thirty years has been to combine the expressive power of high level languages like Smalltalk and the performance of low level language like C with little attention paid to advancing expressive power itself. The result has been a series of languages which are neither as fast as C or as expressive as Smalltalk. Io's purpose is to refocus attention on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics.
 
-An actor is an object with its own thread (in our case, its own coroutine) which it uses to process its queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing using the asyncSend() or futureSend() messages. Examples:
+In Io, all values are objects (of which, anything can change at runtime, including slots, methods and inheritance), all code is made up of expressions (which are runtime inspectable and modifiable) and all expressions are made up of dynamic message sends (including assignment and control structures). Execution contexts themselves are objects and activatable objects such as methods/blocks and functions are unified into blocks with assignable scope. Concurrency is made more easily manageable through actors and implemented using coroutines for scalability.
 
-Synchronous:
+
+
+
+## Getting Started
+
+Io distributions are available at:
 
 ```io
-result := self foo
+[http://iolanguage.com](http://iolanguage.com)
 ```
 
 
-Asynchronous, immediately returns a Future:
 
+### Interactive Mode
+
+If Io is installed, running:
 
 ```io
-futureResult := self futureSend(foo)
+io
 ```
 
 
-Asynchronous, immediately returns nil:
+will open the Io interpreter prompt.
 
+You can evaluate code by entering it directly. Example:
 
 ```io
-self asyncSend(foo)
+Io> "Hello world!" println
+==> Hello world!
 ```
 
 
-When an object receives an asynchronous message it puts the message in its queue and, if it doesn't already have one, starts a coroutine to process the messages in its queue. Queued messages are processed sequentially in a first-in-first-out order. Control can be yielded to other coroutines by calling "yield".
-
-Example:
+Expressions are evaluated in the context of the Lobby:
 
 ```io
-obj1 := Object clone
-obj1 test := method(for(n, 1, 3, n print; yield))
-obj2 := obj1 clone
-obj1 asyncSend(test); obj2 asyncSend(test)
-while(Scheduler yieldingCoros size > 1, yield)
+Io> print
+[printout of lobby contents]
 ```
 
 
-This would print "112233".
+If you have a .iorc file in your home folder, it will be evaled before the interactive prompt starts.
 
-Here's a more real world example:
+
+#### Inspecting objects
+
+You can get a list of the slots of an object like this:
 
 ```io
-HttpServer handleRequest := method(aSocket,
-HttpRequestHandler clone asyncSend(
-handleRequest(aSocket)
+Io> someObject slotNames
+```
+
+
+To show them in sorted order:
+
+```io
+Io> someObject slotNames sort
+```
+
+
+For a nicely formatted description of an object, the slotSummary method is handy:
+
+```io
+Io> slotSummary
+==>  Object_0x20c4e0:
+Lobby = Object_0x20c4e0
+Protos = Object_0x20bff0
+exit = method(...)
+forward = method(...)
+```
+
+
+
+Exploring further:
+
+```io
+Io> Protos
+==>  Object_0x20bff0:
+Addons = Object_0x20c6f0
+Core = Object_0x20c4b0
+```
+
+
+```io
+Io> Protos Addons
+==>  Object_0x20c6f0:
+ReadLine = Object_0x366a10
+```
+
+
+Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
+
+Inspecting a method will print a decompiled version of it:
+
+
+```io
+Io> Lobby getSlot("forward")
+==> # io/Z_Importer.io:65
+method(
+Importer import(call)
 )
+```
+
+
+#### doFile and doString
+
+A script can be run from the interactive mode using the doFile method:
+
+```io
+doFile("scriptName.io")
+```
+
+
+The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:
+
+```io
+someObject doFile("scriptName.io")
+```
+
+
+The doString method can be used to evaluate a string:
+
+```io
+Io> doString("1+1")
+==> 2
+```
+
+
+And to evaluate a string in the context of a particular object:
+
+```io
+someObject doString("1 + 1")
+```
+
+
+### Command Line Arguments
+
+Example of printing out command line arguments:
+
+```io
+System args foreach(k, v, write("'", v, "'\n"))
+```
+
+
+### launchPath
+
+The System "launchPath" slot is set to the location of the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
+
+```io
+System launchPath
+```
+
+
+---
+
+<!-- Page: docs/Book/Objects -->
+Source: /docs/Book/Objects/
+
+# Objects
+
+Slots, prototypes, cloning, and differential inheritance.
+
+## Overview
+
+Io's guiding design principle is simplicity and power through conceptual unification.
+
+
+## Prototypes
+
+In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and its value can be any type of object.
+
+
+### clone and init
+
+New objects are made by cloning existing ones. A clone is an empty object that has the parent in its list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
+
+```io
+me := Person clone
+```
+
+
+To add an instance variable or method, simply set it:
+
+```io
+myDog name := "rover"
+myDog sit := method("I'm sitting\n" print)
+```
+
+
+When an object is cloned, its "init" slot will be called if it has one.
+
+
+### Inheritance
+
+When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
+
+Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating the equivalent of a subclass:
+
+```io
+Io> Dog := Object clone
+==> Object_0x4a7c0
+```
+
+
+The above code sets the Lobby slot "Dog" to a clone of the Object object; the protos list of this new object contains only a reference to Object, essentially indicating that a subclass of Object has been created.
+
+
+
+Instance variables and methods are inherited from the objects referenced in the protos list. If a slot is set, it creates a new slot in our object instead of changing the protos:
+
+```io
+Io> Dog color := "red"
+Io> Dog
+==> Object_0x4a7c0:
+color := "red"
+```
+
+
+#### Multiple Inheritance
+
+You can add any number of protos to an object's protos list. When responding to a message, the lookup mechanism does a depth first search of the proto chain.
+
+
+
+## Methods
+
+A method is an anonymous function which, when called, creates an object to store its locals and sets the local's proto pointer and its self slot to the target of the message. The Object method method() can be used to create methods. Example:
+
+```io
+method((2 + 2) print)
+```
+
+
+An example of using a method in an object:
+
+```io
+Dog := Object clone
+Dog bark := method("woof!" print)
+```
+
+
+The above code creates a new "subclass" of object named Dog and adds a bark slot containing a block that prints "woof!". Example of calling this method:
+
+```io
+Dog bark
+```
+
+
+The default return value of a block is the result of the last expression.
+
+
+#### Arguments
+
+Methods can also be defined to take arguments. Example:
+
+```io
+add := method(a, b, a + b)
+```
+
+
+The general form is:
+
+```io
+method(<arg name 0>, <arg name 1>, ..., <do message>)
+```
+
+
+### Blocks
+
+A block is the same as a method except it is lexically scoped. That is, variable lookups continue in the context of where the block was created instead of the target of the message which activated the block. A block can be created using the Object method block(). Example of creating a block:
+
+```io
+b := block(a, a + b)
+```
+
+
+#### Blocks vs. Methods
+
+This is sometimes a source of confusion so it's worth explaining in detail. Both methods and blocks create an object to hold their locals when they are called. The difference is what the "proto" and "self" slots of that locals object are set to. In a method, those slots are set to the target of the message. In a block, they're set to the locals object where the block was created. So a failed variable lookup in a block's locals continue in the locals where it was created. And a failed variable lookup in a method's locals continue in the object to which the message that activated it was sent.
+
+
+#### call and self slots
+
+When a locals object is created, its self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and its call slot is set to a Call object that can be used to access information about the block activation:
+
+
+#### Variable Arguments
+
+The "call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io:
+
+```io
+myif := method(
+(call sender doMessage(call message argAt(0))) ifTrue(
+call sender doMessage(call message argAt(1))) ifFalse(
+call sender doMessage(call message argAt(2)))
 )
 ```
 
 
-
-## Futures
-
-Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs to minimize blocking while also freeing the programmer from managing the fine details of synchronization.
-
-
-### Auto Deadlock Detection
-
-An advantage of using futures is that when a future requires a wait, it will check to see if pausing to wait for the result would cause a deadlock and if so, avoid the deadlock and raise an exception. It performs this check by traversing the list of connected futures.
-
-
-### Futures and the Command Line Interface
-
-The command line will attempt to print the result of expressions evaluated in it, so if the result is a Future, it will attempt to print it and this will wait on the result of Future. Example:
-
 ```io
-Io> q := method(wait(1))
-Io> futureSend(q)
-[1-second delay]
-==> nil
+myif(foo == bar, write("true\n"), write("false\n"))
 ```
 
 
-To avoid this, just make sure the Future isn't the result. Example:
+The doMessage() method evaluates the argument in the context of the receiver. A shorter way to express this is to use the evalArgAt() method on the call object:
 
 ```io
-Io> futureSend(q); nil
-[no delay]
-==> nil
+myif := method(
+call evalArgAt(0) ifTrue(
+call evalArgAt(1)) ifFalse(
+call evalArgAt(2))
+)
 ```
 
 
-### Yield
-
-An object will automatically yield between processing each of its asynchronous messages. The yield method only needs to be called if a yield is required during an asynchronous message execution.
-
-
-### Pause and Resume
-
-It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.
+```io
+myif(foo == bar, write("true\n"), write("false\n"))
+```
 
 
+#### Forward
 
+If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here's an example of how to print the information related lookup that failed:
+
+```io
+MyObject forward := method(
+write("sender = ", call sender, "\n")
+write("message name = ", call message name, "\n")
+args := call message argsEvaluatedIn(call sender)
+args foreach(i, v, write("arg", i, " = ", v, "\n") )
+)
+```
+
+
+#### Resend
+
+Sends the current message to the receiver's protos with self as the context. Example:
+
+```io
+A := Object clone
+A m := method(write("in A\n"))
+B := A clone
+B m := method(write("in B\n"); resend)
+B m
+```
+
+
+will print:
+
+```io
+in B
+in A
+```
+
+
+For sending other messages to the receiver's proto, super is used.
+
+
+#### Super
+
+Sometimes it's necessary to send a message directly to a proto. Example:
+
+```io
+Dog := Object clone
+Dog bark := method(writeln("woof!"))
+```
+
+
+```io
+fido := Dog clone
+fido bark := method(
+writeln("ruf!")
+super(bark)
+)
+```
+
+
+Both resend and super are implemented in Io.
+
+
+
+## Introspection
+
+Using the following methods you can introspect the entire Io namespace. There are also methods for modifying any and all of these attributes at runtime.
+
+
+### slotNames
+
+The slotNames method returns a list of the names of an object's slots:
+
+```io
+Io> Dog slotNames
+==> list("bark")
+```
+
+
+### protos
+
+The protos method returns a list of the objects which an object inherits from:
+
+```io
+Io> Dog protos
+==> list("Object")
+```
+
+
+### getSlot
+
+The "getSlot" method can be used to get the value of a block in a slot without activating it:
+
+```io
+myMethod := Dog getSlot("bark")
+```
+
+
+Above, we've set the locals object's "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method:
+
+```io
+otherObject newMethod := getSlot("myMethod")
+```
+
+
+Here, the target of the getSlot method is the locals object.’
+
+
+### code
+
+The arguments and expressions of methods are open to introspection. A useful convenience method is "code", which returns a string representation of the source code of the method in a normalized form.
+
+```io
+Io> method(a, a * 2) code
+==> "method(a, a *(2))"
+```
+
+
+---
+
+<!-- Page: docs/Book/Primitives -->
+Source: /docs/Book/Primitives/
 
 # Primitives
 
+Built-in objects: numbers, strings, lists, maps, files, and more.
 
 ## Primitives
 
@@ -1915,167 +1867,204 @@ asUCS4
 The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using its addSearchPath() method.
 
 
+---
 
-# Appendix
+<!-- Page: docs/Book/Syntax -->
+Source: /docs/Book/Syntax/
 
+# Syntax
 
-## Grammar
+Io's minimal grammar: expressions, messages, and operators.
 
-#### messages
+## Expressions
 
-expression ::= { message | sctpad }
+Io has no keywords or statements. Everything is an expression composed entirely of messages, each of which is a runtime accessible object. The informal BNF description:
 
-message ::= [wcpad] symbol [scpad] [arguments]
+```io
+exp        ::= { message | terminator }
+message    ::= symbol [arguments]
+arguments  ::= "(" [exp [ { "," exp } ]] ")"
+symbol     ::= identifier | number | string
+terminator ::= "\n" | ";"
+```
 
-arguments ::= Open [argument [ { Comma argument } ]] Close
 
-argument ::= [wcpad] expression [wcpad]
+For performance reasons, String and Number literal messages have their results cached in their message objects.
 
 
+## Messages
 
-#### symbols
+Message arguments are passed as expressions and evaluated by the receiver. Selective evaluation of arguments can be used to implement control flow. Examples:
 
-symbol ::= Identifier | number | Opereator | quote
+```io
+for(i, 1, 10, i println)
+a := if(b == 0, c + 1, d)
+```
 
-Identifier ::= { letter | digit | "_" }
 
-Operator ::= { ":" | "." | "'" | "~" | "!" | "@" | "$" |
+In the above code, "for" and "if" are just normal messages, not special forms or keywords.
 
-"%" | "^" | "&" | "*" | "-" | "+" | "/" | "=" | "{" | "}" |
+Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:
 
-"[" | "]" | "|" | "\" | "<" | ">" | "?" }
+```io
+people select(person, person age < 30)
+names := people map(person, person name)
+```
 
 
+Methods like map and select will typically apply the expression directly to the values if only the expression is provided:
 
-#### quotes
+```io
+people select(age < 30)
+names := people map(name)
+```
 
-quote ::= MonoQuote | TriQuote
 
-MonoQuote ::= """ [ "\"" | not(""")] """
+There is also some syntax sugar for operators (including assignment), which are handled by an Io macro executed on the expression after it is compiled into a message tree. Some sample source code:
 
-TriQuote ::= """"" [ not(""""")] """""
+```io
+Account := Object clone
+Account balance := 0
+Account deposit := method(amount,
+balance = balance + amount
+)
+```
 
 
+```io
+account := Account clone
+account deposit(10.00)
+account balance println
+```
 
-#### spans
 
-Terminator ::= { [separator] ";" | "\n" | "\r" [separator] }
+Like Self[2], Io's syntax does not distinguish between accessing a slot containing a method from one containing a variable.
 
-separator ::= { " " | "\f" | "\t" | "\v" }
 
-whitespace ::= { " " | "\f" | "\r" | "\t" | "\v" | "\n" }
 
-sctpad ::= { separator | Comment | Terminator }
+## Operators
 
-scpad ::= { separator | Comment }
+An operator is just a message whose name contains no alphanumeric characters (other than ";", "_", '"' or ".") or is one of the following words: or, and, return. Example:
 
-wcpad ::= { whitespace | Comment }
+```io
+1 + 2
+```
 
 
-#### comments
+This just gets compiled into the normal message:
 
-Comment ::= slashStarComment | slashSlashComment | poundComment
+```io
+1 +(2)
+```
 
-slashStarComment ::= "/*" [not("*/")] "*/"
 
-slashSlashComment ::= "//" [not("\n")] "\n"
+Which is the form you can use if you need to do grouping:
 
-poundComment ::= "#" [not("\n")] "\n"
+```io
+1 +(2 * 4)
+```
 
 
+Standard operators follow C's precedence order, so:
 
-#### numbers
+```io
+1 + 2 * 3 + 4
+```
 
-number ::= HexNumber | Decimal
 
-HexNumber ::= "0" anyCase("x") { [ digit | hexLetter ] }
+Is parsed as:
 
-hexLetter ::= "a" | "b" | "c" | "d" | "e" | "f"
+```io
+1 +(2 *(3)) +(4)
+```
 
-Decimal ::= digits | "." digits |
 
-digits "." digits ["e" [-] digits]
+User defined operators (that don't have a standard operator name) are performed left to right.
 
 
+## Assignment
 
-#### characters
+Io has three assignment operators:
 
-Comma ::= ","
 
-Open ::= "(" | "[" | "{"
+These operators are compiled to normal messages whose methods can be overridden.
 
-Close ::= ")" | "]" | "}"
 
-letter ::= "a" ... "z" | "A" ... "Z"
+For example:
 
-digit ::= "0" ... "9"
 
-digits ::= { digit }
+On Locals objects, updateSlot is overridden so it will update the slot in the object in which the method was activated if the slot is not found the locals. This is done so update assignments in methods don't require self to be an explicit target.
 
 
 
-Uppercase words designate elements the lexer treats as tokens.
+## Numbers
 
+The following are examples of valid number formats:
 
+```io
+123
+123.456
+0.456
+.456
+123e-4
+123e4
+123.456e-7
+123.456e2
+```
 
 
-## References
+Hex numbers are also supported (in any casing):
 
+```io
+0x0
+0x0F
+0XeE
+```
 
-#### 1
 
-Goldberg, A et al.
 
-Smalltalk-80: The Language and Its Implementation
+## Strings
 
-Addison-Wesley, 1983
+Strings can be defined surrounded by a single set of double quotes with escaped quotes (and other escape characters) within.
 
+```io
+s := "this is a \"test\".\nThis is only a test."
+```
 
-#### 2
 
-Ungar, D and Smith,
+Or for strings with non-escaped characters and/or spanning many lines, triple quotes can be used.
 
-RB. Self: The Power of Simplicity
+```io
+s := """this is a "test".
+This is only a test."""
+```
 
-OOPSLA, 1987
 
+## Comments
 
-#### 3
+Comments of the //, /**/ and # style are supported. Examples:
 
-Smith, W.
+```io
+a := b // add a comment to a line
+```
 
-Class-based NewtonScript Programming
 
-PIE Developers magazine, Jan 1994
+```io
+/* comment out a group
+a := 1
+b := 2
+*/
+```
 
 
+The "#" style is useful for unix scripts:
 
+```io
+#!/usr/local/bin/io
+```
 
 
-
-#### 4
-
-Lieberman
-
-H. Concurrent Object-Oriented Programming in Act 1
-
-MIT AI Lab, 1987
-
-
-#### 5
-
-McCarthy, J et al.
-
-LISP I programmer's manual
-
-MIT Press, 1960
-
-
-#### 6
-
-Ierusalimschy, R, et al.
-
-Lua: an extensible extension language
+That's it! You now know everything there is to know about Io's syntax. Control flow, objects, methods, exceptions are expressed with the syntax and semantics described above.
 
 
 ---
@@ -5371,6 +5360,32 @@ Source: /docs/Tutorial/
 
 A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.
 
+## Getting Started
+
+Run the REPL and exit with `exit` or Ctrl-D:
+
+```
+$ io
+Io 2025
+Io> "hello" println
+hello
+==> hello
+
+Io> exit
+```
+
+Run a script file:
+
+```
+$ io script.io
+```
+
+Evaluate a single expression:
+
+```
+$ io -e '"hello" println'
+```
+
 ## Math
 
 ```
@@ -5508,3 +5523,223 @@ Io> s exSlice(10)
 Io> s exSlice(2, 10)
 ==> "is is a "
 ```
+
+## Maps
+
+```
+Io> m := Map clone
+==> Map_0x...
+
+Io> m atPut("first", "Alice")
+Io> m atPut("age", 30)
+
+Io> m at("first")
+==> Alice
+
+Io> m keys
+==> list("first", "age")
+
+Io> m size
+==> 2
+
+Io> m foreach(k, v, writeln(k, " = ", v))
+first = Alice
+age = 30
+```
+
+## Objects and Prototypes
+
+Every object is cloned from another. There are no classes — only prototypes.
+
+```
+Io> Dog := Object clone
+==> Dog_0x...
+
+Io> Dog name := "Rex"
+==> "Rex"
+
+Io> Dog bark := method("woof!" println)
+==> method(...)
+
+Io> Dog bark
+woof!
+==> "woof!"
+```
+
+Clone an instance. Slots set on the clone override slots inherited from the prototype.
+
+```
+Io> fido := Dog clone
+==> Dog_0x...
+
+Io> fido name
+==> "Rex"
+
+Io> fido name := "Fido"
+Io> fido name
+==> "Fido"
+
+Io> Dog name
+==> "Rex"
+```
+
+## Methods
+
+`method(args..., body)` creates a callable with its own local scope.
+
+```
+Io> square := method(x, x * x)
+Io> square(5)
+==> 25
+
+Io> Dog greet := method(other, "Hi, " .. other name .. "!" println)
+Io> fido greet(Dog clone setName("Spot"))
+Hi, Spot!
+```
+
+Methods see the receiver as `self`. Assignment without a prefix writes into the receiver's slots.
+
+```
+Io> Counter := Object clone do(
+    n := 0
+    bump := method(n = n + 1)
+)
+
+Io> c := Counter clone
+Io> c bump; c bump; c bump
+Io> c n
+==> 3
+```
+
+## Blocks
+
+`block` is like `method`, but lexically scoped — it closes over the context where it was defined, not the receiver of the call.
+
+```
+Io> makeAdder := method(x, block(y, x + y))
+Io> add3 := makeAdder(3)
+Io> add3 call(4)
+==> 7
+```
+
+## Inheritance
+
+Clone to inherit. Override slots in the clone. `proto` points back to the parent.
+
+```
+Io> Animal := Object clone do(
+    sound := "..."
+    speak := method(sound println)
+)
+
+Io> Cat := Animal clone do(sound := "meow")
+Io> Cat speak
+meow
+
+Io> Cat proto == Animal
+==> true
+```
+
+Multiple inheritance: append protos to the `protos` list.
+
+```
+Io> Swimmer := Object clone do(swim := method("swimming" println))
+Io> Flyer   := Object clone do(fly  := method("flying"  println))
+Io> Duck    := Object clone
+Io> Duck appendProto(Swimmer); Duck appendProto(Flyer)
+Io> Duck swim
+swimming
+Io> Duck fly
+flying
+```
+
+## Introspection
+
+Every object knows its slots and protos at runtime.
+
+```
+Io> fido slotNames
+==> list("name")
+
+Io> Dog slotNames
+==> list("name", "bark", "greet")
+
+Io> fido getSlot("name")
+==> "Fido"
+
+Io> fido proto == Dog
+==> true
+
+Io> fido hasSlot("bark")
+==> true
+```
+
+## Exceptions
+
+```
+Io> try(
+    Exception raise("something broke")
+) catch(Exception, e,
+    writeln("caught: ", e error)
+)
+caught: something broke
+```
+
+A method can also `return` early or raise with `Exception raise`.
+
+## File I/O
+
+```
+Io> f := File with("hello.txt")
+Io> f openForUpdating
+Io> f write("hello, world\n")
+Io> f close
+
+Io> File with("hello.txt") contents
+==> "hello, world\n"
+```
+
+Iterate lines:
+
+```
+Io> File with("hello.txt") openForReading foreachLine(line, line println)
+```
+
+## Coroutines
+
+Coroutines are cooperative, scheduled in-process. `yield` hands control back to the scheduler.
+
+```
+Io> task := method(n, for(i, 1, n, writeln("tick ", i); yield))
+
+Io> task(3) @@; task(3) @@
+Io> Scheduler waitForCorosToComplete
+tick 1
+tick 1
+tick 2
+tick 2
+tick 3
+tick 3
+```
+
+## Actors and Futures
+
+Send a message asynchronously with `@` (returns a future) or `@@` (no return).
+
+```
+Io> slow := Object clone
+Io> slow compute := method(x, System sleep(1); x * x)
+
+Io> f := slow @compute(5)
+Io> "doing other work..." println
+Io> f                          // blocks until ready
+==> 25
+```
+
+Any object can act as an actor — just send it async messages.
+
+## Next Steps
+
+- Read the [Book](../Book/index.html) for a deeper walkthrough of the language.
+- Skim the [Reference](../Reference/index.html) for a complete list of built-in objects and methods.
+- Browse the [Guide](../Guide/index.html) for idioms and conventions.

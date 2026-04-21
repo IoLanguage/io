@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>Syntax – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Syntax</h1><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Io's minimal grammar: expressions, messages, and operators.</p><nav class="toc"><ul><li><a href="#expressions">Expressions</a></li><li><a href="#messages">Messages</a></li><li><a href="#operators">Operators</a></li><li><a href="#assignment">Assignment</a></li><li><a href="#numbers">Numbers</a></li><li><a href="#strings">Strings</a></li><li><a href="#comments">Comments</a></li></ul></nav><h2 id="expressions">Expressions</h2><div class="section"><div class="section-body"><p>Io has no keywords or statements. Everything is an expression composed entirely of messages, each of which is a runtime accessible object. The informal BNF description:</p><pre><code>exp        ::= { message | terminator }
+message    ::= symbol [arguments]
+arguments  ::= "(" [exp [ { "," exp } ]] ")"
+symbol     ::= identifier | number | string
+terminator ::= "\n" | ";"</code></pre><p>For performance reasons, String and Number literal messages have their results cached in their message objects.</p></div></div><h2 id="messages">Messages</h2><div class="section"><div class="section-body"><p>Message arguments are passed as expressions and evaluated by the receiver. Selective evaluation of arguments can be used to implement control flow. Examples:</p><pre><code>for(i, 1, 10, i println)
+a := if(b == 0, c + 1, d)</code></pre><p>In the above code, "for" and "if" are just normal messages, not special forms or keywords.</p><p>Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:</p><pre><code>people select(person, person age &lt; 30)
+names := people map(person, person name)</code></pre><p>Methods like map and select will typically apply the expression directly to the values if only the expression is provided:</p><pre><code>people select(age &lt; 30)
+names := people map(name)</code></pre><p>There is also some syntax sugar for operators (including assignment), which are handled by an Io macro executed on the expression after it is compiled into a message tree. Some sample source code:</p><pre><code>Account := Object clone
+Account balance := 0
+Account deposit := method(amount,
+balance = balance + amount
+)</code></pre><pre><code>account := Account clone
+account deposit(10.00)
+account balance println</code></pre><p>Like Self[2], Io's syntax does not distinguish between accessing a slot containing a method from one containing a variable.</p></div></div><h2 id="operators">Operators</h2><div class="section"><div class="section-body"><p>An operator is just a message whose name contains no alphanumeric characters (other than ";", "_", '"' or ".") or is one of the following words: or, and, return. Example:</p><pre><code>1 + 2</code></pre><p>This just gets compiled into the normal message:</p><pre><code>1 +(2)</code></pre><p>Which is the form you can use if you need to do grouping:</p><pre><code>1 +(2 * 4)</code></pre><p>Standard operators follow C's precedence order, so:</p><pre><code>1 + 2 * 3 + 4</code></pre><p>Is parsed as:</p><pre><code>1 +(2 *(3)) +(4)</code></pre><p>User defined operators (that don't have a standard operator name) are performed left to right.</p></div></div><h2 id="assignment">Assignment</h2><div class="section"><div class="section-body"><p>Io has three assignment operators:</p><p>These operators are compiled to normal messages whose methods can be overridden.</p><p>For example:</p><p>On Locals objects, updateSlot is overridden so it will update the slot in the object in which the method was activated if the slot is not found the locals. This is done so update assignments in methods don't require self to be an explicit target.</p></div></div><h2 id="numbers">Numbers</h2><div class="section"><div class="section-body"><p>The following are examples of valid number formats:</p><pre><code>123
+123.456
+0.456
+.456
+123e-4
+123e4
+123.456e-7
+123.456e2</code></pre><p>Hex numbers are also supported (in any casing):</p><pre><code>0x0
+0x0F
+0XeE</code></pre></div></div><h2 id="strings">Strings</h2><div class="section"><div class="section-body"><p>Strings can be defined surrounded by a single set of double quotes with escaped quotes (and other escape characters) within.</p><pre><code>s := "this is a \"test\".\nThis is only a test."</code></pre><p>Or for strings with non-escaped characters and/or spanning many lines, triple quotes can be used.</p><pre><code>s := """this is a "test".
+This is only a test."""</code></pre></div></div><h2 id="comments">Comments</h2><div class="section"><div class="section-body"><p>Comments of the //, /**/ and # style are supported. Examples:</p><pre><code>a := b // add a comment to a line</code></pre><pre><code>/* comment out a group
+a := 1
+b := 2
+*/</code></pre><p>The "#" style is useful for unix scripts:</p><pre><code>#!/usr/local/bin/io</code></pre><p>That's it! You now know everything there is to know about Io's syntax. Control flow, objects, methods, exceptions are expressed with the syntax and semantics described above.</p></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

@@ -5,7 +5,14 @@
 ## Documentation
 
 - [Documentation](/docs/): Guides, tutorial, language reference, and design notes.
-- [Book](/docs/Book/)
+- [Book](/docs/Book/): The original Io book, organized by chapter.
+- [Appendix](/docs/Book/Appendix/): Grammar reference and citations.
+- [Concurrency](/docs/Book/Concurrency/): Coroutines, actors, futures, and Io's concurrency model.
+- [Control Flow](/docs/Book/Control%20Flow/): Branching, loops, exceptions, and scope.
+- [Introduction](/docs/Book/Introduction/): The origins, philosophy, and influences behind Io.
+- [Objects](/docs/Book/Objects/): Slots, prototypes, cloning, and differential inheritance.
+- [Primitives](/docs/Book/Primitives/): Built-in objects: numbers, strings, lists, maps, files, and more.
+- [Syntax](/docs/Book/Syntax/): Io's minimal grammar: expressions, messages, and operators.
 - [Guide](/docs/Guide/): Comprehensive language guide: syntax, messages, objects, control flow, concurrency, and more.
 - [Reference](/docs/Reference/)
 - [Style Guide](/docs/Style%20Guide/): How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.

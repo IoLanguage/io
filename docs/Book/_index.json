@@ -1,0 +1,19 @@
+{
+  "title": "Book",
+  "subtitle": "The original Io book, organized by chapter.",
+  "content": [
+    {
+      "type": "ContentCards",
+      "columns": 2,
+      "items": [
+        "Introduction",
+        "Syntax",
+        "Objects",
+        "Control Flow",
+        "Concurrency",
+        "Primitives",
+        "Appendix"
+      ]
+    }
+  ]
+}

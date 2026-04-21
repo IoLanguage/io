@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>Introduction – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Introduction</h1><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">The origins, philosophy, and influences behind Io.</p><h2 id="overview">Overview</h2><div class="section"><div class="section-body"><p>Io is a dynamic prototype-based programming language. The ideas in Io are mostly inspired by Smalltalk[1] (all values are objects), Self[2] (prototype-based), NewtonScript[3] (differential inheritance), Act1[4] (actors and futures for concurrency), Lisp[5] (code is a runtime inspectable / modifiable tree) and Lua[6] (small, embeddable).</p></div></div><h2 id="perspective">Perspective</h2><div class="section"><div class="section-body"><p>The focus of programming language research for the last thirty years has been to combine the expressive power of high level languages like Smalltalk and the performance of low level language like C with little attention paid to advancing expressive power itself. The result has been a series of languages which are neither as fast as C or as expressive as Smalltalk. Io's purpose is to refocus attention on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics.</p><p>In Io, all values are objects (of which, anything can change at runtime, including slots, methods and inheritance), all code is made up of expressions (which are runtime inspectable and modifiable) and all expressions are made up of dynamic message sends (including assignment and control structures). Execution contexts themselves are objects and activatable objects such as methods/blocks and functions are unified into blocks with assignable scope. Concurrency is made more easily manageable through actors and implemented using coroutines for scalability.</p></div></div><h2 id="getting-started">Getting Started</h2><div class="section"><div class="section-body"><p>Io distributions are available at:</p><pre><code>[http://iolanguage.com](http://iolanguage.com)</code></pre><h3 id="interactive-mode">Interactive Mode</h3><p>If Io is installed, running:</p><pre><code>io</code></pre><p>will open the Io interpreter prompt.</p><p>You can evaluate code by entering it directly. Example:</p><pre><code>Io&gt; "Hello world!" println
+==&gt; Hello world!</code></pre><p>Expressions are evaluated in the context of the Lobby:</p><pre><code>Io&gt; print
+[printout of lobby contents]</code></pre><p>If you have a .iorc file in your home folder, it will be evaled before the interactive prompt starts.</p><h4 id="inspecting-objects">Inspecting objects</h4><p>You can get a list of the slots of an object like this:</p><pre><code>Io&gt; someObject slotNames</code></pre><p>To show them in sorted order:</p><pre><code>Io&gt; someObject slotNames sort</code></pre><p>For a nicely formatted description of an object, the slotSummary method is handy:</p><pre><code>Io&gt; slotSummary
+==&gt;  Object_0x20c4e0:
+Lobby = Object_0x20c4e0
+Protos = Object_0x20bff0
+exit = method(...)
+forward = method(...)</code></pre><p>Exploring further:</p><pre><code>Io&gt; Protos
+==&gt;  Object_0x20bff0:
+Addons = Object_0x20c6f0
+Core = Object_0x20c4b0</code></pre><pre><code>Io&gt; Protos Addons
+==&gt;  Object_0x20c6f0:
+ReadLine = Object_0x366a10</code></pre><p>Only ReadLine is seen in the Addons since no other Addons have been loaded yet.</p><p>Inspecting a method will print a decompiled version of it:</p><pre><code>Io&gt; Lobby getSlot("forward")
+==&gt; # io/Z_Importer.io:65
+method(
+Importer import(call)
+)</code></pre><h4 id="dofile-and-dostring">doFile and doString</h4><p>A script can be run from the interactive mode using the doFile method:</p><pre><code>doFile("scriptName.io")</code></pre><p>The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:</p><pre><code>someObject doFile("scriptName.io")</code></pre><p>The doString method can be used to evaluate a string:</p><pre><code>Io&gt; doString("1+1")
+==&gt; 2</code></pre><p>And to evaluate a string in the context of a particular object:</p><pre><code>someObject doString("1 + 1")</code></pre><h3 id="command-line-arguments">Command Line Arguments</h3><p>Example of printing out command line arguments:</p><pre><code>System args foreach(k, v, write("'", v, "'\n"))</code></pre><h3 id="launchpath">launchPath</h3><p>The System "launchPath" slot is set to the location of the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:</p><pre><code>System launchPath</code></pre></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

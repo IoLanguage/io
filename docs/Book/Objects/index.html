@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>Objects – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Objects</h1><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Slots, prototypes, cloning, and differential inheritance.</p><nav class="toc"><ul><li><a href="#overview">Overview</a></li><li><a href="#prototypes">Prototypes</a></li><li><a href="#methods">Methods</a></li><li><a href="#introspection">Introspection</a></li></ul></nav><h2 id="overview">Overview</h2><div class="section"><div class="section-body"><p>Io's guiding design principle is simplicity and power through conceptual unification.</p></div></div><h2 id="prototypes">Prototypes</h2><div class="section"><div class="section-body"><p>In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and its value can be any type of object.</p><h3 id="clone-and-init">clone and init</h3><p>New objects are made by cloning existing ones. A clone is an empty object that has the parent in its list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.</p><pre><code>me := Person clone</code></pre><p>To add an instance variable or method, simply set it:</p><pre><code>myDog name := "rover"
+myDog sit := method("I'm sitting\n" print)</code></pre><p>When an object is cloned, its "init" slot will be called if it has one.</p><h3 id="inheritance">Inheritance</h3><p>When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.</p><p>Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating the equivalent of a subclass:</p><pre><code>Io&gt; Dog := Object clone
+==&gt; Object_0x4a7c0</code></pre><p>The above code sets the Lobby slot "Dog" to a clone of the Object object; the protos list of this new object contains only a reference to Object, essentially indicating that a subclass of Object has been created.</p><p>Instance variables and methods are inherited from the objects referenced in the protos list. If a slot is set, it creates a new slot in our object instead of changing the protos:</p><pre><code>Io&gt; Dog color := "red"
+Io&gt; Dog
+==&gt; Object_0x4a7c0:
+color := "red"</code></pre><h4 id="multiple-inheritance">Multiple Inheritance</h4><p>You can add any number of protos to an object's protos list. When responding to a message, the lookup mechanism does a depth first search of the proto chain.</p></div></div><h2 id="methods">Methods</h2><div class="section"><div class="section-body"><p>A method is an anonymous function which, when called, creates an object to store its locals and sets the local's proto pointer and its self slot to the target of the message. The Object method method() can be used to create methods. Example:</p><pre><code>method((2 + 2) print)</code></pre><p>An example of using a method in an object:</p><pre><code>Dog := Object clone
+Dog bark := method("woof!" print)</code></pre><p>The above code creates a new "subclass" of object named Dog and adds a bark slot containing a block that prints "woof!". Example of calling this method:</p><pre><code>Dog bark</code></pre><p>The default return value of a block is the result of the last expression.</p><h4 id="arguments">Arguments</h4><p>Methods can also be defined to take arguments. Example:</p><pre><code>add := method(a, b, a + b)</code></pre><p>The general form is:</p><pre><code>method(&lt;arg name 0&gt;, &lt;arg name 1&gt;, ..., &lt;do message&gt;)</code></pre><h3 id="blocks">Blocks</h3><p>A block is the same as a method except it is lexically scoped. That is, variable lookups continue in the context of where the block was created instead of the target of the message which activated the block. A block can be created using the Object method block(). Example of creating a block:</p><pre><code>b := block(a, a + b)</code></pre><h4 id="blocks-vs-methods">Blocks vs. Methods</h4><p>This is sometimes a source of confusion so it's worth explaining in detail. Both methods and blocks create an object to hold their locals when they are called. The difference is what the "proto" and "self" slots of that locals object are set to. In a method, those slots are set to the target of the message. In a block, they're set to the locals object where the block was created. So a failed variable lookup in a block's locals continue in the locals where it was created. And a failed variable lookup in a method's locals continue in the object to which the message that activated it was sent.</p><h4 id="call-and-self-slots">call and self slots</h4><p>When a locals object is created, its self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and its call slot is set to a Call object that can be used to access information about the block activation:</p><h4 id="variable-arguments">Variable Arguments</h4><p>The "call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io:</p><pre><code>myif := method(
+(call sender doMessage(call message argAt(0))) ifTrue(
+call sender doMessage(call message argAt(1))) ifFalse(
+call sender doMessage(call message argAt(2)))
+)</code></pre><pre><code>myif(foo == bar, write("true\n"), write("false\n"))</code></pre><p>The doMessage() method evaluates the argument in the context of the receiver. A shorter way to express this is to use the evalArgAt() method on the call object:</p><pre><code>myif := method(
+call evalArgAt(0) ifTrue(
+call evalArgAt(1)) ifFalse(
+call evalArgAt(2))
+)</code></pre><pre><code>myif(foo == bar, write("true\n"), write("false\n"))</code></pre><h4 id="forward">Forward</h4><p>If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here's an example of how to print the information related lookup that failed:</p><pre><code>MyObject forward := method(
+write("sender = ", call sender, "\n")
+write("message name = ", call message name, "\n")
+args := call message argsEvaluatedIn(call sender)
+args foreach(i, v, write("arg", i, " = ", v, "\n") )
+)</code></pre><h4 id="resend">Resend</h4><p>Sends the current message to the receiver's protos with self as the context. Example:</p><pre><code>A := Object clone
+A m := method(write("in A\n"))
+B := A clone
+B m := method(write("in B\n"); resend)
+B m</code></pre><p>will print:</p><pre><code>in B
+in A</code></pre><p>For sending other messages to the receiver's proto, super is used.</p><h4 id="super">Super</h4><p>Sometimes it's necessary to send a message directly to a proto. Example:</p><pre><code>Dog := Object clone
+Dog bark := method(writeln("woof!"))</code></pre><pre><code>fido := Dog clone
+fido bark := method(
+writeln("ruf!")
+super(bark)
+)</code></pre><p>Both resend and super are implemented in Io.</p></div></div><h2 id="introspection">Introspection</h2><div class="section"><div class="section-body"><p>Using the following methods you can introspect the entire Io namespace. There are also methods for modifying any and all of these attributes at runtime.</p><h3 id="slotnames">slotNames</h3><p>The slotNames method returns a list of the names of an object's slots:</p><pre><code>Io&gt; Dog slotNames
+==&gt; list("bark")</code></pre><h3 id="protos">protos</h3><p>The protos method returns a list of the objects which an object inherits from:</p><pre><code>Io&gt; Dog protos
+==&gt; list("Object")</code></pre><h3 id="getslot">getSlot</h3><p>The "getSlot" method can be used to get the value of a block in a slot without activating it:</p><pre><code>myMethod := Dog getSlot("bark")</code></pre><p>Above, we've set the locals object's "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method:</p><pre><code>otherObject newMethod := getSlot("myMethod")</code></pre><p>Here, the target of the getSlot method is the locals object.&rsquo;</p><h3 id="code">code</h3><p>The arguments and expressions of methods are open to introspection. A useful convenience method is "code", which returns a string representation of the source code of the method in a normalized form.</p><pre><code>Io&gt; method(a, a * 2) code
+==&gt; "method(a, a *(2))"</code></pre></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>
