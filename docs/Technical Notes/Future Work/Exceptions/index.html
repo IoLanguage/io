@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../style/style.css">
+  <link rel="stylesheet" href="../../../../style/style.css">
   <title>Exceptions – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
@@ -54,6 +54,6 @@ Available restarts:
   1: [useValue]  Supply a replacement value
   2: [abort]     Abort
 Pick a restart:</code></pre><p>This requires restarts (direction 1) and REPL integration.</p><h3 id="recommendation">Recommendation</h3><p>Start with <strong>restarts</strong> (direction 1). They provide the biggest leverage &mdash; decoupling error policy from recovery mechanism &mdash; and map naturally to Io's prototype model. A Restart is just an Object with <code>name</code> and <code>action</code> slots. The handler/restart registries are Lists on the Coroutine. No VM changes, no new primitives, just Io-level code building on <code>withHandler</code>.</p><p>Decline (direction 2) is a small addition on top. Interactive selection (direction 4) is the long-term payoff but requires restarts first.</p></div></div></div>
-  <script src="../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../../style/layout/layout.js" type="module"></script>
 </body>
 </html>

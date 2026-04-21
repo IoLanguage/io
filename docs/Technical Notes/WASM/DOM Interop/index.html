@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../style/style.css">
+  <link rel="stylesheet" href="../../../../style/style.css">
   <title>DOM Interop – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
@@ -43,6 +43,6 @@ list children size println  // ==&gt; 3</code></pre></div></div><h2 id="architec
 ─────────        ──────────           ──────
 DOM body    →    dom_getBody()    →   registerHandle(document.body) → 7
 el tagName  →    dom_getTagName(7) →  handles.get(7).tagName → "BODY"</code></pre><h3 id="string-passing">String Passing</h3><ul><li><strong>C→JS</strong>: <code>(pointer, length)</code> pairs. JS reads UTF-8 from WASM linear memory.</li><li><strong>JS→C</strong>: JS writes into a C-exported 64KB buffer (<code>dom_buf</code>), null-terminates, returns length. C reads the buffer as a C string.</li></ul><h3 id="gc-integration">GC Integration</h3><p>When the Io garbage collector frees an Element object, the Element's <code>freeFunc</code> calls <code>dom_release(handle)</code>, which removes the entry from the JS handle map. This prevents the JS-side Map from growing without bound.</p></div></div><h2 id="limitations">Limitations</h2><div class="section"><div class="section-body"><ul><li><strong>Max 256 results</strong> from <code>querySelectorAll</code>, <code>children</code> (fixed-size buffer on stack)</li><li><strong>Max 64KB</strong> per string transfer (shared buffer size)</li><li><strong>No events</strong> &mdash; event listeners are deferred to a future phase</li><li><strong>No fetch/async</strong> &mdash; network requests are deferred to a future phase</li><li><strong>Inline styles only</strong> &mdash; <code>getStyle</code>/<code>setStyle</code> operate on <code>element.style</code>, not computed styles</li></ul></div></div></div>
-  <script src="../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../../style/layout/layout.js" type="module"></script>
 </body>
 </html>

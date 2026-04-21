@@ -2,18 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>/</loc></url>
   <url><loc>/docs/</loc></url>
-  <url><loc>/docs/Future%20Work/</loc></url>
-  <url><loc>/docs/Future%20Work/Exceptions/</loc></url>
   <url><loc>/docs/Guide/</loc></url>
   <url><loc>/docs/Reference/</loc></url>
-  <url><loc>/docs/Stackless/</loc></url>
-  <url><loc>/docs/Stackless/Examples/</loc></url>
-  <url><loc>/docs/Stackless/Report/</loc></url>
   <url><loc>/docs/Style%20Guide/</loc></url>
+  <url><loc>/docs/Technical%20Notes/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Future%20Work/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Future%20Work/Exceptions/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Stackless/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Stackless/Examples/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Stackless/Report/</loc></url>
+  <url><loc>/docs/Technical%20Notes/WASM/</loc></url>
+  <url><loc>/docs/Technical%20Notes/WASM/Browser%20Target/</loc></url>
+  <url><loc>/docs/Technical%20Notes/WASM/DOM%20Interop/</loc></url>
   <url><loc>/docs/Tutorial/</loc></url>
-  <url><loc>/docs/WASM/</loc></url>
-  <url><loc>/docs/WASM/Browser%20Target/</loc></url>
-  <url><loc>/docs/WASM/DOM%20Interop/</loc></url>
   <url><loc>/llms.txt</loc></url>
   <url><loc>/llms-full.txt</loc></url>
 </urlset>

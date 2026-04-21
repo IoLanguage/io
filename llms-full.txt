@@ -1,5 +1,7 @@
 # Io — Full Documentation
 
+Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
+
 See also: /llms.txt (curated index) and /sitemap.xml.
 
 
@@ -11,8 +13,33 @@ Source: /
 
 A small, prototype-based programming language — now targeting WASM/WASI.
 
+## About
+
+Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
+
+Everything in Io is an object and every expression is a message send — including assignment, operators, and control flow. Message trees are first-class values, so the language gets by with a tiny core and a uniform syntax: there are no keywords, no statements, and no special forms at the parser level.
+
+The VM is written in portable C and now targets WebAssembly (WASI) by default. The same binary runs under wasmtime, Node.js, or directly in the browser via a bidirectional Io↔JavaScript bridge.
+
+## Key Features
+
+- **Prototype-Based Objects** — No classes. New objects are clones of existing ones, slots are created on write, and any object can be used as a prototype for any other.
+- **Differential Inheritance** — Clones inherit by reference until a slot is assigned, so most objects carry only the deltas that distinguish them from their parents.
+- **Multiple Inheritance** — Every object has a list of protos; lookup is depth-first with runtime loop detection.
+- **Messages as Code** — Assignment, operators, conditionals, and loops are all ordinary messages. Argument evaluation can be deferred, so control flow like `if`, `while`, and `for` is implementable in Io itself.
+- **Runtime Introspection** — Slots, protos, message trees, and block source code are all inspectable and modifiable at runtime.
+- **Actors and Futures** — Any object can receive `asyncSend` or `futureSend` messages and run its own coroutine. Futures are transparent (they become their result) and detect deadlocks automatically.
+- **Coroutines Everywhere** — Concurrency uses cooperative user-level coroutines rather than OS threads, scaling to thousands of active tasks without thread-level overhead.
+- **First-Class Continuations** — `callcc` captures the current computation as a value that can be stored, invoked later, or serialized.
+- **Unified Sequences** — Strings, buffers, and numeric vectors share one `Sequence` primitive, with multiple item types, text encodings, and SIMD acceleration on float vectors.
+- **WASM/WASI Target** — The default build produces a single WebAssembly module that runs under wasmtime, Node.js, or in browsers, with full access to the DOM when hosted in a page.
+- **Io↔JS Bridge** — Host integration on the browser target is bidirectional: Io can call JavaScript functions and JavaScript can call Io methods, replacing the native-addon model of earlier Io releases.
+- **Embeddable Core** — The VM is a multi-state C library under a BSD license, designed to be linked into other applications and driven through a small embedding API.
+
 - [Documentation](docs/index.html) — Guides, tutorial, language reference, and design notes.
 - [Source on GitHub](https://github.com/IoLanguage/io) — Io language VM source repository.
+
+For AI agents: [llms.txt](llms.txt) (curated index) and [llms-full.txt](llms-full.txt) (full content).
 
 
 ---
@@ -28,169 +55,7 @@ Guides, tutorial, language reference, and design notes.
 - Tutorial
 - Reference
 - Style Guide
-- WASM
-- Stackless
-- Future Work
-
-
----
-
-<!-- Page: docs/Future Work -->
-Source: /docs/Future%20Work/
-
-# Future Work
-
-Design notes and proposals for upcoming changes.
-
-- Exceptions
-
-
----
-
-<!-- Page: docs/Future Work/Exceptions -->
-Source: /docs/Future%20Work/Exceptions/
-
-# Exceptions
-
-Design notes on the current exception system and proposed improvements.
-
-## Current Implementation
-
-### try/catch (non-resumable)
-
-Standard exception handling. `try(code)` runs code in a child coroutine. If an exception is raised, it's captured on the coroutine and returned. `catch` filters by exception type. `pass` re-raises.
-
-```io
-e := try(Exception raise("boom"))
-e catch(Exception, writeln(e error))
-```
-
-### signal/withHandler (resumable)
-
-Added in the `stackless` branch. `withHandler` installs a handler on the coroutine's handler stack, evaluates the body, then removes the handler. `signal` walks the handler stack to find a matching handler and calls it as a subroutine — the signaler's frames remain on the stack.
-
-```io
-result := withHandler(Exception, block(exc, resume,
-    "default value"
-),
-    Exception signal("something went wrong")
-)
-// result is "default value"
-```
-
-The handler runs as a normal block activation with its own frame. Whatever the handler returns becomes the return value of `signal()` at the call site. No coroutine switch, no frame manipulation, no `callcc`.
-
-`_Resumption` is a placeholder object whose `invoke(v)` returns `v`. It exists for API consistency but is functionally the identity.
-
-## Comparison with Other Languages
-
-### Common Lisp Condition System
-
-CL separates three concerns:
-
-1. **Signaling** — low-level code detects a problem and signals a condition
-2. **Handling** — high-level code decides on a recovery policy
-3. **Restarting** — low-level code offers named recovery strategies
-
-```lisp
-;; Low-level: offers restarts, doesn't choose
-(defun parse-entry (line)
-  (restart-case (actually-parse line)
-    (skip-entry () nil)
-    (use-value (v) v)))
-
-;; High-level: chooses policy, doesn't know recovery details
-(handler-bind ((malformed-entry
-                (lambda (c) (invoke-restart 'skip-entry))))
-  (parse-log-file stream))
-```
-
-Key features Io lacks:
-- **Restarts**: named recovery points established by the signaler. The handler picks one without knowing recovery details. This decouples policy from mechanism.
-- **Decline**: a `handler-bind` handler can return normally without invoking a restart, and the search continues to the next handler. In Io, the handler's return value is always used.
-- **Interactive debugging**: unhandled conditions present available restarts to the developer in the debugger. SLIME's debugger lets you inspect the live stack, fix data, and resume — the program continues as if the error never happened.
-
-### Smalltalk (on:do:)
-
-Handler receives the exception object with a rich protocol:
-- `ex resume: value` — resume at signal site with value (non-local return from handler)
-- `ex return: value` — return from the protected block
-- `ex retry` — re-run the protected block
-- `ex pass` — delegate to outer handler
-- `ex outer` — invoke outer handler, then resume
-
-More expressive than Io's current system but lacks CL's restart separation.
-
-## Possible Directions
-
-### 1. Add Restarts (CL-style)
-
-The most impactful addition. Restarts let the signaler offer recovery strategies without choosing one, and the handler choose a strategy without knowing recovery details.
-
-Possible Io API:
-
-```io
-// Low-level code establishes restarts
-parseEntry := method(line,
-    withRestarts(
-        list(
-            Restart clone setName("skipEntry") setAction(block(nil)),
-            Restart clone setName("useValue") setAction(block(v, v))
-        ),
-        actuallyParse(line)
-    )
-)
-
-// High-level code picks a policy
-withHandler(MalformedEntry, block(exc, resume,
-    invokeRestart("skipEntry")
-),
-    parseLogFile(stream)
-)
-```
-
-Implementation: a restart registry (List) on the Coroutine, similar to `handlerStack`. `withRestarts` pushes entries, `invokeRestart` walks the registry. Pure Io-level code, no VM changes needed.
-
-### 2. Handler Decline
-
-Allow a handler to decline (pass to next handler) instead of always producing a value. Could use a sentinel:
-
-```io
-withHandler(Exception, block(exc, resume,
-    if(exc error containsSeq("fatal"),
-        decline  // search continues to next handler
-    ,
-        "recovered"
-    )
-),
-    body
-)
-```
-
-### 3. Richer Exception Protocol (Smalltalk-style)
-
-Add methods to the exception object for `retry`, `return(value)`, `outer`. These would use the eval loop's existing stop-status mechanism or handler stack walking.
-
-### 4. Interactive Restart Selection in REPL
-
-When an unhandled signal reaches the top level with available restarts, present them to the user:
-
-```
-Error: Malformed entry at line 42
-Available restarts:
-  0: [skipEntry] Skip this entry
-  1: [useValue]  Supply a replacement value
-  2: [abort]     Abort
-Pick a restart:
-```
-
-This requires restarts (direction 1) and REPL integration.
-
-### Recommendation
-
-Start with **restarts** (direction 1). They provide the biggest leverage — decoupling error policy from recovery mechanism — and map naturally to Io's prototype model. A Restart is just an Object with `name` and `action` slots. The handler/restart registries are Lists on the Coroutine. No VM changes, no new primitives, just Io-level code building on `withHandler`.
-
-Decline (direction 2) is a small addition on top. Interactive selection (direction 4) is the long-term payoff but requires restarts first.
+- Technical Notes
 
 
 ---
@@ -2195,8 +2060,425 @@ Auto-generated API reference extracted from `//doc`, `//metadoc`, and `/*doc ...
 
 ---
 
-<!-- Page: docs/Stackless -->
-Source: /docs/Stackless/
+<!-- Page: docs/Style Guide -->
+Source: /docs/Style%20Guide/
+
+# Style Guide
+
+How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.
+
+## Naming
+
+Io distinguishes *objects* (prototypes) from *slots on objects* (methods and values) by case. The rule is simple and never varies.
+
+**Prototypes use PascalCase.** The first letter is capitalized and each subsequent word is capitalized. Examples from the core library: `Object`, `List`, `Map`, `Sequence`, `Block`, `Coroutine`, `UnitTest`. When you clone a prototype to define a new type, keep the same convention:
+
+```
+Animal := Object clone
+Dog := Animal clone
+HttpRequest := Object clone
+```
+
+**Methods and variables use camelCase.** The first letter is lowercase; subsequent words are capitalized. Examples: `asString`, `appendSeq`, `removeFirst`, `slotNames`.
+
+```
+greetingFor := method(name, "hello, " .. name)
+firstMatch := list select(isActive) first
+```
+
+**Constants defined on a proto also use camelCase** — Io does not have a separate SCREAMING_CASE convention. A constant is just a slot whose value you don't intend to change.
+
+### Method name prefixes
+
+The standard library uses a small vocabulary of prefixes to convey what a method does without reading its body. Follow these when adding methods to your own protos.
+
+- **`as`** — returns a (possibly modified) copy in a different representation. The receiver is not mutated. Examples: `asString`, `asNumber`, `asUppercase`, `asList`, `asMutable`, `asJson`.
+- **`to`** — converts toward a target, often destructively or with a target argument. Examples: `Sequence asUTF8`, conversions that write into something else.
+- **`set`** — assigns a value and returns self, enabling chaining. Examples: `setName`, `setSize`, `setEncoding`.
+- **`is`** — boolean query. Examples: `isNil`, `isEmpty`, `isKindOf`, `isActivatable`.
+- **`has`** — boolean query about containment or possession. Examples: `hasSlot`, `hasProto`.
+- **`with`** — constructor-style class method that returns a newly-configured clone. Example: `Date withNow`, `Range with(1, 10)`.
+- **`for`** — returns something derived for a given key or context. Example: `slotSummaryFor`.
+
+### In-place vs. copy
+
+When a method has both a copying and a mutating form, the mutating form ends in `InPlace`. The copying form is the plain name.
+
+```
+"abc" asUppercase        // "ABC" — returns a new sequence
+aMutableSeq uppercase     // modifies in place, returns self
+```
+
+The core `Sequence` proto follows this rigorously: `asUppercase` / `uppercase`, `asLowercase` / `lowercase`, `alignLeft` / `alignLeftInPlace`, etc. Methods that unconditionally mutate the receiver do not need the suffix — e.g. `List append`, `List removeFirst`.
+
+### Private slots
+
+A slot whose name begins with an underscore (`_`) is a hint that it is internal and should not be relied on from outside. Io does not enforce this; it is a reader-facing convention.
+
+## Indentation and whitespace
+
+**Use tabs for indentation** in both C and Io source files. One tab per level; do not mix tabs and spaces.
+
+**No trailing whitespace** on any line.
+
+**One blank line** between method definitions at the same nesting level. Two blank lines are reserved for separating top-level sections within a file.
+
+**Spaces around binary operators** and after commas:
+
+```
+x := a + b * c
+list := list(1, 2, 3)
+```
+
+**No space between a message and its argument list.** `foo(x)`, not `foo (x)`.
+
+**Chain message sends with single spaces:**
+
+```
+people select(isActive) map(name) sort join(", ")
+```
+
+Long chains can break across lines; align the continuation with the receiver or indent one level:
+
+```
+result := people \
+    select(isActive) \
+    map(name) \
+    sort \
+    join(", ")
+```
+
+## Comments
+
+Keep comments minimal. Well-named methods and slot names should carry most of the meaning. Write a comment when the *why* is non-obvious — a constraint, an invariant, or a workaround — not to restate what the code plainly does.
+
+Io's reflection system recognizes two documentation forms that tools can extract:
+
+**`//doc`** — a single-line doc comment attached to a slot. Placed immediately before the slot definition.
+
+```
+//doc List sum Returns the sum of the items.
+sum := method(self reduce(+))
+```
+
+**`/*doc ... */`** — a multi-line doc comment for longer descriptions.
+
+```
+/*doc List join(optionalSeparator)
+Returns a Sequence of the concatenated items with optionalSeparator
+between each item, or simply the concatenation of the items if no
+optionalSeparator is supplied.
+*/
+join := method(sep, ...)
+```
+
+**`//metadoc`** — metadata about a proto itself (one per proto, at the top of the file).
+
+```
+//metadoc List category Core
+//metadoc List description A mutable, ordered collection of values.
+```
+
+Ordinary `//` and `/* */` comments are still available for implementation notes that aren't intended for doc extraction.
+
+## File organization
+
+Each proto lives in its own file named after the proto: `List.io`, `Sequence.io`, `Map.io`. The file defines and extends the proto using a `do(...)` block:
+
+```
+List do(
+    sum := method(self reduce(+))
+    average := method(self sum / self size)
+    ...
+)
+```
+
+Inside the `do` block, order slots roughly from fundamental to derived: state slots first, then core operations, then conveniences built on them. Group related methods together.
+
+Bootstrap files that must load before other core protos end in `_bootstrap.io` (e.g. `List_bootstrap.io`, `Object_bootstrap.io`). They are listed explicitly at the top of the `IO_FILES` variable in the Makefile — load order is not alphabetical.
+
+## Method patterns
+
+### Cloning and initialization
+
+A new instance is always a clone of an existing proto. If initialization is needed, override `init`:
+
+```
+Animal := Object clone do(
+    name ::= nil
+    legs ::= 4
+
+    init := method(
+        self sounds := list()
+    )
+)
+```
+
+`::=` declares a slot and generates a matching setter (`setName`, `setLegs`). Use it for public, settable state. Use `:=` when you want the slot without a generated setter.
+
+### Chaining
+
+Methods that modify the receiver should return `self` so they can be chained:
+
+```
+list append(1) append(2) append(3)
+```
+
+Methods that produce a derived value return that value — `asUppercase`, `map`, `select` do not return self.
+
+### Fluent constructors
+
+When a proto is typically created with several initial settings, provide a `with` class method:
+
+```
+Range := Object clone do(
+    with := method(start, end,
+        r := self clone
+        r start := start
+        r end := end
+        r
+    )
+)
+
+r := Range with(1, 10)
+```
+
+## Error handling
+
+Raise exceptions for exceptional conditions; return `nil` for ordinary "not found" results.
+
+```
+// "not found" — return nil
+list detect(isPrime)        // nil if none
+
+// exceptional — raise
+Exception raise("connection lost: " .. host)
+```
+
+Catch exceptions with `try`:
+
+```
+e := try(riskyOperation)
+if(e, e showStack)
+```
+
+Subclass `Exception` for error categories you want callers to distinguish:
+
+```
+ParseError := Exception clone
+```
+
+## Testing
+
+Tests live alongside the code they exercise, in files named `*Test.io`, and extend `UnitTest`:
+
+```
+ListTest := UnitTest clone do(
+    testAppend := method(
+        l := list(1, 2)
+        l append(3)
+        assertEquals(l, list(1, 2, 3))
+    )
+
+    testRemoveFirst := method(
+        assertEquals(list(1, 2, 3) removeFirst, 1)
+    )
+)
+```
+
+Each test method begins with `test`. Use `assertEquals`, `assertTrue`, `assertRaisesException`, and the other assertions on `UnitTest`.
+
+## Commit messages
+
+Short, imperative first line describing *what changed and why*. Reference the issue or PR number if relevant.
+
+```
+Fix List removeFirst to return nil on empty list (#123)
+```
+
+Longer explanation goes in the body, separated from the subject by a blank line. Keep the subject under ~70 characters.
+
+Prefer small, focused commits over mixed ones. Each commit should leave the tree in a buildable, testable state.
+
+
+---
+
+<!-- Page: docs/Technical Notes -->
+Source: /docs/Technical%20Notes/
+
+# Technical Notes
+
+Implementation notes and design docs on WASM targeting, stackless evaluation, and future work.
+
+- WASM
+- Stackless
+- Future Work
+
+
+---
+
+<!-- Page: docs/Technical Notes/Future Work -->
+Source: /docs/Technical%20Notes/Future%20Work/
+
+# Future Work
+
+Design notes and proposals for upcoming changes.
+
+- Exceptions
+
+
+---
+
+<!-- Page: docs/Technical Notes/Future Work/Exceptions -->
+Source: /docs/Technical%20Notes/Future%20Work/Exceptions/
+
+# Exceptions
+
+Design notes on the current exception system and proposed improvements.
+
+## Current Implementation
+
+### try/catch (non-resumable)
+
+Standard exception handling. `try(code)` runs code in a child coroutine. If an exception is raised, it's captured on the coroutine and returned. `catch` filters by exception type. `pass` re-raises.
+
+```io
+e := try(Exception raise("boom"))
+e catch(Exception, writeln(e error))
+```
+
+### signal/withHandler (resumable)
+
+Added in the `stackless` branch. `withHandler` installs a handler on the coroutine's handler stack, evaluates the body, then removes the handler. `signal` walks the handler stack to find a matching handler and calls it as a subroutine — the signaler's frames remain on the stack.
+
+```io
+result := withHandler(Exception, block(exc, resume,
+    "default value"
+),
+    Exception signal("something went wrong")
+)
+// result is "default value"
+```
+
+The handler runs as a normal block activation with its own frame. Whatever the handler returns becomes the return value of `signal()` at the call site. No coroutine switch, no frame manipulation, no `callcc`.
+
+`_Resumption` is a placeholder object whose `invoke(v)` returns `v`. It exists for API consistency but is functionally the identity.
+
+## Comparison with Other Languages
+
+### Common Lisp Condition System
+
+CL separates three concerns:
+
+1. **Signaling** — low-level code detects a problem and signals a condition
+2. **Handling** — high-level code decides on a recovery policy
+3. **Restarting** — low-level code offers named recovery strategies
+
+```lisp
+;; Low-level: offers restarts, doesn't choose
+(defun parse-entry (line)
+  (restart-case (actually-parse line)
+    (skip-entry () nil)
+    (use-value (v) v)))
+
+;; High-level: chooses policy, doesn't know recovery details
+(handler-bind ((malformed-entry
+                (lambda (c) (invoke-restart 'skip-entry))))
+  (parse-log-file stream))
+```
+
+Key features Io lacks:
+- **Restarts**: named recovery points established by the signaler. The handler picks one without knowing recovery details. This decouples policy from mechanism.
+- **Decline**: a `handler-bind` handler can return normally without invoking a restart, and the search continues to the next handler. In Io, the handler's return value is always used.
+- **Interactive debugging**: unhandled conditions present available restarts to the developer in the debugger. SLIME's debugger lets you inspect the live stack, fix data, and resume — the program continues as if the error never happened.
+
+### Smalltalk (on:do:)
+
+Handler receives the exception object with a rich protocol:
+- `ex resume: value` — resume at signal site with value (non-local return from handler)
+- `ex return: value` — return from the protected block
+- `ex retry` — re-run the protected block
+- `ex pass` — delegate to outer handler
+- `ex outer` — invoke outer handler, then resume
+
+More expressive than Io's current system but lacks CL's restart separation.
+
+## Possible Directions
+
+### 1. Add Restarts (CL-style)
+
+The most impactful addition. Restarts let the signaler offer recovery strategies without choosing one, and the handler choose a strategy without knowing recovery details.
+
+Possible Io API:
+
+```io
+// Low-level code establishes restarts
+parseEntry := method(line,
+    withRestarts(
+        list(
+            Restart clone setName("skipEntry") setAction(block(nil)),
+            Restart clone setName("useValue") setAction(block(v, v))
+        ),
+        actuallyParse(line)
+    )
+)
+
+// High-level code picks a policy
+withHandler(MalformedEntry, block(exc, resume,
+    invokeRestart("skipEntry")
+),
+    parseLogFile(stream)
+)
+```
+
+Implementation: a restart registry (List) on the Coroutine, similar to `handlerStack`. `withRestarts` pushes entries, `invokeRestart` walks the registry. Pure Io-level code, no VM changes needed.
+
+### 2. Handler Decline
+
+Allow a handler to decline (pass to next handler) instead of always producing a value. Could use a sentinel:
+
+```io
+withHandler(Exception, block(exc, resume,
+    if(exc error containsSeq("fatal"),
+        decline  // search continues to next handler
+    ,
+        "recovered"
+    )
+),
+    body
+)
+```
+
+### 3. Richer Exception Protocol (Smalltalk-style)
+
+Add methods to the exception object for `retry`, `return(value)`, `outer`. These would use the eval loop's existing stop-status mechanism or handler stack walking.
+
+### 4. Interactive Restart Selection in REPL
+
+When an unhandled signal reaches the top level with available restarts, present them to the user:
+
+```
+Error: Malformed entry at line 42
+Available restarts:
+  0: [skipEntry] Skip this entry
+  1: [useValue]  Supply a replacement value
+  2: [abort]     Abort
+Pick a restart:
+```
+
+This requires restarts (direction 1) and REPL integration.
+
+### Recommendation
+
+Start with **restarts** (direction 1). They provide the biggest leverage — decoupling error policy from recovery mechanism — and map naturally to Io's prototype model. A Restart is just an Object with `name` and `action` slots. The handler/restart registries are Lists on the Coroutine. No VM changes, no new primitives, just Io-level code building on `withHandler`.
+
+Decline (direction 2) is a small addition on top. Interactive selection (direction 4) is the long-term payoff but requires restarts first.
+
+
+---
+
+<!-- Page: docs/Technical Notes/Stackless -->
+Source: /docs/Technical%20Notes/Stackless/
 
 # Stackless
 
@@ -2208,8 +2490,8 @@ Io's iterative evaluator, continuations, and coroutines.
 
 ---
 
-<!-- Page: docs/Stackless/Examples -->
-Source: /docs/Stackless/Examples/
+<!-- Page: docs/Technical Notes/Stackless/Examples -->
+Source: /docs/Technical%20Notes/Stackless/Examples/
 
 # Stackless VM Examples
 
@@ -2536,8 +2818,8 @@ e error println  // => "Object does not respond to 'unknownMethod'"
 
 ---
 
-<!-- Page: docs/Stackless/Report -->
-Source: /docs/Stackless/Report/
+<!-- Page: docs/Technical Notes/Stackless/Report -->
+Source: /docs/Technical%20Notes/Stackless/Report/
 
 # Stackless Evaluator Report
 
@@ -2839,245 +3121,225 @@ RC is a targeted optimization for allocation-heavy for-loops. It trades ~10% ove
 
 ---
 
-<!-- Page: docs/Style Guide -->
-Source: /docs/Style%20Guide/
+<!-- Page: docs/Technical Notes/WASM -->
+Source: /docs/Technical%20Notes/WASM/
 
-# Style Guide
+# WASM
 
-How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.
+Running Io in the browser via WebAssembly.
 
-## Naming
+- Browser Target
+- DOM Interop
 
-Io distinguishes *objects* (prototypes) from *slots on objects* (methods and values) by case. The rule is simple and never varies.
 
-**Prototypes use PascalCase.** The first letter is capitalized and each subsequent word is capitalized. Examples from the core library: `Object`, `List`, `Map`, `Sequence`, `Block`, `Coroutine`, `UnitTest`. When you clone a prototype to define a new type, keep the same convention:
+---
 
-```
-Animal := Object clone
-Dog := Animal clone
-HttpRequest := Object clone
-```
+<!-- Page: docs/Technical Notes/WASM/Browser Target -->
+Source: /docs/Technical%20Notes/WASM/Browser%20Target/
 
-**Methods and variables use camelCase.** The first letter is lowercase; subsequent words are capitalized. Examples: `asString`, `appendSeq`, `removeFirst`, `slotNames`.
+# Browser Target
 
-```
-greetingFor := method(name, "hello, " .. name)
-firstMatch := list select(isActive) first
-```
+Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported functions.
 
-**Constants defined on a proto also use camelCase** — Io does not have a separate SCREAMING_CASE convention. A constant is just a slot whose value you don't intend to change.
+## Building
 
-### Method name prefixes
-
-The standard library uses a small vocabulary of prefixes to convey what a method does without reading its body. Follow these when adding methods to your own protos.
-
-- **`as`** — returns a (possibly modified) copy in a different representation. The receiver is not mutated. Examples: `asString`, `asNumber`, `asUppercase`, `asList`, `asMutable`, `asJson`.
-- **`to`** — converts toward a target, often destructively or with a target argument. Examples: `Sequence asUTF8`, conversions that write into something else.
-- **`set`** — assigns a value and returns self, enabling chaining. Examples: `setName`, `setSize`, `setEncoding`.
-- **`is`** — boolean query. Examples: `isNil`, `isEmpty`, `isKindOf`, `isActivatable`.
-- **`has`** — boolean query about containment or possession. Examples: `hasSlot`, `hasProto`.
-- **`with`** — constructor-style class method that returns a newly-configured clone. Example: `Date withNow`, `Range with(1, 10)`.
-- **`for`** — returns something derived for a given key or context. Example: `slotSummaryFor`.
-
-### In-place vs. copy
-
-When a method has both a copying and a mutating form, the mutating form ends in `InPlace`. The copying form is the plain name.
-
-```
-"abc" asUppercase        // "ABC" — returns a new sequence
-aMutableSeq uppercase     // modifies in place, returns self
+```bash
+make browser        # build browser/io_browser.wasm
+make serve          # serve REPL at http://localhost:8000
+make check-browser  # run headless Playwright tests
 ```
 
-The core `Sequence` proto follows this rigorously: `asUppercase` / `uppercase`, `asLowercase` / `lowercase`, `alignLeft` / `alignLeftInPlace`, etc. Methods that unconditionally mutate the receiver do not need the suffix — e.g. `List append`, `List removeFirst`.
+Requires [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) for cross-compilation and [Node.js](https://nodejs.org/) + Playwright for headless tests.
 
-### Private slots
-
-A slot whose name begins with an underscore (`_`) is a hint that it is internal and should not be relied on from outside. Io does not enforce this; it is a reader-facing convention.
-
-## Indentation and whitespace
-
-**Use tabs for indentation** in both C and Io source files. One tab per level; do not mix tabs and spaces.
-
-**No trailing whitespace** on any line.
-
-**One blank line** between method definitions at the same nesting level. Two blank lines are reserved for separating top-level sections within a file.
-
-**Spaces around binary operators** and after commas:
+## Architecture
 
 ```
-x := a + b * c
-list := list(1, 2, 3)
+┌──────────────────────────────────────────────┐
+│  Browser (JS)                                │
+│                                              │
+│  io.js                                       │
+│  ├── WASI shim (fd_write, clock, etc.)       │
+│  ├── DOM handle table (Map<int, Element>)    │
+│  ├── DOM bridge functions (dom namespace)    │
+│  ├── WASM loader (loadIo / ioEval)           │
+│  └── REPL UI wiring                          │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │  WebAssembly (io_browser.wasm)         │  │
+│  │                                        │  │
+│  │  io_browser.c — init, eval, I/O        │  │
+│  │  io_dom.c    — DOM/Element protos      │  │
+│  │  iovm/*      — full Io VM              │  │
+│  └────────────────────────────────────────┘  │
+└──────────────────────────────────────────────┘
 ```
 
-**No space between a message and its argument list.** `foo(x)`, not `foo (x)`.
+The WASM module is built with `-mexec-model=reactor` (no `main()`). JS calls exported functions:
 
-**Chain message sends with single spaces:**
+| Export | Purpose |
+|--------|---------|
+| `io_init()` | Initialize the Io VM (call once) |
+| `io_get_input_buf()` | Pointer to 64KB input buffer |
+| `io_eval_input()` | Evaluate code written to input buffer |
+| `io_get_output()` | Pointer to output string |
+| `io_get_output_len()` | Length of output |
 
+## WASI Shim
+
+The browser has no filesystem or OS. `io.js` provides a minimal WASI shim:
+
+- **stdout/stderr** — captured to a JS string
+- **clock** — `performance.now()` in nanoseconds
+- **filesystem** — all path operations return `ENOTCAPABLE`
+- **proc_exit** — throws a JS Error
+- **random** — `crypto.getRandomValues()`
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `browser/io_browser.c` | Reactor entry point: init, eval, output capture |
+| `browser/io_dom.c` | DOM and Element proto implementation |
+| `browser/io_dom.h` | Header for DOM protos |
+| `browser/io.js` | WASI shim, DOM bridge, WASM loader, REPL UI |
+| `browser/index.html` | REPL page |
+| `browser/test.html` | Automated test page |
+| `browser/run_tests.mjs` | Headless Playwright test runner |
+
+
+---
+
+<!-- Page: docs/Technical Notes/WASM/DOM Interop -->
+Source: /docs/Technical%20Notes/WASM/DOM%20Interop/
+
+# DOM Interop
+
+Io code running in the browser can query, create, and manipulate HTML elements through the `DOM` object and `Element` instances.
+
+## Quick Start
+
+```io
+// Get the page body
+body := DOM body
+body tagName println   // ==> BODY
+
+// Create and attach an element
+div := DOM createElement("div")
+div setTextContent("Hello from Io!")
+div setStyle("color", "blue")
+div addClassName("greeting")
+body appendChild(div)
+
+// Query existing elements
+el := DOM getElementById("myId")
+el setAttribute("data-count", "42")
+el getAttribute("data-count") println  // ==> 42
+
+// Chaining (setters return self)
+DOM createElement("p") setTextContent("chained") setStyle("font-weight", "bold")
 ```
-people select(isActive) map(name) sort join(", ")
+
+## DOM Object
+
+The `DOM` singleton provides document-level queries and element creation.
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `querySelector(selector)` | Element or nil | First element matching CSS selector |
+| `querySelectorAll(selector)` | List of Elements | All elements matching CSS selector |
+| `getElementById(id)` | Element or nil | Element with given id attribute |
+| `createElement(tagName)` | Element | Create a new detached element |
+| `body` | Element | The document body |
+
+```io
+DOM querySelector("h1") textContent println
+DOM querySelectorAll("li") foreach(el, el textContent println)
+DOM getElementById("app") setInnerHTML("<p>replaced</p>")
 ```
 
-Long chains can break across lines; align the continuation with the receiver or indent one level:
+## Element Object
 
-```
-result := people \
-    select(isActive) \
-    map(name) \
-    sort \
-    join(", ")
-```
+Element wraps a DOM element handle. Methods fall into three categories: content, attributes, and tree manipulation.
 
-## Comments
+### Content
 
-Keep comments minimal. Well-named methods and slot names should carry most of the meaning. Write a comment when the *why* is non-obvious — a constraint, an invariant, or a workaround — not to restate what the code plainly does.
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `tagName` | Sequence | Tag name (e.g. "DIV", "SPAN") |
+| `textContent` | Sequence | Text content of element and descendants |
+| `setTextContent(text)` | self | Set text content |
+| `innerHTML` | Sequence | HTML markup of children |
+| `setInnerHTML(html)` | self | Set inner HTML |
 
-Io's reflection system recognizes two documentation forms that tools can extract:
+### Attributes & Style
 
-**`//doc`** — a single-line doc comment attached to a slot. Placed immediately before the slot definition.
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `getAttribute(name)` | Sequence or nil | Get attribute value |
+| `setAttribute(name, value)` | self | Set attribute |
+| `removeAttribute(name)` | self | Remove attribute |
+| `getStyle(property)` | Sequence | Get inline style property |
+| `setStyle(property, value)` | self | Set inline style property |
+| `addClassName(name)` | self | Add CSS class |
+| `removeClassName(name)` | self | Remove CSS class |
+| `hasClassName(name)` | true/false | Check for CSS class |
 
-```
-//doc List sum Returns the sum of the items.
-sum := method(self reduce(+))
-```
-
-**`/*doc ... */`** — a multi-line doc comment for longer descriptions.
-
-```
-/*doc List join(optionalSeparator)
-Returns a Sequence of the concatenated items with optionalSeparator
-between each item, or simply the concatenation of the items if no
-optionalSeparator is supplied.
-*/
-join := method(sep, ...)
-```
-
-**`//metadoc`** — metadata about a proto itself (one per proto, at the top of the file).
-
-```
-//metadoc List category Core
-//metadoc List description A mutable, ordered collection of values.
+```io
+el := DOM createElement("div")
+el setAttribute("id", "demo")
+el setStyle("background-color", "#eee")
+el addClassName("card")
+el hasClassName("card") println  // ==> true
 ```
 
-Ordinary `//` and `/* */` comments are still available for implementation notes that aren't intended for doc extraction.
+### Tree Manipulation
 
-## File organization
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `appendChild(child)` | self | Append a child element |
+| `remove` | self | Remove element from its parent |
+| `children` | List of Elements | Direct child elements |
 
-Each proto lives in its own file named after the proto: `List.io`, `Sequence.io`, `Map.io`. The file defines and extends the proto using a `do(...)` block:
-
-```
-List do(
-    sum := method(self reduce(+))
-    average := method(self sum / self size)
-    ...
+```io
+list := DOM createElement("ul")
+3 repeat(i,
+    li := DOM createElement("li")
+    li setTextContent("Item " .. (i + 1) asString)
+    list appendChild(li)
 )
+DOM body appendChild(list)
+list children size println  // ==> 3
 ```
 
-Inside the `do` block, order slots roughly from fundamental to derived: state slots first, then core operations, then conveniences built on them. Group related methods together.
+## Architecture
 
-Bootstrap files that must load before other core protos end in `_bootstrap.io` (e.g. `List_bootstrap.io`, `Object_bootstrap.io`). They are listed explicitly at the top of the `IO_FILES` variable in the Makefile — load order is not alphabetical.
+### Handle Table
 
-## Method patterns
-
-### Cloning and initialization
-
-A new instance is always a clone of an existing proto. If initialization is needed, override `init`:
+JS maintains a `Map<int, Element>`. WASM C code only sees integer handles (ints stored as the Element object's data pointer). Handle 0 means null/not found and maps to `nil` in Io.
 
 ```
-Animal := Object clone do(
-    name ::= nil
-    legs ::= 4
-
-    init := method(
-        self sounds := list()
-    )
-)
+Io code           C (WASM)              JS
+─────────        ──────────           ──────
+DOM body    →    dom_getBody()    →   registerHandle(document.body) → 7
+el tagName  →    dom_getTagName(7) →  handles.get(7).tagName → "BODY"
 ```
 
-`::=` declares a slot and generates a matching setter (`setName`, `setLegs`). Use it for public, settable state. Use `:=` when you want the slot without a generated setter.
+### String Passing
 
-### Chaining
+- **C→JS**: `(pointer, length)` pairs. JS reads UTF-8 from WASM linear memory.
+- **JS→C**: JS writes into a C-exported 64KB buffer (`dom_buf`), null-terminates, returns length. C reads the buffer as a C string.
 
-Methods that modify the receiver should return `self` so they can be chained:
+### GC Integration
 
-```
-list append(1) append(2) append(3)
-```
+When the Io garbage collector frees an Element object, the Element's `freeFunc` calls `dom_release(handle)`, which removes the entry from the JS handle map. This prevents the JS-side Map from growing without bound.
 
-Methods that produce a derived value return that value — `asUppercase`, `map`, `select` do not return self.
+## Limitations
 
-### Fluent constructors
-
-When a proto is typically created with several initial settings, provide a `with` class method:
-
-```
-Range := Object clone do(
-    with := method(start, end,
-        r := self clone
-        r start := start
-        r end := end
-        r
-    )
-)
-
-r := Range with(1, 10)
-```
-
-## Error handling
-
-Raise exceptions for exceptional conditions; return `nil` for ordinary "not found" results.
-
-```
-// "not found" — return nil
-list detect(isPrime)        // nil if none
-
-// exceptional — raise
-Exception raise("connection lost: " .. host)
-```
-
-Catch exceptions with `try`:
-
-```
-e := try(riskyOperation)
-if(e, e showStack)
-```
-
-Subclass `Exception` for error categories you want callers to distinguish:
-
-```
-ParseError := Exception clone
-```
-
-## Testing
-
-Tests live alongside the code they exercise, in files named `*Test.io`, and extend `UnitTest`:
-
-```
-ListTest := UnitTest clone do(
-    testAppend := method(
-        l := list(1, 2)
-        l append(3)
-        assertEquals(l, list(1, 2, 3))
-    )
-
-    testRemoveFirst := method(
-        assertEquals(list(1, 2, 3) removeFirst, 1)
-    )
-)
-```
-
-Each test method begins with `test`. Use `assertEquals`, `assertTrue`, `assertRaisesException`, and the other assertions on `UnitTest`.
-
-## Commit messages
-
-Short, imperative first line describing *what changed and why*. Reference the issue or PR number if relevant.
-
-```
-Fix List removeFirst to return nil on empty list (#123)
-```
-
-Longer explanation goes in the body, separated from the subject by a blank line. Keep the subject under ~70 characters.
-
-Prefer small, focused commits over mixed ones. Each commit should leave the tree in a buildable, testable state.
+- **Max 256 results** from `querySelectorAll`, `children` (fixed-size buffer on stack)
+- **Max 64KB** per string transfer (shared buffer size)
+- **No events** — event listeners are deferred to a future phase
+- **No fetch/async** — network requests are deferred to a future phase
+- **Inline styles only** — `getStyle`/`setStyle` operate on `element.style`, not computed styles
 
 
 ---
@@ -3226,226 +3488,3 @@ Io> s exSlice(10)
 Io> s exSlice(2, 10)
 ==> "is is a "
 ```
-
-
----
-
-<!-- Page: docs/WASM -->
-Source: /docs/WASM/
-
-# WASM
-
-Running Io in the browser via WebAssembly.
-
-- Browser Target
-- DOM Interop
-
-
----
-
-<!-- Page: docs/WASM/Browser Target -->
-Source: /docs/WASM/Browser%20Target/
-
-# Browser Target
-
-Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported functions.
-
-## Building
-
-```bash
-make browser        # build browser/io_browser.wasm
-make serve          # serve REPL at http://localhost:8000
-make check-browser  # run headless Playwright tests
-```
-
-Requires [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) for cross-compilation and [Node.js](https://nodejs.org/) + Playwright for headless tests.
-
-## Architecture
-
-```
-┌──────────────────────────────────────────────┐
-│  Browser (JS)                                │
-│                                              │
-│  io.js                                       │
-│  ├── WASI shim (fd_write, clock, etc.)       │
-│  ├── DOM handle table (Map<int, Element>)    │
-│  ├── DOM bridge functions (dom namespace)    │
-│  ├── WASM loader (loadIo / ioEval)           │
-│  └── REPL UI wiring                          │
-│                                              │
-│  ┌────────────────────────────────────────┐  │
-│  │  WebAssembly (io_browser.wasm)         │  │
-│  │                                        │  │
-│  │  io_browser.c — init, eval, I/O        │  │
-│  │  io_dom.c    — DOM/Element protos      │  │
-│  │  iovm/*      — full Io VM              │  │
-│  └────────────────────────────────────────┘  │
-└──────────────────────────────────────────────┘
-```
-
-The WASM module is built with `-mexec-model=reactor` (no `main()`). JS calls exported functions:
-
-| Export | Purpose |
-|--------|---------|
-| `io_init()` | Initialize the Io VM (call once) |
-| `io_get_input_buf()` | Pointer to 64KB input buffer |
-| `io_eval_input()` | Evaluate code written to input buffer |
-| `io_get_output()` | Pointer to output string |
-| `io_get_output_len()` | Length of output |
-
-## WASI Shim
-
-The browser has no filesystem or OS. `io.js` provides a minimal WASI shim:
-
-- **stdout/stderr** — captured to a JS string
-- **clock** — `performance.now()` in nanoseconds
-- **filesystem** — all path operations return `ENOTCAPABLE`
-- **proc_exit** — throws a JS Error
-- **random** — `crypto.getRandomValues()`
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `browser/io_browser.c` | Reactor entry point: init, eval, output capture |
-| `browser/io_dom.c` | DOM and Element proto implementation |
-| `browser/io_dom.h` | Header for DOM protos |
-| `browser/io.js` | WASI shim, DOM bridge, WASM loader, REPL UI |
-| `browser/index.html` | REPL page |
-| `browser/test.html` | Automated test page |
-| `browser/run_tests.mjs` | Headless Playwright test runner |
-
-
----
-
-<!-- Page: docs/WASM/DOM Interop -->
-Source: /docs/WASM/DOM%20Interop/
-
-# DOM Interop
-
-Io code running in the browser can query, create, and manipulate HTML elements through the `DOM` object and `Element` instances.
-
-## Quick Start
-
-```io
-// Get the page body
-body := DOM body
-body tagName println   // ==> BODY
-
-// Create and attach an element
-div := DOM createElement("div")
-div setTextContent("Hello from Io!")
-div setStyle("color", "blue")
-div addClassName("greeting")
-body appendChild(div)
-
-// Query existing elements
-el := DOM getElementById("myId")
-el setAttribute("data-count", "42")
-el getAttribute("data-count") println  // ==> 42
-
-// Chaining (setters return self)
-DOM createElement("p") setTextContent("chained") setStyle("font-weight", "bold")
-```
-
-## DOM Object
-
-The `DOM` singleton provides document-level queries and element creation.
-
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `querySelector(selector)` | Element or nil | First element matching CSS selector |
-| `querySelectorAll(selector)` | List of Elements | All elements matching CSS selector |
-| `getElementById(id)` | Element or nil | Element with given id attribute |
-| `createElement(tagName)` | Element | Create a new detached element |
-| `body` | Element | The document body |
-
-```io
-DOM querySelector("h1") textContent println
-DOM querySelectorAll("li") foreach(el, el textContent println)
-DOM getElementById("app") setInnerHTML("<p>replaced</p>")
-```
-
-## Element Object
-
-Element wraps a DOM element handle. Methods fall into three categories: content, attributes, and tree manipulation.
-
-### Content
-
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `tagName` | Sequence | Tag name (e.g. "DIV", "SPAN") |
-| `textContent` | Sequence | Text content of element and descendants |
-| `setTextContent(text)` | self | Set text content |
-| `innerHTML` | Sequence | HTML markup of children |
-| `setInnerHTML(html)` | self | Set inner HTML |
-
-### Attributes & Style
-
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `getAttribute(name)` | Sequence or nil | Get attribute value |
-| `setAttribute(name, value)` | self | Set attribute |
-| `removeAttribute(name)` | self | Remove attribute |
-| `getStyle(property)` | Sequence | Get inline style property |
-| `setStyle(property, value)` | self | Set inline style property |
-| `addClassName(name)` | self | Add CSS class |
-| `removeClassName(name)` | self | Remove CSS class |
-| `hasClassName(name)` | true/false | Check for CSS class |
-
-```io
-el := DOM createElement("div")
-el setAttribute("id", "demo")
-el setStyle("background-color", "#eee")
-el addClassName("card")
-el hasClassName("card") println  // ==> true
-```
-
-### Tree Manipulation
-
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `appendChild(child)` | self | Append a child element |
-| `remove` | self | Remove element from its parent |
-| `children` | List of Elements | Direct child elements |
-
-```io
-list := DOM createElement("ul")
-3 repeat(i,
-    li := DOM createElement("li")
-    li setTextContent("Item " .. (i + 1) asString)
-    list appendChild(li)
-)
-DOM body appendChild(list)
-list children size println  // ==> 3
-```
-
-## Architecture
-
-### Handle Table
-
-JS maintains a `Map<int, Element>`. WASM C code only sees integer handles (ints stored as the Element object's data pointer). Handle 0 means null/not found and maps to `nil` in Io.
-
-```
-Io code           C (WASM)              JS
-─────────        ──────────           ──────
-DOM body    →    dom_getBody()    →   registerHandle(document.body) → 7
-el tagName  →    dom_getTagName(7) →  handles.get(7).tagName → "BODY"
-```
-
-### String Passing
-
-- **C→JS**: `(pointer, length)` pairs. JS reads UTF-8 from WASM linear memory.
-- **JS→C**: JS writes into a C-exported 64KB buffer (`dom_buf`), null-terminates, returns length. C reads the buffer as a C string.
-
-### GC Integration
-
-When the Io garbage collector frees an Element object, the Element's `freeFunc` calls `dom_release(handle)`, which removes the entry from the JS handle map. This prevents the JS-side Map from growing without bound.
-
-## Limitations
-
-- **Max 256 results** from `querySelectorAll`, `children` (fixed-size buffer on stack)
-- **Max 64KB** per string transfer (shared buffer size)
-- **No events** — event listeners are deferred to a future phase
-- **No fetch/async** — network requests are deferred to a future phase
-- **Inline styles only** — `getStyle`/`setStyle` operate on `element.style`, not computed styles
