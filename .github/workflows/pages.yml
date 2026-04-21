@@ -12,6 +12,7 @@ on:
       - 'docs/**'
       - 'FAQ/**'
       - 'Timeline/**'
+      - 'images/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
