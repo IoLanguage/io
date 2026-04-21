@@ -8,6 +8,11 @@
       "items": [
         "Guide",
         "Tutorial",
+        {
+          "title": "Io Book",
+          "href": "Book/index.html",
+          "subtitle": "The original Io book, converted from the iBooks Author bundle."
+        },
         "Reference",
         "Style Guide",
         "Technical Notes"

@@ -5,6 +5,7 @@
 ## Documentation
 
 - [Documentation](/docs/): Guides, tutorial, language reference, and design notes.
+- [Io Book](/docs/Book/)
 - [Guide](/docs/Guide/): Comprehensive language guide: syntax, messages, objects, control flow, concurrency, and more.
 - [Reference](/docs/Reference/)
 - [Style Guide](/docs/Style%20Guide/): How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.
