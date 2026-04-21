@@ -1,5 +1,5 @@
 
-// metadoc Debugger category Core
+// metadoc Debugger category Debug
 // metadoc Debugger copyright Steve Dekorte 2002
 // metadoc Debugger license BSD revised
 /*metadoc Debugger description

@@ -1,4 +1,7 @@
 System do(
+	//metadoc System category Core
+	//metadoc System description Process-level operations: command-line arguments, environment variables, platform info, and exit.
+
 	args := list()
 	
 	//doc System launchScript Returns the path of the io file run on the command line. Returns nil if no file was run.

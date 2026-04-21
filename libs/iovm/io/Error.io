@@ -1,3 +1,6 @@
+//metadoc Error category Core
+//metadoc Error description Error-handling helpers for returning error values from methods instead of raising exceptions.
+
 Object do(
   //doc Object ifError Does nothing, returns self.
 	ifError := method(self)

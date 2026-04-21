@@ -1,4 +1,7 @@
 Map do(
+	//metadoc Map category Core
+	//metadoc Map description A mutable dictionary mapping Sequence keys to arbitrary values.
+
 	//doc Map with(key1, value1, key2, value2, ...) Returns a new map containing the given keys and values
 	with := method(
 		m := Map clone

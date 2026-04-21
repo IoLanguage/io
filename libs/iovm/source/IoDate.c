@@ -1,5 +1,5 @@
 
-// metadoc Date category Core
+// metadoc Date category Time
 // metadoc Date copyright Steve Dekorte 2002
 // metadoc Date license BSD revised
 /*metadoc Date description A container for a date and time information.*/

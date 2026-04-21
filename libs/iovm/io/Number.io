@@ -1,4 +1,7 @@
 Number do(
+	//metadoc Number category Core
+	//metadoc Number description A double-precision floating-point value. All numeric literals are Numbers.
+
 	//doc Number isInASequenceSet Return true if receiver is in one of the Sequence sequenceSets, otherwise false.
 	isInASequenceSet := method(
 		Sequence sequenceSets foreach(set,

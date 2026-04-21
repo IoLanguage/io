@@ -1,4 +1,7 @@
 Directory do(
+	//metadoc Directory category FileSystem
+	//metadoc Directory description A handle to a directory on disk. Lists contents, creates subdirectories, and walks file trees.
+
 	//doc Directory with(aPath) Returns a new instance with the provided path.
 	with := method(path, self clone setPath(path))
 

@@ -1,0 +1,58 @@
+# Io
+
+> A small, prototype-based programming language — now targeting WASM/WASI.
+
+## Documentation
+
+- [Documentation](/docs/): Guides, tutorial, language reference, and design notes.
+- [Future Work](/docs/Future%20Work/): Design notes and proposals for upcoming changes.
+- [Exceptions](/docs/Future%20Work/Exceptions/): Design notes on the current exception system and proposed improvements.
+- [Guide](/docs/Guide/): Comprehensive language guide: syntax, messages, objects, control flow, concurrency, and more.
+- [Reference](/docs/Reference/)
+- [Block](/docs/Reference/Block/)
+- [Call](/docs/Reference/Call/)
+- [CFunction](/docs/Reference/CFunction/)
+- [Collector](/docs/Reference/Collector/)
+- [Compiler](/docs/Reference/Compiler/)
+- [Continuation](/docs/Reference/Continuation/)
+- [Coroutine](/docs/Reference/Coroutine/)
+- [Date](/docs/Reference/Date/)
+- [Debugger](/docs/Reference/Debugger/)
+- [Directory](/docs/Reference/Directory/)
+- [DirectoryCollector](/docs/Reference/DirectoryCollector/)
+- [Duration](/docs/Reference/Duration/)
+- [Error](/docs/Reference/Error/)
+- [EvalFrame](/docs/Reference/EvalFrame/)
+- [Exception](/docs/Reference/Exception/)
+- [false](/docs/Reference/false/)
+- [File](/docs/Reference/File/)
+- [FileCollector](/docs/Reference/FileCollector/)
+- [FileImporter](/docs/Reference/FileImporter/)
+- [Importer](/docs/Reference/Importer/)
+- [List](/docs/Reference/List/)
+- [Map](/docs/Reference/Map/)
+- [Message](/docs/Reference/Message/)
+- [MutableSequence](/docs/Reference/MutableSequence/)
+- [nil](/docs/Reference/nil/)
+- [Number](/docs/Reference/Number/)
+- [Object](/docs/Reference/Object/)
+- [Path](/docs/Reference/Path/)
+- [Profiler](/docs/Reference/Profiler/)
+- [Sandbox](/docs/Reference/Sandbox/)
+- [Scheduler](/docs/Reference/Scheduler/)
+- [Sequence](/docs/Reference/Sequence/)
+- [State](/docs/Reference/State/)
+- [System](/docs/Reference/System/)
+- [TestRunner](/docs/Reference/TestRunner/)
+- [true](/docs/Reference/true/)
+- [UnitTest](/docs/Reference/UnitTest/)
+- [WeakLink](/docs/Reference/WeakLink/)
+- [Stackless](/docs/Stackless/): Io's iterative evaluator, continuations, and coroutines.
+- [Stackless VM Examples](/docs/Stackless/Examples/)
+- [Stackless Evaluator Report](/docs/Stackless/Report/)
+- [Style Guide](/docs/Style%20Guide/): How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.
+- [Tutorial](/docs/Tutorial/): A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.
+- [WASM](/docs/WASM/): Running Io in the browser via WebAssembly.
+- [Browser Target](/docs/WASM/Browser%20Target/): Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported functions.
+- [DOM Interop](/docs/WASM/DOM%20Interop/): Io code running in the browser can query, create, and manipulate HTML elements through the DOM object and Element instances.
+

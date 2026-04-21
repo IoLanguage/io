@@ -1,0 +1,23 @@
+{
+  "title": "Io",
+  "subtitle": "A small, prototype-based programming language — now targeting WASM/WASI.",
+  "topTitle": "Io",
+  "content": [
+    {
+      "type": "ContentCards",
+      "columns": 2,
+      "items": [
+        {
+          "title": "Documentation",
+          "href": "docs/index.html",
+          "subtitle": "Guides, tutorial, language reference, and design notes."
+        },
+        {
+          "title": "Source on GitHub",
+          "href": "https://github.com/IoLanguage/io",
+          "subtitle": "Io language VM source repository."
+        }
+      ]
+    }
+  ]
+}

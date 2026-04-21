@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>Browser Target – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Browser Target</h1><a class="back-link" href="../index.html">&larr; WASM</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported functions.</p><nav class="toc"><ul><li><a href="#building">Building</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#wasi-shim">WASI Shim</a></li><li><a href="#files">Files</a></li></ul></nav><h2 id="building">Building</h2><div class="section"><div class="section-body"><pre><code>make browser        # build browser/io_browser.wasm
+make serve          # serve REPL at http://localhost:8000
+make check-browser  # run headless Playwright tests</code></pre><p>Requires <a href="https://github.com/WebAssembly/wasi-sdk">wasi-sdk</a> for cross-compilation and <a href="https://nodejs.org/">Node.js</a> + Playwright for headless tests.</p></div></div><h2 id="architecture">Architecture</h2><div class="section"><div class="section-body"><pre><code>┌──────────────────────────────────────────────┐
+│  Browser (JS)                                │
+│                                              │
+│  io.js                                       │
+│  ├── WASI shim (fd_write, clock, etc.)       │
+│  ├── DOM handle table (Map&lt;int, Element&gt;)    │
+│  ├── DOM bridge functions (dom namespace)    │
+│  ├── WASM loader (loadIo / ioEval)           │
+│  └── REPL UI wiring                          │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │  WebAssembly (io_browser.wasm)         │  │
+│  │                                        │  │
+│  │  io_browser.c — init, eval, I/O        │  │
+│  │  io_dom.c    — DOM/Element protos      │  │
+│  │  iovm/*      — full Io VM              │  │
+│  └────────────────────────────────────────┘  │
+└──────────────────────────────────────────────┘</code></pre><p>The WASM module is built with <code>-mexec-model=reactor</code> (no <code>main()</code>). JS calls exported functions:</p><table><thead><tr><th>Export</th><th>Purpose</th></tr></thead><tbody><tr><td><code>io_init()</code></td><td>Initialize the Io VM (call once)</td></tr><tr><td><code>io_get_input_buf()</code></td><td>Pointer to 64KB input buffer</td></tr><tr><td><code>io_eval_input()</code></td><td>Evaluate code written to input buffer</td></tr><tr><td><code>io_get_output()</code></td><td>Pointer to output string</td></tr><tr><td><code>io_get_output_len()</code></td><td>Length of output</td></tr></tbody></table></div></div><h2 id="wasi-shim">WASI Shim</h2><div class="section"><div class="section-body"><p>The browser has no filesystem or OS. <code>io.js</code> provides a minimal WASI shim:</p><ul><li><strong>stdout/stderr</strong> &mdash; captured to a JS string</li><li><strong>clock</strong> &mdash; <code>performance.now()</code> in nanoseconds</li><li><strong>filesystem</strong> &mdash; all path operations return <code>ENOTCAPABLE</code></li><li><strong>proc_exit</strong> &mdash; throws a JS Error</li><li><strong>random</strong> &mdash; <code>crypto.getRandomValues()</code></li></ul></div></div><h2 id="files">Files</h2><div class="section"><div class="section-body"><table><thead><tr><th>File</th><th>Purpose</th></tr></thead><tbody><tr><td><code>browser/io_browser.c</code></td><td>Reactor entry point: init, eval, output capture</td></tr><tr><td><code>browser/io_dom.c</code></td><td>DOM and Element proto implementation</td></tr><tr><td><code>browser/io_dom.h</code></td><td>Header for DOM protos</td></tr><tr><td><code>browser/io.js</code></td><td>WASI shim, DOM bridge, WASM loader, REPL UI</td></tr><tr><td><code>browser/index.html</code></td><td>REPL page</td></tr><tr><td><code>browser/test.html</code></td><td>Automated test page</td></tr><tr><td><code>browser/run_tests.mjs</code></td><td>Headless Playwright test runner</td></tr></tbody></table></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

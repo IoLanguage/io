@@ -434,7 +434,7 @@ nil do(
 Protos Exception do(
 	//metadoc Exception category Core
 	/*metadoc Exception description
-The Exception proto is used for raising exceptions and instances are used to hold rexception related info.
+The Exception proto is used for raising exceptions; instances hold exception-related info.
 
 <p><b>Raise</b><p>
 

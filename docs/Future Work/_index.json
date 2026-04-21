@@ -1,0 +1,11 @@
+{
+  "title": "Future Work",
+  "subtitle": "Design notes and proposals for upcoming changes.",
+  "content": [
+    {
+      "type": "ContentCards",
+      "columns": 2,
+      "items": ["Exceptions"]
+    }
+  ]
+}

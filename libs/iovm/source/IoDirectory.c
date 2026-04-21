@@ -1,5 +1,5 @@
 
-// metadoc Directory category Core
+// metadoc Directory category FileSystem
 // metadoc Directory copyright Steve Dekorte 2002
 // metadoc Directory license BSD revised
 /*metadoc Directory description

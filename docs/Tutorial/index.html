@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../style/style.css">
+  <title>Tutorial – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Tutorial</h1><a class="back-link" href="../index.html">&larr; Documentation</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.</p><nav class="toc"><ul><li><a href="#math">Math</a></li><li><a href="#variables">Variables</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#lists">Lists</a></li><li><a href="#loops">Loops</a></li><li><a href="#strings">Strings</a></li></ul></nav><h2 id="math">Math</h2><div class="section"><div class="section-body"><pre><code>Io&gt; 1+1
+==&gt; 2
+
+Io&gt; 2 sin
+==&gt; 0.909297
+
+Io&gt; 2 sqrt
+==&gt; 1.414214</code></pre></div></div><h2 id="variables">Variables</h2><div class="section"><div class="section-body"><pre><code>Io&gt; a := 1
+==&gt; 1
+
+Io&gt; a
+==&gt; 1
+
+Io&gt; b := 2 * 3
+==&gt; 6
+
+Io&gt; a + b
+==&gt; 7</code></pre></div></div><h2 id="conditions">Conditions</h2><div class="section"><div class="section-body"><pre><code>Io&gt; a := 2
+
+Io&gt; if(a == 1) then(writeln("a is one")) else(writeln("a is not one"))
+a is not one
+
+Io&gt; if(a == 1, writeln("a is one"), writeln("a is not one"))
+a is not one</code></pre></div></div><h2 id="lists">Lists</h2><div class="section"><div class="section-body"><pre><code>Io&gt; d := List clone append(30, 10, 5, 20)
+==&gt; list(30, 10, 5, 20)
+
+Io&gt; d size
+==&gt; 4
+
+Io&gt; d print
+==&gt; list(30, 10, 5, 20)
+
+Io&gt; d := d sort
+==&gt; list(5, 10, 20, 30)
+
+Io&gt; d first
+==&gt; 5
+
+Io&gt; d last
+==&gt; 30
+
+Io&gt; d at(2)
+==&gt; 20
+
+Io&gt; d remove(30)
+==&gt; list(5, 10, 20)
+
+Io&gt; d atPut(1, 123)
+==&gt; list(5, 123, 20)
+
+Io&gt; list(30, 10, 5, 20) select(&gt;10)
+==&gt; list(30, 20)
+
+Io&gt; list(30, 10, 5, 20) detect(&gt;10)
+==&gt; 30
+
+Io&gt; list(30, 10, 5, 20) map(*2)
+==&gt; list(60, 20, 10, 40)
+
+Io&gt; list(30, 10, 5, 20) map(v, v*2)
+==&gt; list(60, 20, 10, 40)</code></pre></div></div><h2 id="loops">Loops</h2><div class="section"><div class="section-body"><pre><code>Io&gt; for(i, 1, 10, write(i, " "))
+1 2 3 4 5 6 7 8 9 10
+
+Io&gt; d foreach(i, v, writeln(i, ": ", v))
+0: 5
+1: 123
+2: 20
+
+Io&gt; list("abc", "def", "ghi") foreach(println)
+abc
+def
+ghi</code></pre></div></div><h2 id="strings">Strings</h2><div class="section"><div class="section-body"><pre><code>Io&gt; a := "foo"
+==&gt; "foo"
+
+Io&gt; b := "bar"
+==&gt; "bar"
+
+Io&gt; c := a .. b
+==&gt; "foobar"
+
+Io&gt; c at(0)
+==&gt; 102
+
+Io&gt; c at(0) asCharacter
+==&gt; "f"
+
+Io&gt; s := "this is a test"
+==&gt; "this is a test"
+
+Io&gt; words := s split(" ", "\t") print
+"this", "is", "a", "test"
+
+Io&gt; s findSeq("is")
+==&gt; 2
+
+Io&gt; s findSeq("test")
+==&gt; 10
+
+Io&gt; s exSlice(10)
+==&gt; "test"
+
+Io&gt; s exSlice(2, 10)
+==&gt; "is is a "</code></pre></div></div></div>
+  <script src="../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

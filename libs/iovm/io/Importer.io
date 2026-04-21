@@ -1,5 +1,9 @@
 Importer := Object clone do(
+	//metadoc Importer category Core
 	//metadoc Importer description A simple search path based auto-importer.
+
+	//metadoc FileImporter category Core
+	//metadoc FileImporter description An Importer for local source files.
 
 	//doc Importer paths List of paths the proto importer will check while searching for protos to load.
 	paths := method(FileImporter directories)

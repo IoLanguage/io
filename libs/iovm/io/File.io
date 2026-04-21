@@ -1,4 +1,7 @@
 File do(
+	//metadoc File category FileSystem
+	//metadoc File description A handle to a file on disk. Supports reading, writing, seeking, and metadata queries.
+
 	//doc File with(aPath) Returns a new instance with the provided path.
 	with := method(path, self clone setPath(path))
 

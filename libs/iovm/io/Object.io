@@ -1,4 +1,5 @@
 /*
+//metadoc nil category Core
 //metadoc nil description nil is a singleton object that is used as a placeholder and to mean false in Io.
 
 nil do(
@@ -37,6 +38,9 @@ nil do(
 // (a == 1) ifTrue(b) ifFalse(c)
 
 true do(
+	//metadoc true category Core
+	//metadoc true description The true singleton — Io's representation of boolean truth.
+
 	//doc true then Evaluates the argument and returns nil.
 	then    := Object getSlot("evalArgAndReturnNil")
 
@@ -74,6 +78,9 @@ true do(
 )
 
 false do(
+  //metadoc false category Core
+  //metadoc false description The false singleton — Io's representation of boolean falsity.
+
   //doc false then Returns false.
 	then    := false
 	//doc false ifTrue Returns false.
@@ -185,6 +192,9 @@ Return appendProto(Normal) do(
 )
 
 Object do(
+	//metadoc Object category Core
+	//metadoc Object description The root proto. All other protos clone from Object; it provides core slot management, message dispatch, introspection, and control flow primitives.
+
 	//doc Object not Returns nil.
 	not := nil
 	//doc Object isNil Returns false.

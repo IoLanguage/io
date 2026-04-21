@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>Exceptions – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>Exceptions</h1><a class="back-link" href="../index.html">&larr; Future Work</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Design notes on the current exception system and proposed improvements.</p><h2 id="current-implementation">Current Implementation</h2><div class="section"><div class="section-body"><h3 id="trycatch-non-resumable">try/catch (non-resumable)</h3><p>Standard exception handling. <code>try(code)</code> runs code in a child coroutine. If an exception is raised, it's captured on the coroutine and returned. <code>catch</code> filters by exception type. <code>pass</code> re-raises.</p><pre><code>e := try(Exception raise("boom"))
+e catch(Exception, writeln(e error))</code></pre><h3 id="signalwithhandler-resumable">signal/withHandler (resumable)</h3><p>Added in the <code>stackless</code> branch. <code>withHandler</code> installs a handler on the coroutine's handler stack, evaluates the body, then removes the handler. <code>signal</code> walks the handler stack to find a matching handler and calls it as a subroutine &mdash; the signaler's frames remain on the stack.</p><pre><code>result := withHandler(Exception, block(exc, resume,
+    "default value"
+),
+    Exception signal("something went wrong")
+)
+// result is "default value"</code></pre><p>The handler runs as a normal block activation with its own frame. Whatever the handler returns becomes the return value of <code>signal()</code> at the call site. No coroutine switch, no frame manipulation, no <code>callcc</code>.</p><p><code>_Resumption</code> is a placeholder object whose <code>invoke(v)</code> returns <code>v</code>. It exists for API consistency but is functionally the identity.</p></div></div><h2 id="comparison-with-other-languages">Comparison with Other Languages</h2><div class="section"><div class="section-body"><h3 id="common-lisp-condition-system">Common Lisp Condition System</h3><p>CL separates three concerns:</p><ol><li><strong>Signaling</strong> &mdash; low-level code detects a problem and signals a condition</li><li><strong>Handling</strong> &mdash; high-level code decides on a recovery policy</li><li><strong>Restarting</strong> &mdash; low-level code offers named recovery strategies</li></ol><pre><code>;; Low-level: offers restarts, doesn't choose
+(defun parse-entry (line)
+  (restart-case (actually-parse line)
+    (skip-entry () nil)
+    (use-value (v) v)))
+
+;; High-level: chooses policy, doesn't know recovery details
+(handler-bind ((malformed-entry
+                (lambda (c) (invoke-restart 'skip-entry))))
+  (parse-log-file stream))</code></pre><p>Key features Io lacks:</p><ul><li><strong>Restarts</strong>: named recovery points established by the signaler. The handler picks one without knowing recovery details. This decouples policy from mechanism.</li><li><strong>Decline</strong>: a <code>handler-bind</code> handler can return normally without invoking a restart, and the search continues to the next handler. In Io, the handler's return value is always used.</li><li><strong>Interactive debugging</strong>: unhandled conditions present available restarts to the developer in the debugger. SLIME's debugger lets you inspect the live stack, fix data, and resume &mdash; the program continues as if the error never happened.</li></ul><h3 id="smalltalk-ondo">Smalltalk (on:do:)</h3><p>Handler receives the exception object with a rich protocol:</p><ul><li><code>ex resume: value</code> &mdash; resume at signal site with value (non-local return from handler)</li><li><code>ex return: value</code> &mdash; return from the protected block</li><li><code>ex retry</code> &mdash; re-run the protected block</li><li><code>ex pass</code> &mdash; delegate to outer handler</li><li><code>ex outer</code> &mdash; invoke outer handler, then resume</li></ul><p>More expressive than Io's current system but lacks CL's restart separation.</p></div></div><h2 id="possible-directions">Possible Directions</h2><div class="section"><div class="section-body"><h3 id="1-add-restarts-cl-style">1. Add Restarts (CL-style)</h3><p>The most impactful addition. Restarts let the signaler offer recovery strategies without choosing one, and the handler choose a strategy without knowing recovery details.</p><p>Possible Io API:</p><pre><code>// Low-level code establishes restarts
+parseEntry := method(line,
+    withRestarts(
+        list(
+            Restart clone setName("skipEntry") setAction(block(nil)),
+            Restart clone setName("useValue") setAction(block(v, v))
+        ),
+        actuallyParse(line)
+    )
+)
+
+// High-level code picks a policy
+withHandler(MalformedEntry, block(exc, resume,
+    invokeRestart("skipEntry")
+),
+    parseLogFile(stream)
+)</code></pre><p>Implementation: a restart registry (List) on the Coroutine, similar to <code>handlerStack</code>. <code>withRestarts</code> pushes entries, <code>invokeRestart</code> walks the registry. Pure Io-level code, no VM changes needed.</p><h3 id="2-handler-decline">2. Handler Decline</h3><p>Allow a handler to decline (pass to next handler) instead of always producing a value. Could use a sentinel:</p><pre><code>withHandler(Exception, block(exc, resume,
+    if(exc error containsSeq("fatal"),
+        decline  // search continues to next handler
+    ,
+        "recovered"
+    )
+),
+    body
+)</code></pre><h3 id="3-richer-exception-protocol-smalltalk-style">3. Richer Exception Protocol (Smalltalk-style)</h3><p>Add methods to the exception object for <code>retry</code>, <code>return(value)</code>, <code>outer</code>. These would use the eval loop's existing stop-status mechanism or handler stack walking.</p><h3 id="4-interactive-restart-selection-in-repl">4. Interactive Restart Selection in REPL</h3><p>When an unhandled signal reaches the top level with available restarts, present them to the user:</p><pre><code>Error: Malformed entry at line 42
+Available restarts:
+  0: [skipEntry] Skip this entry
+  1: [useValue]  Supply a replacement value
+  2: [abort]     Abort
+Pick a restart:</code></pre><p>This requires restarts (direction 1) and REPL integration.</p><h3 id="recommendation">Recommendation</h3><p>Start with <strong>restarts</strong> (direction 1). They provide the biggest leverage &mdash; decoupling error policy from recovery mechanism &mdash; and map naturally to Io's prototype model. A Restart is just an Object with <code>name</code> and <code>action</code> slots. The handler/restart registries are Lists on the Coroutine. No VM changes, no new primitives, just Io-level code building on <code>withHandler</code>.</p><p>Decline (direction 2) is a small addition on top. Interactive selection (direction 4) is the long-term payoff but requires restarts first.</p></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

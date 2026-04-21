@@ -127,7 +127,7 @@ IO_METHOD(IoCFunction, equals) {
 }
 
 IO_METHOD(IoCFunction, profilerTime) {
-    /*doc IoCFunction profilerTime
+    /*doc CFunction profilerTime
     Returns clock() time spent in compiler in seconds.
     */
 
@@ -146,7 +146,7 @@ IoObject *IoCFunction_activateWithProfiler(IoCFunction *self, IoObject *target,
 }
 
 IO_METHOD(IoCFunction, setProfilerOn) {
-    /*doc IoCFunction setProfilerOn(aBool)
+    /*doc CFunction setProfilerOn(aBool)
     If aBool is true, the global block profiler is enabled, if false it is
     disabled. Returns self.
     */

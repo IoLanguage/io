@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Style Guide – Io</title>
+<link rel="stylesheet" href="../../style/style.css">
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Style Guide</h1><a class="back-link" href="../index.html">&larr; Documentation</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">How to write idiomatic Io &mdash; naming, formatting, comments, and the patterns used throughout the standard library.</p><nav class="toc"><ul><li><a href="#naming">Naming</a></li><li><a href="#indentation-and-whitespace">Indentation and whitespace</a></li><li><a href="#comments">Comments</a></li><li><a href="#file-organization">File organization</a></li><li><a href="#method-patterns">Method patterns</a></li><li><a href="#error-handling">Error handling</a></li><li><a href="#testing">Testing</a></li><li><a href="#commit-messages">Commit messages</a></li></ul></nav><h2 id="naming">Naming</h2><div class="section"><div class="section-body"><p>Io distinguishes <em>objects</em> (prototypes) from <em>slots on objects</em> (methods and values) by case. The rule is simple and never varies.</p><p><strong>Prototypes use PascalCase.</strong> The first letter is capitalized and each subsequent word is capitalized. Examples from the core library: <code>Object</code>, <code>List</code>, <code>Map</code>, <code>Sequence</code>, <code>Block</code>, <code>Coroutine</code>, <code>UnitTest</code>. When you clone a prototype to define a new type, keep the same convention:</p><pre><code>Animal := Object clone
+Dog := Animal clone
+HttpRequest := Object clone</code></pre><p><strong>Methods and variables use camelCase.</strong> The first letter is lowercase; subsequent words are capitalized. Examples: <code>asString</code>, <code>appendSeq</code>, <code>removeFirst</code>, <code>slotNames</code>.</p><pre><code>greetingFor := method(name, "hello, " .. name)
+firstMatch := list select(isActive) first</code></pre><p><strong>Constants defined on a proto also use camelCase</strong> &mdash; Io does not have a separate SCREAMING_CASE convention. A constant is just a slot whose value you don't intend to change.</p><h3 id="method-name-prefixes">Method name prefixes</h3><p>The standard library uses a small vocabulary of prefixes to convey what a method does without reading its body. Follow these when adding methods to your own protos.</p><ul><li><strong><code>as</code></strong> &mdash; returns a (possibly modified) copy in a different representation. The receiver is not mutated. Examples: <code>asString</code>, <code>asNumber</code>, <code>asUppercase</code>, <code>asList</code>, <code>asMutable</code>, <code>asJson</code>.</li><li><strong><code>to</code></strong> &mdash; converts toward a target, often destructively or with a target argument. Examples: <code>Sequence asUTF8</code>, conversions that write into something else.</li><li><strong><code>set</code></strong> &mdash; assigns a value and returns self, enabling chaining. Examples: <code>setName</code>, <code>setSize</code>, <code>setEncoding</code>.</li><li><strong><code>is</code></strong> &mdash; boolean query. Examples: <code>isNil</code>, <code>isEmpty</code>, <code>isKindOf</code>, <code>isActivatable</code>.</li><li><strong><code>has</code></strong> &mdash; boolean query about containment or possession. Examples: <code>hasSlot</code>, <code>hasProto</code>.</li><li><strong><code>with</code></strong> &mdash; constructor-style class method that returns a newly-configured clone. Example: <code>Date withNow</code>, <code>Range with(1, 10)</code>.</li><li><strong><code>for</code></strong> &mdash; returns something derived for a given key or context. Example: <code>slotSummaryFor</code>.</li></ul><h3 id="in-place-vs-copy">In-place vs. copy</h3><p>When a method has both a copying and a mutating form, the mutating form ends in <code>InPlace</code>. The copying form is the plain name.</p><pre><code>"abc" asUppercase        // "ABC" — returns a new sequence
+aMutableSeq uppercase     // modifies in place, returns self</code></pre><p>The core <code>Sequence</code> proto follows this rigorously: <code>asUppercase</code> / <code>uppercase</code>, <code>asLowercase</code> / <code>lowercase</code>, <code>alignLeft</code> / <code>alignLeftInPlace</code>, etc. Methods that unconditionally mutate the receiver do not need the suffix &mdash; e.g. <code>List append</code>, <code>List removeFirst</code>.</p><h3 id="private-slots">Private slots</h3><p>A slot whose name begins with an underscore (<code>_</code>) is a hint that it is internal and should not be relied on from outside. Io does not enforce this; it is a reader-facing convention.</p></div></div><h2 id="indentation-and-whitespace">Indentation and whitespace</h2><div class="section"><div class="section-body"><p><strong>Use tabs for indentation</strong> in both C and Io source files. One tab per level; do not mix tabs and spaces.</p><p><strong>No trailing whitespace</strong> on any line.</p><p><strong>One blank line</strong> between method definitions at the same nesting level. Two blank lines are reserved for separating top-level sections within a file.</p><p><strong>Spaces around binary operators</strong> and after commas:</p><pre><code>x := a + b * c
+list := list(1, 2, 3)</code></pre><p><strong>No space between a message and its argument list.</strong> <code>foo(x)</code>, not <code>foo (x)</code>.</p><p><strong>Chain message sends with single spaces:</strong></p><pre><code>people select(isActive) map(name) sort join(", ")</code></pre><p>Long chains can break across lines; align the continuation with the receiver or indent one level:</p><pre><code>result := people \
+    select(isActive) \
+    map(name) \
+    sort \
+    join(", ")</code></pre></div></div><h2 id="comments">Comments</h2><div class="section"><div class="section-body"><p>Keep comments minimal. Well-named methods and slot names should carry most of the meaning. Write a comment when the <em>why</em> is non-obvious &mdash; a constraint, an invariant, or a workaround &mdash; not to restate what the code plainly does.</p><p>Io's reflection system recognizes two documentation forms that tools can extract:</p><p><strong><code>//doc</code></strong> &mdash; a single-line doc comment attached to a slot. Placed immediately before the slot definition.</p><pre><code>//doc List sum Returns the sum of the items.
+sum := method(self reduce(+))</code></pre><p><strong><code>/<em>doc ... </em>/</code></strong> &mdash; a multi-line doc comment for longer descriptions.</p><pre><code>/*doc List join(optionalSeparator)
+Returns a Sequence of the concatenated items with optionalSeparator
+between each item, or simply the concatenation of the items if no
+optionalSeparator is supplied.
+*/
+join := method(sep, ...)</code></pre><p><strong><code>//metadoc</code></strong> &mdash; metadata about a proto itself (one per proto, at the top of the file).</p><pre><code>//metadoc List category Core
+//metadoc List description A mutable, ordered collection of values.</code></pre><p>Ordinary <code>//</code> and <code>/<em> </em>/</code> comments are still available for implementation notes that aren't intended for doc extraction.</p></div></div><h2 id="file-organization">File organization</h2><div class="section"><div class="section-body"><p>Each proto lives in its own file named after the proto: <code>List.io</code>, <code>Sequence.io</code>, <code>Map.io</code>. The file defines and extends the proto using a <code>do(...)</code> block:</p><pre><code>List do(
+    sum := method(self reduce(+))
+    average := method(self sum / self size)
+    ...
+)</code></pre><p>Inside the <code>do</code> block, order slots roughly from fundamental to derived: state slots first, then core operations, then conveniences built on them. Group related methods together.</p><p>Bootstrap files that must load before other core protos end in <code>_bootstrap.io</code> (e.g. <code>List_bootstrap.io</code>, <code>Object_bootstrap.io</code>). They are listed explicitly at the top of the <code>IO_FILES</code> variable in the Makefile &mdash; load order is not alphabetical.</p></div></div><h2 id="method-patterns">Method patterns</h2><div class="section"><div class="section-body"><h3 id="cloning-and-initialization">Cloning and initialization</h3><p>A new instance is always a clone of an existing proto. If initialization is needed, override <code>init</code>:</p><pre><code>Animal := Object clone do(
+    name ::= nil
+    legs ::= 4
+
+    init := method(
+        self sounds := list()
+    )
+)</code></pre><p><code>::=</code> declares a slot and generates a matching setter (<code>setName</code>, <code>setLegs</code>). Use it for public, settable state. Use <code>:=</code> when you want the slot without a generated setter.</p><h3 id="chaining">Chaining</h3><p>Methods that modify the receiver should return <code>self</code> so they can be chained:</p><pre><code>list append(1) append(2) append(3)</code></pre><p>Methods that produce a derived value return that value &mdash; <code>asUppercase</code>, <code>map</code>, <code>select</code> do not return self.</p><h3 id="fluent-constructors">Fluent constructors</h3><p>When a proto is typically created with several initial settings, provide a <code>with</code> class method:</p><pre><code>Range := Object clone do(
+    with := method(start, end,
+        r := self clone
+        r start := start
+        r end := end
+        r
+    )
+)
+
+r := Range with(1, 10)</code></pre></div></div><h2 id="error-handling">Error handling</h2><div class="section"><div class="section-body"><p>Raise exceptions for exceptional conditions; return <code>nil</code> for ordinary "not found" results.</p><pre><code>// "not found" — return nil
+list detect(isPrime)        // nil if none
+
+// exceptional — raise
+Exception raise("connection lost: " .. host)</code></pre><p>Catch exceptions with <code>try</code>:</p><pre><code>e := try(riskyOperation)
+if(e, e showStack)</code></pre><p>Subclass <code>Exception</code> for error categories you want callers to distinguish:</p><pre><code>ParseError := Exception clone</code></pre></div></div><h2 id="testing">Testing</h2><div class="section"><div class="section-body"><p>Tests live alongside the code they exercise, in files named <code>*Test.io</code>, and extend <code>UnitTest</code>:</p><pre><code>ListTest := UnitTest clone do(
+    testAppend := method(
+        l := list(1, 2)
+        l append(3)
+        assertEquals(l, list(1, 2, 3))
+    )
+
+    testRemoveFirst := method(
+        assertEquals(list(1, 2, 3) removeFirst, 1)
+    )
+)</code></pre><p>Each test method begins with <code>test</code>. Use <code>assertEquals</code>, <code>assertTrue</code>, <code>assertRaisesException</code>, and the other assertions on <code>UnitTest</code>.</p></div></div><h2 id="commit-messages">Commit messages</h2><div class="section"><div class="section-body"><p>Short, imperative first line describing <em>what changed and why</em>. Reference the issue or PR number if relevant.</p><pre><code>Fix List removeFirst to return nil on empty list (#123)</code></pre><p>Longer explanation goes in the body, separated from the subject by a blank line. Keep the subject under ~70 characters.</p><p>Prefer small, focused commits over mixed ones. Each commit should leave the tree in a buildable, testable state.</p></div></div></div>
+<script src="../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

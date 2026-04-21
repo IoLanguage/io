@@ -1,5 +1,5 @@
 
-// metadoc Profiler category Core
+// metadoc Profiler category Debug
 // metadoc Profiler copyright Steve Dekorte 2002
 // metadoc Profiler license BSD revised
 /*metadoc Profiler description

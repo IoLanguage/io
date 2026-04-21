@@ -16,6 +16,7 @@ Sequence stringByExpandingTilde := method(
 
 Path := Object clone do(
 	//metadoc Path category FileSystem
+	//metadoc Path description Path manipulation: joining, splitting, absolute/relative conversion, and tilde expansion.
 
 	//doc Path hasDriveLetters returns true if the platform requires DOS C: style drive letters.
 	hasDriveLetters := System platform containsAnyCaseSeq("Windows") or System platform containsAnyCaseSeq("Cygwin") or System platform containsAnyCaseSeq("mingw")

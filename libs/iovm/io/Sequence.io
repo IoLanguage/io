@@ -30,6 +30,9 @@ Lobby Protos Core do(
 )
 
 Sequence do(
+	//metadoc Sequence category Core
+	//metadoc Sequence description An ordered, homogeneous collection of bytes or numbers. Strings are Sequences with a character encoding.
+
 	validEncodings := "ascii utf8 ucs2 ucs4 number" split
 	validItemTypes := "uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64" split
 	setSlot("..", method(arg, self asString cloneAppendSeq(arg asString)))

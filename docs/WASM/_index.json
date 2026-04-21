@@ -1,0 +1,11 @@
+{
+  "title": "WASM",
+  "subtitle": "Running Io in the browser via WebAssembly.",
+  "content": [
+    {
+      "type": "ContentCards",
+      "columns": 2,
+      "items": ["Browser Target", "DOM Interop"]
+    }
+  ]
+}

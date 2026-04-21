@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../style/style.css">
+  <title>DOM Interop – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>DOM Interop</h1><a class="back-link" href="../index.html">&larr; WASM</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Io code running in the browser can query, create, and manipulate HTML elements through the <code>DOM</code> object and <code>Element</code> instances.</p><nav class="toc"><ul><li><a href="#quick-start">Quick Start</a></li><li><a href="#dom-object">DOM Object</a></li><li><a href="#element-object">Element Object</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#limitations">Limitations</a></li></ul></nav><h2 id="quick-start">Quick Start</h2><div class="section"><div class="section-body"><pre><code>// Get the page body
+body := DOM body
+body tagName println   // ==&gt; BODY
+
+// Create and attach an element
+div := DOM createElement("div")
+div setTextContent("Hello from Io!")
+div setStyle("color", "blue")
+div addClassName("greeting")
+body appendChild(div)
+
+// Query existing elements
+el := DOM getElementById("myId")
+el setAttribute("data-count", "42")
+el getAttribute("data-count") println  // ==&gt; 42
+
+// Chaining (setters return self)
+DOM createElement("p") setTextContent("chained") setStyle("font-weight", "bold")</code></pre></div></div><h2 id="dom-object">DOM Object</h2><div class="section"><div class="section-body"><p>The <code>DOM</code> singleton provides document-level queries and element creation.</p><table><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>querySelector(selector)</code></td><td>Element or nil</td><td>First element matching CSS selector</td></tr><tr><td><code>querySelectorAll(selector)</code></td><td>List of Elements</td><td>All elements matching CSS selector</td></tr><tr><td><code>getElementById(id)</code></td><td>Element or nil</td><td>Element with given id attribute</td></tr><tr><td><code>createElement(tagName)</code></td><td>Element</td><td>Create a new detached element</td></tr><tr><td><code>body</code></td><td>Element</td><td>The document body</td></tr></tbody></table><pre><code>DOM querySelector("h1") textContent println
+DOM querySelectorAll("li") foreach(el, el textContent println)
+DOM getElementById("app") setInnerHTML("&lt;p&gt;replaced&lt;/p&gt;")</code></pre></div></div><h2 id="element-object">Element Object</h2><div class="section"><div class="section-body"><p>Element wraps a DOM element handle. Methods fall into three categories: content, attributes, and tree manipulation.</p><h3 id="content">Content</h3><table><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>tagName</code></td><td>Sequence</td><td>Tag name (e.g. "DIV", "SPAN")</td></tr><tr><td><code>textContent</code></td><td>Sequence</td><td>Text content of element and descendants</td></tr><tr><td><code>setTextContent(text)</code></td><td>self</td><td>Set text content</td></tr><tr><td><code>innerHTML</code></td><td>Sequence</td><td>HTML markup of children</td></tr><tr><td><code>setInnerHTML(html)</code></td><td>self</td><td>Set inner HTML</td></tr></tbody></table><h3 id="attributes-style">Attributes &amp; Style</h3><table><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>getAttribute(name)</code></td><td>Sequence or nil</td><td>Get attribute value</td></tr><tr><td><code>setAttribute(name, value)</code></td><td>self</td><td>Set attribute</td></tr><tr><td><code>removeAttribute(name)</code></td><td>self</td><td>Remove attribute</td></tr><tr><td><code>getStyle(property)</code></td><td>Sequence</td><td>Get inline style property</td></tr><tr><td><code>setStyle(property, value)</code></td><td>self</td><td>Set inline style property</td></tr><tr><td><code>addClassName(name)</code></td><td>self</td><td>Add CSS class</td></tr><tr><td><code>removeClassName(name)</code></td><td>self</td><td>Remove CSS class</td></tr><tr><td><code>hasClassName(name)</code></td><td>true/false</td><td>Check for CSS class</td></tr></tbody></table><pre><code>el := DOM createElement("div")
+el setAttribute("id", "demo")
+el setStyle("background-color", "#eee")
+el addClassName("card")
+el hasClassName("card") println  // ==&gt; true</code></pre><h3 id="tree-manipulation">Tree Manipulation</h3><table><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>appendChild(child)</code></td><td>self</td><td>Append a child element</td></tr><tr><td><code>remove</code></td><td>self</td><td>Remove element from its parent</td></tr><tr><td><code>children</code></td><td>List of Elements</td><td>Direct child elements</td></tr></tbody></table><pre><code>list := DOM createElement("ul")
+3 repeat(i,
+    li := DOM createElement("li")
+    li setTextContent("Item " .. (i + 1) asString)
+    list appendChild(li)
+)
+DOM body appendChild(list)
+list children size println  // ==&gt; 3</code></pre></div></div><h2 id="architecture">Architecture</h2><div class="section"><div class="section-body"><h3 id="handle-table">Handle Table</h3><p>JS maintains a <code>Map<int, Element></code>. WASM C code only sees integer handles (ints stored as the Element object's data pointer). Handle 0 means null/not found and maps to <code>nil</code> in Io.</p><pre><code>Io code           C (WASM)              JS
+─────────        ──────────           ──────
+DOM body    →    dom_getBody()    →   registerHandle(document.body) → 7
+el tagName  →    dom_getTagName(7) →  handles.get(7).tagName → "BODY"</code></pre><h3 id="string-passing">String Passing</h3><ul><li><strong>C→JS</strong>: <code>(pointer, length)</code> pairs. JS reads UTF-8 from WASM linear memory.</li><li><strong>JS→C</strong>: JS writes into a C-exported 64KB buffer (<code>dom_buf</code>), null-terminates, returns length. C reads the buffer as a C string.</li></ul><h3 id="gc-integration">GC Integration</h3><p>When the Io garbage collector frees an Element object, the Element's <code>freeFunc</code> calls <code>dom_release(handle)</code>, which removes the entry from the JS handle map. This prevents the JS-side Map from growing without bound.</p></div></div><h2 id="limitations">Limitations</h2><div class="section"><div class="section-body"><ul><li><strong>Max 256 results</strong> from <code>querySelectorAll</code>, <code>children</code> (fixed-size buffer on stack)</li><li><strong>Max 64KB</strong> per string transfer (shared buffer size)</li><li><strong>No events</strong> &mdash; event listeners are deferred to a future phase</li><li><strong>No fetch/async</strong> &mdash; network requests are deferred to a future phase</li><li><strong>Inline styles only</strong> &mdash; <code>getStyle</code>/<code>setStyle</code> operate on <code>element.style</code>, not computed styles</li></ul></div></div></div>
+  <script src="../../../style/layout/layout.js" type="module"></script>
+</body>
+</html>

@@ -1,6 +1,11 @@
 
 // metadoc Continuation copyright Steve Dekorte 2002, 2025
 // metadoc Continuation license BSD revised
+// metadoc Continuation category Core
+/*metadoc Continuation description
+A first-class continuation captured by `callcc`. Represents a resumable
+snapshot of execution state; invoking it re-enters the captured context.
+*/
 
 #ifdef IO_CALLCC
 

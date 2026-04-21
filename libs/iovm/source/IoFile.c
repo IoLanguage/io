@@ -1,7 +1,7 @@
 
 // metadoc File copyright Steve Dekorte 2002
 // metadoc File license BSD revised
-// metadoc File category Core
+// metadoc File category FileSystem
 /*metadoc File description
 Encapsulates file i/o. Here's an example of opening a file,
 and reversing its lines:

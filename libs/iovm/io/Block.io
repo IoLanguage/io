@@ -1,4 +1,6 @@
 getSlot("Block") do(
+	//metadoc Block category Core
+	//metadoc Block description An anonymous function (method or block) that captures messages and arguments. Activated by sending it a message.
 
 	//doc Block asSimpleString Returns a short description of the receiver.
 	asSimpleString := method(

@@ -1,4 +1,5 @@
 Debugger do(
+	//metadoc Debugger category Debug
 	/*doc Debugger description
 	To start debugging a coroutine, call
 	<code>

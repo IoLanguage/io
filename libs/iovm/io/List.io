@@ -1,4 +1,7 @@
 List do(
+    //metadoc List category Core
+    //metadoc List description A mutable, ordered collection of values indexed by integer position.
+
     //doc List sum Returns the sum of the items.
     sum := method(self reduce(+))
 

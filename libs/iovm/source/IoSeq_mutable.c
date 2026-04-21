@@ -12,6 +12,12 @@ character encoding
 */
 // metadoc Sequence category Core
 
+// metadoc MutableSequence category Core
+/*metadoc MutableSequence description
+A Sequence whose contents can be modified in place. MutableSequence is the
+receiver for the mutating methods of Sequence (append, insert, remove, etc.).
+*/
+
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoCFunction.h"

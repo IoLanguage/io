@@ -1,3 +1,6 @@
+//metadoc Profiler category Debug
+//metadoc Profiler description A sampling profiler for timing message execution.
+
 Block printProfile := method(
 	m := getSlot("self") message
 	writeln("  ", getSlot("self") profilerTime asString(0,6), "s in Block (", getSlot("self") argumentNames join(","), ") ", m label, " ", m lineNumber)

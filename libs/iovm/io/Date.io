@@ -1,5 +1,8 @@
 Date do(
-	/*doc Date today 
+	//metadoc Date category Time
+	//metadoc Date description An absolute point in time, represented as seconds since the epoch.
+
+	/*doc Date today
 	Set the receiver to the current date, no time information
 	is included. See `now' for the current date and time.
 	*/
