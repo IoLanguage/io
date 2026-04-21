@@ -53,7 +53,7 @@ Guides, tutorial, language reference, and design notes.
 
 - Guide
 - Tutorial
-- [Io Book](Book/index.html) — The original Io book, converted from the iBooks Author bundle.
+- [Book](Book/index.html) — The original Io book, converted from the iBooks Author bundle.
 - Reference
 - Style Guide
 - Technical Notes
@@ -64,7 +64,7 @@ Guides, tutorial, language reference, and design notes.
 <!-- Page: docs/Book -->
 Source: /docs/Book/
 
-# Io Book
+# Book
 
 The original Io book, converted from the iBooks Author bundle.
 

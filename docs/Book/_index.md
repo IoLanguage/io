@@ -1,4 +1,4 @@
-# Io Book
+# Book
 
 The original Io book, converted from the iBooks Author bundle.
 
