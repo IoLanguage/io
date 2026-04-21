@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../style/style.css">
+  <link rel="stylesheet" href="../../../colvmn/style.css">
   <title>Syntax – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Io's minimal grammar: expressions, messages, and operators.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><div class="hero" style="background-image: url('../images/Syntax.png')"><h1 class="hero-title">Syntax</h1></div><p class="intro">Io's minimal grammar: expressions, messages, and operators.</p><nav class="toc"><ul><li><a href="#expressions">Expressions</a></li><li><a href="#messages">Messages</a></li><li><a href="#operators">Operators</a></li><li><a href="#assignment">Assignment</a></li><li><a href="#numbers">Numbers</a></li><li><a href="#strings">Strings</a></li><li><a href="#comments">Comments</a></li></ul></nav><h2 id="expressions">Expressions</h2><div class="section"><div class="section-body"><p>Io has no keywords or statements. Everything is an expression composed entirely of messages, each of which is a runtime accessible object. The informal BNF description:</p><pre><code>exp        ::= { message | terminator }
@@ -36,6 +37,6 @@ This is only a test."""</code></pre></div></div><h2 id="comments">Comments</h2><
 a := 1
 b := 2
 */</code></pre><p>The "#" style is useful for unix scripts:</p><pre><code>#!/usr/local/bin/io</code></pre><p>That's it! You now know everything there is to know about Io's syntax. Control flow, objects, methods, exceptions are expressed with the syntax and semantics described above.</p></div></div></div>
-  <script src="../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

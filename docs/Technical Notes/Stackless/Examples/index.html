@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../../style/style.css">
+  <link rel="stylesheet" href="../../../../colvmn/style.css">
   <title>Stackless VM Examples – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Patterns enabled by the heap-allocated frame-based evaluator: portable coroutines, TCO, frame introspection, and robust exception handling.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><h1>Stackless VM Examples</h1><a class="back-link" href="../index.html">&larr; Stackless</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Patterns enabled by the heap-allocated frame-based evaluator: portable coroutines, TCO, frame introspection, and robust exception handling.</p><nav class="toc"><ul><li><a href="#overview">Overview</a></li><li><a href="#tail-call-optimization">Tail Call Optimization</a></li><li><a href="#coroutines">Coroutines</a></li><li><a href="#frame-introspection">Frame Introspection</a></li><li><a href="#exception-handling">Exception Handling</a></li></ul></nav><h2 id="overview">Overview</h2><div class="section"><div class="section-body"><p>The stackless branch replaces Io's recursive C-stack evaluator with a heap-allocated frame-based iterative evaluator. This enables portable coroutines, tail call optimization, frame introspection, and robust exception handling &mdash; all without platform-specific assembly, <code>setjmp</code>/<code>longjmp</code>, or <code>ucontext</code>.</p></div></div><h2 id="tail-call-optimization">Tail Call Optimization</h2><div class="section"><div class="section-body"><p>The stackless evaluator has two TCO mechanisms that keep frame stacks flat for recursive patterns.</p><h3 id="direct-tail-recursion">Direct Tail Recursion</h3><p>When a block call is the last message in a block body, the frame is reused instead of pushing a new one:</p><pre><code>countdown := method(n,
@@ -140,6 +141,6 @@ e error println  // =&gt; "boom"
 )
 e error println  // =&gt; "inner"</code></pre><h3 id="c-level-errors">C-Level Errors</h3><p>C-level errors (type mismatches, index out of bounds, etc.) are caught the same way:</p><pre><code>e := try(1 unknownMethod)
 e error println  // =&gt; "Object does not respond to 'unknownMethod'"</code></pre></div></div></div>
-  <script src="../../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

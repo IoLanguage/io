@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../style/style.css">
+  <link rel="stylesheet" href="../../../colvmn/style.css">
   <title>Control Flow – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Branching, loops, exceptions, and scope.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><div class="hero hero-wide" style="background-image: url('../images/Control%20Flow.png'); --hero-aspect: 1024 / 681"><h1 class="hero-title">Control Flow</h1></div><p class="intro">Branching, loops, exceptions, and scope.</p><nav class="toc"><ul><li><a href="#branching">Branching</a></li><li><a href="#comparison">Comparison</a></li><li><a href="#exceptions">Exceptions</a></li><li><a href="#continuations">Continuations</a></li></ul></nav><h2 id="branching">Branching</h2><div class="section"><div class="section-body"><h3 id="if-then-else">if, then, else</h3><p>The if() method can be used in the form:</p><pre><code>if(&lt;condition&gt;, &lt;do message&gt;, &lt;else do message&gt;)</code></pre><p>Example:</p><pre><code>if(a == 10, "a is 10" print)</code></pre><p>The else argument is optional. The condition is considered false if the condition expression evaluates to false or nil, and true otherwise.</p><p>The result of the evaluated message is returned, so:</p><pre><code>if(y &lt; 10, x := y, x := 0)</code></pre><p>is the same as:</p><pre><code>x := if(y &lt; 10, y, 0)</code></pre><p>Conditions can also be used in this form:</p><pre><code>if(y &lt; 10) then(x := y) else(x := 2)</code></pre><p>elseif() is supported:</p><pre><code>if(y &lt; 10) then(x := y) elseif(
@@ -40,6 +41,6 @@ writeln(e coroutine backtraceString)
 ) catch(Exception,
 // ...
 ) pass</code></pre><h3 id="custom-exceptions">Custom Exceptions</h3><p>Custom exception types can be implemented by simply cloning an existing Exception type:</p><pre><code>MyErrorType := Error clone</code></pre><h3 id="resumable-exceptions">Resumable Exceptions</h3><p>Because evaluation state lives in heap-allocated frames, the frame that raised an exception is still a live, inspectable object when a handler runs. A handler can choose to <em>resume</em> the computation at the point of the raise &mdash; returning a value in place of the exception &mdash; instead of unwinding past it. This enables Smalltalk- or Common-Lisp-style condition handling where the handler decides whether to retry, substitute a value, or abort.</p></div></div><h2 id="continuations">Continuations</h2><div class="section"><div class="section-body"><p>The iterative evaluator makes first-class continuations straightforward: <code>callcc</code> snapshots the current frame chain as an ordinary Io object. That object can be stored, invoked later, or &mdash; because it's just a graph of Io values &mdash; serialized and resumed in another process.</p><p><code>callcc</code> is not exposed in the top-level Lobby because it's easy to misuse. Where continuations are needed, they're reachable through the VM's reflective interface.</p></div></div></div>
-  <script src="../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

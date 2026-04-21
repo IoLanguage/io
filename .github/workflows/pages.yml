@@ -9,6 +9,7 @@ on:
       - 'CNAME'
       - '.nojekyll'
       - 'style/**'
+      - 'colvmn'
       - 'docs/**'
       - 'FAQ/**'
       - 'Timeline/**'
@@ -30,13 +31,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Regenerate static HTML
-        run: node style/static-gen.js
+        run: node colvmn/static-gen.js
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

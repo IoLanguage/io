@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../style/style.css">
+  <link rel="stylesheet" href="../../../colvmn/style.css">
   <title>Objects – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Slots, prototypes, cloning, and differential inheritance.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><div class="hero" style="background-image: url('../images/Objects.png')"><h1 class="hero-title">Objects</h1></div><p class="intro">Slots, prototypes, cloning, and differential inheritance.</p><nav class="toc"><ul><li><a href="#overview">Overview</a></li><li><a href="#prototypes">Prototypes</a></li><li><a href="#methods">Methods</a></li><li><a href="#introspection">Introspection</a></li></ul></nav><h2 id="overview">Overview</h2><div class="section"><div class="section-body"><p>Io's guiding design principle is simplicity and power through conceptual unification.</p></div></div><h2 id="prototypes">Prototypes</h2><div class="section"><div class="section-body"><p>In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and its value can be any type of object.</p><h3 id="clone-and-init">clone and init</h3><p>New objects are made by cloning existing ones. A clone is an empty object that has the parent in its list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.</p><pre><code>me := Person clone</code></pre><p>To add an instance variable or method, simply set it:</p><pre><code>myDog name := "rover"
@@ -42,6 +43,6 @@ super(bark)
 ==&gt; list("bark")</code></pre><h3 id="protos">protos</h3><p>The protos method returns a list of the objects which an object inherits from:</p><pre><code>Io&gt; Dog protos
 ==&gt; list("Object")</code></pre><h3 id="getslot">getSlot</h3><p>The "getSlot" method can be used to get the value of a block in a slot without activating it:</p><pre><code>myMethod := Dog getSlot("bark")</code></pre><p>Above, we've set the locals object's "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method:</p><pre><code>otherObject newMethod := getSlot("myMethod")</code></pre><p>Here, the target of the getSlot method is the locals object.&rsquo;</p><h3 id="code">code</h3><p>The arguments and expressions of methods are open to introspection. A useful convenience method is "code", which returns a string representation of the source code of the method in a normalized form.</p><pre><code>Io&gt; method(a, a * 2) code
 ==&gt; "method(a, a *(2))"</code></pre></div></div></div>
-  <script src="../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

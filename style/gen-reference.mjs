@@ -147,12 +147,12 @@ function shellHtml (title, depth) {
 <head>
 <meta charset="utf-8">
 <title>${title} – Io</title>
-<link rel="stylesheet" href="${up}style/style.css">
+<link rel="stylesheet" href="${up}colvmn/style.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
 <div class="page"></div>
-<script src="${up}style/layout/layout.js" type="module"></script>
+<script src="${up}colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>
 `;
@@ -207,7 +207,7 @@ ${methodsHtml}
 <head>
 <meta charset="utf-8">
 <title>${escapeHtml(proto)} – Io</title>
-<link rel="stylesheet" href="${up}style/style.css">
+<link rel="stylesheet" href="${up}colvmn/style.css">
 <link rel="stylesheet" href="${up}style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>

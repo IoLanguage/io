@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../style/style.css">
+  <link rel="stylesheet" href="../../../colvmn/style.css">
   <title>Primitives – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Built-in objects: numbers, strings, lists, maps, files, and more.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><a class="back-link" href="../index.html">&larr; Book</a></div><a class="brand" href="../index.html">Io</a></div><div class="hero" style="background-image: url('../images/Primitives.png')"><h1 class="hero-title">Primitives</h1></div><p class="intro">Built-in objects: numbers, strings, lists, maps, files, and more.</p><h2 id="primitives">Primitives</h2><div class="section"><div class="section-body"><p>Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as its hidden data and its methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.</p><p>This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.</p><h3 id="object">Object</h3><h4 id="the-operator">The ? Operator</h4><p>Sometimes it's desirable to conditionally call a method only if it exists (to avoid raising an exception). Example:</p><pre><code>if(obj getSlot("foo"), obj foo)</code></pre><p>Putting a "?" before a message has the same effect:</p><pre><code>obj ?foo</code></pre><h3 id="list">List</h3><p>A List is an array of references and supports all the standard array manipulation and enumeration methods. Examples:</p><p>Create an empty list:</p><pre><code>a := List clone</code></pre><p>Create a list of arbitrary objects using the list() method:</p><pre><code>a := list(33, "a")</code></pre><p>Append an item:</p><pre><code>a append("b")
@@ -120,6 +121,6 @@ float32, float64</code></pre><h3 id="encodings">Encodings</h3><p>Also, a Sequenc
 ==&gt; 2</code></pre><h3 id="conversion">Conversion</h3><p>The Sequence object has a number of conversion methods:</p><pre><code>asUTF8
 asUCS2
 asUCS4</code></pre></div></div><h2 id="importing">Importing</h2><div class="section"><div class="section-body"><p>The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using its addSearchPath() method.</p></div></div></div>
-  <script src="../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

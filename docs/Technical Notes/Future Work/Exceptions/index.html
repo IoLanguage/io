@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../../../style/style.css">
+  <link rel="stylesheet" href="../../../../colvmn/style.css">
   <title>Exceptions – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Design notes on the current exception system and proposed improvements.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><h1>Exceptions</h1><a class="back-link" href="../index.html">&larr; Future Work</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Design notes on the current exception system and proposed improvements.</p><h2 id="current-implementation">Current Implementation</h2><div class="section"><div class="section-body"><h3 id="trycatch-non-resumable">try/catch (non-resumable)</h3><p>Standard exception handling. <code>try(code)</code> runs code in a child coroutine. If an exception is raised, it's captured on the coroutine and returned. <code>catch</code> filters by exception type. <code>pass</code> re-raises.</p><pre><code>e := try(Exception raise("boom"))
@@ -54,6 +55,6 @@ Available restarts:
   1: [useValue]  Supply a replacement value
   2: [abort]     Abort
 Pick a restart:</code></pre><p>This requires restarts (direction 1) and REPL integration.</p><h3 id="recommendation">Recommendation</h3><p>Start with <strong>restarts</strong> (direction 1). They provide the biggest leverage &mdash; decoupling error policy from recovery mechanism &mdash; and map naturally to Io's prototype model. A Restart is just an Object with <code>name</code> and <code>action</code> slots. The handler/restart registries are Lists on the Coroutine. No VM changes, no new primitives, just Io-level code building on <code>withHandler</code>.</p><p>Decline (direction 2) is a small addition on top. Interactive selection (direction 4) is the long-term payoff but requires restarts first.</p></div></div></div>
-  <script src="../../../../style/layout/layout.js" type="module"></script>
+  <script src="../../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

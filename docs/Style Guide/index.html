@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <title>Style Guide – Io</title>
-<link rel="stylesheet" href="../../style/style.css">
+<link rel="stylesheet" href="../../colvmn/style.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.">
 </head>
 <body>
 <div class="page loaded"><div class="header"><div><h1>Style Guide</h1><a class="back-link" href="../index.html">&larr; Documentation</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">How to write idiomatic Io &mdash; naming, formatting, comments, and the patterns used throughout the standard library.</p><nav class="toc"><ul><li><a href="#naming">Naming</a></li><li><a href="#indentation-and-whitespace">Indentation and whitespace</a></li><li><a href="#comments">Comments</a></li><li><a href="#file-organization">File organization</a></li><li><a href="#method-patterns">Method patterns</a></li><li><a href="#error-handling">Error handling</a></li><li><a href="#testing">Testing</a></li><li><a href="#commit-messages">Commit messages</a></li></ul></nav><h2 id="naming">Naming</h2><div class="section"><div class="section-body"><p>Io distinguishes <em>objects</em> (prototypes) from <em>slots on objects</em> (methods and values) by case. The rule is simple and never varies.</p><p><strong>Prototypes use PascalCase.</strong> The first letter is capitalized and each subsequent word is capitalized. Examples from the core library: <code>Object</code>, <code>List</code>, <code>Map</code>, <code>Sequence</code>, <code>Block</code>, <code>Coroutine</code>, <code>UnitTest</code>. When you clone a prototype to define a new type, keep the same convention:</p><pre><code>Animal := Object clone
@@ -59,6 +60,6 @@ if(e, e showStack)</code></pre><p>Subclass <code>Exception</code> for error cate
         assertEquals(list(1, 2, 3) removeFirst, 1)
     )
 )</code></pre><p>Each test method begins with <code>test</code>. Use <code>assertEquals</code>, <code>assertTrue</code>, <code>assertRaisesException</code>, and the other assertions on <code>UnitTest</code>.</p></div></div><h2 id="commit-messages">Commit messages</h2><div class="section"><div class="section-body"><p>Short, imperative first line describing <em>what changed and why</em>. Reference the issue or PR number if relevant.</p><pre><code>Fix List removeFirst to return nil on empty list (#123)</code></pre><p>Longer explanation goes in the body, separated from the subject by a blank line. Keep the subject under ~70 characters.</p><p>Prefer small, focused commits over mixed ones. Each commit should leave the tree in a buildable, testable state.</p></div></div></div>
-<script src="../../style/layout/layout.js" type="module"></script>
+<script src="../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

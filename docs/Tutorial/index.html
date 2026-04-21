@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="../../style/style.css">
+  <link rel="stylesheet" href="../../colvmn/style.css">
   <title>Tutorial – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><h1>Tutorial</h1><a class="back-link" href="../index.html">&larr; Documentation</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A short, example-driven tour of Io for folks who already know how to program. Each section is a quick REPL session.</p><nav class="toc"><ul><li><a href="#getting-started">Getting Started</a></li><li><a href="#math">Math</a></li><li><a href="#variables">Variables</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#lists">Lists</a></li><li><a href="#loops">Loops</a></li><li><a href="#strings">Strings</a></li><li><a href="#maps">Maps</a></li><li><a href="#objects-and-prototypes">Objects and Prototypes</a></li><li><a href="#methods">Methods</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#inheritance">Inheritance</a></li><li><a href="#introspection">Introspection</a></li><li><a href="#exceptions">Exceptions</a></li><li><a href="#file-io">File I/O</a></li><li><a href="#coroutines">Coroutines</a></li><li><a href="#actors-and-futures">Actors and Futures</a></li><li><a href="#next-steps">Next Steps</a></li></ul></nav><h2 id="getting-started">Getting Started</h2><div class="section"><div class="section-body"><p>Run the REPL and exit with <code>exit</code> or Ctrl-D:</p><pre><code>$ io
@@ -230,6 +231,6 @@ Io&gt; f := slow @compute(5)
 Io&gt; "doing other work..." println
 Io&gt; f                          // blocks until ready
 ==&gt; 25</code></pre><p>Any object can act as an actor &mdash; just send it async messages.</p></div></div><h2 id="next-steps">Next Steps</h2><div class="section"><div class="section-body"><ul><li>Read the <a href="../Book/index.html">Book</a> for a deeper walkthrough of the language.</li><li>Skim the <a href="../Reference/index.html">Reference</a> for a complete list of built-in objects and methods.</li><li>Browse the <a href="../Guide/index.html">Guide</a> for idioms and conventions.</li></ul></div></div></div>
-  <script src="../../style/layout/layout.js" type="module"></script>
+  <script src="../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>
