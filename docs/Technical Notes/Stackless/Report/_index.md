@@ -1,5 +1,7 @@
 # Stackless Evaluator Report
 
+Design and status notes on the heap-allocated frame-based evaluator.
+
 ## Overview
 
 The `stackless` branch replaces Io's recursive C-stack-based evaluator with a heap-allocated frame-based iterative evaluator. Every piece of execution state — message pointer, target, locals, arguments, control flow — lives in GC-managed frame objects on the heap rather than in C stack frames.

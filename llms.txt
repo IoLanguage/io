@@ -14,14 +14,14 @@
 - [Primitives](/docs/Book/Primitives/): Built-in objects: numbers, strings, lists, maps, files, and more.
 - [Syntax](/docs/Book/Syntax/): Io's minimal grammar: expressions, messages, and operators.
 - [Guide](/docs/Guide/): Comprehensive language guide: syntax, messages, objects, control flow, concurrency, and more.
-- [Reference](/docs/Reference/)
+- [Reference](/docs/Reference/): Auto-generated API reference extracted from //doc, //metadoc, and /doc ... / comments in the Io source tree.
 - [Style Guide](/docs/Style%20Guide/): How to write idiomatic Io — naming, formatting, comments, and the patterns used throughout the standard library.
 - [Technical Notes](/docs/Technical%20Notes/): Implementation notes and design docs on WASM targeting, stackless evaluation, and future work.
 - [Future Work](/docs/Technical%20Notes/Future%20Work/): Design notes and proposals for upcoming changes.
 - [Exceptions](/docs/Technical%20Notes/Future%20Work/Exceptions/): Design notes on the current exception system and proposed improvements.
 - [Stackless](/docs/Technical%20Notes/Stackless/): Io's iterative evaluator, continuations, and coroutines.
-- [Stackless VM Examples](/docs/Technical%20Notes/Stackless/Examples/)
-- [Stackless Evaluator Report](/docs/Technical%20Notes/Stackless/Report/)
+- [Stackless VM Examples](/docs/Technical%20Notes/Stackless/Examples/): Patterns enabled by the heap-allocated frame-based evaluator: portable coroutines, TCO, frame introspection, and robust exception handling.
+- [Stackless Evaluator Report](/docs/Technical%20Notes/Stackless/Report/): Design and status notes on the heap-allocated frame-based evaluator.
 - [WASM](/docs/Technical%20Notes/WASM/): Running Io in the browser via WebAssembly.
 - [Browser Target](/docs/Technical%20Notes/WASM/Browser%20Target/): Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported functions.
 - [DOM Interop](/docs/Technical%20Notes/WASM/DOM%20Interop/): Io code running in the browser can query, create, and manipulate HTML elements through the DOM object and Element instances.

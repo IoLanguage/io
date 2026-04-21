@@ -1,8 +1,10 @@
 # Stackless VM Examples
 
-The stackless branch replaces Io's recursive C-stack evaluator with a heap-allocated frame-based iterative evaluator. This enables portable coroutines, tail call optimization, frame introspection, and robust exception handling — all without platform-specific assembly, `setjmp`/`longjmp`, or `ucontext`.
+Patterns enabled by the heap-allocated frame-based evaluator: portable coroutines, TCO, frame introspection, and robust exception handling.
 
----
+## Overview
+
+The stackless branch replaces Io's recursive C-stack evaluator with a heap-allocated frame-based iterative evaluator. This enables portable coroutines, tail call optimization, frame introspection, and robust exception handling — all without platform-specific assembly, `setjmp`/`longjmp`, or `ucontext`.
 
 ## Tail Call Optimization
 

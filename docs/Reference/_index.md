@@ -2,6 +2,8 @@
 
 Auto-generated API reference extracted from `//doc`, `//metadoc`, and `/*doc ... */` comments in the Io source tree.
 
+## Objects
+
 - Core
   - [Block](Block/index.html)
   - [CFunction](CFunction/index.html)

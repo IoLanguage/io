@@ -4052,6 +4052,8 @@ Source: /docs/Reference/
 
 Auto-generated API reference extracted from `//doc`, `//metadoc`, and `/*doc ... */` comments in the Io source tree.
 
+## Objects
+
 - Core
   - [Block](Block/index.html)
   - [CFunction](CFunction/index.html)
@@ -4534,9 +4536,11 @@ Source: /docs/Technical%20Notes/Stackless/Examples/
 
 # Stackless VM Examples
 
-The stackless branch replaces Io's recursive C-stack evaluator with a heap-allocated frame-based iterative evaluator. This enables portable coroutines, tail call optimization, frame introspection, and robust exception handling — all without platform-specific assembly, `setjmp`/`longjmp`, or `ucontext`.
+Patterns enabled by the heap-allocated frame-based evaluator: portable coroutines, TCO, frame introspection, and robust exception handling.
 
----
+## Overview
+
+The stackless branch replaces Io's recursive C-stack evaluator with a heap-allocated frame-based iterative evaluator. This enables portable coroutines, tail call optimization, frame introspection, and robust exception handling — all without platform-specific assembly, `setjmp`/`longjmp`, or `ucontext`.
 
 ## Tail Call Optimization
 
@@ -4861,6 +4865,8 @@ e error println  // => "Object does not respond to 'unknownMethod'"
 Source: /docs/Technical%20Notes/Stackless/Report/
 
 # Stackless Evaluator Report
+
+Design and status notes on the heap-allocated frame-based evaluator.
 
 ## Overview
 
