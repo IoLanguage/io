@@ -865,14 +865,28 @@ p code, li code {
   .scroll-hint { display: none; }
   /* End spacer from desktop is unnecessary in list mode. */
   .timeline-track > div[style*="width: 120px"] { display: none; }
+  /* Mobile: stack image above title so neither is clipped. The image
+     is a background on .hero; reserve space for it with padding-top
+     (~square aspect, fits the 1:1 to 4:3 chapter images), then the
+     .hero-title sits below. hero-wide already scales via aspect-ratio. */
   .hero {
-    min-height: 200px;
-    padding: 30px 0 40px;
-    margin: 10px 0 30px;
-    background-size: 50% auto;
+    min-height: 0;
+    padding: 70% 0 0;
+    margin: 10px 0 28px;
+    background-size: contain;
+    background-position: top center;
+    display: block;
   }
-  .hero.hero-wide { background-size: 100% auto; }
-  .hero-title { font-size: 42px; max-width: 60%; }
+  .hero.hero-wide {
+    padding-top: 0;
+    padding-bottom: 0;
+    background-size: 100% auto;
+  }
+  .hero-title {
+    font-size: 40px;
+    max-width: none;
+    margin-top: 16px;
+  }
 }
 
 /* Print */
