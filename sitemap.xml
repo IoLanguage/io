@@ -6,44 +6,6 @@
   <url><loc>/docs/Future%20Work/Exceptions/</loc></url>
   <url><loc>/docs/Guide/</loc></url>
   <url><loc>/docs/Reference/</loc></url>
-  <url><loc>/docs/Reference/Block/</loc></url>
-  <url><loc>/docs/Reference/CFunction/</loc></url>
-  <url><loc>/docs/Reference/Call/</loc></url>
-  <url><loc>/docs/Reference/Collector/</loc></url>
-  <url><loc>/docs/Reference/Compiler/</loc></url>
-  <url><loc>/docs/Reference/Continuation/</loc></url>
-  <url><loc>/docs/Reference/Coroutine/</loc></url>
-  <url><loc>/docs/Reference/Date/</loc></url>
-  <url><loc>/docs/Reference/Debugger/</loc></url>
-  <url><loc>/docs/Reference/Directory/</loc></url>
-  <url><loc>/docs/Reference/DirectoryCollector/</loc></url>
-  <url><loc>/docs/Reference/Duration/</loc></url>
-  <url><loc>/docs/Reference/Error/</loc></url>
-  <url><loc>/docs/Reference/EvalFrame/</loc></url>
-  <url><loc>/docs/Reference/Exception/</loc></url>
-  <url><loc>/docs/Reference/File/</loc></url>
-  <url><loc>/docs/Reference/FileCollector/</loc></url>
-  <url><loc>/docs/Reference/FileImporter/</loc></url>
-  <url><loc>/docs/Reference/Importer/</loc></url>
-  <url><loc>/docs/Reference/List/</loc></url>
-  <url><loc>/docs/Reference/Map/</loc></url>
-  <url><loc>/docs/Reference/Message/</loc></url>
-  <url><loc>/docs/Reference/MutableSequence/</loc></url>
-  <url><loc>/docs/Reference/Number/</loc></url>
-  <url><loc>/docs/Reference/Object/</loc></url>
-  <url><loc>/docs/Reference/Path/</loc></url>
-  <url><loc>/docs/Reference/Profiler/</loc></url>
-  <url><loc>/docs/Reference/Sandbox/</loc></url>
-  <url><loc>/docs/Reference/Scheduler/</loc></url>
-  <url><loc>/docs/Reference/Sequence/</loc></url>
-  <url><loc>/docs/Reference/State/</loc></url>
-  <url><loc>/docs/Reference/System/</loc></url>
-  <url><loc>/docs/Reference/TestRunner/</loc></url>
-  <url><loc>/docs/Reference/UnitTest/</loc></url>
-  <url><loc>/docs/Reference/WeakLink/</loc></url>
-  <url><loc>/docs/Reference/false/</loc></url>
-  <url><loc>/docs/Reference/nil/</loc></url>
-  <url><loc>/docs/Reference/true/</loc></url>
   <url><loc>/docs/Stackless/</loc></url>
   <url><loc>/docs/Stackless/Examples/</loc></url>
   <url><loc>/docs/Stackless/Report/</loc></url>

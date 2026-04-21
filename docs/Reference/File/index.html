@@ -4,10 +4,863 @@
 <meta charset="utf-8">
 <title>File – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>File</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><nav class="toc"><ul><li><a href="#appendtocontentsaseq">appendToContents(aSeq)</a></li><li><a href="#asbuffer">asBuffer</a></li><li><a href="#atanumber">at(aNumber)</a></li><li><a href="#atputpositionnumber-bytenumber">atPut(positionNumber, byteNumber)</a></li><li><a href="#basename">baseName</a></li><li><a href="#close">close</a></li><li><a href="#containingdirectory">containingDirectory</a></li><li><a href="#contents">contents</a></li><li><a href="#copytopathdestinationpath">copyToPath(destinationPath)</a></li><li><a href="#copytopathwithoutyieldingdestinationpath">copyToPathWithoutYielding(destinationPath)</a></li><li><a href="#create">create</a></li><li><a href="#descriptor">descriptor</a></li><li><a href="#existsoptionalpath">exists(optionalPath)</a></li><li><a href="#exitstatus">exitStatus</a></li><li><a href="#flush">flush</a></li><li><a href="#foreachoptionalindex-value-message">foreach(optionalIndex, value, message)</a></li><li><a href="#foreachlineoptionallinenumber-line-message">foreachLine(optionalLineNumber, line, message)</a></li><li><a href="#groupid">groupId</a></li><li><a href="#isatend">isAtEnd</a></li><li><a href="#isdirectory">isDirectory</a></li><li><a href="#islink">isLink</a></li><li><a href="#isopen">isOpen</a></li><li><a href="#ispipe">isPipe</a></li><li><a href="#isregularfile">isRegularFile</a></li><li><a href="#issocket">isSocket</a></li><li><a href="#isuserexecutable">isUserExecutable</a></li><li><a href="#lastaccessdate">lastAccessDate</a></li><li><a href="#lastdatachangedate">lastDataChangeDate</a></li><li><a href="#lastinfochangedate">lastInfoChangeDate</a></li><li><a href="#lock">lock</a></li><li><a href="#lockfile">lockFile</a></li><li><a href="#makefullybuffered">makeFullyBuffered</a></li><li><a href="#makelinebuffered">makeLineBuffered</a></li><li><a href="#makeunbuffered">makeUnbuffered</a></li><li><a href="#mode">mode</a></li><li><a href="#movetopathstring">moveTo(pathString)</a></li><li><a href="#name">name</a></li><li><a href="#openoptionalpathstring">open(optionalPathString)</a></li><li><a href="#openforappendingoptionalpathstring">openForAppending(optionalPathString)</a></li><li><a href="#openforreadingoptionalpathstring">openForReading(optionalPathString)</a></li><li><a href="#openforupdatingoptionalpathstring">openForUpdating(optionalPathString)</a></li><li><a href="#parentdirectory">parentDirectory</a></li><li><a href="#path">path</a></li><li><a href="#popen">popen</a></li><li><a href="#position">position</a></li><li><a href="#positionatend">positionAtEnd</a></li><li><a href="#protectionmode">protectionMode</a></li><li><a href="#readbufferoflengthanumber">readBufferOfLength(aNumber)</a></li><li><a href="#readline">readLine</a></li><li><a href="#readlines">readLines</a></li><li><a href="#readstringoflengthanumber">readStringOfLength(aNumber)</a></li><li><a href="#readtobufferlengthabuffer-anumber">readToBufferLength(aBuffer, aNumber)</a></li><li><a href="#readtoendchunksize">readToEnd(chunkSize)</a></li><li><a href="#remove">remove</a></li><li><a href="#reopenotherfile-mode">reopen(otherFile, mode)</a></li><li><a href="#rewind">rewind</a></li><li><a href="#setcontentsaseq">setContents(aSeq)</a></li><li><a href="#setpathastring">setPath(aString)</a></li><li><a href="#setpositionanumber">setPosition(aNumber)</a></li><li><a href="#setstreamdestinationabuffer">setStreamDestination(aBuffer)</a></li><li><a href="#size">size</a></li><li><a href="#standarderror">standardError</a></li><li><a href="#standardinput">standardInput</a></li><li><a href="#standardoutput">standardOutput</a></li><li><a href="#startstreaming">startStreaming</a></li><li><a href="#stat">stat</a></li><li><a href="#statsize">statSize</a></li><li><a href="#streamdestination">streamDestination</a></li><li><a href="#streamreadsize">streamReadSize</a></li><li><a href="#streamtoabuffer">streamTo(aBuffer)</a></li><li><a href="#streamtowithoutyieldingabuffer">streamToWithoutYielding(aBuffer)</a></li><li><a href="#temporaryfile">temporaryFile</a></li><li><a href="#termsignal">termSignal</a></li><li><a href="#thissourcefile">thisSourceFile</a></li><li><a href="#truncatetosizenumberofbytes">truncateToSize(numberOfBytes)</a></li><li><a href="#userid">userId</a></li><li><a href="#withapath">with(aPath)</a></li><li><a href="#writeasequence1-asequence2">write(aSequence1, aSequence2, ...)</a></li></ul></nav><div class="section"><div class="section-body"><p>Encapsulates file i/o. Here's an example of opening a file, and reversing its lines: <pre> file := File clone openForUpdating("/tmp/test") lines := file readLines reverse file rewind lines foreach(line, file write(line, "\n")) file close </pre></p></div></div><h2 id="appendtocontentsaseq">appendToContents(aSeq)</h2><div class="section"><div class="section-body"><p>Appends to the contents of the file with aSeq. Returns self.</p></div></div><h2 id="asbuffer">asBuffer</h2><div class="section"><div class="section-body"><p>Opens the receiver in read only mode, reads the whole contents of the file into a buffer object, closes the file and returns the buffer.</p></div></div><h2 id="atanumber">at(aNumber)</h2><div class="section"><div class="section-body"><p>Returns a Number containing the byte at the specified byte index or Nil if the index is out of bounds.</p></div></div><h2 id="atputpositionnumber-bytenumber">atPut(positionNumber, byteNumber)</h2><div class="section"><div class="section-body"><p>Writes the byte value of byteNumber to the file position positionNumber. Returns self.</p></div></div><h2 id="basename">baseName</h2><div class="section"><div class="section-body"><p>Returns File's name without an extension (returned Sequence consists of all characters up to final period ["."] character).</p></div></div><h2 id="close">close</h2><div class="section"><div class="section-body"><p>Closes the receiver if open, otherwise does nothing. Returns self.</p><p>When the file was opened via popen, sets either exitStatus or termSignal to the exit status on normal exit, or the signal causing abnormal termination.</p></div></div><h2 id="containingdirectory">containingDirectory</h2><div class="section"><div class="section-body"><p>Deprecated. See parentDirectory.</p></div></div><h2 id="contents">contents</h2><div class="section"><div class="section-body"><p>Returns contents of the file as a mutable Sequence of bytes.</p></div></div><h2 id="copytopathdestinationpath">copyToPath(destinationPath)</h2><div class="section"><div class="section-body"><p>Copies the file to the specified path.</p></div></div><h2 id="copytopathwithoutyieldingdestinationpath">copyToPathWithoutYielding(destinationPath)</h2><div class="section"><div class="section-body"><p>Copies the file to the specified path without yielding.</p></div></div><h2 id="create">create</h2><div class="section"><div class="section-body"><p>Creates an empty file at the file's path. Returns self on success, nil on failure.</p></div></div><h2 id="descriptor">descriptor</h2><div class="section"><div class="section-body"><p>Returns the file's descriptor as a number.</p></div></div><h2 id="existsoptionalpath">exists(optionalPath)</h2><div class="section"><div class="section-body"><p>Returns true if the file path exists, and false otherwise. If optionalPath string is provided, it tests the existance of that path instead.</p></div></div><h2 id="exitstatus">exitStatus</h2><div class="section"><div class="section-body"><p>System's close status (after file close).</p></div></div><h2 id="flush">flush</h2><div class="section"><div class="section-body"><p>Forces any buffered data to be written to disk. Returns self.</p></div></div><h2 id="foreachoptionalindex-value-message">foreach(optionalIndex, value, message)</h2><div class="section"><div class="section-body"><p>For each byte, set index to the index of the byte and value to the number containing the byte value and execute aMessage. Example usage: <p> <pre> aFile foreach(i, v, writeln("byte at ", i, " is ", v)) aFile foreach(v, writeln("byte ", v)) </pre></p></div></div><h2 id="foreachlineoptionallinenumber-line-message">foreachLine(optionalLineNumber, line, message)</h2><div class="section"><div class="section-body"><p>For each line, set index to the line number of the line and line and execute aMessage. Example usage: <pre> aFile foreachLine(i, v, writeln("Line ", i, ": ", v)) aFile foreach(v, writeln("Line: ", v)) </pre></p></div></div><h2 id="groupid">groupId</h2><div class="section"><div class="section-body"><p>Returns a Number containing the group id associated with the file's path.</p></div></div><h2 id="isatend">isAtEnd</h2><div class="section"><div class="section-body"><p>Returns true if the file is at its end. Otherwise returns false.</p></div></div><h2 id="isdirectory">isDirectory</h2><div class="section"><div class="section-body"><p>Returns true if the receiver's path points to a directory, false otherwise.</p></div></div><h2 id="islink">isLink</h2><div class="section"><div class="section-body"><p>Returns true if the receiver's path points to a link, false otherwise.</p></div></div><h2 id="isopen">isOpen</h2><div class="section"><div class="section-body"><p>Returns self if the file is open. Otherwise returns Nil.</p></div></div><h2 id="ispipe">isPipe</h2><div class="section"><div class="section-body"><p>Returns true if the receiver is a pipe, false otherwise.</p></div></div><h2 id="isregularfile">isRegularFile</h2><div class="section"><div class="section-body"><p>Returns true if the receiver's file descriptor is a regular file, false otherwise.</p></div></div><h2 id="issocket">isSocket</h2><div class="section"><div class="section-body"><p>Returns true if the receiver's file descriptor is a Socket, false otherwise.</p></div></div><h2 id="isuserexecutable">isUserExecutable</h2><div class="section"><div class="section-body"><p>Returns true if the receiver is user group executable, false otherwise.</p></div></div><h2 id="lastaccessdate">lastAccessDate</h2><div class="section"><div class="section-body"><p>Returns a Date object containing the last date and time the file was accessed.</p></div></div><h2 id="lastdatachangedate">lastDataChangeDate</h2><div class="section"><div class="section-body"><p>Returns a Date object containing the last date and time the file's contents were changed.</p></div></div><h2 id="lastinfochangedate">lastInfoChangeDate</h2><div class="section"><div class="section-body"><p>Returns a Date object containing the last date and time the file's meta info was changed.</p></div></div><h2 id="lock">lock</h2><div class="section"><div class="section-body"><p>Creates a path.lock file if it does not exist. If it does exist, it waits for it be removed by the process that created it first. Returns self.</p></div></div><h2 id="lockfile">lockFile</h2><div class="section"><div class="section-body"><p>Deprecated. The .lock file used for File locking.</p></div></div><h2 id="makefullybuffered">makeFullyBuffered</h2><div class="section"><div class="section-body"><p>Sets the file's stream to be fully</p></div></div><h2 id="makelinebuffered">makeLineBuffered</h2><div class="section"><div class="section-body"><p>Sets the file's stream to be line buffered.</p></div></div><h2 id="makeunbuffered">makeUnbuffered</h2><div class="section"><div class="section-body"><p>Sets the file's stream to be unbuffered.</p></div></div><h2 id="mode">mode</h2><div class="section"><div class="section-body"><p>Returns the open mode of the file(either read, update or append).</p></div></div><h2 id="movetopathstring">moveTo(pathString)</h2><div class="section"><div class="section-body"><p>Moves the file specified by the receiver's path to the new path pathString. If a file already exists at pathString, it is silently overwritten. Raises a File error exception if the rename fails.</p></div></div><h2 id="name">name</h2><div class="section"><div class="section-body"><p>Returns the last path component of the file path.</p></div></div><h2 id="openoptionalpathstring">open(optionalPathString)</h2><div class="section"><div class="section-body"><p>Opens the file. Creates one if it does not exist. If the optionalPathString argument is provided, the path is set to it before opening. Returns self or raises an File exception on error.</p></div></div><h2 id="openforappendingoptionalpathstring">openForAppending(optionalPathString)</h2><div class="section"><div class="section-body"><p>Sets the file mode to append (writing to the end of the file) and calls open(optionalPathString).</p></div></div><h2 id="openforreadingoptionalpathstring">openForReading(optionalPathString)</h2><div class="section"><div class="section-body"><p>Sets the file mode to read (reading only) and calls open(optionalPathString).</p></div></div><h2 id="openforupdatingoptionalpathstring">openForUpdating(optionalPathString)</h2><div class="section"><div class="section-body"><p>Sets the file mode to update (reading and writing) and calls open(optionalPathString). This will not delete the file if it already exists. Use the remove method first if you need to delete an existing file before opening a new one.</p></div></div><h2 id="parentdirectory">parentDirectory</h2><div class="section"><div class="section-body"><p>Returns a File for the directory that is the parent directory of this object's path.</p></div></div><h2 id="path">path</h2><div class="section"><div class="section-body"><p>Returns the file path of the receiver.</p></div></div><h2 id="popen">popen</h2><div class="section"><div class="section-body"><p>Open the file as a pipe. Return self.</p><p>Closing a popen'ed file sets exitStatus or termSignal to reflect the status or cause of the child processes' termination.</p></div></div><h2 id="position">position</h2><div class="section"><div class="section-body"><p>Returns the current file pointer byte position as a Number.</p></div></div><h2 id="positionatend">positionAtEnd</h2><div class="section"><div class="section-body"><p>Sets the file position pointer to the end of the file.</p></div></div><h2 id="protectionmode">protectionMode</h2><div class="section"><div class="section-body"><p>Returns a Number containing the protection mode associated with the file's path.</p></div></div><h2 id="readbufferoflengthanumber">readBufferOfLength(aNumber)</h2><div class="section"><div class="section-body"><p>Reads a Buffer of the specified length and returns it. Returns Nil if the end of the file has been reached.</p></div></div><h2 id="readline">readLine</h2><div class="section"><div class="section-body"><p>Reads the next line of the file and returns it as a string without the return character. Returns Nil if the end of the file has been reached.</p></div></div><h2 id="readlines">readLines</h2><div class="section"><div class="section-body"><p>Returns list containing all lines in the file.</p></div></div><h2 id="readstringoflengthanumber">readStringOfLength(aNumber)</h2><div class="section"><div class="section-body"><p>Reads a String of the specified length and returns it. Returns Nil if the end of the file has been reached.</p></div></div><h2 id="readtobufferlengthabuffer-anumber">readToBufferLength(aBuffer, aNumber)</h2><div class="section"><div class="section-body"><p>Reads at most aNumber number of items and appends them to aBuffer. Returns number of items read.</p></div></div><h2 id="readtoendchunksize">readToEnd(chunkSize)</h2><div class="section"><div class="section-body"><p>Reads chunkSize bytes (4096 by default) at a time until end of file is reached.  Returns a sequence containing the bytes read from the file.</p></div></div><h2 id="remove">remove</h2><div class="section"><div class="section-body"><p>Removes the file specified by the receiver's path. Raises an error if the file exists but is not removed. Returns self.</p></div></div><h2 id="reopenotherfile-mode">reopen(otherFile, mode)</h2><div class="section"><div class="section-body"><p>Reopens otherFile and redirects its stream to this file's path using mode. If mode is omitted, it is copied from otherFile. Returns self or raises a File exception on error.</p></div></div><h2 id="rewind">rewind</h2><div class="section"><div class="section-body"><p>Sets the file position pointer to the beginning of the file.</p></div></div><h2 id="setcontentsaseq">setContents(aSeq)</h2><div class="section"><div class="section-body"><p>Replaces the contents for the file with aSeq. Returns self.</p></div></div><h2 id="setpathastring">setPath(aString)</h2><div class="section"><div class="section-body"><p>Sets the file path of the receiver to pathString. The default path is an empty string. Returns self.</p></div></div><h2 id="setpositionanumber">setPosition(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the file position pointer to the byte specified by aNumber. Returns self.</p></div></div><h2 id="setstreamdestinationabuffer">setStreamDestination(aBuffer)</h2><div class="section"><div class="section-body"><p>Set the buffer to be used for future stream operations.</p></div></div><h2 id="size">size</h2><div class="section"><div class="section-body"><p>Returns the file size in bytes.</p></div></div><h2 id="standarderror">standardError</h2><div class="section"><div class="section-body"><p>Returns a new File whose stream is set to the standard error stream.</p></div></div><h2 id="standardinput">standardInput</h2><div class="section"><div class="section-body"><p>Returns a new File whose stream is set to the standard input stream.</p></div></div><h2 id="standardoutput">standardOutput</h2><div class="section"><div class="section-body"><p>Returns a new File whose stream is set to the standard output stream.</p></div></div><h2 id="startstreaming">startStreaming</h2><div class="section"><div class="section-body"><p>Begin streamed read to stream destination set by setStreamDestination(aBuffer).</p></div></div><h2 id="stat">stat</h2><div class="section"><div class="section-body"><p>Updates the receiver's meta info cache.</p></div></div><h2 id="statsize">statSize</h2><div class="section"><div class="section-body"><p>Returns the file's size in bytes as a Number.</p></div></div><h2 id="streamdestination">streamDestination</h2><div class="section"><div class="section-body"><p>The buffer object to be used for future stream operations.</p></div></div><h2 id="streamreadsize">streamReadSize</h2><div class="section"><div class="section-body"><p>Size of stream buffer used for streaming operations</p></div></div><h2 id="streamtoabuffer">streamTo(aBuffer)</h2><div class="section"><div class="section-body"><p>Perform streamed reading to given buffer. The buffer will be appended with chunks of size streamReadSize until EOF. The final chunk may be less than streamReadSize.</p></div></div><h2 id="streamtowithoutyieldingabuffer">streamToWithoutYielding(aBuffer)</h2><div class="section"><div class="section-body"><p>Perform streamed reading to given buffer without yielding between reads.</p></div></div><h2 id="temporaryfile">temporaryFile</h2><div class="section"><div class="section-body"><p>Returns a new File object with an open temporary file. The file is automatically deleted when the returned File object is closed or garbage collected.</p></div></div><h2 id="termsignal">termSignal</h2><div class="section"><div class="section-body"><p>Pipe's terminating signal (after file close opened via popen).</p></div></div><h2 id="thissourcefile">thisSourceFile</h2><div class="section"><div class="section-body"><p>Returns a File representing the system file in which this Io code exists.</p></div></div><h2 id="truncatetosizenumberofbytes">truncateToSize(numberOfBytes)</h2><div class="section"><div class="section-body"><p>Truncates the file's size to the numberOfBytes. Returns self.</p></div></div><h2 id="userid">userId</h2><div class="section"><div class="section-body"><p>Returns a Number containing the user id associated with the file's path.</p></div></div><h2 id="withapath">with(aPath)</h2><div class="section"><div class="section-body"><p>Returns a new instance with the provided path.</p></div></div><h2 id="writeasequence1-asequence2">write(aSequence1, aSequence2, ...)</h2><div class="section"><div class="section-body"><p>Writes the arguments to the receiver file. Returns self.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>File</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>Encapsulates file i/o. Here's an example of opening a file,
+and reversing its lines:
+<pre>
+file := File clone openForUpdating("/tmp/test")
+lines := file readLines reverse
+file rewind
+lines foreach(line, file write(line, "\n"))
+file close
+</pre></description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">appendToContents(aSeq)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Appends to the contents of the file with aSeq. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">asBuffer</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Opens the receiver in read only mode, reads the whole
+contents of the file into a buffer object, closes the file and returns the
+buffer.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">at(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Number containing the byte at the specified
+byte index or Nil if the index is out of bounds.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">atPut(positionNumber, byteNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Writes the byte value of byteNumber to the file position
+positionNumber. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">baseName</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns File's name without an extension (returned Sequence consists of all characters up to final period ["."] character).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">close</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Closes the receiver if open, otherwise does nothing. Returns self.
+
+When the file was opened via popen, sets either exitStatus or
+termSignal to the exit status on normal exit, or the signal causing
+abnormal termination.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">containingDirectory</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. See parentDirectory.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">contents</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns contents of the file as a mutable Sequence of bytes.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">copyToPath(destinationPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Copies the file to the specified path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">copyToPathWithoutYielding(destinationPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Copies the file to the specified path without yielding.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">create</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Creates an empty file at the file's path. Returns self on success, nil on failure.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">descriptor</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the file's descriptor as a number.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">exists(optionalPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the file path exists, and false otherwise.
+If optionalPath string is provided, it tests the existance of that path
+instead.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">exitStatus</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>System's close status (after file close).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">flush</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Forces any buffered data to be written to disk. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">foreach(optionalIndex, value, message)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>For each byte, set index to the index of the byte
+and value to the number containing the byte value and execute aMessage.
+Example usage:
+<p>
+<pre>
+aFile foreach(i, v, writeln("byte at ", i, " is ", v))
+aFile foreach(v, writeln("byte ", v))
+</pre></description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">foreachLine(optionalLineNumber, line, message)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>For each line, set index to the line number of the line
+and line and execute aMessage.
+Example usage:
+<pre>
+aFile foreachLine(i, v, writeln("Line ", i, ": ", v))
+aFile foreach(v, writeln("Line: ", v))
+</pre></description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">groupId</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Number containing the group id associated with the file's path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isAtEnd</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the file is at its end. Otherwise returns false.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isDirectory</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the receiver's path points to a directory, false otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isLink</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the receiver's path points to a link, false otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isOpen</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns self if the file is open. Otherwise returns Nil.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isPipe</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the receiver is a pipe, false otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isRegularFile</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the receiver's file descriptor is a regular file, false
+otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isSocket</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the receiver's file descriptor is a Socket, false otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isUserExecutable</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the receiver is user group executable, false otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">lastAccessDate</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Date object containing the last date and
+time the file was accessed.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">lastDataChangeDate</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Date object containing the last date and
+time the file's contents were changed.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">lastInfoChangeDate</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Date object containing the last date and
+time the file's meta info was changed.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">lock</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Creates a path.lock file if it does not exist. If it does exist, it waits for it be removed by the process that created it first. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">lockFile</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. The .lock file used for File locking.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">makeFullyBuffered</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file's stream to be fully</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">makeLineBuffered</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file's stream to be line buffered.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">makeUnbuffered</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file's stream to be unbuffered.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">mode</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the open mode of the file(either read, update or append).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">moveTo(pathString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Moves the file specified by the receiver's path to the
+new path pathString. If a file already exists at pathString,
+it is silently overwritten. Raises a File error exception if
+the rename fails.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">name</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the last path component of the file path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">open(optionalPathString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Opens the file. Creates one if it does not exist.
+If the optionalPathString argument is provided, the path is set to it before
+opening. Returns self or raises an File exception on error.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">openForAppending(optionalPathString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file mode to append (writing to the end of the file)
+and calls open(optionalPathString).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">openForReading(optionalPathString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file mode to read (reading only) and calls
+open(optionalPathString).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">openForUpdating(optionalPathString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file mode to update (reading and writing) and calls
+open(optionalPathString). This will not delete the file if it already
+exists. Use the remove method first if you need to delete an existing file
+before opening a new one.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">parentDirectory</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a File for the directory that is the parent directory of this object's path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">path</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the file path of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">popen</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Open the file as a pipe. Return self.
+
+Closing a popen'ed file sets exitStatus or termSignal
+to reflect the status or cause of the child processes' termination.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">position</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the current file pointer byte position as a Number.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">positionAtEnd</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file position pointer to the end of the file.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">protectionMode</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Number containing the protection mode
+associated with the file's path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">readBufferOfLength(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Reads a Buffer of the specified length and returns it.
+Returns Nil if the end of the file has been reached.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">readLine</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Reads the next line of the file and returns it as a
+string without the return character. Returns Nil if the
+end of the file has been reached.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">readLines</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns list containing all lines in the file.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">readStringOfLength(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Reads a String of the specified length and returns it.
+Returns Nil if the end of the file has been reached.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">readToBufferLength(aBuffer, aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Reads at most aNumber number of items and appends them to aBuffer.
+Returns number of items read.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">readToEnd(chunkSize)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Reads chunkSize bytes (4096 by default) at a time until end of file is reached.  Returns a sequence containing the bytes read from the file.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">remove</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Removes the file specified by the receiver's path.
+Raises an error if the file exists but is not removed. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">reopen(otherFile, mode)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Reopens otherFile and redirects its stream to this file's path using mode.
+If mode is omitted, it is copied from otherFile.
+Returns self or raises a File exception on error.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">rewind</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file position pointer to the beginning of the file.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setContents(aSeq)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Replaces the contents for the file with aSeq. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setPath(aString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file path of the receiver to pathString.
+The default path is an empty string. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setPosition(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the file position pointer to the byte specified by aNumber. Returns
+self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setStreamDestination(aBuffer)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Set the buffer to be used for future stream operations.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">size</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the file size in bytes.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">standardError</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new File whose stream is set to the standard error stream.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">standardInput</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new File whose stream is set to the standard input stream.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">standardOutput</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new File whose stream is set to the standard output stream.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">startStreaming</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Begin streamed read to stream destination set by setStreamDestination(aBuffer).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">stat</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Updates the receiver's meta info cache.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">statSize</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the file's size in bytes as a Number.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">streamDestination</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>The buffer object to be used for future stream operations.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">streamReadSize</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Size of stream buffer used for streaming operations</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">streamTo(aBuffer)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Perform streamed reading to given buffer. The buffer will be appended with chunks of size streamReadSize until EOF. The final chunk may be less than streamReadSize.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">streamToWithoutYielding(aBuffer)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Perform streamed reading to given buffer without yielding between reads.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">temporaryFile</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new File object with an open temporary file. The file is
+automatically deleted when the returned File object is closed or garbage
+collected.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">termSignal</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Pipe's terminating signal (after file close opened via popen).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">thisSourceFile</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a File representing the system file in which this Io code exists.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">truncateToSize(numberOfBytes)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Truncates the file's size to the numberOfBytes. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">userId</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Number containing the user id associated with the file's path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">with(aPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new instance with the provided path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">write(aSequence1, aSequence2, ...)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Writes the arguments to the receiver file. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

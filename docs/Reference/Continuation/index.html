@@ -4,10 +4,120 @@
 <meta charset="utf-8">
 <title>Continuation – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Continuation</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A first-class continuation captured by <code>callcc</code>. Represents a resumable snapshot of execution state; invoking it re-enters the captured context.</p><nav class="toc"><ul><li><a href="#asmap">asMap</a></li><li><a href="#copy">copy</a></li><li><a href="#framecount">frameCount</a></li><li><a href="#framemessages">frameMessages</a></li><li><a href="#framestates">frameStates</a></li><li><a href="#frommapamap">fromMap(aMap)</a></li><li><a href="#invokevalue">invoke(value)</a></li><li><a href="#isinvoked">isInvoked</a></li></ul></nav><h2 id="asmap">asMap</h2><div class="section"><div class="section-body"><p>Returns a Map representation of the captured continuation state.</p></div></div><h2 id="copy">copy</h2><div class="section"><div class="section-body"><p>Returns a deep copy of this continuation. The copy has an independent frame chain that can be invoked separately. Use this for multi-shot or delayed invocation patterns.</p><p>Example: saved := nil callcc(block(cont, saved = cont copy  // deep copy while frames are live "normal" )) // Later: saved invoke("delayed")</p></div></div><h2 id="framecount">frameCount</h2><div class="section"><div class="section-body"><p>Returns the number of frames in the captured continuation stack. Returns 0 if no state has been captured.</p></div></div><h2 id="framemessages">frameMessages</h2><div class="section"><div class="section-body"><p>Returns a list of strings showing the current message at each frame in the captured continuation stack (from top to bottom).</p></div></div><h2 id="framestates">frameStates</h2><div class="section"><div class="section-body"><p>Returns a list of strings describing the state of each frame in the captured continuation stack (from top to bottom).</p></div></div><h2 id="frommapamap">fromMap(aMap)</h2><div class="section"><div class="section-body"><p>Restores a Continuation from a Map representation produced by asMap. Returns self with the restored continuation state.</p></div></div><h2 id="invokevalue">invoke(value)</h2><div class="section"><div class="section-body"><p>Invokes the continuation, restoring the captured execution state. The value argument becomes the result of the original callcc call. Continuations are one-shot: they can only be invoked once. Use copy to create a fresh continuation for multiple invocations.</p></div></div><h2 id="isinvoked">isInvoked</h2><div class="section"><div class="section-body"><p>Returns true if this continuation has been invoked.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>Continuation</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>A first-class continuation captured by `callcc`. Represents a resumable
+snapshot of execution state; invoking it re-enters the captured context.</description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">asMap</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Map representation of the captured continuation state.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">copy</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a deep copy of this continuation. The copy has an independent
+frame chain that can be invoked separately. Use this for multi-shot
+or delayed invocation patterns.
+
+Example:
+saved := nil
+callcc(block(cont,
+saved = cont copy  // deep copy while frames are live
+"normal"
+))
+// Later: saved invoke("delayed")</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">frameCount</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the number of frames in the captured continuation stack.
+Returns 0 if no state has been captured.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">frameMessages</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of strings showing the current message at each
+frame in the captured continuation stack (from top to bottom).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">frameStates</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of strings describing the state of each frame
+in the captured continuation stack (from top to bottom).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">fromMap(aMap)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Restores a Continuation from a Map representation produced by asMap.
+Returns self with the restored continuation state.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">invoke(value)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Invokes the continuation, restoring the captured execution state.
+The value argument becomes the result of the original callcc call.
+Continuations are one-shot: they can only be invoked once.
+Use copy to create a fresh continuation for multiple invocations.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isInvoked</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if this continuation has been invoked.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

@@ -4,10 +4,210 @@
 <meta charset="utf-8">
 <title>Call – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Call</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Call stores slots related to activation.</p><nav class="toc"><ul><li><a href="#activated">activated</a></li><li><a href="#argatargnumber">argAt(argNumber)</a></li><li><a href="#argcount">argCount</a></li><li><a href="#coroutine">coroutine</a></li><li><a href="#delegatetotarget-altsender">delegateTo(target, altSender)</a></li><li><a href="#delegatetomethodtarget-methodname">delegateToMethod(target, methodName)</a></li><li><a href="#description">description</a></li><li><a href="#evalargatargnumber">evalArgAt(argNumber)</a></li><li><a href="#evalargs">evalArgs</a></li><li><a href="#hasargs">hasArgs</a></li><li><a href="#message">message</a></li><li><a href="#relaystopstatusarg">relayStopStatus(arg)</a></li><li><a href="#resetstopstatusarg">resetStopStatus(arg)</a></li><li><a href="#sender">sender</a></li><li><a href="#setstopstatusastatusobject">setStopStatus(aStatusObject)</a></li><li><a href="#slotcontext">slotContext</a></li><li><a href="#stopstatus">stopStatus</a></li><li><a href="#target">target</a></li></ul></nav><h2 id="activated">activated</h2><div class="section"><div class="section-body"><p>Returns the activated value.</p></div></div><h2 id="argatargnumber">argAt(argNumber)</h2><div class="section"><div class="section-body"><p>Returns the message's argNumber arg. Shorthand for same as call message argAt(argNumber).</p></div></div><h2 id="argcount">argCount</h2><div class="section"><div class="section-body"><p>Returns the number of arguments for the call. Shortcut for "call message argCount".</p></div></div><h2 id="coroutine">coroutine</h2><div class="section"><div class="section-body"><p>Returns the coroutine in which the message was sent.</p></div></div><h2 id="delegatetotarget-altsender">delegateTo(target, altSender)</h2><div class="section"><div class="section-body"><p>Sends the call's message to target (and relays it's stop status). The sender is set to altSender, if it is supplied. Returns the result of the message.</p></div></div><h2 id="delegatetomethodtarget-methodname">delegateToMethod(target, methodName)</h2><div class="section"><div class="section-body"><p>Sends the call's message to target via the method specified by methodName. Returns the result of the message.</p></div></div><h2 id="description">description</h2><div class="section"><div class="section-body"><p>Returns a description of the receiver as a String.</p></div></div><h2 id="evalargatargnumber">evalArgAt(argNumber)</h2><div class="section"><div class="section-body"><p>Evaluates the specified argument of the Call's message in the context of its sender.</p></div></div><h2 id="evalargs">evalArgs</h2><div class="section"><div class="section-body"><p>Returns a list containing the call message arguments evaluated in the context of the sender.</p></div></div><h2 id="hasargs">hasArgs</h2><div class="section"><div class="section-body"><p>Returns true if the call was passed arguments.</p></div></div><h2 id="message">message</h2><div class="section"><div class="section-body"><p>Returns the message value.</p></div></div><h2 id="relaystopstatusarg">relayStopStatus(arg)</h2><div class="section"><div class="section-body"><p>Sets sender's stop status (Normal, Return, Break, Continue etc.) and returns evaluated argument.</p></div></div><h2 id="resetstopstatusarg">resetStopStatus(arg)</h2><div class="section"><div class="section-body"><p>Sets stop status to Normal. See also <tt>Call setStopStatus</tt>.</p></div></div><h2 id="sender">sender</h2><div class="section"><div class="section-body"><p>Returns the sender value.</p></div></div><h2 id="setstopstatusastatusobject">setStopStatus(aStatusObject)</h2><div class="section"><div class="section-body"><p>Sets the stop status on the call.</p></div></div><h2 id="slotcontext">slotContext</h2><div class="section"><div class="section-body"><p>Returns the slotContext value.</p></div></div><h2 id="stopstatus">stopStatus</h2><div class="section"><div class="section-body"><p>Returns the stop status on the call. (description of stopStatus will be added once we decide whether or not to keep it)</p></div></div><h2 id="target">target</h2><div class="section"><div class="section-body"><p>Returns the target value.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>Call</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>Call stores slots related to activation.</description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">activated</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the activated value.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">argAt(argNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the message's argNumber arg. Shorthand for same as call message
+argAt(argNumber).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">argCount</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the number of arguments for the call. Shortcut for "call message argCount".</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">coroutine</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the coroutine in which the message was sent.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">delegateTo(target, altSender)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sends the call's message to target (and relays it's stop status).
+The sender is set to altSender, if it is supplied.
+Returns the result of the message.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">delegateToMethod(target, methodName)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sends the call's message to target via the method specified by methodName.
+Returns the result of the message.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">description</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a description of the receiver as a String.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">evalArgAt(argNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Evaluates the specified argument of the Call's message in the context of its
+sender.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">evalArgs</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list containing the call message arguments evaluated in the context of the sender.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">hasArgs</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the call was passed arguments.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">message</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the message value.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">relayStopStatus(arg)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets sender's stop status (Normal, Return,
+Break, Continue etc.) and returns evaluated argument.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">resetStopStatus(arg)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets stop status to Normal.
+See also <tt>Call setStopStatus</tt>.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">sender</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the sender value.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setStopStatus(aStatusObject)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the stop status on the call.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">slotContext</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the slotContext value.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">stopStatus</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the stop status on the call. (description of stopStatus will
+be added once we decide whether or not to keep it)</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">target</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the target value.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

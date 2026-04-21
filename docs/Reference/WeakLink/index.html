@@ -4,10 +4,47 @@
 <meta charset="utf-8">
 <title>WeakLink – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>WeakLink</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><div class="section"><div class="section-body"><p>A WeakLink is a primitive that can hold a reference to an object without preventing the garbage collector from collecting it. The link reference is set with the setLink() method. After the garbage collector collects an object, it informs any (uncollected) WeakLink objects whose link value pointed to that object by calling their "collectedLink" method.</p></div></div><h2 id="link">link</h2><div class="section"><div class="section-body"><p>Returns the link pointer or Nil if none is set.</p></div></div><h2 id="setlinkavalue">setLink(aValue)</h2><div class="section"><div class="section-body"><p>Sets the link pointer. Returns self.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>WeakLink</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>A WeakLink is a primitive that can hold a reference to
+an object without preventing the garbage collector from
+collecting it. The link reference is set with the setLink() method.
+After the garbage collector collects an object, it informs any
+(uncollected) WeakLink objects whose link value pointed to that
+object by calling their "collectedLink" method.</description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">link</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the link pointer or Nil if none is set.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setLink(aValue)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the link pointer. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

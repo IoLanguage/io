@@ -4,10 +4,226 @@
 <meta charset="utf-8">
 <title>Duration – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Duration</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A container for a duration of time.</p><nav class="toc"><ul><li><a href="#">-</a></li><li><a href="#aduration">-=(aDuration)</a></li><li><a href="#">+</a></li><li><a href="#aduration">+=(aDuration)</a></li><li><a href="#asnumber">asNumber</a></li><li><a href="#asstringformatstring">asString(formatString)</a></li><li><a href="#days">days</a></li><li><a href="#fromnumberanumber">fromNumber(aNumber)</a></li><li><a href="#hours">hours</a></li><li><a href="#minutes">minutes</a></li><li><a href="#print">print</a></li><li><a href="#seconds">seconds</a></li><li><a href="#setdaysanumber">setDays(aNumber)</a></li><li><a href="#sethoursanumber">setHours(aNumber)</a></li><li><a href="#setminutesanumber">setMinutes(aNumber)</a></li><li><a href="#setsecondsanumber">setSeconds(aNumber)</a></li><li><a href="#setyearsanumber">setYears(aNumber)</a></li><li><a href="#totalseconds">totalSeconds</a></li><li><a href="#years">years</a></li></ul></nav><h2 id="">-</h2><div class="section"><div class="section-body"><p>Returns a new Duration of the two subtracted.</p></div></div><h2 id="aduration">-=(aDuration)</h2><div class="section"><div class="section-body"><p>Subtract aDuration to the receiver. Returns self.</p></div></div><h2 id="">+</h2><div class="section"><div class="section-body"><p>Returns a new Duration of the two added.</p></div></div><h2 id="aduration">+=(aDuration)</h2><div class="section"><div class="section-body"><p>Add aDuration to the receiver. Returns self.</p></div></div><h2 id="asnumber">asNumber</h2><div class="section"><div class="section-body"><p>Returns a number representation of the receiver. (where 1 is equal to one second)</p></div></div><h2 id="asstringformatstring">asString(formatString)</h2><div class="section"><div class="section-body"><p>Returns a string representation of the receiver. The formatString argument is optional. If present, the returned string will be formatted according to ANSI C date formating rules. <p> <pre> %y years without century as two-digit decimal number (00-99) %Y year with century as four-digit decimal number</p><p>%d days %H hour as two-digit 24-hour clock decimal integer (00-23) %M minute as a two-digit decimal integer (00-59) %S second as a two-digit decimal integer (00-59)</p><p>The default format is "%Y %d %H:%M:%S". </pre></p></div></div><h2 id="days">days</h2><div class="section"><div class="section-body"><p>Returns a number containing the day of the month of the receiver.</p></div></div><h2 id="fromnumberanumber">fromNumber(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the receiver to the Duration specified by aNumber(same format number as returned by Duration asNumber). Returns self.</p></div></div><h2 id="hours">hours</h2><div class="section"><div class="section-body"><p>Returns a number containing the hour of the day(0-23) of the receiver.</p></div></div><h2 id="minutes">minutes</h2><div class="section"><div class="section-body"><p>Returns a number containing the minute of the hour(0-59) of the receiver.</p></div></div><h2 id="print">print</h2><div class="section"><div class="section-body"><p>Prints the receiver. Returns self.</p></div></div><h2 id="seconds">seconds</h2><div class="section"><div class="section-body"><p>Returns a number containing the seconds of the minute(0-59) of the receiver. This number may contain fractions of seconds.</p></div></div><h2 id="setdaysanumber">setDays(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the day of the receiver. Returns self.</p></div></div><h2 id="sethoursanumber">setHours(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the hour of the receiver. Returns self.</p></div></div><h2 id="setminutesanumber">setMinutes(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the minute of the receiver. Returns self.</p></div></div><h2 id="setsecondsanumber">setSeconds(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the second of the receiver. Return self.</p></div></div><h2 id="setyearsanumber">setYears(aNumber)</h2><div class="section"><div class="section-body"><p>Sets the year of the receiver. Returns self.</p></div></div><h2 id="totalseconds">totalSeconds</h2><div class="section"><div class="section-body"><p>Same as a asNumber.</p></div></div><h2 id="years">years</h2><div class="section"><div class="section-body"><p>Returns a number containing the year of the receiver.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>Duration</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>A container for a duration of time.</description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">-</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new Duration of the two subtracted.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">-=(aDuration)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Subtract aDuration to the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">+</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new Duration of the two added.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">+=(aDuration)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Add aDuration to the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">asNumber</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a number representation of the receiver.
+(where 1 is equal to one second)</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">asString(formatString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a string representation of the receiver. The formatString argument
+is optional. If present, the returned string will be formatted according to
+ANSI C date formating rules. <p> <pre> %y years without century as two-digit
+decimal number (00-99) %Y year with century as four-digit decimal number
+
+%d days
+%H hour as two-digit 24-hour clock decimal integer (00-23)
+%M minute as a two-digit decimal integer (00-59)
+%S second as a two-digit decimal integer (00-59)
+
+The default format is "%Y %d %H:%M:%S".
+</pre></description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">days</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a number containing the day of the month of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">fromNumber(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the receiver to the Duration specified by
+aNumber(same format number as returned by Duration asNumber). Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">hours</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a number containing the hour of the day(0-23) of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">minutes</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a number containing the minute of the hour(0-59) of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">print</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Prints the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">seconds</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a number containing the seconds of the minute(0-59) of the receiver.
+This number may contain fractions of seconds.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setDays(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the day of the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setHours(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the hour of the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setMinutes(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the minute of the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setSeconds(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the second of the receiver. Return self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setYears(aNumber)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the year of the receiver. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">totalSeconds</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Same as a asNumber.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">years</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a number containing the year of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

@@ -1,0 +1,177 @@
+/* Class documentation pages — adapted from strvct.net's class_doc_style.css. */
+
+body > .page {
+    max-width: 1080px;
+}
+
+class {
+    display: block;
+}
+
+/* Hidden metadata fields. */
+classInfo > className,
+classInfo > category,
+method > name,
+method > methodName,
+method > lineno,
+method > isAsync,
+linenumberstart,
+linenumberend,
+isstatic,
+access,
+author,
+version {
+    display: none;
+}
+
+/* ---------- class header block ---------- */
+
+classInfo {
+    display: block;
+    padding-bottom: 24px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.8;
+}
+
+classInfo > description {
+    display: block;
+    white-space: pre-wrap;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.75;
+}
+
+/* ---------- section headings ---------- */
+
+instancemethods {
+    display: block;
+    border-top: 1px solid #ddd;
+    padding: 30px 0;
+}
+
+instancemethods:before {
+    content: "Slots";
+    display: block;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+    color: #2a2a2a;
+    margin-bottom: 24px;
+}
+
+/* ---------- categories within a section ---------- */
+
+category {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 4px;
+}
+
+category:first-child {
+    margin-top: 0;
+}
+
+category > name {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #2a2a2a;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+category:not(:has(> name)) {
+    margin-top: 0;
+}
+
+/* ---------- methods ---------- */
+
+method {
+    display: block;
+    padding: 2px 0;
+    border-bottom: 1px solid #ececec;
+}
+
+method:last-child {
+    border-bottom: none;
+}
+
+method > fullMethodName {
+    display: block;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-size: 13px;
+    color: #2a2a2a;
+    padding: 8px 0 8px 18px;
+    transition: color 0.15s;
+}
+
+method > fullMethodName:hover {
+    color: #000;
+}
+
+method.expanded > fullMethodName {
+    color: #000;
+    font-weight: 500;
+}
+
+/* Collapsible indicator. */
+.collapsible {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.collapsible::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    color: #bbb;
+    line-height: 1;
+    transition: color 0.15s;
+}
+
+.collapsible:hover::before {
+    color: #2a2a2a;
+}
+
+.collapsible.expanded::before {
+    content: '▼';
+    color: #2a2a2a;
+}
+
+.collapsible-content {
+    display: none;
+}
+
+.collapsible-content.show {
+    display: block;
+}
+
+.method-info-content {
+    border-left: 2px solid #e6e6e3;
+    padding: 2px 0 10px 18px;
+    margin: 4px 0 10px 18px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.75;
+}
+
+methodinfo description {
+    display: block;
+    margin: 2px 0 10px;
+    white-space: pre-wrap;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 700px) {
+    body > .page {
+        max-width: 100%;
+    }
+}

@@ -4,10 +4,185 @@
 <meta charset="utf-8">
 <title>Exception – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Exception</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><nav class="toc"><ul><li><a href="#findhandler">_findHandler</a></li><li><a href="#resumption">_Resumption</a></li><li><a href="#catchexceptionproto">catch(exceptionProto)</a></li><li><a href="#caughtmessage">caughtMessage</a></li><li><a href="#error">error</a></li><li><a href="#nestedexception">nestedException</a></li><li><a href="#originalcall">originalCall</a></li><li><a href="#pass">pass</a></li><li><a href="#raiseerror">raise(error,</a></li><li><a href="#showstack">showStack</a></li><li><a href="#signalerror-optionalnestedexception">signal(error, optionalNestedException)</a></li></ul></nav><div class="section"><div class="section-body"><p>The Exception proto is used for raising exceptions; instances hold exception-related info.</p><p><p><b>Raise</b><p></p><p>An exception can be raised by calling raise() on an exception proto. Exception raise("generic foo exception")</p><p><p><b>Try and Catch</b><p></p><p>To catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught.</p><p><pre> e := try(<doMessage>) </pre></p><p>To catch a particular exception, the Exception catch() method can be used. Example:</p><p><pre> e := try( // ... )</p><p>e catch(Exception, writeln(e coroutine backtraceString) ) </pre></p><p>The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.</p><p><p><b>Pass</b><p></p><p>To re-raise an exception caught by try(), use the pass method. This is useful to pass the exception up to the next outer exception handler, usually after all catches failed to match the type of the current exception: <pre> e := try( // ... )</p><p>e catch(Error, // ... ) catch(Exception, // ... ) pass </pre></p><p><p><b>Custom Exceptions</b><p></p><p>Custom exception types can be implemented by simply cloning an existing Exception type: <pre> MyErrorType := Error clone </pre></p></div></div><h2 id="findhandler">_findHandler</h2><div class="section"><div class="section-body"><p>Walks handler stacks from the current coroutine up through the parentCoroutine chain. Returns the first matching handler block for this exception type, or nil.</p></div></div><h2 id="resumption">_Resumption</h2><div class="section"><div class="section-body"><p>A simple object whose invoke(v) returns v.</p></div></div><h2 id="catchexceptionproto">catch(exceptionProto)</h2><div class="section"><div class="section-body"><p>Catch an exception with the specified exception prototype.</p></div></div><h2 id="caughtmessage">caughtMessage</h2><div class="section"><div class="section-body"><p>Returns the message object associated with the exception.</p></div></div><h2 id="error">error</h2><div class="section"><div class="section-body"><p>Returns the coroutine that the exception occurred in.</p></div></div><h2 id="nestedexception">nestedException</h2><div class="section"><div class="section-body"><p>Returns the nestedException if there is one.</p></div></div><h2 id="originalcall">originalCall</h2><div class="section"><div class="section-body"><p>Returns the call object associated with the exception.</p></div></div><h2 id="pass">pass</h2><div class="section"><div class="section-body"><p>Pass the exception up the stack.</p></div></div><h2 id="raiseerror">raise(error,</h2><div class="section"><div class="section-body"><p>optionalNestedException) Raise an exception with the specified error message.</p></div></div><h2 id="showstack">showStack</h2><div class="section"><div class="section-body"><p>Print the exception and related stack.</p></div></div><h2 id="signalerror-optionalnestedexception">signal(error, optionalNestedException)</h2><div class="section"><div class="section-body"><p>Raises a resumable exception. If a matching handler is installed via withHandler, the handler is called with (exception, resume). The handler can resume execution at the signal site by calling resume invoke(value), or simply returning a value (which auto-resumes). If no handler is found, falls back to non-resumable raise.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>Exception</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>The Exception proto is used for raising exceptions; instances hold exception-related info.
+
+<p><b>Raise</b><p>
+
+An exception can be raised by calling raise() on an exception proto.
+Exception raise("generic foo exception")
+
+<p><b>Try and Catch</b><p>
+
+To catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught.
+
+<pre>
+e := try(<doMessage>)
+</pre>
+
+To catch a particular exception, the Exception catch() method can be used. Example:
+
+<pre>
+e := try(
+// ...
+)
+
+e catch(Exception,
+writeln(e coroutine backtraceString)
+)
+</pre>
+
+The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
+
+<p><b>Pass</b><p>
+
+To re-raise an exception caught by try(), use the pass method. This is useful to pass the exception up to the next outer exception handler, usually after all catches failed to match the type of the current exception:
+<pre>
+e := try(
+// ...
+)
+
+e catch(Error,
+// ...
+) catch(Exception,
+// ...
+) pass
+</pre>
+
+<p><b>Custom Exceptions</b><p>
+
+Custom exception types can be implemented by simply cloning an existing Exception type:
+<pre>
+MyErrorType := Error clone
+</pre></description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">_findHandler</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Walks handler stacks from the current coroutine up through the parentCoroutine chain.
+Returns the first matching handler block for this exception type, or nil.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">_Resumption</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>A simple object whose invoke(v) returns v.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">catch(exceptionProto)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Catch an exception with the specified exception prototype.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">caughtMessage</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the message object associated with the exception.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">error</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the coroutine that the exception occurred in.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">nestedException</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the nestedException if there is one.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">originalCall</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the call object associated with the exception.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">pass</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Pass the exception up the stack.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">raise(error,</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>optionalNestedException) Raise an exception with the specified error message.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">showStack</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Print the exception and related stack.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">signal(error, optionalNestedException)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Raises a resumable exception. If a matching handler is installed via withHandler,
+the handler is called with (exception, resume). The handler can resume
+execution at the signal site by calling resume invoke(value), or simply returning
+a value (which auto-resumes). If no handler is found, falls back to non-resumable raise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

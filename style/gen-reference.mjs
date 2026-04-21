@@ -158,6 +158,70 @@ function shellHtml (title, depth) {
 `;
 }
 
+function escapeHtml (s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// Render a proto as a standalone class-doc page (not driven by the layout
+// engine). Modeled on strvct.net's class_doc layout: custom tags styled via
+// class-doc.css, collapsible methods via class-doc.js.
+function protoHtml (proto, bucket, depth) {
+    const up = "../".repeat(depth);
+    const desc = (bucket.metadoc.get("description") || "").trim();
+
+    const slots = [...bucket.slots.entries()]
+        .sort((a, b) => slotSortKey(a[0]).localeCompare(slotSortKey(b[0])));
+
+    const methodsHtml = slots.map(([name, info]) => {
+        const body = (info.body || "").trim();
+        return `  <method class="collapsed">
+    <fullMethodName class="collapsible">${escapeHtml(name)}</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>${body}</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>`;
+    }).join("\n");
+
+    const body = `<class>
+  <classInfo>
+    ${desc ? `<description>${desc}</description>` : ""}
+  </classInfo>
+  <instancemethods>
+    <category>
+${methodsHtml}
+    </category>
+  </instancemethods>
+</class>`;
+
+    return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${escapeHtml(proto)} – Io</title>
+<link rel="stylesheet" href="${up}style/style.css">
+<link rel="stylesheet" href="${up}style/class-doc.css">
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+</head>
+<body>
+<div class="page loaded">
+<div class="header"><div><h1>${escapeHtml(proto)}</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="${up}index.html">Io</a></div>
+${body}
+</div>
+<script src="${up}style/class-doc.js"></script>
+</body>
+</html>
+`;
+}
+
 // Wipe and recreate the Reference directory.
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
@@ -176,38 +240,15 @@ landing += "\n";
 writeFileSync(join(OUT, "_index.md"), landing);
 writeFileSync(join(OUT, "index.html"), shellHtml("Reference", 2));
 
-// Per-proto pages.
+// Per-proto pages. Standalone class-doc HTML, no _index.md — static-gen
+// only touches pages that have both index.html AND _index.{md,json}, so
+// proto pages are skipped by it.
 let totalSlots = 0;
 for (const [proto, bucket] of byProto) {
     const dir = join(OUT, proto);
     mkdirSync(dir, { recursive: true });
-
-    let page = `# ${proto}\n\n`;
-    const desc = (bucket.metadoc.get("description") || "").trim();
-    if (desc) page += `${desc}\n\n`;
-
-    // Other metadoc fields surface as a small list. Hide boilerplate
-    // (copyright/license/credits/author) and anything already rendered.
-    const hiddenMeta = new Set(["description", "copyright", "license", "credits", "author", "category"]);
-    const otherMeta = [...bucket.metadoc.entries()].filter(([k]) => !hiddenMeta.has(k));
-    if (otherMeta.length > 0) {
-        for (const [k, v] of otherMeta) {
-            page += `- **${k}**: ${v.trim()}\n`;
-        }
-        page += "\n";
-    }
-
-    const slots = [...bucket.slots.entries()]
-        .sort((a, b) => slotSortKey(a[0]).localeCompare(slotSortKey(b[0])));
-
-    for (const [name, info] of slots) {
-        page += `## ${name}\n\n`;
-        if (info.body) page += `${info.body}\n\n`;
-    }
-
-    writeFileSync(join(dir, "_index.md"), page);
-    writeFileSync(join(dir, "index.html"), shellHtml(proto, 3));
-    totalSlots += slots.length;
+    writeFileSync(join(dir, "index.html"), protoHtml(proto, bucket, 3));
+    totalSlots += bucket.slots.size;
 }
 
 console.log(`Reference: ${byProto.size} protos, ${totalSlots} slots, ${categories.length} categories.`);

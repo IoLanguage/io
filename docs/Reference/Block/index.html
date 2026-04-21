@@ -4,10 +4,239 @@
 <meta charset="utf-8">
 <title>Block – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Block</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Blocks are anonymous functions (messages with their own locals object). They are typically used to represent object methods.</p><nav class="toc"><ul><li><a href="#argumentnames">argumentNames</a></li><li><a href="#assimplestring">asSimpleString</a></li><li><a href="#asstring">asString</a></li><li><a href="#callarg0-arg1">call(arg0, arg1, ...)</a></li><li><a href="#callwitharglistalist">callWithArgList(aList)</a></li><li><a href="#code">code</a></li><li><a href="#formatter">Formatter</a></li><li><a href="#justserializedstream">justSerialized(stream)</a></li><li><a href="#message">message</a></li><li><a href="#passstops">passStops</a></li><li><a href="#performonanobject-optionallocals-optionalmessage">performOn(anObject, optionalLocals, optionalMessage,</a></li><li><a href="#print">print</a></li><li><a href="#println">println</a></li><li><a href="#profilertime">profilerTime</a></li><li><a href="#scope">scope</a></li><li><a href="#setargumentnamesalistofstrings">setArgumentNames(aListOfStrings)</a></li><li><a href="#setcodeastring">setCode(aString)</a></li><li><a href="#setmessageamessage">setMessage(aMessage)</a></li><li><a href="#setpassstopsabool">setPassStops(aBool)</a></li><li><a href="#setprofileronabool">setProfilerOn(aBool)</a></li><li><a href="#setscopeanobjectornil">setScope(anObjectOrNil)</a></li></ul></nav><h2 id="argumentnames">argumentNames</h2><div class="section"><div class="section-body"><p>Returns a List of strings containing the argument names of the receiver.</p></div></div><h2 id="assimplestring">asSimpleString</h2><div class="section"><div class="section-body"><p>Returns a short description of the receiver.</p></div></div><h2 id="asstring">asString</h2><div class="section"><div class="section-body"><p>Returns a full description of the receiver with decompiled code.</p></div></div><h2 id="callarg0-arg1">call(arg0, arg1, ...)</h2><div class="section"><div class="section-body"><p>Activates the receiver with the provided arguments.</p></div></div><h2 id="callwitharglistalist">callWithArgList(aList)</h2><div class="section"><div class="section-body"><p>Activates the block with the given argument list.</p></div></div><h2 id="code">code</h2><div class="section"><div class="section-body"><p>Returns a string containing the decompiled code of the receiver.</p></div></div><h2 id="formatter">Formatter</h2><div class="section"><div class="section-body"><p>Helper object for the <tt>asString</tt> method.</p></div></div><h2 id="justserializedstream">justSerialized(stream)</h2><div class="section"><div class="section-body"><p>Writes the receiver's code into the stream.</p></div></div><h2 id="message">message</h2><div class="section"><div class="section-body"><p>Returns the root message of the receiver.</p></div></div><h2 id="passstops">passStops</h2><div class="section"><div class="section-body"><p>Returns whether or not the receiver passes return/continue/break to caller.</p></div></div><h2 id="performonanobject-optionallocals-optionalmessage">performOn(anObject, optionalLocals, optionalMessage,</h2><div class="section"><div class="section-body"><p>optionalSlotContext) Activates the receiver in the target context of anObject. Returns the result.</p></div></div><h2 id="print">print</h2><div class="section"><div class="section-body"><p>Prints an Io source code representation of the block/method.</p></div></div><h2 id="println">println</h2><div class="section"><div class="section-body"><p>Same as <tt>print</tt>.</p></div></div><h2 id="profilertime">profilerTime</h2><div class="section"><div class="section-body"><p>Returns clock() time spent in compiler in seconds.</p></div></div><h2 id="scope">scope</h2><div class="section"><div class="section-body"><p>Returns the scope used when the block is activated or Nil if the target of the message is the scope.</p></div></div><h2 id="setargumentnamesalistofstrings">setArgumentNames(aListOfStrings)</h2><div class="section"><div class="section-body"><p>Sets the receiver's argument names to those specified in aListOfStrings. Returns self.</p></div></div><h2 id="setcodeastring">setCode(aString)</h2><div class="section"><div class="section-body"><p>Sets the receiver's message to a compiled version of aString. Returns self.</p></div></div><h2 id="setmessageamessage">setMessage(aMessage)</h2><div class="section"><div class="section-body"><p>Sets the root message of the receiver to aMessage.</p></div></div><h2 id="setpassstopsabool">setPassStops(aBool)</h2><div class="section"><div class="section-body"><p>Sets whether the receiver passes return/continue/break to caller.</p></div></div><h2 id="setprofileronabool">setProfilerOn(aBool)</h2><div class="section"><div class="section-body"><p>If aBool is true, the global block profiler is enabled, if false it is disabled. Returns self.</p></div></div><h2 id="setscopeanobjectornil">setScope(anObjectOrNil)</h2><div class="section"><div class="section-body"><p>If argument is an object, when the block is activated, it will set the proto and self slots of its locals to the specified object. If Nil, it will set them to the target of the message.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>Block</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>Blocks are anonymous functions (messages with their own locals object).
+They are typically used to represent object methods.</description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">argumentNames</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a List of strings containing the argument names of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">asSimpleString</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a short description of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">asString</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a full description of the receiver with decompiled code.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">call(arg0, arg1, ...)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Activates the receiver with the provided arguments.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">callWithArgList(aList)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Activates the block with the given argument list.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">code</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a string containing the decompiled code of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">Formatter</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Helper object for the <tt>asString</tt> method.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">justSerialized(stream)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Writes the receiver's code into the stream.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">message</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the root message of the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">passStops</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns whether or not the receiver passes return/continue/break to caller.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">performOn(anObject, optionalLocals, optionalMessage,</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>optionalSlotContext) Activates the receiver in the target context of
+anObject. Returns the result.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">print</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Prints an Io source code representation of the block/method.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">println</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Same as <tt>print</tt>.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">profilerTime</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns clock() time spent in compiler in seconds.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">scope</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the scope used when the block is activated or
+Nil if the target of the message is the scope.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setArgumentNames(aListOfStrings)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the receiver's argument names to those specified in
+aListOfStrings. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setCode(aString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the receiver's message to a compiled version of aString. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setMessage(aMessage)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the root message of the receiver to aMessage.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setPassStops(aBool)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets whether the receiver passes return/continue/break to caller.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setProfilerOn(aBool)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>If aBool is true, the global block profiler is enabled, if false it is
+disabled. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setScope(anObjectOrNil)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>If argument is an object, when the block is activated,
+it will set the proto and self slots of its locals to the specified
+object. If Nil, it will set them to the target of the message.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>

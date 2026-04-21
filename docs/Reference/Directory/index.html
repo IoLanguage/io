@@ -4,10 +4,384 @@
 <meta charset="utf-8">
 <title>Directory – Io</title>
 <link rel="stylesheet" href="../../../style/style.css">
+<link rel="stylesheet" href="../../../style/class-doc.css">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Directory</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><nav class="toc"><ul><li><a href="#accessibleancestors">accessibleAncestors</a></li><li><a href="#accessibleparents">accessibleParents</a></li><li><a href="#ancestordirectories">ancestorDirectories</a></li><li><a href="#atastring">at(aString)</a></li><li><a href="#create">create</a></li><li><a href="#createfilenamedname">createFileNamed(name)</a></li><li><a href="#createifabsent">createIfAbsent</a></li><li><a href="#createsubdirectoryname">createSubdirectory(name)</a></li><li><a href="#currentworkingdirectory">currentWorkingDirectory</a></li><li><a href="#directories">directories</a></li><li><a href="#directorynamedaname">directoryNamed(aName)</a></li><li><a href="#existsoptionalpath">exists(optionalPath)</a></li><li><a href="#filenamedaname">fileNamed(aName)</a></li><li><a href="#filenames">fileNames</a></li><li><a href="#files">files</a></li><li><a href="#fileswithextensionastring">filesWithExtension(aString)</a></li><li><a href="#foldernamedaname">folderNamed(aName)</a></li><li><a href="#foldernamedcreateifabsentname">folderNamedCreateIfAbsent(name)</a></li><li><a href="#folders">folders</a></li><li><a href="#isaccessible">isAccessible</a></li><li><a href="#items">items</a></li><li><a href="#localitems">localItems</a></li><li><a href="#movetoapath">moveTo(aPath)</a></li><li><a href="#name">name</a></li><li><a href="#parentdirectory">parentDirectory</a></li><li><a href="#parents">parents</a></li><li><a href="#path">path</a></li><li><a href="#recursivefilesoftypessuffixes">recursiveFilesOfTypes(suffixes)</a></li><li><a href="#remove">remove</a></li><li><a href="#setcurrentworkingdirectorypathstring">setCurrentWorkingDirectory(pathString)</a></li><li><a href="#setpathastring">setPath(aString)</a></li><li><a href="#size">size</a></li><li><a href="#walk">walk</a></li><li><a href="#withapath">with(aPath)</a></li></ul></nav><div class="section"><div class="section-body"><p>The Directory object supports accessing filesystem directories. A note on paths; if a path begins with a "/" it's the root, if it beings with a "./" it's the launch path, if not specified, "./" is assumed.""")</p></div></div><h2 id="accessibleancestors">accessibleAncestors</h2><div class="section"><div class="section-body"><p>Returns a list of accessible ancestor directories.</p></div></div><h2 id="accessibleparents">accessibleParents</h2><div class="section"><div class="section-body"><p>Deprecated. Replaced by accessibleAncestors.</p></div></div><h2 id="ancestordirectories">ancestorDirectories</h2><div class="section"><div class="section-body"><p>Returns a list of ancestor directories.</p></div></div><h2 id="atastring">at(aString)</h2><div class="section"><div class="section-body"><p>Returns a File or Directory object matching the name specified by aString or Nil if no such file or directory exists.</p></div></div><h2 id="create">create</h2><div class="section"><div class="section-body"><p>Create the directory if it doesn't exist. Returns self on success (or if the directory already exists), nil on failure.</p></div></div><h2 id="createfilenamedname">createFileNamed(name)</h2><div class="section"><div class="section-body"><p>Deprecated. Returns a new file object in the directory with the specified name.</p></div></div><h2 id="createifabsent">createIfAbsent</h2><div class="section"><div class="section-body"><p>Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.</p></div></div><h2 id="createsubdirectoryname">createSubdirectory(name)</h2><div class="section"><div class="section-body"><p>Create a subdirectory with the specified name.</p></div></div><h2 id="currentworkingdirectory">currentWorkingDirectory</h2><div class="section"><div class="section-body"><p>Returns the current working directory path.</p></div></div><h2 id="directories">directories</h2><div class="section"><div class="section-body"><p>Returns a list of subdirectories in the receiver.</p></div></div><h2 id="directorynamedaname">directoryNamed(aName)</h2><div class="section"><div class="section-body"><p>Returns a Directory object for the specified file name whether or not it exists.</p></div></div><h2 id="existsoptionalpath">exists(optionalPath)</h2><div class="section"><div class="section-body"><p>Returns true if the Directory path exists, and false otherwise. If optionalPath string is provided, it tests the existence of that path instead.</p></div></div><h2 id="filenamedaname">fileNamed(aName)</h2><div class="section"><div class="section-body"><p>Returns a File object for the specified file name whether it exists or not.</p></div></div><h2 id="filenames">fileNames</h2><div class="section"><div class="section-body"><p>Returns a list of strings for the names of the files (no subdirectories) in the directory.</p></div></div><h2 id="files">files</h2><div class="section"><div class="section-body"><p>Returns a list of File objects for the files in the Directory (no directories).</p></div></div><h2 id="fileswithextensionastring">filesWithExtension(aString)</h2><div class="section"><div class="section-body"><p>Returns a list of File objects for the files in the Directory (no directories) with the specified file extension.</p></div></div><h2 id="foldernamedaname">folderNamed(aName)</h2><div class="section"><div class="section-body"><p>Deprecated. Replaced by directoryNamed().</p></div></div><h2 id="foldernamedcreateifabsentname">folderNamedCreateIfAbsent(name)</h2><div class="section"><div class="section-body"><p>Deprecated. Returns a new Directory object in the directory with the specified name.</p></div></div><h2 id="folders">folders</h2><div class="section"><div class="section-body"><p>Deprecated. Replaced by directories().</p></div></div><h2 id="isaccessible">isAccessible</h2><div class="section"><div class="section-body"><p>Returns true if the directory can be accessed, false otherwise.</p></div></div><h2 id="items">items</h2><div class="section"><div class="section-body"><p>Returns a list object containing File and Directory objects for the files and directories of the receiver's path.</p></div></div><h2 id="localitems">localItems</h2><div class="section"><div class="section-body"><p>All subitems excluding '.' and '..'.</p></div></div><h2 id="movetoapath">moveTo(aPath)</h2><div class="section"><div class="section-body"><p>Moves the directory to the specified path.</p></div></div><h2 id="name">name</h2><div class="section"><div class="section-body"><p>Returns the receiver's last path component.</p></div></div><h2 id="parentdirectory">parentDirectory</h2><div class="section"><div class="section-body"><p>Returns the parent directory object or nil if there is no parent directory.</p></div></div><h2 id="parents">parents</h2><div class="section"><div class="section-body"><p>Deprecated. Replaced by ancestorDirectories.</p></div></div><h2 id="path">path</h2><div class="section"><div class="section-body"><p>Returns the directory path. The default path is '.'.</p></div></div><h2 id="recursivefilesoftypessuffixes">recursiveFilesOfTypes(suffixes)</h2><div class="section"><div class="section-body"><p>Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.</p></div></div><h2 id="remove">remove</h2><div class="section"><div class="section-body"><p>Removes the directory.</p></div></div><h2 id="setcurrentworkingdirectorypathstring">setCurrentWorkingDirectory(pathString)</h2><div class="section"><div class="section-body"><p>Sets the current working directory path. Returns true on success or false on error.</p></div></div><h2 id="setpathastring">setPath(aString)</h2><div class="section"><div class="section-body"><p>Sets the directory path. Returns self.</p></div></div><h2 id="size">size</h2><div class="section"><div class="section-body"><p>Returns a Number containing the number of file and directory objects at the receiver's path.</p></div></div><h2 id="walk">walk</h2><div class="section"><div class="section-body"><p>Recursively walks the current directory, and executes a given callback on each item (either File or Directory) found, excluding "." and "..". <pre> Io> Directory walk(println) A0_List.io A1_OperatorTable.io ... Io> Directory walk(f, if(f name startsWithSeq("Directory"), f println)) Directory.io </pre></p></div></div><h2 id="withapath">with(aPath)</h2><div class="section"><div class="section-body"><p>Returns a new instance with the provided path.</p></div></div></div>
-<script src="../../../style/layout/layout.js" type="module"></script>
+<div class="page loaded">
+<div class="header"><div><h1>Directory</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
+<class>
+  <classInfo>
+    <description>The Directory object supports accessing filesystem directories. A note on paths;
+if a path begins with a "/" it's the root,
+if it beings with a "./" it's the launch path,
+if not specified, "./" is assumed.""")</description>
+  </classInfo>
+  <instancemethods>
+    <category>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">accessibleAncestors</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of accessible ancestor directories.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">accessibleParents</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. Replaced by accessibleAncestors.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">ancestorDirectories</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of ancestor directories.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">at(aString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a File or Directory object matching the name specified
+by aString or Nil if no such file or directory exists.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">create</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Create the directory if it doesn't exist.
+Returns self on success (or if the directory already exists), nil on
+failure.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">createFileNamed(name)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. Returns a new file object in the directory with the specified name.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">createIfAbsent</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">createSubdirectory(name)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Create a subdirectory with the specified name.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">currentWorkingDirectory</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the current working directory path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">directories</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of subdirectories in the receiver.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">directoryNamed(aName)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Directory object for the specified file name whether or not it exists.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">exists(optionalPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the Directory path exists, and false otherwise.
+If optionalPath string is provided, it tests the existence of that path
+instead.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">fileNamed(aName)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a File object for the specified file name whether it exists or not.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">fileNames</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of strings for the names of the files (no subdirectories) in the directory.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">files</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of File objects for the files in the Directory (no directories).</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">filesWithExtension(aString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list of File objects for the files in the Directory (no directories)
+with the specified file extension.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">folderNamed(aName)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. Replaced by directoryNamed().</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">folderNamedCreateIfAbsent(name)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. Returns a new Directory object in the directory with the specified name.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">folders</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. Replaced by directories().</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">isAccessible</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns true if the directory can be accessed, false otherwise.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">items</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list object containing File and Directory objects
+for the files and directories of the receiver's path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">localItems</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>All subitems excluding '.' and '..'.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">moveTo(aPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Moves the directory to the specified path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">name</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the receiver's last path component.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">parentDirectory</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the parent directory object or nil if there is no parent directory.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">parents</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Deprecated. Replaced by ancestorDirectories.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">path</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns the directory path. The default path is '.'.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">recursiveFilesOfTypes(suffixes)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a list containing all files in the directory or any subdirectory that
+has any of the specified suffixes.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">remove</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Removes the directory.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setCurrentWorkingDirectory(pathString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the current working directory path.
+Returns true on success or false on error.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">setPath(aString)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Sets the directory path. Returns self.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">size</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a Number containing the number of file and directory
+objects at the receiver's path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">walk</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Recursively walks the current directory, and executes a given callback on
+each item (either File or Directory) found, excluding "." and "..".
+<pre>
+Io> Directory walk(println)
+A0_List.io
+A1_OperatorTable.io
+...
+Io> Directory walk(f, if(f name startsWithSeq("Directory"), f println))
+Directory.io
+</pre></description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+  <method class="collapsed">
+    <fullMethodName class="collapsible">with(aPath)</fullMethodName>
+    <div class="collapsible-content">
+      <methodinfo>
+        <div class="method-info-content">
+          <description>Returns a new instance with the provided path.</description>
+        </div>
+      </methodinfo>
+    </div>
+  </method>
+    </category>
+  </instancemethods>
+</class>
+</div>
+<script src="../../../style/class-doc.js"></script>
 </body>
 </html>
