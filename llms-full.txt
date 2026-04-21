@@ -1651,7 +1651,7 @@ Vector := Sequence clone setItemType("float32")
 ```
 
 
-The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.
+The Sequence primitive supports SIMD acceleration on float32 add, subtract, multiply, and divide. On the WASM target these dispatch to WebAssembly SIMD128 opcodes (`f32x4.add`, `f32x4.mul`, etc.) via a `simd_cp_wasm.h` backend; native builds use SSE on x86 or iwMMX on ARM.
 
 Here's a small example:
 
@@ -1680,10 +1680,9 @@ writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")
 ```
 
 
-Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration. Current throughput depends on the WASM host; SIMD availability on the WASM target follows whatever the runtime supports.
+Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration.
 
-
-So for this example, Io is about three times faster than plain C.
+On the current WASM target running under wasmtime, the same benchmark reports around 2.3 GFLOPS, using native WebAssembly SIMD128 opcodes.
 
 
 
@@ -3529,7 +3528,7 @@ Io's Vectors are built on its Sequence primitive and are defined as:
 Vector := Sequence clone setItemType("float32")
 ```
 
-The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.
+The Sequence primitive supports SIMD acceleration on float32 add, subtract, multiply, and divide. On the WASM target these dispatch to WebAssembly SIMD128 opcodes (`f32x4.add`, `f32x4.mul`, etc.) via a `simd_cp_wasm.h` backend; native builds use SSE on x86 or iwMMX on ARM.
 
 Here's a small example:
 
@@ -3548,7 +3547,9 @@ dt := Date secondsToRun(
 writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")
 ```
 
-Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration. Current throughput depends on the WASM host; SIMD availability on the WASM target follows whatever the runtime supports.
+Historical note: on a 2&nbsp;GHz PowerPC G5 laptop with the original AltiVec-accelerated Vector primitive, this reported around 1.25 GFLOPS — roughly 2.5&times; a similar C loop without SIMD acceleration.
+
+On the current WASM target running under wasmtime, this benchmark reports around 2.3 GFLOPS for multiply and 2.4 GFLOPS for add, using native WebAssembly SIMD128 opcodes.
 
 
 

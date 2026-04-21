@@ -50,7 +50,7 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 #if defined(__SIMD_NO_SIMD__) || defined(__SIMD_EMU__)
 #else /* broken pre-processor */
 
-#ifdef __GNUC__ /* gcc compiler */
+#ifdef __GNUC__ /* gcc / clang compiler */
 
 /* x86 compiler */
 #ifdef __i386__
@@ -72,6 +72,12 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 
 #ifdef __XSCALE__
 #define __GNUC__ARM_IWMMX__
+#define __FOUND
+#endif
+
+/* WebAssembly with the SIMD128 proposal (clang -msimd128) */
+#if defined(__wasm__) && defined(__wasm_simd128__)
+#define __GNUC__WASM_SIMD128__
 #define __FOUND
 #endif
 
@@ -100,6 +106,10 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 
 #ifdef __GNUC__ARM_IWMMX /* gcc ARM compiler with XSCALE SIMD */
 #include <simd_cp_arm-iwmmx.h>
+#endif
+
+#ifdef __GNUC__WASM_SIMD128__ /* clang WebAssembly with SIMD128 */
+#include <simd_cp_wasm.h>
 #endif
 
 /* Generic Helper commands */

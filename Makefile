@@ -25,6 +25,7 @@ CFLAGS      := --sysroot=$(WASI_SDK)/share/wasi-sysroot \
                -D__wasi__ -DUSE_BUILTIN_NAN -D__STDC_IEC_559__ \
                -D_WASI_EMULATED_PROCESS_CLOCKS -D_WASI_EMULATED_SIGNAL \
                -fno-exceptions -O2 \
+               -msimd128 \
                -Ilibs/basekit/source \
                -Ilibs/basekit/source/simd_cph/include \
                -Ilibs/garbagecollector/source \
