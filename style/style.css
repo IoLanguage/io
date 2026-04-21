@@ -653,7 +653,8 @@ p code, li code {
   align-items: center;
 }
 
-/* Wide variant — image spans the full page width (breaks out of page padding) */
+/* Wide variant — image spans the full page width (breaks out of page padding).
+   aspect-ratio can be overridden per-page via inline style / --hero-aspect. */
 .hero.hero-wide {
   background-size: 100% auto;
   background-position: center;
@@ -661,6 +662,8 @@ p code, li code {
   margin-right: -70px;
   padding-left: 70px;
   padding-right: 70px;
+  aspect-ratio: var(--hero-aspect, 1024 / 681);
+  min-height: 0;
 }
 
 .hero-title {
