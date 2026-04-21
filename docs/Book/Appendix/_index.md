@@ -1,3 +1,7 @@
+---
+heroImage: ../images/Appendix.png
+---
+
 # Appendix
 
 Grammar reference and citations.

@@ -82,6 +82,10 @@ The original Io book, organized by chapter.
 <!-- Page: docs/Book/Appendix -->
 Source: /docs/Book/Appendix/
 
+---
+heroImage: ../images/Appendix.png
+---
+
 # Appendix
 
 Grammar reference and citations.
