@@ -653,6 +653,12 @@ p code, li code {
   align-items: center;
 }
 
+/* Wide variant — image spans the full hero width */
+.hero.hero-wide {
+  background-size: 100% auto;
+  background-position: center;
+}
+
 .hero-title {
   font-size: 64px;
   font-weight: 200;

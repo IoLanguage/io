@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Control Flow.png
+heroLayout: wide
 ---
 
 # Control Flow

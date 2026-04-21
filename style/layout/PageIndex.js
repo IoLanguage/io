@@ -166,7 +166,8 @@ export class PageIndex {
         let heroHtml = "";
         if (heroImage && !this.isRoot) {
             const encoded = encodeURI(heroImage).replace(/'/g, "%27");
-            heroHtml = `<div class="hero" style="background-image: url('${encoded}')">`;
+            const variant = this.json.heroLayout ? ` hero-${this.json.heroLayout}` : "";
+            heroHtml = `<div class="hero${variant}" style="background-image: url('${encoded}')">`;
             heroHtml += `<h1 class="hero-title">${this.pageTitle}</h1>`;
             heroHtml += "</div>";
         }
