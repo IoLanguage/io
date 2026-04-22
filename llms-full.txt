@@ -5715,7 +5715,8 @@ Source: /Timeline/
 Milestones in Io's history, from 2002 to today.
 
 - **2002-03** — Io created: Steve Dekorte begins work on Io as a minimal prototype-based language.
-- **2002-04** — First public release: Io goes public on a Yahoo! Groups mailing list; the earliest public releases and programming guide appear. Patches are exchanged by email.
+- **2002-04** — Yahoo! Groups mailing list: The iolanguage mailing list is created on Yahoo! Groups, becoming the gathering place for early users, patch exchanges, and language discussion.
+- **2002-04** — First public release: The earliest public Io releases and programming guide appear, distributed through the mailing list.
 - **2002-08** — Actors and coroutines: Beta 2002-08-11 adds concurrency: Actors (object-oriented threads) implemented with coroutines and cooperative yield.
 - **2002-08** — Addon system: First addon libraries land: Directory, XML (expat), MD5, Blowfish, regex, and OpenGL/GLUT — establishing the addon model that grows rapidly over the next year.
 - **2002-09** — Networking: Sockets addon adds TCP servers and clients; UDP follows a week later. Async DNS arrives in November, and IoServer becomes a dedicated build target.
@@ -5723,7 +5724,7 @@ Milestones in Io's history, from 2002 to today.
 - **2002-12** — Weak links: A WeakLink primitive is added, letting objects reference each other without preventing collection — useful for caches and back-pointers.
 - **2003-02** — Addon explosion: Rapid expansion: curses, JPEG/TIFF, zlib, Perl5 regex, Objective-C bridge, SGML, SQLite, and more — Io becomes usable for real-world scripting and embedding.
 - **2003-04** — Futures: @ returns a transparent future that becomes its result when touched; @@ fires and forgets. Deadlocks are detected by walking the future graph.
-- **2004-07** — Vector primitive (SIMD): A numeric Vector type with AltiVec acceleration lands — around 1 Gflops on a 1.2 GHz G4. Strings, buffers, and numeric vectors unify under Sequence.
+- **2004-07** — Vector primitive (SIMD): A numeric Vector type with AltiVec acceleration lands. Strings, buffers, and numeric vectors unify under Sequence.
 - **2005-07** — Lua Workshop talk: Steve presents Io at the Lua Workshop, contrasting message-tree semantics with Lua’s table-based model.
 - **2005-10** — OOPSLA / DLS: Io is presented at the ACM Dynamic Languages Symposium, co-located with OOPSLA’05 in San Diego, bringing the language to a wider research audience.
 - **2005-12** — Public DARCS repository: A public source repository hosted at iolanguage.com/darcs/Io replaces the email-patch workflow.
