@@ -28,7 +28,11 @@
         { "date": "2017-11", "title": "Eerie package manager", "subtitle": "Josip Lisec&rsquo;s <code>Eerie</code> package manager is rewritten by Ales Tsurko under the IoLanguage org, with heavy activity through 2021." },
         { "date": "2025-07", "title": "ARM64 coroutines", "subtitle": "Native ARM64 coroutine support lands for Apple Silicon and modern Linux." },
         { "date": "2026-02", "title": "Stackless evaluator", "subtitle": "The recursive C-stack evaluator is replaced with a heap-allocated frame state machine &mdash; enabling TCO, robust exception unwinding, and first-class continuations.", "href": "../docs/Technical%20Notes/Stackless/index.html" },
+        { "date": "2026-03", "title": "Resumable exceptions", "subtitle": "Common Lisp&ndash;style condition handling arrives as <code>signal</code> / <code>withHandler</code>. Handlers can resume from the signal point, fall through, or unwind &mdash; made practical by the stackless evaluator." },
         { "date": "2026-03", "title": "WASM/WASI port", "subtitle": "Io cross-compiles to WebAssembly. A bidirectional Io&harr;JavaScript bridge replaces the native addon model.", "href": "../docs/Technical%20Notes/WASM/index.html" },
+        { "date": "2026-03", "title": "Async/await bridge", "subtitle": "Io futures tie into JavaScript Promises: <code>asyncSend</code> and future touches <code>yield</code> the eval loop across the JS boundary, and unrecognized messages on a future implicitly await the result." },
+        { "date": "2026-03", "title": "BigInt support", "subtitle": "A <code>BigInt</code> primitive arrives with arbitrary-precision arithmetic and transparent round-tripping across the Io&harr;JS bridge, aligning Io numerics with modern JavaScript." },
+        { "date": "2026-04", "title": "SIMD128 Vector backend", "subtitle": "The <code>Vector</code> primitive gains a WebAssembly SIMD128 backend, restoring the AltiVec-era vector acceleration in the browser and on modern hardware via WASM." },
         { "date": "2026-04", "title": "WASM merged to master", "subtitle": "The WASM branch becomes the default target. Book and site restructured for the new era." }
       ]
     }
