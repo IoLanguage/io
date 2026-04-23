@@ -10,6 +10,12 @@ Slots, prototypes, cloning, and differential inheritance.
 
 Io's guiding design principle is simplicity and power through conceptual unification.
 
+| concept          | unifies                               |
+|------------------|---------------------------------------|
+| scopable blocks  | functions, methods, closures          |
+| prototypes       | objects, classes, namespaces, locals  |
+| messages         | operators, calls, assigns, var access |
+
 
 ## Prototypes
 
