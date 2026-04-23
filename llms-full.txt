@@ -6896,7 +6896,7 @@ Source: /Timeline/
 Milestones in Io's history, from 2002 to today.
 
 - **2002-03** — Io created: Steve Dekorte begins work on Io as a minimal prototype-based language.
-- **2002-04** — Yahoo! Groups mailing list: The iolanguage mailing list is created on Yahoo! Groups, becoming the gathering place for early users, patch exchanges, and language discussion.
+- **2002-04** — Mailing list: The iolanguage Yahoo! Group becomes the gathering place for early users and patch exchanges.
 - **2002-04** — First public release: The earliest public Io releases and programming guide appear, distributed through the mailing list.
 - **2002-08** — Actors and coroutines: Beta 2002-08-11 adds concurrency: Actors (object-oriented threads) implemented with coroutines and cooperative yield.
 - **2002-08** — Addon system: First addon libraries land: Directory, XML (expat), MD5, Blowfish, regex, and OpenGL/GLUT — establishing the addon model that grows rapidly over the next year.
