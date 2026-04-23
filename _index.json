@@ -6,7 +6,7 @@
     {
       "type": "ContentText",
       "title": "About",
-      "body": "<p>Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).</p><p>The VM is written in portable C and now targets WebAssembly (WASI) by default. The same binary runs under wasmtime, Node.js, or directly in the browser via a bidirectional Io↔JavaScript bridge.</p>"
+      "body": "<p>Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).</p><p>Its guiding design principle is simplicity and power through conceptual unification &mdash; a handful of primitives stand in for features most languages keep separate:</p><table><thead><tr><th>concept</th><th>unifies</th></tr></thead><tbody><tr><td>scopable blocks</td><td>functions, methods, closures</td></tr><tr><td>prototypes</td><td>objects, classes, namespaces, locals</td></tr><tr><td>messages</td><td>operators, calls, assigns, var access</td></tr></tbody></table><p>The VM is written in portable C and now targets WebAssembly (WASI) by default. The same binary runs under wasmtime, Node.js, or directly in the browser via a bidirectional Io↔JavaScript bridge.</p>"
     },
     {
       "type": "ContentText",
