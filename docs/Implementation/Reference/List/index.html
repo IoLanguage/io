@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>List – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Thin IoObject wrapper around the shared basekit List container (DATA(self) is a plain List*). The tag installs clone/mark/free/compare function pointers;...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>List</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Thin IoObject wrapper around the shared basekit List container (DATA(self)
+is a plain List*). The tag installs clone/mark/free/compare function
+pointers; marking walks every element so the GC keeps contained objects
+alive. Iteration primitives (each, foreach, reverseForeach) have two
+execution paths: when state->currentFrame is set they stamp the frame's
+controlFlow.foreachInfo union and return immediately so the iterative
+eval loop drives the iteration (see FRAME_STATE_FOREACH_* in
+IoState_iterative.c); otherwise a LIST_SAFEFOREACH recursive fallback is
+used, which is exercised during VM bootstrap before the eval loop starts.
+Mutation methods set IoObject_isDirty_ so Store/persistence layers can
+notice change. asEncodedList / fromEncodedList implement a compact binary
+round-trip used by the object serialization machinery.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iolistcheckindex">IoList_checkIndex</a></li><li><a href="#functions--iolistcompare">IoList_compare</a></li><li><a href="#functions--iolisteach">IoList_each</a></li><li><a href="#functions--iolistfree">IoList_free</a></li><li><a href="#functions--iolistmark">IoList_mark</a></li><li><a href="#functions--iolistnew">IoList_new</a></li><li><a href="#functions--iolistnewtag">IoList_newTag</a></li><li><a href="#functions--iolistnewwithlist">IoList_newWithList_</a></li><li><a href="#functions--iolistproto">IoList_proto</a></li><li><a href="#functions--iolistrawaddbaselist">IoList_rawAddBaseList_</a></li><li><a href="#functions--iolistrawappend">IoList_rawAppend_</a></li><li><a href="#functions--iolistrawatput">IoList_rawAtPut</a></li><li><a href="#functions--iolistrawatput">IoList_rawAt_put_</a></li><li><a href="#functions--iolistrawclone">IoList_rawClone</a></li><li><a href="#functions--iolistrawindexof">IoList_rawIndexOf_</a></li><li><a href="#functions--iolistslicearguments">IoList_sliceArguments</a></li><li><a href="#functions--iolistsliceindex">IoList_sliceIndex</a></li><li><a href="#functions--msortcontextcompareforsort">MSortContext_compareForSort</a></li><li><a href="#functions--sortcontextcompareforsort">SortContext_compareForSort</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iolistcheckindex"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_checkIndex</span><span class="classdoc-member-sig">(self, m, allowsExtending, index, methodName)</span></div><div class="classdoc-member-body"><p>Bounds-check helper used by the mutating at/atPut/atInsert/removeAt
+family. Returns 1 and raises a VM error when the index is out of
+range. If allowsExtending is nonzero the valid range is extended to
+size (for atInsert appending at the tail).</p></div></div><div class="classdoc-member" id="functions--iolistcompare"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_compare</span><span class="classdoc-member-sig">(self, otherList)</span></div><div class="classdoc-member-body"><p>Registered as the tag's compareFunc. Falls back to default pointer
+comparison against non-Lists; otherwise compares by size then by
+element-wise IoObject_compare. Returns the first non-zero element
+comparison, mirroring lexicographic ordering.</p></div></div><div class="classdoc-member" id="functions--iolisteach"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_each</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Single-argument foreach: evaluates the message against each element
+without binding index/value slots. Under the iterative evaluator it
+stamps fd->controlFlow.foreachInfo with isEach=1 so the frame state
+machine (FRAME_STATE_FOREACH_EVAL_BODY) sets the target rather than
+mutating the caller's locals. The recursive fallback below runs only
+before state->currentFrame is available during bootstrap.</p></div></div><div class="classdoc-member" id="functions--iolistfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the backing basekit List; the
+contained IoObjects are GC-managed and not touched here. Aborts on a
+double free so use-after-free regressions surface loudly.</p></div></div><div class="classdoc-member" id="functions--iolistmark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Walks every element so contained
+IoObjects stay live for the GC; called during every mark phase.</p></div></div><div class="classdoc-member" id="functions--iolistnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: looks up the registered proto and clones it.
+Used by C callers that want a fresh, empty List without going through
+message machinery (e.g. foreach/keys/values return paths).</p></div></div><div class="classdoc-member" id="functions--iolistnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the List tag and installs clone/free/mark/compare function
+pointers. Stream write/read slots are left unset (the commented-out
+block below preserves the legacy BStream format).</p></div></div><div class="classdoc-member" id="functions--iolistnewwithlist"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_newWithList_</span><span class="classdoc-member-sig">(state, list)</span></div><div class="classdoc-member-body"><p>Wraps a pre-existing basekit List as an IoList by freeing the fresh
+List allocated in the clone and adopting the caller's pointer. Used
+by slice/join/asEncodedList where the underlying container has
+already been built.</p></div></div><div class="classdoc-member" id="functions--iolistproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the List proto, attaches a fresh basekit List as its data
+pointer, and wires up the Io-visible method table (access, mutation,
+iteration, slicing, sorting, encoded serialization, join). Called once
+during VM init; all later Lists are clones of this proto.</p></div></div><div class="classdoc-member" id="functions--iolistrawaddbaselist"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_rawAddBaseList_</span><span class="classdoc-member-sig">(self, otherList)</span></div><div class="classdoc-member-body"><p>Appends every element of a basekit List (not an IoList) into self,
+IOREFing each through this List. Used by appendSeq and by callers
+that already hold a basekit List pointer.</p></div></div><div class="classdoc-member" id="functions--iolistrawappend"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_rawAppend_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Low-level append used from C. Preferred over Io-level append when a
+value is being threaded through internal machinery and IoMessage
+dispatch would be wasteful.</p></div></div><div class="classdoc-member" id="functions--iolistrawatput"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_rawAtPut</span><span class="classdoc-member-sig">(self, i, v)</span></div><div class="classdoc-member-body"><p>Auto-extending set: pads with nils up to index i before writing,
+unlike List_at_put_ which would abort out of bounds. Used by the
+Io-visible atPut after its bounds check.</p></div></div><div class="classdoc-member" id="functions--iolistrawatput"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_rawAt_put_</span><span class="classdoc-member-sig">(self, i, v)</span></div><div class="classdoc-member-body"><p>Low-level element set used from C. IOREFs the value so the GC keeps
+it alive through this List, and marks the List dirty for persistence.</p></div></div><div class="classdoc-member" id="functions--iolistrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Gives the clone its own basekit
+List copy so mutation of one List does not leak into the proto.</p></div></div><div class="classdoc-member" id="functions--iolistrawindexof"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_rawIndexOf_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Linear search by IoObject_compare equality (not pointer identity) so
+Numbers and Sequences compare by value. Returns -1 on miss.</p></div></div><div class="classdoc-member" id="functions--iolistslicearguments"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_sliceArguments</span><span class="classdoc-member-sig">(self, locals, m, start, end, step)</span></div><div class="classdoc-member-body"><p>Shared argument parser for slice / sliceInPlace. Reads step first
+(rejecting zero), then start and an optional end defaulting to size,
+and normalizes both indices via IoList_sliceIndex.</p></div></div><div class="classdoc-member" id="functions--iolistsliceindex"><div class="classdoc-member-head"><span class="classdoc-member-name">IoList_sliceIndex</span><span class="classdoc-member-sig">(index, step, size)</span></div><div class="classdoc-member-body"><p>Python-style slice index normalization: negative values wrap from
+the end, and out-of-range values clamp to the correct end depending
+on step direction. Mutates *index in place.</p></div></div><div class="classdoc-member" id="functions--msortcontextcompareforsort"><div class="classdoc-member-head"><span class="classdoc-member-name">MSortContext_compareForSort</span><span class="classdoc-member-sig">(self, ap, bp)</span></div><div class="classdoc-member-body"><p>qsort_r callback for sortInPlace with an optional message key: evaluates
+the key expression on each side inside a retain pool (so intermediate
+allocations don't leak) and returns the IoObject_compare result.</p></div></div><div class="classdoc-member" id="functions--sortcontextcompareforsort"><div class="classdoc-member-head"><span class="classdoc-member-name">SortContext_compareForSort</span><span class="classdoc-member-sig">(self, ap, bp)</span></div><div class="classdoc-member-body"><p>qsort_r callback for sortInPlaceBy(aBlock). Primes the two pre-built
+argument messages with cached results and activates the compare block;
+returns 1 when the block result is false so ISFALSE(cr) swaps the pair.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

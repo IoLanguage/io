@@ -3,7 +3,7 @@
 #
 # Two separate trees are produced:
 #   docs/Reference                                          (Io-visible API): from /*doc ...*/ and /*metadoc ...*/
-#   docs/Technical Notes/Implementation Reference/C Implementation Reference  (C implementation): from /*cdoc ...*/
+#   docs/Implementation/Reference                           (C implementation): from /*cdoc ...*/
 #
 # Each tree gets a colvmn-style landing page plus standalone class-doc
 # pages per proto. After docs2html.io writes the raw files, we run
@@ -25,13 +25,13 @@ fi
 
 BASE="${1:-docs}"
 REF_DIR="$BASE/Reference"
-INT_DIR="$BASE/Technical Notes/Implementation Reference/C Implementation Reference"
+INT_DIR="$BASE/Implementation/Reference"
 mkdir -p "$REF_DIR" "$INT_DIR"
 
 echo "Generating Io Reference → $REF_DIR ..."
 wasmtime --dir=. --dir=/tmp "$IO_WASM" tools/io/docs2html.io "$REF_DIR" docs
 
-echo "Generating C Implementation Reference → $INT_DIR ..."
+echo "Generating Implementation Reference → $INT_DIR ..."
 wasmtime --dir=. --dir=/tmp "$IO_WASM" tools/io/docs2html.io "$INT_DIR" cdocs
 
 echo "Baking HTML via colvmn/static-gen.js ..."

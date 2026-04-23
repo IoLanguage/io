@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Call – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of the Call object created once per block/method activation. IoCallData captures the activation's sender (caller's locals), the target...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Call</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of the Call object created once per block/method
+activation. IoCallData captures the activation's sender (caller's
+locals), the target receiver, the triggering message, the slotContext
+(where the slot was found during lookup — can differ from target when
+the slot lives on a proto), the activated Block/CFunction itself, the
+coroutine that is running, and the stopStatus used to signal
+return/continue/break. Each Call is exposed through the block's locals
+as the "call" slot so Io code can read sender, message argAt, etc.
+IoCall_rawStopStatus is the primary C-level read path; the iterative
+evaluator (IoState_iterative.c) and IoBlock_activate both poke the
+status here when an early exit is requested.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocallfree">IoCall_free</a></li><li><a href="#functions--iocallinitslots">IoCall_initSlots</a></li><li><a href="#functions--iocallmark">IoCall_mark</a></li><li><a href="#functions--iocallnew">IoCall_new</a></li><li><a href="#functions--iocallnewtag">IoCall_newTag</a></li><li><a href="#functions--iocallproto">IoCall_proto</a></li><li><a href="#functions--iocallrawclone">IoCall_rawClone</a></li><li><a href="#functions--iocallrawstopstatus">IoCall_rawStopStatus</a></li><li><a href="#functions--iocallwith">IoCall_with</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocallfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the IoCallData payload; all
+referenced IoObjects are GC-managed.</p></div></div><div class="classdoc-member" id="functions--iocallinitslots"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_initSlots</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Seeds all IoObject* slots with state->ioNil and the stopStatus with
+MESSAGE_STOP_STATUS_NORMAL. Called by both proto and rawClone so no
+Call is ever observed with uninitialized pointers — the GC mark
+function would otherwise dereference garbage.</p></div></div><div class="classdoc-member" id="functions--iocallmark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Marks every field: sender, target,
+message, slotContext, activated block/cfunction, and the owning
+coroutine. No nil check because initSlots guarantees all fields are
+valid IoObjects.</p></div></div><div class="classdoc-member" id="functions--iocallnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: looks up the registered proto and clones it.
+Used by IoCall_with; direct callers are rare since activation always
+wants the fields filled in at construction.</p></div></div><div class="classdoc-member" id="functions--iocallnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Call tag with clone/mark/free function pointers. No
+activateFunc — Call is data only, it does not run itself.</p></div></div><div class="classdoc-member" id="functions--iocallproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Call proto, allocates a zeroed IoCallData payload, and
+wires up the Io-visible method table (sender, message, slotContext,
+target, activated, coroutine, evalArgAt, argAt, stopStatus,
+setStopStatus). Every activation clones this proto via IoCall_with.</p></div></div><div class="classdoc-member" id="functions--iocallrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Copies the proto's data block byte
+for byte then re-initializes slots to nil/NORMAL so a clone never
+inherits a stale sender/message pointer from the proto.</p></div></div><div class="classdoc-member" id="functions--iocallrawstopstatus"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_rawStopStatus</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Direct C accessor for the stopStatus field. Hot-path read: the
+iterative evaluator and IoBlock_activate both call it on every
+block exit to decide whether to propagate return/continue/break.</p></div></div><div class="classdoc-member" id="functions--iocallwith"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCall_with</span><span class="classdoc-member-sig">(state, sender, target, message, slotContext, activated, coroutine)</span></div><div class="classdoc-member-body"><p>Canonical constructor invoked from IoBlock_activate and the iterative
+evaluator's block activation path. Clones the Call proto and fills
+every slot in one pass, leaving stopStatus at NORMAL. The returned
+Call is stashed in the block's locals as the "call" slot so Io code
+can query sender/message at runtime.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

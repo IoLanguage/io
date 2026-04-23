@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Error – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Minimal C scaffolding for the Error proto. The object carries no C payload of its own — error information lives entirely in Io-level slots such as &quot;message&quot;...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Error</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Minimal C scaffolding for the Error proto. The object carries no C
+payload of its own — error information lives entirely in Io-level
+slots such as "message" — so this file only supplies the tag, proto
+registration, and a pair of convenience constructors used by C code
+that wants to hand an Error up through the VM. The richer exception
+flow (raise, catch, pass) is implemented in Io on top of Exception;
+IoError is the lightweight structural representative returned by
+primitives that report failure without raising.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ioerrornew">IoError_new</a></li><li><a href="#functions--ioerrornewtag">IoError_newTag</a></li><li><a href="#functions--ioerrornewwithcstringmessage">IoError_newWithCStringMessage_</a></li><li><a href="#functions--ioerrornewwithmessageformat">IoError_newWithMessageFormat_</a></li><li><a href="#functions--ioerrorproto">IoError_proto</a></li><li><a href="#functions--ioerrorrawclone">IoError_rawClone</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ioerrornew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoError_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: clone the registered proto. Callers who
+want a message should use IoError_newWithMessageFormat_ or
+IoError_newWithCStringMessage_, both of which populate the "message"
+slot that Io-level code inspects.</p></div></div><div class="classdoc-member" id="functions--ioerrornewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoError_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Error tag. Only a cloneFunc is installed — Error has no
+owned C memory, so no free/mark/compare hooks are needed; the GC
+treats it like any plain IoObject.</p></div></div><div class="classdoc-member" id="functions--ioerrornewwithcstringmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">IoError_newWithCStringMessage_</span><span class="classdoc-member-sig">(state, cString)</span></div><div class="classdoc-member-body"><p>Simpler variant: wraps a plain C string as an IoSeq and stores it on
+"message". Differs from IoError_newWithMessageFormat_ in that the
+message becomes a mutable Sequence rather than an interned Symbol,
+which matters when callers append context before propagating.</p></div></div><div class="classdoc-member" id="functions--ioerrornewwithmessageformat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoError_newWithMessageFormat_</span><span class="classdoc-member-sig">(state, format, ...)</span></div><div class="classdoc-member-body"><p>printf-style Error constructor. Formats the message via
+UArray_newWithVargs_, interns it as a Symbol, and stores it on the
+new Error's "message" slot. Used by primitives that want to return
+a descriptive Error without going through IoState_error_ / raise.</p></div></div><div class="classdoc-member" id="functions--ioerrorproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoError_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates and registers the Error proto. The method table is empty;
+all user-visible behavior is attached from Io-level code in the
+standard library, so this just establishes the type identity so
+IoObject_tag comparisons and ISERROR-style predicates work.</p></div></div><div class="classdoc-member" id="functions--ioerrorrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoError_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Tag cloneFunc. Delegates entirely to IoObject_rawClonePrimitive —
+there is no Error-specific C data to duplicate; slot inheritance
+already carries the "message" field and anything else the caller set.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

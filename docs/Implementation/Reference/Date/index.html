@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Date – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="IoObject wrapper around the plain-C Date struct (a timeval plus a timezone). All real calendar math — year/month/day/hour/minute/second decomposition,...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Date</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">IoObject wrapper around the plain-C Date struct (a timeval plus a
+timezone). All real calendar math — year/month/day/hour/minute/second
+decomposition, strftime-style formatting, strptime-style parsing,
+UTC/local/zone conversion — lives in Date.c and PortableStrptime.c;
+this file just bridges Io message sends to those C routines, manages
+lifecycle (tag, clone, free, compare), and handles arithmetic with
+IoDuration (Date + Duration -> Date, Date - Date -> Duration). A
+"format" slot on the proto holds the default strftime pattern
+("%Y-%m-%d %H:%M:%S %Z") that asString falls back to when no explicit
+format argument is supplied.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iodatecompare">IoDate_compare</a></li><li><a href="#functions--iodatefree">IoDate_free</a></li><li><a href="#functions--iodatenew">IoDate_new</a></li><li><a href="#functions--iodatenewtag">IoDate_newTag</a></li><li><a href="#functions--iodatenewwithlocaltime">IoDate_newWithLocalTime_</a></li><li><a href="#functions--iodatenewwithtime">IoDate_newWithTime_</a></li><li><a href="#functions--iodatenewwithtimeval">IoDate_newWithTimeval_</a></li><li><a href="#functions--iodateproto">IoDate_proto</a></li><li><a href="#functions--iodaterawclone">IoDate_rawClone</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iodatecompare"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_compare</span><span class="classdoc-member-sig">(self, date)</span></div><div class="classdoc-member-body"><p>Tag compareFunc. Delegates to Date_compare for Date-vs-Date (which
+ultimately compares timevals) and falls back to the default object
+compare for cross-type comparisons so ordered collections still get
+a total order.</p></div></div><div class="classdoc-member" id="functions--iodatefree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Tag freeFunc. Releases the heap-allocated C Date struct; the
+IoObject header is reclaimed by the collector.</p></div></div><div class="classdoc-member" id="functions--iodatenew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Clones the registered proto. Returned Date carries whatever time
+value the proto currently holds; callers typically follow up with
+Date_now or one of the fromX methods to stamp a specific value.</p></div></div><div class="classdoc-member" id="functions--iodatenewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Date tag, wiring clone / free / compare function pointers.
+No markFunc is needed since the C Date payload holds no IoObject
+references — it is a pure timeval + timezone record.</p></div></div><div class="classdoc-member" id="functions--iodatenewwithlocaltime"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_newWithLocalTime_</span><span class="classdoc-member-sig">(state, t)</span></div><div class="classdoc-member-body"><p>Factory taking a broken-down struct tm in local time. Date_fromLocalTime_
+reassembles the timeval and timezone so the resulting IoDate matches
+the calendar fields supplied.</p></div></div><div class="classdoc-member" id="functions--iodatenewwithtime"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_newWithTime_</span><span class="classdoc-member-sig">(state, t)</span></div><div class="classdoc-member-body"><p>Factory taking a POSIX time_t (seconds since the epoch). Routes
+through Date_fromTime_ which populates the embedded timeval's
+tv_sec and zeroes tv_usec.</p></div></div><div class="classdoc-member" id="functions--iodatenewwithtimeval"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_newWithTimeval_</span><span class="classdoc-member-sig">(state, tv)</span></div><div class="classdoc-member-body"><p>Factory taking a struct timeval directly, preserving microsecond
+precision that IoDate_newWithTime_ drops. Used where sub-second
+accuracy matters (benchmarks, high-resolution timestamps).</p></div></div><div class="classdoc-member" id="functions--iodateproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Date proto, installs its method table (accessors, zone
+conversions, serialization, arithmetic operators, printing), attaches
+the tag from IoDate_newTag, and seeds the "format" slot with the
+default strftime pattern. Registered on the VM state under protoId
+so IoDate_new / IoDate_newWithTime_ / IoDate_newWithLocalTime_ can
+clone it.</p></div></div><div class="classdoc-member" id="functions--iodaterawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDate_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Tag cloneFunc. Allocates a fresh C Date struct on the new clone and
+copies the proto's timeval/timezone via Date_copy_, so every IoDate
+owns its own time state rather than aliasing the proto's.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

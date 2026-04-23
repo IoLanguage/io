@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Coroutine – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of Io coroutines built on the heap-allocated IoEvalFrame chain instead of platform C-stack switching (no ucontext, fibers, setjmp, or...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Coroutine</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of Io coroutines built on the heap-allocated IoEvalFrame
+chain instead of platform C-stack switching (no ucontext, fibers, setjmp,
+or assembly). A coroutine owns its own IoEvalFrame parent chain
+(DATA(self)->frameStack), a retain stack (ioStack), and bookkeeping for
+stop status, return value, and frame depth. Switching coroutines is a
+pure pointer swap: IoCoroutine_saveState_ parks state->currentFrame and
+friends into the outgoing coro, then IoCoroutine_restoreState_ pulls the
+incoming coro's saved frame chain back into the live IoState. The same
+single eval loop (IoState_evalLoop_) keeps running on the main C stack
+and simply resumes iterating on whichever frame chain is now current.
+The GC walks each coroutine's saved frame chain via IoCoroutine_mark so
+suspended coroutines stay alive and reachable.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocoroutineclearstack">IoCoroutine_clearStack</a></li><li><a href="#functions--iocoroutinefree">IoCoroutine_free</a></li><li><a href="#functions--iocoroutinemain">IoCoroutine_main</a></li><li><a href="#functions--iocoroutinemark">IoCoroutine_mark</a></li><li><a href="#functions--iocoroutinenew">IoCoroutine_new</a></li><li><a href="#functions--iocoroutinenewtag">IoCoroutine_newTag</a></li><li><a href="#functions--iocoroutinenewwithtry">IoCoroutine_newWithTry</a></li><li><a href="#functions--iocoroutineproto">IoCoroutine_proto</a></li><li><a href="#functions--iocoroutineprotofinish">IoCoroutine_protoFinish</a></li><li><a href="#functions--iocoroutineraiseerror">IoCoroutine_raiseError</a></li><li><a href="#functions--iocoroutinerawclone">IoCoroutine_rawClone</a></li><li><a href="#functions--iocoroutinerawprint">IoCoroutine_rawPrint</a></li><li><a href="#functions--iocoroutinerawprintbacktrace">IoCoroutine_rawPrintBackTrace</a></li><li><a href="#functions--iocoroutinerawresume">IoCoroutine_rawResume</a></li><li><a href="#functions--iocoroutinerawreturntoparent">IoCoroutine_rawReturnToParent</a></li><li><a href="#functions--iocoroutinerawrun">IoCoroutine_rawRun</a></li><li><a href="#functions--iocoroutinerawsetrecentinchain">IoCoroutine_rawSetRecentInChain_</a></li><li><a href="#functions--iocoroutinerawshow">IoCoroutine_rawShow</a></li><li><a href="#functions--iocoroutinerestorestate">IoCoroutine_restoreState_</a></li><li><a href="#functions--iocoroutinesavestate">IoCoroutine_saveState_</a></li><li><a href="#functions--iocoroutinetry">IoCoroutine_try</a></li><li><a href="#functions--iomessagelocalscoroutineargat">IoMessage_locals_coroutineArgAt_</a></li><li><a href="#functions--ioobjectperformwithdebugger">IoObject_performWithDebugger</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocoroutineclearstack"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_clearStack</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Drops every retain-stack entry. Called when a nested eval finishes
+so the temporary retains accumulated inside do not linger once
+control returns to the caller.</p></div></div><div class="classdoc-member" id="functions--iocoroutinefree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the retain Stack but leaves
+frameStack alone — frames are GC-managed IoEvalFrames that get
+reclaimed via the IoCoroutine_mark / IoEvalFrame_mark chain once
+nothing references them.</p></div></div><div class="classdoc-member" id="functions--iocoroutinemain"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_main</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Entry body for a coroutine: reads the runTarget/runLocals/runMessage
+slots that were set up by IoCoroutine_try or Io-level `setRunMessage`
+and performs the message. Currently only reached on the recursive
+fallback path; the frame-based evaluator builds a START frame directly
+in rawRun and rawResume instead of calling this.</p></div></div><div class="classdoc-member" id="functions--iocoroutinemark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>GC mark callback. Marks the retain stack, then the top frame of this
+coroutine's saved chain (live chain for the current coroutine);
+IoEvalFrame_mark walks the parent pointers, so no manual loop is
+needed. Also marks the shared frame/call/blockLocals pools and the
+JS-bridge handle table — but only once per GC pass, via the
+currentCoroutine guard, so the pools are not re-marked for every
+suspended coroutine.</p></div></div><div class="classdoc-member" id="functions--iocoroutinenew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: looks up the registered proto and clones it.
+Used from C to spin up coroutines without going through Io's message
+machinery (e.g. the newWithTry helper).</p></div></div><div class="classdoc-member" id="functions--iocoroutinenewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Coroutine tag with clone / mark / free function pointers.
+No compare or write func is installed — coroutines are opaque and are
+not ordered, hashed, or serialized through the generic path.</p></div></div><div class="classdoc-member" id="functions--iocoroutinenewwithtry"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_newWithTry</span><span class="classdoc-member-sig">(state, target, locals, message)</span></div><div class="classdoc-member-body"><p>Convenience: clone the Coroutine proto and immediately run the given
+message inside it via IoCoroutine_try. Used by exception machinery
+and the VM's bootstrap `try` entry points.</p></div></div><div class="classdoc-member" id="functions--iocoroutineproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Coroutine proto. Allocates an empty IoCoroutineData with
+a fresh retain Stack and no frame chain: the main coroutine's frames
+live directly in state->currentFrame, so its frameStack stays NULL
+until it is parked. Method table is installed later in
+IoCoroutine_protoFinish so that IoCFunction is ready first.</p></div></div><div class="classdoc-member" id="functions--iocoroutineprotofinish"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_protoFinish</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Attaches the Io-visible method table to the Coroutine proto. Split out
+from IoCoroutine_proto because the CFunction machinery that backs the
+table is not registered yet at proto-creation time; IoState calls this
+once initialization has advanced far enough.</p></div></div><div class="classdoc-member" id="functions--iocoroutineraiseerror"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_raiseError</span><span class="classdoc-member-sig">(self, description, m)</span></div><div class="classdoc-member-body"><p>Creates a fresh Exception clone with the given description and caught
+message and stashes it on self's exception slot — unwinding is not
+performed here, the eval loop walks frames when it observes
+state->errorRaised. Keeps exception creation close to where the C code
+detects the problem without coupling it to frame management.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Gives the new coroutine its own
+retain Stack and zeroed run-state fields — children never share a
+stack with their proto. frameStack starts NULL; frames appear only
+when the coroutine is actually run or swapped in.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawprint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawPrint</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Prints a one-line summary of this coroutine: pointer, frame depth
+(walked off frameStack), and retain-stack size. Debugging-only; the
+frame-based model has no C-stack to report.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawprintbacktrace"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawPrintBackTrace</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Prints a stack trace for the coroutine's current exception. Prefers
+the Io-level Exception showStack method (evaluated through
+IoState_on_doCString_withLabel_) when present, falling back to a
+minimal fputs of the error slot and caughtMessage description —
+enough to surface an error even if Exception hasn't finished
+bootstrapping.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawresume"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawResume</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Yields to self from the currently-running coroutine. Marks the caller's
+top frame CORO_YIELDED so it resumes in place on the next swap back,
+parks the caller's state, and installs self's saved frames. If self has
+never been started (no saved frames), pushes a START frame using its
+runTarget / runLocals / runMessage slots; otherwise it just continues
+from wherever it was parked. needsControlFlowHandling tells the eval
+loop to re-evaluate which frame to step next.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawreturntoparent"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawReturnToParent</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Ends this coroutine and hands control back to its parent. Prints a
+backtrace first (only at top-level eval; nested evals let the caller
+handle it to avoid recursive backtraces), then either pops all frames
+and restores the parent waiting in FRAME_STATE_CORO_WAIT_CHILD (nested
+eval path), or saves our state and swaps parent's saved frame chain
+into the live IoState (top-level path). All state changes are pure
+pointer swaps — nothing unwinds the C stack.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawrun"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawRun</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Starts a coroutine. One of two paths depending on whether an eval
+loop is already running: "own eval loop" (main coroutine, or no
+current frames) spins a nested IoState_evalLoop_ that returns when
+the coroutine finishes, saving awaitingJsPromise state if the loop
+yielded for a JS Promise; "child swap" (called from Io code with an
+active loop) marks the caller's frame CORO_WAIT_CHILD, parks the
+caller's frames, and sets up self's START frame, then returns — the
+existing eval loop keeps running but now on the child's chain. The
+child's completion triggers rawReturnToParent which swaps back.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawsetrecentinchain"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawSetRecentInChain_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Walks up the parentCoroutine chain from self, setting the
+"recentInChain" slot on every ancestor to v. Used so any coroutine
+in a chain can ask "who was most recently running" for error
+reporting and scheduling without scanning the whole chain.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerawshow"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_rawShow</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Debugging helper: prints every object currently sitting on this
+coroutine's retain stack.</p></div></div><div class="classdoc-member" id="functions--iocoroutinerestorestate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_restoreState_</span><span class="classdoc-member-sig">(self, state)</span></div><div class="classdoc-member-body"><p>Inverse of save: pushes this coroutine's saved frame chain and
+run-state back into the IoState so the eval loop resumes on it.
+Also swaps in the retain stack (currentIoStack) so stack pushes
+target the right coroutine.</p></div></div><div class="classdoc-member" id="functions--iocoroutinesavestate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_saveState_</span><span class="classdoc-member-sig">(self, state)</span></div><div class="classdoc-member-body"><p>Parks the live eval state (currentFrame, stopStatus, returnValue,
+frameDepth) into this coroutine's IoCoroutineData. Called on every
+coroutine switch and whenever rawRun / try needs to interrupt the
+current coroutine. The retain stack is per-coroutine and already
+lives in DATA(self)->ioStack, so it isn't copied here.</p></div></div><div class="classdoc-member" id="functions--iocoroutinetry"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCoroutine_try</span><span class="classdoc-member-sig">(self, target, locals, message)</span></div><div class="classdoc-member-body"><p>Runs message on target/locals inside self and waits synchronously for
+it to finish — this is the C side of Io's `try`. If a loop is already
+running, a nested IoState_evalLoop_ is spun so control returns only
+after the try coroutine fully completes (required for exception
+catching semantics). Otherwise, delegates to rawRun with
+nestedEvalDepth temporarily bumped so rawReturnToParent pops frames
+instead of doing a live coro switch while a CFunction is still on
+the C stack.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalscoroutineargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_coroutineArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Evaluates the n-th argument of a message and verifies it is a Coroutine,
+raising a type error otherwise. Used by methods that receive another
+coroutine as input (e.g. parent wiring, resume targets) to keep the
+type check at the boundary.</p></div></div><div class="classdoc-member" id="functions--ioobjectperformwithdebugger"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_performWithDebugger</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Debugger trampoline installed by IoState_updateDebuggingMode when any
+coroutine has debuggingOn. On every message send it populates the
+Debugger object's introspection slots (messageSelf, messageLocals,
+message, messageCoroutine) and resumes the debugger's own coroutine,
+then falls through to the normal IoObject_perform. Letting the
+debugger run as a coroutine keeps stepping logic fully in Io code.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

@@ -16,7 +16,7 @@ docsPath := System args at(1)
 sourceKind := System args at(2) ifNilEval("docs")
 
 isCdocs := sourceKind == "cdocs"
-pageTitle := if(isCdocs, "C Implementation Reference", "Reference")
+pageTitle := "Reference"
 pageSubtitle := if(isCdocs,
     "C-internal implementation details extracted from `cdoc` and `cmetadoc` comments.",
     "Browse every built-in object and method in Io's standard library.")

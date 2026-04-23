@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Tag – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Per-type vtable shared by every IoObject of a given primitive class. An IoTag carries the type's name, a set of function pointers (clone, free, mark,...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Tag</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Per-type vtable shared by every IoObject of a given primitive class.
+An IoTag carries the type's name, a set of function pointers (clone,
+free, mark, activate, compare, perform, write/read, notification,
+cleanup) and is reference-counted across the proto and all its clones.
+Each IoObject_new... constructor attaches exactly one tag (installed
+by the corresponding IoXxx_newTag helper) and the collector calls
+markFunc / freeFunc through the tag rather than switching on type.
+Keeping the dispatch here lets IoObject stay a fixed-size marker
+regardless of how many primitive subtypes the VM defines.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iotagfree">IoTag_free</a></li><li><a href="#functions--iotagmark">IoTag_mark</a></li><li><a href="#functions--iotagname">IoTag_name_</a></li><li><a href="#functions--iotagnew">IoTag_new</a></li><li><a href="#functions--iotagnewwithname">IoTag_newWithName_</a></li><li><a href="#functions--iotagreference">IoTag_reference</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iotagfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reference-counted release. Decrements referenceCount and returns early
+while any object still holds the tag; on the final release it invokes
+the optional tagCleanupFunc (for per-type bookkeeping like freeing
+interned pools), frees the duplicated name, and io_frees the tag
+itself. Called by IoObject's free path through each primitive's tag
+registration.</p></div></div><div class="classdoc-member" id="functions--iotagmark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Collector hook for per-tag GC roots. Currently a no-op because the
+recyclableInstances stack is disabled; kept as a seam so future
+per-type caches (e.g. instance freelists) can participate in marking
+without touching the collector core.</p></div></div><div class="classdoc-member" id="functions--iotagname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_name_</span><span class="classdoc-member-sig">(self, name)</span></div><div class="classdoc-member-body"><p>Copies name into the tag's own heap buffer via io_realloc, so the
+caller's string need not remain live. Called by IoTag_newWithName_
+and whenever a tag is renamed (rare — mostly during bootstrap).</p></div></div><div class="classdoc-member" id="functions--iotagnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_new</span><span class="classdoc-member-sig">()</span></div><div class="classdoc-member-body"><p>Allocates a zeroed tag with referenceCount 1 and a default performFunc.
+When IOMESSAGE_INLINE_PERFORM is defined the performFunc is left NULL
+so IoMessage can inline the dispatch; otherwise it points at
+IoObject_perform. All other slots (clone/free/mark/activate/compare/
+write/read/notification/cleanup) start NULL and must be filled in by
+the caller before the tag is attached to any object.</p></div></div><div class="classdoc-member" id="functions--iotagnewwithname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_newWithName_</span><span class="classdoc-member-sig">(name)</span></div><div class="classdoc-member-body"><p>Convenience constructor used by every IoXxx_newTag helper: allocate
+a fresh tag, then set its name. The name is duplicated into the tag's
+own heap buffer (see IoTag_name_) so the caller's string literal need
+not remain live.</p></div></div><div class="classdoc-member" id="functions--iotagreference"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_reference</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Bumps referenceCount. Used when the same tag is shared across multiple
+owners (e.g. CFunction instances of a particular class) so that
+IoTag_free only actually releases on the last drop.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

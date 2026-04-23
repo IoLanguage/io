@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Block – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of Io blocks and methods (they share the same struct; block() binds a lexical scope, method() leaves scope NULL so activation uses the...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Block</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of Io blocks and methods (they share the same struct;
+block() binds a lexical scope, method() leaves scope NULL so activation
+uses the message target). IoBlockData carries the message tree, an
+argNames List, the optional captured scope, passStops (whether
+return/continue/break propagate to the caller), and profiler timing.
+Activation happens via IoBlock_activate, which is installed as the
+tag's activateFunc — any getSlot of an activatable Block thus runs
+the block without explicit message dispatch. IoBlock_activate builds
+a fresh locals object (cloned from state->localsProto), populates it
+with call/self/updateSlot plus the named arguments, and recursively
+evaluates the body via IoMessage_locals_performOn_. With frame-based
+coroutines and the iterative evaluator, that inner perform will usually
+redirect into the eval loop rather than recurse on the C stack. The
+optional profiler wraps IoBlock_activate with clock() bookkeeping.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ioblockactivate">IoBlock_activate</a></li><li><a href="#functions--ioblockactivatewithprofiler">IoBlock_activateWithProfiler</a></li><li><a href="#functions--ioblockcopy">IoBlock_copy_</a></li><li><a href="#functions--ioblockfree">IoBlock_free</a></li><li><a href="#functions--ioblockjustcode">IoBlock_justCode</a></li><li><a href="#functions--ioblockmark">IoBlock_mark</a></li><li><a href="#functions--ioblockmessage">IoBlock_message_</a></li><li><a href="#functions--ioblockmethod">IoBlock_method</a></li><li><a href="#functions--ioblocknew">IoBlock_new</a></li><li><a href="#functions--ioblocknewtag">IoBlock_newTag</a></li><li><a href="#functions--ioblockproto">IoBlock_proto</a></li><li><a href="#functions--ioblockrawclone">IoBlock_rawClone</a></li><li><a href="#functions--ioblockrawprofilertime">IoBlock_rawProfilerTime</a></li><li><a href="#functions--ioblockrawresetprofilertime">IoBlock_rawResetProfilerTime</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ioblockactivate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_activate</span><span class="classdoc-member-sig">(self, target, locals, m, slotContext)</span></div><div class="classdoc-member-body"><p>Core block activation. Clones localsProto, falls back to the message
+target when no lexical scope was captured, creates a Call object via
+IoCall_with, and seeds the fresh locals with call/self/updateSlot.
+Arguments are pre-evaluated in the caller's locals (IoMessage_locals_
+valueArgAt_) then bound by name, which is why blocks can see their
+sender's scope. The body is evaluated via IoMessage_locals_performOn_
+— under the iterative evaluator this redirects into the frame state
+machine rather than recursing on the C stack. On return, if passStops
+is clear, the block's return/continue/break status propagates through
+state->returnValue/stopStatus. The IO_BLOCK_LOCALS_RECYCLING path
+manually frees the Call and blockLocals when neither got captured,
+reclaiming the common case immediately instead of waiting for GC.</p></div></div><div class="classdoc-member" id="functions--ioblockactivatewithprofiler"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_activateWithProfiler</span><span class="classdoc-member-sig">(self, target, locals, m, slotContext)</span></div><div class="classdoc-member-body"><p>Profiler-enabled wrapper around IoBlock_activate. setProfilerOn(true)
+swaps this in as the tag's activateFunc so every activation of this
+block accumulates elapsed clock() time into profilerTime.</p></div></div><div class="classdoc-member" id="functions--ioblockcopy"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_copy_</span><span class="classdoc-member-sig">(self, other)</span></div><div class="classdoc-member-body"><p>Shallow-copies another Block's message, argument names, and captured
+scope into self. Used by the commented-out BStream readFromStream to
+graft parsed code onto a freshly allocated Block; kept live because
+store/persistence work may re-enable it.</p></div></div><div class="classdoc-member" id="functions--ioblockfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the argNames basekit List and
+the IoBlockData payload. The message tree is GC-managed.</p></div></div><div class="classdoc-member" id="functions--ioblockjustcode"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_justCode</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Serializes a Block to its Io source form as a UArray: opens with
+"block(" (lexical closure) or "method(" (dynamic) depending on
+whether a scope was captured, then emits the argument names and the
+message chain description. Caller owns the returned UArray.</p></div></div><div class="classdoc-member" id="functions--ioblockmark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Marks the message tree (always
+present), the optional captured scope, and every argument name
+symbol.</p></div></div><div class="classdoc-member" id="functions--ioblockmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_message_</span><span class="classdoc-member-sig">(self, m)</span></div><div class="classdoc-member-body"><p>Setter used by IoBlock_method and setMessage; IOREFs through the
+Block so the new message tree stays live.</p></div></div><div class="classdoc-member" id="functions--ioblockmethod"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_method</span><span class="classdoc-member-sig">(target, locals, m)</span></div><div class="classdoc-member-body"><p>Implementation of Object method(...). Allocates a fresh Block, takes
+the last argument of m as the body message and the rest as arg name
+symbols, and marks the Block as activatable (so slot lookup will
+auto-invoke it). Object block() calls this first and then sets scope
+to the sender's locals to convert it into a lexical closure.</p></div></div><div class="classdoc-member" id="functions--ioblocknew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: looks up the registered proto and clones it.
+Used by IoBlock_method (the backing implementation of method() and
+block()).</p></div></div><div class="classdoc-member" id="functions--ioblocknewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Block tag with clone/mark/free function pointers plus the
+activateFunc that makes a Block self-executing when fetched from an
+activatable slot. The activateFunc is the key hook — IoCFunction uses
+the same mechanism.</p></div></div><div class="classdoc-member" id="functions--ioblockproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Block proto: allocates an IoBlockData with a nil message,
+empty argNames list, and NULL scope, attaches the tag from
+IoBlock_newTag, and registers the Io-visible method table (print,
+code, message, argumentNames, setScope, call, performOn, passStops,
+profiler). All later Blocks and methods are clones of this proto.</p></div></div><div class="classdoc-member" id="functions--ioblockrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Deep-copies the message tree so
+mutating a block's body doesn't leak into the proto, clones the arg
+names, and carries over scope, isActivatable, and passStops. This is
+how method() and block() on a user object produce their receiver
+copies before IoBlock_method fills in the new content.</p></div></div><div class="classdoc-member" id="functions--ioblockrawprofilertime"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_rawProfilerTime</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Direct accessor for accumulated clock() ticks spent in this block.
+Matched setter is IoBlock_rawResetProfilerTime.</p></div></div><div class="classdoc-member" id="functions--ioblockrawresetprofilertime"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBlock_rawResetProfilerTime</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Zeros the profiler accumulator. Exposed as a raw helper so profiler
+drivers (scheduler/debug tooling) can reset without synthesizing a
+message send.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

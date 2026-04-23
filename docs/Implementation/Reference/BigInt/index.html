@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>BigInt – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of arbitrary-precision integers. Each BigInt is an IoObject whose dataPointer is an IoBigIntData that owns a libtommath mp_int...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>BigInt</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of arbitrary-precision integers. Each BigInt is an
+IoObject whose dataPointer is an IoBigIntData that owns a libtommath
+mp_int (variable-size digit array on the heap). Unlike Number, BigInt
+has a real payload: rawClone allocates and mp_init's a fresh mp_int,
+and the tag's freeFunc must call mp_clear before freeing the wrapper.
+Operands must both be BigInts — there is no silent coercion from
+Number (matching JavaScript's BigInt rules), which is enforced by the
+IoBigInt_argData helper that raises an error on non-BigInt args.
+Every arithmetic method follows the same mp_init/op/mp_copy-into-new-
+BigInt/mp_clear pattern to keep libtommath's ownership discipline
+correct even in the face of GC-driven allocation.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iobigintargdata">IoBigInt_argData</a></li><li><a href="#functions--iobigintfree">IoBigInt_free</a></li><li><a href="#functions--iobigintisbigint">IoBigInt_isBigInt</a></li><li><a href="#functions--iobigintmp">IoBigInt_mp</a></li><li><a href="#functions--iobigintnew">IoBigInt_new</a></li><li><a href="#functions--iobigintnewfromcstring">IoBigInt_newFromCString</a></li><li><a href="#functions--iobigintnewresult">IoBigInt_newResult</a></li><li><a href="#functions--iobigintnewtag">IoBigInt_newTag</a></li><li><a href="#functions--iobigintnewwithmpint">IoBigInt_newWithMpInt</a></li><li><a href="#functions--iobigintproto">IoBigInt_proto</a></li><li><a href="#functions--iobigintrawclone">IoBigInt_rawClone</a></li><li><a href="#functions--ioobjectbigintabs">IoObject_BigInt_abs</a></li><li><a href="#functions--ioobjectbigintadd">IoObject_BigInt_add</a></li><li><a href="#functions--ioobjectbigintasnumber">IoObject_BigInt_asNumber</a></li><li><a href="#functions--ioobjectbigintasstring">IoObject_BigInt_asString</a></li><li><a href="#functions--ioobjectbigintcompare">IoObject_BigInt_compare</a></li><li><a href="#functions--ioobjectbigintdiv">IoObject_BigInt_div</a></li><li><a href="#functions--ioobjectbigintfrom">IoObject_BigInt_from</a></li><li><a href="#functions--ioobjectbigintmod">IoObject_BigInt_mod</a></li><li><a href="#functions--ioobjectbigintmul">IoObject_BigInt_mul</a></li><li><a href="#functions--ioobjectbigintnegate">IoObject_BigInt_negate</a></li><li><a href="#functions--ioobjectbigintpow">IoObject_BigInt_pow</a></li><li><a href="#functions--ioobjectbigintsub">IoObject_BigInt_sub</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iobigintargdata"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_argData</span><span class="classdoc-member-sig">(self, locals, m, argIndex)</span></div><div class="classdoc-member-body"><p>Pulls the n-th argument and returns its IoBigIntData, or NULL after
+raising an error if the argument is not a BigInt. Used at the top of
+every binary operation — centralizes the "no implicit coercion" rule
+so BigInt + Number, etc. fails rather than silently losing precision.
+Also propagates any prior errorRaised flag.</p></div></div><div class="classdoc-member" id="functions--iobigintfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. mp_clear releases libtommath's heap
+digit buffer before the wrapper struct is freed — omitting this would
+leak digits for every reclaimed BigInt.</p></div></div><div class="classdoc-member" id="functions--iobigintisbigint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_isBigInt</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Type check by tag-name comparison. Used by argData and by external
+bindings that need to distinguish BigInt from Number before calling
+IoBigInt_mp. Name comparison (rather than tag pointer equality) is
+chosen so the check keeps working across VM state restarts.</p></div></div><div class="classdoc-member" id="functions--iobigintmp"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_mp</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns a borrowed pointer to the internal mp_int. Caller must not
+mp_clear it — the wrapper still owns the digits. Used by helpers
+that want to call libtommath functions directly without going back
+through the Io method dispatch path.</p></div></div><div class="classdoc-member" id="functions--iobigintnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: look up the proto and IOCLONE. rawClone
+provides a zeroed mp_int, so the caller typically follows up with
+mp_copy or mp_set_double to seed the value.</p></div></div><div class="classdoc-member" id="functions--iobigintnewfromcstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_newFromCString</span><span class="classdoc-member-sig">(state, str)</span></div><div class="classdoc-member-body"><p>Parses a C string as a base-10 integer. Unlike the Io-level from
+method, this silently ignores parse errors — intended for callers
+that have already validated the input.</p></div></div><div class="classdoc-member" id="functions--iobigintnewresult"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_newResult</span><span class="classdoc-member-sig">(state, result)</span></div><div class="classdoc-member-body"><p>Mints a fresh BigInt and copies the caller's scratch mp_int into it.
+The caller retains ownership of their temporary and must mp_clear it
+after — see every arithmetic method for the canonical init/op/copy/
+clear sequence. Deep copy is required because the wrapper's mp_int is
+freed independently from the caller's.</p></div></div><div class="classdoc-member" id="functions--iobigintnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the BigInt tag with clone and free hooks. No compareFunc is
+set — comparison goes through the explicit compare / <, > Io methods
+so mismatched-type comparisons raise instead of silently ordering.</p></div></div><div class="classdoc-member" id="functions--iobigintnewwithmpint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_newWithMpInt</span><span class="classdoc-member-sig">(state, src)</span></div><div class="classdoc-member-body"><p>Constructs a BigInt from an existing libtommath mp_int. Deep-copies via
+mp_copy so the caller's mp_int can be cleared independently — this is
+the safe bridge from C code that already owns an mp_int.</p></div></div><div class="classdoc-member" id="functions--iobigintproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the BigInt proto. Allocates an IoBigIntData payload initialized
+to zero, attaches the tag, registers the proto on the state, and
+installs the full arithmetic/comparison/conversion method table. All
+BigInts are clones of this proto.</p></div></div><div class="classdoc-member" id="functions--iobigintrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoBigInt_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Allocates a fresh IoBigIntData and
+mp_init's its mp_int so the clone owns an independent digit buffer.
+The value is NOT copied from proto — callers seed the result themselves
+(e.g. IoBigInt_newWithMpInt, arithmetic methods). The explicit tag set
+preserves tag identity across clones when the proto chain is shared.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintabs"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_abs</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Absolute value via mp_abs. Always allocates a fresh BigInt even when
+self is already non-negative — BigInts are immutable from Io.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintadd"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_add</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Sum of two BigInts. Exemplar of the add/sub/mul shape: stack-allocated
+scratch mp_int, mp_init, mp_op, copy into a fresh IoBigInt, mp_clear.
+Returns nil on argument-type error raised by IoBigInt_argData.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintasnumber"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_asNumber</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Lossy conversion to a Number. Values beyond 2^53 or below -2^53 lose
+integer precision through the double; Infinity is returned for
+out-of-range magnitudes per mp_get_double.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintasstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_asString</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Decimal string form. Queries libtommath for the needed buffer size via
+mp_radix_size, allocates, renders with mp_to_radix, and interns the
+result as a Symbol so repeated large values share storage.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintcompare"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_compare</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Three-way compare returning -1/0/1 as a Number. Translates libtommath's
+MP_LT/MP_EQ/MP_GT enum into the Io-standard integer ordering used by
+sort predicates.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintdiv"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_div</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Quotient of two BigInts (truncated toward zero, matching mp_div).
+Passes NULL for the remainder out-param since only the quotient is
+returned; callers needing both should use div and mod separately.
+Raises on divide-by-zero before calling mp_div.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintfrom"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_from</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Construction entry point accepting a Number, a Sequence (parsed as
+decimal), or another BigInt (copy). Number path uses mp_set_double,
+which truncates the fractional component; Sequence path routes errors
+from mp_read_radix back through IoState_error_ so malformed literals
+surface as an Io exception.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintmod"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_mod</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Remainder of two BigInts. Uses mp_mod, which gives a non-negative
+result for positive modulus (Euclidean), distinct from C's trunc-toward-
+zero fmod semantics. Raises on divide-by-zero before calling mp_mod.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintmul"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_mul</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Product of two BigInts. libtommath may allocate additional digits for
+the result buffer during mp_mul; ownership transfers to the new wrapper
+via mp_copy.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintnegate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_negate</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Unary minus. Same init/op/copy/clear pattern as the binary ops, with
+mp_neg writing into a scratch mp_int.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintpow"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_pow</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Integer power. Exponent comes as a Number (not a BigInt) because
+mp_expt_n takes a C int; negative or non-integral exponents are
+rejected up front since BigInt has no fractional representation.</p></div></div><div class="classdoc-member" id="functions--ioobjectbigintsub"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_BigInt_sub</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Difference of two BigInts. Same init/op/copy/clear pattern as add.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Sandbox – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of Sandbox — a wrapper that lazily spins up an entire nested IoState and runs strings of Io code inside it. The inner IoState is stored in...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Sandbox</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of Sandbox — a wrapper that lazily spins up an entire
+nested IoState and runs strings of Io code inside it. The inner
+IoState is stored in the IoObject's data pointer (see DATA(self)) and
+created lazily by IoSandbox_boxState so empty Sandbox clones stay
+cheap. Quota-style protection (messageCountLimit, timeLimit) is
+enforced by the inner IoState's evaluator, not by this module;
+setters here just poke those fields. Output from code run in the
+sandbox is intercepted via IoState_printCallback_ and re-sent as a
+printCallback message back to the outer VM, so the host can decide
+what to do with sandboxed stdout.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iosandboxaddprintcallback">IoSandbox_addPrintCallback</a></li><li><a href="#functions--iosandboxboxstate">IoSandbox_boxState</a></li><li><a href="#functions--iosandboxfree">IoSandbox_free</a></li><li><a href="#functions--iosandboxnew">IoSandbox_new</a></li><li><a href="#functions--iosandboxnewtag">IoSandbox_newTag</a></li><li><a href="#functions--iosandboxprintcallback">IoSandbox_printCallback</a></li><li><a href="#functions--iosandboxproto">IoSandbox_proto</a></li><li><a href="#functions--iosandboxrawclone">IoSandbox_rawClone</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iosandboxaddprintcallback"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_addPrintCallback</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Sets up the inner IoState's print callback to route writes into
+IoSandbox_printCallback, which forwards them back to the outer VM
+as an Io-level printCallback message. Called from boxState so every
+lazily-created inner state has I/O redirection wired up.</p></div></div><div class="classdoc-member" id="functions--iosandboxboxstate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_boxState</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns the inner IoState, creating it lazily on first access via
+IoState_new() and wiring up the print callback. Called by every
+quota setter, getter, and doSandboxString, so this is where the
+nested VM really comes into existence.</p></div></div><div class="classdoc-member" id="functions--iosandboxfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Tears down the inner IoState (via
+IoState_free, which recursively frees every object in the nested
+VM) if one was ever created; otherwise does nothing.</p></div></div><div class="classdoc-member" id="functions--iosandboxnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: look up the Sandbox proto and clone it.
+The inner IoState is still not materialized until first use.</p></div></div><div class="classdoc-member" id="functions--iosandboxnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Sandbox tag with clone and free function pointers. No
+markFunc is registered — the inner IoState owns its own GC and is
+not walked by the outer collector.</p></div></div><div class="classdoc-member" id="functions--iosandboxprintcallback"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_printCallback</span><span class="classdoc-member-sig">(voidSelf, ba)</span></div><div class="classdoc-member-body"><p>Bridge from inner-VM print output to the outer VM. Copies the bytes
+into a fresh IoSeq, builds a `printCallback(buffer)` message, and
+performs it on the Sandbox object in the outer state's lobby scope —
+letting Io code override printCallback to capture sandboxed output.</p></div></div><div class="classdoc-member" id="functions--iosandboxproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Sandbox proto: no inner IoState yet (data pointer stays
+NULL until first use). Installs the quota / evaluation method table
+and registers the proto on the outer state.</p></div></div><div class="classdoc-member" id="functions--iosandboxrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoSandbox_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Does not duplicate the inner
+IoState — the clone starts fresh and will get its own IoState on
+first boxState() call. Cheap to clone even when the proto has a
+fully populated inner VM.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

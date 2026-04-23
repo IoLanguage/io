@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>EvalFrame – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Heap-allocated frame state machine that replaces C-stack recursion in the evaluator. Each frame is a GC-managed IoObject carrying an IoEvalFrameData...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>EvalFrame</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Heap-allocated frame state machine that replaces C-stack recursion in the
+evaluator. Each frame is a GC-managed IoObject carrying an IoEvalFrameData
+payload: the message being evaluated, its target/locals, an evaluation
+state (see IoFrameState), evaluated-argument storage with a 4-slot inline
+buffer, and a discriminated-union of control-flow continuations (if/while/
+for/foreach/callcc/coroutine/await) live only for the states that use them.
+Frames form a parent chain rooted at the coroutine's bottom frame; the GC
+walks that chain via the tag's markFunc. This module owns frame lifecycle
+(alloc, clone, reset, free) and state-name &harr; enum conversion; the
+actual step-by-step state transitions live in IoState_iterative.c.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ioevalframefree">IoEvalFrame_free</a></li><li><a href="#functions--ioevalframemark">IoEvalFrame_mark</a></li><li><a href="#functions--ioevalframenewtag">IoEvalFrame_newTag</a></li><li><a href="#functions--ioevalframenewwithstate">IoEvalFrame_newWithState</a></li><li><a href="#functions--ioevalframeproto">IoEvalFrame_proto</a></li><li><a href="#functions--ioevalframerawclone">IoEvalFrame_rawClone</a></li><li><a href="#functions--ioevalframereset">IoEvalFrame_reset</a></li><li><a href="#functions--ioevalframestatefromname">IoEvalFrame_stateFromName</a></li><li><a href="#functions--ioevalframestatename">IoEvalFrame_stateName</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ioevalframefree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the heap-allocated argValues
+buffer (only if it isn't pointing at the inline 4-slot buffer) and the
+IoEvalFrameData payload. IoObject fields are not freed here — the GC
+owns them.</p></div></div><div class="classdoc-member" id="functions--ioevalframemark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Walks every GC-visible field on the
+frame: parent frame, message, target, locals, cachedTarget, result,
+slotValue, slotContext, call, savedCall, blockLocals, and the already-
+evaluated entries of argValues (0 .. currentArgIndex-1). The discriminated
+controlFlow union is only marked for states that actually use it — the
+switch on fd->state dispatches to the right arm. The parent pointer
+drives GC reachability for the whole frame chain: marking the bottom
+frame of a coroutine transitively keeps the whole active call stack
+alive.</p></div></div><div class="classdoc-member" id="functions--ioevalframenewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the IoTag that carries the frame's clone / mark / free function
+pointers. Called once from IoEvalFrame_proto.</p></div></div><div class="classdoc-member" id="functions--ioevalframenewwithstate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_newWithState</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience: look up the registered proto on the state and clone it.
+Preferred entry point when the iterative evaluator needs a fresh frame.</p></div></div><div class="classdoc-member" id="functions--ioevalframeproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the EvalFrame proto object: allocates a zeroed IoEvalFrameData
+payload, attaches the tag from IoEvalFrame_newTag, registers the proto
+on the VM state, and installs the Io-visible method table (message,
+target, locals, state, parent, result, depth, call, blockLocals,
+description). All live frames are clones of this proto.</p></div></div><div class="classdoc-member" id="functions--ioevalframerawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Allocates a fresh IoEvalFrameData
+payload on the new clone — frames do not share data with their proto.</p></div></div><div class="classdoc-member" id="functions--ioevalframereset"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_reset</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Zeros the IoEvalFrameData payload so the frame can be reused without
+re-allocating the IoObject. Frees the heap argValues buffer first (but
+does NOT touch the inline buffer). Leaves the IoObject header, tag,
+and proto chain intact. Used by the frame-pool fast path in
+IoState_iterative_fast.c to recycle frames between activations.</p></div></div><div class="classdoc-member" id="functions--ioevalframestatefromname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_stateFromName</span><span class="classdoc-member-sig">(name)</span></div><div class="classdoc-member-body"><p>Inverse of IoEvalFrame_stateName &mdash; resolves a canonical state string
+back to its enum value. Needed when rehydrating a serialized continuation
+(see Continuation fromMap). Falls back to FRAME_STATE_START for a NULL or
+unrecognized name, which keeps deserialization total.</p></div></div><div class="classdoc-member" id="functions--ioevalframestatename"><div class="classdoc-member-head"><span class="classdoc-member-name">IoEvalFrame_stateName</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Maps an IoFrameState enum value to its canonical string name
+(e.g. FRAME_STATE_IF_EVAL_BRANCH &rarr; "if:evalBranch"). Used by
+the Io-visible state method and by debug tracing. The string form
+doubles as a stable serialization key for continuation snapshots.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

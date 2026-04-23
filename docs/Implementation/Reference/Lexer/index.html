@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Lexer – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Hand-written UTF-8 aware tokenizer that turns an Io source string into a List of IoTokens. The lexer is driven by IoLexer_lex which kicks off a recursive...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Lexer</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Hand-written UTF-8 aware tokenizer that turns an Io source string into
+a List of IoTokens. The lexer is driven by IoLexer_lex which kicks off
+a recursive IoLexer_readMessage loop; each sub-reader (readIdentifier,
+readOperator, readNumber, readQuote, readComment, ...) uses a
+position-saving pushPos / popPos / popPosBack convention to implement
+try-then-backtrack parsing without a separate parse state. Emitted
+tokens are appended both to the flat tokenStream List (parallel
+consumption order by the parser) and chained via nextToken links
+inside IoToken itself. Nested `/*...*\/` comments, triple-quoted
+strings, hex and decimal literals with exponents, backslash line
+continuations, and synthesised group-name tokens for `[...]` and
+`{...}` are all handled here. The parser in IoMessage_parser.c pops
+tokens off the stream and routes them through IoMessage_ifPossibleCache
+Token_.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iolexeraddtokenstringlengthtype">IoLexer_addTokenString_length_type_</a></li><li><a href="#functions--iolexerbuildlineindex">IoLexer_buildLineIndex</a></li><li><a href="#functions--iolexerclear">IoLexer_clear</a></li><li><a href="#functions--iolexercurrentlinenumber">IoLexer_currentLineNumber</a></li><li><a href="#functions--iolexercurrentlinenumberold">IoLexer_currentLineNumberOld</a></li><li><a href="#functions--iolexererrordescription">IoLexer_errorDescription</a></li><li><a href="#functions--iolexerfree">IoLexer_free</a></li><li><a href="#functions--iolexergrablength">IoLexer_grabLength</a></li><li><a href="#functions--iolexergrabtokentype">IoLexer_grabTokenType_</a></li><li><a href="#functions--iolexerlex">IoLexer_lex</a></li><li><a href="#functions--iolexermessagechain">IoLexer_messageChain</a></li><li><a href="#functions--iolexernameforgroupchar">IoLexer_nameForGroupChar_</a></li><li><a href="#functions--iolexernew">IoLexer_new</a></li><li><a href="#functions--iolexernextchar">IoLexer_nextChar</a></li><li><a href="#functions--iolexerpop">IoLexer_pop</a></li><li><a href="#functions--iolexerpoppos">IoLexer_popPos</a></li><li><a href="#functions--iolexerpopposback">IoLexer_popPosBack</a></li><li><a href="#functions--iolexerprevchar">IoLexer_prevChar</a></li><li><a href="#functions--iolexerprint">IoLexer_print</a></li><li><a href="#functions--iolexerprintlast">IoLexer_printLast_</a></li><li><a href="#functions--iolexerprinttokens">IoLexer_printTokens</a></li><li><a href="#functions--iolexerpushpos">IoLexer_pushPos</a></li><li><a href="#functions--iolexerreadcharanycase">IoLexer_readCharAnyCase_</a></li><li><a href="#functions--iolexerreadcharinrange">IoLexer_readCharInRange_</a></li><li><a href="#functions--iolexerreadcharin">IoLexer_readCharIn_</a></li><li><a href="#functions--iolexerreadchar">IoLexer_readChar_</a></li><li><a href="#functions--iolexerreadcharacters">IoLexer_readCharacters</a></li><li><a href="#functions--iolexerreadcomment">IoLexer_readComment</a></li><li><a href="#functions--iolexerreaddecimal">IoLexer_readDecimal</a></li><li><a href="#functions--iolexerreaddecimalplaces">IoLexer_readDecimalPlaces</a></li><li><a href="#functions--iolexerreaddigits">IoLexer_readDigits</a></li><li><a href="#functions--iolexerreadexponent">IoLexer_readExponent</a></li><li><a href="#functions--iolexerreadhexnumber">IoLexer_readHexNumber</a></li><li><a href="#functions--iolexerreadidentifier">IoLexer_readIdentifier</a></li><li><a href="#functions--iolexerreadletter">IoLexer_readLetter</a></li><li><a href="#functions--iolexerreadmessage">IoLexer_readMessage</a></li><li><a href="#functions--iolexerreadmessageerror">IoLexer_readMessage_error</a></li><li><a href="#functions--iolexerreadmonoquote">IoLexer_readMonoQuote</a></li><li><a href="#functions--iolexerreadnonasciichar">IoLexer_readNonASCIIChar_</a></li><li><a href="#functions--iolexerreadnonquote">IoLexer_readNonQuote</a></li><li><a href="#functions--iolexerreadnonreturn">IoLexer_readNonReturn</a></li><li><a href="#functions--iolexerreadnumber">IoLexer_readNumber</a></li><li><a href="#functions--iolexerreadoperator">IoLexer_readOperator</a></li><li><a href="#functions--iolexerreadpadding">IoLexer_readPadding</a></li><li><a href="#functions--iolexerreadpoundcomment">IoLexer_readPoundComment</a></li><li><a href="#functions--iolexerreadquote">IoLexer_readQuote</a></li><li><a href="#functions--iolexerreadseparator">IoLexer_readSeparator</a></li><li><a href="#functions--iolexerreadseparatorchar">IoLexer_readSeparatorChar</a></li><li><a href="#functions--iolexerreadslashslashcomment">IoLexer_readSlashSlashComment</a></li><li><a href="#functions--iolexerreadslashstarcomment">IoLexer_readSlashStarComment</a></li><li><a href="#functions--iolexerreadstring">IoLexer_readString_</a></li><li><a href="#functions--iolexerreadsymbol">IoLexer_readSymbol</a></li><li><a href="#functions--iolexerreadterminator">IoLexer_readTerminator</a></li><li><a href="#functions--iolexerreadtokenchartype">IoLexer_readTokenChar_type_</a></li><li><a href="#functions--iolexerreadtokencharstype">IoLexer_readTokenChars_type_</a></li><li><a href="#functions--iolexerreadtokenstring">IoLexer_readTokenString_</a></li><li><a href="#functions--iolexerreadtriquote">IoLexer_readTriQuote</a></li><li><a href="#functions--iolexerreadwhitespace">IoLexer_readWhitespace</a></li><li><a href="#functions--iolexerstring">IoLexer_string_</a></li><li><a href="#functions--iolexerdecodeutf8">_IoLexer_DecodeUTF8</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iolexeraddtokenstringlengthtype"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_addTokenString_length_type_</span><span class="classdoc-member-sig">(self, s1, len, type)</span></div><div class="classdoc-member-body"><p>Builds a new IoToken from an arbitrary source span, stamps it with
+the current line number and cursor-relative char number, links it
+onto the previous token's nextToken chain, and appends it to
+tokenStream. This is the one chokepoint through which every token
+the parser will ever see is born, so both emission paths (grab and
+synthetic group-name tokens) land here.</p></div></div><div class="classdoc-member" id="functions--iolexerbuildlineindex"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_buildLineIndex</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Scans the source text once and appends a pointer to the start of each
+line (plus the trailing sentinel) into charLineIndex. IoLexer_current
+LineNumber then does near-constant-time "which line is this offset on"
+lookups via a hint-based scan rather than re-counting newlines from
+the start.</p></div></div><div class="classdoc-member" id="functions--iolexerclear"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_clear</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Frees every emitted IoToken, empties the backtrack stacks, rewinds
+`current` to the start of the source, and clears the error state.
+Called at the top of IoLexer_lex so the lexer can be reused across
+compilations of different source strings.</p></div></div><div class="classdoc-member" id="functions--iolexercurrentlinenumber"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_currentLineNumber</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Near-constant-time line-number lookup using charLineIndex. Starts from
+the previously stored `lineHint` and walks forward or backward a few
+steps until the hint bracket covers `current`. Because token emission
+is monotonic, the average distance walked per call is ~1. The hint
+is updated in place so successive queries are even cheaper.</p></div></div><div class="classdoc-member" id="functions--iolexercurrentlinenumberold"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_currentLineNumberOld</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Legacy O(n) line-number calculator that rescans from the start of the
+source counting newlines. Retained for cross-checking during debugging;
+the production path uses IoLexer_currentLineNumber.</p></div></div><div class="classdoc-member" id="functions--iolexererrordescription"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_errorDescription</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Formats the current errorToken into a printable "<message> on line N
+character M" string for display by the caller. The buffer is allocated
+on first use and reused across calls, so the returned pointer is stable
+for the lexer's lifetime.</p></div></div><div class="classdoc-member" id="functions--iolexerfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Clears all emitted tokens (each freed via IoToken_free), then releases
+the source buffer, the two backtrack stacks, the charLineIndex, and
+any cached error description. Safe to call multiple times on a lexer
+that has been reused via IoLexer_string_ + IoLexer_lex.</p></div></div><div class="classdoc-member" id="functions--iolexergrablength"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_grabLength</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns the byte length of the span between the most recent pushPos
+save and the current cursor. Predicates use a non-zero result as the
+"we matched at least one byte" signal before calling grabTokenType_.</p></div></div><div class="classdoc-member" id="functions--iolexergrabtokentype"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_grabTokenType_</span><span class="classdoc-member-sig">(self, type)</span></div><div class="classdoc-member-body"><p>Emits a token of the given type spanning from the most recent pushPos
+to the current cursor. An empty span here is treated as a lexer bug
+and aborts the process — every emit site is expected to verify length
+via IoLexer_grabLength first.</p></div></div><div class="classdoc-member" id="functions--iolexerlex"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_lex</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Main entry point. Clears any prior state, then drives the top-level
+grammar via IoLexer_messageChain. If the grammar stops before EOF an
+error token is synthesised (or the current token is repurposed) and
+tagged with "Syntax error near this location". Returns 0 on clean
+lex, -1 on error.</p></div></div><div class="classdoc-member" id="functions--iolexermessagechain"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_messageChain</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Top-level grammar rule: one or more messages separated by terminators,
+separators, or comments. Alternates between stripping whitespace/
+terminator/comment runs and reading a single IoLexer_readMessage,
+stopping when readMessage reports no match. Called once from lex()
+and recursively from readMessage when descending into (...)/[...]/{...}.</p></div></div><div class="classdoc-member" id="functions--iolexernameforgroupchar"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_nameForGroupChar_</span><span class="classdoc-member-sig">(self, groupChar)</span></div><div class="classdoc-member-body"><p>Maps an open-group character to the synthesised message name that
+readMessage prepends before recursing: `(` produces an empty-name
+(grouping), `[` produces "squareBrackets", `{` produces "curlyBrackets".
+Those names are the hooks Io code uses to implement List and Map literals.
+Fatal-aborts on an unexpected character.</p></div></div><div class="classdoc-member" id="functions--iolexernew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_new</span><span class="classdoc-member-sig">(void)</span></div><div class="classdoc-member-body"><p>Allocates a fresh IoLexer with an empty source buffer, the two
+position/token backtrack stacks, and the tokenStream and charLineIndex
+Lists. The lexer is not an IoObject; it is owned and freed by whoever
+kicked off compilation (IoMessage_newFromText_labelSymbol_ or the
+Compiler methods in IoCompiler.c).</p></div></div><div class="classdoc-member" id="functions--iolexernextchar"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_nextChar</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Advances `current` past one code point and returns it. Fast path for
+ASCII (no decode, single byte). For multi-byte sequences, runs
+_IoLexer_DecodeUTF8 and advances by the sequence length; returns 0 on
+end-of-input or invalid UTF-8 so the caller can treat it as a stop
+signal.</p></div></div><div class="classdoc-member" id="functions--iolexerpop"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_pop</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns the next unread token and advances the read cursor. Used by
+the parser (IoMessage_parser) as its sole token-stream consumer. Does
+not mutate the token — it stays in tokenStream for ownership, only
+`resultIndex` moves.</p></div></div><div class="classdoc-member" id="functions--iolexerpoppos"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_popPos</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Commits a successful speculative attempt: pops the saved position and
+token-count markers without touching the text cursor or emitted
+tokens. The parallel of `popPosBack` that fires on match success.</p></div></div><div class="classdoc-member" id="functions--iolexerpopposback"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_popPosBack</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Rolls back a failed speculative attempt: truncates tokenStream to the
+size it had at pushPos time, unlinks any dangling nextToken pointer on
+the new tail, and rewinds `current` to the saved byte offset. Restores
+the lexer as if the attempt had never happened.</p></div></div><div class="classdoc-member" id="functions--iolexerprevchar"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_prevChar</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Steps `current` back to the previous code point by walking backwards
+over up to six continuation bytes until a non-continuation byte is
+found. The counterpart to nextChar, used by the try-then-backtrack
+predicates to un-consume a character when a match fails.</p></div></div><div class="classdoc-member" id="functions--iolexerprint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_print</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Debug helper: prints only the first token. Mainly hooked in under
+LEXER_DEBUG to trace how tokenStream grows through pushPos/popPos
+cycles.</p></div></div><div class="classdoc-member" id="functions--iolexerprintlast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_printLast_</span><span class="classdoc-member-sig">(self, max)</span></div><div class="classdoc-member-body"><p>Debug helper: prints up to `max` bytes of source starting at `maxChar`
+(the furthest forward the lexer has reached). Useful for pinpointing
+where backtracking last saw good input after a lex failure.</p></div></div><div class="classdoc-member" id="functions--iolexerprinttokens"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_printTokens</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Debug helper: dumps every emitted token with its name and type name,
+comma-separated. Useful for inspecting what the parser will see before
+IoMessage_opShuffle rearranges it.</p></div></div><div class="classdoc-member" id="functions--iolexerpushpos"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_pushPos</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Saves the current character position and token-stream size on the
+parallel posStack / tokenStack so a speculative lexing attempt can be
+undone via IoLexer_popPosBack. Also updates `maxChar` — the furthest
+byte the lexer has ever reached — which is used for error reporting
+when lexing dies in a dead end.</p></div></div><div class="classdoc-member" id="functions--iolexerreadcharanycase"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readCharAnyCase_</span><span class="classdoc-member-sig">(self, c)</span></div><div class="classdoc-member-body"><p>Case-insensitive single-byte match. Used for reading the `e` in
+exponent notation and the `x` in hex literals.</p></div></div><div class="classdoc-member" id="functions--iolexerreadcharinrange"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readCharInRange_</span><span class="classdoc-member-sig">(self, first, last)</span></div><div class="classdoc-member-body"><p>Reads one code point; if it lies in [first, last] consume it, otherwise
+back up. Powers readDigit and readLetter ASCII-range checks.</p></div></div><div class="classdoc-member" id="functions--iolexerreadcharin"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readCharIn_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Reads one code point; if it's ASCII and appears in `s`, keep it
+consumed. Otherwise back up. ASCII-only intentionally — used for
+punctuation and operator character classes.</p></div></div><div class="classdoc-member" id="functions--iolexerreadchar"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readChar_</span><span class="classdoc-member-sig">(self, c)</span></div><div class="classdoc-member-body"><p>Exact match for a single byte. Returns 1 and consumes on match, 0 and
+rewinds on mismatch.</p></div></div><div class="classdoc-member" id="functions--iolexerreadcharacters"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readCharacters</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Greedy run of readCharacter: letters, digits, specialChars, and
+opChars all bundled. Used by readHexNumber so a hex literal can
+include letters a-f and mixed case without a bespoke predicate.</p></div></div><div class="classdoc-member" id="functions--iolexerreadcomment"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readComment</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Tries each comment style in turn: C-style slash-star, slash-slash line
+comment, and pound-line comment. Io accepts all three.</p></div></div><div class="classdoc-member" id="functions--iolexerreaddecimal"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readDecimal</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads a decimal literal supporting `42`, `42.5`, `.5`, `4.2e3`, and
+`4E-3` forms. Requires either leading digits or a fractional part;
+uses the -1 return from readDecimalPlaces / readExponent as a
+"definitely malformed" signal to roll back cleanly. Emits
+NUMBER_TOKEN on success.</p></div></div><div class="classdoc-member" id="functions--iolexerreaddecimalplaces"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readDecimalPlaces</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Parses an optional `.digits` fractional part. Same tri-state return
+convention as readExponent: 0 no match, 1 good, -1 malformed.</p></div></div><div class="classdoc-member" id="functions--iolexerreaddigits"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readDigits</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads one or more ASCII digits. Returns 0 and rewinds if none match —
+important so readDecimal can distinguish `.5` (no leading digits) from
+`42.5` without corrupting the cursor on the first failed try.</p></div></div><div class="classdoc-member" id="functions--iolexerreadexponent"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readExponent</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Parses an optional `e[+|-]digits` exponent. Returns 1 on a valid
+exponent, 0 if there's no `e`, -1 on malformed (e.g. `e` with no
+following digits) — the -1 signals readDecimal to abort the number.</p></div></div><div class="classdoc-member" id="functions--iolexerreadhexnumber"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readHexNumber</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads a `0x...` hex literal. Uses readCharacters for the digit body
+so letters `a`-`f` / `A`-`F` pass through; actual hex-digit validation
+happens later in IoMessage_ifPossibleCacheToken_ via
+IoSeq_rawAsDoubleFromHex. Emits HEXNUMBER_TOKEN on success.</p></div></div><div class="classdoc-member" id="functions--iolexerreadidentifier"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readIdentifier</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads the maximal run of letters, digits, and specialChars (underscore
+and dot) and emits one IDENTIFIER_TOKEN. Note that readLetter also
+matches non-ASCII code points, so Io identifiers can contain Unicode.
+Returns 0 and rolls back if the run is empty.</p></div></div><div class="classdoc-member" id="functions--iolexerreadletter"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readLetter</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Matches an identifier letter: ASCII A-Z, a-z, the colon (Io allows it
+mid-identifier), or any non-ASCII byte. The colon inclusion is what
+makes keyword-style messages like `at:put:` lex as a single identifier.</p></div></div><div class="classdoc-member" id="functions--iolexerreadmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readMessage</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads one message: an optional symbol (via readSymbol) followed by an
+optional argument list enclosed in matching brackets. Empty argument
+slots and unmatched brackets raise via IoLexer_readMessage_error.
+Synthesises a group-name identifier before `[` and `{` so `[a,b]`
+becomes `squareBrackets(a,b)`. Returns 1 if it consumed anything.</p></div></div><div class="classdoc-member" id="functions--iolexerreadmessageerror"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readMessage_error</span><span class="classdoc-member-sig">(self, name)</span></div><div class="classdoc-member-body"><p>Rolls the current readMessage attempt back and marks the token at the
+restored position as the errorToken with the given description. Keeps
+partial output out of tokenStream so the parser never sees half-built
+messages.</p></div></div><div class="classdoc-member" id="functions--iolexerreadmonoquote"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readMonoQuote</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads a standard `"..."` string literal with backslash escapes
+recognised but not yet decoded — that happens later in
+IoMessage_ifPossibleCacheToken_ via IoSeq_rawAsUnescapedSymbol. Emits
+MONOQUOTE_TOKEN on success, attaches "unterminated quote" on EOF.</p></div></div><div class="classdoc-member" id="functions--iolexerreadnonasciichar"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readNonASCIIChar_</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads one code point and keeps it consumed if it's outside ASCII.
+Lets readLetter accept Unicode identifier characters without listing
+every range.</p></div></div><div class="classdoc-member" id="functions--iolexerreadnonquote"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readNonQuote</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads one code point as long as it isn't `"`. Currently unused by the
+main grammar (readMonoQuote handles escapes inline) but retained for
+hosted lexers.</p></div></div><div class="classdoc-member" id="functions--iolexerreadnonreturn"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readNonReturn</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads one code point as long as it isn't `\n`. Body of the line-
+comment loops — it runs until end-of-line or EOF.</p></div></div><div class="classdoc-member" id="functions--iolexerreadnumber"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readNumber</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Tries hex first (so `0x10` isn't eaten as the decimal 0 followed by
+`x10`), then decimal.</p></div></div><div class="classdoc-member" id="functions--iolexerreadoperator"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readOperator</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads the maximal run of operator characters (from the opChars set)
+and emits it as an IDENTIFIER_TOKEN. Binary operators are syntactically
+just identifiers; their specialness comes later when IoMessage_opShuffle
+consults the OperatorTable precedence map.</p></div></div><div class="classdoc-member" id="functions--iolexerreadpadding"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readPadding</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Consumes any run of whitespace and comments without emitting tokens.
+The lexer uses this between structurally significant tokens so line
+breaks and block comments are transparent to the parser.</p></div></div><div class="classdoc-member" id="functions--iolexerreadpoundcomment"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readPoundComment</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Consumes `# ... \n` line comments (shebang-style). Same newline
+handling as readSlashSlashComment.</p></div></div><div class="classdoc-member" id="functions--iolexerreadquote"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readQuote</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Dispatches to triquote first (so `"""..."""` wins over `""`) and
+falls back to the regular double-quoted string.</p></div></div><div class="classdoc-member" id="functions--iolexerreadseparator"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readSeparator</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Consumes in-line whitespace (spaces, tabs, form-feed, vertical tab,
+carriage return) and backslash-newline line continuations without
+emitting anything. The "\" line continuation lets Io code split a
+long message across lines.</p></div></div><div class="classdoc-member" id="functions--iolexerreadseparatorchar"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readSeparatorChar</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>One iteration of readSeparator: either a whitespace character (excluding
+newline) or a `\` followed by optional whitespace and a newline. The
+backslash-newline sequence is what gives Io its explicit line
+continuation.</p></div></div><div class="classdoc-member" id="functions--iolexerreadslashslashcomment"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readSlashSlashComment</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Consumes `// ... \n` line comments. The trailing newline is left in
+the stream so readTerminator can still treat it as a statement end.</p></div></div><div class="classdoc-member" id="functions--iolexerreadslashstarcomment"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readSlashStarComment</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Consumes a `/* ... *\/` block comment, including nested openers — the
+nesting counter lets code embed a block comment inside another. On
+unterminated input, attaches "unterminated comment" to the current or
+synthesised error token.</p></div></div><div class="classdoc-member" id="functions--iolexerreadstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readString_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Byte-level prefix match against `s`. On match, advances `current` by
+len(s) and returns 1; on mismatch returns 0 without moving. Used by
+the quote and comment readers to detect openers / closers.</p></div></div><div class="classdoc-member" id="functions--iolexerreadsymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readSymbol</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Tries each symbol kind in sequence (number, operator, identifier,
+quote) and returns 1 on the first match. Order matters: numbers and
+operators are checked before identifiers so `-1` doesn't get eaten
+as an identifier and `0x10` beats the generic digit-letter run.</p></div></div><div class="classdoc-member" id="functions--iolexerreadterminator"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readTerminator</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Recognises statement terminators (newline or semicolon runs, possibly
+interleaved with separator whitespace) and emits a single synthesised
+";" TERMINATOR_TOKEN. Collapses adjacent terminators so a blank line
+doesn't produce two semicolons for the parser to deal with.</p></div></div><div class="classdoc-member" id="functions--iolexerreadtokenchartype"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readTokenChar_type_</span><span class="classdoc-member-sig">(self, c, type)</span></div><div class="classdoc-member-body"><p>If the next byte is `c`, emit a one-byte token of the given type.
+Used for punctuation: `(`, `,`, `)`, `[`, `]`, `{`, `}`.</p></div></div><div class="classdoc-member" id="functions--iolexerreadtokencharstype"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readTokenChars_type_</span><span class="classdoc-member-sig">(self, chars, type)</span></div><div class="classdoc-member-body"><p>Tries each character in `chars` in turn and emits the first that
+matches as a single-char token of the given type. Used for reading
+matched-bracket families like "([{" or ")]}".</p></div></div><div class="classdoc-member" id="functions--iolexerreadtokenstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readTokenString_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>If the source starts with literal string `s`, advance and emit it as
+an IDENTIFIER_TOKEN. Currently unused in the main grammar path but
+available for extension lexers.</p></div></div><div class="classdoc-member" id="functions--iolexerreadtriquote"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readTriQuote</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reads a `"""..."""` raw-string literal. Backslashes are left untouched
+in the span; the parser hands it to IoSeq_rawAsUntriquotedSymbol to
+strip the triple delimiters. Emits TRIQUOTE_TOKEN on success.</p></div></div><div class="classdoc-member" id="functions--iolexerreadwhitespace"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_readWhitespace</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Consumes any run of whitespace (including newlines) without emitting
+tokens. Unlike readSeparator this swallows newlines, so it is used
+only where line breaks are insignificant — inside readPadding between
+structural tokens.</p></div></div><div class="classdoc-member" id="functions--iolexerstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoLexer_string_</span><span class="classdoc-member-sig">(self, string)</span></div><div class="classdoc-member-body"><p>Replaces the source buffer with a copy of `string`, resets `current`
+to its start, and rebuilds the line index so currentLineNumber is
+ready. Must be called before IoLexer_lex.</p></div></div><div class="classdoc-member" id="functions--iolexerdecodeutf8"><div class="classdoc-member-head"><span class="classdoc-member-name">_IoLexer_DecodeUTF8</span><span class="classdoc-member-sig">(s)</span></div><div class="classdoc-member-body"><p>Decodes one UTF-8 sequence (1-6 bytes per RFC 3629 plus the legacy
+5/6-byte extensions) into a uchar_t code point. Validates continuation
+bytes and the disallowed-overlong ranges; returns INVALID_CHAR on
+malformed input. Used only by IoLexer_nextChar / IoLexer_prevChar.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../colvmn/style.css">
+<title>Message – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of Io's first-class Message. An IoMessage is the AST node and the runtime perform record rolled into one: it holds a name (IoSymbol), an...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Message</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of Io's first-class Message. An IoMessage is the AST
+node and the runtime perform record rolled into one: it holds a name
+(IoSymbol), an args List of sub-message trees, an optional cachedResult
+(literal or inline-cache value), a `next` pointer to the rest of the
+chain, an inline slot-lookup cache (inlineCacheValue / inlineCacheContext,
+marked with the containing tag version), and source-location fields
+(label, lineNumber). Evaluation goes through IoMessage_locals_performOn_,
+which delegates to the iterative evaluator in IoState_iterative.c
+whenever a frame exists; a bootstrap-only recursive fallback handles
+the short window before the first eval loop starts. Most Io-visible
+getters/setters are thin wrappers around IoMessage_raw*_ helpers; the
+raw helpers are also how IoMessage_parser and IoMessage_opShuffle
+build and rewrite trees without running the perform machinery.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iomessageactivate">IoMessage_activate</a></li><li><a href="#functions--iomessageaddarg">IoMessage_addArg_</a></li><li><a href="#functions--iomessageaddcachedarg">IoMessage_addCachedArg_</a></li><li><a href="#functions--iomessageappenddescriptiontofollow">IoMessage_appendDescriptionTo_follow_</a></li><li><a href="#functions--iomessageasmessagewithevaluatedargs">IoMessage_asMessageWithEvaluatedArgs</a></li><li><a href="#functions--iomessageasminimalstackentrydescription">IoMessage_asMinimalStackEntryDescription</a></li><li><a href="#functions--iomessageassertargcountreceiver">IoMessage_assertArgCount_receiver_</a></li><li><a href="#functions--iomessagecopy">IoMessage_copy_</a></li><li><a href="#functions--iomessagedeepcopyof">IoMessage_deepCopyOf_</a></li><li><a href="#functions--iomessagedescription">IoMessage_description</a></li><li><a href="#functions--iomessagedescriptionjustselfandargs">IoMessage_descriptionJustSelfAndArgs</a></li><li><a href="#functions--iomessageforeachargs">IoMessage_foreachArgs</a></li><li><a href="#functions--iomessagefree">IoMessage_free</a></li><li><a href="#functions--iomessageifpossiblecachetoken">IoMessage_ifPossibleCacheToken_</a></li><li><a href="#functions--iomessageisnotcached">IoMessage_isNotCached</a></li><li><a href="#functions--iomessagelabel">IoMessage_label_</a></li><li><a href="#functions--iomessagelocalsboolargat">IoMessage_locals_boolArgAt_</a></li><li><a href="#functions--iomessagelocalsnumberargat">IoMessage_locals_numberArgAt_</a></li><li><a href="#functions--iomessagelocalsnumberargaterrorfortype">IoMessage_locals_numberArgAt_errorForType_</a></li><li><a href="#functions--iomessagelocalsperformon">IoMessage_locals_performOn_</a></li><li><a href="#functions--iomessagelocalsseqargat">IoMessage_locals_seqArgAt_</a></li><li><a href="#functions--iomessagelocalssizetargat">IoMessage_locals_sizetArgAt_</a></li><li><a href="#functions--iomessagelocalsvalueasstringargat">IoMessage_locals_valueAsStringArgAt_</a></li><li><a href="#functions--iomessagemark">IoMessage_mark</a></li><li><a href="#functions--iomessageneedsevaluation">IoMessage_needsEvaluation</a></li><li><a href="#functions--iomessagenew">IoMessage_new</a></li><li><a href="#functions--iomessagenewfromtextlabelsymbol">IoMessage_newFromText_labelSymbol_</a></li><li><a href="#functions--iomessagenewfromtextlabel">IoMessage_newFromText_label_</a></li><li><a href="#functions--iomessagenewparse">IoMessage_newParse</a></li><li><a href="#functions--iomessagenewparsenextmessagechain">IoMessage_newParseNextMessageChain</a></li><li><a href="#functions--iomessagenewtag">IoMessage_newTag</a></li><li><a href="#functions--iomessagenewwithname">IoMessage_newWithName_</a></li><li><a href="#functions--iomessagenewwithnameandcachedarg">IoMessage_newWithName_andCachedArg_</a></li><li><a href="#functions--iomessagenewwithnamelabel">IoMessage_newWithName_label_</a></li><li><a href="#functions--iomessagenewwithnamereturnsvalue">IoMessage_newWithName_returnsValue_</a></li><li><a href="#functions--iomessageopshuffle">IoMessage_opShuffle</a></li><li><a href="#functions--iomessageopshuffle">IoMessage_opShuffle_</a></li><li><a href="#functions--iomessageparseargs">IoMessage_parseArgs</a></li><li><a href="#functions--iomessageparsename">IoMessage_parseName</a></li><li><a href="#functions--iomessageparsenext">IoMessage_parseNext</a></li><li><a href="#functions--iomessageprint">IoMessage_print</a></li><li><a href="#functions--iomessageprintwithreturn">IoMessage_printWithReturn</a></li><li><a href="#functions--iomessageproto">IoMessage_proto</a></li><li><a href="#functions--iomessagerawargat">IoMessage_rawArgAt_</a></li><li><a href="#functions--iomessagerawclone">IoMessage_rawClone</a></li><li><a href="#functions--iomessagerawcopysourcelocation">IoMessage_rawCopySourceLocation</a></li><li><a href="#functions--iomessagerawiseol">IoMessage_rawIsEOL</a></li><li><a href="#functions--iomessagerawlast">IoMessage_rawLast</a></li><li><a href="#functions--iomessagerawlastbeforeeol">IoMessage_rawLastBeforeEOL</a></li><li><a href="#functions--iomessagerawnextignoreeols">IoMessage_rawNextIgnoreEOLs</a></li><li><a href="#functions--iomessagerawsetcachedresult">IoMessage_rawSetCachedResult_</a></li><li><a href="#functions--iomessagerawsetlabel">IoMessage_rawSetLabel_</a></li><li><a href="#functions--iomessagerawsetname">IoMessage_rawSetName_</a></li><li><a href="#functions--iomessagerawsetnext">IoMessage_rawSetNext_</a></li><li><a href="#functions--iomessagerawsetprevious">IoMessage_rawSetPrevious</a></li><li><a href="#functions--iomessagesetcachedargtoint">IoMessage_setCachedArg_toInt_</a></li><li><a href="#functions--iomessagesetcachedargto">IoMessage_setCachedArg_to_</a></li><li><a href="#functions--iostatecreateassignoperatortable">IoState_createAssignOperatorTable</a></li><li><a href="#functions--iostatecreateoperatortable">IoState_createOperatorTable</a></li><li><a href="#functions--levelattach">Level_attach</a></li><li><a href="#functions--levelattachandreplace">Level_attachAndReplace</a></li><li><a href="#functions--levelfinish">Level_finish</a></li><li><a href="#functions--levelsetawaitingfirstarg">Level_setAwaitingFirstArg</a></li><li><a href="#functions--levelsattach">Levels_attach</a></li><li><a href="#functions--levelsattachtotopandpush">Levels_attachToTopAndPush</a></li><li><a href="#functions--levelsfree">Levels_free</a></li><li><a href="#functions--levelsisassignoperator">Levels_isAssignOperator</a></li><li><a href="#functions--levelslevelforop">Levels_levelForOp</a></li><li><a href="#functions--levelsnameforassignoperator">Levels_nameForAssignOperator</a></li><li><a href="#functions--levelsnew">Levels_new</a></li><li><a href="#functions--levelsnextmessage">Levels_nextMessage</a></li><li><a href="#functions--levelspopdownto">Levels_popDownTo</a></li><li><a href="#functions--levelsreset">Levels_reset</a></li><li><a href="#functions--getoptable">getOpTable</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iomessageactivate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_activate</span><span class="classdoc-member-sig">(self, target, locals, m, slotContext)</span></div><div class="classdoc-member-body"><p>Registered as the tag's activateFunc so that when a Message is stored
+in a slot and looked up, evaluating it re-runs its chain in the caller's
+locals. Simply delegates to IoMessage_locals_performOn_ — the target
+argument is ignored because a Message activation evaluates the message
+tree at `self`, not the containing slot's receiver.</p></div></div><div class="classdoc-member" id="functions--iomessageaddarg"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_addArg_</span><span class="classdoc-member-sig">(self, m)</span></div><div class="classdoc-member-body"><p>Appends `m` to the args List with an IOREF retain. The one primitive
+every tree builder (parser, opShuffler, C extensions) ultimately
+calls through.</p></div></div><div class="classdoc-member" id="functions--iomessageaddcachedarg"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_addCachedArg_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Appends a fresh anonymous Message as a new arg and stores `v` on it
+as a cachedResult. Lets C code inject pre-computed values into an
+arg list without the parser/shuffler being involved.</p></div></div><div class="classdoc-member" id="functions--iomessageappenddescriptiontofollow"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_appendDescriptionTo_follow_</span><span class="classdoc-member-sig">(self, ba, follow)</span></div><div class="classdoc-member-body"><p>Core printer. Appends the message name, optionally followed by
+"(arg1, arg2, ...)" built via recursive calls, then either stops
+(follow=0) or walks the `next` chain inserting spaces between
+messages and newlines between semicolon-terminated statements.</p></div></div><div class="classdoc-member" id="functions--iomessageasmessagewithevaluatedargs"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_asMessageWithEvaluatedArgs</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Returns a copy of `self` whose args have been evaluated (in the sender
+context, or an optional explicit context arg from `m`) and stashed as
+cachedResults so the caller can hand the resulting message off without
+triggering re-evaluation. If the tree is already fully constant the
+original is returned directly (no copy needed).</p></div></div><div class="classdoc-member" id="functions--iomessageasminimalstackentrydescription"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_asMinimalStackEntryDescription</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Formats a message as "file:line name" for a single stack-trace entry.
+Used by the error/backtrace path to render frames without dumping the
+full message tree.</p></div></div><div class="classdoc-member" id="functions--iomessageassertargcountreceiver"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_assertArgCount_receiver_</span><span class="classdoc-member-sig">(self, n, receiver)</span></div><div class="classdoc-member-body"><p>Raises an Io-level error if the message has fewer than `n` args. Named
+receiver is included in the message so stack traces identify the
+offending call site.</p></div></div><div class="classdoc-member" id="functions--iomessagecopy"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_copy_</span><span class="classdoc-member-sig">(self, other)</span></div><div class="classdoc-member-body"><p>Shallow-copies name, args, next, cachedResult, and source location
+from `other` into `self`. The args List is rebuilt with IOREFed
+element pointers (no deep copy of the sub-trees). Use
+IoMessage_deepCopyOf_ if recursive duplication is needed.</p></div></div><div class="classdoc-member" id="functions--iomessagedeepcopyof"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_deepCopyOf_</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Recursively duplicates the entire message tree: a fresh IoMessage for
+`self`, deep-copied args, deep-copied next chain, same name and
+cachedResult. This is the semantics behind Io's `Message clone` and
+is also used by the assign rewriter in IoMessage_opShuffle when it
+must splice a subtree into a new argument position.</p></div></div><div class="classdoc-member" id="functions--iomessagedescription"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_description</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns a freshly allocated UArray containing the decompiled source
+text of the message and every message linked via `next`. Caller owns
+the UArray.</p></div></div><div class="classdoc-member" id="functions--iomessagedescriptionjustselfandargs"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_descriptionJustSelfAndArgs</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Like IoMessage_description but stops at `self`'s args — does not
+follow the next chain. Useful for rendering a single call site in a
+stack trace without dumping the rest of its expression.</p></div></div><div class="classdoc-member" id="functions--iomessageforeachargs"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_foreachArgs</span><span class="classdoc-member-sig">(self, receiver, indexSlotName, valueSlotName, doMessage)</span></div><div class="classdoc-member-body"><p>Parses the arg list of a `foreach`-style call into its three logical
+pieces (optional index slot name, value slot name, body message). If
+fewer than two args are present it reports the count error via
+assertArgCount and bails out with NULLs, since IoState_error_ no
+longer longjmps and the caller must not continue into the arg-access
+code.</p></div></div><div class="classdoc-member" id="functions--iomessagefree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the args List and the
+IoMessageData payload. The GC-managed IoObject header is released by
+the collector; name/next/cachedResult are marked elsewhere, not freed
+here.</p></div></div><div class="classdoc-member" id="functions--iomessageifpossiblecachetoken"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_ifPossibleCacheToken_</span><span class="classdoc-member-sig">(self, p)</span></div><div class="classdoc-member-body"><p>Converts a literal token into its runtime Io value and stores it as the
+message's cachedResult so evaluation can return the value without a
+re-parse. Handles the four literal token types plus the three reserved
+words nil/true/false that are identifiers at the lexer level. The
+cachedResult short-circuits the evaluator's performFunc lookup in
+IoMessage_locals_performOn_.</p></div></div><div class="classdoc-member" id="functions--iomessageisnotcached"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_isNotCached</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Predicate: true if `self` has no cached result — i.e. evaluating it
+will hit the normal slot-lookup path.</p></div></div><div class="classdoc-member" id="functions--iomessagelabel"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_label_</span><span class="classdoc-member-sig">(self, ioSymbol)</span></div><div class="classdoc-member-body"><p>Sets the source label on `self` and recursively on every arg and every
+message in the `next` chain. Used by the parser to stamp a file name
+across a freshly compiled tree in one pass.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsboolargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_boolArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Evaluates arg n and coerces to a C truthy/falsey int using Io's
+semantics: nil and false are 0, everything else is 1. Skips type
+validation deliberately — any Io value can act as a condition.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsnumberargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_numberArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Evaluates arg n in `locals` and requires the result be an IoNumber.
+On mismatch, raises via the shared error helper and returns ioNil so
+the caller can early-exit without longjmp. All typed-arg accessors
+below follow the same pattern.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsnumberargaterrorfortype"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_numberArgAt_errorForType_</span><span class="classdoc-member-sig">(self, locals, n, typeName)</span></div><div class="classdoc-member-body"><p>Shared error reporter for the typed-arg accessors below. Raises
+"argument N to method 'foo' must be a <typeName>, not a '<actual>'".
+Called from every IoMessage_locals_<type>ArgAt_ helper on a type
+mismatch.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsperformon"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_performOn_</span><span class="classdoc-member-sig">(self, locals, target)</span></div><div class="classdoc-member-body"><p>The canonical C-level evaluator entry point. When an eval loop is
+running (state->currentFrame set) it delegates to the iterative
+evaluator in IoState_iterative.c so C stack depth stays bounded. The
+remaining body is a recursive fallback used only during VM bootstrap
+before the first frame exists; it walks the chain node-by-node,
+dispatching through the tag's performFunc and honouring
+MESSAGE_STOP_STATUS_ / errorRaised unwinding signals.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsseqargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_seqArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Typed arg accessor requiring an IoSeq (mutable or immutable). Sister
+helpers cover symbols, mutable sequences, blocks, dates, messages,
+lists, and maps — each wraps valueArgAt_ with an ISfoo test and a
+shared error path.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalssizetargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_sizetArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Typed arg accessor with an extra non-negativity check — useful for
+counts and lengths. A negative value raises rather than silently
+wrapping to a huge unsigned quantity.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsvalueasstringargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_valueAsStringArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Evaluates arg n and forces the result through `asString` so callers
+that want a description (not strict type checking) don't need to
+branch on the value's type.</p></div></div><div class="classdoc-member" id="functions--iomessagemark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Walks every GC-visible pointer:
+name symbol, cachedResult, each arg, next, label, and the inline
+slot-cache value/context. Missing an entry here would let a reachable
+message dangle and crash on next perform.</p></div></div><div class="classdoc-member" id="functions--iomessageneedsevaluation"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_needsEvaluation</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Recursive predicate used by IoMessage_asMessageWithEvaluatedArgs to
+decide whether any node in the tree has a non-cached arg that would
+need to be run. Skips allocation when the entire tree is already
+constant.</p></div></div><div class="classdoc-member" id="functions--iomessagenew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: look up the registered proto and clone it.
+Preferred entry point in C when you need a fresh, nameless message
+to populate.</p></div></div><div class="classdoc-member" id="functions--iomessagenewfromtextlabelsymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newFromText_labelSymbol_</span><span class="classdoc-member-sig">(state, text, label)</span></div><div class="classdoc-member-body"><p>Drives the full compile pipeline: lex -> parse -> opShuffle -> label.
+The collector is paused over the whole run so intermediate IoMessages
+aren't collected while the tree is being built. The lexer is freed
+before return; the caller receives a ready-to-evaluate message root.</p></div></div><div class="classdoc-member" id="functions--iomessagenewfromtextlabel"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newFromText_label_</span><span class="classdoc-member-sig">(state, text, label)</span></div><div class="classdoc-member-body"><p>Convenience wrapper that interns `label` as an IoSymbol and delegates
+to IoMessage_newFromText_labelSymbol_. This is the usual entry point
+for C code that has a bare const char * filename to attach to a
+message tree (e.g. IoState_doCString_).</p></div></div><div class="classdoc-member" id="functions--iomessagenewparse"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newParse</span><span class="classdoc-member-sig">(state, lexer)</span></div><div class="classdoc-member-body"><p>Top-level parse entry point. Reports a compile error via IoState_error_
+if the lexer flagged one, consumes a leading TERMINATOR, then recurses
+into IoMessage_newParseNextMessageChain for the actual chain. Returns
+a synthesized nil message for an empty input, and a compile error if
+tokens remain after the chain (dangling punctuation).</p></div></div><div class="classdoc-member" id="functions--iomessagenewparsenextmessagechain"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newParseNextMessageChain</span><span class="classdoc-member-sig">(state, lexer)</span></div><div class="classdoc-member-body"><p>Parses one message chain: optional name, optional parenthesised args,
+optional attached next message, and any number of semicolon-separated
+continuations (each stitched together with an explicit ";" message
+that uses state->semicolonSymbol). This mirrors the grammar that
+IoMessage_opShuffle later rewrites for operator precedence.</p></div></div><div class="classdoc-member" id="functions--iomessagenewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Message tag with clone/free/mark/activate function pointers.
+The activateFunc is what distinguishes Messages from most other tagged
+primitives — it makes them callable as slot values.</p></div></div><div class="classdoc-member" id="functions--iomessagenewwithname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newWithName_</span><span class="classdoc-member-sig">(state, symbol)</span></div><div class="classdoc-member-body"><p>Fresh message with just a name set. The symbol should already be
+interned via IoState_symbolWithCString_; the raw setter handles the
+IOREF retain.</p></div></div><div class="classdoc-member" id="functions--iomessagenewwithnameandcachedarg"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newWithName_andCachedArg_</span><span class="classdoc-member-sig">(state, symbol, arg)</span></div><div class="classdoc-member-body"><p>Fresh message named `symbol` whose single argument carries `arg` as
+its cached result. Convenience for constructors that want to emit
+`setSlot("name", value)`-style expressions without building the arg
+list by hand.</p></div></div><div class="classdoc-member" id="functions--iomessagenewwithnamelabel"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newWithName_label_</span><span class="classdoc-member-sig">(state, symbol, label)</span></div><div class="classdoc-member-body"><p>As newWithName but also stamps a source label so error messages and
+stack traces mention the right file.</p></div></div><div class="classdoc-member" id="functions--iomessagenewwithnamereturnsvalue"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_newWithName_returnsValue_</span><span class="classdoc-member-sig">(state, symbol, v)</span></div><div class="classdoc-member-body"><p>Builds a cached message: evaluating it yields `v` without any slot
+lookup because cachedResult short-circuits the perform path. This is
+how the parser synthesises pre-evaluated literal and nil/true/false
+nodes, and how the opShuffler drops constant arguments into rewritten
+assign expressions.</p></div></div><div class="classdoc-member" id="functions--iomessageopshuffle"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_opShuffle</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Io-visible entry point. Walks the message tree iteratively using an
+explicit `expressions` worklist instead of C recursion — each
+Levels_attach call may push sub-expressions (the tails of assign
+rewrites, plus each message's args) for later processing. Returns
+self with the tree rewritten in place.</p></div></div><div class="classdoc-member" id="functions--iomessageopshuffle"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_opShuffle_</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>C-side trigger used by IoMessage_newFromText_labelSymbol_ to kick off
+operator shuffling via the Io message `opShuffle` sent to `self`. This
+indirection lets Io code override opShuffle; the guard against
+noShufflingSymbol skips shuffling for synthesised messages whose name
+signals that they already arrived in normal form.</p></div></div><div class="classdoc-member" id="functions--iomessageparseargs"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_parseArgs</span><span class="classdoc-member-sig">(self, lexer)</span></div><div class="classdoc-member-body"><p>Consumes the OPENPAREN and all comma-separated argument chains,
+appending each parsed sub-chain to self's args list. Each arg is
+itself a full message chain, recursively parsed by
+IoMessage_newParseNextMessageChain. Closes on CLOSEPAREN; missing
+close paren and missing-argument cases would be flagged by the lexer
+earlier via IoLexer_readMessage_error.</p></div></div><div class="classdoc-member" id="functions--iomessageparsename"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_parseName</span><span class="classdoc-member-sig">(self, lexer)</span></div><div class="classdoc-member-body"><p>Pops the current token and installs it as the message's name. Runs
+IoMessage_ifPossibleCacheToken_ so literals pick up their cached value,
+and records lineNumber/charNumber for diagnostics and stack traces.</p></div></div><div class="classdoc-member" id="functions--iomessageparsenext"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_parseNext</span><span class="classdoc-member-sig">(self, lexer)</span></div><div class="classdoc-member-body"><p>Parses the next message in the chain (after the current name/args)
+and links it via IoMessage_rawSetNext_. This is what turns
+`a b c` into three linked messages rather than three separate
+top-level expressions.</p></div></div><div class="classdoc-member" id="functions--iomessageprint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_print</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Debug-style print: builds a full description UArray and sends it to
+the VM's print hook. No trailing newline.</p></div></div><div class="classdoc-member" id="functions--iomessageprintwithreturn"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_printWithReturn</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>As IoMessage_print but follows with a newline. Used by the REPL.</p></div></div><div class="classdoc-member" id="functions--iomessageproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Message proto: allocates IoMessageData with a fresh args
+List, installs placeholder name/label symbols, tags it, and wires up
+the Io-visible method table. Every subsequently-created Message is a
+clone of this proto via IoMessage_new -> IoMessage_rawClone.</p></div></div><div class="classdoc-member" id="functions--iomessagerawargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawArgAt_</span><span class="classdoc-member-sig">(self, n)</span></div><div class="classdoc-member-body"><p>Returns the nth arg sub-message with a stackRetain so it stays alive
+for the duration of the current retain pool. Returns NULL if n is
+out of range — callers must check.</p></div></div><div class="classdoc-member" id="functions--iomessagerawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Gives the new message its own
+IoMessageData and args List so sibling clones never share arg
+references. Copies name and label; leaves cachedResult / next / source
+location cleared — the parser or caller fills those in.</p></div></div><div class="classdoc-member" id="functions--iomessagerawcopysourcelocation"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawCopySourceLocation</span><span class="classdoc-member-sig">(self, other)</span></div><div class="classdoc-member-body"><p>Copies line number and label from `other` to `self`. Used by the
+opShuffle rewriter when it synthesises new messages (e.g. the grouping
+"()" wrappers) so the new nodes point back at the original source
+position for debug output.</p></div></div><div class="classdoc-member" id="functions--iomessagerawiseol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawIsEOL</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>True when the message is the synthesised ";" statement separator.
+Uses pointer identity against the interned semicolonSymbol rather
+than a strcmp, so it's free.</p></div></div><div class="classdoc-member" id="functions--iomessagerawlast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawLast</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Walks to the last message in the chain. O(n); used by code that needs
+to append to an existing chain.</p></div></div><div class="classdoc-member" id="functions--iomessagerawlastbeforeeol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawLastBeforeEOL</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Walks `next` until the next message is an EOL (or chain end) and
+returns the message just before that. Used to rewrite statement-local
+tails without crossing a `;` boundary.</p></div></div><div class="classdoc-member" id="functions--iomessagerawnextignoreeols"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawNextIgnoreEOLs</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Walks `next` past any number of ";" EOL nodes and returns the first
+non-EOL message. Used by code that wants the next "real" action
+without caring about statement boundaries.</p></div></div><div class="classdoc-member" id="functions--iomessagerawsetcachedresult"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawSetCachedResult_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Attaches `v` as the cached result (NULL clears). IOREFed to keep it
+alive across collections. Reading back via DATA()->cachedResult is
+the fast-path the evaluator checks before running the normal perform.</p></div></div><div class="classdoc-member" id="functions--iomessagerawsetlabel"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawSetLabel_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Installs the source label symbol with IOREF retention. Paired with
+IoMessage_label_ which also recurses into children.</p></div></div><div class="classdoc-member" id="functions--iomessagerawsetname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawSetName_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Installs the message's name symbol and clears the cached isSpecialForm
+flag — the evaluator re-derives specialness (if/while/for/...) from
+the new name on the next lookup.</p></div></div><div class="classdoc-member" id="functions--iomessagerawsetnext"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawSetNext_</span><span class="classdoc-member-sig">(self, m)</span></div><div class="classdoc-member-body"><p>Sets the `next` pointer with IOREF retention; NULL clears it. If
+IOMESSAGE_HASPREV is defined, also updates the reverse link on `m`
+so parent-lookup stays consistent. Called from the parser and
+opShuffler to splice chain nodes without running perform.</p></div></div><div class="classdoc-member" id="functions--iomessagerawsetprevious"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_rawSetPrevious</span><span class="classdoc-member-sig">(self, m)</span></div><div class="classdoc-member-body"><p>Sets the reverse `previous` link under IOMESSAGE_HASPREV builds, with
+an IOREF retain and the symmetric forward wiring on `m`. A no-op when
+the reverse-chain feature is disabled at compile time.</p></div></div><div class="classdoc-member" id="functions--iomessagesetcachedargtoint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_setCachedArg_toInt_</span><span class="classdoc-member-sig">(self, n, anInt)</span></div><div class="classdoc-member-body"><p>Integer-specialised variant of setCachedArg_to_. Allocates the arg
+slot without boxing the int upfront, then stamps an IONUMBER on it —
+the early-exit ordering avoids boxing if the arg list still needs to
+grow.</p></div></div><div class="classdoc-member" id="functions--iomessagesetcachedargto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_setCachedArg_to_</span><span class="classdoc-member-sig">(self, n, v)</span></div><div class="classdoc-member-body"><p>Stores `v` as the cached result of the nth arg, auto-extending the
+args list with fresh anonymous messages if it's shorter than n. Used
+by asMessageWithEvaluatedArgs to fill out evaluated-arg positions
+by index.</p></div></div><div class="classdoc-member" id="functions--iostatecreateassignoperatortable"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_createAssignOperatorTable</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the default assign-operator -&gt; method-name table: `:=` becomes
+setSlot, `=` becomes updateSlot, `::=` becomes newSlot. Levels_attach
+consults this before the binary-op table; matching entries trigger
+the `a := b` -&gt; `setSlot("a", b)` rewrite.</p></div></div><div class="classdoc-member" id="functions--iostatecreateoperatortable"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_createOperatorTable</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the default binary operator precedence table as an IoMap of
+symbol-&gt;number. Lower numbers bind tighter; `**` (exponent, level 1)
+is tightest, assignment ops (level 13) and `return` (level 14) the
+loosest. The returned map is stored under OperatorTable operators and
+can be mutated from Io via the public OperatorTable API.</p></div></div><div class="classdoc-member" id="functions--levelattach"><div class="classdoc-member-head"><span class="classdoc-member-name">Level_attach</span><span class="classdoc-member-sig">(self, msg)</span></div><div class="classdoc-member-body"><p>Wires `msg` into the current level according to its type: ATTACH links
+via `next`, ARG appends as an argument to the level's message, NEW
+adopts it as the level's message, UNUSED is a no-op. Used as the
+primitive by Level_attachAndReplace and the ARG-push path.</p></div></div><div class="classdoc-member" id="functions--levelattachandreplace"><div class="classdoc-member-head"><span class="classdoc-member-name">Level_attachAndReplace</span><span class="classdoc-member-sig">(self, msg)</span></div><div class="classdoc-member-body"><p>Combines Level_attach with a state transition to ATTACH so subsequent
+messages chain via `next`. The canonical "ordinary message" update for
+a Level as the shuffler walks a chain of non-operator messages.</p></div></div><div class="classdoc-member" id="functions--levelfinish"><div class="classdoc-member-head"><span class="classdoc-member-name">Level_finish</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Closes a Level as it is popped: severs the message's `next` link (the
+sub-tree is now a complete operator subexpression) and flattens any
+synthetic single-arg "()" wrapper that was inserted earlier to imitate
+C-style grouping. Finally marks the slot UNUSED so Levels_reset's next
+sweep sees a clean pool.</p></div></div><div class="classdoc-member" id="functions--levelsetawaitingfirstarg"><div class="classdoc-member-head"><span class="classdoc-member-name">Level_setAwaitingFirstArg</span><span class="classdoc-member-sig">(self, msg, precedence)</span></div><div class="classdoc-member-body"><p>Puts a freshly-pushed Level into ARG mode so the next shuffled message
+is appended as the first argument of `msg` (the operator). The recorded
+precedence is what Levels_popDownTo compares against to unwind.</p></div></div><div class="classdoc-member" id="functions--levelsattach"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_attach</span><span class="classdoc-member-sig">(self, msg, expressions)</span></div><div class="classdoc-member-body"><p>Core shuffler step: decides what to do with the next message in the
+chain. Three branches: (1) assign operator — rewrite the attaching
+message into setSlot/updateSlot/newSlot with the slot name quoted as
+a cached-result argument, then splice the value expression into the
+new argument list, pushing the tail onto `expressions` for later; (2)
+end-of-line `;` — pop down to the lowest precedence so a new statement
+starts fresh; (3) non-assign operator — wrap any preset args in a
+synthetic "()" grouping so `a +(b,c)` parses sanely, pop higher-or-
+equal precedence levels, then push a new ARG level. Otherwise attach
+as a normal message.</p></div></div><div class="classdoc-member" id="functions--levelsattachtotopandpush"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_attachToTopAndPush</span><span class="classdoc-member-sig">(self, msg, precedence)</span></div><div class="classdoc-member-body"><p>Attaches `msg` (an operator) onto the current top level, then pushes
+a new ARG-type level awaiting the operator's right-hand side at the
+given precedence. This is how `a + b * c` pushes a `*` level above
+the `+` level so `b` and `c` get grouped first. Errors out if the
+IO_OP_MAX_LEVEL-deep pool would overflow.</p></div></div><div class="classdoc-member" id="functions--levelsfree"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Releases the stack List and the Levels struct. The Level pool is
+inline so it needs no separate free.</p></div></div><div class="classdoc-member" id="functions--levelsisassignoperator"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_isAssignOperator</span><span class="classdoc-member-sig">(self, operator)</span></div><div class="classdoc-member-body"><p>True if the symbol is a key in the assign-operator map (i.e. `:=`,
+`=`, or `::=` by default). Levels_attach uses this to branch into
+the assign-rewrite path before trying precedence-based handling.</p></div></div><div class="classdoc-member" id="functions--levelslevelforop"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_levelForOp</span><span class="classdoc-member-sig">(self, messageName, messageSymbol, msg)</span></div><div class="classdoc-member-body"><p>Looks up the precedence for `messageSymbol` in the binary operator map.
+Returns -1 if the symbol isn't an operator. Validates that the mapped
+value is a Number in [0, IO_OP_MAX_LEVEL) and raises a compile error
+otherwise — user code can edit OperatorTable operators from Io so
+defensive checking is required.</p></div></div><div class="classdoc-member" id="functions--levelsnameforassignoperator"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_nameForAssignOperator</span><span class="classdoc-member-sig">(self, state, operator, slotName, msg)</span></div><div class="classdoc-member-body"><p>Resolves an assign operator like `:=` to the slot-method name to emit
+(e.g. setSlot). Special-cases `:=` with an uppercase slot-name first
+character to return setSlotWithType so `MyType := X` becomes
+setSlotWithType("MyType", X). Raises a compile error if the configured
+value is not a Symbol.</p></div></div><div class="classdoc-member" id="functions--levelsnew"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_new</span><span class="classdoc-member-sig">(msg)</span></div><div class="classdoc-member-body"><p>Allocates a fresh Levels and binds it to the OperatorTable object
+reachable from `msg` (falling back to Core's OperatorTable, and
+creating one from scratch if neither has one). The two maps are then
+cached on the Levels so Levels_attach can do constant-time precedence
+lookups as it walks the chain.</p></div></div><div class="classdoc-member" id="functions--levelsnextmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_nextMessage</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Finishes the current expression: pops every Level on the stack through
+Level_finish (wiring up any remaining open operator sub-trees), then
+resets the pool for the next top-level expression. Called by
+IoMessage_opShuffle between expressions popped from its worklist.</p></div></div><div class="classdoc-member" id="functions--levelspopdownto"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_popDownTo</span><span class="classdoc-member-sig">(self, targetLevel)</span></div><div class="classdoc-member-body"><p>Pops Levels off the stack until the top's precedence is strictly
+greater than targetLevel, or until we hit a pending ARG level (which
+is never popped implicitly — its consumer must supply the next token).
+Level_finish runs on each popped level to wire up the completed
+sub-tree.</p></div></div><div class="classdoc-member" id="functions--levelsreset"><div class="classdoc-member-head"><span class="classdoc-member-name">Levels_reset</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns the Levels pool to the state expected at the start of a fresh
+expression: every slot UNUSED except level 0, which is a NEW-type
+sentinel with the maximum precedence so any operator binds tighter.
+Called between top-level expressions by Levels_nextMessage.</p></div></div><div class="classdoc-member" id="functions--getoptable"><div class="classdoc-member-head"><span class="classdoc-member-name">getOpTable</span><span class="classdoc-member-sig">(self, slotName, create)</span></div><div class="classdoc-member-body"><p>Fetches the named operator map slot from an OperatorTable object,
+lazily creating and installing one via the supplied factory if it's
+missing. Used to resolve both the precedence map and the
+assign-operator map with a single helper.</p></div></div></div></div>
+<script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "title": "Technical Notes",
-  "subtitle": "Implementation notes and design docs on WASM targeting, stackless evaluation, and future work.",
+  "subtitle": "Design docs on WASM targeting, stackless evaluation, and future work.",
   "content": [
     {
       "type": "ContentCards",
@@ -8,7 +8,6 @@
       "items": [
         "WASM",
         "Stackless",
-        "Implementation Reference",
         "Future Work"
       ]
     }
