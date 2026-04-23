@@ -2518,23 +2518,11 @@ That's it! You now know everything there is to know about Io's syntax. Control f
 
 Io's guiding design principle is simplicity and power through conceptual unification.
 
-concept
-
-unifies
-
-scopable blocks
-
-functions, methods, closures
-
-prototypes
-
-objects, classes, namespaces, locals
-
-
-
-messages
-
-operators, calls, assigns, var access
+| concept          | unifies                              |
+|------------------|--------------------------------------|
+| scopable blocks  | functions, methods, closures         |
+| prototypes       | objects, classes, namespaces, locals |
+| messages         | operators, calls, assigns, var access |
 
 
 
