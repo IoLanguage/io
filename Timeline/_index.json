@@ -9,7 +9,7 @@
         { "date": "2002-03", "title": "Io created", "subtitle": "Steve Dekorte begins work on Io as a minimal prototype-based language." },
         { "date": "2002-04", "title": "Mailing list", "subtitle": "The <code>iolanguage</code> Yahoo! Group becomes the gathering place for early users and patch exchanges." },
         { "date": "2002-04", "title": "First public release", "subtitle": "The earliest public Io releases and programming guide appear, distributed through the mailing list." },
-        { "date": "2002-08", "title": "Actors and coroutines", "subtitle": "Beta 2002-08-11 adds concurrency: Actors (object-oriented threads) implemented with coroutines and cooperative <code>yield</code>." },
+        { "date": "2002-08", "title": "Actors and coroutines", "subtitle": "Actors (object-oriented threads) arrive, built on coroutines and cooperative <code>yield</code>." },
         { "date": "2002-08", "title": "Addon system", "subtitle": "First addon libraries land: Directory, XML (expat), MD5, Blowfish, regex, and OpenGL/GLUT &mdash; establishing the addon model that grows rapidly over the next year." },
         { "date": "2002-09", "title": "Networking", "subtitle": "Sockets addon adds TCP servers and clients; UDP follows a week later. Async DNS arrives in November, and IoServer becomes a dedicated build target." },
         { "date": "2002-10", "title": "Incremental GC", "subtitle": "Mark-and-sweep is replaced with an incremental tri-color collector with write barrier &mdash; trading a small throughput hit for far better real-time pause behavior." },
