@@ -1,0 +1,32 @@
+{
+  "title": "UnitTest",
+  "subtitle": "An object for organizing and running unit tests validated by assertions.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "assertEquals", "signature": "(a, b)", "description": "Fail the running test if a != b."},
+                {"name": "assertEqualsWithinDelta", "signature": "(expected, actual, delta)", "description": "Fail the running test if the expected value is not within delta of the actual value."},
+                {"name": "assertFalse", "signature": "(a)", "description": "Fail the running test if a != false."},
+                {"name": "assertNil", "signature": "(a)", "description": "Fail the running test if a != nil."},
+                {"name": "assertNotEquals", "signature": "(a, b)", "description": "Fail the running test if a == b."},
+                {"name": "assertNotNil", "signature": "(a)", "description": "Fail the running test if a == nil."},
+                {"name": "assertNotSame", "signature": "(a, b)", "description": "Fail the running test if a != b."},
+                {"name": "assertRaisesException", "signature": "(code)", "description": "Fail the running test if the code does not raise an Exception."},
+                {"name": "assertTrue", "signature": "(a)", "description": "Fail the running test if a != true."},
+                {"name": "fail", "signature": "(error)", "description": "Call to trigger a test failure with a given error message."},
+                {"name": "setUp", "description": "Method called prior to each test."},
+                {"name": "tearDown", "description": "Method called after each test."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

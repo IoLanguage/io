@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="stylesheet" href="../../../../colvmn/style.css">
+  <title>How to Write C Bindings – Io</title>
+  <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="How to write Io-visible primitives in C — the macros, the argument-extraction API, proto registration, and GC-safe slot updates.">
+</head>
+<body>
+  <div class="page loaded"><div class="header"><div><h1>How to Write C Bindings</h1><a class="back-link" href="../index.html">&larr; Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">How to write Io-visible primitives in C &mdash; the macros, the argument-extraction API, proto registration, and GC-safe slot updates.</p><nav class="toc"><ul><li><a href="#method-signature">Method Signature</a></li><li><a href="#extracting-arguments">Extracting Arguments</a></li><li><a href="#constructing-results">Constructing Results</a></li><li><a href="#registering-a-proto">Registering a Proto</a></li><li><a href="#gc-safety">GC Safety</a></li><li><a href="#raising-errors">Raising Errors</a></li><li><a href="#a-complete-example">A Complete Example</a></li></ul></nav><h2 id="method-signature">Method Signature</h2><div class="section"><div class="section-body"><p>Every C-implemented slot has the same three arguments: the receiver, the locals object of the caller, and the unevaluated message node. The <code>IO_METHOD</code> macro (defined in <code>IoObject_struct.h</code>) writes the prototype for you:</p><pre><code>#define IO_METHOD(CLASS, NAME) \
+    IoObject *CLASS##_##NAME(CLASS *self, IoObject *locals, IoMessage *m)</code></pre><p>So <code>IO_METHOD(IoList, at)</code> expands to:</p><pre><code>IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m)</code></pre><p>Three things to remember about the arguments:</p><ul><li><strong><code>self</code></strong> &mdash; the receiver. Its primitive data is reached through <code>DATA(self)</code>, a thin macro over <code>IoObject_dataPointer(self)</code>.</li><li><strong><code>locals</code></strong> &mdash; the scope of the calling method or block. You need it to evaluate the message's arguments, because each argument is itself a message that has to run in the caller's scope.</li><li><strong><code>m</code></strong> &mdash; the live <code>IoMessage</code> node. Its name, argument messages, and next pointer are all accessible for introspection.</li></ul></div></div><h2 id="extracting-arguments">Extracting Arguments</h2><div class="section"><div class="section-body"><p>You never reach into <code>m</code> directly. The VM provides <code>IoMessage_locals_*ArgAt_</code> helpers that take <code>(m, locals, index)</code>, evaluate the argument message in the caller's scope, type-check the result, and raise an Io-level exception on a mismatch. The common ones:</p><table><thead><tr><th>Call</th><th>Returns</th></tr></thead><tbody><tr><td><code>IoMessage_locals_intArgAt_</code></td><td><code>int</code></td></tr><tr><td><code>IoMessage_locals_longArgAt_</code></td><td><code>long</code></td></tr><tr><td><code>IoMessage_locals_sizetArgAt_</code></td><td><code>size_t</code></td></tr><tr><td><code>IoMessage_locals_doubleArgAt_</code></td><td><code>double</code></td></tr><tr><td><code>IoMessage_locals_floatArgAt_</code></td><td><code>float</code></td></tr><tr><td><code>IoMessage_locals_boolArgAt_</code></td><td><code>int</code></td></tr><tr><td><code>IoMessage_locals_numberArgAt_</code></td><td><code>IoNumber *</code></td></tr><tr><td><code>IoMessage_locals_symbolArgAt_</code></td><td><code>IoSymbol *</code></td></tr><tr><td><code>IoMessage_locals_seqArgAt_</code></td><td><code>IoSeq *</code></td></tr><tr><td><code>IoMessage_locals_cStringArgAt_</code></td><td><code>const char *</code></td></tr><tr><td><code>IoMessage_locals_blockArgAt_</code></td><td><code>IoBlock *</code></td></tr><tr><td><code>IoMessage_locals_listArgAt_</code></td><td><code>IoList *</code></td></tr><tr><td><code>IoMessage_locals_mapArgAt_</code></td><td><code>IoMap *</code></td></tr><tr><td><code>IoMessage_locals_messageArgAt_</code></td><td><code>IoMessage *</code></td></tr><tr><td><code>IoMessage_locals_dateArgAt_</code></td><td><code>IoDate *</code></td></tr></tbody></table><p>Arity and raw access:</p><ul><li><code>IoMessage_assertArgCount_receiver_(m, n, self)</code> &mdash; raise if the caller passed fewer than <code>n</code> arguments.</li><li><code>IoMessage_argCount(m)</code> &mdash; number of argument messages.</li><li><code>IoMessage_locals_valueArgAt_(m, locals, i)</code> &mdash; the untyped result of evaluating arg <code>i</code>.</li></ul><h3 id="deferred-arguments">Deferred arguments</h3><p>Control-flow-style methods sometimes want the unevaluated argument message instead of its value (so they can choose whether, when, or how many times to evaluate it). Grab it from <code>m</code> directly with <code>IoMessage_rawArgAt_(m, i)</code> and evaluate it later with <code>IoMessage_locals_performOn_(arg, locals, target)</code>.</p></div></div><h2 id="constructing-results">Constructing Results</h2><div class="section"><div class="section-body"><p>Return values are Io objects. A handful of macros produce the common ones:</p><table><thead><tr><th>Macro</th><th>Produces</th></tr></thead><tbody><tr><td><code>IONUMBER(x)</code></td><td><code>IoNumber</code> wrapping a C <code>double</code></td></tr><tr><td><code>IOBOOL(self, b)</code></td><td>the shared <code>true</code> / <code>false</code> singletons</td></tr><tr><td><code>IONIL(self)</code></td><td>the shared <code>nil</code> singleton</td></tr><tr><td><code>IOSYMBOL(s)</code></td><td>interned <code>IoSeq</code> symbol from a C string</td></tr><tr><td><code>IOSEQ(bytes, len)</code></td><td>mutable <code>IoSeq</code></td></tr><tr><td><code>IOLIST(state, ...)</code></td><td>literal <code>IoList</code></td></tr></tbody></table><p>Returning <code>self</code> is fine &mdash; chainable setters do it constantly.</p></div></div><h2 id="registering-a-proto">Registering a Proto</h2><div class="section"><div class="section-body"><p>Primitives install themselves at VM init with a <code>{name, cfunc}</code> table and a single call. The pattern from <code>IoList.c</code>:</p><pre><code>IoList *IoList_proto(void *state) {
+    IoMethodTable methodTable[] = {
+        {"at",     IoList_at},
+        {"atPut",  IoList_atPut},
+        {"append", IoList_append},
+        {"size",   IoList_size},
+        {NULL, NULL},
+    };
+
+    IoObject *self = IoObject_new(state);
+    IoObject_tag_(self, IoList_newTag(state));
+    IoObject_setDataPointer_(self, List_new());
+    IoState_registerProtoWithId_((IoState *)state, self, protoId);
+    IoObject_addMethodTable_(self, methodTable);
+    return self;
+}</code></pre><p>Steps:</p><ol><li><strong>Allocate</strong> a fresh object and give it your tag. The tag (from <code>IoList_newTag</code>) carries the clone/mark/free/compare function pointers the GC and <code>clone</code> will call.</li><li><strong>Stash primitive state</strong> in the data pointer. For <code>IoList</code> that's a basekit <code>List</code>; for your type it's whatever C struct the slot methods will read through <code>DATA(self)</code>.</li><li><strong>Register</strong> the proto under a unique id (usually <code>static IoTag *protoId = "IoList";</code>). Other C code reaches this proto with <code>IoState_protoWithId_</code>.</li><li><strong>Install</strong> the method table. Every <code>{name, cfunc}</code> pair becomes a slot on the proto.</li></ol><p>A matching <code>IoList_rawClone</code> is registered as the tag's clone function so each clone gets its own primitive data (otherwise mutation of one instance would leak into the proto).</p><p>Finally, call your <code>IoList_proto</code> from <code>IoState.c</code>'s init so the proto is installed before Io code runs.</p></div></div><h2 id="gc-safety">GC Safety</h2><div class="section"><div class="section-body"><p>The collector runs incrementally, so any time you store an <code>IoObject *</code> into another live object you must tell the collector you did so. Use <code>IOREF</code>:</p><pre><code>IoObject_setSlot_to_(self, IOSYMBOL("name"), IOREF(newValue));</code></pre><p><code>IOREF</code> is the write barrier. Miss it and a collection between the store and the next safe point can reclaim the value you just installed. Every slot helper (<code>setSlot_to_</code>, <code>updateSlot_to_</code>, protos, listeners) takes <code>IOREF</code>'d values.</p><p>Local <code>IoObject *</code> variables inside a method are fine without <code>IOREF</code> &mdash; they're already reachable through the frame chain that the collector walks.</p></div></div><h2 id="raising-errors">Raising Errors</h2><div class="section"><div class="section-body"><p>Io-level exceptions are raised from C with <code>IoState_error_</code>:</p><pre><code>if (index &lt; 0 || index &gt;= List_size(DATA(self))) {
+    IoState_error_(IOSTATE, m, "index %d out of range", index);
+    return IONIL(self);  // unreachable in practice, but keeps compilers happy
+}</code></pre><p><code>IoState_error_</code> sets <code>state->errorRaised = 1</code> and the iterative eval loop unwinds frames until an <code>Io</code>-level <code>try</code>/<code>catch</code> runs. There is no longjmp &mdash; just flag-and-return. That's why helpers that hit an error still return a value; the caller propagates by checking <code>errorRaised</code> or, more commonly, the eval loop handles it a step later.</p><p>The argument-extraction helpers do this for you: <code>IoMessage_locals_intArgAt_</code> raises a type error and returns <code>0</code> if the argument isn't a number.</p></div></div><h2 id="a-complete-example">A Complete Example</h2><div class="section"><div class="section-body"><pre><code>// A pretend IoPoint with x and y doubles stored in data.ptr.
+
+typedef struct { double x, y; } PointData;
+
+static IoTag *protoId = "IoPoint";
+
+IO_METHOD(IoPoint, distanceTo) {
+    /*doc Point distanceTo(other) Euclidean distance to other Point. */
+
+    IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
+    IOASSERT(ISPOINT(other), "argument must be a Point");
+
+    PointData *a = DATA(self);
+    PointData *b = DATA(other);
+    double dx = a-&gt;x - b-&gt;x;
+    double dy = a-&gt;y - b-&gt;y;
+    return IONUMBER(sqrt(dx*dx + dy*dy));
+}
+
+IoPoint *IoPoint_proto(void *state) {
+    IoMethodTable methodTable[] = {
+        {"distanceTo", IoPoint_distanceTo},
+        {NULL, NULL},
+    };
+
+    IoObject *self = IoObject_new(state);
+    IoObject_tag_(self, IoPoint_newTag(state));
+    IoObject_setDataPointer_(self, io_calloc(1, sizeof(PointData)));
+    IoState_registerProtoWithId_((IoState *)state, self, protoId);
+    IoObject_addMethodTable_(self, methodTable);
+    return self;
+}</code></pre><p>That's the shape of every primitive in <code>libs/iovm/source/</code> &mdash; <code>IoNumber</code>, <code>IoSeq</code>, <code>IoList</code>, <code>IoMap</code>, <code>IoBlock</code>, and the rest. Read any of them as a reference when implementing your own.</p></div></div></div>
+  <script src="../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

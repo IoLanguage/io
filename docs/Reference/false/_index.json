@@ -1,0 +1,34 @@
+{
+  "title": "false",
+  "subtitle": "The false singleton — Io's representation of boolean falsity.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "and", "description": "Returns false."},
+                {"name": "asJson", "description": "Returns \"false\"."},
+                {"name": "asSimpleString", "description": "Returns \"false\"."},
+                {"name": "asString", "description": "Returns \"false\"."},
+                {"name": "clone", "description": "Returns self."},
+                {"name": "else", "description": "Evaluates the argument and returns nil."},
+                {"name": "elseif", "description": "Same as <tt>if</tt>."},
+                {"name": "ifFalse", "description": "Evaluates the argument and returns self."},
+                {"name": "ifTrue", "description": "Returns false."},
+                {"name": "justSerialized", "signature": "(stream)", "description": "Writes the receiver's code into the stream."},
+                {"name": "not", "description": "Returns true."},
+                {"name": "or", "description": "Evaluates the argument and returns the result."},
+                {"name": "then", "description": "Returns false."},
+                {"name": "type", "description": "Returns \"false\"."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

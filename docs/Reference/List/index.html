@@ -1,312 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>List – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>List – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="A mutable, ordered collection of values indexed by integer position.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>List</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>A mutable array of values. The first index is 0.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">append(anObject1, anObject2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Appends the arguments to the end of the list. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">appendIfAbsent(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Adds each value not already contained by the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">appendSeq(aList1, aList2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Add the items in the lists to the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asEncodedList</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Sequence with an encoding of the list.
-Nil, Number and Symbol objects are copied into the encoding, for other
-object types, referenceIdForObject(item) will be called to request a
-reference id for the object.
-
-Also see: List fromEncodedList.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asJson</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns JSON encoded representation of a List.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asMap</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>The reverse of Map asList: converts a list of lists (key-value pairs) into
-a Map. The first item of each pair list must be a sequence. The second item
-is the value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asMessage</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Converts each element in the list to unnamed messages with their cached result
-set to the value of the element (without activating).Returns an unnamed message
-whose arguments map 1:1 with the elements (after being converted to messages themselves).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">at(index)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the value at index. Returns Nil if the index is out of bounds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">atInsert(index, anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Inserts anObject at the index specified by index.
-Adds anObject if the index equals the current count of the receiver.
-Raises an exception if the index is out of bounds. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">atPut(index, anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces the existing value at index with anObject.
-Raises an exception if the index is out of bounds. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">average</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the average of the items.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">capacity</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the number of potential elements the receiver can hold before it
-needs to grow.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">contains(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver contains anObject, otherwise returns false.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">containsAll(list)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true the target contains all of the items in the argument list.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">containsAny(list)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true the target contains any of the items in the argument list.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">containsIdenticalTo(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver contains a value identical to anObject,
-otherwise returns false.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">copy(v)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces self with <tt>v</tt> list items. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">cursor</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a ListCursor for the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">detect(optionalIndex, value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the first value for which the message evaluates to a non-nil. Example:
+<div class="page loaded"><div class="header"><div><h1>List</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A mutable, ordered collection of values indexed by integer position.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--append">append</a></li><li><a href="#slots--appendifabsent">appendIfAbsent</a></li><li><a href="#slots--appendseq">appendSeq</a></li><li><a href="#slots--asencodedlist">asEncodedList</a></li><li><a href="#slots--asjson">asJson</a></li><li><a href="#slots--asmap">asMap</a></li><li><a href="#slots--asmessage">asMessage</a></li><li><a href="#slots--at">at</a></li><li><a href="#slots--atinsert">atInsert</a></li><li><a href="#slots--atput">atPut</a></li><li><a href="#slots--average">average</a></li><li><a href="#slots--capacity">capacity</a></li><li><a href="#slots--contains">contains</a></li><li><a href="#slots--containsall">containsAll</a></li><li><a href="#slots--containsany">containsAny</a></li><li><a href="#slots--containsidenticalto">containsIdenticalTo</a></li><li><a href="#slots--copy">copy</a></li><li><a href="#slots--cursor">cursor</a></li><li><a href="#slots--detect">detect</a></li><li><a href="#slots--difference">difference</a></li><li><a href="#slots--empty">empty</a></li><li><a href="#slots--first">first</a></li><li><a href="#slots--flatten">flatten</a></li><li><a href="#slots--foreach">foreach</a></li><li><a href="#slots--fromencodedlist">fromEncodedList</a></li><li><a href="#slots--groupby">groupBy</a></li><li><a href="#slots--indexof">indexOf</a></li><li><a href="#slots--insertafter">insertAfter</a></li><li><a href="#slots--insertat">insertAt</a></li><li><a href="#slots--insertbefore">insertBefore</a></li><li><a href="#slots--intersect">intersect</a></li><li><a href="#slots--itemcopy">itemCopy</a></li><li><a href="#slots--join">join</a></li><li><a href="#slots--justserialized">justSerialized</a></li><li><a href="#slots--last">last</a></li><li><a href="#slots--map">map</a></li><li><a href="#slots--mapinplace">mapInPlace</a></li><li><a href="#slots--pop">pop</a></li><li><a href="#slots--preallocatetosize">preallocateToSize</a></li><li><a href="#slots--prepend">prepend</a></li><li><a href="#slots--push">push</a></li><li><a href="#slots--reduce">reduce</a></li><li><a href="#slots--remove">remove</a></li><li><a href="#slots--removeat">removeAt</a></li><li><a href="#slots--removefirst">removeFirst</a></li><li><a href="#slots--removelast">removeLast</a></li><li><a href="#slots--removeseq">removeSeq</a></li><li><a href="#slots--rest">rest</a></li><li><a href="#slots--reverse">reverse</a></li><li><a href="#slots--reverseforeach">reverseForeach</a></li><li><a href="#slots--reverseinplace">reverseInPlace</a></li><li><a href="#slots--reversereduce">reverseReduce</a></li><li><a href="#slots--second">second</a></li><li><a href="#slots--select">select</a></li><li><a href="#slots--selectinplace">selectInPlace</a></li><li><a href="#slots--setsize">setSize</a></li><li><a href="#slots--size">size</a></li><li><a href="#slots--slice">slice</a></li><li><a href="#slots--sliceinplace">sliceInPlace</a></li><li><a href="#slots--sort">sort</a></li><li><a href="#slots--sortby">sortBy</a></li><li><a href="#slots--sortinplace">sortInPlace</a></li><li><a href="#slots--sortinplaceby">sortInPlaceBy</a></li><li><a href="#slots--sum">sum</a></li><li><a href="#slots--swapindices">swapIndices</a></li><li><a href="#slots--union">union</a></li><li><a href="#slots--unique">unique</a></li><li><a href="#slots--uniquecount">uniqueCount</a></li><li><a href="#slots--with">with</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--append"><div class="classdoc-member-head"><span class="classdoc-member-name">append</span><span class="classdoc-member-sig">(anObject1, anObject2, ...)</span></div><div class="classdoc-member-body"><p>Appends the arguments to the end of the list. Returns self.</p></div></div><div class="classdoc-member" id="slots--appendifabsent"><div class="classdoc-member-head"><span class="classdoc-member-name">appendIfAbsent</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Adds each value not already contained by the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--appendseq"><div class="classdoc-member-head"><span class="classdoc-member-name">appendSeq</span><span class="classdoc-member-sig">(aList1, aList2, ...)</span></div><div class="classdoc-member-body"><p>Add the items in the lists to the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--asencodedlist"><div class="classdoc-member-head"><span class="classdoc-member-name">asEncodedList</span></div><div class="classdoc-member-body"><p>Returns a Sequence with an encoding of the list.
+    Nil, Number and Symbol objects are copied into the encoding, for other
+    object types, referenceIdForObject(item) will be called to request a
+    reference id for the object.</p><p>Also see: List fromEncodedList.</p></div></div><div class="classdoc-member" id="slots--asjson"><div class="classdoc-member-head"><span class="classdoc-member-name">asJson</span></div><div class="classdoc-member-body"><p>Returns JSON encoded representation of a List.</p></div></div><div class="classdoc-member" id="slots--asmap"><div class="classdoc-member-head"><span class="classdoc-member-name">asMap</span></div><div class="classdoc-member-body"><p>The reverse of Map asList: converts a list of lists (key-value pairs) into
+    a Map. The first item of each pair list must be a sequence. The second item
+    is the value.</p></div></div><div class="classdoc-member" id="slots--asmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">asMessage</span></div><div class="classdoc-member-body"><p>Converts each element in the list to unnamed messages with their cached result
+    set to the value of the element (without activating).Returns an unnamed message
+    whose arguments map 1:1 with the elements (after being converted to messages themselves).</p></div></div><div class="classdoc-member" id="slots--at"><div class="classdoc-member-head"><span class="classdoc-member-name">at</span><span class="classdoc-member-sig">(index)</span></div><div class="classdoc-member-body"><p>Returns the value at index. Returns Nil if the index is out of bounds.</p></div></div><div class="classdoc-member" id="slots--atinsert"><div class="classdoc-member-head"><span class="classdoc-member-name">atInsert</span><span class="classdoc-member-sig">(index, anObject)</span></div><div class="classdoc-member-body"><p>Inserts anObject at the index specified by index.
+    Adds anObject if the index equals the current count of the receiver.
+    Raises an exception if the index is out of bounds. Returns self.</p></div></div><div class="classdoc-member" id="slots--atput"><div class="classdoc-member-head"><span class="classdoc-member-name">atPut</span><span class="classdoc-member-sig">(index, anObject)</span></div><div class="classdoc-member-body"><p>Replaces the existing value at index with anObject.
+    Raises an exception if the index is out of bounds. Returns self.</p></div></div><div class="classdoc-member" id="slots--average"><div class="classdoc-member-head"><span class="classdoc-member-name">average</span></div><div class="classdoc-member-body"><p>Returns the average of the items.</p></div></div><div class="classdoc-member" id="slots--capacity"><div class="classdoc-member-head"><span class="classdoc-member-name">capacity</span></div><div class="classdoc-member-body"><p>Returns the number of potential elements the receiver can hold before it
+    needs to grow.</p></div></div><div class="classdoc-member" id="slots--contains"><div class="classdoc-member-head"><span class="classdoc-member-name">contains</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver contains anObject, otherwise returns false.</p></div></div><div class="classdoc-member" id="slots--containsall"><div class="classdoc-member-head"><span class="classdoc-member-name">containsAll</span><span class="classdoc-member-sig">(list)</span></div><div class="classdoc-member-body"><p>Returns true the target contains all of the items in the argument list.</p></div></div><div class="classdoc-member" id="slots--containsany"><div class="classdoc-member-head"><span class="classdoc-member-name">containsAny</span><span class="classdoc-member-sig">(list)</span></div><div class="classdoc-member-body"><p>Returns true the target contains any of the items in the argument list.</p></div></div><div class="classdoc-member" id="slots--containsidenticalto"><div class="classdoc-member-head"><span class="classdoc-member-name">containsIdenticalTo</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver contains a value identical to anObject,
+    otherwise returns false.</p></div></div><div class="classdoc-member" id="slots--copy"><div class="classdoc-member-head"><span class="classdoc-member-name">copy</span><span class="classdoc-member-sig">(v)</span></div><div class="classdoc-member-body"><p>Replaces self with <tt>v</tt> list items. Returns self.</p></div></div><div class="classdoc-member" id="slots--cursor"><div class="classdoc-member-head"><span class="classdoc-member-name">cursor</span></div><div class="classdoc-member-body"><p>Returns a ListCursor for the receiver.</p></div></div><div class="classdoc-member" id="slots--detect"><div class="classdoc-member-head"><span class="classdoc-member-name">detect</span><span class="classdoc-member-sig">(optionalIndex, value, message)</span></div><div class="classdoc-member-body"><p>Returns the first value for which the message evaluates to a non-nil. Example:
 <pre>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
 list(1, 2, 3, 4) detect(v, v > 2)
-==> 3</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">difference(list)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing items from the target list which aren't in the argument list.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">empty</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes all items from the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">first(optionalSize)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the first item or Nil if the list is empty.
-If optionalSize is provided, that number of the first items in the list are
-returned.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">flatten</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Creates a new list, with all contained lists flattened into the new list. For example:
+==> 3</pre></p></div></div><div class="classdoc-member" id="slots--difference"><div class="classdoc-member-head"><span class="classdoc-member-name">difference</span><span class="classdoc-member-sig">(list)</span></div><div class="classdoc-member-body"><p>Returns a new list containing items from the target list which aren't in the argument list.</p></div></div><div class="classdoc-member" id="slots--empty"><div class="classdoc-member-head"><span class="classdoc-member-name">empty</span></div><div class="classdoc-member-body"><p>Removes all items from the receiver.</p></div></div><div class="classdoc-member" id="slots--first"><div class="classdoc-member-head"><span class="classdoc-member-name">first</span><span class="classdoc-member-sig">(optionalSize)</span></div><div class="classdoc-member-body"><p>Returns the first item or Nil if the list is empty.
+    If optionalSize is provided, that number of the first items in the list are
+    returned.</p></div></div><div class="classdoc-member" id="slots--flatten"><div class="classdoc-member-head"><span class="classdoc-member-name">flatten</span></div><div class="classdoc-member-body"><p>Creates a new list, with all contained lists flattened into the new list. For example:
 <code>
 list(1,2,list(3,4,list(5))) flatten
 ==> list(1, 2, 3, 4, 5)
-</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">foreach(optionalIndex, value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Loops over the list values setting the specified index and
+</code></p></div></div><div class="classdoc-member" id="slots--foreach"><div class="classdoc-member-head"><span class="classdoc-member-name">foreach</span><span class="classdoc-member-sig">(optionalIndex, value, message)</span></div><div class="classdoc-member-body"><p>Loops over the list values setting the specified index and
 value slots and executing the message. Returns the result of the last
 execution of the message. Example:
 <p>
 <pre>
 list(1, 2, 3) foreach(i, v, writeln(i, " = ", v))
-list(1, 2, 3) foreach(v, writeln(v))</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">fromEncodedList(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a List with the decoded Nils, Symbols and Numbers from the input raw
-array. For each object reference encounters, objectForReferenceId(id) will
-be called to allow the reference to be resolved.
-
-Also see: List asEncodedList.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">groupBy</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Group items in a List by common expression value and return them aggregated in a Map.
-<em>Note</em>: asJson is used because Map doesn't have asString method implemented.
+list(1, 2, 3) foreach(v, writeln(v))</pre></p></div></div><div class="classdoc-member" id="slots--fromencodedlist"><div class="classdoc-member-head"><span class="classdoc-member-name">fromEncodedList</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns a List with the decoded Nils, Symbols and Numbers from the input raw
+    array. For each object reference encounters, objectForReferenceId(id) will
+    be called to allow the reference to be resolved.</p><p>Also see: List asEncodedList.</p></div></div><div class="classdoc-member" id="slots--groupby"><div class="classdoc-member-head"><span class="classdoc-member-name">groupBy</span></div><div class="classdoc-member-body"><p>Group items in a List by common expression value and return them aggregated in a Map.
+    <em>Note</em>: asJson is used because Map doesn't have asString method implemented.
 <pre>
 Io> list("a", "b", "cd") groupBy(size) asJson
 ==> {"2":["cd"],"1":["a","b"]}
@@ -314,182 +48,21 @@ Io> list("a", "b", "cd") groupBy(v, v containsSeq("c")) asJson
 ==> {"false":["a","b"],"true":["cd"]}
 Io> list("a", "b", "cd") groupBy(i, v, i == 1) asJson
 ==> {"false":["a","cd"],"true":["b"]}
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">indexOf(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the index of the first occurrence of anObject
-in the receiver. Returns Nil if the receiver doesn't contain anObject.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">insertAfter(item, afterItem)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Inserts item after first occurrence of afterItem and returns self. If afterItem
-is not found, item is appended to the end of the list.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">insertAt(item, index)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Inserts item at the specified index. Raises an exception if the index is
-out of bounds. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">insertBefore(item, beforeItem)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Inserts item before first occurrence of beforeItem or to the end of the list if
-beforeItem is not found. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">intersect(list)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing the common values from the target and argument lists.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">itemCopy</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing the items from the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">join(optionalSeparator)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a String with the elements of the receiver concatenated into one
-String. If optionalSeparator is provided, it is used to separate the
-concatenated strings. This operation does not respect string encodings.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">justSerialized(stream)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Writes the receiver's code into the stream.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">last(optionalSize)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the last item or Nil if the list is empty.
-If optionalSize is provided, that number of the last items in the list are
-returned.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">map</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as <tt>mapInPlace</tt>, but returns results in a new List.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">mapInPlace(optionalIndex, value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces each item in the receiver with the result of applying a given message
-to that item. Example:
+</pre></p></div></div><div class="classdoc-member" id="slots--indexof"><div class="classdoc-member-head"><span class="classdoc-member-name">indexOf</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns the index of the first occurrence of anObject
+    in the receiver. Returns Nil if the receiver doesn't contain anObject.</p></div></div><div class="classdoc-member" id="slots--insertafter"><div class="classdoc-member-head"><span class="classdoc-member-name">insertAfter</span><span class="classdoc-member-sig">(item, afterItem)</span></div><div class="classdoc-member-body"><p>Inserts item after first occurrence of afterItem and returns self. If afterItem
+    is not found, item is appended to the end of the list.</p></div></div><div class="classdoc-member" id="slots--insertat"><div class="classdoc-member-head"><span class="classdoc-member-name">insertAt</span><span class="classdoc-member-sig">(item, index)</span></div><div class="classdoc-member-body"><p>Inserts item at the specified index. Raises an exception if the index is
+    out of bounds. Returns self.</p></div></div><div class="classdoc-member" id="slots--insertbefore"><div class="classdoc-member-head"><span class="classdoc-member-name">insertBefore</span><span class="classdoc-member-sig">(item, beforeItem)</span></div><div class="classdoc-member-body"><p>Inserts item before first occurrence of beforeItem or to the end of the list if
+    beforeItem is not found. Returns self.</p></div></div><div class="classdoc-member" id="slots--intersect"><div class="classdoc-member-head"><span class="classdoc-member-name">intersect</span><span class="classdoc-member-sig">(list)</span></div><div class="classdoc-member-body"><p>Returns a new list containing the common values from the target and argument lists.</p></div></div><div class="classdoc-member" id="slots--itemcopy"><div class="classdoc-member-head"><span class="classdoc-member-name">itemCopy</span></div><div class="classdoc-member-body"><p>Returns a new list containing the items from the receiver.</p></div></div><div class="classdoc-member" id="slots--join"><div class="classdoc-member-head"><span class="classdoc-member-name">join</span><span class="classdoc-member-sig">(optionalSeparator)</span></div><div class="classdoc-member-body"><p>Returns a Sequence of the concatenated items with
+    optionalSeparator between each item or simply the concatenation of the items if no optionalSeparator is supplied.</p></div></div><div class="classdoc-member" id="slots--justserialized"><div class="classdoc-member-head"><span class="classdoc-member-name">justSerialized</span><span class="classdoc-member-sig">(stream)</span></div><div class="classdoc-member-body"><p>Writes the receiver's code into the stream.</p></div></div><div class="classdoc-member" id="slots--last"><div class="classdoc-member-head"><span class="classdoc-member-name">last</span><span class="classdoc-member-sig">(optionalSize)</span></div><div class="classdoc-member-body"><p>Returns the last item or Nil if the list is empty.
+    If optionalSize is provided, that number of the last items in the list are
+    returned.</p></div></div><div class="classdoc-member" id="slots--map"><div class="classdoc-member-head"><span class="classdoc-member-name">map</span></div><div class="classdoc-member-body"><p>Same as <tt>mapInPlace</tt>, but returns results in a new List.</p></div></div><div class="classdoc-member" id="slots--mapinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">mapInPlace</span><span class="classdoc-member-sig">(optionalIndex, value, message)</span></div><div class="classdoc-member-body"><p>Replaces each item in the receiver with the result of applying a given message
+    to that item. Example:
 <pre>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
 ==> list(1, 6, 9, 5)
 list(1, 5, 7, 2) mapInPlace(v, v + 3)
-==> list(4, 8, 10, 5)</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">pop</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the last item in the list and removes it
-from the receiver. Returns nil if the receiver is empty.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">preallocateToSize(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Preallocates array memory to hold aNumber number of items.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">prepend(anObject1, anObject2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Inserts the values at the beginning of the list. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">push(anObject1, anObject2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as add(anObject1, anObject2, ...).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reduce</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Also known as foldl or inject. Combines values in target starting on the left.
-If no initial value is passed the head of the list is used. <br />
+ ==> list(4, 8, 10, 5)</pre></p></div></div><div class="classdoc-member" id="slots--pop"><div class="classdoc-member-head"><span class="classdoc-member-name">pop</span></div><div class="classdoc-member-body"><p>Returns the last item in the list and removes it
+    from the receiver. Returns nil if the receiver is empty.</p></div></div><div class="classdoc-member" id="slots--preallocatetosize"><div class="classdoc-member-head"><span class="classdoc-member-name">preallocateToSize</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Preallocates array memory to hold aNumber number of items.</p></div></div><div class="classdoc-member" id="slots--prepend"><div class="classdoc-member-head"><span class="classdoc-member-name">prepend</span><span class="classdoc-member-sig">(anObject1, anObject2, ...)</span></div><div class="classdoc-member-body"><p>Inserts the values at the beginning of the list. Returns self.</p></div></div><div class="classdoc-member" id="slots--push"><div class="classdoc-member-head"><span class="classdoc-member-name">push</span><span class="classdoc-member-sig">(anObject1, anObject2, ...)</span></div><div class="classdoc-member-body"><p>Same as add(anObject1, anObject2, ...).</p></div></div><div class="classdoc-member" id="slots--reduce"><div class="classdoc-member-head"><span class="classdoc-member-name">reduce</span></div><div class="classdoc-member-body"><p>Also known as foldl or inject. Combines values in target starting on the left.
+    If no initial value is passed the head of the list is used. <br />
 <pre>
 Io> list(1, 2, 3) reduce(+)
 ==> 6
@@ -499,306 +72,28 @@ Io> list(1, 2, 3) reduce(+, -6) # Passing the initial value.
 ==> 0
 Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
 ==> 0
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">remove(anObject, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes all occurrences of the arguments from the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeAt(index)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the item at the specified index and returns the value removed.
-Raises an exception if the index is out of bounds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeFirst</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the first item and removes it from the list. nil is returned if the list is empty.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeLast</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the last item and removes it from the list. nil is returned if the list is empty.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeSeq</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes each of the items from the current list which are contained in the sequence passed in.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">rest</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a copy of the list but with the first element removed.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverse</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Reverses the ordering of all the items of the receiver. Returns copy of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverseForeach(index, value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as foreach, but in reverse order.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverseInPlace</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Reverses the ordering of all the items in the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverseReduce</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Also known as foldr or inject. Combines values in target starting on the right.
-If no initial value is paseed the head of the list is used. See List reverse for examples.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">second</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns second element (same as <tt>at(1)</tt>)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">select</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as <tt>selectInPlace</tt>, but result is a new List.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">selectInPlace(optionalIndex, value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Like foreach, but the values for which the result of message is either nil
-or false are removed from the List. Example:
+</pre></p></div></div><div class="classdoc-member" id="slots--remove"><div class="classdoc-member-head"><span class="classdoc-member-name">remove</span><span class="classdoc-member-sig">(anObject, ...)</span></div><div class="classdoc-member-body"><p>Removes all occurrences of the arguments from the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--removeat"><div class="classdoc-member-head"><span class="classdoc-member-name">removeAt</span><span class="classdoc-member-sig">(index)</span></div><div class="classdoc-member-body"><p>Removes the item at the specified index and returns the value removed.
+    Raises an exception if the index is out of bounds.</p></div></div><div class="classdoc-member" id="slots--removefirst"><div class="classdoc-member-head"><span class="classdoc-member-name">removeFirst</span></div><div class="classdoc-member-body"><p>Returns the first item and removes it from the list. nil is returned if the list is empty.</p></div></div><div class="classdoc-member" id="slots--removelast"><div class="classdoc-member-head"><span class="classdoc-member-name">removeLast</span></div><div class="classdoc-member-body"><p>Returns the last item and removes it from the list. nil is returned if the list is empty.</p></div></div><div class="classdoc-member" id="slots--removeseq"><div class="classdoc-member-head"><span class="classdoc-member-name">removeSeq</span></div><div class="classdoc-member-body"><p>Removes each of the items from the current list which are contained in the sequence passed in.</p></div></div><div class="classdoc-member" id="slots--rest"><div class="classdoc-member-head"><span class="classdoc-member-name">rest</span></div><div class="classdoc-member-body"><p>Returns a copy of the list but with the first element removed.</p></div></div><div class="classdoc-member" id="slots--reverse"><div class="classdoc-member-head"><span class="classdoc-member-name">reverse</span></div><div class="classdoc-member-body"><p>Reverses the ordering of all the items of the receiver. Returns copy of receiver.</p></div></div><div class="classdoc-member" id="slots--reverseforeach"><div class="classdoc-member-head"><span class="classdoc-member-name">reverseForeach</span><span class="classdoc-member-sig">(index, value, message)</span></div><div class="classdoc-member-body"><p>Same as foreach, but in reverse order.</p></div></div><div class="classdoc-member" id="slots--reverseinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">reverseInPlace</span></div><div class="classdoc-member-body"><p>Reverses the ordering of all the items in the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--reversereduce"><div class="classdoc-member-head"><span class="classdoc-member-name">reverseReduce</span></div><div class="classdoc-member-body"><p>Also known as foldr or inject. Combines values in target starting on the right.
+    If no initial value is paseed the head of the list is used. See List reverse for examples.</p></div></div><div class="classdoc-member" id="slots--second"><div class="classdoc-member-head"><span class="classdoc-member-name">second</span></div><div class="classdoc-member-body"><p>Returns third element (same as <tt>at(2)</tt>)</p></div></div><div class="classdoc-member" id="slots--select"><div class="classdoc-member-head"><span class="classdoc-member-name">select</span></div><div class="classdoc-member-body"><p>Same as <tt>selectInPlace</tt>, but result is a new List.</p></div></div><div class="classdoc-member" id="slots--selectinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">selectInPlace</span><span class="classdoc-member-sig">(optionalIndex, value, message)</span></div><div class="classdoc-member-body"><p>Like foreach, but the values for which the result of message is either nil
+    or false are removed from the List. Example:
 <pre>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
 ==> 5, 7
 list(1, 5, 7, 2) selectInPlace(v, v > 3)
-==> 5, 7</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setSize(newSize)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the size of the receiver by either removing excess items or adding nils
-as needed.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">size</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the number of items in the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slice(startIndex, endIndex, step)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new string containing the subset of the receiver
+ ==> 5, 7</pre></p></div></div><div class="classdoc-member" id="slots--setsize"><div class="classdoc-member-head"><span class="classdoc-member-name">setSize</span><span class="classdoc-member-sig">(newSize)</span></div><div class="classdoc-member-body"><p>Sets the size of the receiver by either removing excess items or adding nils
+    as needed.</p></div></div><div class="classdoc-member" id="slots--size"><div class="classdoc-member-head"><span class="classdoc-member-name">size</span></div><div class="classdoc-member-body"><p>Returns the number of items in the receiver.</p></div></div><div class="classdoc-member" id="slots--slice"><div class="classdoc-member-head"><span class="classdoc-member-name">slice</span><span class="classdoc-member-sig">(startIndex, endIndex, step)</span></div><div class="classdoc-member-body"><p>Returns a new string containing the subset of the receiver
 from the startIndex to the endIndex. The endIndex argument
-is optional. If not given, it is assumed to be the end of the string.
+    is optional. If not given, it is assumed to be the end of the string.
 Step argument is also optional and defaults to 1, if not given.
 However, since Io supports positional arguments only, you need to
-explicitly specify endIndex, if you need a custom step.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sliceInPlace(startIndex, endIndex, step)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the receiver containing the subset of the
-receiver from the startIndex to the endIndex. The endIndex argument
-is optional. If not given, it is assumed to be the end of the string.
-Step argument is also optional and defaults to 1.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sort</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing the sorted items from the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sortBy(aBlock)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing the items from the receiver, sorted using aBlock as compare function. Example:
+explicitly specify endIndex, if you need a custom step.</p></div></div><div class="classdoc-member" id="slots--sliceinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">sliceInPlace</span><span class="classdoc-member-sig">(startIndex, endIndex, step)</span></div><div class="classdoc-member-body"><p>Returns the receiver containing the subset of the
+    receiver from the startIndex to the endIndex. The endIndex argument
+    is optional. If not given, it is assumed to be the end of the string.
+Step argument is also optional and defaults to 1.</p></div></div><div class="classdoc-member" id="slots--sort"><div class="classdoc-member-head"><span class="classdoc-member-name">sort</span></div><div class="classdoc-member-body"><p>Returns a new list containing the sorted items from the receiver.</p></div></div><div class="classdoc-member" id="slots--sortby"><div class="classdoc-member-head"><span class="classdoc-member-name">sortBy</span><span class="classdoc-member-sig">(aBlock)</span></div><div class="classdoc-member-body"><p>Returns a new list containing the items from the receiver, sorted using aBlock as compare function. Example:
 <code>list(1, 3, 2, 4, 0) sortBy(block(a, b, a > b))
-==> list(4, 3, 2, 1, 0)</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sortInPlace(optionalExpression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sorts the list using the compare method on the items. Returns self.
-If an optionalExpression is provided, the sort is done on the result of the
-evaluation of the optionalExpression on each value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sortInPlaceBy(aBlock)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sort the list using aBlock as the compare function. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sum</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the sum of the items.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">swapIndices(index1, index2)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Exchanges the object at index1 with the object at index2.
-Raises an exception if either index is out of bounds. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">union(list)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing items from the target and items which are only in the argument list.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">unique</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new list containing all the values in the target, but no duplicates.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">uniqueCount</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list of list(value, count) for each unique value in self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">with(anObject, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new List containing the arguments.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+==> list(4, 3, 2, 1, 0)</code></p></div></div><div class="classdoc-member" id="slots--sortinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">sortInPlace</span><span class="classdoc-member-sig">(optionalExpression)</span></div><div class="classdoc-member-body"><p>Sorts the list using the compare method on the items. Returns self.
+    If an optionalExpression is provided, the sort is done on the result of the
+    evaluation of the optionalExpression on each value.</p></div></div><div class="classdoc-member" id="slots--sortinplaceby"><div class="classdoc-member-head"><span class="classdoc-member-name">sortInPlaceBy</span><span class="classdoc-member-sig">(aBlock)</span></div><div class="classdoc-member-body"><p>Sort the list using aBlock as the compare function. Returns self.</p></div></div><div class="classdoc-member" id="slots--sum"><div class="classdoc-member-head"><span class="classdoc-member-name">sum</span></div><div class="classdoc-member-body"><p>Returns the sum of the items.</p></div></div><div class="classdoc-member" id="slots--swapindices"><div class="classdoc-member-head"><span class="classdoc-member-name">swapIndices</span><span class="classdoc-member-sig">(index1, index2)</span></div><div class="classdoc-member-body"><p>Exchanges the object at index1 with the object at index2.
+    Raises an exception if either index is out of bounds. Returns self.</p></div></div><div class="classdoc-member" id="slots--union"><div class="classdoc-member-head"><span class="classdoc-member-name">union</span><span class="classdoc-member-sig">(list)</span></div><div class="classdoc-member-body"><p>Returns a new list containing items from the target and items which are only in the argument list.</p></div></div><div class="classdoc-member" id="slots--unique"><div class="classdoc-member-head"><span class="classdoc-member-name">unique</span></div><div class="classdoc-member-body"><p>Returns a new list containing all the values in the target, but no duplicates.</p></div></div><div class="classdoc-member" id="slots--uniquecount"><div class="classdoc-member-head"><span class="classdoc-member-name">uniqueCount</span></div><div class="classdoc-member-body"><p>Returns a list of list(value, count) for each unique value in self.</p></div></div><div class="classdoc-member" id="slots--with"><div class="classdoc-member-head"><span class="classdoc-member-name">with</span><span class="classdoc-member-sig">(anObject, ...)</span></div><div class="classdoc-member-body"><p>Returns a new List containing the arguments.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

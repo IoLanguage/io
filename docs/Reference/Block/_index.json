@@ -1,0 +1,41 @@
+{
+  "title": "Block",
+  "subtitle": "An anonymous function (method or block) that captures messages and arguments. Activated by sending it a message.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "Formatter", "description": "Helper object for the <tt>asString</tt> method."},
+                {"name": "argumentNames", "description": "Returns a List of strings containing the argument names of the receiver."},
+                {"name": "asSimpleString", "description": "Returns a short description of the receiver."},
+                {"name": "asString", "description": "Returns a full description of the receiver with decompiled code."},
+                {"name": "call", "signature": "(arg0, arg1, ...)", "description": "Activates the receiver with the provided arguments."},
+                {"name": "callWithArgList", "signature": "(aList)", "description": "Activates the block with the given argument list."},
+                {"name": "code", "description": "Returns a string containing the decompiled code of the receiver."},
+                {"name": "justSerialized", "signature": "(stream)", "description": "Writes the receiver's code into the stream."},
+                {"name": "message", "description": "Returns the root message of the receiver."},
+                {"name": "passStops", "description": "Returns whether or not the receiver passes return/continue/break to caller."},
+                {"name": "performOn", "signature": "(anObject, optionalLocals, optionalMessage,", "description": "optionalSlotContext) Activates the receiver in the target context of\n    anObject. Returns the result."},
+                {"name": "print", "description": "Prints an Io source code representation of the block/method."},
+                {"name": "println", "description": "Same as <tt>print</tt>."},
+                {"name": "profilerTime", "description": "Returns clock() time spent in compiler in seconds."},
+                {"name": "scope", "description": "Returns the scope used when the block is activated or\n    Nil if the target of the message is the scope."},
+                {"name": "setArgumentNames", "signature": "(aListOfStrings)", "description": "Sets the receiver's argument names to those specified in\n    aListOfStrings. Returns self."},
+                {"name": "setCode", "signature": "(aString)", "description": "Sets the receiver's message to a compiled version of aString. Returns self."},
+                {"name": "setMessage", "signature": "(aMessage)", "description": "Sets the root message of the receiver to aMessage."},
+                {"name": "setPassStops", "signature": "(aBool)", "description": "Sets whether the receiver passes return/continue/break to caller."},
+                {"name": "setProfilerOn", "signature": "(aBool)", "description": "If aBool is true, the global block profiler is enabled, if false it is\n    disabled. Returns self."},
+                {"name": "setScope", "signature": "(anObjectOrNil)", "description": "If argument is an object, when the block is activated,\n    it will set the proto and self slots of its locals to the specified\n    object. If Nil, it will set them to the target of the message."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

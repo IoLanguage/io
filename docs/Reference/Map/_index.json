@@ -1,0 +1,44 @@
+{
+  "title": "Map",
+  "subtitle": "A mutable dictionary mapping Sequence keys to arbitrary values.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "asJson", "description": "Converts a Map to a string that represents contents in JSON-compilant form"},
+                {"name": "asList", "description": "Converts a Map to a list of lists. Each element in the returned list will be a list of two elements: the key, and the value."},
+                {"name": "asObject", "description": "Create a new Object whose slotDescriptionMap will be equal to self"},
+                {"name": "at", "signature": "(keyString, optionalDefaultValue)", "description": "Returns the value for the key keyString. Returns nil if the key is absent."},
+                {"name": "atIfAbsentPut", "signature": "(keyString, aValue)", "description": "If a value is present at the specified key, the value is returned.\n    Otherwise, inserts/sets aValue and returns aValue."},
+                {"name": "atPut", "signature": "(keyString, aValue)", "description": "Inserts/sets aValue with the key keyString. Returns self."},
+                {"name": "detect", "signature": "(optionalIndex, optionalValue, message)", "description": "Returns a random value for which message evals to non-nil."},
+                {"name": "empty", "description": "Removes all keys from the receiver. Returns self."},
+                {"name": "foreach", "signature": "(optionalKey, value, message)", "description": "For each key value pair, sets the locals key to\nthe key and value to the value and executes message.\nExample:\n<pre>\taMap foreach(k, v, writeln(k, \" = \", v))\naMap foreach(v, write(v))</pre>\n\nExample use with a block:\n\n<pre>\tmyBlock = block(k, v, write(k, \" = \", v, \"\\n\"))\naMap foreach(k, v, myBlock(k, v))</pre>"},
+                {"name": "hasKey", "signature": "(keyString)", "description": "Returns true if the key is present or false otherwise."},
+                {"name": "hasValue", "signature": "(aValue)", "description": "Returns true if the value is one of the Map's values or false otherwise."},
+                {"name": "isEmpty", "description": "Returns true if this map doesn't contain any pairs."},
+                {"name": "isNotEmpty", "description": "Returns true if this map contains at least one pair."},
+                {"name": "justSerialized", "signature": "(stream)", "description": "Writes the receiver's code into the stream."},
+                {"name": "keys", "description": "Returns a List of the receivers keys."},
+                {"name": "map", "signature": "(key, value, message)", "description": "Create a List of results of message applied to self's items in a random\n\t\torder."},
+                {"name": "merge", "signature": "(anotherMap)", "description": "Returns a new map created by merging the pairs from anotherMap into this map"},
+                {"name": "mergeInPlace", "signature": "(anotherMap)", "description": "Merges the pairs from anotherMap into this map"},
+                {"name": "removeAt", "signature": "(keyString)", "description": "Removes the specified keyString if present. Returns self."},
+                {"name": "reverseMap", "description": "Creates a new Map using values as keys and keys as values"},
+                {"name": "select", "signature": "(optionalIndex, optionalValue, message)", "description": "Creates a new Map with keys,values of self for which message evaluated\n\t\tto non-nil."},
+                {"name": "size", "description": "Returns the number of key/value pairs in the receiver."},
+                {"name": "values", "description": "Returns a List of the receivers values."},
+                {"name": "with", "signature": "(key1, value1, key2, value2, ...)", "description": "Returns a new map containing the given keys and values"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

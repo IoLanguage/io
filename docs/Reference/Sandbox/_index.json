@@ -1,0 +1,26 @@
+{
+  "title": "Sandbox",
+  "subtitle": "Runs Io code in an isolated child state with restricted resource limits.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "doSandboxString", "signature": "(aString)", "description": "Evaluate aString inside the Sandbox."},
+                {"name": "messageCount", "description": "Returns a number containing the messageCount limit of the Sandbox."},
+                {"name": "printCallback", "signature": "(string)", "description": "default implementation is; method(string, string print)"},
+                {"name": "setMessageCount", "signature": "(anInteger)", "description": "Sets the messageCount limit of the receiver."},
+                {"name": "setTimeLimit", "signature": "(aDouble)", "description": "Sets the time limit of the Sandbox."},
+                {"name": "timeLimit", "description": "Returns a number containing the time limit of calls made to the Sandbox."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

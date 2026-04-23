@@ -1,0 +1,38 @@
+{
+  "title": "Call",
+  "subtitle": "Call stores slots related to activation.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "activated", "description": "Returns the activated value."},
+                {"name": "argAt", "signature": "(argNumber)", "description": "Returns the message's argNumber arg. Shorthand for same as call message\n    argAt(argNumber)."},
+                {"name": "argCount", "description": "Returns the number of arguments for the call. Shortcut for \"call message argCount\"."},
+                {"name": "coroutine", "description": "Returns the coroutine in which the message was sent."},
+                {"name": "delegateTo", "signature": "(target, altSender)", "description": "Sends the call's message to target (and relays it's stop status).\n\t\tThe sender is set to altSender, if it is supplied.\n\t\tReturns the result of the message."},
+                {"name": "delegateToMethod", "signature": "(target, methodName)", "description": "Sends the call's message to target via the method specified by methodName.\n\t\tReturns the result of the message."},
+                {"name": "description", "description": "Returns a description of the receiver as a String."},
+                {"name": "evalArgAt", "signature": "(argNumber)", "description": "Evaluates the specified argument of the Call's message in the context of its\n    sender."},
+                {"name": "evalArgs", "description": "Returns a list containing the call message arguments evaluated in the context of the sender."},
+                {"name": "hasArgs", "description": "Returns true if the call was passed arguments."},
+                {"name": "message", "description": "Returns the message value."},
+                {"name": "relayStopStatus", "signature": "(arg)", "description": "Sets sender's stop status (Normal, Return, \n  Break, Continue etc.) and returns evaluated argument."},
+                {"name": "resetStopStatus", "signature": "(arg)", "description": "Sets stop status to Normal.\n  See also <tt>Call setStopStatus</tt>."},
+                {"name": "sender", "description": "Returns the sender value."},
+                {"name": "setStopStatus", "signature": "(aStatusObject)", "description": "Sets the stop status on the call."},
+                {"name": "slotContext", "description": "Returns the slotContext value."},
+                {"name": "stopStatus", "description": "Returns the stop status on the call. (description of stopStatus will\n    be added once we decide whether or not to keep it)"},
+                {"name": "target", "description": "Returns the target value."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

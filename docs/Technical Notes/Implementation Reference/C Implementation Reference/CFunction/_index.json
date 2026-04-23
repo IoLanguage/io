@@ -1,0 +1,30 @@
+{
+  "title": "CFunction",
+  "subtitle": "C implementation of the CFunction primitive. An IoCFunctionData holds\na C function pointer (IoUserFunction: target/locals/message -> result),\nan optional typeTag gate (only activate if target's tag matches, else\nraise a typed error), a uniqueName symbol for introspection, and\nprofiler timing. Like Block, CFunction is self-activating: the tag's\nactivateFunc is IoCFunction_activate, so fetching a CFunction from an\nactivatable slot calls through immediately. This is how every C-backed\nIo method (List append, Number +, Object if/while/for, etc.) is\ninstalled — IoObject_addMethodTable_ creates one CFunction per entry\nand stores it in the target proto. CFunctions do not pre-evaluate\ntheir arguments; the recipient uses IoMessage_locals_valueArgAt_ or\nthe pre-eval fast path (IoState_preEvalArgAt_) to fetch them lazily.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoCFunction_activate", "signature": "(self, target, locals, m, slotContext)", "description": "Tag dispatch entry point: validates that the target's tag matches the\nCFunction's optional typeTag (raising a VM error on mismatch) then\ninvokes the stored C function pointer with (target, locals, message).\nUnlike IoBlock_activate there is no fresh locals object — the C\nfunction inspects the caller's locals and the message directly, which\nis why CFunctions can be cheap. The commented-out retain-pool pair is\na historical concern; pools are managed by callers today."},
+                {"name": "IoCFunction_activateWithProfiler", "signature": "(self, target, locals, m, slotContext)", "description": "Profiler-enabled wrapper around IoCFunction_activate. setProfilerOn(true)\nswaps this in as the tag's activateFunc so every call accumulates\nelapsed clock() time into the CFunction's profilerTime."},
+                {"name": "IoCFunction_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Frees the IoCFunctionData payload.\nThe uniqueName symbol is interned on state and GC-managed."},
+                {"name": "IoCFunction_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. Only the uniqueName symbol is a GC\nroot — the C function pointer and typeTag are not IoObjects."},
+                {"name": "IoCFunction_newTag", "signature": "(state)", "description": "Builds the CFunction tag and wires clone/mark/free plus — crucially —\nactivateFunc, which is what makes CFunctions self-executing when\nlooked up through a slot."},
+                {"name": "IoCFunction_newWithFunctionPointer_tag_name_", "signature": "(state, func, typeTag, funcName)", "description": "Primary constructor used by IoObject_addMethodTable_: clones the\nCFunction proto and stamps in the C function pointer, the optional\ntype gate (tag), and the uniqueName symbol for introspection. Every\nentry in a C method table produces one of these."},
+                {"name": "IoCFunction_print", "signature": "(self)", "description": "Debug printer dumping pointer, C function pointer, owning type name,\nand uniqueName. Called from diagnostic paths only; not part of the\nIo-visible print protocol."},
+                {"name": "IoCFunction_proto", "signature": "(state)", "description": "Creates the CFunction proto with a zeroed IoCFunctionData whose func\npoints at IoObject_self (the identity function) as a safe default.\nThe proto is not marked activatable — only its clones are, so the\nproto itself can be fetched via getSlot. IoCFunction_protoFinish adds\nthe method table later once prerequisite protos exist."},
+                {"name": "IoCFunction_protoFinish", "signature": "(state)", "description": "Deferred init: installs the Io-visible method table on the\nCFunction proto after the Symbol/Sequence protos exist (method\nregistration needs IOSYMBOL to work). Called late in IoState_init so\nearlier proto construction can use CFunctions without forcing a\ncircular init order."},
+                {"name": "IoCFunction_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Copies the proto's data block and\nflips isActivatable on — this is the point at which a CFunction\nbecomes self-executing when placed in a slot."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

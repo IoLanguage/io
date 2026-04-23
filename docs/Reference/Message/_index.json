@@ -1,0 +1,59 @@
+{
+  "title": "Message",
+  "subtitle": "A parsed message in Io's AST. Carries a name, argument messages, the next message in the chain, and cached values for evaluation.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "appendArg", "signature": "(aMessage)", "description": "Adds aMessage to the argument list of receiver. Examples:\n    <pre>\n    Io> message(a) appendArg(message(b))\n    ==> a(b)\n\n    Io> message(a(1,2)) appendArg(message(3))\n    ==> a(1, 2, 3)\n    </pre>"},
+                {"name": "appendCachedArg", "signature": "(aValue)", "description": "Adds aValue to the argument list of receiver as a cachedResult."},
+                {"name": "argAt", "signature": "(indexNumber)", "description": "Returns Message object for the specified argument or Nil if none exists."},
+                {"name": "argCount", "description": "Returns the number of arguments this message has. A faster way to do, msg\n    arguments size. Examples, <pre> Io> message(a(1,2,3)) argCount\n    ==> 3\n\n    Io> message(a) argCount\n    ==> 0\n    </pre>"},
+                {"name": "argsEvaluatedIn", "signature": "(anObject)", "description": "Returns a List containing the argument messages evaluated in the\n    context of anObject."},
+                {"name": "arguments", "description": "Returns a list of the message objects that act as the\n    receiver's arguments. Modifying this list will not alter the actual\n    list of arguments. Use the arguments_() method to do that."},
+                {"name": "asMessageWithEvaluatedArgs", "signature": "(optionalContext)", "description": "Returns a copy of receiver with arguments evaluated in the context of\n       sender if optionalContext is nil."},
+                {"name": "asSimpleString", "description": "Returns one-line string representation up to 40 characters long."},
+                {"name": "asStackEntry", "description": "Returns a string containing message name, file and line."},
+                {"name": "asString", "description": "Same as code()."},
+                {"name": "cachedResult", "description": "Returns the cached result of the Message or Nil if there is none."},
+                {"name": "characterNumber", "description": "Returns the message character number. The character number is typically\n    the beginning character index in the source text from which the message was\n    read."},
+                {"name": "clone", "description": "Returns a Message that is a deep copy of the receiver."},
+                {"name": "code", "description": "Returns a String containing a decompiled code representation of the\n    receiver."},
+                {"name": "codeOfLength", "signature": "(n)", "description": "Same as <tt>Message code</tt>, but returns first <tt>n</tt> characters only."},
+                {"name": "description", "description": "Returns a string containing a short description of the method."},
+                {"name": "doInContext", "signature": "(anObject, locals)", "description": "Evaluates the receiver in the context of anObject. Optional <tt>locals</tt>\n    object is used as message sender. <tt>anObject</tt> is used as sender\n    otherwise."},
+                {"name": "evaluatedArgs", "description": "Returns a List containing the argument messages evaluated in the context."},
+                {"name": "fromString", "signature": "(aString)", "description": "Returns a new Message object for the compiled(but not executed)\n    result of aString."},
+                {"name": "hasCachedResult", "description": "Returns true if there is a cached result. Nil is a valid cached result."},
+                {"name": "isEndOfLine", "description": "Returns true if the message marks the end of the line. A ';' message."},
+                {"name": "label", "description": "Returns the message label. The label is typically set to the\n    name of the file from which the source code for the message was read."},
+                {"name": "last", "description": "Returns the last message in the chain."},
+                {"name": "lastBeforeEndOfLine", "description": "Returns the last message in the chain before the EndOfLine or nil."},
+                {"name": "lineNumber", "description": "Returns the line number of the message. The character number\n    is typically the line number in the source text from which the message was\n    read."},
+                {"name": "name", "description": "Returns the name of the receiver."},
+                {"name": "next", "description": "Returns the next message in the message chain or nil if there is no next\n    message."},
+                {"name": "nextIgnoreEndOfLines", "description": "Returns the next message in the message chain which is not an\n    EndOfLine or nil if there is no next message."},
+                {"name": "previous", "description": "Returns the previous message in the message chain or Nil if there is no\n    previous message."},
+                {"name": "removeCachedResult", "description": "Removes the cached result of the Message."},
+                {"name": "setArguments", "signature": "(aListOfMessages)", "description": "Sets the arguments of the receiver to deep copies of\n    those contained in aListOfMessages.  Returns self."},
+                {"name": "setCachedResult", "signature": "(anObject)", "description": "Sets the cached result of the message. Returns self."},
+                {"name": "setCharacterNumber", "signature": "(aNumber)", "description": "Sets the character number of the message. Returns self."},
+                {"name": "setLabel", "signature": "(aString)", "description": "Sets the label of the message and its children. Returns self."},
+                {"name": "setLineNumber", "signature": "(aNumber)", "description": "Sets the line number of the message. Returns self."},
+                {"name": "setName", "signature": "(aString)", "description": "Sets the name of the receiver. Returns self."},
+                {"name": "setNext", "signature": "(aMessageOrNil)", "description": "Sets the next message in the message chain to a deep copy of\n    aMessage or it removes the next message if aMessage is nil."},
+                {"name": "setPrevious", "signature": "(aMessageOrNil)", "description": "Sets the previous message in the message chain to a deep copy of\n    aMessage or it removes the previous message if aMessage is Nil."},
+                {"name": "union", "signature": "(other) Creates a union of the receiver and the other parameter.", "description": "Returns a new message object with the receivers message as the first argument of the returned message, \n\tand the other parameter's arguments as each successive argument to the new message.\n\t<br/>\n\t<pre>\n  Io> message(a) union(message(b))\n  ==> [unnamed](a, b)\n  </pre>"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

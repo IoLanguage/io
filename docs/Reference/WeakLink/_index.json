@@ -1,0 +1,22 @@
+{
+  "title": "WeakLink",
+  "subtitle": "A WeakLink is a primitive that can hold a reference to\n        an object without preventing the garbage collector from\n        collecting it. The link reference is set with the setLink() method.\n        After the garbage collector collects an object, it informs any\n        (uncollected) WeakLink objects whose link value pointed to that\n        object by calling their \"collectedLink\" method.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "link", "description": "Returns the link pointer or Nil if none is set."},
+                {"name": "setLink", "signature": "(aValue)", "description": "Sets the link pointer. Returns self."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

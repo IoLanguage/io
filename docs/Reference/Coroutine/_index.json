@@ -1,0 +1,69 @@
+{
+  "title": "Coroutine",
+  "subtitle": "Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "backTraceString", "description": "Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag."},
+                {"name": "callStack", "description": "Returns a list of Call objects."},
+                {"name": "currentCoroutine", "description": "Returns currently running coroutine in Io state."},
+                {"name": "currentFrame", "description": "Returns the current (topmost) EvalFrame of this coroutine,\n    or nil if no frames are active. Only works for the currently\n    executing coroutine."},
+                {"name": "debugWriteln", "description": "See <tt>Object debugWriteln</tt>."},
+                {"name": "exception", "description": "Returns the current exception or nil if there is none."},
+                {"name": "freeStack", "description": "Frees all the internal data from the receiver's stack. Returns self."},
+                {"name": "handlerStack", "description": "The list of resumable exception handler entries for this coroutine, or nil."},
+                {"name": "ignoredCoroutineMethodNames", "description": "List of methods to ignore when building a <tt>callStack</tt>."},
+                {"name": "implementation", "description": "Returns coroutine implementation type: \"frame-based\" (portable, no assembly)"},
+                {"name": "inException", "description": "Set to true when processing an exception in the coroutine."},
+                {"name": "ioStack", "description": "Returns List of values on this coroutine's stack."},
+                {"name": "isCurrent", "description": "Returns true if the receiver is currently running coroutine."},
+                {"name": "isYielding", "description": "Returns true if the receiver is yielding (not paused or running)."},
+                {"name": "label", "description": "A label slot useful for debugging purposes."},
+                {"name": "main", "description": "[Seems to be obsolete!] Executes runMessage, resumes parent coroutine."},
+                {"name": "parentCoroutine", "description": "Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume its parent."},
+                {"name": "pause", "description": "Removes current coroutine from the yieldingCoros queue and\n\t\tyields to another coro. <tt>System exit</tt> is executed if no coros left.\n\t\t<br/>\n\t\tYou can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message."},
+                {"name": "pauseCurrentAndResumeSelf", "description": "Pauses current coroutine and yields to a receiver."},
+                {"name": "raiseException", "description": "Sets exception in the receiver and signals the eval loop to unwind."},
+                {"name": "rawSignalException", "description": "Bridges an Io-level exception to the eval loop by setting errorRaised.\n    Called by raiseException when there is no parent coroutine to resume.\n    The exception should already be set on this coroutine via setException."},
+                {"name": "recentInChain", "description": "Returns the coroutine in the coro chain which was most recently run, so you can pause and resume coroutine based constructs like try and actors."},
+                {"name": "result", "description": "The result set when the coroutine ends."},
+                {"name": "resume", "description": "Yields to the receiver. Runs the receiver if it is not running yet.\n    Returns self."},
+                {"name": "resumeLater", "description": "Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.\n\t\tWhen current coroutine yields, receiver will resume."},
+                {"name": "resumeParentCoroutine", "description": "Pauses current coroutine and resumes parent."},
+                {"name": "run", "description": "Runs receiver and returns self."},
+                {"name": "runLocals", "description": "The locals object in whose context the coroutine will send its run message."},
+                {"name": "runMessage", "description": "The message to send to the runTarget when the coroutine starts."},
+                {"name": "runTarget", "description": "The object which the coroutine will send a message to when it starts."},
+                {"name": "setException"},
+                {"name": "setHandlerStack"},
+                {"name": "setInException", "signature": "(aBool)", "description": "Set the inException status. Returns self."},
+                {"name": "setLabel", "signature": "(aLabel)", "description": "Sets the comment label for the Coro. Return self."},
+                {"name": "setMessageDebugging", "signature": "(aBoolean)", "description": "Turns on message level debugging for this coro. When on, this\n    coro will send a vmWillSendMessage message to the Debugger object before\n    each message send and pause itself. See the Debugger object documentation\n    for more information."},
+                {"name": "setParentCoroutine", "signature": "(aCoro)", "description": "Sets the parent coroutine. Returns self."},
+                {"name": "setRecentInChain", "signature": "(aCoro)", "description": "Sets the most recently run coroutine of the chain.\n    Sets all the recentInChain in a direct path up to the top of the coro chain\n    starting at this coro. Returns self."},
+                {"name": "setResult"},
+                {"name": "setRunLocals"},
+                {"name": "setRunMessage"},
+                {"name": "setRunTarget", "signature": "(anObject)"},
+                {"name": "setStackSize", "signature": "(aNumber)", "description": "Sets the stack size in bytes to allocate for new Coros. Returns self."},
+                {"name": "showStack", "description": "Writes backTraceString to STDOUT."},
+                {"name": "showYielding", "description": "Prints a list of yielding coroutines to STDOUT."},
+                {"name": "stackSize", "description": "Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required."},
+                {"name": "typeId", "description": "Returns <type>_<uniqueHexId> string."},
+                {"name": "yield", "description": "Yields to another coroutine in the yieldingCoros queue.\n\t\tDoes nothing if yieldingCoros is empty."},
+                {"name": "yieldCurrentAndResumeSelf", "description": "Yields to a receiver."},
+                {"name": "yieldingCoros", "description": "Reference to Scheduler yieldingCoros."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

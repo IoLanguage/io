@@ -1,0 +1,29 @@
+{
+  "title": "EvalFrame",
+  "subtitle": "Heap-allocated frame state machine that replaces C-stack recursion in the\nevaluator. Each frame is a GC-managed IoObject carrying an IoEvalFrameData\npayload: the message being evaluated, its target/locals, an evaluation\nstate (see IoFrameState), evaluated-argument storage with a 4-slot inline\nbuffer, and a discriminated-union of control-flow continuations (if/while/\nfor/foreach/callcc/coroutine/await) live only for the states that use them.\nFrames form a parent chain rooted at the coroutine's bottom frame; the GC\nwalks that chain via the tag's markFunc. This module owns frame lifecycle\n(alloc, clone, reset, free) and state-name &harr; enum conversion; the\nactual step-by-step state transitions live in IoState_iterative.c.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoEvalFrame_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Frees the heap-allocated argValues\nbuffer (only if it isn't pointing at the inline 4-slot buffer) and the\nIoEvalFrameData payload. IoObject fields are not freed here — the GC\nowns them."},
+                {"name": "IoEvalFrame_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. Walks every GC-visible field on the\nframe: parent frame, message, target, locals, cachedTarget, result,\nslotValue, slotContext, call, savedCall, blockLocals, and the already-\nevaluated entries of argValues (0 .. currentArgIndex-1). The discriminated\ncontrolFlow union is only marked for states that actually use it — the\nswitch on fd->state dispatches to the right arm. The parent pointer\ndrives GC reachability for the whole frame chain: marking the bottom\nframe of a coroutine transitively keeps the whole active call stack\nalive."},
+                {"name": "IoEvalFrame_newTag", "signature": "(state)", "description": "Builds the IoTag that carries the frame's clone / mark / free function\npointers. Called once from IoEvalFrame_proto."},
+                {"name": "IoEvalFrame_newWithState", "signature": "(state)", "description": "Convenience: look up the registered proto on the state and clone it.\nPreferred entry point when the iterative evaluator needs a fresh frame."},
+                {"name": "IoEvalFrame_proto", "signature": "(state)", "description": "Creates the EvalFrame proto object: allocates a zeroed IoEvalFrameData\npayload, attaches the tag from IoEvalFrame_newTag, registers the proto\non the VM state, and installs the Io-visible method table (message,\ntarget, locals, state, parent, result, depth, call, blockLocals,\ndescription). All live frames are clones of this proto."},
+                {"name": "IoEvalFrame_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Allocates a fresh IoEvalFrameData\npayload on the new clone — frames do not share data with their proto."},
+                {"name": "IoEvalFrame_reset", "signature": "(self)", "description": "Zeros the IoEvalFrameData payload so the frame can be reused without\nre-allocating the IoObject. Frees the heap argValues buffer first (but\ndoes NOT touch the inline buffer). Leaves the IoObject header, tag,\nand proto chain intact. Used by the frame-pool fast path in\nIoState_iterative_fast.c to recycle frames between activations."},
+                {"name": "IoEvalFrame_stateFromName", "signature": "(name)", "description": "Inverse of IoEvalFrame_stateName &mdash; resolves a canonical state string\nback to its enum value. Needed when rehydrating a serialized continuation\n(see Continuation fromMap). Falls back to FRAME_STATE_START for a NULL or\nunrecognized name, which keeps deserialization total."},
+                {"name": "IoEvalFrame_stateName", "signature": "(state)", "description": "Maps an IoFrameState enum value to its canonical string name\n(e.g. FRAME_STATE_IF_EVAL_BRANCH &rarr; \"if:evalBranch\"). Used by\nthe Io-visible state method and by debug tracing. The string form\ndoubles as a stable serialization key for continuation snapshots."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

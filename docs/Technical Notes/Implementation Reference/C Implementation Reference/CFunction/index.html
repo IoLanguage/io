@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>CFunction – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of the CFunction primitive. An IoCFunctionData holds a C function pointer (IoUserFunction: target/locals/message -> result), an optional..."> result), an optional..."> result), an optional..."> result), an optional...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>CFunction</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of the CFunction primitive. An IoCFunctionData holds
+a C function pointer (IoUserFunction: target/locals/message -> result),
+an optional typeTag gate (only activate if target's tag matches, else
+raise a typed error), a uniqueName symbol for introspection, and
+profiler timing. Like Block, CFunction is self-activating: the tag's
+activateFunc is IoCFunction_activate, so fetching a CFunction from an
+activatable slot calls through immediately. This is how every C-backed
+Io method (List append, Number +, Object if/while/for, etc.) is
+installed — IoObject_addMethodTable_ creates one CFunction per entry
+and stores it in the target proto. CFunctions do not pre-evaluate
+their arguments; the recipient uses IoMessage_locals_valueArgAt_ or
+the pre-eval fast path (IoState_preEvalArgAt_) to fetch them lazily.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocfunctionactivate">IoCFunction_activate</a></li><li><a href="#functions--iocfunctionactivatewithprofiler">IoCFunction_activateWithProfiler</a></li><li><a href="#functions--iocfunctionfree">IoCFunction_free</a></li><li><a href="#functions--iocfunctionmark">IoCFunction_mark</a></li><li><a href="#functions--iocfunctionnewtag">IoCFunction_newTag</a></li><li><a href="#functions--iocfunctionnewwithfunctionpointertagname">IoCFunction_newWithFunctionPointer_tag_name_</a></li><li><a href="#functions--iocfunctionprint">IoCFunction_print</a></li><li><a href="#functions--iocfunctionproto">IoCFunction_proto</a></li><li><a href="#functions--iocfunctionprotofinish">IoCFunction_protoFinish</a></li><li><a href="#functions--iocfunctionrawclone">IoCFunction_rawClone</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocfunctionactivate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_activate</span><span class="classdoc-member-sig">(self, target, locals, m, slotContext)</span></div><div class="classdoc-member-body"><p>Tag dispatch entry point: validates that the target's tag matches the
+CFunction's optional typeTag (raising a VM error on mismatch) then
+invokes the stored C function pointer with (target, locals, message).
+Unlike IoBlock_activate there is no fresh locals object — the C
+function inspects the caller's locals and the message directly, which
+is why CFunctions can be cheap. The commented-out retain-pool pair is
+a historical concern; pools are managed by callers today.</p></div></div><div class="classdoc-member" id="functions--iocfunctionactivatewithprofiler"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_activateWithProfiler</span><span class="classdoc-member-sig">(self, target, locals, m, slotContext)</span></div><div class="classdoc-member-body"><p>Profiler-enabled wrapper around IoCFunction_activate. setProfilerOn(true)
+swaps this in as the tag's activateFunc so every call accumulates
+elapsed clock() time into the CFunction's profilerTime.</p></div></div><div class="classdoc-member" id="functions--iocfunctionfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the IoCFunctionData payload.
+The uniqueName symbol is interned on state and GC-managed.</p></div></div><div class="classdoc-member" id="functions--iocfunctionmark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Only the uniqueName symbol is a GC
+root — the C function pointer and typeTag are not IoObjects.</p></div></div><div class="classdoc-member" id="functions--iocfunctionnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the CFunction tag and wires clone/mark/free plus — crucially —
+activateFunc, which is what makes CFunctions self-executing when
+looked up through a slot.</p></div></div><div class="classdoc-member" id="functions--iocfunctionnewwithfunctionpointertagname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_newWithFunctionPointer_tag_name_</span><span class="classdoc-member-sig">(state, func, typeTag, funcName)</span></div><div class="classdoc-member-body"><p>Primary constructor used by IoObject_addMethodTable_: clones the
+CFunction proto and stamps in the C function pointer, the optional
+type gate (tag), and the uniqueName symbol for introspection. Every
+entry in a C method table produces one of these.</p></div></div><div class="classdoc-member" id="functions--iocfunctionprint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_print</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Debug printer dumping pointer, C function pointer, owning type name,
+and uniqueName. Called from diagnostic paths only; not part of the
+Io-visible print protocol.</p></div></div><div class="classdoc-member" id="functions--iocfunctionproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the CFunction proto with a zeroed IoCFunctionData whose func
+points at IoObject_self (the identity function) as a safe default.
+The proto is not marked activatable — only its clones are, so the
+proto itself can be fetched via getSlot. IoCFunction_protoFinish adds
+the method table later once prerequisite protos exist.</p></div></div><div class="classdoc-member" id="functions--iocfunctionprotofinish"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_protoFinish</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Deferred init: installs the Io-visible method table on the
+CFunction proto after the Symbol/Sequence protos exist (method
+registration needs IOSYMBOL to work). Called late in IoState_init so
+earlier proto construction can use CFunctions without forcing a
+circular init order.</p></div></div><div class="classdoc-member" id="functions--iocfunctionrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCFunction_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Copies the proto's data block and
+flips isActivatable on — this is the point at which a CFunction
+becomes self-executing when placed in a slot.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

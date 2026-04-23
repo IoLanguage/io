@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>Duration – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Thin IoObject wrapper around the plain-C Duration struct (years, days, hours, minutes, seconds). All arithmetic and formatting live in Duration.c; this file...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Duration</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Thin IoObject wrapper around the plain-C Duration struct (years,
+days, hours, minutes, seconds). All arithmetic and formatting live
+in Duration.c; this file only bridges Io message sends to the C API,
+manages lifecycle (tag / clone / free / compare), and registers the
+proto. Durations interoperate with IoDate for +/- arithmetic — see
+IoDate_add / IoDate_subtract, which read the C Duration via
+IoDuration_duration — and with IoNumber through asNumber /
+fromNumber, treating seconds as the canonical scalar form.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iodurationasseconds">IoDuration_asSeconds</a></li><li><a href="#functions--iodurationcompare">IoDuration_compare</a></li><li><a href="#functions--iodurationduration">IoDuration_duration</a></li><li><a href="#functions--iodurationfree">IoDuration_free</a></li><li><a href="#functions--iodurationfromseconds">IoDuration_fromSeconds_</a></li><li><a href="#functions--iodurationnew">IoDuration_new</a></li><li><a href="#functions--iodurationnewtag">IoDuration_newTag</a></li><li><a href="#functions--iodurationnewwithseconds">IoDuration_newWithSeconds_</a></li><li><a href="#functions--iodurationproto">IoDuration_proto</a></li><li><a href="#functions--iodurationrawclone">IoDuration_rawClone</a></li><li><a href="#functions--iomessagelocalsdurationargat">IoMessage_locals_durationArgAt_</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iodurationasseconds"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_asSeconds</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Inverse of IoDuration_fromSeconds_: collapses the multi-field
+Duration into a single double. Used by the Io-visible asNumber
+method and by any C caller that needs a scalar.</p></div></div><div class="classdoc-member" id="functions--iodurationcompare"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_compare</span><span class="classdoc-member-sig">(self, other)</span></div><div class="classdoc-member-body"><p>Tag compareFunc. Delegates to Duration_compare when both sides are
+Durations; otherwise falls back to IoObject_defaultCompare so that
+cross-type comparisons still produce a stable ordering rather than
+an error.</p></div></div><div class="classdoc-member" id="functions--iodurationduration"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_duration</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Accessor exposed to other C code (IoDate in particular) so it can
+reach the underlying Duration struct without duplicating the DATA
+macro. Returns a borrowed pointer; the caller must not free it.</p></div></div><div class="classdoc-member" id="functions--iodurationfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Tag freeFunc. Releases the heap-allocated C Duration struct; the
+IoObject header itself is freed by the collector.</p></div></div><div class="classdoc-member" id="functions--iodurationfromseconds"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_fromSeconds_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>In-place mutator that rewrites every Duration field from a single
+seconds value. Thin wrapper around Duration_fromSeconds_; the split
+exists so IoDuration_newWithSeconds_ and the Io-level fromNumber
+method share one path.</p></div></div><div class="classdoc-member" id="functions--iodurationnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Clones the registered proto. Preferred C-level constructor when a
+blank Duration is needed before any field is set.</p></div></div><div class="classdoc-member" id="functions--iodurationnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Duration tag and wires in clone / free / compare function
+pointers. No mark func is needed since Duration's C payload holds
+no IoObject references — it is a pure numeric struct.</p></div></div><div class="classdoc-member" id="functions--iodurationnewwithseconds"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_newWithSeconds_</span><span class="classdoc-member-sig">(state, s)</span></div><div class="classdoc-member-body"><p>Factory for a Duration initialized from a double seconds value.
+Used by IoDate_subtract when a Date-minus-Date difference is
+returned as a Duration, and anywhere else the VM needs to surface
+an elapsed time to Io code.</p></div></div><div class="classdoc-member" id="functions--iodurationproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Duration proto with its full method table (field accessors
+for years/days/hours/minutes/seconds, asString/asNumber conversion,
+and +=/-= operators). Allocates a zeroed C Duration struct and
+registers the proto under "Duration" on the VM state so IoDuration_new
+can clone it later.</p></div></div><div class="classdoc-member" id="functions--iodurationrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoDuration_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Tag cloneFunc. Allocates a fresh C Duration struct on the clone
+(never shared with the proto) and copies its fields via
+Duration_copy_, so each IoDuration owns its own numeric state.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsdurationargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_durationArgAt_</span><span class="classdoc-member-sig">(self, locals, n)</span></div><div class="classdoc-member-body"><p>Argument coercion helper used from other files (notably IoDate.c)
+to fetch the n-th argument as an IoDuration. Raises a type error
+via IoMessage_locals_numberArgAt_errorForType_ when the value is
+not a Duration, mirroring the pattern used by numberArgAt_ and
+seqArgAt_ elsewhere in the VM.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

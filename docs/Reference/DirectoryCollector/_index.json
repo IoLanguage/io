@@ -1,0 +1,21 @@
+{
+  "title": "DirectoryCollector",
+  "subtitle": "An object to collect multiple UnitTests defined in *Test.io files within a given directory (System launchPath directory by default).",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "with", "signature": "(aPath)", "description": "Returns a new instance with the provided path."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

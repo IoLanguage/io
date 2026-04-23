@@ -1,319 +1,225 @@
 #!/usr/local/bin/io
 
+// Generate Io documentation pages in the colvmn + ContentClassDoc style.
+//
+// Writes:
+//   $docsPath/_index.md               markdown landing (baked to HTML by static-gen.js)
+//   $docsPath/index.html              colvmn shell
+//   $docsPath/<Proto>/_index.json     ContentClassDoc JSON per proto
+//   $docsPath/<Proto>/index.html      colvmn shell
+//
 // Args:
-//   1: output directory
+//   1: output directory (e.g., docs/Reference or docs/Technical Notes/Implementation Reference/C Implementation Reference)
 //   2: source kind — "docs" (Io-visible, default) or "cdocs" (C internals)
+
 docsPath := System args at(1)
 sourceKind := System args at(2) ifNilEval("docs")
 
-// Inline doc extraction (no shelling out — works on WASM).
-// extract writes both docs.txt and cdocs.txt in one pass.
+isCdocs := sourceKind == "cdocs"
+pageTitle := if(isCdocs, "C Implementation Reference", "Reference")
+pageSubtitle := if(isCdocs,
+    "C-internal implementation details extracted from `cdoc` and `cmetadoc` comments.",
+    "Browse every built-in object and method in Io's standard library.")
+sectionName := if(isCdocs, "Functions", "Slots")
+
+// Extract docs.txt / cdocs.txt in-process (works under wasmtime).
 doRelativeFile("DocsExtractor.io")
 DocsExtractor clone setPath("libs/iovm") extract
 
+// ----- parse -----
+
 prototypes := Map clone
-modules := Map clone
+txtFile := File with(Path with("libs/iovm/docs", sourceKind .. ".txt"))
 
-
-File _write := File getSlot("write")
-File writeln := method(call evalArgs foreach(s, self _write(s)); self _write("\n"); self)
-
-readFolder := method(path,
-	file := File with(Path with(path, "/docs/" .. sourceKind .. ".txt"))
-	if(file exists, nil,
-	    "readFolder(#{path}/docs/#{sourceKind}.txt fails\n" interpolate println
- 	    return)
-        file contents split("------\n") foreach(e,
-		isSlot := e beginsWithSeq("doc") or e beginsWithSeq("cdoc")
-		h := e beforeSeq("\n") afterSeq(" ") 
-		if(h,
-			h = h asMutable strip asSymbol
-			protoName := h beforeSeq(" ") ?asMutable ?strip ?asSymbol
-			slotName := h afterSeq(" ") ?asMutable ?strip ?asSymbol
-			description := e afterSeq("\n")
-			p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
-		
-			moduleName := path lastPathComponent
-			if(moduleName == "iovm", moduleName = "Core")
-			p atPut("module", moduleName)
-			m := modules atIfAbsentPut(moduleName, Map clone)
-			modules atPut(moduleName, m)
-			m atPut(protoName, p)
-		
-			if(protoName == nil or slotName == nil, writeln("ERROR: " .. e))
-			if(isSlot, 
-				p at("slots") atPut(slotName, description)
-			,
-				p atPut(slotName, description)
-			)
-		,
-			if(protoName == nil or slotName == nil, writeln("ERROR: " .. e))
-		)
-		
-	)
+if(txtFile exists not,
+    ("docs2html: " .. txtFile path .. " not found; nothing to do.") println
+    System exit(0)
 )
 
-readFolder("libs/iovm")
+txtFile contents split("------\n") foreach(e,
+    if(e strip size > 0,
+        isSlot := e beginsWithSeq("doc") or e beginsWithSeq("cdoc")
+        h := e beforeSeq("\n") afterSeq(" ")
+        if(h,
+            h = h asMutable strip asSymbol
+            protoName := h beforeSeq(" ") ?asMutable ?strip ?asSymbol
+            slotName := h afterSeq(" ") ?asMutable ?strip ?asSymbol
+            description := e afterSeq("\n")
 
-// ------------------------------
-
-/*
-ReferenceDoc := Object clone do(
-	modules :: = List clone
-	print := method(
-		modules foreach(printIndex)
-		modules foreach(print)
-	)
+            if(protoName and slotName,
+                p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
+                if(isSlot,
+                    p at("slots") atPut(slotName, description)
+                ,
+                    p atPut(slotName, description)
+                )
+            )
+        )
+    )
 )
 
-ModuleDoc := Object clone do(
-	refProtos :: = Map clone
-	path ::= nil
-	
-	refProtoNamed := method(name,
-		refProtos atIfAbsentPut(name, ProtoDoc clone setName(name))
-	)
-	
-	read := method(
-		File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
-			isSlot := e beginsWithSeq("doc")
-			h := e beforeSeq("\n") afterSeq(" ") 
-			if(h,
-				h = h asMutable strip asSymbol
-				protoName := h beforeSeq(" ") ?asMutable ?strip ?asSymbol
-				slotName  := h afterSeq(" ") ?asMutable ?strip ?asSymbol
-				description := e afterSeq("\n")
-				
-				if(isSlot,
-					refProtoNamed(protoName) addSlot(slotName, description)
-				,
-					refProtoNamed(protoName) addMetaSlot(slotName, description)
-				)
-		)
-	)
+// ----- filter VM-internal structures -----
+// Drop protos with neither description nor slots (e.g., Tag, Token —
+// C data structures that happen to use metadoc for copyright only).
 
-	print := method(
-		refProtos foreach(printIndex)
-		refProtos foreach(print)
-	)
+prototypes keys foreach(name,
+    p := prototypes at(name)
+    hasDesc := p at("description") != nil and p at("description") size > 0
+    hasSlots := p at("slots") size > 0
+    if(hasDesc not and hasSlots not, prototypes removeAt(name))
 )
 
-ProtoDoc := Object clone do(
-	init := method(self slots := List clone)
-	printIndex := method(
-		nil
-	)
-	print := method(
-		printIndex
-		slots foreach(print)
-	)	
+// ----- categorize for landing -----
+
+defaultCat := if(isCdocs, "Core", "Uncategorized")
+byCategory := Map clone
+prototypes foreach(name, p,
+    cat := p at("category") ifNilEval(defaultCat)
+    cat = cat asMutable strip
+    if(cat size == 0, cat = defaultCat)
+    byCategory atIfAbsentPut(cat, List clone) append(name)
 )
 
-SlotDoc := Object clone do(
-	name ::= nil
-	value ::= nil
-	
-	printIndex := method(
-		nil
-	)
-	print := method(
-		nil
-	)
+catOrder := byCategory keys sort
+if(catOrder contains("Core"),
+    catOrder remove("Core")
+    catOrder prepend("Core")
+)
+if(catOrder contains("Uncategorized"),
+    catOrder remove("Uncategorized")
+    catOrder append("Uncategorized")
 )
 
-*/
+// ----- write _index.md landing -----
 
-protoNames := prototypes keys sort
-moduleNames := modules keys sort 
+Directory with(docsPath) createIfAbsent
 
-moduleNames remove("Core") prepend("Core")
+md := Sequence clone
+md appendSeq("# ", pageTitle, "\n\n")
+md appendSeq(pageSubtitle, "\n\n")
+md appendSeq("## Objects\n\n")
+catOrder foreach(cat,
+    md appendSeq("- ", cat, "\n")
+    byCategory at(cat) sort foreach(proto,
+        name := proto asString
+        md appendSeq("  - [", name, "](", name, "/index.html)\n")
+    )
+)
+md appendSeq("\n")
 
-categories := Map clone
-modules foreach(moduleName, module,
-	firstProto := nil
-	firstProtoName := module keys sort detect(k, module at(k) at("category"))
-	
-	catNameMap := Map clone
-	module values select(at("category")) foreach(m, 
-		count := catNameMap at(m at("category")) 
-		if(count == nil, count = 0)
-		catNameMap atPut(m at("category"), count + 1)
-	)
-	
-	maxCount := 0
-	catName := nil
-	catNameMap foreach(name, count,
-		if(count > maxCount, catName = name; maxCount = count)
-	)
-	
-	module foreach(k, v, if(v at("category") != catName, module removeAt(k)))
-	
-	/*	
-	if(firstProtoName, firstProto := module at(firstProtoName))
-	if(firstProto,
-		catName := firstProto at("category")
-	, 
-		writeln("warning: no cat for ", moduleName, " ", module keys)
-		catName := "Other"
-	)
-	*/
-	
-	if(catName == nil, catName = "Misc")
-	cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
-	cat atPut(moduleName, module)
-/*
-	catName isNil ifFalse(
-	  cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
-	  cat atPut(moduleName, module)
-	)
-*/
+File with(Path with(docsPath, "_index.md")) remove open write(md) close
+
+// ----- compute depth-relative prefixes -----
+
+pathSegments := docsPath split("/") select(size > 0)
+depth := pathSegments size
+shellUp := Sequence clone
+depth repeat(shellUp appendSeq("../"))
+
+protoUp := Sequence clone
+(depth + 1) repeat(protoUp appendSeq("../"))
+
+// ----- write colvmn shell for a given dir -----
+
+writeShell := method(dir, cssUp, title,
+    s := Sequence clone
+    s appendSeq("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n")
+    s appendSeq("<meta charset=\"UTF-8\">\n")
+    s appendSeq("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n")
+    s appendSeq("<link rel=\"stylesheet\" href=\"", cssUp, "colvmn/style.css\">\n")
+    s appendSeq("<title>", title, " &ndash; Io</title>\n")
+    s appendSeq("<link rel=\"alternate\" type=\"text/plain\" title=\"llms.txt\" href=\"/llms.txt\">\n")
+    s appendSeq("</head>\n<body>\n")
+    s appendSeq("<div class=\"page\"></div>\n")
+    s appendSeq("<script src=\"", cssUp, "colvmn/layout/layout.js\" type=\"module\"></script>\n")
+    s appendSeq("</body>\n</html>\n")
+    File with(Path with(dir, "index.html")) remove open write(s) close
 )
 
-Section := Object clone do(
-	items ::= nil
-	name ::= ""
-	path ::= ""
-	
-	sortedItems := method(
-		items keys sort map(k, itemNamed(k))
-	)
-	
-	linksHtml := method(selectedName,
-		s := Sequence clone
-		sortedItems foreach(item,
-			class := if(item name == selectedName, "indexItemSelected", "indexItem")
-			url := Path with(path, item name, "index.html")
-			if(item items size == 1,
-				url := Path with(path, item name, item items keys first, "index.html")
-			)
-			s appendSeq("<div class=", class, "><a href=", url, ">", item name, "</a></div>\n")
-			s
-		)
-	)
-	
-	itemNamed := method(name,
-		Section clone setItems(items at(name)) setName(name)
-	)
+writeShell(docsPath, shellUp, pageTitle)
+
+// ----- write per-proto _index.json + shell -----
+
+// JSON string escaper — handles the minimum needed for doc bodies.
+jsonEscape := method(s,
+    s asMutable \
+        replaceSeq("\\", "\\\\") \
+        replaceSeq("\"", "\\\"") \
+        replaceSeq("\n", "\\n") \
+        replaceSeq("\r", "\\r") \
+        replaceSeq("\t", "\\t")
 )
 
-Categories := Section clone setItems(categories) 
-// JSON DOCS --------------------------------------------------------
-
-jsonFile := File with(Path with(docsPath, "docs.json")) remove open
-jsonFile writeln(Categories items asJson)
-jsonFile close
-
-// TEMPLATES --------------------------------------------------------
-
-indexTemplate := File with("docs/templates/index.html.template") contents
-protoTemplate := File with("docs/templates/proto.html.template") contents
-
-Sequence do(
-	asHtml := method(
-		self asMutable replaceSeq(">", "&gt;") replaceSeq("<", "&lt;")
-	)
+// The extractor stores slotName as "name(sig)" for methods with args,
+// or just "name" otherwise. Split on the first '(' to separate them.
+splitNameSig := method(slotKey,
+    s := slotKey asString
+    if(s containsSeq("("),
+        list(s beforeSeq("("), "(" .. s afterSeq("("))
+    ,
+        list(s, nil)
+    )
 )
 
-columnTd := method(content,
-	"<td valign=\"top\" class=\"column\">\n" .. content .. "</td>\n"
+prototypes foreach(protoName, p,
+    name := protoName asString
+    slots := p at("slots")
+    desc := p at("description") ifNilEval("")
+    if(desc size > 0, desc = desc asMutable strip)
+
+    // Build JSON
+    j := Sequence clone
+    j appendSeq("{\n")
+    j appendSeq("  \"title\": \"", jsonEscape(name), "\",\n")
+    if(desc size > 0,
+        j appendSeq("  \"subtitle\": \"", jsonEscape(desc), "\",\n")
+    )
+    j appendSeq("  \"content\": [\n")
+    j appendSeq("    {\n")
+    j appendSeq("      \"type\": \"ContentClassDoc\",\n")
+    j appendSeq("      \"sections\": [\n")
+    j appendSeq("        {\n")
+    j appendSeq("          \"name\": \"", jsonEscape(sectionName), "\",\n")
+    j appendSeq("          \"categories\": [\n")
+    j appendSeq("            {\n")
+    j appendSeq("              \"members\": [\n")
+
+    slotNames := if(slots, slots keys sort, list())
+    // Re-sort by the bare name (without signature) so "at" and "at(i)"
+    // are alphabetized on the name, not the paren.
+    slotNames = slotNames sortBy(block(a, b,
+        splitNameSig(a) at(0) < splitNameSig(b) at(0)
+    ))
+    slotNames foreach(i, slotName,
+        body := slots at(slotName) ifNilEval("")
+        if(body size > 0, body = body asMutable strip)
+        parts := splitNameSig(slotName)
+        bareName := parts at(0)
+        sig := parts at(1)
+
+        j appendSeq("                {")
+        j appendSeq("\"name\": \"", jsonEscape(bareName), "\"")
+        if(sig, j appendSeq(", \"signature\": \"", jsonEscape(sig), "\""))
+        if(body size > 0,
+            j appendSeq(", \"description\": \"", jsonEscape(body), "\"")
+        )
+        j appendSeq("}")
+        if(i < (slotNames size - 1), j appendSeq(","))
+        j appendSeq("\n")
+    )
+
+    j appendSeq("              ]\n")
+    j appendSeq("            }\n")
+    j appendSeq("          ]\n")
+    j appendSeq("        }\n")
+    j appendSeq("      ]\n")
+    j appendSeq("    }\n")
+    j appendSeq("  ]\n")
+    j appendSeq("}\n")
+
+    Directory with(Path with(docsPath, name)) createIfAbsent
+    File with(Path with(docsPath, name, "_index.json")) remove open write(j) close
+    writeShell(Path with(docsPath, name), protoUp, name)
 )
 
-renderIndex := method(title, cssPath, columns,
-	indexTemplate asMutable interpolateInPlace
-)
-
-descriptionHtml := method(p,
-	s := Sequence clone
-	if(p at("description"),
-		s appendSeq("<tr>\n<td align=right></td>\n<td></td>\n<td>" .. p at("description") .. "</td></tr>\n")
-	)
-	s appendSeq("<tr><td colspan=3>&nbsp;</td></tr>\n")
-	s appendSeq("<tr><td colspan=3>&nbsp;</td></tr>\n")
-	s
-)
-
-slotsHtml := method(protoName, slots,
-	s := Sequence clone
-	if(slots,
-		s appendSeq("<tr><td colspan=3>&nbsp;</td></tr>\n")
-		s appendSeq("<tr>\n<td align=right>\n</td>\n<td></td>\n<td>\n")
-		if(slots size > 0, s appendSeq("<hr align=left color=#ddd height=1>\n"))
-		s appendSeq("<br><br>\n")
-
-		slots keys sort foreach(k,
-			desc := slots at(k)
-			if(desc, desc = desc strip)
-			isPrivate := desc ?beginsWithSeq("Private")
-			isDeprecated := desc ?beginsWithSeq("Deprecated")
-			if(isPrivate, s appendSeq("<font color=#888>\n"))
-			if(isDeprecated, s appendSeq("<font color=#55a>\n"))
-			s appendSeq("<a name=\"" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\"></a><b>\n")
-			s appendSeq(k asHtml .. "\n")
-			s appendSeq("</b>\n<p>\n<div class=slotDescription>\n")
-			if(desc, s appendSeq(desc .. "\n"), s appendSeq("<div class=error>undocumented</div>\n"))
-			if(isPrivate or isDeprecated, s appendSeq("</font>\n"))
-			s appendSeq("</div>\n")
-		)
-	)
-	s appendSeq("</td>\n</tr>\n")
-	s
-)
-
-// CATEGORIES -------------------------------------------------------
-
-columns := "<tr>\n" .. columnTd(Categories linksHtml) .. "</tr>"
-outFile := File with(Path with(docsPath, "index.html")) remove open
-outFile write(renderIndex("Io Reference", "../docs.css", columns))
-outFile close
-
-// CATEGORY -------------------------------------------------------
-
-Categories sortedItems foreach(cat,
-	cat sortedItems foreach(addon,
-		columns := "<tr>\n" .. columnTd(Categories setPath("..") linksHtml(cat name)) .. columnTd(cat linksHtml) .. "</tr>"
-		outFile := Directory with(Path with(docsPath, cat name)) createIfAbsent fileNamed("index.html") remove open
-		outFile write(renderIndex("Io Reference", "../../docs.css", columns))
-		outFile close
-	)
-)
-
-// ADDON -------------------------------------------------------
-
-Categories sortedItems foreach(cat,
-	cat sortedItems foreach(addon,
-		addon sortedItems foreach(proto,
-			columns := "<tr>\n" .. columnTd(Categories setPath("../..") linksHtml(cat name)) .. columnTd(cat setPath("..") linksHtml(addon name)) .. columnTd(addon linksHtml) .. "</tr>"
-			outFile := Directory with(Path with(docsPath, cat name, addon name)) createIfAbsent fileNamed("index.html") remove open
-			outFile write(renderIndex("Io Reference", "../../../docs.css", columns))
-			outFile close
-		)
-	)
-)
-
-// PROTOS -------------------------------------------------------
-
-Categories sortedItems foreach(cat,
-	cat sortedItems foreach(addon,
-		addon items foreach(protoName, p,
-			moduleName = p at("module")
-			outFile := Directory with(Path with(docsPath, cat name, moduleName, protoName)) createIfAbsent fileNamed("index.html") remove open
-
-			breadcrumbs := Sequence clone
-			breadcrumbs appendSeq("<a class='column' href='../../index.html'>")
-			breadcrumbs appendSeq(cat name)
-			breadcrumbs appendSeq("</a>\n&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;\n")
-			breadcrumbs appendSeq("<a class='column' href='../index.html'>")
-			breadcrumbs appendSeq(moduleName)
-			breadcrumbs appendSeq("</a>\n&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;\n<b>")
-			breadcrumbs appendSeq(protoName)
-			breadcrumbs appendSeq("</b>")
-			description := descriptionHtml(p)
-			slots := slotsHtml(protoName, p at("slots"))
-			title := protoName
-			cssPath := "../../../../docs.css"
-
-			outFile write(protoTemplate asMutable interpolateInPlace)
-			outFile close
-		)
-	)
-)
+("Wrote " .. prototypes size .. " " .. pageTitle .. " protos to " .. docsPath) println

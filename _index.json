@@ -22,12 +22,12 @@
           "href": "docs/index.html",
           "subtitle": "Guides, tutorial, language reference, and design notes."
         },
-        {
-          "title": "Source on GitHub",
-          "href": "https://github.com/IoLanguage/io",
-          "subtitle": "Io language VM source repository."
-        },
         "FAQ",
+        {
+          "title": "GitHub Repository",
+          "href": "https://github.com/IoLanguage/io",
+          "subtitle": "Source code, issues, and contributions."
+        },
         "Timeline"
       ]
     },

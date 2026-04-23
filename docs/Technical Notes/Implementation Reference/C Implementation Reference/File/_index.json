@@ -1,0 +1,42 @@
+{
+  "title": "File",
+  "subtitle": "Stat-related methods for File — split out from IoFile.c so the stat(2)\nsurface can be built out (or stubbed) independently of the core stream\nAPI. IoFile_statInit is called from IoFile_proto and bolts these\nmethods onto the File proto. The struct stat buffer is lazily\nallocated and cached in IoFileData->info on first use, then shared by\nevery subsequent protectionMode / userId / size / isDirectory query\nuntil the file is freed. The S_ISLNK and S_ISSOCK macros are stubbed\nto 0 under WASI, where the type bits are unavailable; lstat falls\nback to stat for the same reason.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoFile_assertOpen", "signature": "(self, locals, m)", "description": "Guard used at the top of every read/write/position method: raises a\nFile exception via IoState_error_ if the stream pointer is NULL.\nCallers must check IOSTATE->errorRaised afterward and bail out."},
+                {"name": "IoFile_assertWrite", "signature": "(self, locals, m)", "description": "Companion to assertOpen: raises a File exception unless the current\nmode allows writing (r+, a+, or w). Keeps write/atPut/flush failures\nconsistent regardless of which specific fputc/UArray_writeTo call\nwould have failed at the libc level."},
+                {"name": "IoFile_cloneWithPath_", "signature": "(self, path)", "description": "Clones self and overrides its path. Useful for iterating siblings in\na directory without cloning the proto each time."},
+                {"name": "IoFile_create", "signature": "(self)", "description": "Ensures the file exists by opening it for writing and immediately\nclosing — a best-effort touch that leaves a zero-byte file so a\nsubsequent fopen in read+ mode succeeds. Returns 1 on success."},
+                {"name": "IoFile_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Closes any open stream (via\nIoFile_justClose, which also handles pclose for pipe-flagged files\nand records the exitStatus), frees the stat info block, then frees\nthe IoFileData payload."},
+                {"name": "IoFile_justClose", "signature": "(self)", "description": "Low-level close shared by Io-level close, free, and reopen paths.\nPreserves stdout/stdin by never calling fclose on them. Pipe-flagged\nfiles go through pclose and publish the child process's exit status\ninto the Io-visible \"exitStatus\" slot; other streams use fclose and\nreset flags. Leaves DATA(self)->stream NULL so subsequent assertOpen\ncalls fail fast."},
+                {"name": "IoFile_justExists", "signature": "(self)", "description": "fileExists on the receiver's current path. Used before create/open\nto decide whether to fabricate the file."},
+                {"name": "IoFile_mark", "signature": "(self)", "description": "GC mark callback. Only the path and mode symbols are Io objects on\nIoFileData; the FILE* is a foreign pointer and info is a malloc'd\nstruct stat, neither of which the collector touches."},
+                {"name": "IoFile_new", "signature": "(state)", "description": "Convenience constructor: look up the File proto and clone it."},
+                {"name": "IoFile_newTag", "signature": "(state)", "description": "Builds the File tag with clone / mark / free function pointers.\nStream serialization via writeToStream/readFromStream is left\ncommented out — FILE* handles cannot be resurrected from bytes."},
+                {"name": "IoFile_newWithPath_", "signature": "(state, path)", "description": "Clones the proto and assigns a path in one step. The file is not\nopened; callers open with the desired mode afterward."},
+                {"name": "IoFile_newWithStream_", "signature": "(state, stream)", "description": "Wraps an already-open FILE* in a File clone. Used to expose stdin /\nstdout / stderr to Io code without reopening them."},
+                {"name": "IoFile_proto", "signature": "(state)", "description": "Creates the File proto: allocates zeroed IoFileData with empty path,\ndefault mode \"r+\", no stream, installs the full method table, and\ncalls IoFile_statInit to attach the stat-related methods from\nIoFile_stat.c. All user-visible File objects are clones of this proto."},
+                {"name": "IoFile_rawAsString", "signature": "(self)", "description": "Reads the entire file at DATA(self)->path into a UArray, interns it\nas an IoSymbol and returns it. Shared helper behind Io-visible\n`contents` and several subclasses."},
+                {"name": "IoFile_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Copies the proto's IoFileData\n(so path/mode come along) but resets stream, stat-info pointer, and\nflags — the clone is not yet open even if the proto was. This is\nwhy `File clone open` reliably produces a freshly opened file."},
+                {"name": "IoFile_readFromStream_", "signature": "(self, stream)", "description": "Inverse of writeToStream: restores path and mode from a binary stream.\nLeaves the FILE* null; the caller must open the file explicitly."},
+                {"name": "IoFile_readUArrayOfLength_", "signature": "(self, locals, m)", "description": "Shared helper behind readBufferOfLength and readStringOfLength: reads\nup to the length argument from the current stream into a new UArray.\nReturns NULL (not nil) at EOF so callers can distinguish \"read nothing\"\nfrom \"error\", which IoState_error_ converts to an Io exception."},
+                {"name": "IoFile_statInit", "signature": "(self)", "description": "Installs the stat-related method table on the File proto. Called from\nIoFile_proto after the core methods are registered so the two tables\ncoexist on a single proto without either module needing to know the\nother's contents."},
+                {"name": "IoFile_statPointer", "signature": "(self, locals, m)", "description": "Returns the cached struct stat, calling IoFile_stat first if no buffer\nhas been populated yet. All Io-level stat-field accessors funnel\nthrough this so they share one populated buffer per File."},
+                {"name": "IoFile_writeToStream_", "signature": "(self, stream)", "description": "Persists a File's path and mode through the binary-stream serializer.\nThe live FILE* is not persisted — on read the file must be reopened.\nCurrently only reachable if File is wired as a tag's writeFunc."},
+                {"name": "fileExists", "signature": "(path)", "description": "Internal helper: returns nonzero if stat(path) succeeds. Small wrapper\nso the existence check is expressed uniformly across this module."},
+                {"name": "time_t2timeval", "signature": "(ts)", "description": "Small POSIX helper: widens a time_t-only timestamp into the struct\ntimeval that IoDate_newWithTimeval_ wants. The companion\ntimespec2timeval is only compiled on platforms that expose the higher-\nresolution stat timestamps."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

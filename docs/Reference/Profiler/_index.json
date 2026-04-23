@@ -1,0 +1,22 @@
+{
+  "title": "Profiler",
+  "subtitle": "A sampling profiler for timing message execution.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "reset", "description": "Resets the profilerTime on all Block objects in the system."},
+                {"name": "timedObjects", "description": "Returns a list of objects found in the system that have profile times."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "title": "Exception",
+  "subtitle": "The Exception proto is used for raising exceptions; instances hold exception-related info.\n\n<p><b>Raise</b><p>\n\nAn exception can be raised by calling raise() on an exception proto.\nException raise(\"generic foo exception\")\n\n<p><b>Try and Catch</b><p>\n\nTo catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught.\n\n<pre>\ne := try(<doMessage>)\n</pre>\n\nTo catch a particular exception, the Exception catch() method can be used. Example:\n\n<pre>\ne := try(\n    // ...\n)\n\ne catch(Exception,\n    writeln(e coroutine backtraceString)\n)\n</pre>\n\nThe first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.\n\n<p><b>Pass</b><p>\n\nTo re-raise an exception caught by try(), use the pass method. This is useful to pass the exception up to the next outer exception handler, usually after all catches failed to match the type of the current exception:\n<pre>\ne := try(\n    // ...\n)\n\ne catch(Error,\n    // ...\n) catch(Exception,\n    // ...\n) pass\n</pre>\n\n<p><b>Custom Exceptions</b><p>\n\nCustom exception types can be implemented by simply cloning an existing Exception type:\n<pre>\nMyErrorType := Error clone\n</pre>",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "_Resumption", "description": "A simple object whose invoke(v) returns v."},
+                {"name": "_findHandler", "description": "Walks handler stacks from the current coroutine up through the parentCoroutine chain.\n\t\tReturns the first matching handler block for this exception type, or nil."},
+                {"name": "catch", "signature": "(exceptionProto)", "description": "Catch an exception with the specified exception prototype."},
+                {"name": "caughtMessage", "description": "Returns the message object associated with the exception."},
+                {"name": "error", "description": "Returns the coroutine that the exception occurred in."},
+                {"name": "nestedException", "description": "Returns the nestedException if there is one."},
+                {"name": "originalCall", "description": "Returns the call object associated with the exception."},
+                {"name": "pass", "description": "Pass the exception up the stack."},
+                {"name": "raise", "signature": "(error, optionalNestedException)", "description": "Raise an exception with the specified error message."},
+                {"name": "showStack", "description": "Print the exception and related stack."},
+                {"name": "signal", "signature": "(error, optionalNestedException)", "description": "Raises a resumable exception. If a matching handler is installed via withHandler,\n\t\tthe handler is called with (exception, resume). The handler can resume\n\t\texecution at the signal site by calling resume invoke(value), or simply returning\n\t\ta value (which auto-resumes). If no handler is found, falls back to non-resumable raise."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

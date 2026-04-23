@@ -1,0 +1,21 @@
+{
+  "title": "Profiler",
+  "subtitle": "C implementation of Profiler — walks the full heap via the collector\nto reset or report per-Block timing data. Profiler owns no state of\nits own; the profiler timings live on individual IoBlocks\n(IoBlock_rawProfilerTime / IoBlock_rawResetProfilerTime). This module\njust provides the bulk reset and bulk query entry points. A\ncommented-out CFunction branch is kept as a placeholder for\nextending profiling to native functions.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoProfiler_proto", "signature": "(state)", "description": "Creates the Profiler singleton: an IoObject with a `type` slot and\nthe reset / timedObjects method table. No proto registration — the\nProfiler is reached by name from the lobby, and there is nothing to\nclone. State lives on each profiled Block, not here."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

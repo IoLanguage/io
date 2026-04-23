@@ -1,0 +1,29 @@
+{
+  "title": "Date",
+  "subtitle": "IoObject wrapper around the plain-C Date struct (a timeval plus a\ntimezone). All real calendar math — year/month/day/hour/minute/second\ndecomposition, strftime-style formatting, strptime-style parsing,\nUTC/local/zone conversion — lives in Date.c and PortableStrptime.c;\nthis file just bridges Io message sends to those C routines, manages\nlifecycle (tag, clone, free, compare), and handles arithmetic with\nIoDuration (Date + Duration -> Date, Date - Date -> Duration). A\n\"format\" slot on the proto holds the default strftime pattern\n(\"%Y-%m-%d %H:%M:%S %Z\") that asString falls back to when no explicit\nformat argument is supplied.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoDate_compare", "signature": "(self, date)", "description": "Tag compareFunc. Delegates to Date_compare for Date-vs-Date (which\nultimately compares timevals) and falls back to the default object\ncompare for cross-type comparisons so ordered collections still get\na total order."},
+                {"name": "IoDate_free", "signature": "(self)", "description": "Tag freeFunc. Releases the heap-allocated C Date struct; the\nIoObject header is reclaimed by the collector."},
+                {"name": "IoDate_new", "signature": "(state)", "description": "Clones the registered proto. Returned Date carries whatever time\nvalue the proto currently holds; callers typically follow up with\nDate_now or one of the fromX methods to stamp a specific value."},
+                {"name": "IoDate_newTag", "signature": "(state)", "description": "Builds the Date tag, wiring clone / free / compare function pointers.\nNo markFunc is needed since the C Date payload holds no IoObject\nreferences — it is a pure timeval + timezone record."},
+                {"name": "IoDate_newWithLocalTime_", "signature": "(state, t)", "description": "Factory taking a broken-down struct tm in local time. Date_fromLocalTime_\nreassembles the timeval and timezone so the resulting IoDate matches\nthe calendar fields supplied."},
+                {"name": "IoDate_newWithTime_", "signature": "(state, t)", "description": "Factory taking a POSIX time_t (seconds since the epoch). Routes\nthrough Date_fromTime_ which populates the embedded timeval's\ntv_sec and zeroes tv_usec."},
+                {"name": "IoDate_newWithTimeval_", "signature": "(state, tv)", "description": "Factory taking a struct timeval directly, preserving microsecond\nprecision that IoDate_newWithTime_ drops. Used where sub-second\naccuracy matters (benchmarks, high-resolution timestamps)."},
+                {"name": "IoDate_proto", "signature": "(state)", "description": "Creates the Date proto, installs its method table (accessors, zone\nconversions, serialization, arithmetic operators, printing), attaches\nthe tag from IoDate_newTag, and seeds the \"format\" slot with the\ndefault strftime pattern. Registered on the VM state under protoId\nso IoDate_new / IoDate_newWithTime_ / IoDate_newWithLocalTime_ can\nclone it."},
+                {"name": "IoDate_rawClone", "signature": "(proto)", "description": "Tag cloneFunc. Allocates a fresh C Date struct on the new clone and\ncopies the proto's timeval/timezone via Date_copy_, so every IoDate\nowns its own time state rather than aliasing the proto's."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

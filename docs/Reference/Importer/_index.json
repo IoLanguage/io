@@ -1,0 +1,29 @@
+{
+  "title": "Importer",
+  "subtitle": "A simple search path based auto-importer.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "FileImporter", "description": "An Importer for local source files."},
+                {"name": "addSearchPath", "signature": "(path)", "description": "Add a search path to the auto importer. Relative paths are made absolute before adding."},
+                {"name": "autoImportingForward", "description": "A forward method implementation placed in the Lobby when Importing is turned on."},
+                {"name": "import", "signature": "(originalCallMessage)", "description": "Imports an object or addon for the given Message."},
+                {"name": "importers", "description": "List of Importer objects."},
+                {"name": "paths", "description": "List of paths the proto importer will check while searching for protos to load."},
+                {"name": "removeSearchPath", "signature": "(path)", "description": "Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added."},
+                {"name": "turnOff", "description": "Turns off the Importer. Returns self."},
+                {"name": "turnOn", "description": "Turns on the Importer. Returns self."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

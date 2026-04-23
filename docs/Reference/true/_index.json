@@ -1,0 +1,33 @@
+{
+  "title": "true",
+  "subtitle": "The true singleton — Io's representation of boolean truth.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "and", "description": "Evaluates the argument and returns the result."},
+                {"name": "asJson", "description": "Returns \"true\"."},
+                {"name": "asSimpleString", "description": "Returns true."},
+                {"name": "asString", "description": "Returns true."},
+                {"name": "clone", "description": "Returns true."},
+                {"name": "else", "description": "Does not eval argument and returns true."},
+                {"name": "elseif", "description": "Does not eval argument and returns true."},
+                {"name": "ifFalse", "description": "Does not eval argument and returns true."},
+                {"name": "ifTrue", "description": "Evaluates the argument and returns self."},
+                {"name": "justSerialized", "signature": "(stream)", "description": "Writes the receiver's code into the stream."},
+                {"name": "not", "description": "Does not eval argument and returns false."},
+                {"name": "or", "description": "Does not eval argument and returns true."},
+                {"name": "then", "description": "Evaluates the argument and returns nil."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

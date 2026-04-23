@@ -1,0 +1,20 @@
+{
+  "title": "FileCollector",
+  "subtitle": "An object to collect multiple UnitTests defined in the current file.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

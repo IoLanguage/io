@@ -14,10 +14,81 @@
   <url><loc>/docs/Book/Syntax/</loc></url>
   <url><loc>/docs/Guide/</loc></url>
   <url><loc>/docs/Reference/</loc></url>
+  <url><loc>/docs/Reference/Block/</loc></url>
+  <url><loc>/docs/Reference/CFunction/</loc></url>
+  <url><loc>/docs/Reference/Call/</loc></url>
+  <url><loc>/docs/Reference/Collector/</loc></url>
+  <url><loc>/docs/Reference/Compiler/</loc></url>
+  <url><loc>/docs/Reference/Continuation/</loc></url>
+  <url><loc>/docs/Reference/Coroutine/</loc></url>
+  <url><loc>/docs/Reference/Date/</loc></url>
+  <url><loc>/docs/Reference/Debugger/</loc></url>
+  <url><loc>/docs/Reference/Directory/</loc></url>
+  <url><loc>/docs/Reference/DirectoryCollector/</loc></url>
+  <url><loc>/docs/Reference/Duration/</loc></url>
+  <url><loc>/docs/Reference/Error/</loc></url>
+  <url><loc>/docs/Reference/EvalFrame/</loc></url>
+  <url><loc>/docs/Reference/Exception/</loc></url>
+  <url><loc>/docs/Reference/File/</loc></url>
+  <url><loc>/docs/Reference/FileCollector/</loc></url>
+  <url><loc>/docs/Reference/FileImporter/</loc></url>
+  <url><loc>/docs/Reference/Importer/</loc></url>
+  <url><loc>/docs/Reference/List/</loc></url>
+  <url><loc>/docs/Reference/Map/</loc></url>
+  <url><loc>/docs/Reference/Message/</loc></url>
+  <url><loc>/docs/Reference/MutableSequence/</loc></url>
+  <url><loc>/docs/Reference/Number/</loc></url>
+  <url><loc>/docs/Reference/Object/</loc></url>
+  <url><loc>/docs/Reference/Path/</loc></url>
+  <url><loc>/docs/Reference/Profiler/</loc></url>
+  <url><loc>/docs/Reference/Sandbox/</loc></url>
+  <url><loc>/docs/Reference/Scheduler/</loc></url>
+  <url><loc>/docs/Reference/Sequence/</loc></url>
+  <url><loc>/docs/Reference/State/</loc></url>
+  <url><loc>/docs/Reference/System/</loc></url>
+  <url><loc>/docs/Reference/TestRunner/</loc></url>
+  <url><loc>/docs/Reference/UnitTest/</loc></url>
+  <url><loc>/docs/Reference/WeakLink/</loc></url>
+  <url><loc>/docs/Reference/false/</loc></url>
+  <url><loc>/docs/Reference/nil/</loc></url>
+  <url><loc>/docs/Reference/true/</loc></url>
   <url><loc>/docs/Style%20Guide/</loc></url>
   <url><loc>/docs/Technical%20Notes/</loc></url>
   <url><loc>/docs/Technical%20Notes/Future%20Work/</loc></url>
   <url><loc>/docs/Technical%20Notes/Future%20Work/Exceptions/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/BigInt/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Block/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/CFunction/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Call/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Collector/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Compiler/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Continuation/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Coroutine/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Date/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Debugger/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Directory/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Duration/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Error/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/EvalFrame/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/File/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Lexer/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/List/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Map/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Message/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Number/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Object/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Profiler/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Sandbox/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Sequence/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/State/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/System/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Tag/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/Token/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/C%20Implementation%20Reference/WeakLink/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/How%20to%20Write%20C%20Bindings/</loc></url>
+  <url><loc>/docs/Technical%20Notes/Implementation%20Reference/Implementation%20Overview/</loc></url>
   <url><loc>/docs/Technical%20Notes/Stackless/</loc></url>
   <url><loc>/docs/Technical%20Notes/Stackless/Examples/</loc></url>
   <url><loc>/docs/Technical%20Notes/Stackless/Report/</loc></url>

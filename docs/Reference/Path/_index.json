@@ -1,0 +1,25 @@
+{
+  "title": "Path",
+  "subtitle": "Path manipulation: joining, splitting, absolute/relative conversion, and tilde expansion.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "absolute", "description": "Returns an absolute version of the path."},
+                {"name": "hasDriveLetters", "description": "returns true if the platform requires DOS C: style drive letters."},
+                {"name": "isPathAbsolute", "description": "Returns true if path is absolute, false if it is relative."},
+                {"name": "thisSourceFilePath", "description": "Uses call message label to return an absolute path to the file that contains the sender."},
+                {"name": "with", "signature": "(aSequence)", "description": "Returns a new Path object for the given Sequence."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "title": "System",
+  "subtitle": "Process-level operations: command-line arguments, environment variables, platform info, and exit.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "activeCpus", "description": "Returns the number of active CPUs."},
+                {"name": "args", "description": "Returns the list of command line argument strings the program was run\n   with."},
+                {"name": "distribution", "description": "Returns the Io distribution name as a string."},
+                {"name": "errorNumber", "description": "Returns the C errno string."},
+                {"name": "exit", "signature": "(optionalReturnCodeNumber)", "description": "Shutdown the IoState (io_free all objects) and return\ncontrol to the calling program (if any)."},
+                {"name": "getEnvironmentVariable", "signature": "(nameString)", "description": "Returns a string with the value of the environment\n    variable whose name is specified by nameString."},
+                {"name": "getOptions", "signature": "(args)", "description": "This primitive is used to get command line options similar to Cs getopt().\n\tIt returns a map in containing the left side of the argument, with the\n\tvalue of the right side. (The key will not contain\n\tthe beginning dashes (--).\n\t<p>\n\tExample:\n\t<pre>\n\toptions := System getOptions(args)\n\toptions foreach(k, v,\n\t  if(v type == List type,\n\t\tv foreach(i, j, writeln(\\\"Got unnamed argument with value: \\\" .. j))\n\t\tcontinue\n\t  )\n\t  writeln(\\\"Got option: \\\" .. k .. \\\" with value: \\\" .. v)\n\t)\n\t</pre>"},
+                {"name": "installPrefix", "description": "Returns the root path where io was installed. The default is /usr/local."},
+                {"name": "ioPath", "description": "Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io."},
+                {"name": "iospecVersion", "description": "The version of IoSpec our IoVM is compatible with"},
+                {"name": "iovmName", "description": "The name of our IoVM as used by IoSpec"},
+                {"name": "launchPath", "description": "Returns a pathComponent of the launch file."},
+                {"name": "launchScript", "description": "Returns the path of the io file run on the command line. Returns nil if no file was run."},
+                {"name": "maxRecycledObjects", "description": "Returns the max number of recycled objects used."},
+                {"name": "platform", "description": "Returns a string description of the platform."},
+                {"name": "platformVersion", "description": "Returns the version id of the OS."},
+                {"name": "recycledObjectCount", "description": "Returns the current number of objects being held for recycling."},
+                {"name": "runCommand", "signature": "(cmd, successStatus)", "description": "Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots."},
+                {"name": "setEnvironmentVariable", "signature": "(keyString, valueString)", "description": "Sets the environment variable keyString to the value valueString."},
+                {"name": "setLobby", "signature": "(anObject)", "description": "Sets the root object of the garbage collector."},
+                {"name": "setMaxRecycledObjects", "signature": "(aNumber)", "description": "Sets the max number of recycled objects used."},
+                {"name": "sleep", "signature": "(secondsNumber)", "description": "Performs a *blocking* sleep call for specified number of seconds."},
+                {"name": "symbols", "description": "Returns a List containing all Symbols currently in the system."},
+                {"name": "system", "signature": "(aString)", "description": "Makes a system call and returns a Number for the return value."},
+                {"name": "thisProcessPid", "signature": "()", "description": "Return the process id (pid) for this Io process."},
+                {"name": "userInterruptHandler", "description": "Called when control-c is hit. Override to add custom behavior. Returns self."},
+                {"name": "version", "description": "Returns a version number for Io."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

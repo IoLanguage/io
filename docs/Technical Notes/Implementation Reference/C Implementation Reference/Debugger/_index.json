@@ -1,0 +1,21 @@
+{
+  "title": "Debugger",
+  "subtitle": "C side of the Debugger object is intentionally tiny — it is a plain\nIo object with only a \"type\" slot stamped here; all stepping logic\nlives in Io-level code. The real wire-up happens in IoCoroutine.c:\nwhen a coroutine has debuggingOn, IoObject_performWithDebugger\npopulates slots like message, messageSelf, messageLocals,\nmessageCoroutine on this proto and resumes the coroutine stored in\nthe Io-level `debuggerCoroutine` slot. That makes the debugger a\nregular Io coroutine paused in a receive loop, woken once per message\nsend of the target coroutine.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoDebugger_proto", "signature": "(state)", "description": "Creates the Debugger proto: an empty IoObject with a `type` slot set\nto \"Debugger\". The method table is empty because all debugger methods\nare defined in Io (libs/iovm/io/Debugger.io). IoState stashes a\npointer to this object in state->debugger so the coroutine trampoline\nin IoCoroutine.c can find it without a slot lookup."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

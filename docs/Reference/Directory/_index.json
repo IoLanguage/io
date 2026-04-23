@@ -1,0 +1,54 @@
+{
+  "title": "Directory",
+  "subtitle": "A handle to a directory on disk. Lists contents, creates subdirectories, and walks file trees.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "accessibleAncestors", "description": "Returns a list of accessible ancestor directories."},
+                {"name": "accessibleParents", "description": "Deprecated. Replaced by accessibleAncestors."},
+                {"name": "ancestorDirectories", "description": "Returns a list of ancestor directories."},
+                {"name": "at", "signature": "(aString)", "description": "Returns a File or Directory object matching the name specified\n    by aString or Nil if no such file or directory exists."},
+                {"name": "create", "description": "Create the directory if it doesn't exist.\n    Returns self on success (or if the directory already exists), nil on\n    failure."},
+                {"name": "createFileNamed", "signature": "(name)", "description": "Deprecated. Returns a new file object in the directory with the specified name."},
+                {"name": "createIfAbsent", "description": "Creates the directory (and any missing ancestor directories) if they don't exist. Returns self."},
+                {"name": "createSubdirectory", "signature": "(name)", "description": "Create a subdirectory with the specified name."},
+                {"name": "currentWorkingDirectory", "description": "Returns the current working directory path."},
+                {"name": "directories", "description": "Returns a list of subdirectories in the receiver."},
+                {"name": "directoryNamed", "signature": "(aName)", "description": "Returns a Directory object for the specified file name whether or not it exists."},
+                {"name": "exists", "signature": "(optionalPath)", "description": "Returns true if the Directory path exists, and false otherwise.\n    If optionalPath string is provided, it tests the existence of that path\n    instead."},
+                {"name": "fileNamed", "signature": "(aName)", "description": "Returns a File object for the specified file name whether it exists or not."},
+                {"name": "fileNames", "description": "Returns a list of strings for the names of the files (no subdirectories) in the directory."},
+                {"name": "files", "description": "Returns a list of File objects for the files in the Directory (no directories)."},
+                {"name": "filesWithExtension", "signature": "(aString)", "description": "Returns a list of File objects for the files in the Directory (no directories)\n    with the specified file extension."},
+                {"name": "folderNamed", "signature": "(aName)", "description": "Deprecated. Replaced by directoryNamed()."},
+                {"name": "folderNamedCreateIfAbsent", "signature": "(name)", "description": "Deprecated. Returns a new Directory object in the directory with the specified name."},
+                {"name": "folders", "description": "Deprecated. Replaced by directories()."},
+                {"name": "isAccessible", "description": "Returns true if the directory can be accessed, false otherwise."},
+                {"name": "items", "description": "Returns a list object containing File and Directory objects\n    for the files and directories of the receiver's path."},
+                {"name": "localItems", "description": "All subitems excluding '.' and '..'."},
+                {"name": "moveTo", "signature": "(aPath)", "description": "Moves the directory to the specified path."},
+                {"name": "name", "description": "Returns the receiver's last path component."},
+                {"name": "parentDirectory", "description": "Returns the parent directory object or nil if there is no parent directory."},
+                {"name": "parents", "description": "Deprecated. Replaced by ancestorDirectories."},
+                {"name": "path", "description": "Returns the directory path. The default path is '.'."},
+                {"name": "recursiveFilesOfTypes", "signature": "(suffixes)", "description": "Returns a list containing all files in the directory or any subdirectory that\n    has any of the specified suffixes."},
+                {"name": "remove", "description": "Removes the directory."},
+                {"name": "setCurrentWorkingDirectory", "signature": "(pathString)", "description": "Sets the current working directory path.\n    Returns true on success or false on error."},
+                {"name": "setPath", "signature": "(aString)", "description": "Sets the directory path. Returns self."},
+                {"name": "size", "description": "Returns a Number containing the number of file and directory\n    objects at the receiver's path."},
+                {"name": "walk", "description": "Recursively walks the current directory, and executes a given callback on\n    each item (either File or Directory) found, excluding \".\" and \"..\".\n<pre>\nIo> Directory walk(println)\nA0_List.io\nA1_OperatorTable.io\n...\nIo> Directory walk(f, if(f name startsWithSeq(\"Directory\"), f println))\nDirectory.io\n</pre>"},
+                {"name": "with", "signature": "(aPath)", "description": "Returns a new instance with the provided path."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

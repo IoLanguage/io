@@ -1,0 +1,23 @@
+{
+  "title": "FileImporter",
+  "subtitle": "An Importer for local source files.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "importPath", "signature": "(path)", "description": "Performs Lobby doFile(path). Can override to deal with other formats."},
+                {"name": "ioFileSuffixes", "description": "A list of valid io source file suffixes."},
+                {"name": "tryToImportProtoFromFolder", "signature": "(protoName, path)", "description": "Looks for the protoName with the valid ioFileSuffixes and calls importPath if found."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

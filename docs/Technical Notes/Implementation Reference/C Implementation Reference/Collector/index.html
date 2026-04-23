@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>Collector – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Thin Io-facing wrapper around the underlying C Collector (see basekit/source/Collector.c). There is no dedicated IoCollector struct — the proto is just an...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Collector</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Thin Io-facing wrapper around the underlying C Collector (see
+basekit/source/Collector.c). There is no dedicated IoCollector struct —
+the proto is just an IoObject carrying a method table; every method
+forwards to Collector_* on IOSTATE->collector. Because of that, the
+file has no tag/newTag/rawClone/free/mark functions: lifecycle of the
+collector itself is owned by IoState. The Io-level methods exposed
+here (collect, setMarksPerAlloc, allObjects, dirtyObjects, etc.) let
+scripts tune and inspect the incremental tri-color mark-sweep at
+runtime. COLLECTOR_FOREACH iterates every live marker and is used by
+the introspection methods.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocollectorcheck">IoCollector_check</a></li><li><a href="#functions--iocollectorcheckmemory">IoCollector_checkMemory</a></li><li><a href="#functions--iocollectorcheckobjectpointers">IoCollector_checkObjectPointers</a></li><li><a href="#functions--iocollectorproto">IoCollector_proto</a></li><li><a href="#functions--iocollectorsetsafemodeon">IoCollector_setSafeModeOn</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocollectorcheck"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_check</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Runs the collector's internal self-check (mark-color invariants, free
+list consistency). Available for test suites that want a hard abort
+on corruption rather than waiting for a sweep to stumble into it.</p></div></div><div class="classdoc-member" id="functions--iocollectorcheckmemory"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_checkMemory</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Debug aid: runs Collector_check and then walks every live object
+invoking IoObject_rawCheckMemory on it, which touches the IoObjectData
+struct to trip an access violation if any object's memory is corrupt.
+Intentionally has no /doc comment — this is an unadvertised debugging
+entry point.</p></div></div><div class="classdoc-member" id="functions--iocollectorcheckobjectpointers"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_checkObjectPointers</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Debug aid that validates every object pointer tracked by the collector.
+Used alongside checkMemory when hunting double-frees or stale pointer
+regressions in primitive free functions.</p></div></div><div class="classdoc-member" id="functions--iocollectorproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Collector singleton: a plain IoObject with a "type" slot of
+"Collector" and a method table that forwards to the underlying C
+Collector. Called once during IoState init. Unlike other protos, there
+is no tag of its own — the object behaves as an ordinary Object and
+the collector itself is owned by state->collector.</p></div></div><div class="classdoc-member" id="functions--iocollectorsetsafemodeon"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_setSafeModeOn</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Toggles the collector's "safe mode" — a conservative mode used during
+bootstrap / shutdown when object graphs may be in a transient state.
+Undocumented at the Io level on purpose; scripts should not normally
+touch it.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

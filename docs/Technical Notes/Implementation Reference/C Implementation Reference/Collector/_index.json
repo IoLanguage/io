@@ -1,0 +1,25 @@
+{
+  "title": "Collector",
+  "subtitle": "Thin Io-facing wrapper around the underlying C Collector (see\nbasekit/source/Collector.c). There is no dedicated IoCollector struct —\nthe proto is just an IoObject carrying a method table; every method\nforwards to Collector_* on IOSTATE->collector. Because of that, the\nfile has no tag/newTag/rawClone/free/mark functions: lifecycle of the\ncollector itself is owned by IoState. The Io-level methods exposed\nhere (collect, setMarksPerAlloc, allObjects, dirtyObjects, etc.) let\nscripts tune and inspect the incremental tri-color mark-sweep at\nruntime. COLLECTOR_FOREACH iterates every live marker and is used by\nthe introspection methods.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoCollector_check", "signature": "(self, locals, m)", "description": "Runs the collector's internal self-check (mark-color invariants, free\nlist consistency). Available for test suites that want a hard abort\non corruption rather than waiting for a sweep to stumble into it."},
+                {"name": "IoCollector_checkMemory", "signature": "(self, locals, m)", "description": "Debug aid: runs Collector_check and then walks every live object\ninvoking IoObject_rawCheckMemory on it, which touches the IoObjectData\nstruct to trip an access violation if any object's memory is corrupt.\nIntentionally has no /doc comment — this is an unadvertised debugging\nentry point."},
+                {"name": "IoCollector_checkObjectPointers", "signature": "(self, locals, m)", "description": "Debug aid that validates every object pointer tracked by the collector.\nUsed alongside checkMemory when hunting double-frees or stale pointer\nregressions in primitive free functions."},
+                {"name": "IoCollector_proto", "signature": "(state)", "description": "Builds the Collector singleton: a plain IoObject with a \"type\" slot of\n\"Collector\" and a method table that forwards to the underlying C\nCollector. Called once during IoState init. Unlike other protos, there\nis no tag of its own — the object behaves as an ordinary Object and\nthe collector itself is owned by state->collector."},
+                {"name": "IoCollector_setSafeModeOn", "signature": "(self, locals, m)", "description": "Toggles the collector's \"safe mode\" — a conservative mode used during\nbootstrap / shutdown when object graphs may be in a transient state.\nUndocumented at the Io level on purpose; scripts should not normally\ntouch it."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

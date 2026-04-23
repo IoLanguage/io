@@ -1,0 +1,31 @@
+{
+  "title": "Number",
+  "subtitle": "C implementation of Io's Number proto. A Number is an IoObject whose\ninline data union stores a double — no separate heap payload, no\ndataPointer. The CNUMBER / DATA macros just reinterpret the inline\nslot, and IoNumber_free is a no-op because there is nothing to release.\nMost arithmetic methods are thin shims that read the double out of\nself (and any operand), compute, and return a freshly minted Number\nvia IONUMBER. Number is registered as a primitive proto on the state\nso IONUMBER can clone without going through the message machinery.\nBitwise and character-class methods cast the double to long / int on\nthe fly; the limits methods expose the host's <limits.h> / <float.h>\nconstants.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoNumber_Double_intoCString_", "signature": "(n, s, maxSize)", "description": "Formats a double into a fixed buffer. Integer values in long long range\nprint as integers (no trailing \".0\"); very large or very small magnitudes\nuse %e; everything else is printed with 16-digit precision and then has\nits trailing zeros — and trailing decimal point — trimmed in place.\nUsed by IoNumber_print and IoNumber_asAllocedCString."},
+                {"name": "IoNumber_asAllocedCString", "signature": "(self)", "description": "Returns a heap-allocated zero-padded string representation of the\nreceiver (caller owns it and must io_free). Sized at 1024 bytes to\ncover the worst case of a small whole field width combined with a\nfully expanded %.16f. Used by printNumber and justAsString."},
+                {"name": "IoNumber_asStackUArray", "signature": "(self)", "description": "Returns a stack-allocated UArray that aliases the receiver's inline\ndouble — no copy, no heap. Used by code paths that want to treat a\nNumber as a 1-element numeric vector (comparisons, coercion into\nSequence ops). Caller must not mutate the view's data field."},
+                {"name": "IoNumber_compare", "signature": "(self, v)", "description": "Registered as the tag's compareFunc. Compares on numeric value when\nv is another Number, otherwise delegates to IoObject_defaultCompare\n(pointer-order fallback) so heterogeneous comparisons stay total for\nsorting. NaN comparisons inherit IEEE semantics via ==/>."},
+                {"name": "IoNumber_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Body is empty: the double lives in\nthe inline data slot, so there is nothing to release. The function\nexists only to override IoObject's default freer, which would try to\nio_free a dataPointer that was never allocated."},
+                {"name": "IoNumber_newTag", "signature": "(state)", "description": "Builds the Number tag with clone/free/compare hooks. No stream read/write\nhooks are installed — the commented block below shows the legacy\nBStream-based serialization that was removed. The assert enforces that\na double fits into the two-pointer inline data slot that all IoObjects\nreserve, which is what lets Number skip an allocated payload entirely."},
+                {"name": "IoNumber_newWithDouble_", "signature": "(state, n)", "description": "Primary factory for Numbers. Normalizes every NaN to the canonical NAN\nbit pattern (x86 emits positive and negative NaNs from different paths;\ncollapsing them keeps equality and hashing well-defined). The comment\nhints at a potential optimization: because Numbers hold no references,\nthe full IOCLONE dance could in principle be shortened."},
+                {"name": "IoNumber_numberForDouble_canUse_", "signature": "(self, n, other)", "description": "Returns one of the two supplied Numbers if its value already equals n,\notherwise allocates a fresh Number. Arithmetic helpers call this to\navoid minting a new IoObject for the common case where the result\ncoincides with an operand (e.g. x + 0)."},
+                {"name": "IoNumber_proto", "signature": "(state)", "description": "Creates the Number proto: allocates a bare IoObject, sets its tag, seeds\nthe inline double to zero, registers the proto on the state, and installs\nthe (large) method table of arithmetic, bitwise, character-class, and\nlimit methods. Every Number returned by IONUMBER is a clone of this proto."},
+                {"name": "IoNumber_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Uses the primitive clone path (no\nslot hashtable copy) and memcopies the inline double from the proto.\nNumbers have no heap payload, so this is cheap."},
+                {"name": "countBytes", "signature": "(ld)", "description": "Returns the minimum number of bytes needed to hold ld when shifted\nright 8 bits at a time. Used by asCharacter to pick a UCS encoding\n(1, 2, or 4 bytes) for the resulting single-character Sequence."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

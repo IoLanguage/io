@@ -1,0 +1,26 @@
+{
+  "title": "Error",
+  "subtitle": "Minimal C scaffolding for the Error proto. The object carries no C\npayload of its own — error information lives entirely in Io-level\nslots such as \"message\" — so this file only supplies the tag, proto\nregistration, and a pair of convenience constructors used by C code\nthat wants to hand an Error up through the VM. The richer exception\nflow (raise, catch, pass) is implemented in Io on top of Exception;\nIoError is the lightweight structural representative returned by\nprimitives that report failure without raising.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoError_new", "signature": "(state)", "description": "Convenience constructor: clone the registered proto. Callers who\nwant a message should use IoError_newWithMessageFormat_ or\nIoError_newWithCStringMessage_, both of which populate the \"message\"\nslot that Io-level code inspects."},
+                {"name": "IoError_newTag", "signature": "(state)", "description": "Builds the Error tag. Only a cloneFunc is installed — Error has no\nowned C memory, so no free/mark/compare hooks are needed; the GC\ntreats it like any plain IoObject."},
+                {"name": "IoError_newWithCStringMessage_", "signature": "(state, cString)", "description": "Simpler variant: wraps a plain C string as an IoSeq and stores it on\n\"message\". Differs from IoError_newWithMessageFormat_ in that the\nmessage becomes a mutable Sequence rather than an interned Symbol,\nwhich matters when callers append context before propagating."},
+                {"name": "IoError_newWithMessageFormat_", "signature": "(state, format, ...)", "description": "printf-style Error constructor. Formats the message via\nUArray_newWithVargs_, interns it as a Symbol, and stores it on the\nnew Error's \"message\" slot. Used by primitives that want to return\na descriptive Error without going through IoState_error_ / raise."},
+                {"name": "IoError_proto", "signature": "(state)", "description": "Creates and registers the Error proto. The method table is empty;\nall user-visible behavior is attached from Io-level code in the\nstandard library, so this just establishes the type identity so\nIoObject_tag comparisons and ISERROR-style predicates work."},
+                {"name": "IoError_rawClone", "signature": "(proto)", "description": "Tag cloneFunc. Delegates entirely to IoObject_rawClonePrimitive —\nthere is no Error-specific C data to duplicate; slot inheritance\nalready carries the \"message\" field and anything else the caller set."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

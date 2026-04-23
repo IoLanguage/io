@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>Compiler – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Thin Io-facing facade over the C lexer (IoLexer) and the C recursive- descent parser (IoMessage_parser). Exposes three Io-visible entry points —...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Compiler</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Thin Io-facing facade over the C lexer (IoLexer) and the C recursive-
+descent parser (IoMessage_parser). Exposes three Io-visible entry
+points — tokensForString, messageForString, messageForString2 — that
+run a source string through IoLexer_lex, surface any errorToken as an
+Io "compile error" Exception, and either hand back a list of token
+description objects or the root IoMessage of the parsed chain. The
+Compiler proto itself is just a slot-holder; there is no compiled
+bytecode representation in Io, so "compiling" means producing a
+message tree.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocompilerproto">IoCompiler_proto</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocompilerproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCompiler_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Compiler proto (a plain IoObject, not a tagged primitive)
+and installs the Io-visible method table. Called once during IoState
+init. A type slot is stamped so Compiler objects identify themselves
+the way the rest of the VM expects.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

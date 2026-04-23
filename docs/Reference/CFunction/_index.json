@@ -1,0 +1,30 @@
+{
+  "title": "CFunction",
+  "subtitle": "A wrapper around a C function exposed to Io as an activatable slot.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "==", "signature": "(anObject)", "description": "Returns self if the argument is a CFunction with the same internal C\n    function pointer."},
+                {"name": "asSimpleString", "description": "Returns the CFunction name."},
+                {"name": "asString", "description": "Same as asSimpleString."},
+                {"name": "id", "description": "Returns a number containing a unique id for the receiver's internal C\n    function."},
+                {"name": "name", "description": "Returns the CFunction name in the form CFunction_Pointer."},
+                {"name": "performOn", "signature": "(target, blockLocals, optionalMessage,", "description": "optionalContext) Activates the CFunctions with the supplied settings."},
+                {"name": "profilerTime", "description": "Returns clock() time spent in compiler in seconds."},
+                {"name": "setProfilerOn", "signature": "(aBool)", "description": "If aBool is true, the global block profiler is enabled, if false it is\n    disabled. Returns self."},
+                {"name": "typeName", "description": "Returns the owning type of the CFunction or nil if the CFunction can be\n    called on any object."},
+                {"name": "uniqueName", "description": "Returns the name given to the CFunction."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": "Error",
+  "subtitle": "Error-handling helpers for returning error values from methods instead of raising exceptions.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "ifError", "signature": "(code)", "description": "Evaluates code in the context of sender. Returns self.\n  <br/>\n  Another form is <tt>Error ifError(error, code)</tt>. \n  Note: <tt>error</tt> slot is set in the context of sender, Locals object is not created!"},
+                {"name": "isError", "description": "Returns true."},
+                {"name": "raiseIfError", "description": "Raises exception."},
+                {"name": "returnIfError", "description": "Returns self from the context of sender."},
+                {"name": "with", "signature": "(message)", "description": "Returns new error with message slot set."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

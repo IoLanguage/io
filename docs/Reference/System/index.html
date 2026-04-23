@@ -1,313 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>System – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>System – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Process-level operations: command-line arguments, environment variables, platform info, and exit.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>System</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>Contains methods related to the IoVM.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">activeCpus</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the number of active CPUs.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">args</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the list of command line argument strings the program was run
-with.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">distribution</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the Io distribution name as a string.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">errorNumber</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the C errno string.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">exit(optionalReturnCodeNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Shutdown the IoState (io_free all objects) and return
-control to the calling program (if any).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">getEnvironmentVariable(nameString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a string with the value of the environment
-variable whose name is specified by nameString.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">getOptions(args)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>This primitive is used to get command line options similar to Cs getopt().
-It returns a map in containing the left side of the argument, with the
-value of the right side. (The key will not contain
-the beginning dashes (--).
-<p>
-Example:
-<pre>
-options := System getOptions(args)
-options foreach(k, v,
-if(v type == List type,
-v foreach(i, j, writeln(\"Got unnamed argument with value: \" .. j))
-continue
-)
-writeln(\"Got option: \" .. k .. \" with value: \" .. v)
-)
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">installPrefix</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the root path where io was installed. The default is /usr/local.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ioPath</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">iospecVersion</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>The version of IoSpec our IoVM is compatible with</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">iovmName</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>The name of our IoVM as used by IoSpec</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">launchPath</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a pathComponent of the launch file.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">launchScript</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the path of the io file run on the command line. Returns nil if no file was run.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">maxRecycledObjects</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the max number of recycled objects used.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">platform</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a string description of the platform.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">platformVersion</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the version id of the OS.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">recycledObjectCount</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the current number of objects being held for recycling.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">runCommand(cmd,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>successStatus) Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setEnvironmentVariable(keyString, valueString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the environment variable keyString to the value valueString.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setLobby(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the root object of the garbage collector.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setMaxRecycledObjects(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the max number of recycled objects used.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sleep(secondsNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Performs a *blocking* sleep call for specified number of seconds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">symbols</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a List containing all Symbols currently in the system.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">system(aString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Makes a system call and returns a Number for the return value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">thisProcessPid()</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return the process id (pid) for this Io process.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">userInterruptHandler</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Called when control-c is hit. Override to add custom behavior. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">version</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a version number for Io.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>System</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Process-level operations: command-line arguments, environment variables, platform info, and exit.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--activecpus">activeCpus</a></li><li><a href="#slots--args">args</a></li><li><a href="#slots--distribution">distribution</a></li><li><a href="#slots--errornumber">errorNumber</a></li><li><a href="#slots--exit">exit</a></li><li><a href="#slots--getenvironmentvariable">getEnvironmentVariable</a></li><li><a href="#slots--getoptions">getOptions</a></li><li><a href="#slots--installprefix">installPrefix</a></li><li><a href="#slots--iopath">ioPath</a></li><li><a href="#slots--iospecversion">iospecVersion</a></li><li><a href="#slots--iovmname">iovmName</a></li><li><a href="#slots--launchpath">launchPath</a></li><li><a href="#slots--launchscript">launchScript</a></li><li><a href="#slots--maxrecycledobjects">maxRecycledObjects</a></li><li><a href="#slots--platform">platform</a></li><li><a href="#slots--platformversion">platformVersion</a></li><li><a href="#slots--recycledobjectcount">recycledObjectCount</a></li><li><a href="#slots--runcommand">runCommand</a></li><li><a href="#slots--setenvironmentvariable">setEnvironmentVariable</a></li><li><a href="#slots--setlobby">setLobby</a></li><li><a href="#slots--setmaxrecycledobjects">setMaxRecycledObjects</a></li><li><a href="#slots--sleep">sleep</a></li><li><a href="#slots--symbols">symbols</a></li><li><a href="#slots--system">system</a></li><li><a href="#slots--thisprocesspid">thisProcessPid</a></li><li><a href="#slots--userinterrupthandler">userInterruptHandler</a></li><li><a href="#slots--version">version</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--activecpus"><div class="classdoc-member-head"><span class="classdoc-member-name">activeCpus</span></div><div class="classdoc-member-body"><p>Returns the number of active CPUs.</p></div></div><div class="classdoc-member" id="slots--args"><div class="classdoc-member-head"><span class="classdoc-member-name">args</span></div><div class="classdoc-member-body"><p>Returns the list of command line argument strings the program was run
+   with.</p></div></div><div class="classdoc-member" id="slots--distribution"><div class="classdoc-member-head"><span class="classdoc-member-name">distribution</span></div><div class="classdoc-member-body"><p>Returns the Io distribution name as a string.</p></div></div><div class="classdoc-member" id="slots--errornumber"><div class="classdoc-member-head"><span class="classdoc-member-name">errorNumber</span></div><div class="classdoc-member-body"><p>Returns the C errno string.</p></div></div><div class="classdoc-member" id="slots--exit"><div class="classdoc-member-head"><span class="classdoc-member-name">exit</span><span class="classdoc-member-sig">(optionalReturnCodeNumber)</span></div><div class="classdoc-member-body"><p>Shutdown the IoState (io_free all objects) and return
+control to the calling program (if any).</p></div></div><div class="classdoc-member" id="slots--getenvironmentvariable"><div class="classdoc-member-head"><span class="classdoc-member-name">getEnvironmentVariable</span><span class="classdoc-member-sig">(nameString)</span></div><div class="classdoc-member-body"><p>Returns a string with the value of the environment
+    variable whose name is specified by nameString.</p></div></div><div class="classdoc-member" id="slots--getoptions"><div class="classdoc-member-head"><span class="classdoc-member-name">getOptions</span><span class="classdoc-member-sig">(args)</span></div><div class="classdoc-member-body"><p>This primitive is used to get command line options similar to Cs getopt().
+	It returns a map in containing the left side of the argument, with the
+	value of the right side. (The key will not contain
+	the beginning dashes (--).
+	<p>
+	Example:
+	<pre>
+	options := System getOptions(args)
+	options foreach(k, v,
+	  if(v type == List type,
+		v foreach(i, j, writeln(\"Got unnamed argument with value: \" .. j))
+		continue
+	  )
+	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
+	)
+	</pre></p></div></div><div class="classdoc-member" id="slots--installprefix"><div class="classdoc-member-head"><span class="classdoc-member-name">installPrefix</span></div><div class="classdoc-member-body"><p>Returns the root path where io was installed. The default is /usr/local.</p></div></div><div class="classdoc-member" id="slots--iopath"><div class="classdoc-member-head"><span class="classdoc-member-name">ioPath</span></div><div class="classdoc-member-body"><p>Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.</p></div></div><div class="classdoc-member" id="slots--iospecversion"><div class="classdoc-member-head"><span class="classdoc-member-name">iospecVersion</span></div><div class="classdoc-member-body"><p>The version of IoSpec our IoVM is compatible with</p></div></div><div class="classdoc-member" id="slots--iovmname"><div class="classdoc-member-head"><span class="classdoc-member-name">iovmName</span></div><div class="classdoc-member-body"><p>The name of our IoVM as used by IoSpec</p></div></div><div class="classdoc-member" id="slots--launchpath"><div class="classdoc-member-head"><span class="classdoc-member-name">launchPath</span></div><div class="classdoc-member-body"><p>Returns a pathComponent of the launch file.</p></div></div><div class="classdoc-member" id="slots--launchscript"><div class="classdoc-member-head"><span class="classdoc-member-name">launchScript</span></div><div class="classdoc-member-body"><p>Returns the path of the io file run on the command line. Returns nil if no file was run.</p></div></div><div class="classdoc-member" id="slots--maxrecycledobjects"><div class="classdoc-member-head"><span class="classdoc-member-name">maxRecycledObjects</span></div><div class="classdoc-member-body"><p>Returns the max number of recycled objects used.</p></div></div><div class="classdoc-member" id="slots--platform"><div class="classdoc-member-head"><span class="classdoc-member-name">platform</span></div><div class="classdoc-member-body"><p>Returns a string description of the platform.</p></div></div><div class="classdoc-member" id="slots--platformversion"><div class="classdoc-member-head"><span class="classdoc-member-name">platformVersion</span></div><div class="classdoc-member-body"><p>Returns the version id of the OS.</p></div></div><div class="classdoc-member" id="slots--recycledobjectcount"><div class="classdoc-member-head"><span class="classdoc-member-name">recycledObjectCount</span></div><div class="classdoc-member-body"><p>Returns the current number of objects being held for recycling.</p></div></div><div class="classdoc-member" id="slots--runcommand"><div class="classdoc-member-head"><span class="classdoc-member-name">runCommand</span><span class="classdoc-member-sig">(cmd, successStatus)</span></div><div class="classdoc-member-body"><p>Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.</p></div></div><div class="classdoc-member" id="slots--setenvironmentvariable"><div class="classdoc-member-head"><span class="classdoc-member-name">setEnvironmentVariable</span><span class="classdoc-member-sig">(keyString, valueString)</span></div><div class="classdoc-member-body"><p>Sets the environment variable keyString to the value valueString.</p></div></div><div class="classdoc-member" id="slots--setlobby"><div class="classdoc-member-head"><span class="classdoc-member-name">setLobby</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Sets the root object of the garbage collector.</p></div></div><div class="classdoc-member" id="slots--setmaxrecycledobjects"><div class="classdoc-member-head"><span class="classdoc-member-name">setMaxRecycledObjects</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Sets the max number of recycled objects used.</p></div></div><div class="classdoc-member" id="slots--sleep"><div class="classdoc-member-head"><span class="classdoc-member-name">sleep</span><span class="classdoc-member-sig">(secondsNumber)</span></div><div class="classdoc-member-body"><p>Performs a *blocking* sleep call for specified number of seconds.</p></div></div><div class="classdoc-member" id="slots--symbols"><div class="classdoc-member-head"><span class="classdoc-member-name">symbols</span></div><div class="classdoc-member-body"><p>Returns a List containing all Symbols currently in the system.</p></div></div><div class="classdoc-member" id="slots--system"><div class="classdoc-member-head"><span class="classdoc-member-name">system</span><span class="classdoc-member-sig">(aString)</span></div><div class="classdoc-member-body"><p>Makes a system call and returns a Number for the return value.</p></div></div><div class="classdoc-member" id="slots--thisprocesspid"><div class="classdoc-member-head"><span class="classdoc-member-name">thisProcessPid</span><span class="classdoc-member-sig">()</span></div><div class="classdoc-member-body"><p>Return the process id (pid) for this Io process.</p></div></div><div class="classdoc-member" id="slots--userinterrupthandler"><div class="classdoc-member-head"><span class="classdoc-member-name">userInterruptHandler</span></div><div class="classdoc-member-body"><p>Called when control-c is hit. Override to add custom behavior. Returns self.</p></div></div><div class="classdoc-member" id="slots--version"><div class="classdoc-member-head"><span class="classdoc-member-name">version</span></div><div class="classdoc-member-body"><p>Returns a version number for Io.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

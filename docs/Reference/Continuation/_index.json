@@ -1,0 +1,28 @@
+{
+  "title": "Continuation",
+  "subtitle": "A first-class continuation captured by `callcc`. Represents a resumable\nsnapshot of execution state; invoking it re-enters the captured context.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "asMap", "description": "Returns a Map representation of the captured continuation state."},
+                {"name": "copy", "description": "Returns a deep copy of this continuation. The copy has an independent\n    frame chain that can be invoked separately. Use this for multi-shot\n    or delayed invocation patterns.\n\n    Example:\n        saved := nil\n        callcc(block(cont,\n            saved = cont copy  // deep copy while frames are live\n            \"normal\"\n        ))\n        // Later: saved invoke(\"delayed\")"},
+                {"name": "frameCount", "description": "Returns the number of frames in the captured continuation stack.\n    Returns 0 if no state has been captured."},
+                {"name": "frameMessages", "description": "Returns a list of strings showing the current message at each\n    frame in the captured continuation stack (from top to bottom)."},
+                {"name": "frameStates", "description": "Returns a list of strings describing the state of each frame\n    in the captured continuation stack (from top to bottom)."},
+                {"name": "fromMap", "signature": "(aMap)", "description": "Restores a Continuation from a Map representation produced by asMap.\n\tReturns self with the restored continuation state."},
+                {"name": "invoke", "signature": "(value)", "description": "Invokes the continuation, restoring the captured execution state.\n    The value argument becomes the result of the original callcc call.\n    Continuations are one-shot: they can only be invoked once.\n    Use copy to create a fresh continuation for multiple invocations."},
+                {"name": "isInvoked", "description": "Returns true if this continuation has been invoked."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

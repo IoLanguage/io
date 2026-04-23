@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>State – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Top-level entry points for evaluating Io source from C. Every &quot;run some code&quot; path embedders expose eventually funnels through IoState_tryToPerform, which...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>State</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Top-level entry points for evaluating Io source from C. Every "run
+some code" path embedders expose eventually funnels through
+IoState_tryToPerform, which spawns a fresh try-coroutine so uncaught
+exceptions are captured instead of reaching the host. Sandbox-mode
+state (message count limit, deadline endTime) is reset here before
+the evaluation starts so the iterative evaluator can enforce the
+limits per-run. This file is intentionally small — the actual step
+machinery lives in IoState_iterative.c.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ioframepoolalloc">IoFramePool_alloc</a></li><li><a href="#functions--ioframepoolfree">IoFramePool_free</a></li><li><a href="#functions--ioframepoolinit">IoFramePool_init</a></li><li><a href="#functions--iomessagelocalsperformonfast">IoMessage_locals_performOn_fast</a></li><li><a href="#functions--iomessagelocalsperformoniterative">IoMessage_locals_performOn_iterative</a></li><li><a href="#functions--iostateuserinterrupthandler">IoState_UserInterruptHandler</a></li><li><a href="#functions--iostateactivateblockfast">IoState_activateBlockFast_</a></li><li><a href="#functions--iostateactivateblocktco">IoState_activateBlockTCO_</a></li><li><a href="#functions--iostateactivateblock">IoState_activateBlock_</a></li><li><a href="#functions--iostateaddsymbol">IoState_addSymbol_</a></li><li><a href="#functions--iostateargcargv">IoState_argc_argv_</a></li><li><a href="#functions--iostatecalluserinterrupthandler">IoState_callUserInterruptHandler</a></li><li><a href="#functions--iostatedebuggingoff">IoState_debuggingOff</a></li><li><a href="#functions--iostatedebuggingon">IoState_debuggingOn</a></li><li><a href="#functions--iostatedocstring">IoState_doCString_</a></li><li><a href="#functions--iostatedofile">IoState_doFile_</a></li><li><a href="#functions--iostatedosandboxcstring">IoState_doSandboxCString_</a></li><li><a href="#functions--iostatedone">IoState_done</a></li><li><a href="#functions--iostateerror">IoState_error_</a></li><li><a href="#functions--iostateevalloopfast">IoState_evalLoopFast_</a></li><li><a href="#functions--iostateevalloop">IoState_evalLoop_</a></li><li><a href="#functions--iostateexception">IoState_exception_</a></li><li><a href="#functions--iostateexit">IoState_exit</a></li><li><a href="#functions--iostatefatalerror">IoState_fatalError_</a></li><li><a href="#functions--iostatefree">IoState_free</a></li><li><a href="#functions--iostatehasdebuggingcoroutine">IoState_hasDebuggingCoroutine</a></li><li><a href="#functions--iostateinit">IoState_init</a></li><li><a href="#functions--iostatejustprint">IoState_justPrint_</a></li><li><a href="#functions--iostatejustprintba">IoState_justPrintba_</a></li><li><a href="#functions--iostatejustprintln">IoState_justPrintln_</a></li><li><a href="#functions--iostatemarklazyargscfunctions">IoState_markLazyArgsCFunctions_</a></li><li><a href="#functions--iostatemarkslotlazyargs">IoState_markSlotLazyArgs_</a></li><li><a href="#functions--iostatenew">IoState_new</a></li><li><a href="#functions--iostatenewataddress">IoState_new_atAddress</a></li><li><a href="#functions--iostatenumberwithdouble">IoState_numberWithDouble_</a></li><li><a href="#functions--iostateondocstringwithlabel">IoState_on_doCString_withLabel_</a></li><li><a href="#functions--iostatepopframefast">IoState_popFrameFast_</a></li><li><a href="#functions--iostatepopframe">IoState_popFrame_</a></li><li><a href="#functions--iostatepreevalargat">IoState_preEvalArgAt_</a></li><li><a href="#functions--iostateprint">IoState_print_</a></li><li><a href="#functions--iostateprotowithid">IoState_protoWithId_</a></li><li><a href="#functions--iostateprotowithname">IoState_protoWithName_</a></li><li><a href="#functions--iostatepushframefast">IoState_pushFrameFast_</a></li><li><a href="#functions--iostatepushframe">IoState_pushFrame_</a></li><li><a href="#functions--iostaterawondocstringwithlabel">IoState_rawOn_doCString_withLabel_</a></li><li><a href="#functions--iostaterawprompt">IoState_rawPrompt</a></li><li><a href="#functions--iostateregisterprotowithfunc">IoState_registerProtoWithFunc_</a></li><li><a href="#functions--iostateregisterprotowithid">IoState_registerProtoWithId_</a></li><li><a href="#functions--iostateremovesymbol">IoState_removeSymbol_</a></li><li><a href="#functions--iostatereplaceperformfuncwith">IoState_replacePerformFunc_with_</a></li><li><a href="#functions--iostateresetsandboxcounts">IoState_resetSandboxCounts</a></li><li><a href="#functions--iostateretainedsymbol">IoState_retainedSymbol</a></li><li><a href="#functions--iostateruncli">IoState_runCLI</a></li><li><a href="#functions--iostateschedulerupdate">IoState_schedulerUpdate</a></li><li><a href="#functions--iostatesetcurrentcoroutine">IoState_setCurrentCoroutine_</a></li><li><a href="#functions--iostatesetupcachedmessages">IoState_setupCachedMessages</a></li><li><a href="#functions--iostatesetupcachednumbers">IoState_setupCachedNumbers</a></li><li><a href="#functions--iostatesetupquickaccesssymbols">IoState_setupQuickAccessSymbols</a></li><li><a href="#functions--iostatesetupsingletons">IoState_setupSingletons</a></li><li><a href="#functions--iostatesetupuserinterrupthandler">IoState_setupUserInterruptHandler</a></li><li><a href="#functions--iostateshow">IoState_show</a></li><li><a href="#functions--iostatesymbolwithcstring">IoState_symbolWithCString_</a></li><li><a href="#functions--iostatesymbolwithcstringlength">IoState_symbolWithCString_length_</a></li><li><a href="#functions--iostatesymbolwithuarraycopy">IoState_symbolWithUArray_copy_</a></li><li><a href="#functions--iostatesymbolwithuarraycopyconverttofixedwidth">IoState_symbolWithUArray_copy_convertToFixedWidth</a></li><li><a href="#functions--iostatetaglist">IoState_tagList</a></li><li><a href="#functions--iostatetrytoperform">IoState_tryToPerform</a></li><li><a href="#functions--iostateunwindframesforerror">IoState_unwindFramesForError_</a></li><li><a href="#functions--iostateupdatedebuggingmode">IoState_updateDebuggingMode</a></li><li><a href="#functions--iostateyield">IoState_yield</a></li><li><a href="#functions--iostatezerosandboxcounts">IoState_zeroSandboxCounts</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ioframepoolalloc"><div class="classdoc-member-head"><span class="classdoc-member-name">IoFramePool_alloc</span><span class="classdoc-member-sig">(pool)</span></div><div class="classdoc-member-body"><p>Pops a free index off the pool's stack and returns the pre-allocated
+frame at that slot. Falls back to IoEvalFrame_new (a heap allocation)
+when the pool is exhausted; the caller pairs every alloc with an
+IoFramePool_free that routes the frame back correctly whether it was
+pooled or heap-backed.</p></div></div><div class="classdoc-member" id="functions--ioframepoolfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoFramePool_free</span><span class="classdoc-member-sig">(pool, frame)</span></div><div class="classdoc-member-body"><p>Pointer-range check decides whether frame lives inside the pool's
+array; pool-owned frames get reset and their index pushed back on
+the free list, heap-allocated overflow frames are passed to
+IoEvalFrame_free. The index is recovered by pointer arithmetic
+relative to pool->frames[0].</p></div></div><div class="classdoc-member" id="functions--ioframepoolinit"><div class="classdoc-member-head"><span class="classdoc-member-name">IoFramePool_init</span><span class="classdoc-member-sig">(pool)</span></div><div class="classdoc-member-body"><p>Resets a FRAME_POOL_SIZE-entry frame pool to empty: initializes the
+free-list index stack and zeroes each embedded IoEvalFrame via
+IoEvalFrame_reset. Called lazily the first time a thread enters
+IoMessage_locals_performOn_fast.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsperformonfast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_performOn_fast</span><span class="classdoc-member-sig">(self, locals, target)</span></div><div class="classdoc-member-body"><p>Fast-path entry equivalent of IoMessage_locals_performOn_. Lazily
+initializes a thread-local IoFramePool (__thread storage) on first
+use, pushes the initial frame with the caller's message/target/locals,
+and runs IoState_evalLoopFast_ to completion. Because the pool is
+thread-local and the fast loop does not support cross-coroutine
+handoff, this is only safe for self-contained evaluations that
+never yield or invoke a continuation.</p></div></div><div class="classdoc-member" id="functions--iomessagelocalsperformoniterative"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMessage_locals_performOn_iterative</span><span class="classdoc-member-sig">(self, locals, target)</span></div><div class="classdoc-member-body"><p>Re-entrant entry point used when a CFunction (control flow primitive,
+continuation invoke, etc.) needs to evaluate a sub-expression while
+the outer eval loop is already running. Pushes a frame marked
+isNestedEvalRoot, bumps state->nestedEvalDepth, and runs the eval
+loop until that boundary frame finishes. The nested-root flag is
+what IoState_unwindFramesForError_ and the empty-chain handlers key
+off of to return control here rather than exiting the whole VM on
+error or coroutine-stack exhaustion inside a nested eval.</p></div></div><div class="classdoc-member" id="functions--iostateuserinterrupthandler"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_UserInterruptHandler</span><span class="classdoc-member-sig">(sig)</span></div><div class="classdoc-member-body"><p>Installed as the SIGINT handler when there is a single IoState in the
+process. Sets state->receivedSignal = 1 on the target state so the
+iterative eval loop can handle the interrupt safely between steps.
+A second signal arriving before the first is drained is treated as
+"C code is stuck" and calls exit directly. When multiple IoStates
+coexist the function has no way to route the signal and aborts.</p></div></div><div class="classdoc-member" id="functions--iostateactivateblockfast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_activateBlockFast_</span><span class="classdoc-member-sig">(state, callerFrame, pool)</span></div><div class="classdoc-member-body"><p>Inlines block activation on the fast path: builds blockLocals and a
+Call object, binds formal args from callerFrame->argValues, then
+pushes a new pool frame in FRAME_STATE_START ready to evaluate the
+block's body. Differs from IoState_activateBlock_ in IoState_iterative.c
+only in its pool-backed allocation and inlined helper calls; feature
+coverage (e.g. variadic blocks, TCO) is intentionally narrower.</p></div></div><div class="classdoc-member" id="functions--iostateactivateblocktco"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_activateBlockTCO_</span><span class="classdoc-member-sig">(state, blockFrame)</span></div><div class="classdoc-member-body"><p>Tail-call variant of activateBlock_ that rebinds the current block's
+frame in place instead of pushing a new one. This is what keeps
+tail-recursive Io code from growing the frame chain — factorial in
+accumulator style runs at constant frame depth regardless of input.</p><p>The old blockLocals is deliberately NOT returned to the pool: the
+new Call's sender/target still reference it (e.g. the `?` operator's
+"m" slot on the sender is read during relayStopStatus), and pooling
+would clear its PHash. Only the RETURN handler pools blockLocals,
+once the full call chain has unwound. Sets
+state->needsControlFlowHandling so the eval loop restarts its
+iteration without processing the now-stale ACTIVATE state.</p></div></div><div class="classdoc-member" id="functions--iostateactivateblock"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_activateBlock_</span><span class="classdoc-member-sig">(state, callerFrame)</span></div><div class="classdoc-member-body"><p>Activates a Block by building its locals + Call object and pushing a
+new frame for the body. Block locals and Call are drawn from per-VM
+pools to avoid per-call allocation, with ioStack retention around the
+pool pop so a GC triggered before attachment can't sweep the fresh
+object. A retain-pool mark is recorded on the new frame so every
+temporary created during body execution is released when the block
+returns, keeping long-running methods from leaking work buffers.</p><p>Argument binding uses pre-evaluated values from callerFd->argValues
+when available (the common fast path); otherwise it falls back to
+IoMessage_locals_valueArgAt_ in the sender's context, which does a
+recursive eval — not stackless, but only taken for edge cases where
+pre-eval was skipped (e.g. rest args, oddly-shaped special forms).</p></div></div><div class="classdoc-member" id="functions--iostateaddsymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_addSymbol_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Registers a freshly-built IoSymbol in the global symbol table and
+assigns it two independent hash seeds from state->randomGen. Hash
+values are baked into the IoSymbol so PHash cuckoo-hash slot lookups
+never re-hash a key — this is the critical invariant that makes slot
+reads in the iterative evaluator a pointer-compare plus array lookup.</p></div></div><div class="classdoc-member" id="functions--iostateargcargv"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_argc_argv_</span><span class="classdoc-member-sig">(self, argc, argv)</span></div><div class="classdoc-member-body"><p>Exposes the command line to Io code via System args (skipping argv[0])
+and stashes the raw argv in the MainArgs helper for re-retrieval. Called
+by the REPL entry point before running user code.</p></div></div><div class="classdoc-member" id="functions--iostatecalluserinterrupthandler"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_callUserInterruptHandler</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Drains the pending signal flag and dispatches to the Io-side
+System userInterruptHandler slot so user code can decide how to react.
+Invoked from the eval loop's between-steps check, not from inside the
+signal handler itself, so full VM allocation is safe here.</p></div></div><div class="classdoc-member" id="functions--iostatedebuggingoff"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_debuggingOff</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Inverse of IoState_debuggingOn — restores the plain IoObject_perform
+dispatch across all tags.</p></div></div><div class="classdoc-member" id="functions--iostatedebuggingon"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_debuggingOn</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Switches every tag to IoObject_performWithDebugger so each message
+send is observable by the Io-side Debugger proto. Irreversible without
+a matching IoState_debuggingOff.</p></div></div><div class="classdoc-member" id="functions--iostatedocstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_doCString_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Convenience shortcut: evaluate a C string against the lobby with a
+fixed label. Equivalent to IoState_on_doCString_withLabel_(self,
+lobby, s, "IoState_doCString").</p></div></div><div class="classdoc-member" id="functions--iostatedofile"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_doFile_</span><span class="classdoc-member-sig">(self, path)</span></div><div class="classdoc-member-body"><p>Asks the lobby to perform "doFile(path)" so file loading goes through
+the Io-side implementation (which handles search paths, File proto,
+and imports) rather than duplicating that logic in C.</p></div></div><div class="classdoc-member" id="functions--iostatedosandboxcstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_doSandboxCString_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Runs a snippet under sandbox limits: resets the message-count and
+deadline counters before dispatching through IoState_tryToPerform.
+Used by the Sandbox proto to execute untrusted code with bounded
+time and work.</p></div></div><div class="classdoc-member" id="functions--iostatedone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_done</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Tears down a VM: snapshot the tag list first (IoObject_free does not
+release tags), force the collector to free everything, then free the
+tags, primitives hash, symbol table, recycled-object and cached-number
+lists, random generator, and argv. Must be called from the main
+coroutine with no live Io code running.</p></div></div><div class="classdoc-member" id="functions--iostateerror"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_error_</span><span class="classdoc-member-sig">(self, m, format, ...)</span></div><div class="classdoc-member-body"><p>Raises an Io-level exception without longjmp. Formats the description
+with printf-style vargs, clones the current coroutine's Exception proto,
+and stores description / caughtMessage / coroutine slots on it. Any
+paused collector is resumed first so exception allocation is not
+deferred. Sets state->errorRaised to 1; the caller MUST return early
+and the enclosing iterative eval loop will unwind frames on the next
+step. If m is NULL (C-side error with no Io message context) the
+caughtMessage slot is omitted.</p></div></div><div class="classdoc-member" id="functions--iostateevalloopfast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_evalLoopFast_</span><span class="classdoc-member-sig">(state, pool)</span></div><div class="classdoc-member-body"><p>Fast-path analogue of IoState_evalLoop_. Drives the same frame state
+machine, but uses a GCC computed-goto dispatch table (and a switch
+fallback for other compilers) and covers only the six core states,
+so it must not be called with frames in special-form states. Polls
+state->receivedSignal and stopStatus between iterations and unwinds
+via FRAME_STATE_RETURN until the frame chain is empty. Returns the
+last frame's result, which becomes the outer IoObject *.</p></div></div><div class="classdoc-member" id="functions--iostateevalloop"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_evalLoop_</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>The one and only iterative evaluator. Runs a state-machine switch
+over IoEvalFrame states until the frame chain empties or a nested
+eval boundary returns control to its C caller. Coroutine switching
+is not a C-stack operation in this design: the loop keeps running
+and only the current frame chain changes (via IoCoroutine_saveState_
+/ restoreState_), so every coro runs on the same C stack.</p><p>Empty-frame handling chooses one of: parent coroutine resumption
+(CORO_WAIT_CHILD / CORO_YIELDED), nested-eval return, or exit.
+Error handling defers to IoState_unwindFramesForError_, which
+respects isNestedEvalRoot. Continuation invoke sets
+state->continuationInvoked and installs a replacement frame chain;
+the loop's top-of-iteration re-read of state->currentFrame picks
+that up transparently.</p><p>Compile with DEBUG_EVAL_LOOP for per-iteration tracing.</p></div></div><div class="classdoc-member" id="functions--iostateexception"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_exception_</span><span class="classdoc-member-sig">(self, coroutine)</span></div><div class="classdoc-member-body"><p>Reports an uncaught exception living on coroutine. Delegates to the
+embedder's exceptionCallback if one is installed — GUIs typically
+route to an error panel — otherwise prints a backtrace via
+IoCoroutine_rawPrintBackTrace. Called from IoState_tryToPerform when
+the try coroutine finishes with an exception set.</p></div></div><div class="classdoc-member" id="functions--iostateexit"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_exit</span><span class="classdoc-member-sig">(self, returnCode)</span></div><div class="classdoc-member-body"><p>Orchestrates a clean VM shutdown: records the return code, flushes
+stdout, invokes the embedder's exit callback, and then resumes the
+main coroutine so execution unwinds back to whichever C frame invoked
+the VM (typically main.c). Nothing after IoCoroutine_rawResume here
+should run in the same coroutine.</p></div></div><div class="classdoc-member" id="functions--iostatefatalerror"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_fatalError_</span><span class="classdoc-member-sig">(self, error)</span></div><div class="classdoc-member-body"><p>Prints a message to stderr and terminates the process. Used only from
+bootstrap paths (missing proto, broken init ordering) where there is
+no running coroutine for an exception to land on.</p></div></div><div class="classdoc-member" id="functions--iostatefree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Calls IoState_done and frees the IoState struct itself. Only safe to
+call on a state that came from IoState_new (heap-allocated); in-place
+states constructed via IoState_new_atAddress should call IoState_done
+directly.</p></div></div><div class="classdoc-member" id="functions--iostatehasdebuggingcoroutine"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_hasDebuggingCoroutine</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Currently a constant-1 stub: the old multi-coroutine design tracked
+a dedicated debugging coro, but the rewrite hasn't re-implemented it
+yet, so IoState_updateDebuggingMode always enables the hook.</p></div></div><div class="classdoc-member" id="functions--iostateinit"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_init</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Second-stage init hook: invokes the embedder-supplied bindings
+callback (set via IoState_setBindingsInitCallback) so additional
+native protos can be installed after the core bootstrap. Wraps the
+callback in a collector pause and clears the retain stack afterwards
+so any objects the callback created are not held past the call.</p></div></div><div class="classdoc-member" id="functions--iostatejustprint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_justPrint_</span><span class="classdoc-member-sig">(self, s, size)</span></div><div class="classdoc-member-body"><p>Raw byte-slice print: wraps the buffer in a non-owning UArray (copy=0)
+so the VM does not take ownership, routes it through the print
+callback, then frees the UArray header. Used by IoObject_print paths
+that already own the bytes.</p></div></div><div class="classdoc-member" id="functions--iostatejustprintba"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_justPrintba_</span><span class="classdoc-member-sig">(self, ba)</span></div><div class="classdoc-member-body"><p>The actual print dispatcher. Calls the installed printCallback if one
+is set (so embedders can capture Io output into a host UI) and
+otherwise falls through to UArray_print which writes to stdout.</p></div></div><div class="classdoc-member" id="functions--iostatejustprintln"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_justPrintln_</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Emits a single newline through the print callback. Split out so
+IoObject_print paths can end a line without building a full format
+string.</p></div></div><div class="classdoc-member" id="functions--iostatemarklazyargscfunctions"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_markLazyArgsCFunctions_</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>The canonical list of lazy-args CFunctions. Called once at the very end
+of IoState_new_atAddress after all protos and Io-side slot aliases are
+in place. Keep this list in sync with the special-form detection in
+IoState_iterative.c — adding a new control-flow primitive that takes
+un-evaluated message arguments means touching both places.</p></div></div><div class="classdoc-member" id="functions--iostatemarkslotlazyargs"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_markSlotLazyArgs_</span><span class="classdoc-member-sig">(self, protoId, slotName)</span></div><div class="classdoc-member-body"><p>Looks up a named slot on a proto and, if it resolves to a CFunction,
+sets its isLazyArgs flag so the iterative evaluator will skip the
+EVAL_ARGS pass and hand the raw message arguments to the callee. Used
+to tag the special forms that need their arguments as un-evaluated
+messages (if, while, for, method, block, foreach, …).</p></div></div><div class="classdoc-member" id="functions--iostatenew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_new</span><span class="classdoc-member-sig">(void)</span></div><div class="classdoc-member-body"><p>Heap-allocates an IoState and delegates to IoState_new_atAddress.
+The common entry point for embedders that do not care where the VM
+lives in memory.</p></div></div><div class="classdoc-member" id="functions--iostatenewataddress"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_new_atAddress</span><span class="classdoc-member-sig">(address)</span></div><div class="classdoc-member-body"><p>In-place VM constructor: initializes a caller-supplied IoState struct
+rather than allocating one, so embedders can place the VM in a specific
+arena. Follows a carefully-ordered bootstrap (see cmetadoc) — the
+temporary Stack *currentIoStack exists only until the main coroutine
+is constructed and its real retain stack takes over. Pauses the
+collector across all proto allocation so partially-built objects are
+never swept. Must be called exactly once per state; IoState_new wraps
+it with a malloc.</p></div></div><div class="classdoc-member" id="functions--iostatenumberwithdouble"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_numberWithDouble_</span><span class="classdoc-member-sig">(self, n)</span></div><div class="classdoc-member-body"><p>Fast-path IoNumber allocator. Integer values that fit the cache table
+come back as shared singletons (fast pointer compare, zero allocation).
+Everything else is built by a manual, pause-free construction that
+recycles IoObjectData blocks from state->numberDataFreeList — IOCLONE
+on Number was identified as a hotspot in profiling because of the
+collector pause, tag activate dispatch, and duplicate add-to-whites
+bookkeeping, so this function opens that up by hand. Returned objects
+are stack-retained for GC safety.</p></div></div><div class="classdoc-member" id="functions--iostateondocstringwithlabel"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_on_doCString_withLabel_</span><span class="classdoc-member-sig">(self, target, s, label)</span></div><div class="classdoc-member-body"><p>The canonical "evaluate a string of Io source" entry point. Builds a
+doString message with the source and optional label as cached args,
+wraps the call in a retain pool so intermediates released while the
+iterative evaluator runs are not collected, and performs it via
+IoState_tryToPerform so exceptions stay inside Io. The label drives
+error-message source locations.</p></div></div><div class="classdoc-member" id="functions--iostatepopframefast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_popFrameFast_</span><span class="classdoc-member-sig">(state, pool)</span></div><div class="classdoc-member-body"><p>Inverse of IoState_pushFrameFast_. Unlinks the current frame from the
+parent chain, decrements frameDepth, and returns the frame to the
+pool. Safe to call when state->currentFrame is NULL (no-op).</p></div></div><div class="classdoc-member" id="functions--iostatepopframe"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_popFrame_</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Pops the current frame and returns it to state->framePool (up to
+FRAME_POOL_SIZE); overflow frames fall to regular GC. Frees the
+heap-allocated argValues buffer unless it was the inline 4-slot
+buffer. All pointer fields and the state enum are zeroed so pooled
+frames don't carry stale GC roots — otherwise objects kept alive by
+a dead pooled frame would never be collected (WeakLink behavior
+regression). The controlFlow union is not memset; resetting the
+state enum is enough to keep IoEvalFrame_mark from walking its
+contents.</p></div></div><div class="classdoc-member" id="functions--iostatepreevalargat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_preEvalArgAt_</span><span class="classdoc-member-sig">(self, msg, n)</span></div><div class="classdoc-member-body"><p>Fast-path lookup for a pre-evaluated argument on the current frame.
+Called from the inline IoMessage_locals_quickValueArgAt_ so a CFunction
+that asks for its n-th argument can skip recursive evaluation when the
+eval loop has already stashed the value in fd->argValues. Lives in
+this translation unit (not the header) to keep IoEvalFrame.h out of
+IoState_inline.h's include chain and avoid cycles.</p></div></div><div class="classdoc-member" id="functions--iostateprint"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_print_</span><span class="classdoc-member-sig">(self, format, ...)</span></div><div class="classdoc-member-body"><p>printf-style wrapper that routes through whichever print callback the
+embedder has installed. Builds the UArray with UArray_newWithVargs_
+and hands it to IoState_justPrintba_.</p></div></div><div class="classdoc-member" id="functions--iostateprotowithid"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_protoWithId_</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>The standard proto lookup used throughout the VM's C source. Missing
+ids are fatal — if a proto is missing at this point either a binding
+forgot to register itself or code is running before the init sequence
+got that far.</p></div></div><div class="classdoc-member" id="functions--iostateprotowithname"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_protoWithName_</span><span class="classdoc-member-sig">(self, name)</span></div><div class="classdoc-member-body"><p>Linear scan over registered protos matching IoObject_name. Unlike
+IoState_protoWithId_ this looks at the runtime name slot rather than
+the id key, so it can find protos registered under a different id
+than their display name. Returns NULL when nothing matches.</p></div></div><div class="classdoc-member" id="functions--iostatepushframefast"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_pushFrameFast_</span><span class="classdoc-member-sig">(state, pool)</span></div><div class="classdoc-member-body"><p>Pool-backed analogue of IoState_pushFrame_. Pulls a frame from the
+pool, links it to state->currentFrame as the new top, bumps
+frameDepth, and raises a stack-overflow error when the configured
+max is crossed. Like the slow-path version it leaves newly-pushed
+fields uninitialized — callers are expected to stamp message /
+target / locals / state immediately after.</p></div></div><div class="classdoc-member" id="functions--iostatepushframe"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_pushFrame_</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Pushes a new IoEvalFrame onto state->currentFrame. Reuses pooled
+frames when available (their pointer fields were nulled on pop for
+GC safety) and falls back to IoEvalFrame_newWithState otherwise.
+Only fields that are actually read before assignment are reset —
+the controlFlow union is left uninitialized and stamped later by
+whichever control-flow primitive owns the state. Raises a stack
+overflow error if frameDepth crosses state->maxFrameDepth.</p></div></div><div class="classdoc-member" id="functions--iostaterawondocstringwithlabel"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_rawOn_doCString_withLabel_</span><span class="classdoc-member-sig">(self, target, s, label)</span></div><div class="classdoc-member-body"><p>Parses a string as Io source and performs the resulting message on
+target with no try/catch wrapper. Unlike IoState_on_doCString_withLabel_
+this path does not guard the evaluation inside a try coroutine, so
+uncaught exceptions propagate to whichever caller owns the current
+coroutine. Used by the interactive prompt where the shell itself
+displays errors.</p></div></div><div class="classdoc-member" id="functions--iostaterawprompt"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_rawPrompt</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Minimal built-in REPL: reads lines from stdin, evaluates each via
+IoState_rawOn_doCString_withLabel_ and prints the result. Provided as
+a fallback when the Io-side CLI.io loop isn't available; the normal
+REPL entry point is IoState_runCLI.</p></div></div><div class="classdoc-member" id="functions--iostateregisterprotowithfunc"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_registerProtoWithFunc_</span><span class="classdoc-member-sig">(self, proto, v)</span></div><div class="classdoc-member-body"><p>Compatibility alias that forwards to IoState_registerProtoWithId_.
+Older code in the Io ecosystem passed a function pointer as the key;
+both forms now use the same PointerHash lookup.</p></div></div><div class="classdoc-member" id="functions--iostateregisterprotowithid"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_registerProtoWithId_</span><span class="classdoc-member-sig">(self, proto, v)</span></div><div class="classdoc-member-body"><p>Records a proto in state->primitives keyed by a string id, and retains
+it so the GC cannot collect it even when nothing else holds a reference.
+Aborts via IoState_fatalError_ if the id is already registered: proto
+ids are global singletons and double-registration usually signals a
+mis-ordered bootstrap.</p></div></div><div class="classdoc-member" id="functions--iostateremovesymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_removeSymbol_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Drops an IoSymbol from the intern table, called by the collector's
+willFree path when a Symbol is about to be swept. Without this the
+symbol table would keep pointers to freed memory and any future
+intern of the same bytes would return a dangling IoSymbol.</p></div></div><div class="classdoc-member" id="functions--iostatereplaceperformfuncwith"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_replacePerformFunc_with_</span><span class="classdoc-member-sig">(self, oldFunc, newFunc)</span></div><div class="classdoc-member-body"><p>Walks every registered proto's tag and rewrites its performFunc
+in place. Used by IoState_debuggingOn / IoState_debuggingOff to swap
+the whole VM between the plain perform path and the debugger-hooking
+one. Tags with a NULL performFunc are also updated so newly-registered
+tags inherit the currently-active mode.</p></div></div><div class="classdoc-member" id="functions--iostateresetsandboxcounts"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_resetSandboxCounts</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Primes the sandbox counters for a single sandboxed run: records an
+endTime deadline derived from state->timeLimit and resets messageCount
+to messageCountLimit. The iterative evaluator checks both values on
+each step and raises an error if either is exceeded.</p></div></div><div class="classdoc-member" id="functions--iostateretainedsymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_retainedSymbol</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Interns a C string as a Symbol and pins it against GC. Used during init
+to cache hot-path names (self, call, type, …) that the VM dereferences
+in inner loops and must never be collected.</p></div></div><div class="classdoc-member" id="functions--iostateruncli"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_runCLI</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Launches the Io-implemented command-line loop by doing "CLI run" on
+the lobby. If that run leaves an exception on the current coroutine,
+records it in state->exitResult so the process exits non-zero.</p></div></div><div class="classdoc-member" id="functions--iostateschedulerupdate"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_schedulerUpdate</span><span class="classdoc-member-sig">(self, count)</span></div><div class="classdoc-member-body"><p>Notifies the embedder how many coroutines are active. Used by UI
+integrations to drive a progress indicator. Count is advisory; the
+VM itself does not react to it.</p></div></div><div class="classdoc-member" id="functions--iostatesetcurrentcoroutine"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_setCurrentCoroutine_</span><span class="classdoc-member-sig">(self, coroutine)</span></div><div class="classdoc-member-body"><p>Switches the VM's active coroutine: points state->currentCoroutine at
+it, swaps state->currentIoStack to the coroutine's retain stack so
+subsequent stackRetain calls protect that coroutine's locals, and
+tells the collector which marker to use as a GC root before sweeping.
+Must be called every time the iterative evaluator transitions from
+one coroutine's frame chain to another's.</p></div></div><div class="classdoc-member" id="functions--iostatesetupcachedmessages"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_setupCachedMessages</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Pre-builds and retains a set of Message objects the VM sends
+frequently (asString, compare, init, main, opShuffle, print, run,
+yield, …). Cached messages skip the per-send parse/construct cost and
+give IoMessage_locals_performOn_ a stable pointer to hand to the
+iterative evaluator.</p></div></div><div class="classdoc-member" id="functions--iostatesetupcachednumbers"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_setupCachedNumbers</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Pre-creates IoNumber objects for every integer in
+[MIN_CACHED_NUMBER, MAX_CACHED_NUMBER] and retains them, so the common
+case of integer literals never allocates. Also caches the Number proto
+and tag pointers and initializes the freelist used by
+IoState_numberWithDouble_ to recycle IoNumberData blocks.</p></div></div><div class="classdoc-member" id="functions--iostatesetupquickaccesssymbols"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_setupQuickAccessSymbols</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Populates the pre-interned symbol fields on the IoState struct so the
+evaluator and CFunction machinery can compare against cached IoSymbol
+pointers instead of re-hashing strings on every call. Called early
+during init, before any Io code runs.</p></div></div><div class="classdoc-member" id="functions--iostatesetupsingletons"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_setupSingletons</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Creates the shared singletons nil/true/false and the flow-control
+markers Normal/Break/Continue/Return/Eol, registers them under
+state->core, and retains each one so they survive GC. Also caches
+the Message proto, Call proto and Call tag for the inline allocation
+fast paths in the iterative evaluator. The flow-control markers are
+compared by pointer identity in IoObject_flow.c to drive break/
+continue/return semantics.</p></div></div><div class="classdoc-member" id="functions--iostatesetupuserinterrupthandler"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_setupUserInterruptHandler</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Records self as the Ctrl-C target, and flips the multiple-states flag
+if another IoState has already registered. Under WASM there is no
+signal API to wire up, so the function stops at bookkeeping — the
+hook is plumbed by host platforms that provide signal().</p></div></div><div class="classdoc-member" id="functions--iostateshow"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_show</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Prints a placeholder dump of the state — most of the interesting
+detail (per-color object groups) is commented out after the collector
+rewrite. Kept as a hook for ad-hoc debugging.</p></div></div><div class="classdoc-member" id="functions--iostatesymbolwithcstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_symbolWithCString_</span><span class="classdoc-member-sig">(self, s)</span></div><div class="classdoc-member-body"><p>Null-terminated convenience wrapper around
+IoState_symbolWithCString_length_. This is the most-used intern path in
+the VM — SIOSYMBOL expands to a call here.</p></div></div><div class="classdoc-member" id="functions--iostatesymbolwithcstringlength"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_symbolWithCString_length_</span><span class="classdoc-member-sig">(self, s, length)</span></div><div class="classdoc-member-body"><p>Interns a byte slice as a Symbol. Wraps the C buffer in a UTF-8-tagged
+UArray, converts it to a fixed-size element type so hashes match the
+canonical encoding, then interns through IoState_symbolWithUArray_copy_.</p></div></div><div class="classdoc-member" id="functions--iostatesymbolwithuarraycopy"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_symbolWithUArray_copy_</span><span class="classdoc-member-sig">(self, ba, copy)</span></div><div class="classdoc-member-body"><p>Canonical symbol-interning entry point. Looks the UArray up in the
+symbol table, returns the existing IoSymbol if found (the new ba is
+freed unless copy == 1), or creates and registers a new Symbol
+otherwise. Does not convert ba to a fixed-width encoding — callers
+producing wide/UTF-16 buffers must use the _convertToFixedWidth form.
+Result is stack-retained by the caller path.</p></div></div><div class="classdoc-member" id="functions--iostatesymbolwithuarraycopyconverttofixedwidth"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_symbolWithUArray_copy_convertToFixedWidth</span><span class="classdoc-member-sig">(self, ba, copy)</span></div><div class="classdoc-member-body"><p>Variant of the UArray-to-Symbol path that first collapses the buffer to
+a fixed-width byte encoding before hashing, so two Sequences that render
+the same bytes but use different UArray element types still intern to
+one Symbol. Forwards to IoState_symbolWithCString_length_.</p></div></div><div class="classdoc-member" id="functions--iostatetaglist"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_tagList</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns a freshly allocated List of every registered proto's tag —
+used by IoState_done to free the IoTag structures after the collector
+has released the protos themselves. Caller owns the returned List and
+must List_free it.</p></div></div><div class="classdoc-member" id="functions--iostatetrytoperform"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_tryToPerform</span><span class="classdoc-member-sig">(self, target, locals, m)</span></div><div class="classdoc-member-body"><p>Runs a message inside a freshly-spawned try coroutine so any raised
+exception is caught rather than unwinding past the C caller. If the
+try coroutine recorded an exception, re-reports it via
+IoState_exception_ (which invokes the embedder's exception callback
+or prints the backtrace) and returns the try coroutine's raw result.
+The central safety net for every doCString / doFile entry point.</p></div></div><div class="classdoc-member" id="functions--iostateunwindframesforerror"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_unwindFramesForError_</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Error-unwinding walker. Pops frames (and any retain-pool marks they
+carry) until either the chain is empty or a frame with
+isNestedEvalRoot is found. A nested eval root marks a boundary
+installed by IoMessage_locals_performOn_iterative; crossing it would
+corrupt the outer loop's frame pointers, especially across coroutine
+switches. Returns 1 when the boundary was hit (errorRaised is re-set
+so the C caller propagates the error); returns 0 when the whole
+stack was popped, which lets the caller fall through to the
+frame=NULL handler for coro-switch or process exit.</p></div></div><div class="classdoc-member" id="functions--iostateupdatedebuggingmode"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_updateDebuggingMode</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Re-evaluates whether the debugger hook should be active and applies
+the result. Given the constant-1 stub above this currently always
+turns debugging on; kept as the right call site for when tracking is
+re-added.</p></div></div><div class="classdoc-member" id="functions--iostateyield"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_yield</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Sends the cached yield message to the lobby, which bottoms out in the
+coroutine yield primitive that parks the current coroutine and resumes
+another. Called from C hosts that want to cooperatively pump the Io
+scheduler between native callbacks.</p></div></div><div class="classdoc-member" id="functions--iostatezerosandboxcounts"><div class="classdoc-member-head"><span class="classdoc-member-name">IoState_zeroSandboxCounts</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Clears the per-run sandbox accounting (messageCount and endTime) so
+normal non-sandboxed evaluation is not accidentally limited. Called
+at the top of IoState_on_doCString_withLabel_ since that path is the
+default, unsandboxed evaluator.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

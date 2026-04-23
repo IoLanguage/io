@@ -1,0 +1,26 @@
+{
+  "title": "Tag",
+  "subtitle": "Per-type vtable shared by every IoObject of a given primitive class.\nAn IoTag carries the type's name, a set of function pointers (clone,\nfree, mark, activate, compare, perform, write/read, notification,\ncleanup) and is reference-counted across the proto and all its clones.\nEach IoObject_new... constructor attaches exactly one tag (installed\nby the corresponding IoXxx_newTag helper) and the collector calls\nmarkFunc / freeFunc through the tag rather than switching on type.\nKeeping the dispatch here lets IoObject stay a fixed-size marker\nregardless of how many primitive subtypes the VM defines.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoTag_free", "signature": "(self)", "description": "Reference-counted release. Decrements referenceCount and returns early\nwhile any object still holds the tag; on the final release it invokes\nthe optional tagCleanupFunc (for per-type bookkeeping like freeing\ninterned pools), frees the duplicated name, and io_frees the tag\nitself. Called by IoObject's free path through each primitive's tag\nregistration."},
+                {"name": "IoTag_mark", "signature": "(self)", "description": "Collector hook for per-tag GC roots. Currently a no-op because the\nrecyclableInstances stack is disabled; kept as a seam so future\nper-type caches (e.g. instance freelists) can participate in marking\nwithout touching the collector core."},
+                {"name": "IoTag_name_", "signature": "(self, name)", "description": "Copies name into the tag's own heap buffer via io_realloc, so the\ncaller's string need not remain live. Called by IoTag_newWithName_\nand whenever a tag is renamed (rare — mostly during bootstrap)."},
+                {"name": "IoTag_new", "signature": "()", "description": "Allocates a zeroed tag with referenceCount 1 and a default performFunc.\nWhen IOMESSAGE_INLINE_PERFORM is defined the performFunc is left NULL\nso IoMessage can inline the dispatch; otherwise it points at\nIoObject_perform. All other slots (clone/free/mark/activate/compare/\nwrite/read/notification/cleanup) start NULL and must be filled in by\nthe caller before the tag is attached to any object."},
+                {"name": "IoTag_newWithName_", "signature": "(name)", "description": "Convenience constructor used by every IoXxx_newTag helper: allocate\na fresh tag, then set its name. The name is duplicated into the tag's\nown heap buffer (see IoTag_name_) so the caller's string literal need\nnot remain live."},
+                {"name": "IoTag_reference", "signature": "(self)", "description": "Bumps referenceCount. Used when the same tag is shared across multiple\nowners (e.g. CFunction instances of a particular class) so that\nIoTag_free only actually releases on the last drop."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

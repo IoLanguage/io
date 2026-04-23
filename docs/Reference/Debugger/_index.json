@@ -1,0 +1,24 @@
+{
+  "title": "Debugger",
+  "subtitle": "Contains methods related to the IoVM debugger.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "debuggerCoroutine", "description": "Returns the coroutine used for the debugger."},
+                {"name": "description", "description": "To start debugging a coroutine, call\n\t<code>\n\tCoroutine currentCoroutine setMessageDebugging(true)\n\t</code>\n\tThen each message sent within that coroutine will cause the Debugger \n\tvmWillSendMessage slot to be activated and the Debugger slots: \n\tmessageCoroutine, messageSelf, messageLocals, and message will be set with the \n\tvalues related to the current message send. You can override vmWillSendMessage to \n\timplement your own debugging mechanisms."},
+                {"name": "start", "description": "Starts the debugger."},
+                {"name": "vmWillSendMessage", "description": "Override this method to implement your own debugging mechanisms. Default behavior is to print every message sent."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

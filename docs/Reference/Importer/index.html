@@ -1,115 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Importer – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>Importer – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="A simple search path based auto-importer.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>Importer</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>A simple search path based auto-importer.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">addSearchPath(path)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Add a search path to the auto importer. Relative paths are made absolute before adding.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">autoImportingForward</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>A forward method implementation placed in the Lobby when Importing is turned on.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">FileImporter</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>An Importer for local source files.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">import(originalCallMessage)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Imports an object or addon for the given Message.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">importers</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>List of Importer objects.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">paths</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>List of paths the proto importer will check while searching for protos to load.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeSearchPath(path)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">turnOff</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Turns off the Importer. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">turnOn</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Turns on the Importer. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>Importer</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A simple search path based auto-importer.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--fileimporter">FileImporter</a></li><li><a href="#slots--addsearchpath">addSearchPath</a></li><li><a href="#slots--autoimportingforward">autoImportingForward</a></li><li><a href="#slots--import">import</a></li><li><a href="#slots--importers">importers</a></li><li><a href="#slots--paths">paths</a></li><li><a href="#slots--removesearchpath">removeSearchPath</a></li><li><a href="#slots--turnoff">turnOff</a></li><li><a href="#slots--turnon">turnOn</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--fileimporter"><div class="classdoc-member-head"><span class="classdoc-member-name">FileImporter</span></div><div class="classdoc-member-body"><p>An Importer for local source files.</p></div></div><div class="classdoc-member" id="slots--addsearchpath"><div class="classdoc-member-head"><span class="classdoc-member-name">addSearchPath</span><span class="classdoc-member-sig">(path)</span></div><div class="classdoc-member-body"><p>Add a search path to the auto importer. Relative paths are made absolute before adding.</p></div></div><div class="classdoc-member" id="slots--autoimportingforward"><div class="classdoc-member-head"><span class="classdoc-member-name">autoImportingForward</span></div><div class="classdoc-member-body"><p>A forward method implementation placed in the Lobby when Importing is turned on.</p></div></div><div class="classdoc-member" id="slots--import"><div class="classdoc-member-head"><span class="classdoc-member-name">import</span><span class="classdoc-member-sig">(originalCallMessage)</span></div><div class="classdoc-member-body"><p>Imports an object or addon for the given Message.</p></div></div><div class="classdoc-member" id="slots--importers"><div class="classdoc-member-head"><span class="classdoc-member-name">importers</span></div><div class="classdoc-member-body"><p>List of Importer objects.</p></div></div><div class="classdoc-member" id="slots--paths"><div class="classdoc-member-head"><span class="classdoc-member-name">paths</span></div><div class="classdoc-member-body"><p>List of paths the proto importer will check while searching for protos to load.</p></div></div><div class="classdoc-member" id="slots--removesearchpath"><div class="classdoc-member-head"><span class="classdoc-member-name">removeSearchPath</span><span class="classdoc-member-sig">(path)</span></div><div class="classdoc-member-body"><p>Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.</p></div></div><div class="classdoc-member" id="slots--turnoff"><div class="classdoc-member-head"><span class="classdoc-member-name">turnOff</span></div><div class="classdoc-member-body"><p>Turns off the Importer. Returns self.</p></div></div><div class="classdoc-member" id="slots--turnon"><div class="classdoc-member-head"><span class="classdoc-member-name">turnOn</span></div><div class="classdoc-member-body"><p>Turns on the Importer. Returns self.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

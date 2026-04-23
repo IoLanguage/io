@@ -1,0 +1,31 @@
+{
+  "title": "Token",
+  "subtitle": "Plain-C token node produced by IoLexer as it scans source text. A token\ncarries its spelling (name/length), an IoTokenType classification, a\nlineNumber/charNumber for diagnostics, an optional error string, and a\nforward-link `nextToken` that the lexer uses to splice tokens into a\nsingly-linked chain parallel to the per-frame List tokenStream. Tokens\nare owned by the lexer and freed via IoToken_free; they are not IoObjects\nand are not GC-managed — the parser in IoMessage_parser.c consumes them\none at a time and translates each into an IoMessage.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoTokenType_isValidMessageName", "signature": "(self)", "description": "Returns true for token types that can begin a message chain: identifiers,\nmono- and tri-quoted strings, and number literals. IoMessage_parser uses\nthis as the guard for IoMessage_parseName and IoMessage_parseNext so that\npunctuation tokens never become message names."},
+                {"name": "IoToken_error_", "signature": "(self, error)", "description": "Attaches a diagnostic message to the token. The lexer sets this when\nit detects an unterminated quote, an unmatched bracket, or a stray\ncharacter — the parser later reads errorToken back via the lexer to\nbuild the \"compile error\" Exception."},
+                {"name": "IoToken_free", "signature": "(self)", "description": "Releases the name and error buffers (both io_malloced) and the token\nitself. Does not recurse into nextToken — the lexer's tokenStream List\niterates and frees each element explicitly via IoLexer_clear."},
+                {"name": "IoToken_nameIs_", "signature": "(self, name)", "description": "Strict string comparison of the token's spelling against the given C\nliteral. The empty-vs-nonempty guard avoids a strcmp on a synthesized\nempty-name token produced for unnamed groups like `[...]`."},
+                {"name": "IoToken_name_", "signature": "(self, name)", "description": "Convenience form that copies a NUL-terminated C string. Used for\nsynthesized tokens (e.g. the \";\" terminator, the \"squareBrackets\" /\n\"curlyBrackets\" group-name tokens) rather than raw source spans."},
+                {"name": "IoToken_name_length_", "signature": "(self, name, len)", "description": "Copies a non-NUL-terminated span of len bytes into the token's owned\nname buffer, reallocating as needed and NUL-terminating. This is the\nhot path called by IoLexer_grabTokenType_ once a span has been matched."},
+                {"name": "IoToken_new", "signature": "(void)", "description": "Allocates a zeroed IoToken with name unset and charNumber sentinel -1.\nCallers populate fields via IoToken_name_length_ / IoToken_type_ as the\nlexer grabs a matched span."},
+                {"name": "IoToken_nextToken_", "signature": "(self, nextToken)", "description": "Wires `self` to `nextToken` in the lexer's forward chain, freeing any\npreviously attached successor. The self-identity guard fires on a lexer\nbug and aborts the process rather than silently looping."},
+                {"name": "IoToken_printSelf", "signature": "(self)", "description": "Prints the token's spelling quoted with single quotes for debug output.\nIterates name byte-by-byte rather than using printf(\"%s\") so embedded\nNULs are rendered literally. Called by IoToken_print and by\nIoLexer_printTokens."},
+                {"name": "IoToken_quoteName_", "signature": "(self, name)", "description": "Rewrites the token's spelling by wrapping it in double quotes. Used\nwhen coercing an identifier into a string literal for generated assign\nmessages (see IoMessage_opShuffle's setSlot rewriting)."},
+                {"name": "IoToken_typeName", "signature": "(self)", "description": "Maps an IoTokenType enum to a human-readable name for debugging and for\nthe Io-visible Compiler tokensForString result. Kept in sync with the\nIoTokenType definition in IoToken.h."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

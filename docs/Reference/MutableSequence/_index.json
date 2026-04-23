@@ -1,0 +1,22 @@
+{
+  "title": "MutableSequence",
+  "subtitle": "A Sequence whose contents can be modified in place. MutableSequence is the\nreceiver for the mutating methods of Sequence (append, insert, remove, etc.).",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoSeq_insertSeqEvery", "signature": "(aSequence, aNumberOfItems)", "description": "Inserts aSequence every aNumberOfItems.  Returns self."},
+                {"name": "IoSeq_leaveThenRemove", "signature": "(aNumberToLeave, aNumberToRemove)", "description": "Leaves aNumberToLeave items then removes aNumberToRemove items.  Returns\n    self."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

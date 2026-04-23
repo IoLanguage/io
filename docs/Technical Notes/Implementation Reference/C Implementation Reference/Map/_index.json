@@ -1,0 +1,31 @@
+{
+  "title": "Map",
+  "subtitle": "Thin IoObject wrapper around basekit's PHash (cuckoo hash). DATA(self)\nis the PHash*; mark walks every key and value so contained IoObjects\nremain live. Unlike Io's own Object slots (which are stored in a\nPHash owned by the Object), Map is a separate user-visible collection\nwith ordering-free semantics and symbol keys. The foreach implementation\nhas two paths: on the iterative evaluator it materializes keys via\nIoMap_rawKeys and hands the List off to the foreach frame state machine\n(controlFlow.foreachInfo.mapSource carries the original Map so the loop\ncan look the value up per iteration). The recursive fallback PHASH_FOREACH\nis used only during VM bootstrap before state->currentFrame exists.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoMap_compare", "signature": "(self, other)", "description": "Registered as the tag's compareFunc. Falls back to default pointer\ncomparison against non-Maps. Otherwise compares by size first, then\nby walking the receiver's entries and comparing values for identical\nkeys; any missing key or unequal value yields a nonzero result."},
+                {"name": "IoMap_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Frees the backing PHash; contained\nIoObjects are GC-managed and not touched here."},
+                {"name": "IoMap_keys", "signature": "(self, locals, m)", "description": "Io-visible thin wrapper over IoMap_rawKeys. Defined as a plain\nfunction (not IO_METHOD) because IoMap_rawKeys is also called from C\npaths that already have a raw Map pointer."},
+                {"name": "IoMap_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. Walks every key and value so\ncontained IoObjects stay live for the GC."},
+                {"name": "IoMap_new", "signature": "(state)", "description": "Convenience constructor: looks up the registered proto and clones it.\nUsed by C callers (serialization, foreach plumbing) that want a fresh\nMap without going through message machinery."},
+                {"name": "IoMap_newTag", "signature": "(state)", "description": "Builds the Map tag and installs clone/free/mark/compare function\npointers. Stream write/read slots are left unset (the commented-out\nblock below preserves the legacy BStream format)."},
+                {"name": "IoMap_proto", "signature": "(state)", "description": "Creates the Map proto, attaches a fresh PHash as its data pointer,\nand wires up the Io-visible method table (empty, at, atPut, keys,\nvalues, foreach, hasKey, hasValue, removeAt, ...). Called once during\nVM init; all later Maps are clones of this proto."},
+                {"name": "IoMap_rawAt", "signature": "(self, k)", "description": "Low-level lookup used from C. Returns NULL on miss (not nil) so\ncallers can distinguish a stored nil from an absent key."},
+                {"name": "IoMap_rawAtPut", "signature": "(self, k, v)", "description": "Low-level insert used from C. IOREFs both key and value so the GC\nkeeps them alive through this Map. Preferred over the Io-level atPut\nwhen a value is being threaded through internal machinery."},
+                {"name": "IoMap_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Gives the clone its own PHash\ncopy so mutation of one Map does not leak into the proto."},
+                {"name": "IoMap_rawKeys", "signature": "(self)", "description": "Builds a List of the Map's keys in PHash iteration order. Used by\nthe Io-visible keys method and — importantly — by the iterative\nforeach path, which needs a materialized index-addressable collection\nto drive the foreach frame state machine."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

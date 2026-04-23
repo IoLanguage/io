@@ -1,0 +1,29 @@
+{
+  "title": "Call",
+  "subtitle": "C implementation of the Call object created once per block/method\nactivation. IoCallData captures the activation's sender (caller's\nlocals), the target receiver, the triggering message, the slotContext\n(where the slot was found during lookup — can differ from target when\nthe slot lives on a proto), the activated Block/CFunction itself, the\ncoroutine that is running, and the stopStatus used to signal\nreturn/continue/break. Each Call is exposed through the block's locals\nas the \"call\" slot so Io code can read sender, message argAt, etc.\nIoCall_rawStopStatus is the primary C-level read path; the iterative\nevaluator (IoState_iterative.c) and IoBlock_activate both poke the\nstatus here when an early exit is requested.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoCall_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Frees the IoCallData payload; all\nreferenced IoObjects are GC-managed."},
+                {"name": "IoCall_initSlots", "signature": "(self)", "description": "Seeds all IoObject* slots with state->ioNil and the stopStatus with\nMESSAGE_STOP_STATUS_NORMAL. Called by both proto and rawClone so no\nCall is ever observed with uninitialized pointers — the GC mark\nfunction would otherwise dereference garbage."},
+                {"name": "IoCall_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. Marks every field: sender, target,\nmessage, slotContext, activated block/cfunction, and the owning\ncoroutine. No nil check because initSlots guarantees all fields are\nvalid IoObjects."},
+                {"name": "IoCall_new", "signature": "(state)", "description": "Convenience constructor: looks up the registered proto and clones it.\nUsed by IoCall_with; direct callers are rare since activation always\nwants the fields filled in at construction."},
+                {"name": "IoCall_newTag", "signature": "(state)", "description": "Builds the Call tag with clone/mark/free function pointers. No\nactivateFunc — Call is data only, it does not run itself."},
+                {"name": "IoCall_proto", "signature": "(state)", "description": "Creates the Call proto, allocates a zeroed IoCallData payload, and\nwires up the Io-visible method table (sender, message, slotContext,\ntarget, activated, coroutine, evalArgAt, argAt, stopStatus,\nsetStopStatus). Every activation clones this proto via IoCall_with."},
+                {"name": "IoCall_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Copies the proto's data block byte\nfor byte then re-initializes slots to nil/NORMAL so a clone never\ninherits a stale sender/message pointer from the proto."},
+                {"name": "IoCall_rawStopStatus", "signature": "(self)", "description": "Direct C accessor for the stopStatus field. Hot-path read: the\niterative evaluator and IoBlock_activate both call it on every\nblock exit to decide whether to propagate return/continue/break."},
+                {"name": "IoCall_with", "signature": "(state, sender, target, message, slotContext, activated, coroutine)", "description": "Canonical constructor invoked from IoBlock_activate and the iterative\nevaluator's block activation path. Clones the Call proto and fills\nevery slot in one pass, leaving stopStatus at NORMAL. The returned\nCall is stashed in the block's locals as the \"call\" slot so Io code\ncan query sender/message at runtime."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

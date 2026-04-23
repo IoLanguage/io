@@ -1,1669 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Object – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>Object – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="The root proto. All other protos clone from Object; it provides core slot management, message dispatch, introspection, and control flow primitives.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>Object</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>An Object is a key/value dictionary with string keys and values of any type.
-The prototype Object contains a clone slot that is a CFunction that creates new
-objects. When cloned, an Object will call its init slot (with no arguments).</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">-(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the negative version of aNumber.
-Raises an exception if argument is not a number.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">!=(aValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true the receiver is not equal to aValue, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">?(aMessage)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>description: Sends the message aMessage to the receiver if it can respond to it. Example:
-<pre>
-MyObject test // performs test
-MyObject ?test // performs test if MyObject has a slot named test
-</pre>
-The search for the slot only follows the receivers proto chain.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">..(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>.. is an alias for: method(arg, self asString append(arg asString))</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>The '' method evaluates the argument and returns the result.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">@</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sends asynchronous message to an object, returns a FutureProxy.
-<br/>
-Caller coroutine is paused when proxy is accessed (i.e. message is sent)
-till result is ready. Proxy will become an actual result when it is ready.
-<br/>
-See IoGuide for more information.
-<br/>
-Usage: obj @someMethod(a, b, c)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">@@</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as Object @, but returns nil instead of FutureProxy.
-<br/>
-Might be useful in a command line or as a last expression in a block/method when
-you don't want to return a future.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">&lt;(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns self if self is less or Nil if not.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">&lt;=(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns self if self is less
-than or equal to it, or Nil if not.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">==(aValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if receiver and aValue are equal, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">&gt;(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns self if self is greater than it, or Nil if
-not.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">&gt;=(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns self if self is greater
-than or equal to it, or Nil if not.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">actorProcessQueue</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Processes each message in a queue, yielding between each message.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">actorRun</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">addTrait</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Takes another object, whose slots will be copied into the receiver. Optionally takes a second argument, a Map object containing string -> string pairs, holding conflicting slot names and names to rename them to. I.e., if you have two objects A and B, both have a slot named foo, you issue A addTrait(B, Map clone atPut("foo", "newFoo")) the value of B foo will be placed in A newFoo.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ancestors</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list of all of the receiver's ancestors as found by recursively following the protos links.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ancestorWithSlot(slotName)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the first ancestor of the receiver that contains
-a slot of the specified name or Nil if none is found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">and(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns the result.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">appendProto(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Appends anObject to the receiver's proto list. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">apropos</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prints out <tt>Protos Core</tt> slot descriptions.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">argIsActivationRecord</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Note: seems to be an obsolete method.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">argIsCall(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if arg is an activation context (i.e. Call object)
-<br/>
-Note: this is used internally in one place only (Coroutine callStack).
-Refactoring should be considered.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asSimpleString</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns <type>_<uniqueHexId> string.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asString</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as <tt>slotSummary</tt>.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">become(anotherObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces receiver with <tt>anotherObject</tt> and returns self.
-Useful for implementing transparent proxies. See also
-<tt>FutureProxy</tt> and <tt>Object @</tt>. <br/> Note: primitives cannot
-become new values.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">block(args..., body)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Creates a block and binds it to the sender context (i.e. lexical
-context). In other words, block locals' proto is sender's locals.
-<tt>args</tt> is a list of formal arguments (can be empty). <br/>
-<tt>body</tt> is evaluated in the context of Locals object.<br/>
-See also <tt>Object method</tt>.
-<br/>
-<pre>
-Io> block(x, x*2) scope == thisContext
-==> true
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">break(optionalReturnValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Break the current loop, if any.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">callcc(aBlock)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Calls aBlock with the current continuation as its argument.
-The continuation captures the execution state at the point of
-the callcc call. If the block returns normally, callcc returns
-the block's return value. If the continuation is invoked with
-a value, callcc returns that value instead.
-
-Example:
-result := callcc(block(cont,
-// This is the "escape" pattern
-if(someCondition,
-cont invoke("early exit")
-)
-"normal return"
-))
-// result is either "early exit" or "normal return"</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">checkMemory()</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Accesses memory in the IoObjectData struct that should be accessible.
-Should cause a memory access exception if memory is corrupt.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">clone</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a clone of the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">cloneWithoutInit</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a clone of the receiver but does not call init.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">compact</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Compact the memory for the object if possible. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">compactState</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Attempt to compact the memory of the IoState if possible.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">compare(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a number containing the comparison value of the target with
-anObject.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">contextWithSlot(slotName)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the first context (starting with the receiver and following the
-lookup path) that contains a slot of the specified name or Nil if none is
-found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">continue</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Skip the rest of the current loop iteration and start on
-the next, if any.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">coroDo(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Creates a new coro to be run in a context of sender and yields to it.
-Returns a coro.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">coroDoLater(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new coro to be run in a context of sender.
-New coro is moved to the top of the yieldingCoros queue to be executed
-when current coro yields.
-<br/>
-Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">coroFor(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new coro to be run in a context of sender.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">coroWith(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new coro to be run in a context of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">currentCoro</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the currently running coroutine.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">deprecatedWarning(optionalNewName)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prints a warning message that the current method is deprecated.
-If optionalNewName is supplied, the warning will suggest using that instead.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">do(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the message in the context of the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">doFile(pathString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the File in the context of the receiver. Returns the result.
-pathString is relative to the current working directory.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">doMessage(aMessage, optionalContext)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the message object in the context of the receiver.
-Returns the result. optionalContext can be used to specific the locals
-context in which the message is evaluated.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">doRelativeFile(pathString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the File in the context of the receiver. Returns the result.
-pathString is relative to the file calling doRelativeFile. (Duplicate of relativeDoFile)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">doString(aString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the string in the context of the receiver. Returns the result.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">evalArg(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>The '' method evaluates the argument and returns the result.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">evalArgAndReturnNil(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the argument and returns nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">evalArgAndReturnSelf(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the argument and returns the target.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">for(&lt;counter&gt;, &lt;start&gt;, &lt;end&gt;, &lt;do message&gt;)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>A for-loop control structure. See the io Programming Guide for a full
-description.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">foreach([name,] value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>For each slot, set name to the slot's
-name and value to the slot's value and execute message. Examples:
-<p>
-<pre>
-myObject foreach(n, v,
-writeln("slot ", n, " = ", v type)
-)
-
-myObject foreach(v,
-writeln("slot type ", v type)
-)
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">foreachSlot(slotName, slotValue, code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Iterates over all the slots in a receiver. Provides slotValue (non-activated)
-along with slotName. Code is executed in context of sender. <tt>slotName</tt> and <tt>slotValue</tt>
-become visible in the receiver (no Locals created! Maybe, it is not the best decision).
-<br/>
-<pre>
-Io> thisContext foreachSlot(n, v, n println)
-Lobby
-Protos
-exit
-forward
-n
-v
-==> false
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">forward</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Called when the receiver is sent a message it doesn't recognize.
+<div class="page loaded"><div class="header"><div><h1>Object</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">The root proto. All other protos clone from Object; it provides core slot management, message dispatch, introspection, and control flow primitives.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots"></a></li><li><a href="#slots--">!=</a></li><li><a href="#slots--">-</a></li><li><a href="#slots--">..</a></li><li><a href="#slots--"><</a></li><li><a href="#slots--"><=</a></li><li><a href="#slots--">==</a></li><li><a href="#slots--">></a></li><li><a href="#slots--">>=</a></li><li><a href="#slots--">?</a></li><li><a href="#slots--">@</a></li><li><a href="#slots--">@@</a></li><li><a href="#slots--actorprocessqueue">actorProcessQueue</a></li><li><a href="#slots--actorrun">actorRun</a></li><li><a href="#slots--addtrait">addTrait</a></li><li><a href="#slots--ancestorwithslot">ancestorWithSlot</a></li><li><a href="#slots--ancestors">ancestors</a></li><li><a href="#slots--and">and</a></li><li><a href="#slots--appendproto">appendProto</a></li><li><a href="#slots--apropos">apropos</a></li><li><a href="#slots--argisactivationrecord">argIsActivationRecord</a></li><li><a href="#slots--argiscall">argIsCall</a></li><li><a href="#slots--assimplestring">asSimpleString</a></li><li><a href="#slots--asstring">asString</a></li><li><a href="#slots--become">become</a></li><li><a href="#slots--block">block</a></li><li><a href="#slots--break">break</a></li><li><a href="#slots--callcc">callcc</a></li><li><a href="#slots--checkmemory">checkMemory</a></li><li><a href="#slots--clone">clone</a></li><li><a href="#slots--clonewithoutinit">cloneWithoutInit</a></li><li><a href="#slots--compact">compact</a></li><li><a href="#slots--compactstate">compactState</a></li><li><a href="#slots--compare">compare</a></li><li><a href="#slots--contextwithslot">contextWithSlot</a></li><li><a href="#slots--continue">continue</a></li><li><a href="#slots--corodo">coroDo</a></li><li><a href="#slots--corodolater">coroDoLater</a></li><li><a href="#slots--corofor">coroFor</a></li><li><a href="#slots--corowith">coroWith</a></li><li><a href="#slots--currentcoro">currentCoro</a></li><li><a href="#slots--deprecatedwarning">deprecatedWarning</a></li><li><a href="#slots--do">do</a></li><li><a href="#slots--dofile">doFile</a></li><li><a href="#slots--domessage">doMessage</a></li><li><a href="#slots--dorelativefile">doRelativeFile</a></li><li><a href="#slots--dostring">doString</a></li><li><a href="#slots--evalarg">evalArg</a></li><li><a href="#slots--evalargandreturnnil">evalArgAndReturnNil</a></li><li><a href="#slots--evalargandreturnself">evalArgAndReturnSelf</a></li><li><a href="#slots--for">for</a></li><li><a href="#slots--foreach">foreach</a></li><li><a href="#slots--foreachslot">foreachSlot</a></li><li><a href="#slots--forward">forward</a></li><li><a href="#slots--getlocalslot">getLocalSlot</a></li><li><a href="#slots--getslot">getSlot</a></li><li><a href="#slots--handleactorexception">handleActorException</a></li><li><a href="#slots--haslocalslot">hasLocalSlot</a></li><li><a href="#slots--hasproto">hasProto</a></li><li><a href="#slots--hasslot">hasSlot</a></li><li><a href="#slots--if">if</a></li><li><a href="#slots--iferror">ifError</a></li><li><a href="#slots--ifnil">ifNil</a></li><li><a href="#slots--ifnileval">ifNilEval</a></li><li><a href="#slots--ifnonnil">ifNonNil</a></li><li><a href="#slots--ifnonnileval">ifNonNilEval</a></li><li><a href="#slots--in">in</a></li><li><a href="#slots--inlinemethod">inlineMethod</a></li><li><a href="#slots--isactivatable">isActivatable</a></li><li><a href="#slots--iserror">isError</a></li><li><a href="#slots--isidenticalto">isIdenticalTo</a></li><li><a href="#slots--iskindof">isKindOf</a></li><li><a href="#slots--islaunchscript">isLaunchScript</a></li><li><a href="#slots--isnil">isNil</a></li><li><a href="#slots--istrue">isTrue</a></li><li><a href="#slots--justserialized">justSerialized</a></li><li><a href="#slots--launchfile">launchFile</a></li><li><a href="#slots--lazyslot">lazySlot</a></li><li><a href="#slots--lexicaldo">lexicalDo</a></li><li><a href="#slots--list">list</a></li><li><a href="#slots--localsforward">localsForward</a></li><li><a href="#slots--localsupdateslot">localsUpdateSlot</a></li><li><a href="#slots--loop">loop</a></li><li><a href="#slots--markclean">markClean</a></li><li><a href="#slots--memorysize">memorySize</a></li><li><a href="#slots--memorysizeofstate">memorySizeOfState</a></li><li><a href="#slots--message">message</a></li><li><a href="#slots--method">method</a></li><li><a href="#slots--newslot">newSlot</a></li><li><a href="#slots--not">not</a></li><li><a href="#slots--or">or</a></li><li><a href="#slots--ownsslots">ownsSlots</a></li><li><a href="#slots--pause">pause</a></li><li><a href="#slots--perform">perform</a></li><li><a href="#slots--performwitharglist">performWithArgList</a></li><li><a href="#slots--prependproto">prependProto</a></li><li><a href="#slots--print">print</a></li><li><a href="#slots--println">println</a></li><li><a href="#slots--proto">proto</a></li><li><a href="#slots--protos">protos</a></li><li><a href="#slots--raiseiferror">raiseIfError</a></li><li><a href="#slots--relativedofile">relativeDoFile</a></li><li><a href="#slots--removeallprotos">removeAllProtos</a></li><li><a href="#slots--removeallslots">removeAllSlots</a></li><li><a href="#slots--removeproto">removeProto</a></li><li><a href="#slots--removeslot">removeSlot</a></li><li><a href="#slots--resend">resend</a></li><li><a href="#slots--return">return</a></li><li><a href="#slots--returniferror">returnIfError</a></li><li><a href="#slots--returnifnonnil">returnIfNonNil</a></li><li><a href="#slots--self">self</a></li><li><a href="#slots--serialized">serialized</a></li><li><a href="#slots--serializedslots">serializedSlots</a></li><li><a href="#slots--serializedslotswithnames">serializedSlotsWithNames</a></li><li><a href="#slots--setisactivatable">setIsActivatable</a></li><li><a href="#slots--setproto">setProto</a></li><li><a href="#slots--setprotos">setProtos</a></li><li><a href="#slots--setslot">setSlot</a></li><li><a href="#slots--setslotwithtype">setSlotWithType</a></li><li><a href="#slots--shallowcopy">shallowCopy</a></li><li><a href="#slots--slotdescriptionmap">slotDescriptionMap</a></li><li><a href="#slots--slotnames">slotNames</a></li><li><a href="#slots--slotsummary">slotSummary</a></li><li><a href="#slots--slotvalues">slotValues</a></li><li><a href="#slots--stopstatus">stopStatus</a></li><li><a href="#slots--super">super</a></li><li><a href="#slots--switch">switch</a></li><li><a href="#slots--thiscontext">thisContext</a></li><li><a href="#slots--thislocalcontext">thisLocalContext</a></li><li><a href="#slots--thismessage">thisMessage</a></li><li><a href="#slots--try">try</a></li><li><a href="#slots--type">type</a></li><li><a href="#slots--uniquehexid">uniqueHexId</a></li><li><a href="#slots--uniqueid">uniqueId</a></li><li><a href="#slots--updateslot">updateSlot</a></li><li><a href="#slots--wait">wait</a></li><li><a href="#slots--while">while</a></li><li><a href="#slots--withhandler">withHandler</a></li><li><a href="#slots--write">write</a></li><li><a href="#slots--writeln">writeln</a></li><li><a href="#slots--yield">yield</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots"><div class="classdoc-member-head"><span class="classdoc-member-name"></span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>The '' method evaluates the argument and returns the result.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">!=</span><span class="classdoc-member-sig">(aValue)</span></div><div class="classdoc-member-body"><p>Returns true the receiver is not equal to aValue, false otherwise.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">-</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Returns the negative version of aNumber.
+    Raises an exception if argument is not a number.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">..</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>.. is an alias for: method(arg, self asString append(arg asString))</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name"><</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns self if self is less or Nil if not.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name"><=</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns self if self is less
+    than or equal to it, or Nil if not.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">==</span><span class="classdoc-member-sig">(aValue)</span></div><div class="classdoc-member-body"><p>Returns true if receiver and aValue are equal, false otherwise.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">></span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns self if self is greater than it, or Nil if
+    not.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">>=</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns self if self is greater
+    than or equal to it, or Nil if not.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">?</span><span class="classdoc-member-sig">(aMessage)</span></div><div class="classdoc-member-body"><p>description: Sends the message aMessage to the receiver if it can respond to it. Example:
+	<pre>
+	MyObject test // performs test
+	MyObject ?test // performs test if MyObject has a slot named test
+	</pre>
+	The search for the slot only follows the receivers proto chain.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">@</span></div><div class="classdoc-member-body"><p>Sends asynchronous message to an object, returns a FutureProxy.
+	<br/>
+	Caller coroutine is paused when proxy is accessed (i.e. message is sent)
+	till result is ready. Proxy will become an actual result when it is ready.
+	<br/>
+	See IoGuide for more information.
+	<br/>
+	Usage: obj @someMethod(a, b, c)</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">@@</span></div><div class="classdoc-member-body"><p>Same as Object @, but returns nil instead of FutureProxy.
+	<br/>
+	Might be useful in a command line or as a last expression in a block/method when
+	you don't want to return a future.</p></div></div><div class="classdoc-member" id="slots--actorprocessqueue"><div class="classdoc-member-head"><span class="classdoc-member-name">actorProcessQueue</span></div><div class="classdoc-member-body"><p>Processes each message in a queue, yielding between each message.</p></div></div><div class="classdoc-member" id="slots--actorrun"><div class="classdoc-member-head"><span class="classdoc-member-name">actorRun</span></div><div class="classdoc-member-body"><p>Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.</p></div></div><div class="classdoc-member" id="slots--addtrait"><div class="classdoc-member-head"><span class="classdoc-member-name">addTrait</span></div><div class="classdoc-member-body"><p>Takes another object, whose slots will be copied into the receiver. Optionally takes a second argument, a Map object containing string -> string pairs, holding conflicting slot names and names to rename them to. I.e., if you have two objects A and B, both have a slot named foo, you issue A addTrait(B, Map clone atPut("foo", "newFoo")) the value of B foo will be placed in A newFoo.</p></div></div><div class="classdoc-member" id="slots--ancestorwithslot"><div class="classdoc-member-head"><span class="classdoc-member-name">ancestorWithSlot</span><span class="classdoc-member-sig">(slotName)</span></div><div class="classdoc-member-body"><p>Returns the first ancestor of the receiver that contains
+    a slot of the specified name or Nil if none is found.</p></div></div><div class="classdoc-member" id="slots--ancestors"><div class="classdoc-member-head"><span class="classdoc-member-name">ancestors</span></div><div class="classdoc-member-body"><p>Returns a list of all of the receiver's ancestors as found by recursively following the protos links.</p></div></div><div class="classdoc-member" id="slots--and"><div class="classdoc-member-head"><span class="classdoc-member-name">and</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns the result.</p></div></div><div class="classdoc-member" id="slots--appendproto"><div class="classdoc-member-head"><span class="classdoc-member-name">appendProto</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Appends anObject to the receiver's proto list. Returns self.</p></div></div><div class="classdoc-member" id="slots--apropos"><div class="classdoc-member-head"><span class="classdoc-member-name">apropos</span></div><div class="classdoc-member-body"><p>Prints out <tt>Protos Core</tt> slot descriptions.</p></div></div><div class="classdoc-member" id="slots--argisactivationrecord"><div class="classdoc-member-head"><span class="classdoc-member-name">argIsActivationRecord</span></div><div class="classdoc-member-body"><p>Note: seems to be an obsolete method.</p></div></div><div class="classdoc-member" id="slots--argiscall"><div class="classdoc-member-head"><span class="classdoc-member-name">argIsCall</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Returns true if arg is an activation context (i.e. Call object)
+          <br/>
+          Note: this is used internally in one place only (Coroutine callStack).
+          Refactoring should be considered.</p></div></div><div class="classdoc-member" id="slots--assimplestring"><div class="classdoc-member-head"><span class="classdoc-member-name">asSimpleString</span></div><div class="classdoc-member-body"><p>Returns <type>_<uniqueHexId> string.</p></div></div><div class="classdoc-member" id="slots--asstring"><div class="classdoc-member-head"><span class="classdoc-member-name">asString</span></div><div class="classdoc-member-body"><p>Same as <tt>slotSummary</tt>.</p></div></div><div class="classdoc-member" id="slots--become"><div class="classdoc-member-head"><span class="classdoc-member-name">become</span><span class="classdoc-member-sig">(anotherObject)</span></div><div class="classdoc-member-body"><p>Replaces receiver with <tt>anotherObject</tt> and returns self.
+          Useful for implementing transparent proxies. See also
+       <tt>FutureProxy</tt> and <tt>Object @</tt>. <br/> Note: primitives cannot
+       become new values.</p></div></div><div class="classdoc-member" id="slots--block"><div class="classdoc-member-head"><span class="classdoc-member-name">block</span><span class="classdoc-member-sig">(args..., body)</span></div><div class="classdoc-member-body"><p>Creates a block and binds it to the sender context (i.e. lexical
+    context). In other words, block locals' proto is sender's locals.
+          <tt>args</tt> is a list of formal arguments (can be empty). <br/>
+          <tt>body</tt> is evaluated in the context of Locals object.<br/>
+          See also <tt>Object method</tt>.
+          <br/>
+          <pre>
+          Io> block(x, x*2) scope == thisContext
+    ==> true
+          </pre></p></div></div><div class="classdoc-member" id="slots--break"><div class="classdoc-member-head"><span class="classdoc-member-name">break</span><span class="classdoc-member-sig">(optionalReturnValue)</span></div><div class="classdoc-member-body"><p>Break the current loop, if any.</p></div></div><div class="classdoc-member" id="slots--callcc"><div class="classdoc-member-head"><span class="classdoc-member-name">callcc</span><span class="classdoc-member-sig">(aBlock)</span></div><div class="classdoc-member-body"><p>Calls aBlock with the current continuation as its argument.
+    The continuation captures the execution state at the point of
+    the callcc call. If the block returns normally, callcc returns
+    the block's return value. If the continuation is invoked with
+    a value, callcc returns that value instead.</p><p>Example:
+        result := callcc(block(cont,
+            // This is the "escape" pattern
+            if(someCondition,
+                cont invoke("early exit")
+            )
+            "normal return"
+        ))
+        // result is either "early exit" or "normal return"</p></div></div><div class="classdoc-member" id="slots--checkmemory"><div class="classdoc-member-head"><span class="classdoc-member-name">checkMemory</span><span class="classdoc-member-sig">()</span></div><div class="classdoc-member-body"><p>Accesses memory in the IoObjectData struct that should be accessible.
+   Should cause a memory access exception if memory is corrupt.</p></div></div><div class="classdoc-member" id="slots--clone"><div class="classdoc-member-head"><span class="classdoc-member-name">clone</span></div><div class="classdoc-member-body"><p>Returns a clone of the receiver.</p></div></div><div class="classdoc-member" id="slots--clonewithoutinit"><div class="classdoc-member-head"><span class="classdoc-member-name">cloneWithoutInit</span></div><div class="classdoc-member-body"><p>Returns a clone of the receiver but does not call init.</p></div></div><div class="classdoc-member" id="slots--compact"><div class="classdoc-member-head"><span class="classdoc-member-name">compact</span></div><div class="classdoc-member-body"><p>Compact the memory for the object if possible. Returns self.</p></div></div><div class="classdoc-member" id="slots--compactstate"><div class="classdoc-member-head"><span class="classdoc-member-name">compactState</span></div><div class="classdoc-member-body"><p>Attempt to compact the memory of the IoState if possible.</p></div></div><div class="classdoc-member" id="slots--compare"><div class="classdoc-member-head"><span class="classdoc-member-name">compare</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns a number containing the comparison value of the target with
+    anObject.</p></div></div><div class="classdoc-member" id="slots--contextwithslot"><div class="classdoc-member-head"><span class="classdoc-member-name">contextWithSlot</span><span class="classdoc-member-sig">(slotName)</span></div><div class="classdoc-member-body"><p>Returns the first context (starting with the receiver and following the
+    lookup path) that contains a slot of the specified name or Nil if none is
+    found.</p></div></div><div class="classdoc-member" id="slots--continue"><div class="classdoc-member-head"><span class="classdoc-member-name">continue</span></div><div class="classdoc-member-body"><p>Skip the rest of the current loop iteration and start on
+    the next, if any.</p></div></div><div class="classdoc-member" id="slots--corodo"><div class="classdoc-member-head"><span class="classdoc-member-name">coroDo</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Creates a new coro to be run in a context of sender and yields to it.
+		Returns a coro.</p></div></div><div class="classdoc-member" id="slots--corodolater"><div class="classdoc-member-head"><span class="classdoc-member-name">coroDoLater</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Returns a new coro to be run in a context of sender.
+		New coro is moved to the top of the yieldingCoros queue to be executed
+		when current coro yields.
+		<br/>
+		Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.</p></div></div><div class="classdoc-member" id="slots--corofor"><div class="classdoc-member-head"><span class="classdoc-member-name">coroFor</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Returns a new coro to be run in a context of sender.</p></div></div><div class="classdoc-member" id="slots--corowith"><div class="classdoc-member-head"><span class="classdoc-member-name">coroWith</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Returns a new coro to be run in a context of receiver.</p></div></div><div class="classdoc-member" id="slots--currentcoro"><div class="classdoc-member-head"><span class="classdoc-member-name">currentCoro</span></div><div class="classdoc-member-body"><p>Returns the currently running coroutine.</p></div></div><div class="classdoc-member" id="slots--deprecatedwarning"><div class="classdoc-member-head"><span class="classdoc-member-name">deprecatedWarning</span><span class="classdoc-member-sig">(optionalNewName)</span></div><div class="classdoc-member-body"><p>Prints a warning message that the current method is deprecated.
+	If optionalNewName is supplied, the warning will suggest using that instead.
+	Returns self.</p></div></div><div class="classdoc-member" id="slots--do"><div class="classdoc-member-head"><span class="classdoc-member-name">do</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates the message in the context of the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--dofile"><div class="classdoc-member-head"><span class="classdoc-member-name">doFile</span><span class="classdoc-member-sig">(pathString)</span></div><div class="classdoc-member-body"><p>Evaluates the File in the context of the receiver. Returns the result.
+    pathString is relative to the current working directory.</p></div></div><div class="classdoc-member" id="slots--domessage"><div class="classdoc-member-head"><span class="classdoc-member-name">doMessage</span><span class="classdoc-member-sig">(aMessage, optionalContext)</span></div><div class="classdoc-member-body"><p>Evaluates the message object in the context of the receiver.
+    Returns the result. optionalContext can be used to specific the locals
+    context in which the message is evaluated.</p></div></div><div class="classdoc-member" id="slots--dorelativefile"><div class="classdoc-member-head"><span class="classdoc-member-name">doRelativeFile</span><span class="classdoc-member-sig">(pathString)</span></div><div class="classdoc-member-body"><p>Evaluates the File in the context of the receiver. Returns the result. 
+		pathString is relative to the file calling doRelativeFile. (Duplicate of relativeDoFile)</p></div></div><div class="classdoc-member" id="slots--dostring"><div class="classdoc-member-head"><span class="classdoc-member-name">doString</span><span class="classdoc-member-sig">(aString)</span></div><div class="classdoc-member-body"><p>Evaluates the string in the context of the receiver. Returns the result.</p></div></div><div class="classdoc-member" id="slots--evalarg"><div class="classdoc-member-head"><span class="classdoc-member-name">evalArg</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>The '' method evaluates the argument and returns the result.</p></div></div><div class="classdoc-member" id="slots--evalargandreturnnil"><div class="classdoc-member-head"><span class="classdoc-member-name">evalArgAndReturnNil</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates the argument and returns nil.</p></div></div><div class="classdoc-member" id="slots--evalargandreturnself"><div class="classdoc-member-head"><span class="classdoc-member-name">evalArgAndReturnSelf</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates the argument and returns the target.</p></div></div><div class="classdoc-member" id="slots--for"><div class="classdoc-member-head"><span class="classdoc-member-name">for</span><span class="classdoc-member-sig">(<counter>, <start>, <end>, <do message>)</span></div><div class="classdoc-member-body"><p>A for-loop control structure. See the io Programming Guide for a full
+    description.</p></div></div><div class="classdoc-member" id="slots--foreach"><div class="classdoc-member-head"><span class="classdoc-member-name">foreach</span><span class="classdoc-member-sig">([name,] value, message)</span></div><div class="classdoc-member-body"><p>For each slot, set name to the slot's
+    name and value to the slot's value and execute message. Examples:
+    <p>
+    <pre>
+    myObject foreach(n, v,
+            writeln("slot ", n, " = ", v type)
+    )</p><p>myObject foreach(v,
+            writeln("slot type ", v type)
+    )
+    </pre></p></div></div><div class="classdoc-member" id="slots--foreachslot"><div class="classdoc-member-head"><span class="classdoc-member-name">foreachSlot</span><span class="classdoc-member-sig">(slotName, slotValue, code)</span></div><div class="classdoc-member-body"><p>Iterates over all the slots in a receiver. Provides slotValue (non-activated)
+  along with slotName. Code is executed in context of sender. <tt>slotName</tt> and <tt>slotValue</tt>
+  become visible in the receiver (no Locals created! Maybe, it is not the best decision).
+  <br/>
+  <pre>
+  Io> thisContext foreachSlot(n, v, n println)
+  Lobby
+  Protos
+  exit
+  forward
+  n
+  v
+  ==> false
+  </pre></p></div></div><div class="classdoc-member" id="slots--forward"><div class="classdoc-member-head"><span class="classdoc-member-name">forward</span></div><div class="classdoc-member-body"><p>Called when the receiver is sent a message it doesn't recognize.
 Default implementation raises an "Object doesNotRespond" exception.
 Subclasses can override this method to implement proxies or special error
 handling. <p> Example: <p> <pre> myProxy forward = method( messageName :=
 thisMessage name arguments := thisMessage arguments myObject
 doMessage(thisMessage)
 )
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">getLocalSlot(slotNameString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the value of the slot named slotNameString
-(not looking in the object's protos) or nil if no such slot is found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">getSlot(slotNameString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the value of the slot named slotNameString
-(following the lookup path) or nil if no such slot is found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">handleActorException(exception)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Callback for handling exceptions during asynchronous message processing.
-<br/>
-Default value: method(e, e showStack)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">hasLocalSlot(slotNameString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the slot exists in the receiver or false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">hasProto(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if anObject is found in the proto path of the target, false
-otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">hasSlot(name)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns <tt>true</tt> if slot is found somewhere in the inheritance chain
-(including receiver itself).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">if(&lt;condition&gt;, &lt;trueMessage&gt;, &lt;optionalFalseMessage&gt;)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates trueMessage if condition evaluates to a non-Nil.
-Otherwise evaluates optionalFalseMessage if it is present.
-Returns the result of the evaluated message or Nil if none was evaluated.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ifError</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Does nothing, returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ifNil(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Does nothing, returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ifNilEval(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Does nothing, returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ifNonNil(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ifNonNilEval(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates argument and returns the result.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">in(aList)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as: aList contains(self)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">inlineMethod</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Creates a method which is executed directly in a receiver (no Locals object is created).
-<br/>
-<pre>
-Io> m := inlineMethod(x := x*2)
-Io> x := 1
-==> 1
-Io> m
-==> 2
-Io> m
-==> 4
-Io> m
-==> 8
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isActivatable</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is activatable, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isError</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns false if not an error.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isIdenticalTo(aValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is identical to aValue, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isKindOf(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if anObject is in the receiver's ancestors.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isLaunchScript</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the current file was run on the command line. Io's version of Python's __file__ == "__main__"</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isNil</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns false.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isTrue</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">justSerialized(stream)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Writes serialized representation to a SerializationStream. Returns stream contents.
-[This is unintended side effect! Returned value may change in the future.]</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">launchFile(pathString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Eval file at pathString as if from the command line in its folder.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lazySlot(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Defines a slot with a lazy initialization code.
-Code is run only once: the first time slot is accessed.
-Returned value is stored in a regular slot.
-<br/>
-<pre>
-Io> x := lazySlot("Evaluated!" println; 17)
-Io> x
-Evaluated!
-==> 17
-Io> x
-==> 17
-Io> x
-==> 17
-</pre>
-<br/>
-Another form is <tt>lazySlot(name, code)</tt>:
-<br/>
-<pre>
-Io> lazySlot("x", "Evaluated!" println; 17)
-Io> x
-Evaluated!
-==> 17
-Io> x
-==> 17
-Io> x
-==> 17
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lexicalDo(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the message in the context of the receiver.
-The lexical context is added as a proto of the receiver while the argument
-is evaluated. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">list(...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a List containing the arguments.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">localsForward</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>CFunction used by Locals prototype for forwarding.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">localsUpdateSlot(slotNameString, valueObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Local's version of updateSlot mthod.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">loop(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Keeps evaluating message until a break.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">markClean</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Cleans object's slots.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">memorySize</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return the amount of memory used by the object.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">memorySizeOfState</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the number of bytes in the IoState
-(this may not include memory allocated by C libraries).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">message(expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return the message object for the argument or Nil if there is no argument.
-Note: returned object is a mutable singleton. Use "message(foo) clone" if
-you wish to modify it.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">method(args..., body)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Creates a method.
-<tt>args</tt> is a list of formal arguments (can be empty). <br/>
-<tt>body</tt> is evaluated in the context of Locals object.<br/>
-Locals' proto is a message receiver (i.e. self).
-<br/>
-Slot with a method is <em>activatable</em>. Use getSlot(name) to
-retrieve method object without activating it (i.e. calling). <br/> See
-also <tt>Object block</tt>.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">newSlot(slotName, aValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Creates a getter and setter for the slot with the name slotName
-and sets its default value to aValue. Returns self. For example,
-newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">not</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">or(arg)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ownsSlots</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>A debug method.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">pause</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes current coroutine from the yieldingCoros queue and
-yields to another coro. Exits if no coros left.
-<br/>
-See Coroutine documentation for more details.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">perform(methodName, &lt;arg1&gt;, &lt;arg2&gt;, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Performs the method corresponding to methodName with the arguments supplied.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">performWithArgList(methodName, argList)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Performs the method corresponding to methodName with the arguments in the
-argList.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">prependProto(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prepends anObject to the receiver's proto list. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">print</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prints a string representation of the object. Returns Nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">println</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as print, but also prints a new line. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">proto</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as; method(self protos first)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">protos</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a copy of the receiver's protos list.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">raiseIfError</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Does nothing, returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">relativeDoFile(pathString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Evaluates the File in the context of the receiver. Returns the result.
-pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeAllProtos</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes all of the receiver's protos. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeAllSlots</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes all of the receiver's slots. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeProto(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes anObject from the receiver's proto list if it
-is present. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeSlot(slotNameString)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the specified slot (only) in the receiver if it exists. Returns
-self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">resend</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Send the message used to activate the current method to the Object's proto.
-For example:
-<pre>
-Dog := Mammal clone do(
-init := method(
-resend
-)
-)
-</pre>
-Calling Dog init will send an init method to Mammal, but using the Dog's context.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">return(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return anObject from the current execution block.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">returnIfError</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Does nothing, returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">returnIfNonNil</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the receiver from the current execution block if it is non nil.
-Otherwise returns the receiver locally.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">self</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">serialized</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a serialized representation of the receiver.
-<br/>
-<pre>
-Io> Object clone do(x:=1) serialized
-==> Object clone do(
-x := 1
-)
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">serializedSlots(stream)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Writes all slots to a stream.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">serializedSlotsWithNames(names,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>stream) Writes selected slots to a stream.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setIsActivatable(aValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>When called with a non-Nil aValue, sets the object
-to call its activate slot when accessed as a value. Turns this behavior
-off if aValue is Nil. Only works on Objects which are not Activatable
-Primitives (such as CFunction or Block). Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setProto(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the first proto of the receiver to anObject, replacing the
-current one, if any. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setProtos(aList)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces the receiver's protos with a copy of aList. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setSlot(slotNameString, valueObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the slot slotNameString in the receiver to
-hold valueObject. Returns valueObject.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setSlotWithType(slotNameString, valueObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the slot slotNameString in the receiver to
-hold valueObject and sets the type slot of valueObject
-to be slotNameString. Returns valueObject.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">shallowCopy</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a shallow copy of the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slotDescriptionMap</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns raw map of slot names and short values' descriptions.
-See also <tt>Object slotSummary</tt>.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slotNames</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list of strings containing the names of the
-slots in the receiver (but not in its lookup path).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slotSummary</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a formatted <tt>slotDescriptionMap</tt>.
-<br/>
-<pre>
-Io> slotSummary
-==>  Object_0x30c590:
-Lobby            = Object_0x30c590
-Protos           = Object_0x30c880
-exit             = method(...)
-forward          = method(...)
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slotValues</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list of the values held in the slots of the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">stopStatus</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the internal IoState->stopStatus.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">super(aMessage)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sends the message aMessage to the receiver's proto with the context of self. Example:
-<pre>
-self test(1, 2)   // performs test(1, 2) on self
-super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">switch(&lt;key1&gt;, &lt;expression1&gt;, &lt;key2&gt;, &lt;expression2&gt;, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Execute an expression depending on the value of the caller. (This is an equivalent to C switch/case)
-<code>
-hour := Date hour switch(
-12, "midday",
-0, "midnight",
-17, "teatime",
-Date hour asString
-)
-</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">thisContext</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Synonym to self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">thisLocalContext</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns current locals.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">thisMessage</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the calling message (i.e. thisMessage itself, huh).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">try(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Executes particular code in a new coroutine.
-Returns exception or nil if no exception is caught.
-<br/>
-See also documentation for Exception catch and pass.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">type</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a string containing the name of the type of Object (Number, String,
-etc).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">uniqueHexId</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns uniqueId in a hexadecimal form (with a "0x" prefix)
-<pre>
-Io> Object uniqueId
-==> 3146784
-Io> Object uniqueHexId
-==> 0x300420
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">uniqueId</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number containing a unique id for the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">updateSlot(slotNameString, valueObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as setSlot(), but raises an error if the slot does not
-already exist in the receiver's slot lookup path.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">wait(s)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Pauses current coroutine for at least <tt>s</tt> seconds.
-<br/>
-Note: current coroutine may wait much longer than designated number of seconds
-depending on circumstances.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">while(&lt;condition&gt;, expression)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Keeps evaluating message until condition return Nil.
-Returns the result of the last message evaluated or Nil if none were
-evaluated.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">withHandler(exceptionProto, handlerBlock, body)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Installs a resumable exception handler for exceptions matching exceptionProto,
-runs body, then removes the handler. The handlerBlock receives (exception, resume).
-To resume at the signal site, call resume invoke(value) or simply return a value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">write(&lt;any number of arguments&gt;)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sends a print message to the evaluated result of each argument. Returns Nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">writeln(&lt;any number of arguments&gt;)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as write() but also writes a return character at the end. Returns Nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">yield</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
-<br/>
-See Coroutine documentation for more details.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+</pre></p></div></div><div class="classdoc-member" id="slots--getlocalslot"><div class="classdoc-member-head"><span class="classdoc-member-name">getLocalSlot</span><span class="classdoc-member-sig">(slotNameString)</span></div><div class="classdoc-member-body"><p>Returns the value of the slot named slotNameString
+    (not looking in the object's protos) or nil if no such slot is found.</p></div></div><div class="classdoc-member" id="slots--getslot"><div class="classdoc-member-head"><span class="classdoc-member-name">getSlot</span><span class="classdoc-member-sig">(slotNameString)</span></div><div class="classdoc-member-body"><p>Returns the value of the slot named slotNameString
+    (following the lookup path) or nil if no such slot is found.</p></div></div><div class="classdoc-member" id="slots--handleactorexception"><div class="classdoc-member-head"><span class="classdoc-member-name">handleActorException</span><span class="classdoc-member-sig">(exception)</span></div><div class="classdoc-member-body"><p>Callback for handling exceptions during asynchronous message processing.
+	<br/>
+	Default value: method(e, e showStack)</p></div></div><div class="classdoc-member" id="slots--haslocalslot"><div class="classdoc-member-head"><span class="classdoc-member-name">hasLocalSlot</span><span class="classdoc-member-sig">(slotNameString)</span></div><div class="classdoc-member-body"><p>Returns true if the slot exists in the receiver or false otherwise.</p></div></div><div class="classdoc-member" id="slots--hasproto"><div class="classdoc-member-head"><span class="classdoc-member-name">hasProto</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns true if anObject is found in the proto path of the target, false
+    otherwise.</p></div></div><div class="classdoc-member" id="slots--hasslot"><div class="classdoc-member-head"><span class="classdoc-member-name">hasSlot</span><span class="classdoc-member-sig">(name)</span></div><div class="classdoc-member-body"><p>Returns <tt>true</tt> if slot is found somewhere in the inheritance chain 
+  (including receiver itself).</p></div></div><div class="classdoc-member" id="slots--if"><div class="classdoc-member-head"><span class="classdoc-member-name">if</span><span class="classdoc-member-sig">(<condition>, <trueMessage>, <optionalFalseMessage>)</span></div><div class="classdoc-member-body"><p>Evaluates trueMessage if condition evaluates to a non-Nil.
+    Otherwise evaluates optionalFalseMessage if it is present.
+    Returns the result of the evaluated message or Nil if none was evaluated.</p></div></div><div class="classdoc-member" id="slots--iferror"><div class="classdoc-member-head"><span class="classdoc-member-name">ifError</span></div><div class="classdoc-member-body"><p>Does nothing, returns self.</p></div></div><div class="classdoc-member" id="slots--ifnil"><div class="classdoc-member-head"><span class="classdoc-member-name">ifNil</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Does nothing, returns self.</p></div></div><div class="classdoc-member" id="slots--ifnileval"><div class="classdoc-member-head"><span class="classdoc-member-name">ifNilEval</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Does nothing, returns self.</p></div></div><div class="classdoc-member" id="slots--ifnonnil"><div class="classdoc-member-head"><span class="classdoc-member-name">ifNonNil</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns self.</p></div></div><div class="classdoc-member" id="slots--ifnonnileval"><div class="classdoc-member-head"><span class="classdoc-member-name">ifNonNilEval</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Evaluates argument and returns the result.</p></div></div><div class="classdoc-member" id="slots--in"><div class="classdoc-member-head"><span class="classdoc-member-name">in</span><span class="classdoc-member-sig">(aList)</span></div><div class="classdoc-member-body"><p>Same as: aList contains(self)</p></div></div><div class="classdoc-member" id="slots--inlinemethod"><div class="classdoc-member-head"><span class="classdoc-member-name">inlineMethod</span></div><div class="classdoc-member-body"><p>Creates a method which is executed directly in a receiver (no Locals object is created).
+  <br/>
+  <pre>
+  Io> m := inlineMethod(x := x*2)
+  Io> x := 1
+  ==> 1
+  Io> m
+  ==> 2
+  Io> m
+  ==> 4
+  Io> m
+  ==> 8
+  </pre></p></div></div><div class="classdoc-member" id="slots--isactivatable"><div class="classdoc-member-head"><span class="classdoc-member-name">isActivatable</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is activatable, false otherwise.</p></div></div><div class="classdoc-member" id="slots--iserror"><div class="classdoc-member-head"><span class="classdoc-member-name">isError</span></div><div class="classdoc-member-body"><p>Returns false if not an error.</p></div></div><div class="classdoc-member" id="slots--isidenticalto"><div class="classdoc-member-head"><span class="classdoc-member-name">isIdenticalTo</span><span class="classdoc-member-sig">(aValue)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is identical to aValue, false otherwise.</p></div></div><div class="classdoc-member" id="slots--iskindof"><div class="classdoc-member-head"><span class="classdoc-member-name">isKindOf</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns true if anObject is in the receiver's ancestors.</p></div></div><div class="classdoc-member" id="slots--islaunchscript"><div class="classdoc-member-head"><span class="classdoc-member-name">isLaunchScript</span></div><div class="classdoc-member-body"><p>Returns true if the current file was run on the command line. Io's version of Python's __file__ == "__main__"</p></div></div><div class="classdoc-member" id="slots--isnil"><div class="classdoc-member-head"><span class="classdoc-member-name">isNil</span></div><div class="classdoc-member-body"><p>Returns false.</p></div></div><div class="classdoc-member" id="slots--istrue"><div class="classdoc-member-head"><span class="classdoc-member-name">isTrue</span></div><div class="classdoc-member-body"><p>Returns true.</p></div></div><div class="classdoc-member" id="slots--justserialized"><div class="classdoc-member-head"><span class="classdoc-member-name">justSerialized</span><span class="classdoc-member-sig">(stream)</span></div><div class="classdoc-member-body"><p>Writes serialized representation to a SerializationStream. Returns stream contents. 
+  [This is unintended side effect! Returned value may change in the future.]</p></div></div><div class="classdoc-member" id="slots--launchfile"><div class="classdoc-member-head"><span class="classdoc-member-name">launchFile</span><span class="classdoc-member-sig">(pathString)</span></div><div class="classdoc-member-body"><p>Eval file at pathString as if from the command line in its folder.</p></div></div><div class="classdoc-member" id="slots--lazyslot"><div class="classdoc-member-head"><span class="classdoc-member-name">lazySlot</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Defines a slot with a lazy initialization code. 
+  Code is run only once: the first time slot is accessed. 
+  Returned value is stored in a regular slot.
+  <br/>
+  <pre>
+  Io> x := lazySlot("Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
+  <br/>
+  Another form is <tt>lazySlot(name, code)</tt>:
+  <br/>
+  <pre>
+  Io> lazySlot("x", "Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre></p></div></div><div class="classdoc-member" id="slots--lexicaldo"><div class="classdoc-member-head"><span class="classdoc-member-name">lexicalDo</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Evaluates the message in the context of the receiver.
+    The lexical context is added as a proto of the receiver while the argument
+    is evaluated. Returns self.</p></div></div><div class="classdoc-member" id="slots--list"><div class="classdoc-member-head"><span class="classdoc-member-name">list</span><span class="classdoc-member-sig">(...)</span></div><div class="classdoc-member-body"><p>Returns a List containing the arguments.</p></div></div><div class="classdoc-member" id="slots--localsforward"><div class="classdoc-member-head"><span class="classdoc-member-name">localsForward</span></div><div class="classdoc-member-body"><p>CFunction used by Locals prototype for forwarding.</p></div></div><div class="classdoc-member" id="slots--localsupdateslot"><div class="classdoc-member-head"><span class="classdoc-member-name">localsUpdateSlot</span><span class="classdoc-member-sig">(slotNameString, valueObject)</span></div><div class="classdoc-member-body"><p>Local's version of updateSlot mthod.</p></div></div><div class="classdoc-member" id="slots--loop"><div class="classdoc-member-head"><span class="classdoc-member-name">loop</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Keeps evaluating message until a break.</p></div></div><div class="classdoc-member" id="slots--markclean"><div class="classdoc-member-head"><span class="classdoc-member-name">markClean</span></div><div class="classdoc-member-body"><p>Cleans object's slots.</p></div></div><div class="classdoc-member" id="slots--memorysize"><div class="classdoc-member-head"><span class="classdoc-member-name">memorySize</span></div><div class="classdoc-member-body"><p>Return the amount of memory used by the object.</p></div></div><div class="classdoc-member" id="slots--memorysizeofstate"><div class="classdoc-member-head"><span class="classdoc-member-name">memorySizeOfState</span></div><div class="classdoc-member-body"><p>Returns the number of bytes in the IoState
+    (this may not include memory allocated by C libraries).</p></div></div><div class="classdoc-member" id="slots--message"><div class="classdoc-member-head"><span class="classdoc-member-name">message</span><span class="classdoc-member-sig">(expression)</span></div><div class="classdoc-member-body"><p>Return the message object for the argument or Nil if there is no argument.
+    Note: returned object is a mutable singleton. Use "message(foo) clone" if
+you wish to modify it.</p></div></div><div class="classdoc-member" id="slots--method"><div class="classdoc-member-head"><span class="classdoc-member-name">method</span><span class="classdoc-member-sig">(args..., body)</span></div><div class="classdoc-member-body"><p>Creates a method.
+          <tt>args</tt> is a list of formal arguments (can be empty). <br/>
+          <tt>body</tt> is evaluated in the context of Locals object.<br/>
+          Locals' proto is a message receiver (i.e. self).
+          <br/>
+          Slot with a method is <em>activatable</em>. Use getSlot(name) to
+       retrieve method object without activating it (i.e. calling). <br/> See
+       also <tt>Object block</tt>.</p></div></div><div class="classdoc-member" id="slots--newslot"><div class="classdoc-member-head"><span class="classdoc-member-name">newSlot</span><span class="classdoc-member-sig">(slotName, aValue)</span></div><div class="classdoc-member-body"><p>Creates a getter and setter for the slot with the name slotName
+	and sets its default value to aValue. Returns self. For example,
+	newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().</p></div></div><div class="classdoc-member" id="slots--not"><div class="classdoc-member-head"><span class="classdoc-member-name">not</span></div><div class="classdoc-member-body"><p>Returns nil.</p></div></div><div class="classdoc-member" id="slots--or"><div class="classdoc-member-head"><span class="classdoc-member-name">or</span><span class="classdoc-member-sig">(arg)</span></div><div class="classdoc-member-body"><p>Returns true.</p></div></div><div class="classdoc-member" id="slots--ownsslots"><div class="classdoc-member-head"><span class="classdoc-member-name">ownsSlots</span></div><div class="classdoc-member-body"><p>A debug method.</p></div></div><div class="classdoc-member" id="slots--pause"><div class="classdoc-member-head"><span class="classdoc-member-name">pause</span></div><div class="classdoc-member-body"><p>Removes current coroutine from the yieldingCoros queue and
+	yields to another coro. Exits if no coros left.
+	<br/>
+	See Coroutine documentation for more details.</p></div></div><div class="classdoc-member" id="slots--perform"><div class="classdoc-member-head"><span class="classdoc-member-name">perform</span><span class="classdoc-member-sig">(methodName, <arg1>, <arg2>, ...)</span></div><div class="classdoc-member-body"><p>Performs the method corresponding to methodName with the arguments supplied.</p></div></div><div class="classdoc-member" id="slots--performwitharglist"><div class="classdoc-member-head"><span class="classdoc-member-name">performWithArgList</span><span class="classdoc-member-sig">(methodName, argList)</span></div><div class="classdoc-member-body"><p>Performs the method corresponding to methodName with the arguments in the
+    argList.</p></div></div><div class="classdoc-member" id="slots--prependproto"><div class="classdoc-member-head"><span class="classdoc-member-name">prependProto</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Prepends anObject to the receiver's proto list. Returns self.</p></div></div><div class="classdoc-member" id="slots--print"><div class="classdoc-member-head"><span class="classdoc-member-name">print</span></div><div class="classdoc-member-body"><p>Prints a string representation of the object. Returns Nil.</p></div></div><div class="classdoc-member" id="slots--println"><div class="classdoc-member-head"><span class="classdoc-member-name">println</span></div><div class="classdoc-member-body"><p>Same as print, but also prints a new line. Returns self.</p></div></div><div class="classdoc-member" id="slots--proto"><div class="classdoc-member-head"><span class="classdoc-member-name">proto</span></div><div class="classdoc-member-body"><p>Same as; method(self protos first)</p></div></div><div class="classdoc-member" id="slots--protos"><div class="classdoc-member-head"><span class="classdoc-member-name">protos</span></div><div class="classdoc-member-body"><p>Returns a copy of the receiver's protos list.</p></div></div><div class="classdoc-member" id="slots--raiseiferror"><div class="classdoc-member-head"><span class="classdoc-member-name">raiseIfError</span></div><div class="classdoc-member-body"><p>Does nothing, returns self.</p></div></div><div class="classdoc-member" id="slots--relativedofile"><div class="classdoc-member-head"><span class="classdoc-member-name">relativeDoFile</span><span class="classdoc-member-sig">(pathString)</span></div><div class="classdoc-member-body"><p>Evaluates the File in the context of the receiver. Returns the result. 
+		pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)</p></div></div><div class="classdoc-member" id="slots--removeallprotos"><div class="classdoc-member-head"><span class="classdoc-member-name">removeAllProtos</span></div><div class="classdoc-member-body"><p>Removes all of the receiver's protos. Returns self.</p></div></div><div class="classdoc-member" id="slots--removeallslots"><div class="classdoc-member-head"><span class="classdoc-member-name">removeAllSlots</span></div><div class="classdoc-member-body"><p>Removes all of the receiver's slots. Returns self.</p></div></div><div class="classdoc-member" id="slots--removeproto"><div class="classdoc-member-head"><span class="classdoc-member-name">removeProto</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Removes anObject from the receiver's proto list if it
+    is present. Returns self.</p></div></div><div class="classdoc-member" id="slots--removeslot"><div class="classdoc-member-head"><span class="classdoc-member-name">removeSlot</span><span class="classdoc-member-sig">(slotNameString)</span></div><div class="classdoc-member-body"><p>Removes the specified slot (only) in the receiver if it exists. Returns
+    self.</p></div></div><div class="classdoc-member" id="slots--resend"><div class="classdoc-member-head"><span class="classdoc-member-name">resend</span></div><div class="classdoc-member-body"><p>Send the message used to activate the current method to the Object's proto.
+  For example:
+  <pre>
+  Dog := Mammal clone do(
+    init := method(
+  	  resend
+    )
+  )
+  </pre>
+	Calling Dog init will send an init method to Mammal, but using the Dog's context.</p></div></div><div class="classdoc-member" id="slots--return"><div class="classdoc-member-head"><span class="classdoc-member-name">return</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Return anObject from the current execution block.</p></div></div><div class="classdoc-member" id="slots--returniferror"><div class="classdoc-member-head"><span class="classdoc-member-name">returnIfError</span></div><div class="classdoc-member-body"><p>Does nothing, returns self.</p></div></div><div class="classdoc-member" id="slots--returnifnonnil"><div class="classdoc-member-head"><span class="classdoc-member-name">returnIfNonNil</span></div><div class="classdoc-member-body"><p>Returns the receiver from the current execution block if it is non nil.
+    Otherwise returns the receiver locally.</p></div></div><div class="classdoc-member" id="slots--self"><div class="classdoc-member-head"><span class="classdoc-member-name">self</span></div><div class="classdoc-member-body"><p>Returns self.</p></div></div><div class="classdoc-member" id="slots--serialized"><div class="classdoc-member-head"><span class="classdoc-member-name">serialized</span></div><div class="classdoc-member-body"><p>Returns a serialized representation of the receiver.
+  <br/>
+  <pre>
+  Io> Object clone do(x:=1) serialized
+  ==> Object clone do(
+  	x := 1
+  )
+  </pre></p></div></div><div class="classdoc-member" id="slots--serializedslots"><div class="classdoc-member-head"><span class="classdoc-member-name">serializedSlots</span><span class="classdoc-member-sig">(stream)</span></div><div class="classdoc-member-body"><p>Writes all slots to a stream.</p></div></div><div class="classdoc-member" id="slots--serializedslotswithnames"><div class="classdoc-member-head"><span class="classdoc-member-name">serializedSlotsWithNames</span><span class="classdoc-member-sig">(names, stream)</span></div><div class="classdoc-member-body"><p>Writes selected slots to a stream.</p></div></div><div class="classdoc-member" id="slots--setisactivatable"><div class="classdoc-member-head"><span class="classdoc-member-name">setIsActivatable</span><span class="classdoc-member-sig">(aValue)</span></div><div class="classdoc-member-body"><p>When called with a non-Nil aValue, sets the object
+    to call its activate slot when accessed as a value. Turns this behavior
+    off if aValue is Nil. Only works on Objects which are not Activatable
+    Primitives (such as CFunction or Block). Returns self.</p></div></div><div class="classdoc-member" id="slots--setproto"><div class="classdoc-member-head"><span class="classdoc-member-name">setProto</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Sets the first proto of the receiver to anObject, replacing the
+    current one, if any. Returns self.</p></div></div><div class="classdoc-member" id="slots--setprotos"><div class="classdoc-member-head"><span class="classdoc-member-name">setProtos</span><span class="classdoc-member-sig">(aList)</span></div><div class="classdoc-member-body"><p>Replaces the receiver's protos with a copy of aList. Returns self.</p></div></div><div class="classdoc-member" id="slots--setslot"><div class="classdoc-member-head"><span class="classdoc-member-name">setSlot</span><span class="classdoc-member-sig">(slotNameString, valueObject)</span></div><div class="classdoc-member-body"><p>Sets the slot slotNameString in the receiver to
+    hold valueObject. Returns valueObject.</p></div></div><div class="classdoc-member" id="slots--setslotwithtype"><div class="classdoc-member-head"><span class="classdoc-member-name">setSlotWithType</span><span class="classdoc-member-sig">(slotNameString, valueObject)</span></div><div class="classdoc-member-body"><p>Sets the slot slotNameString in the receiver to
+    hold valueObject and sets the type slot of valueObject
+    to be slotNameString. Returns valueObject.</p></div></div><div class="classdoc-member" id="slots--shallowcopy"><div class="classdoc-member-head"><span class="classdoc-member-name">shallowCopy</span></div><div class="classdoc-member-body"><p>Returns a shallow copy of the receiver.</p></div></div><div class="classdoc-member" id="slots--slotdescriptionmap"><div class="classdoc-member-head"><span class="classdoc-member-name">slotDescriptionMap</span></div><div class="classdoc-member-body"><p>Returns raw map of slot names and short values' descriptions.
+  See also <tt>Object slotSummary</tt>.</p></div></div><div class="classdoc-member" id="slots--slotnames"><div class="classdoc-member-head"><span class="classdoc-member-name">slotNames</span></div><div class="classdoc-member-body"><p>Returns a list of strings containing the names of the
+    slots in the receiver (but not in its lookup path).</p></div></div><div class="classdoc-member" id="slots--slotsummary"><div class="classdoc-member-head"><span class="classdoc-member-name">slotSummary</span></div><div class="classdoc-member-body"><p>Returns a formatted <tt>slotDescriptionMap</tt>.
+  <br/>
+  <pre>
+  Io> slotSummary
+  ==>  Object_0x30c590:
+    Lobby            = Object_0x30c590
+    Protos           = Object_0x30c880
+    exit             = method(...)
+    forward          = method(...)
+  </pre></p></div></div><div class="classdoc-member" id="slots--slotvalues"><div class="classdoc-member-head"><span class="classdoc-member-name">slotValues</span></div><div class="classdoc-member-body"><p>Returns a list of the values held in the slots of the receiver.</p></div></div><div class="classdoc-member" id="slots--stopstatus"><div class="classdoc-member-head"><span class="classdoc-member-name">stopStatus</span></div><div class="classdoc-member-body"><p>Returns the internal IoState->stopStatus.</p></div></div><div class="classdoc-member" id="slots--super"><div class="classdoc-member-head"><span class="classdoc-member-name">super</span><span class="classdoc-member-sig">(aMessage)</span></div><div class="classdoc-member-body"><p>Sends the message aMessage to the receiver's proto with the context of self. Example:
+	<pre>
+	self test(1, 2)   // performs test(1, 2) on self
+	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
+	</pre></p></div></div><div class="classdoc-member" id="slots--switch"><div class="classdoc-member-head"><span class="classdoc-member-name">switch</span><span class="classdoc-member-sig">(<key1>, <expression1>, <key2>, <expression2>, ...)</span></div><div class="classdoc-member-body"><p>Execute an expression depending on the value of the caller. (This is an equivalent to C switch/case)
+	<code>
+	hour := Date hour switch(
+		12, "midday",
+		0, "midnight",
+		17, "teatime",
+		Date hour asString
+	)
+	</code></p></div></div><div class="classdoc-member" id="slots--thiscontext"><div class="classdoc-member-head"><span class="classdoc-member-name">thisContext</span></div><div class="classdoc-member-body"><p>Synonym to self.</p></div></div><div class="classdoc-member" id="slots--thislocalcontext"><div class="classdoc-member-head"><span class="classdoc-member-name">thisLocalContext</span></div><div class="classdoc-member-body"><p>Returns current locals.</p></div></div><div class="classdoc-member" id="slots--thismessage"><div class="classdoc-member-head"><span class="classdoc-member-name">thisMessage</span></div><div class="classdoc-member-body"><p>Returns the calling message (i.e. thisMessage itself, huh).</p></div></div><div class="classdoc-member" id="slots--try"><div class="classdoc-member-head"><span class="classdoc-member-name">try</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Executes particular code in a new coroutine.
+		Returns exception or nil if no exception is caught.
+		<br/>
+		See also documentation for Exception catch and pass.</p></div></div><div class="classdoc-member" id="slots--type"><div class="classdoc-member-head"><span class="classdoc-member-name">type</span></div><div class="classdoc-member-body"><p>Returns a string containing the name of the type of Object (Number, String,
+    etc).</p></div></div><div class="classdoc-member" id="slots--uniquehexid"><div class="classdoc-member-head"><span class="classdoc-member-name">uniqueHexId</span></div><div class="classdoc-member-body"><p>Returns uniqueId in a hexadecimal form (with a "0x" prefix)
+  <pre>
+  Io> Object uniqueId
+  ==> 3146784
+  Io> Object uniqueHexId
+  ==> 0x300420
+  </pre></p></div></div><div class="classdoc-member" id="slots--uniqueid"><div class="classdoc-member-head"><span class="classdoc-member-name">uniqueId</span></div><div class="classdoc-member-body"><p>Returns a Number containing a unique id for the receiver.</p></div></div><div class="classdoc-member" id="slots--updateslot"><div class="classdoc-member-head"><span class="classdoc-member-name">updateSlot</span><span class="classdoc-member-sig">(slotNameString, valueObject)</span></div><div class="classdoc-member-body"><p>Same as setSlot(), but raises an error if the slot does not
+    already exist in the receiver's slot lookup path.</p></div></div><div class="classdoc-member" id="slots--wait"><div class="classdoc-member-head"><span class="classdoc-member-name">wait</span><span class="classdoc-member-sig">(s)</span></div><div class="classdoc-member-body"><p>Pauses current coroutine for at least <tt>s</tt> seconds.
+	<br/>
+	Note: current coroutine may wait much longer than designated number of seconds
+	depending on circumstances.</p></div></div><div class="classdoc-member" id="slots--while"><div class="classdoc-member-head"><span class="classdoc-member-name">while</span><span class="classdoc-member-sig">(<condition>, expression)</span></div><div class="classdoc-member-body"><p>Keeps evaluating message until condition return Nil.
+    Returns the result of the last message evaluated or Nil if none were
+    evaluated.</p></div></div><div class="classdoc-member" id="slots--withhandler"><div class="classdoc-member-head"><span class="classdoc-member-name">withHandler</span><span class="classdoc-member-sig">(exceptionProto, handlerBlock, body)</span></div><div class="classdoc-member-body"><p>Installs a resumable exception handler for exceptions matching exceptionProto,
+		runs body, then removes the handler. The handlerBlock receives (exception, resume).
+		To resume at the signal site, call resume invoke(value) or simply return a value.</p></div></div><div class="classdoc-member" id="slots--write"><div class="classdoc-member-head"><span class="classdoc-member-name">write</span><span class="classdoc-member-sig">(<any number of arguments>)</span></div><div class="classdoc-member-body"><p>Sends a print message to the evaluated result of each argument. Returns Nil.</p></div></div><div class="classdoc-member" id="slots--writeln"><div class="classdoc-member-head"><span class="classdoc-member-name">writeln</span><span class="classdoc-member-sig">(<any number of arguments>)</span></div><div class="classdoc-member-body"><p>Same as write() but also writes a return character at the end. Returns Nil.</p></div></div><div class="classdoc-member" id="slots--yield"><div class="classdoc-member-head"><span class="classdoc-member-name">yield</span></div><div class="classdoc-member-body"><p>Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
+	<br/>
+	See Coroutine documentation for more details.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

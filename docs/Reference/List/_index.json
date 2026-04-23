@@ -1,0 +1,89 @@
+{
+  "title": "List",
+  "subtitle": "A mutable, ordered collection of values indexed by integer position.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "append", "signature": "(anObject1, anObject2, ...)", "description": "Appends the arguments to the end of the list. Returns self."},
+                {"name": "appendIfAbsent", "signature": "(anObject)", "description": "Adds each value not already contained by the receiver. Returns self."},
+                {"name": "appendSeq", "signature": "(aList1, aList2, ...)", "description": "Add the items in the lists to the receiver. Returns self."},
+                {"name": "asEncodedList", "description": "Returns a Sequence with an encoding of the list.\n    Nil, Number and Symbol objects are copied into the encoding, for other\n    object types, referenceIdForObject(item) will be called to request a\n    reference id for the object.\n\n    Also see: List fromEncodedList."},
+                {"name": "asJson", "description": "Returns JSON encoded representation of a List."},
+                {"name": "asMap", "description": "The reverse of Map asList: converts a list of lists (key-value pairs) into\n    a Map. The first item of each pair list must be a sequence. The second item\n    is the value."},
+                {"name": "asMessage", "description": "Converts each element in the list to unnamed messages with their cached result\n    set to the value of the element (without activating).Returns an unnamed message\n    whose arguments map 1:1 with the elements (after being converted to messages themselves)."},
+                {"name": "at", "signature": "(index)", "description": "Returns the value at index. Returns Nil if the index is out of bounds."},
+                {"name": "atInsert", "signature": "(index, anObject)", "description": "Inserts anObject at the index specified by index.\n    Adds anObject if the index equals the current count of the receiver.\n    Raises an exception if the index is out of bounds. Returns self."},
+                {"name": "atPut", "signature": "(index, anObject)", "description": "Replaces the existing value at index with anObject.\n    Raises an exception if the index is out of bounds. Returns self."},
+                {"name": "average", "description": "Returns the average of the items."},
+                {"name": "capacity", "description": "Returns the number of potential elements the receiver can hold before it\n    needs to grow."},
+                {"name": "contains", "signature": "(anObject)", "description": "Returns true if the receiver contains anObject, otherwise returns false."},
+                {"name": "containsAll", "signature": "(list)", "description": "Returns true the target contains all of the items in the argument list."},
+                {"name": "containsAny", "signature": "(list)", "description": "Returns true the target contains any of the items in the argument list."},
+                {"name": "containsIdenticalTo", "signature": "(anObject)", "description": "Returns true if the receiver contains a value identical to anObject,\n    otherwise returns false."},
+                {"name": "copy", "signature": "(v)", "description": "Replaces self with <tt>v</tt> list items. Returns self."},
+                {"name": "cursor", "description": "Returns a ListCursor for the receiver."},
+                {"name": "detect", "signature": "(optionalIndex, value, message)", "description": "Returns the first value for which the message evaluates to a non-nil. Example:\n<pre>list(1, 2, 3, 4) detect(i, v, v > 2)\n==> 3\nlist(1, 2, 3, 4) detect(v, v > 2)\n==> 3</pre>"},
+                {"name": "difference", "signature": "(list)", "description": "Returns a new list containing items from the target list which aren't in the argument list."},
+                {"name": "empty", "description": "Removes all items from the receiver."},
+                {"name": "first", "signature": "(optionalSize)", "description": "Returns the first item or Nil if the list is empty.\n    If optionalSize is provided, that number of the first items in the list are\n    returned."},
+                {"name": "flatten", "description": "Creates a new list, with all contained lists flattened into the new list. For example:\n<code>\nlist(1,2,list(3,4,list(5))) flatten\n==> list(1, 2, 3, 4, 5)\n</code>"},
+                {"name": "foreach", "signature": "(optionalIndex, value, message)", "description": "Loops over the list values setting the specified index and\nvalue slots and executing the message. Returns the result of the last\nexecution of the message. Example:\n<p>\n<pre>\nlist(1, 2, 3) foreach(i, v, writeln(i, \" = \", v))\nlist(1, 2, 3) foreach(v, writeln(v))</pre>"},
+                {"name": "fromEncodedList", "signature": "(aSeq)", "description": "Returns a List with the decoded Nils, Symbols and Numbers from the input raw\n    array. For each object reference encounters, objectForReferenceId(id) will\n    be called to allow the reference to be resolved.\n\n    Also see: List asEncodedList."},
+                {"name": "groupBy", "description": "Group items in a List by common expression value and return them aggregated in a Map.\n    <em>Note</em>: asJson is used because Map doesn't have asString method implemented.\n<pre>\nIo> list(\"a\", \"b\", \"cd\") groupBy(size) asJson\n==> {\"2\":[\"cd\"],\"1\":[\"a\",\"b\"]}\nIo> list(\"a\", \"b\", \"cd\") groupBy(v, v containsSeq(\"c\")) asJson\n==> {\"false\":[\"a\",\"b\"],\"true\":[\"cd\"]}\nIo> list(\"a\", \"b\", \"cd\") groupBy(i, v, i == 1) asJson\n==> {\"false\":[\"a\",\"cd\"],\"true\":[\"b\"]}\n</pre>"},
+                {"name": "indexOf", "signature": "(anObject)", "description": "Returns the index of the first occurrence of anObject\n    in the receiver. Returns Nil if the receiver doesn't contain anObject."},
+                {"name": "insertAfter", "signature": "(item, afterItem)", "description": "Inserts item after first occurrence of afterItem and returns self. If afterItem\n    is not found, item is appended to the end of the list."},
+                {"name": "insertAt", "signature": "(item, index)", "description": "Inserts item at the specified index. Raises an exception if the index is\n    out of bounds. Returns self."},
+                {"name": "insertBefore", "signature": "(item, beforeItem)", "description": "Inserts item before first occurrence of beforeItem or to the end of the list if\n    beforeItem is not found. Returns self."},
+                {"name": "intersect", "signature": "(list)", "description": "Returns a new list containing the common values from the target and argument lists."},
+                {"name": "itemCopy", "description": "Returns a new list containing the items from the receiver."},
+                {"name": "join", "signature": "(optionalSeparator)", "description": "Returns a Sequence of the concatenated items with\n    optionalSeparator between each item or simply the concatenation of the items if no optionalSeparator is supplied."},
+                {"name": "justSerialized", "signature": "(stream)", "description": "Writes the receiver's code into the stream."},
+                {"name": "last", "signature": "(optionalSize)", "description": "Returns the last item or Nil if the list is empty.\n    If optionalSize is provided, that number of the last items in the list are\n    returned."},
+                {"name": "map", "description": "Same as <tt>mapInPlace</tt>, but returns results in a new List."},
+                {"name": "mapInPlace", "signature": "(optionalIndex, value, message)", "description": "Replaces each item in the receiver with the result of applying a given message\n    to that item. Example:\n<pre>list(1, 5, 7, 2) mapInPlace(i, v, i + v)\n==> list(1, 6, 9, 5)\nlist(1, 5, 7, 2) mapInPlace(v, v + 3)\n ==> list(4, 8, 10, 5)</pre>"},
+                {"name": "pop", "description": "Returns the last item in the list and removes it\n    from the receiver. Returns nil if the receiver is empty."},
+                {"name": "preallocateToSize", "signature": "(aNumber)", "description": "Preallocates array memory to hold aNumber number of items."},
+                {"name": "prepend", "signature": "(anObject1, anObject2, ...)", "description": "Inserts the values at the beginning of the list. Returns self."},
+                {"name": "push", "signature": "(anObject1, anObject2, ...)", "description": "Same as add(anObject1, anObject2, ...)."},
+                {"name": "reduce", "description": "Also known as foldl or inject. Combines values in target starting on the left.\n    If no initial value is passed the head of the list is used. <br />\n<pre>\nIo> list(1, 2, 3) reduce(+)\n==> 6\nIo> list(1, 2, 3) reduce(xs, x, xs + x)\n==> 6\nIo> list(1, 2, 3) reduce(+, -6) # Passing the initial value.\n==> 0\nIo> list(1, 2, 3) reduce(xs, x, xs + x, -6)\n==> 0\n</pre>"},
+                {"name": "remove", "signature": "(anObject, ...)", "description": "Removes all occurrences of the arguments from the receiver. Returns self."},
+                {"name": "removeAt", "signature": "(index)", "description": "Removes the item at the specified index and returns the value removed.\n    Raises an exception if the index is out of bounds."},
+                {"name": "removeFirst", "description": "Returns the first item and removes it from the list. nil is returned if the list is empty."},
+                {"name": "removeLast", "description": "Returns the last item and removes it from the list. nil is returned if the list is empty."},
+                {"name": "removeSeq", "description": "Removes each of the items from the current list which are contained in the sequence passed in."},
+                {"name": "rest", "description": "Returns a copy of the list but with the first element removed."},
+                {"name": "reverse", "description": "Reverses the ordering of all the items of the receiver. Returns copy of receiver."},
+                {"name": "reverseForeach", "signature": "(index, value, message)", "description": "Same as foreach, but in reverse order."},
+                {"name": "reverseInPlace", "description": "Reverses the ordering of all the items in the receiver. Returns self."},
+                {"name": "reverseReduce", "description": "Also known as foldr or inject. Combines values in target starting on the right.\n    If no initial value is paseed the head of the list is used. See List reverse for examples."},
+                {"name": "second", "description": "Returns third element (same as <tt>at(2)</tt>)"},
+                {"name": "select", "description": "Same as <tt>selectInPlace</tt>, but result is a new List."},
+                {"name": "selectInPlace", "signature": "(optionalIndex, value, message)", "description": "Like foreach, but the values for which the result of message is either nil\n    or false are removed from the List. Example:\n<pre>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)\n==> 5, 7\nlist(1, 5, 7, 2) selectInPlace(v, v > 3)\n ==> 5, 7</pre>"},
+                {"name": "setSize", "signature": "(newSize)", "description": "Sets the size of the receiver by either removing excess items or adding nils\n    as needed."},
+                {"name": "size", "description": "Returns the number of items in the receiver."},
+                {"name": "slice", "signature": "(startIndex, endIndex, step)", "description": "Returns a new string containing the subset of the receiver\nfrom the startIndex to the endIndex. The endIndex argument\n    is optional. If not given, it is assumed to be the end of the string.\nStep argument is also optional and defaults to 1, if not given.\nHowever, since Io supports positional arguments only, you need to\nexplicitly specify endIndex, if you need a custom step."},
+                {"name": "sliceInPlace", "signature": "(startIndex, endIndex, step)", "description": "Returns the receiver containing the subset of the\n    receiver from the startIndex to the endIndex. The endIndex argument\n    is optional. If not given, it is assumed to be the end of the string.\nStep argument is also optional and defaults to 1."},
+                {"name": "sort", "description": "Returns a new list containing the sorted items from the receiver."},
+                {"name": "sortBy", "signature": "(aBlock)", "description": "Returns a new list containing the items from the receiver, sorted using aBlock as compare function. Example:\n<code>list(1, 3, 2, 4, 0) sortBy(block(a, b, a > b))\n==> list(4, 3, 2, 1, 0)</code>"},
+                {"name": "sortInPlace", "signature": "(optionalExpression)", "description": "Sorts the list using the compare method on the items. Returns self.\n    If an optionalExpression is provided, the sort is done on the result of the\n    evaluation of the optionalExpression on each value."},
+                {"name": "sortInPlaceBy", "signature": "(aBlock)", "description": "Sort the list using aBlock as the compare function. Returns self."},
+                {"name": "sum", "description": "Returns the sum of the items."},
+                {"name": "swapIndices", "signature": "(index1, index2)", "description": "Exchanges the object at index1 with the object at index2.\n    Raises an exception if either index is out of bounds. Returns self."},
+                {"name": "union", "signature": "(list)", "description": "Returns a new list containing items from the target and items which are only in the argument list."},
+                {"name": "unique", "description": "Returns a new list containing all the values in the target, but no duplicates."},
+                {"name": "uniqueCount", "description": "Returns a list of list(value, count) for each unique value in self."},
+                {"name": "with", "signature": "(anObject, ...)", "description": "Returns a new List containing the arguments."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,50 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>WeakLink – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>WeakLink – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="A WeakLink is a primitive that can hold a reference to an object without preventing the garbage collector from collecting it. The link reference is set with...">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>WeakLink</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>A WeakLink is a primitive that can hold a reference to
-an object without preventing the garbage collector from
-collecting it. The link reference is set with the setLink() method.
-After the garbage collector collects an object, it informs any
-(uncollected) WeakLink objects whose link value pointed to that
-object by calling their "collectedLink" method.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">link</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the link pointer or Nil if none is set.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setLink(aValue)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the link pointer. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>WeakLink</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A WeakLink is a primitive that can hold a reference to
+        an object without preventing the garbage collector from
+        collecting it. The link reference is set with the setLink() method.
+        After the garbage collector collects an object, it informs any
+        (uncollected) WeakLink objects whose link value pointed to that
+        object by calling their "collectedLink" method.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--link">link</a></li><li><a href="#slots--setlink">setLink</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--link"><div class="classdoc-member-head"><span class="classdoc-member-name">link</span></div><div class="classdoc-member-body"><p>Returns the link pointer or Nil if none is set.</p></div></div><div class="classdoc-member" id="slots--setlink"><div class="classdoc-member-head"><span class="classdoc-member-name">setLink</span><span class="classdoc-member-sig">(aValue)</span></div><div class="classdoc-member-body"><p>Sets the link pointer. Returns self.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

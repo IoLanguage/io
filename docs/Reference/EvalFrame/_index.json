@@ -1,0 +1,29 @@
+{
+  "title": "EvalFrame",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "blockLocals", "description": "Returns the block's local context object, or nil if this frame\n    is not a block activation."},
+                {"name": "call", "description": "Returns the Call object for this frame (created during block/method\n    activation), or nil if this is not a block activation frame."},
+                {"name": "depth", "description": "Returns the number of frames from this frame to the bottom\n    of the stack (inclusive). The bottom frame has depth 1."},
+                {"name": "description", "description": "Returns a human-readable description of this frame, including\n    the message name, state, and source location."},
+                {"name": "locals", "description": "Returns the locals object (sender context) for this frame."},
+                {"name": "message", "description": "Returns the Message being evaluated in this frame."},
+                {"name": "parent", "description": "Returns the parent frame, or nil if this is the bottom frame."},
+                {"name": "result", "description": "Returns the current result value of this frame, or nil."},
+                {"name": "state", "description": "Returns the current state of this frame as a Symbol\n    (e.g. \"start\", \"activate\", \"if:evalBranch\")."},
+                {"name": "target", "description": "Returns the target (receiver) of the message in this frame."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

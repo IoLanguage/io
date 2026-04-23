@@ -1,134 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>CFunction – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>CFunction – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="A wrapper around a C function exposed to Io as an activatable slot.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>CFunction</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>A container for a pointer to a C function binding.
-CFunction's can only be defined from the C side and act
-like blocks in that when placed in a slot, are called when the
-slot is activated. The for, if, while and clone methods of the Lobby
-are examples of CFunctions. CFunctions are useful for implementing
-methods that require the speed of C or binding to a C library.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">==(anObject)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns self if the argument is a CFunction with the same internal C
-function pointer.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asSimpleString</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the CFunction name.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asString</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Same as asSimpleString.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">id</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a number containing a unique id for the receiver's internal C
-function.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">name</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the CFunction name in the form CFunction_Pointer.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">performOn(target, blockLocals, optionalMessage,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>optionalContext) Activates the CFunctions with the supplied settings.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">profilerTime</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns clock() time spent in compiler in seconds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setProfilerOn(aBool)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>If aBool is true, the global block profiler is enabled, if false it is
-disabled. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">typeName</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the owning type of the CFunction or nil if the CFunction can be
-called on any object.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">uniqueName</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the name given to the CFunction.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>CFunction</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A wrapper around a C function exposed to Io as an activatable slot.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--">==</a></li><li><a href="#slots--assimplestring">asSimpleString</a></li><li><a href="#slots--asstring">asString</a></li><li><a href="#slots--id">id</a></li><li><a href="#slots--name">name</a></li><li><a href="#slots--performon">performOn</a></li><li><a href="#slots--profilertime">profilerTime</a></li><li><a href="#slots--setprofileron">setProfilerOn</a></li><li><a href="#slots--typename">typeName</a></li><li><a href="#slots--uniquename">uniqueName</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">==</span><span class="classdoc-member-sig">(anObject)</span></div><div class="classdoc-member-body"><p>Returns self if the argument is a CFunction with the same internal C
+    function pointer.</p></div></div><div class="classdoc-member" id="slots--assimplestring"><div class="classdoc-member-head"><span class="classdoc-member-name">asSimpleString</span></div><div class="classdoc-member-body"><p>Returns the CFunction name.</p></div></div><div class="classdoc-member" id="slots--asstring"><div class="classdoc-member-head"><span class="classdoc-member-name">asString</span></div><div class="classdoc-member-body"><p>Same as asSimpleString.</p></div></div><div class="classdoc-member" id="slots--id"><div class="classdoc-member-head"><span class="classdoc-member-name">id</span></div><div class="classdoc-member-body"><p>Returns a number containing a unique id for the receiver's internal C
+    function.</p></div></div><div class="classdoc-member" id="slots--name"><div class="classdoc-member-head"><span class="classdoc-member-name">name</span></div><div class="classdoc-member-body"><p>Returns the CFunction name in the form CFunction_Pointer.</p></div></div><div class="classdoc-member" id="slots--performon"><div class="classdoc-member-head"><span class="classdoc-member-name">performOn</span><span class="classdoc-member-sig">(target, blockLocals, optionalMessage,</span></div><div class="classdoc-member-body"><p>optionalContext) Activates the CFunctions with the supplied settings.</p></div></div><div class="classdoc-member" id="slots--profilertime"><div class="classdoc-member-head"><span class="classdoc-member-name">profilerTime</span></div><div class="classdoc-member-body"><p>Returns clock() time spent in compiler in seconds.</p></div></div><div class="classdoc-member" id="slots--setprofileron"><div class="classdoc-member-head"><span class="classdoc-member-name">setProfilerOn</span><span class="classdoc-member-sig">(aBool)</span></div><div class="classdoc-member-body"><p>If aBool is true, the global block profiler is enabled, if false it is
+    disabled. Returns self.</p></div></div><div class="classdoc-member" id="slots--typename"><div class="classdoc-member-head"><span class="classdoc-member-name">typeName</span></div><div class="classdoc-member-body"><p>Returns the owning type of the CFunction or nil if the CFunction can be
+    called on any object.</p></div></div><div class="classdoc-member" id="slots--uniquename"><div class="classdoc-member-head"><span class="classdoc-member-name">uniqueName</span></div><div class="classdoc-member-body"><p>Returns the name given to the CFunction.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

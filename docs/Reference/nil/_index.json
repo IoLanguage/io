@@ -1,0 +1,32 @@
+{
+  "title": "nil",
+  "subtitle": "nil is a singleton object that is used as a placeholder and to mean false in Io.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "and", "signature": "(expression)", "description": "Returns nil without evaluating expression."},
+                {"name": "asJson", "description": "Returns \"null\"."},
+                {"name": "catch", "description": "Does nothing, returns nil. See <tt>Exception catch</tt>."},
+                {"name": "clone", "description": "returns self since nil is a singleton."},
+                {"name": "else", "signature": "(expression)", "description": "Returns nil without evaluating expression."},
+                {"name": "ifNil", "signature": "(expression)", "description": "Evaluates message."},
+                {"name": "isNil", "description": "Returns Lobby."},
+                {"name": "justSerialized", "signature": "(stream)", "description": "Writes the receiver's code into the stream."},
+                {"name": "or", "signature": "(anObject)", "description": "Returns anObject if anObject is not nil. Otherwise returns nil."},
+                {"name": "pass", "description": "Does nothing, returns nil. See <tt>Exception pass</tt>."},
+                {"name": "print", "description": "Prints 'nil'. Returns self."},
+                {"name": "then", "signature": "(expression)", "description": "Returns nil without evaluating expression."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

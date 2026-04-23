@@ -73,7 +73,7 @@ io2c
 ./addons/SGML/source/libsgml/examples/Makefile*
 ./addons/SGML/source/libsgml/src/Makefile*
 tools/editlib_test/editlib_test
-libs/iovm/docs/docs.txt
+libs/iovm/docs/
 addons/*/docs/docs.txt
 *.mode1
 *.pbxuser

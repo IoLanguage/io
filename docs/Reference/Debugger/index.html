@@ -1,55 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Debugger – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>Debugger – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Contains methods related to the IoVM debugger.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>Debugger</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>Contains methods related to the IoVM debugger.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">debuggerCoroutine</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the coroutine used for the debugger.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">start</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Starts the debugger.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">vmWillSendMessage</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Override this method to implement your own debugging mechanisms. Default behavior is to print every message sent.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>Debugger</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Contains methods related to the IoVM debugger.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--debuggercoroutine">debuggerCoroutine</a></li><li><a href="#slots--description">description</a></li><li><a href="#slots--start">start</a></li><li><a href="#slots--vmwillsendmessage">vmWillSendMessage</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--debuggercoroutine"><div class="classdoc-member-head"><span class="classdoc-member-name">debuggerCoroutine</span></div><div class="classdoc-member-body"><p>Returns the coroutine used for the debugger.</p></div></div><div class="classdoc-member" id="slots--description"><div class="classdoc-member-head"><span class="classdoc-member-name">description</span></div><div class="classdoc-member-body"><p>To start debugging a coroutine, call
+	<code>
+	Coroutine currentCoroutine setMessageDebugging(true)
+	</code>
+	Then each message sent within that coroutine will cause the Debugger 
+	vmWillSendMessage slot to be activated and the Debugger slots: 
+	messageCoroutine, messageSelf, messageLocals, and message will be set with the 
+	values related to the current message send. You can override vmWillSendMessage to 
+	implement your own debugging mechanisms.</p></div></div><div class="classdoc-member" id="slots--start"><div class="classdoc-member-head"><span class="classdoc-member-name">start</span></div><div class="classdoc-member-body"><p>Starts the debugger.</p></div></div><div class="classdoc-member" id="slots--vmwillsendmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">vmWillSendMessage</span></div><div class="classdoc-member-body"><p>Override this method to implement your own debugging mechanisms. Default behavior is to print every message sent.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

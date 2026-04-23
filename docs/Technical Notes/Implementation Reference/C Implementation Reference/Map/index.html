@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>Map – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="Thin IoObject wrapper around basekit's PHash (cuckoo hash). DATA(self) is the PHash*; mark walks every key and value so contained IoObjects remain live....">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Map</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Thin IoObject wrapper around basekit's PHash (cuckoo hash). DATA(self)
+is the PHash*; mark walks every key and value so contained IoObjects
+remain live. Unlike Io's own Object slots (which are stored in a
+PHash owned by the Object), Map is a separate user-visible collection
+with ordering-free semantics and symbol keys. The foreach implementation
+has two paths: on the iterative evaluator it materializes keys via
+IoMap_rawKeys and hands the List off to the foreach frame state machine
+(controlFlow.foreachInfo.mapSource carries the original Map so the loop
+can look the value up per iteration). The recursive fallback PHASH_FOREACH
+is used only during VM bootstrap before state->currentFrame exists.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iomapcompare">IoMap_compare</a></li><li><a href="#functions--iomapfree">IoMap_free</a></li><li><a href="#functions--iomapkeys">IoMap_keys</a></li><li><a href="#functions--iomapmark">IoMap_mark</a></li><li><a href="#functions--iomapnew">IoMap_new</a></li><li><a href="#functions--iomapnewtag">IoMap_newTag</a></li><li><a href="#functions--iomapproto">IoMap_proto</a></li><li><a href="#functions--iomaprawat">IoMap_rawAt</a></li><li><a href="#functions--iomaprawatput">IoMap_rawAtPut</a></li><li><a href="#functions--iomaprawclone">IoMap_rawClone</a></li><li><a href="#functions--iomaprawkeys">IoMap_rawKeys</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iomapcompare"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_compare</span><span class="classdoc-member-sig">(self, other)</span></div><div class="classdoc-member-body"><p>Registered as the tag's compareFunc. Falls back to default pointer
+comparison against non-Maps. Otherwise compares by size first, then
+by walking the receiver's entries and comparing values for identical
+keys; any missing key or unequal value yields a nonzero result.</p></div></div><div class="classdoc-member" id="functions--iomapfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Frees the backing PHash; contained
+IoObjects are GC-managed and not touched here.</p></div></div><div class="classdoc-member" id="functions--iomapkeys"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_keys</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Io-visible thin wrapper over IoMap_rawKeys. Defined as a plain
+function (not IO_METHOD) because IoMap_rawKeys is also called from C
+paths that already have a raw Map pointer.</p></div></div><div class="classdoc-member" id="functions--iomapmark"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_mark</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's markFunc. Walks every key and value so
+contained IoObjects stay live for the GC.</p></div></div><div class="classdoc-member" id="functions--iomapnew"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_new</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Convenience constructor: looks up the registered proto and clones it.
+Used by C callers (serialization, foreach plumbing) that want a fresh
+Map without going through message machinery.</p></div></div><div class="classdoc-member" id="functions--iomapnewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Map tag and installs clone/free/mark/compare function
+pointers. Stream write/read slots are left unset (the commented-out
+block below preserves the legacy BStream format).</p></div></div><div class="classdoc-member" id="functions--iomapproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Map proto, attaches a fresh PHash as its data pointer,
+and wires up the Io-visible method table (empty, at, atPut, keys,
+values, foreach, hasKey, hasValue, removeAt, ...). Called once during
+VM init; all later Maps are clones of this proto.</p></div></div><div class="classdoc-member" id="functions--iomaprawat"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_rawAt</span><span class="classdoc-member-sig">(self, k)</span></div><div class="classdoc-member-body"><p>Low-level lookup used from C. Returns NULL on miss (not nil) so
+callers can distinguish a stored nil from an absent key.</p></div></div><div class="classdoc-member" id="functions--iomaprawatput"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_rawAtPut</span><span class="classdoc-member-sig">(self, k, v)</span></div><div class="classdoc-member-body"><p>Low-level insert used from C. IOREFs both key and value so the GC
+keeps them alive through this Map. Preferred over the Io-level atPut
+when a value is being threaded through internal machinery.</p></div></div><div class="classdoc-member" id="functions--iomaprawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Gives the clone its own PHash
+copy so mutation of one Map does not leak into the proto.</p></div></div><div class="classdoc-member" id="functions--iomaprawkeys"><div class="classdoc-member-head"><span class="classdoc-member-name">IoMap_rawKeys</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Builds a List of the Map's keys in PHash iteration order. Used by
+the Io-visible keys method and — importantly — by the iterative
+foreach path, which needs a materialized index-addressable collection
+to drive the foreach frame state machine.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

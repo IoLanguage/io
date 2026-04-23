@@ -1,14 +1,21 @@
 
 File do(
+	// Normalize "// metadoc Foo" → "//metadoc Foo" so slicesBetween matches
+	// both forms. The codebase mixes the two (with and without the space after //).
+	normalizedContents := method(
+		contents asMutable replaceSeq("// metadoc ", "//metadoc ") replaceSeq("// cmetadoc ", "//cmetadoc ") replaceSeq("// doc ", "//doc ") replaceSeq("// cdoc ", "//cdoc ")
+	)
+
 	docSlicesFor := method(name,
-		contents slicesBetween("//" .. name .. " ", "\n") map(strip) map(s,
+		c := normalizedContents
+		c slicesBetween("//" .. name .. " ", "\n") map(strip) map(s,
 			i := s findSeq(" ") + 1 // after doc
 			i1 := s findSeq("(", i)  // (
-			i2 := s findSeq(" ", i) // 
+			i2 := s findSeq(" ", i) //
 			if(i1 and i1 < i2, i2 := s findSeq(")", i))
 			if(i2, s atInsertSeq(i2 + 1, "\n"))
 			s
-		) appendSeq(contents slicesBetween("/*" .. name .. " ", "*/"))
+		) appendSeq(c slicesBetween("/*" .. name .. " ", "*/"))
 	)
 
 	docSlices := method(
@@ -90,6 +97,5 @@ DocsExtractor := Object clone do(
 	)
 )
 
-de := DocsExtractor clone
-de setPath(System args at(1))
-if(System args at(3) == "clean", de clean, de extract)
+// docs2html.io loads this file as a library via doRelativeFile and
+// drives extraction itself. No top-level side effects here.

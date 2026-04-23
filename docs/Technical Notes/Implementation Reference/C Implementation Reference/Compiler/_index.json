@@ -1,0 +1,21 @@
+{
+  "title": "Compiler",
+  "subtitle": "Thin Io-facing facade over the C lexer (IoLexer) and the C recursive-\ndescent parser (IoMessage_parser). Exposes three Io-visible entry\npoints — tokensForString, messageForString, messageForString2 — that\nrun a source string through IoLexer_lex, surface any errorToken as an\nIo \"compile error\" Exception, and either hand back a list of token\ndescription objects or the root IoMessage of the parsed chain. The\nCompiler proto itself is just a slot-holder; there is no compiled\nbytecode representation in Io, so \"compiling\" means producing a\nmessage tree.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoCompiler_proto", "signature": "(state)", "description": "Creates the Compiler proto (a plain IoObject, not a tagged primitive)\nand installs the Io-visible method table. Called once during IoState\ninit. A type slot is stamped so Compiler objects identify themselves\nthe way the rest of the VM expects."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

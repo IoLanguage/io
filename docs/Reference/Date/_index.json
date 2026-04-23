@@ -1,0 +1,67 @@
+{
+  "title": "Date",
+  "subtitle": "An absolute point in time, represented as seconds since the epoch.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "+", "signature": "(aDuration)", "description": "Return a new Date with the receiver's value plus an amount\n    of time specified by aDuration object to the receiver."},
+                {"name": "+=", "signature": "(aDuration)", "description": "Add aDuration to the receiver. Returns self."},
+                {"name": "-", "signature": "(aDurationOrDate)", "description": "Return a new Date with the receiver's value minus an amount of time\n    specified by aDuration to the receiver. Returns self."},
+                {"name": "-=", "signature": "(aDuration)", "description": "Subtract aDuration from the receiver. Returns self."},
+                {"name": "asAtomDate", "description": "Returns the date formatted as a valid atom date (rfc4287) in the system's timezone."},
+                {"name": "asNumber", "description": "Returns the date as seconds since 1970 UTC."},
+                {"name": "asSerialization", "description": "Returns a serialization (sequence) of the date that allows for perfect\n    reconstruction of the timestamp."},
+                {"name": "asString", "signature": "(optionalFormatString)", "description": "Returns a string representation of the receiver using the\nreceivers format. If the optionalFormatString argument is present, the\nreceiver's format is set to it first. Formatting is according to ANSI C\ndate formatting rules.\n<p>\n<pre>\n%a abbreviated weekday name (Sun, Mon, etc.)\n%A full weekday name (Sunday, Monday, etc.)\n%b abbreviated month name (Jan, Feb, etc.)\n%B full month name (January, February, etc.)\n%c full date and time string\n%d day of the month as two-digit decimal integer (01-31)\n%H hour as two-digit 24-hour clock decimal integer (00-23)\n%I hour as two-digit 12-hour clock decimal integer (01-12)\n%m month as a two-digit decimal integer (01-12)\n%M minute as a two-digit decimal integer (00-59)\n%p either \"AM\" or \"PM\"\n%S second as a two-digit decimal integer (00-59)\n%U number of week in the year as two-digit decimal integer (00-52)\nwith Sunday considered as first day of the week\n%w weekday as one-digit decimal integer (0-6) with Sunday as 0\n%W number of week in the year as two-digit decimal integer (00-52)\nwith Monday considered as first day of the week\n%x full date string (no time); in the C locale, this is equivalent\nto \"%m/%d/%y\".\n%y year without century as two-digit decimal number (00-99)\n%Y year with century as four-digit decimal number\n%Z time zone name (e.g. EST);\nnull string if no time zone can be obtained\n%% stands for '%' character in output string.\n</pre>"},
+                {"name": "asUTC", "description": "Changes the timezone of this date to utc"},
+                {"name": "clock", "description": "Returns a number containing the number of seconds\n    of processor time since the beginning of the program or -1 if unavailable."},
+                {"name": "convertToLocal", "description": "Converts self date from a UTC date to the equivalent local date"},
+                {"name": "convertToUTC", "description": "Converts self from a local date to the equivalent UTC date"},
+                {"name": "convertToZone", "signature": "(offset, isDST)", "description": "Converts self to an equivalent data in a zone with offset (minutes west) and\n    DST (true, false)."},
+                {"name": "copy", "signature": "(aDate)", "description": "Sets the receiver to be the same date as aDate. Returns self."},
+                {"name": "cpuSecondsToRun", "signature": "(expression)", "description": "Evaluates message and returns a Number whose value\n    is the cpu seconds taken to do the evaluation."},
+                {"name": "dateAfterSeconds", "signature": "(secondsNumber)"},
+                {"name": "day", "description": "Returns a number containing the day of the month of the receiver."},
+                {"name": "format", "description": "Returns the format string for the receiver. The default is \"%Y-%m-%d\n    %H:%M:%S %Z\"."},
+                {"name": "fromNumber", "signature": "(aNumber)", "description": "Sets the receiver to be aNumber seconds since 1970."},
+                {"name": "fromSerialization", "description": "Sets the date based on the serialization sequence.  Return self."},
+                {"name": "fromString", "signature": "(aString, formatString)", "description": "Sets the receiver to the date specified by aString as parsed according to\n    the given formatString. See the Date asString method for formatting rules.\n    Returns self."},
+                {"name": "gmtOffset", "description": "Returns the system's timezone string. E.g., +1300 or -0500."},
+                {"name": "gmtOffsetSeconds", "description": "Returns the system's seconds east of UTC."},
+                {"name": "hour", "description": "Returns a number containing the hour of the day(0-23) of the receiver."},
+                {"name": "isDST", "description": "Returns true if the Date is set to use DST.  Posix only."},
+                {"name": "isDaylightSavingsTime", "description": "Returns self if Daylight Saving Time is in effect for the receiver,\n    otherwise returns Nil."},
+                {"name": "isPast", "description": "Returns true if the receiver is a date in the past."},
+                {"name": "isToday", "description": "Returns true if the receiver's date is today's date."},
+                {"name": "isValidTime", "signature": "(hour, min, sec)", "description": "Returns self if the specified time is valid, otherwise returns Nil.\n    A negative value will count back; i.e., a value of -5 for the hour,\n    will count back 5 hours to return a value of 19. No adjustment is\n    done for values above 24."},
+                {"name": "minute", "description": "Returns a number containing the minute of the hour(0-59) of the receiver."},
+                {"name": "month", "description": "Returns a number containing the month(1-12) of the year of the receiver."},
+                {"name": "now", "description": "Sets the receiver to the current time. Returns self."},
+                {"name": "print", "description": "Prints the receiver. Returns self."},
+                {"name": "second", "description": "Returns a number containing the seconds of the minute(0-59) of the receiver.\n    This number may contain fractions of seconds."},
+                {"name": "secondsSince", "signature": "(aDate)", "description": "Returns a number of seconds of between aDate and the receiver."},
+                {"name": "secondsSinceNow", "signature": "(aDate)", "description": "Returns the number of seconds since aDate."},
+                {"name": "secondsToRun", "signature": "(expression)", "description": "Evaluates message and returns a Number whose value is the number of seconds taken to do the evaluation"},
+                {"name": "setDay", "signature": "(aNumber)", "description": "Sets the day of the receiver. Returns self."},
+                {"name": "setGmtOffset", "description": "Set the number of minutes west of GMT for this Date's zone"},
+                {"name": "setHour", "signature": "(aNumber)", "description": "Sets the hour of the receiver. Returns self."},
+                {"name": "setMinute", "signature": "(aNumber)", "description": "Sets the minute of the receiver. Returns self."},
+                {"name": "setMonth", "signature": "(aNumber)", "description": "Sets the month(1-12) of the receiver. Returns self."},
+                {"name": "setSecond", "signature": "(aNumber)", "description": "Sets the second of the receiver. Returns self."},
+                {"name": "setYear", "signature": "(aNumber)", "description": "Sets the year of the receiver."},
+                {"name": "today", "description": "Set the receiver to the current date, no time information\n\tis included. See `now' for the current date and time."},
+                {"name": "year", "description": "Returns a number containing the year of the receiver."},
+                {"name": "zone", "description": "Returns a string containing the system's time zone code."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

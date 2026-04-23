@@ -8,6 +8,7 @@
       "items": [
         "WASM",
         "Stackless",
+        "Implementation Reference",
         "Future Work"
       ]
     }

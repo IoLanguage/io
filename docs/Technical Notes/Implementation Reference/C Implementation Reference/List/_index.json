@@ -1,0 +1,39 @@
+{
+  "title": "List",
+  "subtitle": "Thin IoObject wrapper around the shared basekit List container (DATA(self)\nis a plain List*). The tag installs clone/mark/free/compare function\npointers; marking walks every element so the GC keeps contained objects\nalive. Iteration primitives (each, foreach, reverseForeach) have two\nexecution paths: when state->currentFrame is set they stamp the frame's\ncontrolFlow.foreachInfo union and return immediately so the iterative\neval loop drives the iteration (see FRAME_STATE_FOREACH_* in\nIoState_iterative.c); otherwise a LIST_SAFEFOREACH recursive fallback is\nused, which is exercised during VM bootstrap before the eval loop starts.\nMutation methods set IoObject_isDirty_ so Store/persistence layers can\nnotice change. asEncodedList / fromEncodedList implement a compact binary\nround-trip used by the object serialization machinery.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoList_checkIndex", "signature": "(self, m, allowsExtending, index, methodName)", "description": "Bounds-check helper used by the mutating at/atPut/atInsert/removeAt\nfamily. Returns 1 and raises a VM error when the index is out of\nrange. If allowsExtending is nonzero the valid range is extended to\nsize (for atInsert appending at the tail)."},
+                {"name": "IoList_compare", "signature": "(self, otherList)", "description": "Registered as the tag's compareFunc. Falls back to default pointer\ncomparison against non-Lists; otherwise compares by size then by\nelement-wise IoObject_compare. Returns the first non-zero element\ncomparison, mirroring lexicographic ordering."},
+                {"name": "IoList_each", "signature": "(self, locals, m)", "description": "Single-argument foreach: evaluates the message against each element\nwithout binding index/value slots. Under the iterative evaluator it\nstamps fd->controlFlow.foreachInfo with isEach=1 so the frame state\nmachine (FRAME_STATE_FOREACH_EVAL_BODY) sets the target rather than\nmutating the caller's locals. The recursive fallback below runs only\nbefore state->currentFrame is available during bootstrap."},
+                {"name": "IoList_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Frees the backing basekit List; the\ncontained IoObjects are GC-managed and not touched here. Aborts on a\ndouble free so use-after-free regressions surface loudly."},
+                {"name": "IoList_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. Walks every element so contained\nIoObjects stay live for the GC; called during every mark phase."},
+                {"name": "IoList_new", "signature": "(state)", "description": "Convenience constructor: looks up the registered proto and clones it.\nUsed by C callers that want a fresh, empty List without going through\nmessage machinery (e.g. foreach/keys/values return paths)."},
+                {"name": "IoList_newTag", "signature": "(state)", "description": "Builds the List tag and installs clone/free/mark/compare function\npointers. Stream write/read slots are left unset (the commented-out\nblock below preserves the legacy BStream format)."},
+                {"name": "IoList_newWithList_", "signature": "(state, list)", "description": "Wraps a pre-existing basekit List as an IoList by freeing the fresh\nList allocated in the clone and adopting the caller's pointer. Used\nby slice/join/asEncodedList where the underlying container has\nalready been built."},
+                {"name": "IoList_proto", "signature": "(state)", "description": "Creates the List proto, attaches a fresh basekit List as its data\npointer, and wires up the Io-visible method table (access, mutation,\niteration, slicing, sorting, encoded serialization, join). Called once\nduring VM init; all later Lists are clones of this proto."},
+                {"name": "IoList_rawAddBaseList_", "signature": "(self, otherList)", "description": "Appends every element of a basekit List (not an IoList) into self,\nIOREFing each through this List. Used by appendSeq and by callers\nthat already hold a basekit List pointer."},
+                {"name": "IoList_rawAppend_", "signature": "(self, v)", "description": "Low-level append used from C. Preferred over Io-level append when a\nvalue is being threaded through internal machinery and IoMessage\ndispatch would be wasteful."},
+                {"name": "IoList_rawAtPut", "signature": "(self, i, v)", "description": "Auto-extending set: pads with nils up to index i before writing,\nunlike List_at_put_ which would abort out of bounds. Used by the\nIo-visible atPut after its bounds check."},
+                {"name": "IoList_rawAt_put_", "signature": "(self, i, v)", "description": "Low-level element set used from C. IOREFs the value so the GC keeps\nit alive through this List, and marks the List dirty for persistence."},
+                {"name": "IoList_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Gives the clone its own basekit\nList copy so mutation of one List does not leak into the proto."},
+                {"name": "IoList_rawIndexOf_", "signature": "(self, v)", "description": "Linear search by IoObject_compare equality (not pointer identity) so\nNumbers and Sequences compare by value. Returns -1 on miss."},
+                {"name": "IoList_sliceArguments", "signature": "(self, locals, m, start, end, step)", "description": "Shared argument parser for slice / sliceInPlace. Reads step first\n(rejecting zero), then start and an optional end defaulting to size,\nand normalizes both indices via IoList_sliceIndex."},
+                {"name": "IoList_sliceIndex", "signature": "(index, step, size)", "description": "Python-style slice index normalization: negative values wrap from\nthe end, and out-of-range values clamp to the correct end depending\non step direction. Mutates *index in place."},
+                {"name": "MSortContext_compareForSort", "signature": "(self, ap, bp)", "description": "qsort_r callback for sortInPlace with an optional message key: evaluates\nthe key expression on each side inside a retain pool (so intermediate\nallocations don't leak) and returns the IoObject_compare result."},
+                {"name": "SortContext_compareForSort", "signature": "(self, ap, bp)", "description": "qsort_r callback for sortInPlaceBy(aBlock). Primes the two pre-built\nargument messages with cached results and activates the compare block;\nreturns 1 when the block result is false so ISFALSE(cr) swaps the pair."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "title": "Block",
+  "subtitle": "C implementation of Io blocks and methods (they share the same struct;\nblock() binds a lexical scope, method() leaves scope NULL so activation\nuses the message target). IoBlockData carries the message tree, an\nargNames List, the optional captured scope, passStops (whether\nreturn/continue/break propagate to the caller), and profiler timing.\nActivation happens via IoBlock_activate, which is installed as the\ntag's activateFunc — any getSlot of an activatable Block thus runs\nthe block without explicit message dispatch. IoBlock_activate builds\na fresh locals object (cloned from state->localsProto), populates it\nwith call/self/updateSlot plus the named arguments, and recursively\nevaluates the body via IoMessage_locals_performOn_. With frame-based\ncoroutines and the iterative evaluator, that inner perform will usually\nredirect into the eval loop rather than recurse on the C stack. The\noptional profiler wraps IoBlock_activate with clock() bookkeeping.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoBlock_activate", "signature": "(self, target, locals, m, slotContext)", "description": "Core block activation. Clones localsProto, falls back to the message\ntarget when no lexical scope was captured, creates a Call object via\nIoCall_with, and seeds the fresh locals with call/self/updateSlot.\nArguments are pre-evaluated in the caller's locals (IoMessage_locals_\nvalueArgAt_) then bound by name, which is why blocks can see their\nsender's scope. The body is evaluated via IoMessage_locals_performOn_\n— under the iterative evaluator this redirects into the frame state\nmachine rather than recursing on the C stack. On return, if passStops\nis clear, the block's return/continue/break status propagates through\nstate->returnValue/stopStatus. The IO_BLOCK_LOCALS_RECYCLING path\nmanually frees the Call and blockLocals when neither got captured,\nreclaiming the common case immediately instead of waiting for GC."},
+                {"name": "IoBlock_activateWithProfiler", "signature": "(self, target, locals, m, slotContext)", "description": "Profiler-enabled wrapper around IoBlock_activate. setProfilerOn(true)\nswaps this in as the tag's activateFunc so every activation of this\nblock accumulates elapsed clock() time into profilerTime."},
+                {"name": "IoBlock_copy_", "signature": "(self, other)", "description": "Shallow-copies another Block's message, argument names, and captured\nscope into self. Used by the commented-out BStream readFromStream to\ngraft parsed code onto a freshly allocated Block; kept live because\nstore/persistence work may re-enable it."},
+                {"name": "IoBlock_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Frees the argNames basekit List and\nthe IoBlockData payload. The message tree is GC-managed."},
+                {"name": "IoBlock_justCode", "signature": "(self)", "description": "Serializes a Block to its Io source form as a UArray: opens with\n\"block(\" (lexical closure) or \"method(\" (dynamic) depending on\nwhether a scope was captured, then emits the argument names and the\nmessage chain description. Caller owns the returned UArray."},
+                {"name": "IoBlock_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. Marks the message tree (always\npresent), the optional captured scope, and every argument name\nsymbol."},
+                {"name": "IoBlock_message_", "signature": "(self, m)", "description": "Setter used by IoBlock_method and setMessage; IOREFs through the\nBlock so the new message tree stays live."},
+                {"name": "IoBlock_method", "signature": "(target, locals, m)", "description": "Implementation of Object method(...). Allocates a fresh Block, takes\nthe last argument of m as the body message and the rest as arg name\nsymbols, and marks the Block as activatable (so slot lookup will\nauto-invoke it). Object block() calls this first and then sets scope\nto the sender's locals to convert it into a lexical closure."},
+                {"name": "IoBlock_new", "signature": "(state)", "description": "Convenience constructor: looks up the registered proto and clones it.\nUsed by IoBlock_method (the backing implementation of method() and\nblock())."},
+                {"name": "IoBlock_newTag", "signature": "(state)", "description": "Builds the Block tag with clone/mark/free function pointers plus the\nactivateFunc that makes a Block self-executing when fetched from an\nactivatable slot. The activateFunc is the key hook — IoCFunction uses\nthe same mechanism."},
+                {"name": "IoBlock_proto", "signature": "(state)", "description": "Creates the Block proto: allocates an IoBlockData with a nil message,\nempty argNames list, and NULL scope, attaches the tag from\nIoBlock_newTag, and registers the Io-visible method table (print,\ncode, message, argumentNames, setScope, call, performOn, passStops,\nprofiler). All later Blocks and methods are clones of this proto."},
+                {"name": "IoBlock_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Deep-copies the message tree so\nmutating a block's body doesn't leak into the proto, clones the arg\nnames, and carries over scope, isActivatable, and passStops. This is\nhow method() and block() on a user object produce their receiver\ncopies before IoBlock_method fills in the new content."},
+                {"name": "IoBlock_rawProfilerTime", "signature": "(self)", "description": "Direct accessor for accumulated clock() ticks spent in this block.\nMatched setter is IoBlock_rawResetProfilerTime."},
+                {"name": "IoBlock_rawResetProfilerTime", "signature": "(self)", "description": "Zeros the profiler accumulator. Exposed as a raw helper so profiler\ndrivers (scheduler/debug tooling) can reset without synthesizing a\nmessage send."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

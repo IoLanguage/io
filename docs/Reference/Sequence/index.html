@@ -1,2151 +1,271 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Sequence – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>Sequence – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="An ordered, homogeneous collection of bytes or numbers. Strings are Sequences with a character encoding.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>Sequence</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>A Sequence is a container for a list of data elements. Typically these elements
-are each 1 byte in size. A Sequence can be either mutable or immutable. When
-immutable, only the read-only methods can be used. <p> Terminology <ul> <li>
-Buffer: A mutable Sequence of single byte elements, typically in a binary
-encoding <li> Symbol or String: A unique immutable Sequence, typically in a
-character encoding
-</ul></description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">-(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Vector subtraction - Subtracts the values of aSeq from the corresponding
-values of the receiver returning a new vector with the result. Only works on
-Sequences whose item type is numeric.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">-=(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Vector subtraction - subtracts the values of aSeq to those of the receiver.
-Only works on Sequences whose item type is numeric. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">..(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a copy of the receiver with aSequence appended to it.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">/(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Divides the values of the receiver by the corresponding values of aSeq
-returning a new vector with the result.
-Only works on Sequences whose item type is numeric.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">/=(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Divides the values of aSeq to the corresponding values of the receiver.
-Only works on Sequences whose item type is numeric. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">+(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Vector addition - adds the values of aSeq to the corresponding values of the
-receiver returning a new vector with the result. Only works on Sequences
-whose item type is numeric.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">+=(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Vector addition - adds the values of aSeq to those of the receiver.
-Only works on Sequences whose item type is numeric. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">abs</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to its absolute value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">acos</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the trigonometric arcsine of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">afterSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the slice of the receiver (as a Symbol) after aSequence or
-nil if aSequence is not found. If aSequence is empty, the receiver
-(or a copy of the receiver if it is mutable) is returned.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">alignCenter(width, [padding]) &quot;&quot;</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Example:
-<code>
-Io> "abc" alignCenter(10, "-")
-==> ---abc----
-Io> "abc" alignCenter(10, "-=")
-==> -=-abc-=-=
-</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">alignLeft(width, [padding])</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Example:
-<p>
-<code>
-Io> "abc" alignLeft(10, "+")
-==> abc+++++++
-Io> "abc" alignLeft(10, "-=")
-==> abc-=-=-=-
-</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">alignLeftInPlace(width,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>[padding]) Same as align left but operation is performed on the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">alignRight(width, [padding])</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Example:
-<p>
-<code>
-Io> "abc" alignRight(10, "-")
-==> -------abc
-Io> "abc" alignRight(10, "-=")
-==> -=-=-=-abc
-</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">append(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Appends aNumber (cast to a byte) to the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">appendPathSeq(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Appends argument to the receiver such that there is one
-and only one path separator between the two. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">appendSeq(object1, object2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Calls asString on the arguments and appends the string to the receiver.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asBase64(optionalCharactersPerLine)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns an immutable, base64 encoded (according to RFC 1421) version of
-self. optionalCharactersPerLine describes the number of characters between
-line breaks and defaults to 0.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asBinaryNumber</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number containing the first 8 bytes of the
-receiver without casting them to a double. Endian is same as machine.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asBinarySignedInteger</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number with the bytes of the receiver interpreted as a binary
-signed integer. Endian is same as machine.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asBinaryUnsignedInteger</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number with the bytes of the receiver interpreted as a binary
-unsigned integer. Endian is same as machine.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asCapitalized</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a copy of the receiver with the first charater made uppercase.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asFile</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new File object with the receiver as its path.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asFixedSizeType</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new sequence with the receiver encoded in the
-minimal fixed width text encoding that its characters can fit
-into (either, ascii, utf8, utf16 or utf32).</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asHex</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asin</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the trigonometric arcsine of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asIoPath</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Io style path for an OS style path.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asJson</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Converts to form that could be interpreted as json if it already contains json, e.g. {"aaa":"bbb"} --> "{\"aaa\":\"bbb\"}"</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asList</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the receiver converted to a List containing all elements of the
-Sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asLowercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a symbol containing the reveiver made lowercase.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asMessage(optionalLabel)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the compiled message object for the string.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asMutable</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a mutable copy of the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asNumber</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the receiver converted to a number.
-Initial whitespace is ignored.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asOSPath</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a OS style path for an Io style path.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asStruct(memberList)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>For a sequence that contains the data for a raw memory data structure (as
-used in C), this method can be used to extract its members into an Object.
-The memberList argument specifies the layout of the datastructure. Its form
-is: <p> list(memberType1, memberName1, memberType2, memberName2, ...) <p>
-Member types include:
-<pre>
-int8, int16, int32, int64
-uint8, uint16, uint32, uint64
-float32, float64
-</pre>
-Example:
-<pre>
-pointObject := structPointSeq asStruct(list("float32", "x", "float32", "y"))
-</pre>
-The output pointObject would contain x and y slots with Number objects.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asSymbol</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a immutable Sequence (aka Symbol) version of the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asUCS2</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new copy of the receiver converted to UCS2 (fixed character width
-UTF16) encoding.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asUCS4</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new copy of the receiver converted to UCS4 (fixed character width
-UTF32) encoding.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asUppercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a symbol containing the reveiver made uppercase.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">asUTF8</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new copy of the receiver converted to utf8 encoding.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">at(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a value at the index specified by aNumber.
-Returns nil if the index is out of bounds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">atan</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the trigonometric arctangent of its
-value. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">atInsertSeq(indexNumber, object)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Calls asString on object and inserts the string at position indexNumber.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">atPut(aNumberIndex, aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the value at the index specified by aNumberIndex to aNumber. Returns
-self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">beforeSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the slice of the receiver (as a Symbol) before
-aSequence or self if aSequence is not found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">beginsWithSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver begins with aSequence, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">betweenSeq(aSequence, anotherSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new Sequence containing the bytes between the
-occurrence of aSequence and anotherSequence in the receiver.
-If aSequence is empty, this method is equivalent to
-beforeSeq(anotherSequence). If anotherSequence is nil, this method is
-equivalent to afterSeq(aSequence). nil is returned if no match is found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">bitAt(bitIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number containing the bit at the bit index value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">bitCount</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the number of bits in the sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">bitwiseAnd(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Updates the receiver to be the result of a bitwiseAnd with aSequence.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">bitwiseNot(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Updates the receiver to be the result of a bitwiseNot with aSequence.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">bitwiseOr(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Updates the receiver to be the result of a bitwiseOr with aSequence. Returns
-self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">bitwiseXor(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Updates the receiver to be the result of a bitwiseXor with aSequence.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">byteAt(byteIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number containing the byte at the byte index value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">capitalize</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>First charater of the receiver is made uppercase.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">ceil</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Round each value to smallest integral value not less than x.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">clear</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Set all values in the sequence to 0. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">clipAfterSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the contents of the receiver after the end of
-the first occurrence of aSequence. Returns true if anything was
-removed, or false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">clipAfterStartOfSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the contents of the receiver after the beginning of
-the first occurrence of aSequence. Returns true if anything was
-removed, or false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">clipBeforeEndOfSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the contents of the receiver before the end of
-the first occurrence of aSequence. Returns true if anything was
-removed, or false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">clipBeforeSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Clips receiver before aSequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">cloneAppendPath(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Appends argument to a copy the receiver such that there is one
-and only one path separator between the two and returns the result.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">contains(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver contains an element equal in value to aNumber,
-false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">containsAnyCaseSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver contains the aSequence
-regardless of casing, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">containsSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver contains the substring
-aSequence, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">convertToItemType(aTypeName)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Converts the underlying machine type for the elements, expanding or
-contracting the size of the Sequence as needed. Valid names are uint8,
-uint16, uint32, uint64, int8, int16, int32, int64, float32, and float64.
-Note that 64 bit types are only available on platforms that support such
-types. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">copy(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces the bytes of the receiver with a copy of those in aSequence.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">cos</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the trigonometric cosine of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">cosh</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the hyperbolic cosine of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">distanceTo(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a number with the square root of the sum of the square
-of the differences of the items between the sequences.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">dotProduct(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new Sequence containing the dot product of the receiver with aSeq.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">duplicateIndexes</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Duplicates all indexes in the receiver.
-For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns
-self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">empty</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets all bytes in the receiver to 0x0 and sets
-its length to 0. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">encoding</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the encoding of the elements.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">endsWithSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver ends with aSequence, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">escape</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Escape characters in the receiver are replaced with escape codes.
-For example a string containing a single return character would contain the
-following 2 characters after being escaped: "\n". Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">exclusiveSlice(inclusiveStartIndex, exclusiveEndIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new string containing the subset of the
-receiver from the inclusiveStartIndex to the exclusiveEndIndex. The
-exclusiveEndIndex argument is optional. If not given, it is assumed to be
-one beyond the end of the string.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">exp</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to e**value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">fileName</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the last path component sans the path extension.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">findNthSeq(aSequence,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>n) Returns a number with the nth occurrence of aSequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">findSeq(aSequence, optionalStartIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a number with the first occurrence of aSequence in
-the receiver after the startIndex. If no startIndex is specified,
-the search starts at index 0.
-nil is returned if no occurrences are found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">findSeqs(listOfSequences, optionalStartIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns an object with two slots - an \"index\" slot which contains
-the first occurrence of any of the sequences in listOfSequences found
-in the receiver after the startIndex, and a \"match\" slot, which
-contains a reference to the matching sequence from listOfSequences.
-If no startIndex is specified, the search starts at index 0.
-nil is returned if no occurrences are found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">floor</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Round each value to largest integral value not greater than x.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">foreach(optionalIndex, value, message)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>For each element, set index to the index of the
-element and value to the element value and execute message.
-Example:
-<pre>
-aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
-aSequence foreach(v, writeln("value ", v))
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">fromBase(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a number with a base 10 representation of the receiver
-converted from the specified base. Only base 2 through 32 are currently
-supported.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">fromBase64</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns an immutable, base64 decoded (according to RFC 1421) version of
-self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">greaterThan(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is greater than aSeq, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">greaterThanOrEqualTo(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is greater than or equal to aSeq, false
-otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">hash</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Number containing a hash of the Sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">inclusiveSlice(inclusiveStartIndex, inclusiveEndIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new string containing the subset of the
-receiver from the inclusiveStartIndex to the inclusiveEndIndex. The
-inclusiveEndIndex argument is optional. If not given, it is assumed to be
-the end of the string.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">interpolate(ctx)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns immutable copy of self with interpolateInPlace(ctx) passed to the
-copy.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">interpolateInPlace(optionalContext)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Replaces all #{expression} with expression evaluated in the optionalContext.
-If optionalContext not given, the current context is used.  Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isEmpty</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the size of the receiver is 0, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isEqualAnyCase(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if aSequence is equal to the receiver
-ignoring case differences, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isLowercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns self if all the characters in the string are lower case.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isMutable</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is a mutable Sequence or false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isSymbol</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is a
-immutable Sequence (aka, a Symbol) or false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isUppercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns self if all the characters in the string are upper case.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">isZero</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if all elements are 0, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">itemCopy</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new sequence containing the items from the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">itemSize</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns number of bytes in each element.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">itemType</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns machine type of elements.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">justSerialized(stream)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Writes the receiver's code into the stream.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lastPathComponent</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a string containing the receiver clipped up
-to the last path separator.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lessThan(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is less than aSeq, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lessThanOrEqualTo(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns true if the receiver is less than or equal to aSeq, false otherwise.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">linePrint</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prints the Sequence and a newline character.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">log</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the natural log of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">log10</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the base 10 log of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">logicalAnd(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Updates the receiver's values to be the result of a logical OR operations
-with the values of aSequence. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">logicalOr(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Updates the receiver's values to be the result of a logical OR operations
-with the values of aSequence. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lowercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Makes all the uppercase characters in the receiver lowercase. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">lstrip(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Strips the characters in aSequence
-stripped from the beginning of the receiver. Example:
-<p>
-<pre>
-"Keep the tail" lstrip(" eKp")
-==> "the tail"
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">makeFirstCharacterLowercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Receiver must be mutable (see also asMutable). Returns receiver.
-<br/>
-<pre>
-Io> "ABC" asMutable makeFirstCharacterLowercase
-==> aBC
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">makeFirstCharacterUppercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Receiver must be mutable (see also asMutable). Returns receiver.
-<br/>
-<pre>
-Io> "abc" asMutable makeFirstCharacterUppercase
-==> Abc
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">max</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the maximum value of the Sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">Max</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the maximum value in the sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">mean</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the arithmetic mean of the sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">meanSquare</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the arithmetic mean of the sequence's values after they have been
-squared.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">min</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the minimum value of the Sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">Min</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the minimum value in the sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">negate</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Negates the values of the receiver.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">normalize</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Divides each value of the Sequence by the max value of the sequence.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">occurrencesOfSeq(aSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns count of aSeq in the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">pack(format, value1, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new Sequence with the values packed in.
-
-Codes:
-
-*: (one at the beginning of the format string) declare format string as
-BigEndian B: unsigned byte b: byte C: unsigned char c: char H: unsigned
-short h: short I: unsigned int i: int L: unsigned long l: long f: float F:
-double s: string
-
-A '*' at the begging of the format string indicates native types are to be
-treated as Big Endiand.
-
-A number preceding a code declares an array of that type.
-
-In the case of 's', the preceding number indicates the size of the string to
-be packed. If the string passed is shorter than size, 0 padding will be used
-to fill to size. If the string passed is longer than size, only size chars
-will be packed.
-
-The difference between b/B and c/C is in the values passed to pack. For b/B
-pack expects a number. For c/C pack expects a one-char-string (this is the
-same as '1s' or 's')
-
-Examples:
-
-s := Sequence pack("IC5s", 100, "a", "hello")
-s := Sequence pack("5c", "h", "e", "l", "l", "o")
-s := Sequence pack("I", 0x01020304)
-s := Sequence pack("*I", 0x01020304)</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">parseJson</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Interprets the Sequence as JSON and returns a Map.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">pathComponent</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a slice of the receiver before the last path separator as a symbol.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">pathExtension</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a string containing the receiver clipped up to the last period.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">percentDecoded</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns percent decoded version of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">percentEncoded</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns percent encoded version of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">preallocateToSize(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>If needed, resize the memory alloced for the receivers
-byte array to be large enough to fit the number of bytes specified by
-aNumber. This is useful for pio_reallocating the memory so it doesn't
-keep getting allocated as the Sequence is appended to. This operation
-will not change the Sequence's length or contents. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">prependSeq(object1,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>object2, ...) Prepends given objects asString in reverse order to the receiver.  Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">print</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prints the receiver as a string. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">product</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the product of all the sequence's values multipled together.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">rangeFill</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the values of the Sequence to their index values.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeAt(index)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the item at the specified index and returns the value removed.
-Returns nil if the index is out of bounds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeEvenIndexes</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes even indexes in the receiver.
-For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeLast</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the last element from the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeOddIndexes</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes odd indexes in the receiver.
-For example, list(1,2,3) removeOddIndexes == list(2). Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removePrefix(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>If the receiver begins with aSequence, it is removed. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeSeq(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes occurrences of aSequence from the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeSlice(startIndex, endIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Removes the items from startIndex to endIndex.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">removeSuffix(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>If the receiver end with aSequence, it is removed. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">repeated(n)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new sequence containing the receiver repeated n number of times.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">replaceFirstSeq(aSequence, anotherSequence,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>optionalStartIndex) Returns a new Sequence with the first occurrence of
-aSequence replaced with anotherSequence in the receiver. If
-optionalStartIndex is provided, the search for aSequence begins at that
-index. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">replaceMap(aMap)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>In the receiver, the keys of aMap replaced with its values. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">replaceSeq(aSequence, anotherSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new Sequence with all occurrences of aSequence
-replaced with anotherSequence in the receiver. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverse</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Reverses the ordering of all the items of the receiver. Returns copy of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverseFindSeq(aSequence, startIndex)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a number with the first occurrence of aSequence in
-the receiver before the startIndex. The startIndex argument is optional.
-By default reverseFind starts at the end of the string. Nil is
-returned if no occurrences are found.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">reverseInPlace</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Reverses the bytes in the receiver, in-place.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">rstrip(aSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Strips the characters in
-aSequence stripped from the end of the receiver. Example:
-<pre>
-"Cut the tail off" rstrip(" afilot")
-==> "Cut the"
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">set(aNumber1, aNumber2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the values of the receiver to the sequences of numbers in the
-arguments. Unset values will remain unchanged. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setEncoding(encodingName)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the encoding flag of the receiver (only the encoding flag,
-itemSize and itemType will change, no conversion is done between UTF
-encodings - you can use convertToUTF8, etc methods for conversions).
-Valid encodings are number, utf8, utf16, and utf32. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setItemsToDouble(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets all items in the Sequence to the double floating point value of
-aNumber.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setItemsToLong(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets all items in the Sequence to the long integer value of aNumber.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setItemType(aTypeName)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the underlying machine type for the elements.
-Valid names are uint8, uint16, uint32, uint64, int8, int16, int32,
-int64, float32, and float64. Note that 64 bit types are only available
-on platforms that support such types. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setSize(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the length in bytes of the receiver to aNumber. Return self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sin</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the trigonometric sine of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sinh</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the hyperbolic sine of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">size</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the length in number of items (which may or may not
-be the number of bytes, depending on the item type) of the receiver. For
-example: <p> <pre> "abc" size == 3
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sizeInBytes</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the length in bytes of the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slice</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Deprecated method. Use exSlice instead.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">slicesBetween(startSeq, endSeq)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list of slices delimited
-by <tt>startSeq</tt> and <tt>endSeq</tt>.
-<br>
-<pre>
-Io> "<a><b></b></a>" slicesBetween("<", ">")
-==> list("a", "b", "/b", "/a")
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sort</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sorts the characters/numbers in the array. Returns</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">split Returns a list containing the sub-sequences of the receiver divided by the given arguments.</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>If no arguments are given the sequence is split on white space.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">split(optionalArg1, optionalArg2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list containing the sub-sequences of the receiver divided by the
-given arguments. If no arguments are given the sequence is split on white
-space. Examples: <pre> "a b c d" split == list("a", "b", "c", "d") "a*b*c*d"
-split("*") == list("a", "b", "c", "d") "a*b|c,d" split("*", "|", ",") ==
-list("a", "b", "c", "d") "a   b  c d" split == list("a", "", "", "", "b",
-"", "", "c", "", "d")
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">splitAt(indexNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list containing the two parts of the receiver as split at the
-given index.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">splitNoEmpties(optionalArg1, optionalArg2, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
-If no arguments are given the sequence is split on white space.
-Examples:
-<code>
-"a   b  c d" splitNoEmpties => list("a", "b", "c", "d")
-"a***b**c*d" splitNoEmpties("*") => list("a", "b", "c", "d")
-"a***b||c,d" splitNoEmpties("*", "|", ",") => list("a", "b", "c", "d")
-</code></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sqrt</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the square root of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">square</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the square of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">strip(optionalSequence)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Trims the whitespace (or optionalSequence) off both ends:
-<p>
-<pre>
-"   Trim this string   \r\n" strip
-==> "Trim this string"
-</pre></description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">sum</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the sum of the Sequence.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">tan</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the trigonometric tangent of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">tanh</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets each value of the Sequence to the hyperbolic tangent of its value.
-Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">toBase(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a Sequence containing the receiver (which is
-assumed to be a base 10 number) converted to the specified base.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">translate(fromChars, toChars)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>In the receiver, the characters in fromChars are replaced with those in the
-same positions in toChars. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">unescape</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Escape codes replaced with escape characters. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">unpack(optionalStartPosition, format)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Unpacks self into a list using the format passed in. See Sequence pack.
-
-Returns a List.
-
-Examples:
-
-s := Sequence pack("IC5s", 100, "a", "hello")
-l := s unpack("IC5s")
-
-s := Sequence pack("5c", "h", "e", "l", "l", "o")
-l := s unpack("5c")
-
-s := Sequence pack("I", 0x01020304)
-l := s unpack("I")
-
-s := Sequence pack("*I", 0x01020304)
-l := s unpack("*I")
-
-l := "hello" unpack("5c")</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">uppercase</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Makes all characters of the receiver uppercase.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">urlDecoded</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns url decoded version of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">urlEncoded</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns url encoded version of receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">whiteSpaceStrings</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a List of strings. Each string contains a different
-whitespace character.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">with(aSequence, ...)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a new Sequence which is the concatenation of the arguments.
-The returned sequence will have the same mutability status as the receiver.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">withStruct(memberList)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>This method is useful for producing a Sequence containing a raw
-datastructure with the specified types and values. The memberList format is:
-<p>
-list(memberType1, memberName1, memberType2, memberName2, ...)
-<p>
-Member types include:
-<pre>
-int8, int16, int32, int64
-uint8, uint16, uint32, uint64
-float32, float64
-</pre>
-Example:
-<pre>
-pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
-</pre>
-The output pointStructSeq would contain 2 raw 32 bit floats.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>Sequence</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">An ordered, homogeneous collection of bytes or numbers. Strings are Sequences with a character encoding.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--">*</a></li><li><a href="#slots--">**</a></li><li><a href="#slots--">**=</a></li><li><a href="#slots--">*=</a></li><li><a href="#slots--">+</a></li><li><a href="#slots--">+=</a></li><li><a href="#slots--">-</a></li><li><a href="#slots--">-=</a></li><li><a href="#slots--">..</a></li><li><a href="#slots--">/</a></li><li><a href="#slots--">/=</a></li><li><a href="#slots--max">Max</a></li><li><a href="#slots--min">Min</a></li><li><a href="#slots--abs">abs</a></li><li><a href="#slots--acos">acos</a></li><li><a href="#slots--afterseq">afterSeq</a></li><li><a href="#slots--aligncenter">alignCenter</a></li><li><a href="#slots--alignleft">alignLeft</a></li><li><a href="#slots--alignleftinplace">alignLeftInPlace</a></li><li><a href="#slots--alignright">alignRight</a></li><li><a href="#slots--append">append</a></li><li><a href="#slots--appendpathseq">appendPathSeq</a></li><li><a href="#slots--appendseq">appendSeq</a></li><li><a href="#slots--asbase64">asBase64</a></li><li><a href="#slots--asbinarynumber">asBinaryNumber</a></li><li><a href="#slots--asbinarysignedinteger">asBinarySignedInteger</a></li><li><a href="#slots--asbinaryunsignedinteger">asBinaryUnsignedInteger</a></li><li><a href="#slots--ascapitalized">asCapitalized</a></li><li><a href="#slots--asfile">asFile</a></li><li><a href="#slots--asfixedsizetype">asFixedSizeType</a></li><li><a href="#slots--ashex">asHex</a></li><li><a href="#slots--asiopath">asIoPath</a></li><li><a href="#slots--asjson">asJson</a></li><li><a href="#slots--aslist">asList</a></li><li><a href="#slots--aslowercase">asLowercase</a></li><li><a href="#slots--asmessage">asMessage</a></li><li><a href="#slots--asmutable">asMutable</a></li><li><a href="#slots--asnumber">asNumber</a></li><li><a href="#slots--asospath">asOSPath</a></li><li><a href="#slots--asstruct">asStruct</a></li><li><a href="#slots--assymbol">asSymbol</a></li><li><a href="#slots--asucs2">asUCS2</a></li><li><a href="#slots--asucs4">asUCS4</a></li><li><a href="#slots--asutf8">asUTF8</a></li><li><a href="#slots--asuppercase">asUppercase</a></li><li><a href="#slots--asin">asin</a></li><li><a href="#slots--at">at</a></li><li><a href="#slots--atinsertseq">atInsertSeq</a></li><li><a href="#slots--atput">atPut</a></li><li><a href="#slots--atan">atan</a></li><li><a href="#slots--beforeseq">beforeSeq</a></li><li><a href="#slots--beginswithseq">beginsWithSeq</a></li><li><a href="#slots--betweenseq">betweenSeq</a></li><li><a href="#slots--bitat">bitAt</a></li><li><a href="#slots--bitcount">bitCount</a></li><li><a href="#slots--bitwiseand">bitwiseAnd</a></li><li><a href="#slots--bitwisenot">bitwiseNot</a></li><li><a href="#slots--bitwiseor">bitwiseOr</a></li><li><a href="#slots--bitwisexor">bitwiseXor</a></li><li><a href="#slots--byteat">byteAt</a></li><li><a href="#slots--capitalize">capitalize</a></li><li><a href="#slots--ceil">ceil</a></li><li><a href="#slots--clear">clear</a></li><li><a href="#slots--clipafterseq">clipAfterSeq</a></li><li><a href="#slots--clipafterstartofseq">clipAfterStartOfSeq</a></li><li><a href="#slots--clipbeforeendofseq">clipBeforeEndOfSeq</a></li><li><a href="#slots--clipbeforeseq">clipBeforeSeq</a></li><li><a href="#slots--cloneappendpath">cloneAppendPath</a></li><li><a href="#slots--contains">contains</a></li><li><a href="#slots--containsanycaseseq">containsAnyCaseSeq</a></li><li><a href="#slots--containsseq">containsSeq</a></li><li><a href="#slots--converttoitemtype">convertToItemType</a></li><li><a href="#slots--copy">copy</a></li><li><a href="#slots--cos">cos</a></li><li><a href="#slots--cosh">cosh</a></li><li><a href="#slots--distanceto">distanceTo</a></li><li><a href="#slots--dotproduct">dotProduct</a></li><li><a href="#slots--duplicateindexes">duplicateIndexes</a></li><li><a href="#slots--empty">empty</a></li><li><a href="#slots--encoding">encoding</a></li><li><a href="#slots--endswithseq">endsWithSeq</a></li><li><a href="#slots--escape">escape</a></li><li><a href="#slots--exclusiveslice">exclusiveSlice</a></li><li><a href="#slots--exp">exp</a></li><li><a href="#slots--filename">fileName</a></li><li><a href="#slots--findnthseq">findNthSeq</a></li><li><a href="#slots--findseq">findSeq</a></li><li><a href="#slots--findseqs">findSeqs</a></li><li><a href="#slots--floor">floor</a></li><li><a href="#slots--foreach">foreach</a></li><li><a href="#slots--frombase">fromBase</a></li><li><a href="#slots--frombase64">fromBase64</a></li><li><a href="#slots--greaterthan">greaterThan</a></li><li><a href="#slots--greaterthanorequalto">greaterThanOrEqualTo</a></li><li><a href="#slots--hash">hash</a></li><li><a href="#slots--inclusiveslice">inclusiveSlice</a></li><li><a href="#slots--interpolate">interpolate</a></li><li><a href="#slots--interpolateinplace">interpolateInPlace</a></li><li><a href="#slots--isempty">isEmpty</a></li><li><a href="#slots--isequalanycase">isEqualAnyCase</a></li><li><a href="#slots--islowercase">isLowercase</a></li><li><a href="#slots--ismutable">isMutable</a></li><li><a href="#slots--issymbol">isSymbol</a></li><li><a href="#slots--isuppercase">isUppercase</a></li><li><a href="#slots--iszero">isZero</a></li><li><a href="#slots--itemcopy">itemCopy</a></li><li><a href="#slots--itemsize">itemSize</a></li><li><a href="#slots--itemtype">itemType</a></li><li><a href="#slots--justserialized">justSerialized</a></li><li><a href="#slots--lastpathcomponent">lastPathComponent</a></li><li><a href="#slots--lessthan">lessThan</a></li><li><a href="#slots--lessthanorequalto">lessThanOrEqualTo</a></li><li><a href="#slots--lineprint">linePrint</a></li><li><a href="#slots--log">log</a></li><li><a href="#slots--log10">log10</a></li><li><a href="#slots--logicaland">logicalAnd</a></li><li><a href="#slots--logicalor">logicalOr</a></li><li><a href="#slots--lowercase">lowercase</a></li><li><a href="#slots--lstrip">lstrip</a></li><li><a href="#slots--makefirstcharacterlowercase">makeFirstCharacterLowercase</a></li><li><a href="#slots--makefirstcharacteruppercase">makeFirstCharacterUppercase</a></li><li><a href="#slots--max">max</a></li><li><a href="#slots--mean">mean</a></li><li><a href="#slots--meansquare">meanSquare</a></li><li><a href="#slots--min">min</a></li><li><a href="#slots--negate">negate</a></li><li><a href="#slots--normalize">normalize</a></li><li><a href="#slots--occurrencesofseq">occurrencesOfSeq</a></li><li><a href="#slots--pack">pack</a></li><li><a href="#slots--parsejson">parseJson</a></li><li><a href="#slots--pathcomponent">pathComponent</a></li><li><a href="#slots--pathextension">pathExtension</a></li><li><a href="#slots--percentdecoded">percentDecoded</a></li><li><a href="#slots--percentencoded">percentEncoded</a></li><li><a href="#slots--preallocatetosize">preallocateToSize</a></li><li><a href="#slots--prependseq">prependSeq</a></li><li><a href="#slots--print">print</a></li><li><a href="#slots--product">product</a></li><li><a href="#slots--rangefill">rangeFill</a></li><li><a href="#slots--removeat">removeAt</a></li><li><a href="#slots--removeevenindexes">removeEvenIndexes</a></li><li><a href="#slots--removelast">removeLast</a></li><li><a href="#slots--removeoddindexes">removeOddIndexes</a></li><li><a href="#slots--removeprefix">removePrefix</a></li><li><a href="#slots--removeseq">removeSeq</a></li><li><a href="#slots--removeslice">removeSlice</a></li><li><a href="#slots--removesuffix">removeSuffix</a></li><li><a href="#slots--repeated">repeated</a></li><li><a href="#slots--replacefirstseq">replaceFirstSeq</a></li><li><a href="#slots--replacemap">replaceMap</a></li><li><a href="#slots--replaceseq">replaceSeq</a></li><li><a href="#slots--reverse">reverse</a></li><li><a href="#slots--reversefindseq">reverseFindSeq</a></li><li><a href="#slots--reverseinplace">reverseInPlace</a></li><li><a href="#slots--rstrip">rstrip</a></li><li><a href="#slots--set">set</a></li><li><a href="#slots--setencoding">setEncoding</a></li><li><a href="#slots--setitemtype">setItemType</a></li><li><a href="#slots--setitemstodouble">setItemsToDouble</a></li><li><a href="#slots--setitemstolong">setItemsToLong</a></li><li><a href="#slots--setsize">setSize</a></li><li><a href="#slots--sin">sin</a></li><li><a href="#slots--sinh">sinh</a></li><li><a href="#slots--size">size</a></li><li><a href="#slots--sizeinbytes">sizeInBytes</a></li><li><a href="#slots--slice">slice</a></li><li><a href="#slots--slicesbetween">slicesBetween</a></li><li><a href="#slots--sort">sort</a></li><li><a href="#slots--split">split</a></li><li><a href="#slots--split-returns-a-list-containing-the-sub-sequences-of-the-receiver-divided-by-the-given-arguments">split Returns a list containing the sub-sequences of the receiver divided by the given arguments.</a></li><li><a href="#slots--splitat">splitAt</a></li><li><a href="#slots--splitnoempties">splitNoEmpties</a></li><li><a href="#slots--sqrt">sqrt</a></li><li><a href="#slots--square">square</a></li><li><a href="#slots--strip">strip</a></li><li><a href="#slots--sum">sum</a></li><li><a href="#slots--tan">tan</a></li><li><a href="#slots--tanh">tanh</a></li><li><a href="#slots--tobase">toBase</a></li><li><a href="#slots--translate">translate</a></li><li><a href="#slots--unescape">unescape</a></li><li><a href="#slots--unpack">unpack</a></li><li><a href="#slots--uppercase">uppercase</a></li><li><a href="#slots--urldecoded">urlDecoded</a></li><li><a href="#slots--urlencoded">urlEncoded</a></li><li><a href="#slots--whitespacestrings">whiteSpaceStrings</a></li><li><a href="#slots--with">with</a></li><li><a href="#slots--withstruct">withStruct</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">*</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Multiplies the values of aSeq to the corresponding values of the receiver
+    returning a new vector with the result.
+    Only works on Sequences whose item type is numeric.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">**</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Raises the values of the receiver in the corresponding values of aSeq
+    returning a new vector with the result.
+    Only works on Sequences whose item type is numeric.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">**=</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Raises the values of the receiver in the corresponding values of aSeq.
+    Only works on Sequences whose item type is numeric. Returns self.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">*=</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Multiplies the values of aSeq to the corresponding values of the receiver.
+    Only works on Sequences whose item type is numeric. Returns self.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">+</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Vector addition - adds the values of aSeq to the corresponding values of the
+    receiver returning a new vector with the result. Only works on Sequences
+    whose item type is numeric.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">+=</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Vector addition - adds the values of aSeq to those of the receiver.
+    Only works on Sequences whose item type is numeric. Returns self.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">-</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Vector subtraction - Subtracts the values of aSeq from the corresponding
+    values of the receiver returning a new vector with the result. Only works on
+    Sequences whose item type is numeric.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">-=</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Vector subtraction - subtracts the values of aSeq to those of the receiver.
+    Only works on Sequences whose item type is numeric. Returns self.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">..</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns a copy of the receiver with aSequence appended to it.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">/</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Divides the values of the receiver by the corresponding values of aSeq
+    returning a new vector with the result.
+    Only works on Sequences whose item type is numeric.</p></div></div><div class="classdoc-member" id="slots--"><div class="classdoc-member-head"><span class="classdoc-member-name">/=</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Divides the values of aSeq to the corresponding values of the receiver.
+    Only works on Sequences whose item type is numeric. Returns self.</p></div></div><div class="classdoc-member" id="slots--max"><div class="classdoc-member-head"><span class="classdoc-member-name">Max</span></div><div class="classdoc-member-body"><p>Returns the maximum value in the sequence.</p></div></div><div class="classdoc-member" id="slots--min"><div class="classdoc-member-head"><span class="classdoc-member-name">Min</span></div><div class="classdoc-member-body"><p>Returns the minimum value in the sequence.</p></div></div><div class="classdoc-member" id="slots--abs"><div class="classdoc-member-head"><span class="classdoc-member-name">abs</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to its absolute value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--acos"><div class="classdoc-member-head"><span class="classdoc-member-name">acos</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the trigonometric arcsine of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--afterseq"><div class="classdoc-member-head"><span class="classdoc-member-name">afterSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns the slice of the receiver (as a Symbol) after aSequence or
+    nil if aSequence is not found. If aSequence is empty, the receiver
+    (or a copy of the receiver if it is mutable) is returned.</p></div></div><div class="classdoc-member" id="slots--aligncenter"><div class="classdoc-member-head"><span class="classdoc-member-name">alignCenter</span><span class="classdoc-member-sig">(width, [padding]) ""</span></div><div class="classdoc-member-body"><p>Example:
+	<code>
+	Io> "abc" alignCenter(10, "-")
+	==> ---abc----
+	Io> "abc" alignCenter(10, "-=")
+	==> -=-abc-=-=
+	</code></p></div></div><div class="classdoc-member" id="slots--alignleft"><div class="classdoc-member-head"><span class="classdoc-member-name">alignLeft</span><span class="classdoc-member-sig">(width, [padding])</span></div><div class="classdoc-member-body"><p>Example:
+	<p>
+	<code>
+	Io> "abc" alignLeft(10, "+")
+	==> abc+++++++
+	Io> "abc" alignLeft(10, "-=")
+	==> abc-=-=-=-
+	</code></p></div></div><div class="classdoc-member" id="slots--alignleftinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">alignLeftInPlace</span><span class="classdoc-member-sig">(width, [padding])</span></div><div class="classdoc-member-body"><p>Same as align left but operation is performed on the receiver.</p></div></div><div class="classdoc-member" id="slots--alignright"><div class="classdoc-member-head"><span class="classdoc-member-name">alignRight</span><span class="classdoc-member-sig">(width, [padding])</span></div><div class="classdoc-member-body"><p>Example:
+	<p>
+	<code>
+	Io> "abc" alignRight(10, "-")
+	==> -------abc
+	Io> "abc" alignRight(10, "-=")
+	==> -=-=-=-abc
+	</code></p></div></div><div class="classdoc-member" id="slots--append"><div class="classdoc-member-head"><span class="classdoc-member-name">append</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Appends aNumber (cast to a byte) to the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--appendpathseq"><div class="classdoc-member-head"><span class="classdoc-member-name">appendPathSeq</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Appends argument to the receiver such that there is one
+    and only one path separator between the two. Returns self.</p></div></div><div class="classdoc-member" id="slots--appendseq"><div class="classdoc-member-head"><span class="classdoc-member-name">appendSeq</span><span class="classdoc-member-sig">(object1, object2, ...)</span></div><div class="classdoc-member-body"><p>Calls asString on the arguments and appends the string to the receiver.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--asbase64"><div class="classdoc-member-head"><span class="classdoc-member-name">asBase64</span><span class="classdoc-member-sig">(optionalCharactersPerLine)</span></div><div class="classdoc-member-body"><p>Returns an immutable, base64 encoded (according to RFC 1421) version of
+    self. optionalCharactersPerLine describes the number of characters between
+    line breaks and defaults to 0.</p></div></div><div class="classdoc-member" id="slots--asbinarynumber"><div class="classdoc-member-head"><span class="classdoc-member-name">asBinaryNumber</span></div><div class="classdoc-member-body"><p>Returns a Number containing the first 8 bytes of the
+    receiver without casting them to a double. Endian is same as machine.</p></div></div><div class="classdoc-member" id="slots--asbinarysignedinteger"><div class="classdoc-member-head"><span class="classdoc-member-name">asBinarySignedInteger</span></div><div class="classdoc-member-body"><p>Returns a Number with the bytes of the receiver interpreted as a binary
+    signed integer. Endian is same as machine.</p></div></div><div class="classdoc-member" id="slots--asbinaryunsignedinteger"><div class="classdoc-member-head"><span class="classdoc-member-name">asBinaryUnsignedInteger</span></div><div class="classdoc-member-body"><p>Returns a Number with the bytes of the receiver interpreted as a binary
+    unsigned integer. Endian is same as machine.</p></div></div><div class="classdoc-member" id="slots--ascapitalized"><div class="classdoc-member-head"><span class="classdoc-member-name">asCapitalized</span></div><div class="classdoc-member-body"><p>Returns a copy of the receiver with the first charater made uppercase.</p></div></div><div class="classdoc-member" id="slots--asfile"><div class="classdoc-member-head"><span class="classdoc-member-name">asFile</span></div><div class="classdoc-member-body"><p>Returns a new File object with the receiver as its path.</p></div></div><div class="classdoc-member" id="slots--asfixedsizetype"><div class="classdoc-member-head"><span class="classdoc-member-name">asFixedSizeType</span></div><div class="classdoc-member-body"><p>Returns a new sequence with the receiver encoded in the
+    minimal fixed width text encoding that its characters can fit
+    into (either, ascii, utf8, utf16 or utf32).</p></div></div><div class="classdoc-member" id="slots--ashex"><div class="classdoc-member-head"><span class="classdoc-member-name">asHex</span></div><div class="classdoc-member-body"><p>Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".</p></div></div><div class="classdoc-member" id="slots--asiopath"><div class="classdoc-member-head"><span class="classdoc-member-name">asIoPath</span></div><div class="classdoc-member-body"><p>Returns a Io style path for an OS style path.</p></div></div><div class="classdoc-member" id="slots--asjson"><div class="classdoc-member-head"><span class="classdoc-member-name">asJson</span></div><div class="classdoc-member-body"><p>Converts to form that could be interpreted as json if it already contains json, e.g. {"aaa":"bbb"} --> "{\"aaa\":\"bbb\"}"</p></div></div><div class="classdoc-member" id="slots--aslist"><div class="classdoc-member-head"><span class="classdoc-member-name">asList</span></div><div class="classdoc-member-body"><p>Returns the receiver converted to a List containing all elements of the
+    Sequence.</p></div></div><div class="classdoc-member" id="slots--aslowercase"><div class="classdoc-member-head"><span class="classdoc-member-name">asLowercase</span></div><div class="classdoc-member-body"><p>Returns a symbol containing the reveiver made lowercase.</p></div></div><div class="classdoc-member" id="slots--asmessage"><div class="classdoc-member-head"><span class="classdoc-member-name">asMessage</span><span class="classdoc-member-sig">(optionalLabel)</span></div><div class="classdoc-member-body"><p>Returns the compiled message object for the string.</p></div></div><div class="classdoc-member" id="slots--asmutable"><div class="classdoc-member-head"><span class="classdoc-member-name">asMutable</span></div><div class="classdoc-member-body"><p>Returns a mutable copy of the receiver.</p></div></div><div class="classdoc-member" id="slots--asnumber"><div class="classdoc-member-head"><span class="classdoc-member-name">asNumber</span></div><div class="classdoc-member-body"><p>Returns the receiver converted to a number.
+    Initial whitespace is ignored.</p></div></div><div class="classdoc-member" id="slots--asospath"><div class="classdoc-member-head"><span class="classdoc-member-name">asOSPath</span></div><div class="classdoc-member-body"><p>Returns a OS style path for an Io style path.</p></div></div><div class="classdoc-member" id="slots--asstruct"><div class="classdoc-member-head"><span class="classdoc-member-name">asStruct</span><span class="classdoc-member-sig">(memberList)</span></div><div class="classdoc-member-body"><p>For a sequence that contains the data for a raw memory data structure (as
+    used in C), this method can be used to extract its members into an Object.
+    The memberList argument specifies the layout of the datastructure. Its form
+    is: <p> list(memberType1, memberName1, memberType2, memberName2, ...) <p>
+    Member types include:
+    <pre>
+    int8, int16, int32, int64
+    uint8, uint16, uint32, uint64
+    float32, float64
+    </pre>
+    Example:
+    <pre>
+    pointObject := structPointSeq asStruct(list("float32", "x", "float32", "y"))
+    </pre>
+    The output pointObject would contain x and y slots with Number objects.</p></div></div><div class="classdoc-member" id="slots--assymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">asSymbol</span></div><div class="classdoc-member-body"><p>Returns a immutable Sequence (aka Symbol) version of the receiver.</p></div></div><div class="classdoc-member" id="slots--asucs2"><div class="classdoc-member-head"><span class="classdoc-member-name">asUCS2</span></div><div class="classdoc-member-body"><p>Returns a new copy of the receiver converted to UCS2 (fixed character width
+    UTF16) encoding.</p></div></div><div class="classdoc-member" id="slots--asucs4"><div class="classdoc-member-head"><span class="classdoc-member-name">asUCS4</span></div><div class="classdoc-member-body"><p>Returns a new copy of the receiver converted to UCS4 (fixed character width
+    UTF32) encoding.</p></div></div><div class="classdoc-member" id="slots--asutf8"><div class="classdoc-member-head"><span class="classdoc-member-name">asUTF8</span></div><div class="classdoc-member-body"><p>Returns a new copy of the receiver converted to utf8 encoding.</p></div></div><div class="classdoc-member" id="slots--asuppercase"><div class="classdoc-member-head"><span class="classdoc-member-name">asUppercase</span></div><div class="classdoc-member-body"><p>Returns a symbol containing the reveiver made uppercase.</p></div></div><div class="classdoc-member" id="slots--asin"><div class="classdoc-member-head"><span class="classdoc-member-name">asin</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the trigonometric arcsine of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--at"><div class="classdoc-member-head"><span class="classdoc-member-name">at</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Returns a value at the index specified by aNumber.
+    Returns nil if the index is out of bounds.</p></div></div><div class="classdoc-member" id="slots--atinsertseq"><div class="classdoc-member-head"><span class="classdoc-member-name">atInsertSeq</span><span class="classdoc-member-sig">(indexNumber, object)</span></div><div class="classdoc-member-body"><p>Calls asString on object and inserts the string at position indexNumber.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--atput"><div class="classdoc-member-head"><span class="classdoc-member-name">atPut</span><span class="classdoc-member-sig">(aNumberIndex, aNumber)</span></div><div class="classdoc-member-body"><p>Sets the value at the index specified by aNumberIndex to aNumber. Returns
+    self.</p></div></div><div class="classdoc-member" id="slots--atan"><div class="classdoc-member-head"><span class="classdoc-member-name">atan</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the trigonometric arctangent of its
+    value. Returns self.</p></div></div><div class="classdoc-member" id="slots--beforeseq"><div class="classdoc-member-head"><span class="classdoc-member-name">beforeSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns the slice of the receiver (as a Symbol) before
+    aSequence or self if aSequence is not found.</p></div></div><div class="classdoc-member" id="slots--beginswithseq"><div class="classdoc-member-head"><span class="classdoc-member-name">beginsWithSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver begins with aSequence, false otherwise.</p></div></div><div class="classdoc-member" id="slots--betweenseq"><div class="classdoc-member-head"><span class="classdoc-member-name">betweenSeq</span><span class="classdoc-member-sig">(aSequence, anotherSequence)</span></div><div class="classdoc-member-body"><p>Returns a new Sequence containing the bytes between the
+    occurrence of aSequence and anotherSequence in the receiver.
+    If aSequence is empty, this method is equivalent to
+    beforeSeq(anotherSequence). If anotherSequence is nil, this method is
+    equivalent to afterSeq(aSequence). nil is returned if no match is found.</p></div></div><div class="classdoc-member" id="slots--bitat"><div class="classdoc-member-head"><span class="classdoc-member-name">bitAt</span><span class="classdoc-member-sig">(bitIndex)</span></div><div class="classdoc-member-body"><p>Returns a Number containing the bit at the bit index value.</p></div></div><div class="classdoc-member" id="slots--bitcount"><div class="classdoc-member-head"><span class="classdoc-member-name">bitCount</span></div><div class="classdoc-member-body"><p>Returns the number of bits in the sequence.</p></div></div><div class="classdoc-member" id="slots--bitwiseand"><div class="classdoc-member-head"><span class="classdoc-member-name">bitwiseAnd</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Updates the receiver to be the result of a bitwiseAnd with aSequence.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--bitwisenot"><div class="classdoc-member-head"><span class="classdoc-member-name">bitwiseNot</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Updates the receiver to be the result of a bitwiseNot with aSequence.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--bitwiseor"><div class="classdoc-member-head"><span class="classdoc-member-name">bitwiseOr</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Updates the receiver to be the result of a bitwiseOr with aSequence. Returns
+    self.</p></div></div><div class="classdoc-member" id="slots--bitwisexor"><div class="classdoc-member-head"><span class="classdoc-member-name">bitwiseXor</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Updates the receiver to be the result of a bitwiseXor with aSequence.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--byteat"><div class="classdoc-member-head"><span class="classdoc-member-name">byteAt</span><span class="classdoc-member-sig">(byteIndex)</span></div><div class="classdoc-member-body"><p>Returns a Number containing the byte at the byte index value.</p></div></div><div class="classdoc-member" id="slots--capitalize"><div class="classdoc-member-head"><span class="classdoc-member-name">capitalize</span></div><div class="classdoc-member-body"><p>First charater of the receiver is made uppercase.</p></div></div><div class="classdoc-member" id="slots--ceil"><div class="classdoc-member-head"><span class="classdoc-member-name">ceil</span></div><div class="classdoc-member-body"><p>Round each value to smallest integral value not less than x.
+Returns self.</p></div></div><div class="classdoc-member" id="slots--clear"><div class="classdoc-member-head"><span class="classdoc-member-name">clear</span></div><div class="classdoc-member-body"><p>Set all values in the sequence to 0. Returns self.</p></div></div><div class="classdoc-member" id="slots--clipafterseq"><div class="classdoc-member-head"><span class="classdoc-member-name">clipAfterSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Removes the contents of the receiver after the end of
+    the first occurrence of aSequence. Returns true if anything was
+    removed, or false otherwise.</p></div></div><div class="classdoc-member" id="slots--clipafterstartofseq"><div class="classdoc-member-head"><span class="classdoc-member-name">clipAfterStartOfSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Removes the contents of the receiver after the beginning of
+    the first occurrence of aSequence. Returns true if anything was
+    removed, or false otherwise.</p></div></div><div class="classdoc-member" id="slots--clipbeforeendofseq"><div class="classdoc-member-head"><span class="classdoc-member-name">clipBeforeEndOfSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Removes the contents of the receiver before the end of
+    the first occurrence of aSequence. Returns true if anything was
+    removed, or false otherwise.</p></div></div><div class="classdoc-member" id="slots--clipbeforeseq"><div class="classdoc-member-head"><span class="classdoc-member-name">clipBeforeSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Clips receiver before aSequence.</p></div></div><div class="classdoc-member" id="slots--cloneappendpath"><div class="classdoc-member-head"><span class="classdoc-member-name">cloneAppendPath</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Appends argument to a copy the receiver such that there is one
+    and only one path separator between the two and returns the result.</p></div></div><div class="classdoc-member" id="slots--contains"><div class="classdoc-member-head"><span class="classdoc-member-name">contains</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver contains an element equal in value to aNumber,
+    false otherwise.</p></div></div><div class="classdoc-member" id="slots--containsanycaseseq"><div class="classdoc-member-head"><span class="classdoc-member-name">containsAnyCaseSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver contains the aSequence
+    regardless of casing, false otherwise.</p></div></div><div class="classdoc-member" id="slots--containsseq"><div class="classdoc-member-head"><span class="classdoc-member-name">containsSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver contains the substring
+    aSequence, false otherwise.</p></div></div><div class="classdoc-member" id="slots--converttoitemtype"><div class="classdoc-member-head"><span class="classdoc-member-name">convertToItemType</span><span class="classdoc-member-sig">(aTypeName)</span></div><div class="classdoc-member-body"><p>Converts the underlying machine type for the elements, expanding or
+    contracting the size of the Sequence as needed. Valid names are uint8,
+    uint16, uint32, uint64, int8, int16, int32, int64, float32, and float64.
+    Note that 64 bit types are only available on platforms that support such
+    types. Returns self.</p></div></div><div class="classdoc-member" id="slots--copy"><div class="classdoc-member-head"><span class="classdoc-member-name">copy</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Replaces the bytes of the receiver with a copy of those in aSequence.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--cos"><div class="classdoc-member-head"><span class="classdoc-member-name">cos</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the trigonometric cosine of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--cosh"><div class="classdoc-member-head"><span class="classdoc-member-name">cosh</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the hyperbolic cosine of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--distanceto"><div class="classdoc-member-head"><span class="classdoc-member-name">distanceTo</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns a number with the square root of the sum of the square
+    of the differences of the items between the sequences.</p></div></div><div class="classdoc-member" id="slots--dotproduct"><div class="classdoc-member-head"><span class="classdoc-member-name">dotProduct</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns a new Sequence containing the dot product of the receiver with aSeq.</p></div></div><div class="classdoc-member" id="slots--duplicateindexes"><div class="classdoc-member-head"><span class="classdoc-member-name">duplicateIndexes</span></div><div class="classdoc-member-body"><p>Duplicates all indexes in the receiver.
+    For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns
+    self.</p></div></div><div class="classdoc-member" id="slots--empty"><div class="classdoc-member-head"><span class="classdoc-member-name">empty</span></div><div class="classdoc-member-body"><p>Sets all bytes in the receiver to 0x0 and sets
+    its length to 0. Returns self.</p></div></div><div class="classdoc-member" id="slots--encoding"><div class="classdoc-member-head"><span class="classdoc-member-name">encoding</span></div><div class="classdoc-member-body"><p>Returns the encoding of the elements.</p></div></div><div class="classdoc-member" id="slots--endswithseq"><div class="classdoc-member-head"><span class="classdoc-member-name">endsWithSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver ends with aSequence, false otherwise.</p></div></div><div class="classdoc-member" id="slots--escape"><div class="classdoc-member-head"><span class="classdoc-member-name">escape</span></div><div class="classdoc-member-body"><p>Escape characters in the receiver are replaced with escape codes.
+    For example a string containing a single return character would contain the
+    following 2 characters after being escaped: "\n". Returns self.</p></div></div><div class="classdoc-member" id="slots--exclusiveslice"><div class="classdoc-member-head"><span class="classdoc-member-name">exclusiveSlice</span><span class="classdoc-member-sig">(inclusiveStartIndex, exclusiveEndIndex)</span></div><div class="classdoc-member-body"><p>Returns a new string containing the subset of the
+    receiver from the inclusiveStartIndex to the exclusiveEndIndex. The
+    exclusiveEndIndex argument is optional. If not given, it is assumed to be
+    one beyond the end of the string.</p></div></div><div class="classdoc-member" id="slots--exp"><div class="classdoc-member-head"><span class="classdoc-member-name">exp</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to e**value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--filename"><div class="classdoc-member-head"><span class="classdoc-member-name">fileName</span></div><div class="classdoc-member-body"><p>Returns the last path component sans the path extension.</p></div></div><div class="classdoc-member" id="slots--findnthseq"><div class="classdoc-member-head"><span class="classdoc-member-name">findNthSeq</span><span class="classdoc-member-sig">(aSequence, n)</span></div><div class="classdoc-member-body"><p>Returns a number with the nth occurrence of aSequence.</p></div></div><div class="classdoc-member" id="slots--findseq"><div class="classdoc-member-head"><span class="classdoc-member-name">findSeq</span><span class="classdoc-member-sig">(aSequence, optionalStartIndex)</span></div><div class="classdoc-member-body"><p>Returns a number with the first occurrence of aSequence in
+    the receiver after the startIndex. If no startIndex is specified,
+    the search starts at index 0.
+    nil is returned if no occurrences are found.</p></div></div><div class="classdoc-member" id="slots--findseqs"><div class="classdoc-member-head"><span class="classdoc-member-name">findSeqs</span><span class="classdoc-member-sig">(listOfSequences, optionalStartIndex)</span></div><div class="classdoc-member-body"><p>Returns an object with two slots - an \"index\" slot which contains
+    the first occurrence of any of the sequences in listOfSequences found
+    in the receiver after the startIndex, and a \"match\" slot, which
+    contains a reference to the matching sequence from listOfSequences.
+    If no startIndex is specified, the search starts at index 0.
+    nil is returned if no occurrences are found.</p></div></div><div class="classdoc-member" id="slots--floor"><div class="classdoc-member-head"><span class="classdoc-member-name">floor</span></div><div class="classdoc-member-body"><p>Round each value to largest integral value not greater than x.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--foreach"><div class="classdoc-member-head"><span class="classdoc-member-name">foreach</span><span class="classdoc-member-sig">(optionalIndex, value, message)</span></div><div class="classdoc-member-body"><p>For each element, set index to the index of the
+    element and value to the element value and execute message.
+    Example:
+    <pre>
+    aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
+    aSequence foreach(v, writeln("value ", v))
+    </pre></p></div></div><div class="classdoc-member" id="slots--frombase"><div class="classdoc-member-head"><span class="classdoc-member-name">fromBase</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Returns a number with a base 10 representation of the receiver
+    converted from the specified base. Only base 2 through 32 are currently
+    supported.</p></div></div><div class="classdoc-member" id="slots--frombase64"><div class="classdoc-member-head"><span class="classdoc-member-name">fromBase64</span></div><div class="classdoc-member-body"><p>Returns an immutable, base64 decoded (according to RFC 1421) version of
+    self.</p></div></div><div class="classdoc-member" id="slots--greaterthan"><div class="classdoc-member-head"><span class="classdoc-member-name">greaterThan</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is greater than aSeq, false otherwise.</p></div></div><div class="classdoc-member" id="slots--greaterthanorequalto"><div class="classdoc-member-head"><span class="classdoc-member-name">greaterThanOrEqualTo</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is greater than or equal to aSeq, false
+    otherwise.</p></div></div><div class="classdoc-member" id="slots--hash"><div class="classdoc-member-head"><span class="classdoc-member-name">hash</span></div><div class="classdoc-member-body"><p>Returns a Number containing a hash of the Sequence.</p></div></div><div class="classdoc-member" id="slots--inclusiveslice"><div class="classdoc-member-head"><span class="classdoc-member-name">inclusiveSlice</span><span class="classdoc-member-sig">(inclusiveStartIndex, inclusiveEndIndex)</span></div><div class="classdoc-member-body"><p>Returns a new string containing the subset of the
+    receiver from the inclusiveStartIndex to the inclusiveEndIndex. The
+    inclusiveEndIndex argument is optional. If not given, it is assumed to be
+    the end of the string.</p></div></div><div class="classdoc-member" id="slots--interpolate"><div class="classdoc-member-head"><span class="classdoc-member-name">interpolate</span><span class="classdoc-member-sig">(ctx)</span></div><div class="classdoc-member-body"><p>Returns immutable copy of self with interpolateInPlace(ctx) passed to the
+    copy.</p></div></div><div class="classdoc-member" id="slots--interpolateinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">interpolateInPlace</span><span class="classdoc-member-sig">(optionalContext)</span></div><div class="classdoc-member-body"><p>Replaces all #{expression} with expression evaluated in the optionalContext.
+    If optionalContext not given, the current context is used.  Returns self.</p></div></div><div class="classdoc-member" id="slots--isempty"><div class="classdoc-member-head"><span class="classdoc-member-name">isEmpty</span></div><div class="classdoc-member-body"><p>Returns true if the size of the receiver is 0, false otherwise.</p></div></div><div class="classdoc-member" id="slots--isequalanycase"><div class="classdoc-member-head"><span class="classdoc-member-name">isEqualAnyCase</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Returns true if aSequence is equal to the receiver
+    ignoring case differences, false otherwise.</p></div></div><div class="classdoc-member" id="slots--islowercase"><div class="classdoc-member-head"><span class="classdoc-member-name">isLowercase</span></div><div class="classdoc-member-body"><p>Returns self if all the characters in the string are lower case.</p></div></div><div class="classdoc-member" id="slots--ismutable"><div class="classdoc-member-head"><span class="classdoc-member-name">isMutable</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is a mutable Sequence or false otherwise.</p></div></div><div class="classdoc-member" id="slots--issymbol"><div class="classdoc-member-head"><span class="classdoc-member-name">isSymbol</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is a
+    immutable Sequence (aka, a Symbol) or false otherwise.</p></div></div><div class="classdoc-member" id="slots--isuppercase"><div class="classdoc-member-head"><span class="classdoc-member-name">isUppercase</span></div><div class="classdoc-member-body"><p>Returns self if all the characters in the string are upper case.</p></div></div><div class="classdoc-member" id="slots--iszero"><div class="classdoc-member-head"><span class="classdoc-member-name">isZero</span></div><div class="classdoc-member-body"><p>Returns true if all elements are 0, false otherwise.</p></div></div><div class="classdoc-member" id="slots--itemcopy"><div class="classdoc-member-head"><span class="classdoc-member-name">itemCopy</span></div><div class="classdoc-member-body"><p>Returns a new sequence containing the items from the receiver.</p></div></div><div class="classdoc-member" id="slots--itemsize"><div class="classdoc-member-head"><span class="classdoc-member-name">itemSize</span></div><div class="classdoc-member-body"><p>Returns number of bytes in each element.</p></div></div><div class="classdoc-member" id="slots--itemtype"><div class="classdoc-member-head"><span class="classdoc-member-name">itemType</span></div><div class="classdoc-member-body"><p>Returns machine type of elements.</p></div></div><div class="classdoc-member" id="slots--justserialized"><div class="classdoc-member-head"><span class="classdoc-member-name">justSerialized</span><span class="classdoc-member-sig">(stream)</span></div><div class="classdoc-member-body"><p>Writes the receiver's code into the stream.</p></div></div><div class="classdoc-member" id="slots--lastpathcomponent"><div class="classdoc-member-head"><span class="classdoc-member-name">lastPathComponent</span></div><div class="classdoc-member-body"><p>Returns a string containing the receiver clipped up
+    to the last path separator.</p></div></div><div class="classdoc-member" id="slots--lessthan"><div class="classdoc-member-head"><span class="classdoc-member-name">lessThan</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is less than aSeq, false otherwise.</p></div></div><div class="classdoc-member" id="slots--lessthanorequalto"><div class="classdoc-member-head"><span class="classdoc-member-name">lessThanOrEqualTo</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns true if the receiver is less than or equal to aSeq, false otherwise.</p></div></div><div class="classdoc-member" id="slots--lineprint"><div class="classdoc-member-head"><span class="classdoc-member-name">linePrint</span></div><div class="classdoc-member-body"><p>Prints the Sequence and a newline character.</p></div></div><div class="classdoc-member" id="slots--log"><div class="classdoc-member-head"><span class="classdoc-member-name">log</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the natural log of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--log10"><div class="classdoc-member-head"><span class="classdoc-member-name">log10</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the base 10 log of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--logicaland"><div class="classdoc-member-head"><span class="classdoc-member-name">logicalAnd</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Updates the receiver's values to be the result of a logical OR operations
+    with the values of aSequence. Returns self.</p></div></div><div class="classdoc-member" id="slots--logicalor"><div class="classdoc-member-head"><span class="classdoc-member-name">logicalOr</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Updates the receiver's values to be the result of a logical OR operations
+    with the values of aSequence. Returns self.</p></div></div><div class="classdoc-member" id="slots--lowercase"><div class="classdoc-member-head"><span class="classdoc-member-name">lowercase</span></div><div class="classdoc-member-body"><p>Makes all the uppercase characters in the receiver lowercase. Returns self.</p></div></div><div class="classdoc-member" id="slots--lstrip"><div class="classdoc-member-head"><span class="classdoc-member-name">lstrip</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Strips the characters in aSequence
+    stripped from the beginning of the receiver. Example:
+    <p>
+    <pre>
+    "Keep the tail" lstrip(" eKp")
+    ==> "the tail"
+    </pre></p></div></div><div class="classdoc-member" id="slots--makefirstcharacterlowercase"><div class="classdoc-member-head"><span class="classdoc-member-name">makeFirstCharacterLowercase</span></div><div class="classdoc-member-body"><p>Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "ABC" asMutable makeFirstCharacterLowercase
+  ==> aBC
+  </pre></p></div></div><div class="classdoc-member" id="slots--makefirstcharacteruppercase"><div class="classdoc-member-head"><span class="classdoc-member-name">makeFirstCharacterUppercase</span></div><div class="classdoc-member-body"><p>Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "abc" asMutable makeFirstCharacterUppercase
+  ==> Abc
+  </pre></p></div></div><div class="classdoc-member" id="slots--max"><div class="classdoc-member-head"><span class="classdoc-member-name">max</span></div><div class="classdoc-member-body"><p>Returns the maximum value of the Sequence.</p></div></div><div class="classdoc-member" id="slots--mean"><div class="classdoc-member-head"><span class="classdoc-member-name">mean</span></div><div class="classdoc-member-body"><p>Returns the arithmetic mean of the sequence.</p></div></div><div class="classdoc-member" id="slots--meansquare"><div class="classdoc-member-head"><span class="classdoc-member-name">meanSquare</span></div><div class="classdoc-member-body"><p>Returns the arithmetic mean of the sequence's values after they have been
+    squared.</p></div></div><div class="classdoc-member" id="slots--min"><div class="classdoc-member-head"><span class="classdoc-member-name">min</span></div><div class="classdoc-member-body"><p>Returns the minimum value of the Sequence.</p></div></div><div class="classdoc-member" id="slots--negate"><div class="classdoc-member-head"><span class="classdoc-member-name">negate</span></div><div class="classdoc-member-body"><p>Negates the values of the receiver.
+Returns self.</p></div></div><div class="classdoc-member" id="slots--normalize"><div class="classdoc-member-head"><span class="classdoc-member-name">normalize</span></div><div class="classdoc-member-body"><p>Divides each value of the Sequence by the max value of the sequence.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--occurrencesofseq"><div class="classdoc-member-head"><span class="classdoc-member-name">occurrencesOfSeq</span><span class="classdoc-member-sig">(aSeq)</span></div><div class="classdoc-member-body"><p>Returns count of aSeq in the receiver.</p></div></div><div class="classdoc-member" id="slots--pack"><div class="classdoc-member-head"><span class="classdoc-member-name">pack</span><span class="classdoc-member-sig">(format, value1, ...)</span></div><div class="classdoc-member-body"><p>Returns a new Sequence with the values packed in.</p><p>Codes:</p><p>*: (one at the beginning of the format string) declare format string as
+    BigEndian B: unsigned byte b: byte C: unsigned char c: char H: unsigned
+    short h: short I: unsigned int i: int L: unsigned long l: long f: float F:
+    double s: string</p><p>A '*' at the begging of the format string indicates native types are to be
+    treated as Big Endiand.</p><p>A number preceding a code declares an array of that type.</p><p>In the case of 's', the preceding number indicates the size of the string to
+    be packed. If the string passed is shorter than size, 0 padding will be used
+    to fill to size. If the string passed is longer than size, only size chars
+    will be packed.</p><p>The difference between b/B and c/C is in the values passed to pack. For b/B
+    pack expects a number. For c/C pack expects a one-char-string (this is the
+    same as '1s' or 's')</p><p>Examples:</p><p>s := Sequence pack("IC5s", 100, "a", "hello")
+    s := Sequence pack("5c", "h", "e", "l", "l", "o")
+    s := Sequence pack("I", 0x01020304)
+    s := Sequence pack("*I", 0x01020304)</p></div></div><div class="classdoc-member" id="slots--parsejson"><div class="classdoc-member-head"><span class="classdoc-member-name">parseJson</span></div><div class="classdoc-member-body"><p>Interprets the Sequence as JSON and returns a Map.</p></div></div><div class="classdoc-member" id="slots--pathcomponent"><div class="classdoc-member-head"><span class="classdoc-member-name">pathComponent</span></div><div class="classdoc-member-body"><p>Returns a slice of the receiver before the last path separator as a symbol.</p></div></div><div class="classdoc-member" id="slots--pathextension"><div class="classdoc-member-head"><span class="classdoc-member-name">pathExtension</span></div><div class="classdoc-member-body"><p>Returns a string containing the receiver clipped up to the last period.</p></div></div><div class="classdoc-member" id="slots--percentdecoded"><div class="classdoc-member-head"><span class="classdoc-member-name">percentDecoded</span></div><div class="classdoc-member-body"><p>Returns percent decoded version of receiver.</p></div></div><div class="classdoc-member" id="slots--percentencoded"><div class="classdoc-member-head"><span class="classdoc-member-name">percentEncoded</span></div><div class="classdoc-member-body"><p>Returns percent encoded version of receiver.</p></div></div><div class="classdoc-member" id="slots--preallocatetosize"><div class="classdoc-member-head"><span class="classdoc-member-name">preallocateToSize</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>If needed, resize the memory alloced for the receivers
+    byte array to be large enough to fit the number of bytes specified by
+    aNumber. This is useful for pio_reallocating the memory so it doesn't
+    keep getting allocated as the Sequence is appended to. This operation
+    will not change the Sequence's length or contents. Returns self.</p></div></div><div class="classdoc-member" id="slots--prependseq"><div class="classdoc-member-head"><span class="classdoc-member-name">prependSeq</span><span class="classdoc-member-sig">(object1, object2, ...)</span></div><div class="classdoc-member-body"><p>Prepends given objects asString in reverse order to the receiver.  Returns self.</p></div></div><div class="classdoc-member" id="slots--print"><div class="classdoc-member-head"><span class="classdoc-member-name">print</span></div><div class="classdoc-member-body"><p>Prints contents of a sequence.</p></div></div><div class="classdoc-member" id="slots--product"><div class="classdoc-member-head"><span class="classdoc-member-name">product</span></div><div class="classdoc-member-body"><p>Returns the product of all the sequence's values multipled together.</p></div></div><div class="classdoc-member" id="slots--rangefill"><div class="classdoc-member-head"><span class="classdoc-member-name">rangeFill</span></div><div class="classdoc-member-body"><p>Sets the values of the Sequence to their index values.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--removeat"><div class="classdoc-member-head"><span class="classdoc-member-name">removeAt</span><span class="classdoc-member-sig">(index)</span></div><div class="classdoc-member-body"><p>Removes the item at the specified index and returns the value removed.
+    Returns nil if the index is out of bounds.</p></div></div><div class="classdoc-member" id="slots--removeevenindexes"><div class="classdoc-member-head"><span class="classdoc-member-name">removeEvenIndexes</span></div><div class="classdoc-member-body"><p>Removes even indexes in the receiver.
+    For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.</p></div></div><div class="classdoc-member" id="slots--removelast"><div class="classdoc-member-head"><span class="classdoc-member-name">removeLast</span></div><div class="classdoc-member-body"><p>Removes the last element from the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--removeoddindexes"><div class="classdoc-member-head"><span class="classdoc-member-name">removeOddIndexes</span></div><div class="classdoc-member-body"><p>Removes odd indexes in the receiver.
+    For example, list(1,2,3) removeOddIndexes == list(2). Returns self.</p></div></div><div class="classdoc-member" id="slots--removeprefix"><div class="classdoc-member-head"><span class="classdoc-member-name">removePrefix</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>If the receiver begins with aSequence, it is removed. Returns self.</p></div></div><div class="classdoc-member" id="slots--removeseq"><div class="classdoc-member-head"><span class="classdoc-member-name">removeSeq</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Removes occurrences of aSequence from the receiver.</p></div></div><div class="classdoc-member" id="slots--removeslice"><div class="classdoc-member-head"><span class="classdoc-member-name">removeSlice</span><span class="classdoc-member-sig">(startIndex, endIndex)</span></div><div class="classdoc-member-body"><p>Removes the items from startIndex to endIndex.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--removesuffix"><div class="classdoc-member-head"><span class="classdoc-member-name">removeSuffix</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>If the receiver end with aSequence, it is removed. Returns self.</p></div></div><div class="classdoc-member" id="slots--repeated"><div class="classdoc-member-head"><span class="classdoc-member-name">repeated</span><span class="classdoc-member-sig">(n)</span></div><div class="classdoc-member-body"><p>Returns a new sequence containing the receiver repeated n number of times.</p></div></div><div class="classdoc-member" id="slots--replacefirstseq"><div class="classdoc-member-head"><span class="classdoc-member-name">replaceFirstSeq</span><span class="classdoc-member-sig">(aSequence, anotherSequence,</span></div><div class="classdoc-member-body"><p>optionalStartIndex) Returns a new Sequence with the first occurrence of
+    aSequence replaced with anotherSequence in the receiver. If
+    optionalStartIndex is provided, the search for aSequence begins at that
+    index. Returns self.</p></div></div><div class="classdoc-member" id="slots--replacemap"><div class="classdoc-member-head"><span class="classdoc-member-name">replaceMap</span><span class="classdoc-member-sig">(aMap)</span></div><div class="classdoc-member-body"><p>In the receiver, the keys of aMap replaced with its values. Returns self.</p></div></div><div class="classdoc-member" id="slots--replaceseq"><div class="classdoc-member-head"><span class="classdoc-member-name">replaceSeq</span><span class="classdoc-member-sig">(aSequence, anotherSequence)</span></div><div class="classdoc-member-body"><p>Returns a new Sequence with all occurrences of aSequence
+    replaced with anotherSequence in the receiver. Returns self.</p></div></div><div class="classdoc-member" id="slots--reverse"><div class="classdoc-member-head"><span class="classdoc-member-name">reverse</span></div><div class="classdoc-member-body"><p>Reverses the ordering of all the items of the receiver. Returns copy of receiver.</p></div></div><div class="classdoc-member" id="slots--reversefindseq"><div class="classdoc-member-head"><span class="classdoc-member-name">reverseFindSeq</span><span class="classdoc-member-sig">(aSequence, startIndex)</span></div><div class="classdoc-member-body"><p>Returns a number with the first occurrence of aSequence in
+    the receiver before the startIndex. The startIndex argument is optional.
+    By default reverseFind starts at the end of the string. Nil is
+    returned if no occurrences are found.</p></div></div><div class="classdoc-member" id="slots--reverseinplace"><div class="classdoc-member-head"><span class="classdoc-member-name">reverseInPlace</span></div><div class="classdoc-member-body"><p>Reverses the bytes in the receiver, in-place.</p></div></div><div class="classdoc-member" id="slots--rstrip"><div class="classdoc-member-head"><span class="classdoc-member-name">rstrip</span><span class="classdoc-member-sig">(aSequence)</span></div><div class="classdoc-member-body"><p>Strips the characters in
+    aSequence stripped from the end of the receiver. Example:
+    <pre>
+    "Cut the tail off" rstrip(" afilot")
+    ==> "Cut the"
+    </pre></p></div></div><div class="classdoc-member" id="slots--set"><div class="classdoc-member-head"><span class="classdoc-member-name">set</span><span class="classdoc-member-sig">(aNumber1, aNumber2, ...)</span></div><div class="classdoc-member-body"><p>Sets the values of the receiver to the sequences of numbers in the
+    arguments. Unset values will remain unchanged. Returns self.</p></div></div><div class="classdoc-member" id="slots--setencoding"><div class="classdoc-member-head"><span class="classdoc-member-name">setEncoding</span><span class="classdoc-member-sig">(encodingName)</span></div><div class="classdoc-member-body"><p>Sets the encoding flag of the receiver (only the encoding flag,
+    itemSize and itemType will change, no conversion is done between UTF
+    encodings - you can use convertToUTF8, etc methods for conversions).
+    Valid encodings are number, utf8, utf16, and utf32. Returns self.</p></div></div><div class="classdoc-member" id="slots--setitemtype"><div class="classdoc-member-head"><span class="classdoc-member-name">setItemType</span><span class="classdoc-member-sig">(aTypeName)</span></div><div class="classdoc-member-body"><p>Sets the underlying machine type for the elements.
+    Valid names are uint8, uint16, uint32, uint64, int8, int16, int32,
+    int64, float32, and float64. Note that 64 bit types are only available
+    on platforms that support such types. Returns self.</p></div></div><div class="classdoc-member" id="slots--setitemstodouble"><div class="classdoc-member-head"><span class="classdoc-member-name">setItemsToDouble</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Sets all items in the Sequence to the double floating point value of
+    aNumber.</p></div></div><div class="classdoc-member" id="slots--setitemstolong"><div class="classdoc-member-head"><span class="classdoc-member-name">setItemsToLong</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Sets all items in the Sequence to the long integer value of aNumber.</p></div></div><div class="classdoc-member" id="slots--setsize"><div class="classdoc-member-head"><span class="classdoc-member-name">setSize</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Sets the length in bytes of the receiver to aNumber. Return self.</p></div></div><div class="classdoc-member" id="slots--sin"><div class="classdoc-member-head"><span class="classdoc-member-name">sin</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the trigonometric sine of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--sinh"><div class="classdoc-member-head"><span class="classdoc-member-name">sinh</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the hyperbolic sine of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--size"><div class="classdoc-member-head"><span class="classdoc-member-name">size</span></div><div class="classdoc-member-body"><p>Returns the length in number of items (which may or may not
+    be the number of bytes, depending on the item type) of the receiver. For
+    example: <p> <pre> "abc" size == 3
+    </pre></p></div></div><div class="classdoc-member" id="slots--sizeinbytes"><div class="classdoc-member-head"><span class="classdoc-member-name">sizeInBytes</span></div><div class="classdoc-member-body"><p>Returns the length in bytes of the receiver.</p></div></div><div class="classdoc-member" id="slots--slice"><div class="classdoc-member-head"><span class="classdoc-member-name">slice</span></div><div class="classdoc-member-body"><p>Deprecated method. Use exSlice instead.</p></div></div><div class="classdoc-member" id="slots--slicesbetween"><div class="classdoc-member-head"><span class="classdoc-member-name">slicesBetween</span><span class="classdoc-member-sig">(startSeq, endSeq)</span></div><div class="classdoc-member-body"><p>Returns a list of slices delimited 
+  by <tt>startSeq</tt> and <tt>endSeq</tt>.
+  <br>
+  <pre>
+  Io> "<a><b></b></a>" slicesBetween("<", ">")
+  ==> list("a", "b", "/b", "/a")
+  </pre></p></div></div><div class="classdoc-member" id="slots--sort"><div class="classdoc-member-head"><span class="classdoc-member-name">sort</span></div><div class="classdoc-member-body"><p>Sorts the characters/numbers in the array. Returns</p></div></div><div class="classdoc-member" id="slots--split"><div class="classdoc-member-head"><span class="classdoc-member-name">split</span><span class="classdoc-member-sig">(optionalArg1, optionalArg2, ...)</span></div><div class="classdoc-member-body"><p>Returns a list containing the sub-sequences of the receiver divided by the
+    given arguments. If no arguments are given the sequence is split on white
+    space. Examples: <pre> "a b c d" split == list("a", "b", "c", "d") "a*b*c*d"
+    split("*") == list("a", "b", "c", "d") "a*b|c,d" split("*", "|", ",") ==
+    list("a", "b", "c", "d") "a   b  c d" split == list("a", "", "", "", "b",
+    "", "", "c", "", "d")
+    </pre></p></div></div><div class="classdoc-member" id="slots--split-returns-a-list-containing-the-sub-sequences-of-the-receiver-divided-by-the-given-arguments"><div class="classdoc-member-head"><span class="classdoc-member-name">split Returns a list containing the sub-sequences of the receiver divided by the given arguments.</span></div><div class="classdoc-member-body"><p>If no arguments are given the sequence is split on white space.</p></div></div><div class="classdoc-member" id="slots--splitat"><div class="classdoc-member-head"><span class="classdoc-member-name">splitAt</span><span class="classdoc-member-sig">(indexNumber)</span></div><div class="classdoc-member-body"><p>Returns a list containing the two parts of the receiver as split at the
+    given index.</p></div></div><div class="classdoc-member" id="slots--splitnoempties"><div class="classdoc-member-head"><span class="classdoc-member-name">splitNoEmpties</span><span class="classdoc-member-sig">(optionalArg1, optionalArg2, ...)</span></div><div class="classdoc-member-body"><p>Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
+		If no arguments are given the sequence is split on white space.
+		Examples:
+		<code>
+		"a   b  c d" splitNoEmpties => list("a", "b", "c", "d")
+		"a***b**c*d" splitNoEmpties("*") => list("a", "b", "c", "d")
+		"a***b||c,d" splitNoEmpties("*", "|", ",") => list("a", "b", "c", "d")
+		</code></p></div></div><div class="classdoc-member" id="slots--sqrt"><div class="classdoc-member-head"><span class="classdoc-member-name">sqrt</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the square root of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--square"><div class="classdoc-member-head"><span class="classdoc-member-name">square</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the square of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--strip"><div class="classdoc-member-head"><span class="classdoc-member-name">strip</span><span class="classdoc-member-sig">(optionalSequence)</span></div><div class="classdoc-member-body"><p>Trims the whitespace (or optionalSequence) off both ends:
+    <p>
+    <pre>
+    "   Trim this string   \r\n" strip
+    ==> "Trim this string"
+    </pre></p></div></div><div class="classdoc-member" id="slots--sum"><div class="classdoc-member-head"><span class="classdoc-member-name">sum</span></div><div class="classdoc-member-body"><p>Returns the sum of the Sequence.</p></div></div><div class="classdoc-member" id="slots--tan"><div class="classdoc-member-head"><span class="classdoc-member-name">tan</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the trigonometric tangent of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--tanh"><div class="classdoc-member-head"><span class="classdoc-member-name">tanh</span></div><div class="classdoc-member-body"><p>Sets each value of the Sequence to the hyperbolic tangent of its value.
+    Returns self.</p></div></div><div class="classdoc-member" id="slots--tobase"><div class="classdoc-member-head"><span class="classdoc-member-name">toBase</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Returns a Sequence containing the receiver (which is
+    assumed to be a base 10 number) converted to the specified base.</p></div></div><div class="classdoc-member" id="slots--translate"><div class="classdoc-member-head"><span class="classdoc-member-name">translate</span><span class="classdoc-member-sig">(fromChars, toChars)</span></div><div class="classdoc-member-body"><p>In the receiver, the characters in fromChars are replaced with those in the
+    same positions in toChars. Returns self.</p></div></div><div class="classdoc-member" id="slots--unescape"><div class="classdoc-member-head"><span class="classdoc-member-name">unescape</span></div><div class="classdoc-member-body"><p>Escape codes replaced with escape characters. Returns self.</p></div></div><div class="classdoc-member" id="slots--unpack"><div class="classdoc-member-head"><span class="classdoc-member-name">unpack</span><span class="classdoc-member-sig">(optionalStartPosition, format)</span></div><div class="classdoc-member-body"><p>Unpacks self into a list using the format passed in. See Sequence pack.</p><p>Returns a List.</p><p>Examples:</p><p>s := Sequence pack("IC5s", 100, "a", "hello")
+    l := s unpack("IC5s")</p><p>s := Sequence pack("5c", "h", "e", "l", "l", "o")
+    l := s unpack("5c")</p><p>s := Sequence pack("I", 0x01020304)
+    l := s unpack("I")</p><p>s := Sequence pack("*I", 0x01020304)
+    l := s unpack("*I")</p><p>l := "hello" unpack("5c")</p></div></div><div class="classdoc-member" id="slots--uppercase"><div class="classdoc-member-head"><span class="classdoc-member-name">uppercase</span></div><div class="classdoc-member-body"><p>Makes all characters of the receiver uppercase.</p></div></div><div class="classdoc-member" id="slots--urldecoded"><div class="classdoc-member-head"><span class="classdoc-member-name">urlDecoded</span></div><div class="classdoc-member-body"><p>Returns url decoded version of receiver.</p></div></div><div class="classdoc-member" id="slots--urlencoded"><div class="classdoc-member-head"><span class="classdoc-member-name">urlEncoded</span></div><div class="classdoc-member-body"><p>Returns url encoded version of receiver.</p></div></div><div class="classdoc-member" id="slots--whitespacestrings"><div class="classdoc-member-head"><span class="classdoc-member-name">whiteSpaceStrings</span></div><div class="classdoc-member-body"><p>Returns a List of strings. Each string contains a different
+    whitespace character.</p></div></div><div class="classdoc-member" id="slots--with"><div class="classdoc-member-head"><span class="classdoc-member-name">with</span><span class="classdoc-member-sig">(aSequence, ...)</span></div><div class="classdoc-member-body"><p>Returns a new Sequence which is the concatenation of the arguments.
+    The returned sequence will have the same mutability status as the receiver.</p></div></div><div class="classdoc-member" id="slots--withstruct"><div class="classdoc-member-head"><span class="classdoc-member-name">withStruct</span><span class="classdoc-member-sig">(memberList)</span></div><div class="classdoc-member-body"><p>This method is useful for producing a Sequence containing a raw
+    datastructure with the specified types and values. The memberList format is:
+    <p>
+    list(memberType1, memberName1, memberType2, memberName2, ...)
+    <p>
+    Member types include:
+    <pre>
+    int8, int16, int32, int64
+    uint8, uint16, uint32, uint64
+    float32, float64
+    </pre>
+    Example:
+    <pre>
+    pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
+    </pre>
+    The output pointStructSeq would contain 2 raw 32 bit floats.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

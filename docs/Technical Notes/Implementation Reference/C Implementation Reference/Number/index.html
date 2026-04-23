@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../../../colvmn/style.css">
+<title>Number – Io</title>
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="C implementation of Io's Number proto. A Number is an IoObject whose inline data union stores a double — no separate heap payload, no dataPointer. The...">
+</head>
+<body>
+<div class="page loaded"><div class="header"><div><h1>Number</h1><a class="back-link" href="../index.html">&larr; C Implementation Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of Io's Number proto. A Number is an IoObject whose
+inline data union stores a double — no separate heap payload, no
+dataPointer. The CNUMBER / DATA macros just reinterpret the inline
+slot, and IoNumber_free is a no-op because there is nothing to release.
+Most arithmetic methods are thin shims that read the double out of
+self (and any operand), compute, and return a freshly minted Number
+via IONUMBER. Number is registered as a primitive proto on the state
+so IONUMBER can clone without going through the message machinery.
+Bitwise and character-class methods cast the double to long / int on
+the fly; the limits methods expose the host's <limits.h> / <float.h>
+constants.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ionumberdoubleintocstring">IoNumber_Double_intoCString_</a></li><li><a href="#functions--ionumberasallocedcstring">IoNumber_asAllocedCString</a></li><li><a href="#functions--ionumberasstackuarray">IoNumber_asStackUArray</a></li><li><a href="#functions--ionumbercompare">IoNumber_compare</a></li><li><a href="#functions--ionumberfree">IoNumber_free</a></li><li><a href="#functions--ionumbernewtag">IoNumber_newTag</a></li><li><a href="#functions--ionumbernewwithdouble">IoNumber_newWithDouble_</a></li><li><a href="#functions--ionumbernumberfordoublecanuse">IoNumber_numberForDouble_canUse_</a></li><li><a href="#functions--ionumberproto">IoNumber_proto</a></li><li><a href="#functions--ionumberrawclone">IoNumber_rawClone</a></li><li><a href="#functions--countbytes">countBytes</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ionumberdoubleintocstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_Double_intoCString_</span><span class="classdoc-member-sig">(n, s, maxSize)</span></div><div class="classdoc-member-body"><p>Formats a double into a fixed buffer. Integer values in long long range
+print as integers (no trailing ".0"); very large or very small magnitudes
+use %e; everything else is printed with 16-digit precision and then has
+its trailing zeros — and trailing decimal point — trimmed in place.
+Used by IoNumber_print and IoNumber_asAllocedCString.</p></div></div><div class="classdoc-member" id="functions--ionumberasallocedcstring"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_asAllocedCString</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns a heap-allocated zero-padded string representation of the
+receiver (caller owns it and must io_free). Sized at 1024 bytes to
+cover the worst case of a small whole field width combined with a
+fully expanded %.16f. Used by printNumber and justAsString.</p></div></div><div class="classdoc-member" id="functions--ionumberasstackuarray"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_asStackUArray</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Returns a stack-allocated UArray that aliases the receiver's inline
+double — no copy, no heap. Used by code paths that want to treat a
+Number as a 1-element numeric vector (comparisons, coercion into
+Sequence ops). Caller must not mutate the view's data field.</p></div></div><div class="classdoc-member" id="functions--ionumbercompare"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_compare</span><span class="classdoc-member-sig">(self, v)</span></div><div class="classdoc-member-body"><p>Registered as the tag's compareFunc. Compares on numeric value when
+v is another Number, otherwise delegates to IoObject_defaultCompare
+(pointer-order fallback) so heterogeneous comparisons stay total for
+sorting. NaN comparisons inherit IEEE semantics via ==/>.</p></div></div><div class="classdoc-member" id="functions--ionumberfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Registered as the tag's freeFunc. Body is empty: the double lives in
+the inline data slot, so there is nothing to release. The function
+exists only to override IoObject's default freer, which would try to
+io_free a dataPointer that was never allocated.</p></div></div><div class="classdoc-member" id="functions--ionumbernewtag"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_newTag</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Builds the Number tag with clone/free/compare hooks. No stream read/write
+hooks are installed — the commented block below shows the legacy
+BStream-based serialization that was removed. The assert enforces that
+a double fits into the two-pointer inline data slot that all IoObjects
+reserve, which is what lets Number skip an allocated payload entirely.</p></div></div><div class="classdoc-member" id="functions--ionumbernewwithdouble"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_newWithDouble_</span><span class="classdoc-member-sig">(state, n)</span></div><div class="classdoc-member-body"><p>Primary factory for Numbers. Normalizes every NaN to the canonical NAN
+bit pattern (x86 emits positive and negative NaNs from different paths;
+collapsing them keeps equality and hashing well-defined). The comment
+hints at a potential optimization: because Numbers hold no references,
+the full IOCLONE dance could in principle be shortened.</p></div></div><div class="classdoc-member" id="functions--ionumbernumberfordoublecanuse"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_numberForDouble_canUse_</span><span class="classdoc-member-sig">(self, n, other)</span></div><div class="classdoc-member-body"><p>Returns one of the two supplied Numbers if its value already equals n,
+otherwise allocates a fresh Number. Arithmetic helpers call this to
+avoid minting a new IoObject for the common case where the result
+coincides with an operand (e.g. x + 0).</p></div></div><div class="classdoc-member" id="functions--ionumberproto"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_proto</span><span class="classdoc-member-sig">(state)</span></div><div class="classdoc-member-body"><p>Creates the Number proto: allocates a bare IoObject, sets its tag, seeds
+the inline double to zero, registers the proto on the state, and installs
+the (large) method table of arithmetic, bitwise, character-class, and
+limit methods. Every Number returned by IONUMBER is a clone of this proto.</p></div></div><div class="classdoc-member" id="functions--ionumberrawclone"><div class="classdoc-member-head"><span class="classdoc-member-name">IoNumber_rawClone</span><span class="classdoc-member-sig">(proto)</span></div><div class="classdoc-member-body"><p>Registered as the tag's cloneFunc. Uses the primitive clone path (no
+slot hashtable copy) and memcopies the inline double from the proto.
+Numbers have no heap payload, so this is cheap.</p></div></div><div class="classdoc-member" id="functions--countbytes"><div class="classdoc-member-head"><span class="classdoc-member-name">countBytes</span><span class="classdoc-member-sig">(ld)</span></div><div class="classdoc-member-body"><p>Returns the minimum number of bytes needed to hold ld when shifted
+right 8 bits at a time. Used by asCharacter to pick a UCS encoding
+(1, 2, or 4 bytes) for the resulting single-character Sequence.</p></div></div></div></div>
+<script src="../../../../../colvmn/layout/layout.js" type="module"></script>
+</body>
+</html>

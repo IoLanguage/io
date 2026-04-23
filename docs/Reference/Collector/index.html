@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Collector – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>Collector – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="A singleton containing methods related to Io's garbage collector. Io currently uses a incremental, non-moving, generational collector based on the tri-color...">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>Collector</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>A singleton containing methods related to Io's garbage collector.
+<div class="page loaded"><div class="header"><div><h1>Collector</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">A singleton containing methods related to Io's garbage collector.
 Io currently uses a incremental, non-moving, generational
 collector based on the tri-color (black/gray/white)
 algorithm with a write-barrier.
@@ -29,161 +26,14 @@ it will wait until the sweepsPerGeneration count is reached to do this.
 By adjusting the allocsPerSweep and sweepsPerGeneration appropriately, the
 collector can be tuned efficiently for various usage cases.
 
-Generally, the more objects in your heap, the larger you'll want this number.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">allObjects</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a List containing all objects known to the collector.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">allocatedStep</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return the allocation step value as a Number.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">cleanAllObjects</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets all objects as clean. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">collect</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Runs garbage collector. Returns the number of items collected.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">dirtyObjects</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns a List containing all dirty objects known to the collector.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">marksPerAlloc</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return the number of allocations per collector mark pass.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">maxAllocatedBytes</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the maximum number of bytes allocated by the collector.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">objectWithUniqueId(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns an object whose uniqueId is aNumber or nil if no match is found.
-Warning: This lookup currently scans all objects, so it is not efficient,
-though it should handle thousands of lookups per second.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">resetMaxAllocatedBytes</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Resets maximum number of bytes allocated by the collector. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setAllocatedStep(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the allocatedStep (can have a fractional component,
-but must be larger than 1). A collector sweep is forced when the
-number of allocated objects exceeds the allocatedSweepLevel.
-After a sweep, the allocatedSweepLevel is set to the allocated
-object count times the allocatedStep. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setDebug(aBool)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Turns on/off printing of collector debugging messages. Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setMarksPerAlloc(aNumber)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Sets the number of incremental collector marks per object
-allocation (can be fractional). Returns self.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">showStats</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Prints the collector's stats to standard output.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">timeUsed</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Return the time used so far by the collector in seconds.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+Generally, the more objects in your heap, the larger you'll want this number.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--allobjects">allObjects</a></li><li><a href="#slots--allocatedstep">allocatedStep</a></li><li><a href="#slots--cleanallobjects">cleanAllObjects</a></li><li><a href="#slots--collect">collect</a></li><li><a href="#slots--dirtyobjects">dirtyObjects</a></li><li><a href="#slots--marksperalloc">marksPerAlloc</a></li><li><a href="#slots--maxallocatedbytes">maxAllocatedBytes</a></li><li><a href="#slots--objectwithuniqueid">objectWithUniqueId</a></li><li><a href="#slots--resetmaxallocatedbytes">resetMaxAllocatedBytes</a></li><li><a href="#slots--setallocatedstep">setAllocatedStep</a></li><li><a href="#slots--setdebug">setDebug</a></li><li><a href="#slots--setmarksperalloc">setMarksPerAlloc</a></li><li><a href="#slots--showstats">showStats</a></li><li><a href="#slots--timeused">timeUsed</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--allobjects"><div class="classdoc-member-head"><span class="classdoc-member-name">allObjects</span></div><div class="classdoc-member-body"><p>Returns a List containing all objects known to the collector.</p></div></div><div class="classdoc-member" id="slots--allocatedstep"><div class="classdoc-member-head"><span class="classdoc-member-name">allocatedStep</span></div><div class="classdoc-member-body"><p>Return the allocation step value as a Number.</p></div></div><div class="classdoc-member" id="slots--cleanallobjects"><div class="classdoc-member-head"><span class="classdoc-member-name">cleanAllObjects</span></div><div class="classdoc-member-body"><p>Sets all objects as clean. Returns self.</p></div></div><div class="classdoc-member" id="slots--collect"><div class="classdoc-member-head"><span class="classdoc-member-name">collect</span></div><div class="classdoc-member-body"><p>Runs garbage collector. Returns the number of items collected.</p></div></div><div class="classdoc-member" id="slots--dirtyobjects"><div class="classdoc-member-head"><span class="classdoc-member-name">dirtyObjects</span></div><div class="classdoc-member-body"><p>Returns a List containing all dirty objects known to the collector.</p></div></div><div class="classdoc-member" id="slots--marksperalloc"><div class="classdoc-member-head"><span class="classdoc-member-name">marksPerAlloc</span></div><div class="classdoc-member-body"><p>Return the number of allocations per collector mark pass.</p></div></div><div class="classdoc-member" id="slots--maxallocatedbytes"><div class="classdoc-member-head"><span class="classdoc-member-name">maxAllocatedBytes</span></div><div class="classdoc-member-body"><p>Returns the maximum number of bytes allocated by the collector.</p></div></div><div class="classdoc-member" id="slots--objectwithuniqueid"><div class="classdoc-member-head"><span class="classdoc-member-name">objectWithUniqueId</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Returns an object whose uniqueId is aNumber or nil if no match is found.
+    Warning: This lookup currently scans all objects, so it is not efficient,
+    though it should handle thousands of lookups per second.</p></div></div><div class="classdoc-member" id="slots--resetmaxallocatedbytes"><div class="classdoc-member-head"><span class="classdoc-member-name">resetMaxAllocatedBytes</span></div><div class="classdoc-member-body"><p>Resets maximum number of bytes allocated by the collector. Returns self.</p></div></div><div class="classdoc-member" id="slots--setallocatedstep"><div class="classdoc-member-head"><span class="classdoc-member-name">setAllocatedStep</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Sets the allocatedStep (can have a fractional component,
+    but must be larger than 1). A collector sweep is forced when the
+    number of allocated objects exceeds the allocatedSweepLevel.
+    After a sweep, the allocatedSweepLevel is set to the allocated
+    object count times the allocatedStep. Returns self.</p></div></div><div class="classdoc-member" id="slots--setdebug"><div class="classdoc-member-head"><span class="classdoc-member-name">setDebug</span><span class="classdoc-member-sig">(aBool)</span></div><div class="classdoc-member-body"><p>Turns on/off printing of collector debugging messages. Returns self.</p></div></div><div class="classdoc-member" id="slots--setmarksperalloc"><div class="classdoc-member-head"><span class="classdoc-member-name">setMarksPerAlloc</span><span class="classdoc-member-sig">(aNumber)</span></div><div class="classdoc-member-body"><p>Sets the number of incremental collector marks per object
+    allocation (can be fractional). Returns self.</p></div></div><div class="classdoc-member" id="slots--showstats"><div class="classdoc-member-head"><span class="classdoc-member-name">showStats</span></div><div class="classdoc-member-body"><p>Prints the collector's stats to standard output.</p></div></div><div class="classdoc-member" id="slots--timeused"><div class="classdoc-member-head"><span class="classdoc-member-name">timeUsed</span></div><div class="classdoc-member-body"><p>Return the time used so far by the collector in seconds.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

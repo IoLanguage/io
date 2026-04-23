@@ -1,0 +1,28 @@
+{
+  "title": "Sandbox",
+  "subtitle": "C implementation of Sandbox — a wrapper that lazily spins up an entire\nnested IoState and runs strings of Io code inside it. The inner\nIoState is stored in the IoObject's data pointer (see DATA(self)) and\ncreated lazily by IoSandbox_boxState so empty Sandbox clones stay\ncheap. Quota-style protection (messageCountLimit, timeLimit) is\nenforced by the inner IoState's evaluator, not by this module;\nsetters here just poke those fields. Output from code run in the\nsandbox is intercepted via IoState_printCallback_ and re-sent as a\nprintCallback message back to the outer VM, so the host can decide\nwhat to do with sandboxed stdout.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoSandbox_addPrintCallback", "signature": "(self)", "description": "Sets up the inner IoState's print callback to route writes into\nIoSandbox_printCallback, which forwards them back to the outer VM\nas an Io-level printCallback message. Called from boxState so every\nlazily-created inner state has I/O redirection wired up."},
+                {"name": "IoSandbox_boxState", "signature": "(self)", "description": "Returns the inner IoState, creating it lazily on first access via\nIoState_new() and wiring up the print callback. Called by every\nquota setter, getter, and doSandboxString, so this is where the\nnested VM really comes into existence."},
+                {"name": "IoSandbox_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Tears down the inner IoState (via\nIoState_free, which recursively frees every object in the nested\nVM) if one was ever created; otherwise does nothing."},
+                {"name": "IoSandbox_new", "signature": "(state)", "description": "Convenience constructor: look up the Sandbox proto and clone it.\nThe inner IoState is still not materialized until first use."},
+                {"name": "IoSandbox_newTag", "signature": "(state)", "description": "Builds the Sandbox tag with clone and free function pointers. No\nmarkFunc is registered — the inner IoState owns its own GC and is\nnot walked by the outer collector."},
+                {"name": "IoSandbox_printCallback", "signature": "(voidSelf, ba)", "description": "Bridge from inner-VM print output to the outer VM. Copies the bytes\ninto a fresh IoSeq, builds a `printCallback(buffer)` message, and\nperforms it on the Sandbox object in the outer state's lobby scope —\nletting Io code override printCallback to capture sandboxed output."},
+                {"name": "IoSandbox_proto", "signature": "(state)", "description": "Creates the Sandbox proto: no inner IoState yet (data pointer stays\nNULL until first use). Installs the quota / evaluation method table\nand registers the proto on the outer state."},
+                {"name": "IoSandbox_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Does not duplicate the inner\nIoState — the clone starts fresh and will get its own IoState on\nfirst boxState() call. Cheap to clone even when the proto has a\nfully populated inner VM."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

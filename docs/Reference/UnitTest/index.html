@@ -1,145 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>UnitTest – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>UnitTest – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+  <meta name="description" content="An object for organizing and running unit tests validated by assertions.">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>UnitTest</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>An object for organizing and running unit tests validated by assertions.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertEquals(a,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>b) Fail the running test if a != b.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertEqualsWithinDelta(expected, actual, delta)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Fail the running test if the expected value is not within delta of the actual value.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertFalse(a)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Fail the running test if a != false.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertNil(a)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Fail the running test if a != nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertNotEquals(a,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>b) Fail the running test if a == b.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertNotNil(a)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Fail the running test if a == nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertNotSame(a,</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>b) Fail the running test if a != b.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertRaisesException(code)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Fail the running test if the code does not raise an Exception.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">assertTrue(a)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Fail the running test if a != true.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">fail(error)</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Call to trigger a test failure with a given error message.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">setUp</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Method called prior to each test.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">tearDown</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Method called after each test.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>UnitTest</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">An object for organizing and running unit tests validated by assertions.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--assertequals">assertEquals</a></li><li><a href="#slots--assertequalswithindelta">assertEqualsWithinDelta</a></li><li><a href="#slots--assertfalse">assertFalse</a></li><li><a href="#slots--assertnil">assertNil</a></li><li><a href="#slots--assertnotequals">assertNotEquals</a></li><li><a href="#slots--assertnotnil">assertNotNil</a></li><li><a href="#slots--assertnotsame">assertNotSame</a></li><li><a href="#slots--assertraisesexception">assertRaisesException</a></li><li><a href="#slots--asserttrue">assertTrue</a></li><li><a href="#slots--fail">fail</a></li><li><a href="#slots--setup">setUp</a></li><li><a href="#slots--teardown">tearDown</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--assertequals"><div class="classdoc-member-head"><span class="classdoc-member-name">assertEquals</span><span class="classdoc-member-sig">(a, b)</span></div><div class="classdoc-member-body"><p>Fail the running test if a != b.</p></div></div><div class="classdoc-member" id="slots--assertequalswithindelta"><div class="classdoc-member-head"><span class="classdoc-member-name">assertEqualsWithinDelta</span><span class="classdoc-member-sig">(expected, actual, delta)</span></div><div class="classdoc-member-body"><p>Fail the running test if the expected value is not within delta of the actual value.</p></div></div><div class="classdoc-member" id="slots--assertfalse"><div class="classdoc-member-head"><span class="classdoc-member-name">assertFalse</span><span class="classdoc-member-sig">(a)</span></div><div class="classdoc-member-body"><p>Fail the running test if a != false.</p></div></div><div class="classdoc-member" id="slots--assertnil"><div class="classdoc-member-head"><span class="classdoc-member-name">assertNil</span><span class="classdoc-member-sig">(a)</span></div><div class="classdoc-member-body"><p>Fail the running test if a != nil.</p></div></div><div class="classdoc-member" id="slots--assertnotequals"><div class="classdoc-member-head"><span class="classdoc-member-name">assertNotEquals</span><span class="classdoc-member-sig">(a, b)</span></div><div class="classdoc-member-body"><p>Fail the running test if a == b.</p></div></div><div class="classdoc-member" id="slots--assertnotnil"><div class="classdoc-member-head"><span class="classdoc-member-name">assertNotNil</span><span class="classdoc-member-sig">(a)</span></div><div class="classdoc-member-body"><p>Fail the running test if a == nil.</p></div></div><div class="classdoc-member" id="slots--assertnotsame"><div class="classdoc-member-head"><span class="classdoc-member-name">assertNotSame</span><span class="classdoc-member-sig">(a, b)</span></div><div class="classdoc-member-body"><p>Fail the running test if a != b.</p></div></div><div class="classdoc-member" id="slots--assertraisesexception"><div class="classdoc-member-head"><span class="classdoc-member-name">assertRaisesException</span><span class="classdoc-member-sig">(code)</span></div><div class="classdoc-member-body"><p>Fail the running test if the code does not raise an Exception.</p></div></div><div class="classdoc-member" id="slots--asserttrue"><div class="classdoc-member-head"><span class="classdoc-member-name">assertTrue</span><span class="classdoc-member-sig">(a)</span></div><div class="classdoc-member-body"><p>Fail the running test if a != true.</p></div></div><div class="classdoc-member" id="slots--fail"><div class="classdoc-member-head"><span class="classdoc-member-name">fail</span><span class="classdoc-member-sig">(error)</span></div><div class="classdoc-member-body"><p>Call to trigger a test failure with a given error message.</p></div></div><div class="classdoc-member" id="slots--setup"><div class="classdoc-member-head"><span class="classdoc-member-name">setUp</span></div><div class="classdoc-member-body"><p>Method called prior to each test.</p></div></div><div class="classdoc-member" id="slots--teardown"><div class="classdoc-member-head"><span class="classdoc-member-name">tearDown</span></div><div class="classdoc-member-body"><p>Method called after each test.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

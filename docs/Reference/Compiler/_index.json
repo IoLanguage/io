@@ -1,0 +1,24 @@
+{
+  "title": "Compiler",
+  "subtitle": "Contains methods related to the compiling code.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "messageForString", "signature": "(aString, optionalLabelString)", "description": "Returns the compiled message object for aString."},
+                {"name": "messageForString2", "signature": "(aString)", "description": "Returns the compiled message object for aString. (Runs raw string against\n    lexer directly.)"},
+                {"name": "messageForTokens", "signature": "(aList)", "description": "Returns the compiled message object for the given token list."},
+                {"name": "tokensForString", "signature": "(aString)", "description": "Returns a list of token objects lexed from the input string."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

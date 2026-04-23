@@ -1,120 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>EvalFrame – Io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../../../colvmn/style.css">
-<link rel="stylesheet" href="../../../style/class-doc.css">
+<title>EvalFrame – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 </head>
 <body>
-<div class="page loaded">
-<div class="header"><div><h1>EvalFrame</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../../../index.html">Io</a></div>
-<class>
-  <classInfo>
-    <description>Returns a human-readable description of this frame, including
-the message name, state, and source location.</description>
-  </classInfo>
-  <instancemethods>
-    <category>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">blockLocals</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the block's local context object, or nil if this frame
-is not a block activation.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">call</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the Call object for this frame (created during block/method
-activation), or nil if this is not a block activation frame.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">depth</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the number of frames from this frame to the bottom
-of the stack (inclusive). The bottom frame has depth 1.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">locals</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the locals object (sender context) for this frame.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">message</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the Message being evaluated in this frame.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">parent</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the parent frame, or nil if this is the bottom frame.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">result</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the current result value of this frame, or nil.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">state</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the current state of this frame as a Symbol
-(e.g. "start", "activate", "if:evalBranch").</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-  <method class="collapsed">
-    <fullMethodName class="collapsible">target</fullMethodName>
-    <div class="collapsible-content">
-      <methodinfo>
-        <div class="method-info-content">
-          <description>Returns the target (receiver) of the message in this frame.</description>
-        </div>
-      </methodinfo>
-    </div>
-  </method>
-    </category>
-  </instancemethods>
-</class>
-</div>
-<script src="../../../style/class-doc.js"></script>
+<div class="page loaded"><div class="header"><div><h1>EvalFrame</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#slots--blocklocals">blockLocals</a></li><li><a href="#slots--call">call</a></li><li><a href="#slots--depth">depth</a></li><li><a href="#slots--description">description</a></li><li><a href="#slots--locals">locals</a></li><li><a href="#slots--message">message</a></li><li><a href="#slots--parent">parent</a></li><li><a href="#slots--result">result</a></li><li><a href="#slots--state">state</a></li><li><a href="#slots--target">target</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="slots--blocklocals"><div class="classdoc-member-head"><span class="classdoc-member-name">blockLocals</span></div><div class="classdoc-member-body"><p>Returns the block's local context object, or nil if this frame
+    is not a block activation.</p></div></div><div class="classdoc-member" id="slots--call"><div class="classdoc-member-head"><span class="classdoc-member-name">call</span></div><div class="classdoc-member-body"><p>Returns the Call object for this frame (created during block/method
+    activation), or nil if this is not a block activation frame.</p></div></div><div class="classdoc-member" id="slots--depth"><div class="classdoc-member-head"><span class="classdoc-member-name">depth</span></div><div class="classdoc-member-body"><p>Returns the number of frames from this frame to the bottom
+    of the stack (inclusive). The bottom frame has depth 1.</p></div></div><div class="classdoc-member" id="slots--description"><div class="classdoc-member-head"><span class="classdoc-member-name">description</span></div><div class="classdoc-member-body"><p>Returns a human-readable description of this frame, including
+    the message name, state, and source location.</p></div></div><div class="classdoc-member" id="slots--locals"><div class="classdoc-member-head"><span class="classdoc-member-name">locals</span></div><div class="classdoc-member-body"><p>Returns the locals object (sender context) for this frame.</p></div></div><div class="classdoc-member" id="slots--message"><div class="classdoc-member-head"><span class="classdoc-member-name">message</span></div><div class="classdoc-member-body"><p>Returns the Message being evaluated in this frame.</p></div></div><div class="classdoc-member" id="slots--parent"><div class="classdoc-member-head"><span class="classdoc-member-name">parent</span></div><div class="classdoc-member-body"><p>Returns the parent frame, or nil if this is the bottom frame.</p></div></div><div class="classdoc-member" id="slots--result"><div class="classdoc-member-head"><span class="classdoc-member-name">result</span></div><div class="classdoc-member-body"><p>Returns the current result value of this frame, or nil.</p></div></div><div class="classdoc-member" id="slots--state"><div class="classdoc-member-head"><span class="classdoc-member-name">state</span></div><div class="classdoc-member-body"><p>Returns the current state of this frame as a Symbol
+    (e.g. "start", "activate", "if:evalBranch").</p></div></div><div class="classdoc-member" id="slots--target"><div class="classdoc-member-head"><span class="classdoc-member-name">target</span></div><div class="classdoc-member-body"><p>Returns the target (receiver) of the message in this frame.</p></div></div></div></div>
+<script src="../../../colvmn/layout/layout.js" type="module"></script>
 </body>
 </html>

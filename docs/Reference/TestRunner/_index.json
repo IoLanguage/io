@@ -1,0 +1,23 @@
+{
+  "title": "TestRunner",
+  "subtitle": "Core testing object responsible for running tests, collected by UnitTests and TestSuites.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "name", "description": "Returns the name of the TestRunner."},
+                {"name": "run", "signature": "(testMap)", "description": "Runs all tests from a given Map object, where keys are names of the UnitTests\nto run and values - lists of test slots theese UnitTests provide.\n\nReturns a `list` which is empty if the tests passed or contains exceptions on \nfailures."},
+                {"name": "testCount", "description": "Returns the number of tests to be ran."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

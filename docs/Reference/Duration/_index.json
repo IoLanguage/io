@@ -1,0 +1,39 @@
+{
+  "title": "Duration",
+  "subtitle": "A container for a duration of time.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "+", "description": "Returns a new Duration of the two added."},
+                {"name": "+=", "signature": "(aDuration)", "description": "Add aDuration to the receiver. Returns self."},
+                {"name": "-", "description": "Returns a new Duration of the two subtracted."},
+                {"name": "-=", "signature": "(aDuration)", "description": "Subtract aDuration to the receiver. Returns self."},
+                {"name": "asNumber", "description": "Returns a number representation of the receiver.\n    (where 1 is equal to one second)"},
+                {"name": "asString", "signature": "(formatString)", "description": "Returns a string representation of the receiver. The formatString argument\n    is optional. If present, the returned string will be formatted according to\n    ANSI C date formating rules. <p> <pre> %y years without century as two-digit\n    decimal number (00-99) %Y year with century as four-digit decimal number\n\n    %d days\n    %H hour as two-digit 24-hour clock decimal integer (00-23)\n    %M minute as a two-digit decimal integer (00-59)\n    %S second as a two-digit decimal integer (00-59)\n\n    The default format is \"%Y %d %H:%M:%S\".\n    </pre>"},
+                {"name": "days", "description": "Returns a number containing the day of the month of the receiver."},
+                {"name": "fromNumber", "signature": "(aNumber)", "description": "Sets the receiver to the Duration specified by\n    aNumber(same format number as returned by Duration asNumber). Returns self."},
+                {"name": "hours", "description": "Returns a number containing the hour of the day(0-23) of the receiver."},
+                {"name": "minutes", "description": "Returns a number containing the minute of the hour(0-59) of the receiver."},
+                {"name": "print", "description": "Prints the receiver. Returns self."},
+                {"name": "seconds", "description": "Returns a number containing the seconds of the minute(0-59) of the receiver.\n    This number may contain fractions of seconds."},
+                {"name": "setDays", "signature": "(aNumber)", "description": "Sets the day of the receiver. Returns self."},
+                {"name": "setHours", "signature": "(aNumber)", "description": "Sets the hour of the receiver. Returns self."},
+                {"name": "setMinutes", "signature": "(aNumber)", "description": "Sets the minute of the receiver. Returns self."},
+                {"name": "setSeconds", "signature": "(aNumber)", "description": "Sets the second of the receiver. Return self."},
+                {"name": "setYears", "signature": "(aNumber)", "description": "Sets the year of the receiver. Returns self."},
+                {"name": "totalSeconds", "description": "Same as a asNumber."},
+                {"name": "years", "description": "Returns a number containing the year of the receiver."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "title": "State",
+  "subtitle": "High-performance iterative evaluator with aggressive optimizations:\n- Frame pooling (no malloc/free in hot path)\n- Computed gotos (faster than switch)\n- Inline fast paths for common cases\n- Local variable caching",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

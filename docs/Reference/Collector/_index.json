@@ -1,0 +1,34 @@
+{
+  "title": "Collector",
+  "subtitle": "A singleton containing methods related to Io's garbage collector.\nIo currently uses a incremental, non-moving, generational\ncollector based on the tri-color (black/gray/white)\nalgorithm with a write-barrier.\n<p>\nEvery N number of object allocs, the collector will walk\nsome of the objects marked as gray, marking their connected\nwhite objects as gray and turning themselves black.\nEvery M allocs, it will pause for a sweep where it makes sure\nall grays are marked black and io_frees all whites.\n<p>\nIf the sweepsPerGeneration is set to zero, it will immediately mark\nall blacks as white again and mark the root objects as gray. Otherwise,\nit will wait until the sweepsPerGeneration count is reached to do this.\nBy adjusting the allocsPerSweep and sweepsPerGeneration appropriately, the\ncollector can be tuned efficiently for various usage cases.\n\nGenerally, the more objects in your heap, the larger you'll want this number.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "allObjects", "description": "Returns a List containing all objects known to the collector."},
+                {"name": "allocatedStep", "description": "Return the allocation step value as a Number."},
+                {"name": "cleanAllObjects", "description": "Sets all objects as clean. Returns self."},
+                {"name": "collect", "description": "Runs garbage collector. Returns the number of items collected."},
+                {"name": "dirtyObjects", "description": "Returns a List containing all dirty objects known to the collector."},
+                {"name": "marksPerAlloc", "description": "Return the number of allocations per collector mark pass."},
+                {"name": "maxAllocatedBytes", "description": "Returns the maximum number of bytes allocated by the collector."},
+                {"name": "objectWithUniqueId", "signature": "(aNumber)", "description": "Returns an object whose uniqueId is aNumber or nil if no match is found.\n    Warning: This lookup currently scans all objects, so it is not efficient,\n    though it should handle thousands of lookups per second."},
+                {"name": "resetMaxAllocatedBytes", "description": "Resets maximum number of bytes allocated by the collector. Returns self."},
+                {"name": "setAllocatedStep", "signature": "(aNumber)", "description": "Sets the allocatedStep (can have a fractional component,\n    but must be larger than 1). A collector sweep is forced when the\n    number of allocated objects exceeds the allocatedSweepLevel.\n    After a sweep, the allocatedSweepLevel is set to the allocated\n    object count times the allocatedStep. Returns self."},
+                {"name": "setDebug", "signature": "(aBool)", "description": "Turns on/off printing of collector debugging messages. Returns self."},
+                {"name": "setMarksPerAlloc", "signature": "(aNumber)", "description": "Sets the number of incremental collector marks per object\n    allocation (can be fractional). Returns self."},
+                {"name": "showStats", "description": "Prints the collector's stats to standard output."},
+                {"name": "timeUsed", "description": "Return the time used so far by the collector in seconds."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

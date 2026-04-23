@@ -1,0 +1,31 @@
+{
+  "title": "Duration",
+  "subtitle": "Thin IoObject wrapper around the plain-C Duration struct (years,\ndays, hours, minutes, seconds). All arithmetic and formatting live\nin Duration.c; this file only bridges Io message sends to the C API,\nmanages lifecycle (tag / clone / free / compare), and registers the\nproto. Durations interoperate with IoDate for +/- arithmetic — see\nIoDate_add / IoDate_subtract, which read the C Duration via\nIoDuration_duration — and with IoNumber through asNumber /\nfromNumber, treating seconds as the canonical scalar form.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoDuration_asSeconds", "signature": "(self)", "description": "Inverse of IoDuration_fromSeconds_: collapses the multi-field\nDuration into a single double. Used by the Io-visible asNumber\nmethod and by any C caller that needs a scalar."},
+                {"name": "IoDuration_compare", "signature": "(self, other)", "description": "Tag compareFunc. Delegates to Duration_compare when both sides are\nDurations; otherwise falls back to IoObject_defaultCompare so that\ncross-type comparisons still produce a stable ordering rather than\nan error."},
+                {"name": "IoDuration_duration", "signature": "(self)", "description": "Accessor exposed to other C code (IoDate in particular) so it can\nreach the underlying Duration struct without duplicating the DATA\nmacro. Returns a borrowed pointer; the caller must not free it."},
+                {"name": "IoDuration_free", "signature": "(self)", "description": "Tag freeFunc. Releases the heap-allocated C Duration struct; the\nIoObject header itself is freed by the collector."},
+                {"name": "IoDuration_fromSeconds_", "signature": "(self, s)", "description": "In-place mutator that rewrites every Duration field from a single\nseconds value. Thin wrapper around Duration_fromSeconds_; the split\nexists so IoDuration_newWithSeconds_ and the Io-level fromNumber\nmethod share one path."},
+                {"name": "IoDuration_new", "signature": "(state)", "description": "Clones the registered proto. Preferred C-level constructor when a\nblank Duration is needed before any field is set."},
+                {"name": "IoDuration_newTag", "signature": "(state)", "description": "Builds the Duration tag and wires in clone / free / compare function\npointers. No mark func is needed since Duration's C payload holds\nno IoObject references — it is a pure numeric struct."},
+                {"name": "IoDuration_newWithSeconds_", "signature": "(state, s)", "description": "Factory for a Duration initialized from a double seconds value.\nUsed by IoDate_subtract when a Date-minus-Date difference is\nreturned as a Duration, and anywhere else the VM needs to surface\nan elapsed time to Io code."},
+                {"name": "IoDuration_proto", "signature": "(state)", "description": "Creates the Duration proto with its full method table (field accessors\nfor years/days/hours/minutes/seconds, asString/asNumber conversion,\nand +=/-= operators). Allocates a zeroed C Duration struct and\nregisters the proto under \"Duration\" on the VM state so IoDuration_new\ncan clone it later."},
+                {"name": "IoDuration_rawClone", "signature": "(proto)", "description": "Tag cloneFunc. Allocates a fresh C Duration struct on the clone\n(never shared with the proto) and copies its fields via\nDuration_copy_, so each IoDuration owns its own numeric state."},
+                {"name": "IoMessage_locals_durationArgAt_", "signature": "(self, locals, n)", "description": "Argument coercion helper used from other files (notably IoDate.c)\nto fetch the n-th argument as an IoDuration. Raises a type error\nvia IoMessage_locals_numberArgAt_errorForType_ when the value is\nnot a Duration, mirroring the pattern used by numberArgAt_ and\nseqArgAt_ elsewhere in the VM."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

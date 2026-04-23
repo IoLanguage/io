@@ -1,0 +1,24 @@
+{
+  "title": "System",
+  "subtitle": "C implementation of Io's System object — a slot-only object (no\ndedicated data pointer or tag) that exposes VM- and environment-level\nhooks: process exit, errno string, env var get/set, platform name,\nsleep, symbol table, lobby root, and GC recycler tuning. Under WASI\nthe host-provided surface is minimal: daemon and system() raise\nerrors, thisProcessPid is always 1, activeCpus is 1, and platform/\nplatformVersion return \"wasm\"/\"wasi-0.1\". IO_VERSION_STRING and\nINSTALL_PREFIX are stamped onto System as slots in IoSystem_proto so\nIo code can query the build identity.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoObject_daemon", "signature": "(self, locals, m)", "description": "Stub for the historical daemonize call. WASI has no fork/setsid so\nthe method always raises an Io exception. Kept for source\ncompatibility with the standard library."},
+                {"name": "IoObject_sleep", "signature": "(self, locals, m)", "description": "Blocks the current thread for the requested number of seconds by\nchunking into sub-second usleep calls (usleep's POSIX argument must\nbe less than 1,000,000). Under WASM this is a real synchronous pause,\nsince there is no scheduler to yield to — long sleeps stall the whole\nruntime."},
+                {"name": "IoObject_system", "signature": "(self, locals, m)", "description": "Stub for the historical system(3) shell bridge. WASI has no process\ncreation so the method always raises an Io exception — preserved as\na method so calling Io code can catch a consistent error rather than\na slot-not-found."},
+                {"name": "IoSystem_proto", "signature": "(state)", "description": "Constructs the singleton System object: installs the method table and\nstamps version / installPrefix / type slots derived from compile-time\nmacros (IO_VERSION_STRING, INSTALL_PREFIX). There is no proto\nregistration — System is accessed by name from the lobby rather than\nvia IoState_protoWithId_, and there is nothing to clone."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

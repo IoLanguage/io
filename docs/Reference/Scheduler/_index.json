@@ -1,0 +1,25 @@
+{
+  "title": "Scheduler",
+  "subtitle": "Io's coroutine scheduler.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Slots",
+          "categories": [
+            {
+              "members": [
+                {"name": "currentCoroutine", "description": "Returns the currently running coroutine."},
+                {"name": "setTimers", "signature": "(aListOfTimers)", "description": "Sets the list of active timers."},
+                {"name": "setYieldingCoros", "signature": "(aListOfCoros)", "description": "Sets the list of yielding Coroutine objects."},
+                {"name": "timers", "description": "The List of active timers."},
+                {"name": "yieldingCoros", "description": "The List of yielding Coroutine objects."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

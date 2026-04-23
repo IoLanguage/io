@@ -1,0 +1,34 @@
+{
+  "title": "Directory",
+  "subtitle": "C implementation of Directory — a thin Io wrapper around POSIX\nopendir/readdir/closedir. IoDirectoryData holds a single symbol\n(the path); each items/at/size call reopens the directory rather\nthan keeping a persistent DIR* open, which keeps clone semantics\ntrivial and avoids leaking descriptors on GC. Under WASI the\nevaluator must have been started with --dir= for any path to be\nopenable; otherwise opendir fails and Io sees an \"unable to open\ndirectory\" exception. isDirectory prefers the d_type fast path when\nthe host dirent exposes it, falling back to a stat call otherwise.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoDirectory_CurrentWorkingDirectoryAsUArray", "signature": "(void)", "description": "Wraps getcwd(3) and returns a newly-allocated UArray containing the\ncwd (or \".\" on failure). The allocated buf is deliberately not freed\n— OSX MallocDebug flags that free as a bug despite the man page, and\nWASI does not need it."},
+                {"name": "IoDirectory_SetCurrentWorkingDirectory", "signature": "(path)", "description": "Thin wrapper around chdir so non-VM C code can change the process cwd\nwithout including <unistd.h> directly."},
+                {"name": "IoDirectory_cloneWithPath_", "signature": "(self, path)", "description": "Clones self and overrides its path — used when walking filesystem\ntrees so subdirectories inherit any Io-level slots the caller may\nhave attached to the parent Directory object."},
+                {"name": "IoDirectory_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. No OS handles to close — DIR*\nhandles are opened and closed per operation, so only the\nIoDirectoryData payload needs to be released."},
+                {"name": "IoDirectory_itemForDirent_", "signature": "(self, dp)", "description": "Builds the Io-visible entry for one readdir result. Joins the\nparent path with dp->d_name (inserting a separator only if missing),\nthen uses isDirectory to pick between constructing an IoDirectory or\nan IoFile. Used by the Io-level `items` method to materialize a\ndirectory listing as a List of typed objects."},
+                {"name": "IoDirectory_justAt", "signature": "(self, name)", "description": "Looks up a child by name using stat(2) and returns a Directory or\nFile depending on the result; returns ioNil if the path does not\nexist. Shared between the Io-level `at` and `createSubdirectory`\nmethods."},
+                {"name": "IoDirectory_justFullPath", "signature": "(self, name)", "description": "Joins the directory's path with a relative name into a fresh interned\nsymbol. Used by at/createSubdirectory so path composition is done in\none place with uniform separator handling via UArray_appendPath_."},
+                {"name": "IoDirectory_mark", "signature": "(self)", "description": "Registered as the tag's markFunc. The path symbol is the only Io\nobject on IoDirectoryData."},
+                {"name": "IoDirectory_new", "signature": "(state)", "description": "Convenience constructor: look up the Directory proto and clone it."},
+                {"name": "IoDirectory_newTag", "signature": "(state)", "description": "Builds the Directory tag with clone / mark / free function pointers."},
+                {"name": "IoDirectory_newWithPath_", "signature": "(state, path)", "description": "Constructs a Directory clone with the given path. Does not touch the\nfilesystem; callers typically follow with exists/items."},
+                {"name": "IoDirectory_proto", "signature": "(state)", "description": "Creates the Directory proto: allocates IoDirectoryData with the\ndefault path of \".\" (launch dir), registers the proto, and installs\nthe Io-visible method table."},
+                {"name": "IoDirectory_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Copies the proto's IoDirectoryData\nso the clone inherits the path; both Directory clones and the proto\ntherefore share nothing but an initial path string."},
+                {"name": "isDirectory", "signature": "(dp, path)", "description": "Module-local helper that decides whether a readdir entry refers to a\ndirectory. Prefers the inline d_type byte when the platform exposes\nit (avoids a stat syscall per entry); if d_type is DT_UNKNOWN or\nDT_LNK, falls back to a full stat so symlink targets are resolved\ncorrectly. Shared by the items/at implementations below."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

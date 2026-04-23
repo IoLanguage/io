@@ -1,0 +1,30 @@
+{
+  "title": "WeakLink",
+  "subtitle": "C implementation of WeakLink. Holds a single non-owning pointer\n(DATA(self)->link) that is deliberately NOT marked by the GC, so\nthe referent can be collected even while a WeakLink names it. The\nmechanism for notification is the IoObject listener list plus the\ntag's notificationFunc: on setLink, the WeakLink registers as a\nlistener on the target via IoObject_addListener_; when the target\nis freed, the collector fires IoWeakLink_notification which clears\nthe pointer back to NULL. There is no markFunc registered — that is\nthe whole point. The commented-out writeToStream/readFromStream\npair persists WeakLinks by PID (IoObject_pid) so they can be\nrehydrated through IoState_objectWithPid_.",
+  "content": [
+    {
+      "type": "ContentClassDoc",
+      "sections": [
+        {
+          "name": "Functions",
+          "categories": [
+            {
+              "members": [
+                {"name": "IoWeakLink_free", "signature": "(self)", "description": "Registered as the tag's freeFunc. Unregisters from the target's\nlistener list first, then releases the IoWeakLinkData payload."},
+                {"name": "IoWeakLink_new", "signature": "(state)", "description": "Convenience constructor: look up the WeakLink proto and clone it."},
+                {"name": "IoWeakLink_newTag", "signature": "(state)", "description": "Builds the WeakLink tag. Installs a notificationFunc — unique to\nWeakLink among the core protos — which fires when a listened-to\ntarget is collected. Deliberately registers no markFunc so the link\ntarget is never retained by this object."},
+                {"name": "IoWeakLink_newWithValue_", "signature": "(state, v)", "description": "Creates a WeakLink whose target is v. Note this helper stashes v\ndirectly without registering as a listener — most callers should use\nIoWeakLink_rawSetLink instead so collection notification fires."},
+                {"name": "IoWeakLink_notification", "signature": "(self, notification)", "description": "Registered as the tag's notificationFunc. The GC calls this when\nthe target object of this WeakLink is collected; we null out the\nlink pointer so the next `link` query returns nil. The commented-\nout IoMessage_locals_performOn_ would fire an Io-level callback,\nleft in place as a stub for future support."},
+                {"name": "IoWeakLink_proto", "signature": "(state)", "description": "Creates the WeakLink proto: allocates an empty IoWeakLinkData with\nlink set to NULL, attaches the tag, registers the proto, and\ninstalls the Io-visible method table (setLink, link)."},
+                {"name": "IoWeakLink_rawClone", "signature": "(proto)", "description": "Registered as the tag's cloneFunc. Fresh clones start with a null\nlink rather than inheriting the proto's target — a WeakLink chained\nthrough cloning would otherwise register multiple listeners on one\ntarget and break the unregister-on-free invariant."},
+                {"name": "IoWeakLink_rawSetLink", "signature": "(self, v)", "description": "Internal setter used by setLink. Unregisters from the previous\ntarget first, then either clears the link (if v is nil) or stores\nv and registers for collection notification. No IOREF — this is a\nweak reference by design, which is the whole reason this object\nexists."},
+                {"name": "IoWeakLink_rawStopListening", "signature": "(self)", "description": "Removes this WeakLink from the current target's listener list so the\ncollector stops notifying it. Used before rebinding the link and on\nfree — without this, a freed WeakLink could still be notified and\ndereference its own freed data pointer."},
+                {"name": "IoWeakLink_readFromStream_", "signature": "(self, stream)", "description": "Restores a serialized WeakLink by reading a tagged PID and resolving\nit against the current IoState's object table. Not currently\nregistered on the tag (see commented-out setup in IoWeakLink_newTag)\nbut kept for potential future persistence layers."}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
