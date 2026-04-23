@@ -14,6 +14,19 @@ file close
 </pre>
 */
 
+/*cmetadoc File description
+C implementation of Io's File object, a wrapper around a POSIX FILE*
+stream. Under WASI the VM inherits only the host-granted capabilities:
+popen/pclose are stubbed out (see the static no-op shims above) and
+temporaryFile is disabled — tmpfile() has no sensible fallback without
+a writable scratch directory. IoFileData holds the path / mode symbols,
+the underlying FILE* stream, IOFILE_FLAGS (pipe vs. normal), and a
+stat-buffer pointer owned by IoFile_stat.c. The data block is cpalloc'd
+on clone so the new File inherits path/mode but gets its own null
+stream — opening is always explicit. IoFile_statInit wires the stat
+methods onto the proto during IoFile_proto.
+*/
+
 #include "IoDate.h"
 #include "IoFile.h"
 #include "IoFile_stat.h"
@@ -43,6 +56,11 @@ static const char *protoId = "File";
 
 int fileExists(char *path);
 
+/*cdoc File IoFile_newTag(state)
+Builds the File tag with clone / mark / free function pointers.
+Stream serialization via writeToStream/readFromStream is left
+commented out — FILE* handles cannot be resurrected from bytes.
+*/
 IoTag *IoFile_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_("File");
     IoTag_state_(tag, state);
@@ -55,6 +73,12 @@ IoTag *IoFile_newTag(void *state) {
     return tag;
 }
 
+/*cdoc File IoFile_proto(state)
+Creates the File proto: allocates zeroed IoFileData with empty path,
+default mode "r+", no stream, installs the full method table, and
+calls IoFile_statInit to attach the stat-related methods from
+IoFile_stat.c. All user-visible File objects are clones of this proto.
+*/
 IoFile *IoFile_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"descriptor", IoFile_descriptor},
@@ -137,6 +161,12 @@ IoFile *IoFile_proto(void *state) {
     return self;
 }
 
+/*cdoc File IoFile_rawClone(proto)
+Registered as the tag's cloneFunc. Copies the proto's IoFileData
+(so path/mode come along) but resets stream, stat-info pointer, and
+flags — the clone is not yet open even if the proto was. This is
+why `File clone open` reliably produces a freshly opened file.
+*/
 IoFile *IoFile_rawClone(IoFile *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(
@@ -147,34 +177,60 @@ IoFile *IoFile_rawClone(IoFile *proto) {
     return self;
 }
 
+/*cdoc File IoFile_new(state)
+Convenience constructor: look up the File proto and clone it.
+*/
 IoFile *IoFile_new(void *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc File IoFile_newWithPath_(state, path)
+Clones the proto and assigns a path in one step. The file is not
+opened; callers open with the desired mode afterward.
+*/
 IoFile *IoFile_newWithPath_(void *state, IoSymbol *path) {
     IoFile *self = IoFile_new(state);
     DATA(self)->path = IOREF(path);
     return self;
 }
 
+/*cdoc File IoFile_newWithStream_(state, stream)
+Wraps an already-open FILE* in a File clone. Used to expose stdin /
+stdout / stderr to Io code without reopening them.
+*/
 IoFile *IoFile_newWithStream_(void *state, FILE *stream) {
     IoFile *self = IoFile_new(state);
     DATA(self)->stream = stream;
     return self;
 }
 
+/*cdoc File IoFile_cloneWithPath_(self, path)
+Clones self and overrides its path. Useful for iterating siblings in
+a directory without cloning the proto each time.
+*/
 IoFile *IoFile_cloneWithPath_(IoFile *self, IoSymbol *path) {
     IoFile *f = IOCLONE(self);
     DATA(f)->path = IOREF(path);
     return f;
 }
 
+/*cdoc File IoFile_mark(self)
+GC mark callback. Only the path and mode symbols are Io objects on
+IoFileData; the FILE* is a foreign pointer and info is a malloc'd
+struct stat, neither of which the collector touches.
+*/
 void IoFile_mark(IoFile *self) {
     IoObject_shouldMarkIfNonNull(DATA(self)->path);
     IoObject_shouldMarkIfNonNull(DATA(self)->mode);
 }
 
+/*cdoc File IoFile_free(self)
+Registered as the tag's freeFunc. Closes any open stream (via
+IoFile_justClose, which also handles pclose for pipe-flagged files
+and records the exitStatus), frees the stat info block, then frees
+the IoFileData payload.
+*/
 void IoFile_free(IoFile *self) {
     if (NULL == IoObject_dataPointer(self)) {
         return;
@@ -189,11 +245,20 @@ void IoFile_free(IoFile *self) {
     io_free(IoObject_dataPointer(self));
 }
 
+/*cdoc File IoFile_writeToStream_(self, stream)
+Persists a File's path and mode through the binary-stream serializer.
+The live FILE* is not persisted — on read the file must be reopened.
+Currently only reachable if File is wired as a tag's writeFunc.
+*/
 void IoFile_writeToStream_(IoFile *self, BStream *stream) {
     BStream_writeTaggedUArray_(stream, IoSeq_rawUArray(DATA(self)->path));
     BStream_writeTaggedUArray_(stream, IoSeq_rawUArray(DATA(self)->mode));
 }
 
+/*cdoc File IoFile_readFromStream_(self, stream)
+Inverse of writeToStream: restores path and mode from a binary stream.
+Leaves the FILE* null; the caller must open the file explicitly.
+*/
 void *IoFile_readFromStream_(IoFile *self, BStream *stream) {
     IoSymbol *mode;
     IoSymbol *path = IoState_symbolWithUArray_copy_(
@@ -205,6 +270,14 @@ void *IoFile_readFromStream_(IoFile *self, BStream *stream) {
     return self;
 }
 
+/*cdoc File IoFile_justClose(self)
+Low-level close shared by Io-level close, free, and reopen paths.
+Preserves stdout/stdin by never calling fclose on them. Pipe-flagged
+files go through pclose and publish the child process's exit status
+into the Io-visible "exitStatus" slot; other streams use fclose and
+reset flags. Leaves DATA(self)->stream NULL so subsequent assertOpen
+calls fail fast.
+*/
 void IoFile_justClose(IoFile *self) {
     FILE *stream = DATA(self)->stream;
 
@@ -224,15 +297,28 @@ void IoFile_justClose(IoFile *self) {
     }
 }
 
+/*cdoc File fileExists(path)
+Internal helper: returns nonzero if stat(path) succeeds. Small wrapper
+so the existence check is expressed uniformly across this module.
+*/
 int fileExists(char *path) {
     struct stat statInfo;
     return stat(path, &statInfo) == 0;
 }
 
+/*cdoc File IoFile_justExists(self)
+fileExists on the receiver's current path. Used before create/open
+to decide whether to fabricate the file.
+*/
 int IoFile_justExists(IoFile *self) {
     return fileExists(UTF8CSTRING(DATA(self)->path));
 }
 
+/*cdoc File IoFile_create(self)
+Ensures the file exists by opening it for writing and immediately
+closing — a best-effort touch that leaves a zero-byte file so a
+subsequent fopen in read+ mode succeeds. Returns 1 on success.
+*/
 int IoFile_create(IoFile *self) {
     FILE *fp = fopen(UTF8CSTRING(DATA(self)->path), "w");
 
@@ -524,6 +610,11 @@ IO_METHOD(IoFile, flush) {
     return self;
 }
 
+/*cdoc File IoFile_rawAsString(self)
+Reads the entire file at DATA(self)->path into a UArray, interns it
+as an IoSymbol and returns it. Shared helper behind Io-visible
+`contents` and several subclasses.
+*/
 IoObject *IoFile_rawAsString(IoFile *self) {
     UArray *ba = UArray_new();
 
@@ -766,6 +857,12 @@ IO_METHOD(IoFile, readLine) {
     }
 }
 
+/*cdoc File IoFile_readUArrayOfLength_(self, locals, m)
+Shared helper behind readBufferOfLength and readStringOfLength: reads
+up to the length argument from the current stream into a new UArray.
+Returns NULL (not nil) at EOF so callers can distinguish "read nothing"
+from "error", which IoState_error_ converts to an Io exception.
+*/
 UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals,
                                    IoMessage *m) {
     size_t length = IoMessage_locals_sizetArgAt_(m, locals, 0);
@@ -931,6 +1028,11 @@ IO_METHOD(IoFile, isOpen) {
     return IOBOOL(self, DATA(self)->stream != 0);
 }
 
+/*cdoc File IoFile_assertOpen(self, locals, m)
+Guard used at the top of every read/write/position method: raises a
+File exception via IoState_error_ if the stream pointer is NULL.
+Callers must check IOSTATE->errorRaised afterward and bail out.
+*/
 IO_METHOD(IoFile, assertOpen) {
     if (!DATA(self)->stream) {
         IoState_error_(IOSTATE, m, "file '%s' not yet open",
@@ -940,6 +1042,12 @@ IO_METHOD(IoFile, assertOpen) {
     return self;
 }
 
+/*cdoc File IoFile_assertWrite(self, locals, m)
+Companion to assertOpen: raises a File exception unless the current
+mode allows writing (r+, a+, or w). Keeps write/atPut/flush failures
+consistent regardless of which specific fputc/UArray_writeTo call
+would have failed at the libc level.
+*/
 IO_METHOD(IoFile, assertWrite) {
     char *mode = IoSeq_asCString(DATA(self)->mode);
 

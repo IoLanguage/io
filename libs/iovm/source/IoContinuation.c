@@ -7,6 +7,26 @@ A first-class continuation captured by `callcc`. Represents a resumable
 snapshot of execution state; invoking it re-enters the captured context.
 */
 
+/*cmetadoc Continuation description
+C implementation of first-class continuations. A continuation owns a
+deep copy of the IoEvalFrame chain that was current at `callcc` time,
+plus the locals of the capturing block. Invocation is one-shot and
+destructive: the stored chain is installed as `state->currentFrame`,
+the continuation's pointer is nulled, and `state->continuationInvoked`
+tells the eval loop to restart from the new top. `copy` makes a fresh
+deep copy so the same point can be re-entered more than once.
+
+Deep copy is required because popped frames are zeroed by the pool in
+IoState_iterative_fast.c — a grab-pointer capture would see empty
+frames by the time `callcc` returns. Frames stay GC-reachable through
+IoEvalFrame's own mark walk of the parent chain; `capturedLocals` is
+marked here. `asMap` / `fromMap` serialize a continuation to a plain
+Map (state enum name, message source text, primitive fields, per-state
+controlFlow payload) so continuations can cross process or network
+boundaries and be rebuilt from text — the design target that motivated
+the stackless rewrite.
+*/
+
 #ifdef IO_CALLCC
 
 #include "IoContinuation.h"
@@ -28,6 +48,11 @@ snapshot of execution state; invoking it re-enters the captured context.
 
 static const char *protoId = "Continuation";
 
+/*cdoc Continuation IoContinuation_newTag(state)
+Builds the Continuation tag with clone/free/mark function pointers.
+No compare or write methods — continuations are opaque and not meant
+to be ordered, hashed, or serialized through the generic path.
+*/
 IoTag *IoContinuation_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -37,6 +62,11 @@ IoTag *IoContinuation_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Continuation IoContinuation_proto(state)
+Creates the Continuation proto, allocates an empty IoContinuationData
+(no captured frame yet), and installs the Io-visible method table.
+Called once at VM init; later Continuations are clones of this proto.
+*/
 IoContinuation *IoContinuation_proto(void *state) {
     IoObject *self = IoObject_new(state);
     IoObject_tag_(self, IoContinuation_newTag(state));
@@ -67,6 +97,11 @@ IoContinuation *IoContinuation_proto(void *state) {
     return self;
 }
 
+/*cdoc Continuation IoContinuation_rawClone(proto)
+Clones the proto with a fresh, empty IoContinuationData. The captured
+frame and locals are always reset; the actual capture happens later
+in IoContinuation_captureFrameStack_ when callcc fires.
+*/
 IoContinuation *IoContinuation_rawClone(IoContinuation *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoContinuationData)));
@@ -76,17 +111,33 @@ IoContinuation *IoContinuation_rawClone(IoContinuation *proto) {
     return self;
 }
 
+/*cdoc Continuation IoContinuation_new(state)
+Convenience constructor: looks up the registered proto and clones it.
+Used by callcc and by the `copy` method to mint fresh Continuations
+from C without going through Io's message machinery.
+*/
 IoContinuation *IoContinuation_new(void *state) {
     IoObject *proto = IoState_protoWithId_(state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc Continuation IoContinuation_free(self)
+Frees the IoContinuationData payload. Captured frames are GC-managed
+IoEvalFrames; we only clear the pointer and let the collector reclaim
+them via the parent chain if nothing else references them.
+*/
 void IoContinuation_free(IoContinuation *self) {
     // Frames are GC-managed, just null the pointer
     DATA(self)->capturedFrame = NULL;
     io_free(IoObject_dataPointer(self));
 }
 
+/*cdoc Continuation IoContinuation_mark(self)
+GC mark callback. Marks capturedLocals and the top captured frame;
+the parent chain is walked by IoEvalFrame_mark, so no loop is needed
+here. This is what keeps a frame chain alive between capture and
+invoke even though no Io variable references the intermediate frames.
+*/
 void IoContinuation_mark(IoContinuation *self) {
     // Mark captured locals
     IoObject_shouldMarkIfNonNull(DATA(self)->capturedLocals);
@@ -98,11 +149,14 @@ void IoContinuation_mark(IoContinuation *self) {
 
 static IoEvalFrame *copyFrameChain_(IoState *state, IoEvalFrame *src);
 
-// Capture the current frame stack into this continuation.
-// Deep copy the frame chain at capture time. This is necessary because
-// popFrame_ zeroes frame data when frames are popped, so a grab-pointer
-// capture would lose the frame state after normal return from callcc.
-// The deep copy ensures deferred and multi-shot invocations work correctly.
+/*cdoc Continuation IoContinuation_captureFrameStack_(self, frame, locals)
+Deep-copies the current frame chain into the continuation and stores
+the capturing block's locals. Deep copy is mandatory: IoState pops
+frames back into a pool that zeroes their data, so a raw pointer would
+see empty frames once callcc returns. Called from Object_callcc while
+the frame is still in FRAME_STATE_CALLCC_EVAL_BLOCK, so the restored
+chain resumes exactly at the callcc site.
+*/
 void IoContinuation_captureFrameStack_(IoContinuation *self,
                                         IoEvalFrame *frame,
                                         IoObject *locals) {
@@ -112,7 +166,15 @@ void IoContinuation_captureFrameStack_(IoContinuation *self,
     DATA(self)->invoked = 0;
 }
 
-// Deep copy a frame chain (iterative). Used by the copy method.
+/*cdoc Continuation copyFrameChain_(state, src)
+Iteratively clones a linked chain of IoEvalFrames, memcpy'ing the
+payload and reallocating each frame's argValues array so the copy
+owns its heap memory. Parent pointers are rewritten as the walk goes,
+so the returned top frame has a fully independent chain. Used by
+capture (on callcc) and by the `copy` method (multi-shot support).
+Recursion-free by design — a deeply nested capture must not overflow
+the C stack since that is exactly what the stackless rewrite removed.
+*/
 static IoEvalFrame *copyFrameChain_(IoState *state, IoEvalFrame *src) {
     if (!src) return NULL;
 
@@ -307,7 +369,14 @@ IO_METHOD(IoContinuation, frameMessages) {
 #define SYM(s)  IoState_symbolWithCString_(state, (s))
 #define NUM(n)  IoNumber_newWithDouble_(state, (double)(n))
 
-// Helper: serialize an IoObject to a portable representation
+/*cdoc Continuation serializeObject_(state, obj)
+Lossy best-effort conversion of an arbitrary IoObject to something
+that round-trips through asMap / fromMap. Numbers, Sequences, and
+the singletons nil/true/false pass through unchanged; any other
+object becomes a Map carrying just its tag name and slot-name list.
+Cached target pointers and fast-path caches are intentionally dropped
+— the goal is portable text, not bit-exact reconstruction.
+*/
 static IoObject *serializeObject_(IoState *state, IoObject *obj) {
     if (!obj) return state->ioNil;
     if (obj == state->ioNil) return state->ioNil;
@@ -330,7 +399,14 @@ static IoObject *serializeObject_(IoState *state, IoObject *obj) {
     return map;
 }
 
-// Helper: serialize a message tree to a Map
+/*cdoc Continuation serializeMessage_(state, msg)
+Serializes a message into a Map carrying its name, its local source
+("code"), and the full chain source ("chainCode"), plus line number,
+label, cached result, and arg count. deserializeMessage_ reparses
+from chainCode, so the chain is rebuilt by going through the parser
+again rather than by walking tree links — simpler and more robust to
+message-internals changes.
+*/
 static IoObject *serializeMessage_(IoState *state, IoMessage *msg) {
     if (!msg) return state->ioNil;
 
@@ -366,7 +442,14 @@ static IoObject *serializeMessage_(IoState *state, IoMessage *msg) {
     return map;
 }
 
-// Helper: serialize control flow state for a frame
+/*cdoc Continuation serializeControlFlow_(state, frame, map)
+Dispatches on fd->state and writes the live arm of the controlFlow
+discriminated union (if / while / loop / for / foreach / callcc) into
+the frame's output map. States that share a controlFlow payload
+(e.g. the four FRAME_STATE_WHILE_* states) fall through to one case.
+Any state without runtime-dependent data — including leaf states like
+FRAME_STATE_START — writes nothing.
+*/
 static void serializeControlFlow_(IoState *state, IoEvalFrame *frame,
                                     IoMap *map) {
     IoEvalFrameData *fd = FRAME_DATA(frame);
@@ -466,7 +549,15 @@ static void serializeControlFlow_(IoState *state, IoEvalFrame *frame,
     }
 }
 
-// Serialize a single frame to a Map
+/*cdoc Continuation serializeFrame_(state, frame)
+Writes one frame's full state to a Map: state enum name, current
+message, passStops / isNestedEvalRoot flags, argument bookkeeping,
+already-evaluated arg values, target and locals tag names, result
+and slotValue slots, blockLocals contents, and call/savedCall stop
+statuses. Control-flow payload is then appended by
+serializeControlFlow_. Parent linkage is expressed implicitly by
+this frame's position in the frames list emitted by asMap.
+*/
 static IoMap *serializeFrame_(IoState *state, IoEvalFrame *frame) {
     IoEvalFrameData *fd = FRAME_DATA(frame);
     IoMap *map = IoMap_new(state);
@@ -572,6 +663,13 @@ IO_METHOD(IoContinuation, asMap) {
 #define SYM(s)  IoState_symbolWithCString_(state, (s))
 #define NUM(n)  IoNumber_newWithDouble_(state, (double)(n))
 
+/*cdoc Continuation mapNumberAt_(state, map, key, defaultVal)
+Reads a numeric field from a deserialized Map, returning defaultVal
+for missing keys, nil, or non-Number values. Lets deserializeFrame_
+and deserializeControlFlow_ treat absent fields as "use the default"
+rather than error out — important because serialization drops empty
+values to keep the output small.
+*/
 static double mapNumberAt_(IoState *state, IoMap *map, const char *key, double defaultVal) {
 	IoObject *val = IoMap_rawAt(map, SYM(key));
 	if (!val || val == state->ioNil) return defaultVal;
@@ -579,6 +677,11 @@ static double mapNumberAt_(IoState *state, IoMap *map, const char *key, double d
 	return defaultVal;
 }
 
+/*cdoc Continuation mapStringAt_(state, map, key)
+Reads a Sequence field from a deserialized Map, returning NULL for
+missing, nil, or non-Sequence values. Symbol/Sequence equivalence
+is handled by ISSEQ.
+*/
 static const char *mapStringAt_(IoState *state, IoMap *map, const char *key) {
 	IoObject *val = IoMap_rawAt(map, SYM(key));
 	if (!val || val == state->ioNil) return NULL;
@@ -586,6 +689,13 @@ static const char *mapStringAt_(IoState *state, IoMap *map, const char *key) {
 	return NULL;
 }
 
+/*cdoc Continuation deserializeMessage_(state, msgMap)
+Rebuilds a message tree by reparsing "chainCode" (or "code" as a
+fallback) through IoMessage_newFromText_label_. Going through the
+parser — rather than reconstructing chain pointers by hand — keeps
+the deserialization tolerant of message-internal layout changes and
+means the result carries proper line/label metadata from the parser.
+*/
 static IoMessage *deserializeMessage_(IoState *state, IoObject *msgMap) {
 	if (!msgMap || msgMap == state->ioNil) return NULL;
 	if (!ISMAP(msgMap)) return NULL;
@@ -602,6 +712,13 @@ static IoMessage *deserializeMessage_(IoState *state, IoObject *msgMap) {
 	return IoMessage_newFromText_label_(state, chainCode, label);
 }
 
+/*cdoc Continuation deserializeControlFlow_(state, frame, map)
+Inverse of serializeControlFlow_: dispatches on the already-restored
+frame state and reads the matching controlFlow arm's fields back out
+of the map. Missing or ill-typed fields fall back to sensible defaults
+via mapNumberAt_ / mapStringAt_, so partial maps yield a usable (if
+approximate) resumption rather than a crash.
+*/
 static void deserializeControlFlow_(IoState *state, IoEvalFrame *frame,
                                      IoMap *map) {
 	IoEvalFrameData *fd = FRAME_DATA(frame);
@@ -698,7 +815,15 @@ static void deserializeControlFlow_(IoState *state, IoEvalFrame *frame,
 	}
 }
 
-// Helper: deserialize a single frame from a Map
+/*cdoc Continuation deserializeFrame_(state, frameMap)
+Allocates a fresh IoEvalFrame and populates it from one map emitted
+by serializeFrame_: state enum, current message, arg array, primitive
+flags, result/slotValue, block locals, and the control-flow payload.
+target and locals are deliberately restored to `state->lobby` — the
+map stores only their tag names, so the original binding environment
+is not recoverable across serialization; resumption runs in lobby
+scope. fromMap stitches the returned frame into a chain.
+*/
 static IoEvalFrame *deserializeFrame_(IoState *state, IoObject *frameMap) {
 	if (!frameMap || frameMap == state->ioNil || !ISMAP(frameMap)) {
 		return NULL;

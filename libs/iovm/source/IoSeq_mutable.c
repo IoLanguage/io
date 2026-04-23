@@ -18,6 +18,20 @@ A Sequence whose contents can be modified in place. MutableSequence is the
 receiver for the mutating methods of Sequence (append, insert, remove, etc.).
 */
 
+/*cmetadoc Sequence description
+Mutable-only partition of the Sequence proto's method table. Every
+public method here must either assert the receiver is not a Symbol
+(via the IO_ASSERT_NOT_SYMBOL macro) or operate in a way that cannot
+reach into symbol-table state — otherwise mutating an interned Symbol
+would break pointer-identity equality and the symbol table's bucket
+ordering. Most methods are implemented as thin wrappers around UArray
+primitives (UArray_append_, UArray_atInsert_, UArray_sort_) and mark
+the receiver dirty (IoObject_isDirty_) so that cached views/hashes
+invalidate. The arithmetic equals operators (+= -= *= /= **=) act
+in place; the non-equals versions clone the receiver first and
+dispatch to the equivalent in-place op on the clone.
+*/
+
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -39,6 +53,12 @@ receiver for the mutating methods of Sequence (append, insert, remove, etc.).
     IOASSERT(DATA(self)->encoding == CENCODING_NUMBER,                         \
              "operation not valid on non-number encodings")
 
+/*cdoc Sequence IoAssertNotSymbol(self, m)
+Guard rail for every mutating method. Raises an Io-level error naming
+the offending method when called on a Symbol. The IO_ASSERT_NOT_SYMBOL
+macro above wraps this plus the canonical "return nil on error" so
+handlers do not need to repeat the check.
+*/
 static void IoAssertNotSymbol(IoSeq *self, IoMessage *m) {
     if (ISSYMBOL(self)) {
         IoState_error_(IOSTATE, m,
@@ -121,6 +141,12 @@ IO_METHOD(IoSeq, setEncoding) {
     return self;
 }
 
+/*cdoc Sequence IoSeq_rawCopy_(self, other)
+Byte-level copy from other's UArray into self's. Does NOT check for
+Symbol-ness or mark dirty — callers must do both. Used as a primitive
+by the Io-visible copy method and by internal paths that have already
+validated the receiver.
+*/
 void IoSeq_rawCopy_(IoSeq *self, IoSeq *other) {
     UArray_copy_(DATA(self), DATA(other));
 }
@@ -326,6 +352,12 @@ IO_METHOD(IoSeq, setSize) {
     return self;
 }
 
+/*cdoc Sequence IoSeq_rawPio_reallocateToSize_(self, size)
+Grows the backing UArray to hold at least `size` items without
+changing the logical size. Used by IO bindings (pio_* = portable I/O)
+that need a preallocated buffer before reading bytes in. Does not
+assert not-symbol — callers are C-internal and already know.
+*/
 void IoSeq_rawPio_reallocateToSize_(IoSeq *self, size_t size) {
     if (ISSYMBOL(self)) {
         IoState_error_(IOSTATE, NULL,
@@ -526,6 +558,11 @@ IO_METHOD(IoSeq, empty) {
     return self;
 }
 
+/*cdoc Sequence IoSeq_byteCompare(a, b)
+qsort comparator for the sort method. Compares two bytes pointed at
+by a and b — adequate because sort is only enabled on uint8-typed
+Sequences. Typed-vector sorts go through different paths.
+*/
 int IoSeq_byteCompare(const void *a, const void *b) {
     char aa = *(char *)a;
     char bb = *(char *)b;
@@ -998,6 +1035,12 @@ IO_METHOD(IoSeq, powerEquals) {
     return self;
 }
 
+/*cdoc Sequence IoSeq_clone(self)
+Public clone entry point used by the non-destructive arithmetic ops
+(+, -, *, /, **). Forwards to the tag's rawClone; does NOT interpose
+a Symbol short-circuit because those ops always produce a mutable
+result even when given a Symbol input.
+*/
 IoObject *IoSeq_clone(IoSeq *self) {
     return IoSeq_newWithUArray_copy_(IOSTATE, DATA(self), 1);
 }
@@ -1374,6 +1417,12 @@ IoSeqMutateNoArgNoResultOp(ceil)
     */
     IoSeqMutateNoArgNoResultOp(clear)
 
+        /*cdoc Sequence IoSeq_addMutableMethods(self)
+        Installs the mutating method table onto the Sequence proto.
+        Called from IoSeq_protoFinish during VM bootstrap. Every entry
+        here ultimately guards against Symbol receivers via the
+        IO_ASSERT_NOT_SYMBOL macro at the top of each handler.
+        */
         void IoSeq_addMutableMethods(IoSeq *self) {
     IoMethodTable methodTable[] = {
         {"setItemType", IoSeq_setItemType},

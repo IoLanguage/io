@@ -10,6 +10,21 @@ methods that require the speed of C or binding to a C library.
 */
 // metadoc CFunction category Core
 
+/*cmetadoc CFunction description
+C implementation of the CFunction primitive. An IoCFunctionData holds
+a C function pointer (IoUserFunction: target/locals/message -> result),
+an optional typeTag gate (only activate if target's tag matches, else
+raise a typed error), a uniqueName symbol for introspection, and
+profiler timing. Like Block, CFunction is self-activating: the tag's
+activateFunc is IoCFunction_activate, so fetching a CFunction from an
+activatable slot calls through immediately. This is how every C-backed
+Io method (List append, Number +, Object if/while/for, etc.) is
+installed — IoObject_addMethodTable_ creates one CFunction per entry
+and stores it in the target proto. CFunctions do not pre-evaluate
+their arguments; the recipient uses IoMessage_locals_valueArgAt_ or
+the pre-eval fast path (IoState_preEvalArgAt_) to fetch them lazily.
+*/
+
 #include "IoCFunction.h"
 
 #include "IoState.h"
@@ -20,6 +35,11 @@ static const char *protoId = "CFunction";
 
 #define DATA(self) ((IoCFunctionData *)IoObject_dataPointer(self))
 
+/*cdoc CFunction IoCFunction_newTag(state)
+Builds the CFunction tag and wires clone/mark/free plus — crucially —
+activateFunc, which is what makes CFunctions self-executing when
+looked up through a slot.
+*/
 IoTag *IoCFunction_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -30,6 +50,13 @@ IoTag *IoCFunction_newTag(void *state) {
     return tag;
 }
 
+/*cdoc CFunction IoCFunction_proto(state)
+Creates the CFunction proto with a zeroed IoCFunctionData whose func
+points at IoObject_self (the identity function) as a safe default.
+The proto is not marked activatable — only its clones are, so the
+proto itself can be fetched via getSlot. IoCFunction_protoFinish adds
+the method table later once prerequisite protos exist.
+*/
 IoCFunction *IoCFunction_proto(void *state) {
     IoObject *self = IoObject_new(state);
     IoObject_tag_(self, IoCFunction_newTag(state));
@@ -41,6 +68,11 @@ IoCFunction *IoCFunction_proto(void *state) {
     return self;
 }
 
+/*cdoc CFunction IoCFunction_rawClone(proto)
+Registered as the tag's cloneFunc. Copies the proto's data block and
+flips isActivatable on — this is the point at which a CFunction
+becomes self-executing when placed in a slot.
+*/
 IoCFunction *IoCFunction_rawClone(IoCFunction *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(self,
@@ -49,16 +81,29 @@ IoCFunction *IoCFunction_rawClone(IoCFunction *proto) {
     return self;
 }
 
+/*cdoc CFunction IoCFunction_mark(self)
+Registered as the tag's markFunc. Only the uniqueName symbol is a GC
+root — the C function pointer and typeTag are not IoObjects.
+*/
 void IoCFunction_mark(IoCFunction *self) {
     if (DATA(self)->uniqueName) {
         IoObject_shouldMark(DATA(self)->uniqueName);
     }
 }
 
+/*cdoc CFunction IoCFunction_free(self)
+Registered as the tag's freeFunc. Frees the IoCFunctionData payload.
+The uniqueName symbol is interned on state and GC-managed.
+*/
 void IoCFunction_free(IoCFunction *self) {
     io_free(IoObject_dataPointer(self));
 }
 
+/*cdoc CFunction IoCFunction_print(self)
+Debug printer dumping pointer, C function pointer, owning type name,
+and uniqueName. Called from diagnostic paths only; not part of the
+Io-visible print protocol.
+*/
 void IoCFunction_print(IoCFunction *self) {
     IoCFunctionData *data = DATA(self);
 
@@ -70,6 +115,12 @@ void IoCFunction_print(IoCFunction *self) {
     printf("\n");
 }
 
+/*cdoc CFunction IoCFunction_newWithFunctionPointer_tag_name_(state, func, typeTag, funcName)
+Primary constructor used by IoObject_addMethodTable_: clones the
+CFunction proto and stamps in the C function pointer, the optional
+type gate (tag), and the uniqueName symbol for introspection. Every
+entry in a C method table produces one of these.
+*/
 IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(
     void *state, IoUserFunction *func, IoTag *typeTag, const char *funcName) {
     IoCFunction *proto = IoState_protoWithId_((IoState *)state, protoId);
@@ -135,6 +186,11 @@ IO_METHOD(IoCFunction, profilerTime) {
                     ((double)CLOCKS_PER_SEC));
 }
 
+/*cdoc CFunction IoCFunction_activateWithProfiler(self, target, locals, m, slotContext)
+Profiler-enabled wrapper around IoCFunction_activate. setProfilerOn(true)
+swaps this in as the tag's activateFunc so every call accumulates
+elapsed clock() time into the CFunction's profilerTime.
+*/
 IoObject *IoCFunction_activateWithProfiler(IoCFunction *self, IoObject *target,
                                            IoObject *locals, IoMessage *m,
                                            IoObject *slotContext) {
@@ -164,6 +220,15 @@ IO_METHOD(IoCFunction, setProfilerOn) {
     return self;
 }
 
+/*cdoc CFunction IoCFunction_activate(self, target, locals, m, slotContext)
+Tag dispatch entry point: validates that the target's tag matches the
+CFunction's optional typeTag (raising a VM error on mismatch) then
+invokes the stored C function pointer with (target, locals, message).
+Unlike IoBlock_activate there is no fresh locals object — the C
+function inspects the caller's locals and the message directly, which
+is why CFunctions can be cheap. The commented-out retain-pool pair is
+a historical concern; pools are managed by callers today.
+*/
 IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target,
                                IoObject *locals, IoMessage *m,
                                IoObject *slotContext) {
@@ -216,6 +281,13 @@ IO_METHOD(IoCFunction, performOn) {
     return IoCFunction_activate(self, bTarget, bLocals, bMessage, bContext);
 }
 
+/*cdoc CFunction IoCFunction_protoFinish(state)
+Deferred init: installs the Io-visible method table on the
+CFunction proto after the Symbol/Sequence protos exist (method
+registration needs IOSYMBOL to work). Called late in IoState_init so
+earlier proto construction can use CFunctions without forcing a
+circular init order.
+*/
 void IoCFunction_protoFinish(void *state) {
     IoMethodTable methodTable[] = {
         {"id", IoCFunction_id},

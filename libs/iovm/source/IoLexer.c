@@ -6,6 +6,23 @@ Aug 2004 - removed {} from op chars
 - changed identifier to stop after 1 colon
 */
 
+/*cmetadoc Lexer description
+Hand-written UTF-8 aware tokenizer that turns an Io source string into
+a List of IoTokens. The lexer is driven by IoLexer_lex which kicks off
+a recursive IoLexer_readMessage loop; each sub-reader (readIdentifier,
+readOperator, readNumber, readQuote, readComment, ...) uses a
+position-saving pushPos / popPos / popPosBack convention to implement
+try-then-backtrack parsing without a separate parse state. Emitted
+tokens are appended both to the flat tokenStream List (parallel
+consumption order by the parser) and chained via nextToken links
+inside IoToken itself. Nested `/*...*\/` comments, triple-quoted
+strings, hex and decimal literals with exponents, backslash line
+continuations, and synthesised group-name tokens for `[...]` and
+`{...}` are all handled here. The parser in IoMessage_parser.c pops
+tokens off the stream and routes them through IoMessage_ifPossibleCache
+Token_.
+*/
+
 #include "IoLexer.h"
 #include <stdlib.h>
 #include <string.h>
@@ -21,6 +38,13 @@ static IoToken *IoLexer_currentToken(IoLexer *self) {
     return List_top(self->tokenStream);
 }
 
+/*cdoc Lexer IoLexer_new(void)
+Allocates a fresh IoLexer with an empty source buffer, the two
+position/token backtrack stacks, and the tokenStream and charLineIndex
+Lists. The lexer is not an IoObject; it is owned and freed by whoever
+kicked off compilation (IoMessage_newFromText_labelSymbol_ or the
+Compiler methods in IoCompiler.c).
+*/
 IoLexer *IoLexer_new(void) {
     IoLexer *self = (IoLexer *)io_calloc(1, sizeof(IoLexer));
     self->s = (char *)io_calloc(1, 1);
@@ -32,6 +56,12 @@ IoLexer *IoLexer_new(void) {
     return self;
 }
 
+/*cdoc Lexer IoLexer_free(self)
+Clears all emitted tokens (each freed via IoToken_free), then releases
+the source buffer, the two backtrack stacks, the charLineIndex, and
+any cached error description. Safe to call multiple times on a lexer
+that has been reused via IoLexer_string_ + IoLexer_lex.
+*/
 void IoLexer_free(IoLexer *self) {
     IoLexer_clear(self);
     io_free(self->s);
@@ -44,6 +74,12 @@ void IoLexer_free(IoLexer *self) {
     io_free(self);
 }
 
+/*cdoc Lexer IoLexer_errorDescription(self)
+Formats the current errorToken into a printable "<message> on line N
+character M" string for display by the caller. The buffer is allocated
+on first use and reused across calls, so the returned pointer is stable
+for the lexer's lifetime.
+*/
 char *IoLexer_errorDescription(IoLexer *self) {
     IoToken *et = IoLexer_errorToken(self);
 
@@ -60,6 +96,13 @@ char *IoLexer_errorDescription(IoLexer *self) {
     return self->errorDescription;
 }
 
+/*cdoc Lexer IoLexer_buildLineIndex(self)
+Scans the source text once and appends a pointer to the start of each
+line (plus the trailing sentinel) into charLineIndex. IoLexer_current
+LineNumber then does near-constant-time "which line is this offset on"
+lookups via a hint-based scan rather than re-counting newlines from
+the start.
+*/
 void IoLexer_buildLineIndex(IoLexer *self) {
     char *s = self->s;
 
@@ -90,6 +133,12 @@ void IoLexer_buildLineIndex(IoLexer *self) {
                   : 1)
 #define INVALID_CHAR 0xfffe
 
+/*cdoc Lexer _IoLexer_DecodeUTF8(s)
+Decodes one UTF-8 sequence (1-6 bytes per RFC 3629 plus the legacy
+5/6-byte extensions) into a uchar_t code point. Validates continuation
+bytes and the disallowed-overlong ranges; returns INVALID_CHAR on
+malformed input. Used only by IoLexer_nextChar / IoLexer_prevChar.
+*/
 static uchar_t _IoLexer_DecodeUTF8(const unsigned char *s) {
     if (*s < 0x80)
         return *s;
@@ -131,6 +180,13 @@ static uchar_t _IoLexer_DecodeUTF8(const unsigned char *s) {
         return INVALID_CHAR;
 }
 
+/*cdoc Lexer IoLexer_nextChar(self)
+Advances `current` past one code point and returns it. Fast path for
+ASCII (no decode, single byte). For multi-byte sequences, runs
+_IoLexer_DecodeUTF8 and advances by the sequence length; returns 0 on
+end-of-input or invalid UTF-8 so the caller can treat it as a stop
+signal.
+*/
 TEST_INLINE uchar_t IoLexer_nextChar(IoLexer *self) {
     unsigned char c = (unsigned char)*(self->current);
     int seqlen, i;
@@ -162,6 +218,12 @@ TEST_INLINE uchar_t IoLexer_nextChar(IoLexer *self) {
     return uch;
 }
 
+/*cdoc Lexer IoLexer_prevChar(self)
+Steps `current` back to the previous code point by walking backwards
+over up to six continuation bytes until a non-continuation byte is
+found. The counterpart to nextChar, used by the try-then-backtrack
+predicates to un-consume a character when a match fails.
+*/
 TEST_INLINE uchar_t IoLexer_prevChar(IoLexer *self) {
     uchar_t uch;
     int len;
@@ -188,6 +250,11 @@ TEST_INLINE int IoLexer_onNULL(IoLexer *self) {
 
 // ------------------------------------------
 
+/*cdoc Lexer IoLexer_currentLineNumberOld(self)
+Legacy O(n) line-number calculator that rescans from the start of the
+source counting newlines. Retained for cross-checking during debugging;
+the production path uses IoLexer_currentLineNumber.
+*/
 size_t IoLexer_currentLineNumberOld(IoLexer *self) {
     size_t lineNumber = 1;
     char *s = self->s;
@@ -203,6 +270,13 @@ size_t IoLexer_currentLineNumberOld(IoLexer *self) {
     return lineNumber;
 }
 
+/*cdoc Lexer IoLexer_currentLineNumber(self)
+Near-constant-time line-number lookup using charLineIndex. Starts from
+the previously stored `lineHint` and walks forward or backward a few
+steps until the hint bracket covers `current`. Because token emission
+is monotonic, the average distance walked per call is ~1. The hint
+is updated in place so successive queries are even cheaper.
+*/
 TEST_INLINE size_t IoLexer_currentLineNumber(IoLexer *self) {
     // this should be even faster than a binary search
     // since almost all results are very close to the last
@@ -244,6 +318,12 @@ TEST_INLINE size_t IoLexer_currentLineNumber(IoLexer *self) {
     return line == 0 ? 1 : line;
 }
 
+/*cdoc Lexer IoLexer_clear(self)
+Frees every emitted IoToken, empties the backtrack stacks, rewinds
+`current` to the start of the source, and clears the error state.
+Called at the top of IoLexer_lex so the lexer can be reused across
+compilations of different source strings.
+*/
 void IoLexer_clear(IoLexer *self) {
     LIST_FOREACH(self->tokenStream, i, t, IoToken_free((IoToken *)t));
     List_removeAll(self->tokenStream);
@@ -261,12 +341,22 @@ IoToken *IoLexer_errorToken(IoLexer *self) { return self->errorToken; }
 
 // lexing -------------------------------------
 
+/*cdoc Lexer IoLexer_string_(self, string)
+Replaces the source buffer with a copy of `string`, resets `current`
+to its start, and rebuilds the line index so currentLineNumber is
+ready. Must be called before IoLexer_lex.
+*/
 void IoLexer_string_(IoLexer *self, const char *string) {
     self->s = strcpy((char *)io_realloc(self->s, strlen(string) + 1), string);
     self->current = self->s;
     IoLexer_buildLineIndex(self);
 }
 
+/*cdoc Lexer IoLexer_printLast_(self, max)
+Debug helper: prints up to `max` bytes of source starting at `maxChar`
+(the furthest forward the lexer has reached). Useful for pinpointing
+where backtracking last saw good input after a lex failure.
+*/
 void IoLexer_printLast_(IoLexer *self, int max) {
     char *s = self->s + self->maxChar;
     int i;
@@ -280,6 +370,13 @@ void IoLexer_printLast_(IoLexer *self, int max) {
 
 char *IoLexer_lastPos(IoLexer *self) { return Stack_top(self->posStack); }
 
+/*cdoc Lexer IoLexer_pushPos(self)
+Saves the current character position and token-stream size on the
+parallel posStack / tokenStack so a speculative lexing attempt can be
+undone via IoLexer_popPosBack. Also updates `maxChar` — the furthest
+byte the lexer has ever reached — which is used for error reporting
+when lexing dies in a dead end.
+*/
 TEST_INLINE void IoLexer_pushPos(IoLexer *self) {
     intptr_t index = self->current - self->s;
 
@@ -297,6 +394,11 @@ TEST_INLINE void IoLexer_pushPos(IoLexer *self) {
 #endif
 }
 
+/*cdoc Lexer IoLexer_popPos(self)
+Commits a successful speculative attempt: pops the saved position and
+token-count markers without touching the text cursor or emitted
+tokens. The parallel of `popPosBack` that fires on match success.
+*/
 TEST_INLINE void IoLexer_popPos(IoLexer *self) {
     Stack_pop(self->tokenStack);
     Stack_pop(self->posStack);
@@ -306,6 +408,12 @@ TEST_INLINE void IoLexer_popPos(IoLexer *self) {
 #endif
 }
 
+/*cdoc Lexer IoLexer_popPosBack(self)
+Rolls back a failed speculative attempt: truncates tokenStream to the
+size it had at pushPos time, unlinks any dangling nextToken pointer on
+the new tail, and rewinds `current` to the saved byte offset. Restores
+the lexer as if the attempt had never happened.
+*/
 TEST_INLINE void IoLexer_popPosBack(IoLexer *self) {
     intptr_t i = (intptr_t)Stack_pop(self->tokenStack);
     intptr_t topIndex = (intptr_t)Stack_top(self->tokenStack);
@@ -332,6 +440,13 @@ TEST_INLINE void IoLexer_popPosBack(IoLexer *self) {
 
 // ------------------------------------------
 
+/*cdoc Lexer IoLexer_lex(self)
+Main entry point. Clears any prior state, then drives the top-level
+grammar via IoLexer_messageChain. If the grammar stops before EOF an
+error token is synthesised (or the current token is repurposed) and
+tagged with "Syntax error near this location". Returns 0 on clean
+lex, -1 on error.
+*/
 int IoLexer_lex(IoLexer *self) {
     IoLexer_clear(self);
     IoLexer_pushPos(self);
@@ -372,6 +487,12 @@ IoTokenType IoLexer_topType(IoLexer *self) {
     return IoLexer_top(self)->type;
 }
 
+/*cdoc Lexer IoLexer_pop(self)
+Returns the next unread token and advances the read cursor. Used by
+the parser (IoMessage_parser) as its sole token-stream consumer. Does
+not mutate the token — it stays in tokenStream for ownership, only
+`resultIndex` moves.
+*/
 IoToken *IoLexer_pop(IoLexer *self) {
     IoToken *t = IoLexer_top(self);
     self->resultIndex++;
@@ -380,6 +501,11 @@ IoToken *IoLexer_pop(IoLexer *self) {
 
 // stack management --------------------------------
 
+/*cdoc Lexer IoLexer_print(self)
+Debug helper: prints only the first token. Mainly hooked in under
+LEXER_DEBUG to trace how tokenStream grows through pushPos/popPos
+cycles.
+*/
 void IoLexer_print(IoLexer *self) {
     IoToken *first = List_first(self->tokenStream);
 
@@ -390,6 +516,11 @@ void IoLexer_print(IoLexer *self) {
     printf("\n");
 }
 
+/*cdoc Lexer IoLexer_printTokens(self)
+Debug helper: dumps every emitted token with its name and type name,
+comma-separated. Useful for inspecting what the parser will see before
+IoMessage_opShuffle rearranges it.
+*/
 void IoLexer_printTokens(IoLexer *self) {
     int i;
 
@@ -409,6 +540,11 @@ void IoLexer_printTokens(IoLexer *self) {
 
 // grabbing ---------------------------------------------
 
+/*cdoc Lexer IoLexer_grabLength(self)
+Returns the byte length of the span between the most recent pushPos
+save and the current cursor. Predicates use a non-zero result as the
+"we matched at least one byte" signal before calling grabTokenType_.
+*/
 int IoLexer_grabLength(IoLexer *self) {
     char *s1 = IoLexer_lastPos(self);
     char *s2 = IoLexer_current(self);
@@ -416,6 +552,12 @@ int IoLexer_grabLength(IoLexer *self) {
     return (int)(s2 - s1);
 }
 
+/*cdoc Lexer IoLexer_grabTokenType_(self, type)
+Emits a token of the given type spanning from the most recent pushPos
+to the current cursor. An empty span here is treated as a lexer bug
+and aborts the process — every emit site is expected to verify length
+via IoLexer_grabLength first.
+*/
 void IoLexer_grabTokenType_(IoLexer *self, IoTokenType type) {
     char *s1 = IoLexer_lastPos(self);
     char *s2 = IoLexer_current(self);
@@ -429,6 +571,14 @@ void IoLexer_grabTokenType_(IoLexer *self, IoTokenType type) {
     IoLexer_addTokenString_length_type_(self, s1, len, type);
 }
 
+/*cdoc Lexer IoLexer_addTokenString_length_type_(self, s1, len, type)
+Builds a new IoToken from an arbitrary source span, stamps it with
+the current line number and cursor-relative char number, links it
+onto the previous token's nextToken chain, and appends it to
+tokenStream. This is the one chokepoint through which every token
+the parser will ever see is born, so both emission paths (grab and
+synthetic group-name tokens) land here.
+*/
 IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1,
                                              size_t len, IoTokenType type) {
     IoToken *top = IoLexer_currentToken(self);
@@ -459,6 +609,13 @@ IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1,
 
 // reading ------------------------------------
 
+/*cdoc Lexer IoLexer_messageChain(self)
+Top-level grammar rule: one or more messages separated by terminators,
+separators, or comments. Alternates between stripping whitespace/
+terminator/comment runs and reading a single IoLexer_readMessage,
+stopping when readMessage reports no match. Called once from lex()
+and recursively from readMessage when descending into (...)/[...]/{...}.
+*/
 void IoLexer_messageChain(IoLexer *self) {
     do {
         while (IoLexer_readTerminator(self) || IoLexer_readSeparator(self) ||
@@ -469,12 +626,23 @@ void IoLexer_messageChain(IoLexer *self) {
 
 // message -------------------------------
 
+/*cdoc Lexer IoLexer_readMessage_error(self, name)
+Rolls the current readMessage attempt back and marks the token at the
+restored position as the errorToken with the given description. Keeps
+partial output out of tokenStream so the parser never sees half-built
+messages.
+*/
 static void IoLexer_readMessage_error(IoLexer *self, const char *name) {
     IoLexer_popPosBack(self);
     self->errorToken = IoLexer_currentToken(self);
     IoToken_error_(self->errorToken, name);
 }
 
+/*cdoc Lexer IoLexer_readTokenChars_type_(self, chars, type)
+Tries each character in `chars` in turn and emits the first that
+matches as a single-char token of the given type. Used for reading
+matched-bracket families like "([{" or ")]}".
+*/
 int IoLexer_readTokenChars_type_(IoLexer *self, const char *chars,
                                  IoTokenType type) {
     while (*chars) {
@@ -486,6 +654,13 @@ int IoLexer_readTokenChars_type_(IoLexer *self, const char *chars,
     return 0;
 }
 
+/*cdoc Lexer IoLexer_nameForGroupChar_(self, groupChar)
+Maps an open-group character to the synthesised message name that
+readMessage prepends before recursing: `(` produces an empty-name
+(grouping), `[` produces "squareBrackets", `{` produces "curlyBrackets".
+Those names are the hooks Io code uses to implement List and Map literals.
+Fatal-aborts on an unexpected character.
+*/
 const char *IoLexer_nameForGroupChar_(IoLexer *self, char groupChar) {
     switch (groupChar) {
     case '(':
@@ -503,6 +678,13 @@ const char *IoLexer_nameForGroupChar_(IoLexer *self, char groupChar) {
 // static char *specialChars = ":._";
 static char *specialChars = "._";
 
+/*cdoc Lexer IoLexer_readMessage(self)
+Reads one message: an optional symbol (via readSymbol) followed by an
+optional argument list enclosed in matching brackets. Empty argument
+slots and unmatched brackets raise via IoLexer_readMessage_error.
+Synthesises a group-name identifier before `[` and `{` so `[a,b]`
+becomes `squareBrackets(a,b)`. Returns 1 if it consumed anything.
+*/
 int IoLexer_readMessage(IoLexer *self) {
     char foundSymbol;
 
@@ -590,6 +772,11 @@ int IoLexer_readMessage(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readPadding(self)
+Consumes any run of whitespace and comments without emitting tokens.
+The lexer uses this between structurally significant tokens so line
+breaks and block comments are transparent to the parser.
+*/
 int IoLexer_readPadding(IoLexer *self) {
     int r = 0;
 
@@ -602,6 +789,12 @@ int IoLexer_readPadding(IoLexer *self) {
 
 // symbols ------------------------------------------
 
+/*cdoc Lexer IoLexer_readSymbol(self)
+Tries each symbol kind in sequence (number, operator, identifier,
+quote) and returns 1 on the first match. Order matters: numbers and
+operators are checked before identifiers so `-1` doesn't get eaten
+as an identifier and `0x10` beats the generic digit-letter run.
+*/
 int IoLexer_readSymbol(IoLexer *self) {
     if (IoLexer_readNumber(self) || IoLexer_readOperator(self) ||
         IoLexer_readIdentifier(self) || IoLexer_readQuote(self))
@@ -609,6 +802,12 @@ int IoLexer_readSymbol(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readIdentifier(self)
+Reads the maximal run of letters, digits, and specialChars (underscore
+and dot) and emits one IDENTIFIER_TOKEN. Note that readLetter also
+matches non-ASCII code points, so Io identifiers can contain Unicode.
+Returns 0 and rolls back if the run is empty.
+*/
 int IoLexer_readIdentifier(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -638,6 +837,12 @@ int IoLexer_readIdentifier(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readOperator(self)
+Reads the maximal run of operator characters (from the opChars set)
+and emits it as an IDENTIFIER_TOKEN. Binary operators are syntactically
+just identifiers; their specialness comes later when IoMessage_opShuffle
+consults the OperatorTable precedence map.
+*/
 int IoLexer_readOperator(IoLexer *self) {
     uchar_t c;
     IoLexer_pushPos(self);
@@ -673,12 +878,22 @@ int IoLexer_readOperator(IoLexer *self) {
 
 // comments ------------------------------------------
 
+/*cdoc Lexer IoLexer_readComment(self)
+Tries each comment style in turn: C-style slash-star, slash-slash line
+comment, and pound-line comment. Io accepts all three.
+*/
 int IoLexer_readComment(IoLexer *self) {
     return (IoLexer_readSlashStarComment(self) ||
             IoLexer_readSlashSlashComment(self) ||
             IoLexer_readPoundComment(self));
 }
 
+/*cdoc Lexer IoLexer_readSlashStarComment(self)
+Consumes a `/* ... *\/` block comment, including nested openers — the
+nesting counter lets code embed a block comment inside another. On
+unterminated input, attaches "unterminated comment" to the current or
+synthesised error token.
+*/
 int IoLexer_readSlashStarComment(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -722,6 +937,10 @@ int IoLexer_readSlashStarComment(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readSlashSlashComment(self)
+Consumes `// ... \n` line comments. The trailing newline is left in
+the stream so readTerminator can still treat it as a statement end.
+*/
 int IoLexer_readSlashSlashComment(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -739,6 +958,10 @@ int IoLexer_readSlashSlashComment(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readPoundComment(self)
+Consumes `# ... \n` line comments (shebang-style). Same newline
+handling as readSlashSlashComment.
+*/
 int IoLexer_readPoundComment(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -756,10 +979,20 @@ int IoLexer_readPoundComment(IoLexer *self) {
 
 // quotes -----------------------------------------
 
+/*cdoc Lexer IoLexer_readQuote(self)
+Dispatches to triquote first (so `"""..."""` wins over `""`) and
+falls back to the regular double-quoted string.
+*/
 int IoLexer_readQuote(IoLexer *self) {
     return (IoLexer_readTriQuote(self) || IoLexer_readMonoQuote(self));
 }
 
+/*cdoc Lexer IoLexer_readMonoQuote(self)
+Reads a standard `"..."` string literal with backslash escapes
+recognised but not yet decoded — that happens later in
+IoMessage_ifPossibleCacheToken_ via IoSeq_rawAsUnescapedSymbol. Emits
+MONOQUOTE_TOKEN on success, attaches "unterminated quote" on EOF.
+*/
 int IoLexer_readMonoQuote(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -797,6 +1030,11 @@ int IoLexer_readMonoQuote(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readTriQuote(self)
+Reads a `"""..."""` raw-string literal. Backslashes are left untouched
+in the span; the parser hands it to IoSeq_rawAsUntriquotedSymbol to
+strip the triple delimiters. Emits TRIQUOTE_TOKEN on success.
+*/
 int IoLexer_readTriQuote(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -821,6 +1059,10 @@ int IoLexer_readTriQuote(IoLexer *self) {
 
 // helpers ----------------------------
 
+/*cdoc Lexer IoLexer_readTokenChar_type_(self, c, type)
+If the next byte is `c`, emit a one-byte token of the given type.
+Used for punctuation: `(`, `,`, `)`, `[`, `]`, `{`, `}`.
+*/
 int IoLexer_readTokenChar_type_(IoLexer *self, char c, IoTokenType type) {
     IoLexer_pushPos(self);
 
@@ -834,6 +1076,11 @@ int IoLexer_readTokenChar_type_(IoLexer *self, char c, IoTokenType type) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readTokenString_(self, s)
+If the source starts with literal string `s`, advance and emit it as
+an IDENTIFIER_TOKEN. Currently unused in the main grammar path but
+available for extension lexers.
+*/
 int IoLexer_readTokenString_(IoLexer *self, const char *s) {
     IoLexer_pushPos(self);
 
@@ -847,6 +1094,11 @@ int IoLexer_readTokenString_(IoLexer *self, const char *s) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readString_(self, s)
+Byte-level prefix match against `s`. On match, advances `current` by
+len(s) and returns 1; on mismatch returns 0 without moving. Used by
+the quote and comment readers to detect openers / closers.
+*/
 int IoLexer_readString_(IoLexer *self, const char *s) {
     size_t len = strlen(s);
 
@@ -862,6 +1114,11 @@ int IoLexer_readString_(IoLexer *self, const char *s) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readCharIn_(self, s)
+Reads one code point; if it's ASCII and appears in `s`, keep it
+consumed. Otherwise back up. ASCII-only intentionally — used for
+punctuation and operator character classes.
+*/
 TEST_INLINE int IoLexer_readCharIn_(IoLexer *self, const char *s) {
     if (!IoLexer_onNULL(self)) {
         uchar_t c = IoLexer_nextChar(self);
@@ -875,6 +1132,10 @@ TEST_INLINE int IoLexer_readCharIn_(IoLexer *self, const char *s) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readCharInRange_(self, first, last)
+Reads one code point; if it lies in [first, last] consume it, otherwise
+back up. Powers readDigit and readLetter ASCII-range checks.
+*/
 TEST_INLINE int IoLexer_readCharInRange_(IoLexer *self, uchar_t first,
                                          uchar_t last) {
     if (!IoLexer_onNULL(self)) {
@@ -889,6 +1150,10 @@ TEST_INLINE int IoLexer_readCharInRange_(IoLexer *self, uchar_t first,
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readChar_(self, c)
+Exact match for a single byte. Returns 1 and consumes on match, 0 and
+rewinds on mismatch.
+*/
 int IoLexer_readChar_(IoLexer *self, char c) {
     if (!IoLexer_onNULL(self)) {
         uchar_t nc = IoLexer_nextChar(self);
@@ -902,6 +1167,10 @@ int IoLexer_readChar_(IoLexer *self, char c) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readCharAnyCase_(self, c)
+Case-insensitive single-byte match. Used for reading the `e` in
+exponent notation and the `x` in hex literals.
+*/
 int IoLexer_readCharAnyCase_(IoLexer *self, char c) {
     if (!IoLexer_onNULL(self)) {
         uchar_t nc = IoLexer_nextChar(self);
@@ -915,6 +1184,11 @@ int IoLexer_readCharAnyCase_(IoLexer *self, char c) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readNonASCIIChar_(self)
+Reads one code point and keeps it consumed if it's outside ASCII.
+Lets readLetter accept Unicode identifier characters without listing
+every range.
+*/
 int IoLexer_readNonASCIIChar_(IoLexer *self) {
     if (!IoLexer_onNULL(self)) {
         uchar_t nc = IoLexer_nextChar(self);
@@ -927,6 +1201,10 @@ int IoLexer_readNonASCIIChar_(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readNonReturn(self)
+Reads one code point as long as it isn't `\n`. Body of the line-
+comment loops — it runs until end-of-line or EOF.
+*/
 int IoLexer_readNonReturn(IoLexer *self) {
     if (IoLexer_onNULL(self))
         return 0;
@@ -936,6 +1214,11 @@ int IoLexer_readNonReturn(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readNonQuote(self)
+Reads one code point as long as it isn't `"`. Currently unused by the
+main grammar (readMonoQuote handles escapes inline) but retained for
+hosted lexers.
+*/
 int IoLexer_readNonQuote(IoLexer *self) {
     if (IoLexer_onNULL(self))
         return 0;
@@ -947,6 +1230,11 @@ int IoLexer_readNonQuote(IoLexer *self) {
 
 // character definitions ----------------------------
 
+/*cdoc Lexer IoLexer_readCharacters(self)
+Greedy run of readCharacter: letters, digits, specialChars, and
+opChars all bundled. Used by readHexNumber so a hex literal can
+include letters a-f and mixed case without a bespoke predicate.
+*/
 int IoLexer_readCharacters(IoLexer *self) {
     int read = 0;
 
@@ -975,6 +1263,11 @@ int IoLexer_readDigit(IoLexer *self) {
     return IoLexer_readCharInRange_(self, '0', '9');
 }
 
+/*cdoc Lexer IoLexer_readLetter(self)
+Matches an identifier letter: ASCII A-Z, a-z, the colon (Io allows it
+mid-identifier), or any non-ASCII byte. The colon inclusion is what
+makes keyword-style messages like `at:put:` lex as a single identifier.
+*/
 int IoLexer_readLetter(IoLexer *self) {
     return IoLexer_readCharInRange_(self, 'A', 'Z') ||
            IoLexer_readCharInRange_(self, 'a', 'z') ||
@@ -983,6 +1276,12 @@ int IoLexer_readLetter(IoLexer *self) {
 
 // terminator -------------------------------
 
+/*cdoc Lexer IoLexer_readTerminator(self)
+Recognises statement terminators (newline or semicolon runs, possibly
+interleaved with separator whitespace) and emits a single synthesised
+";" TERMINATOR_TOKEN. Collapses adjacent terminators so a blank line
+doesn't produce two semicolons for the parser to deal with.
+*/
 int IoLexer_readTerminator(IoLexer *self) {
     int terminated = 0;
     IoLexer_pushPos(self);
@@ -1016,6 +1315,12 @@ int IoLexer_readTerminatorChar(IoLexer *self) {
 
 // separator --------------------------------
 
+/*cdoc Lexer IoLexer_readSeparator(self)
+Consumes in-line whitespace (spaces, tabs, form-feed, vertical tab,
+carriage return) and backslash-newline line continuations without
+emitting anything. The "\" line continuation lets Io code split a
+long message across lines.
+*/
 int IoLexer_readSeparator(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -1032,6 +1337,12 @@ int IoLexer_readSeparator(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readSeparatorChar(self)
+One iteration of readSeparator: either a whitespace character (excluding
+newline) or a `\` followed by optional whitespace and a newline. The
+backslash-newline sequence is what gives Io its explicit line
+continuation.
+*/
 int IoLexer_readSeparatorChar(IoLexer *self) {
     if (IoLexer_readCharIn_(self, " \f\r\t\v")) {
         return 1;
@@ -1053,6 +1364,12 @@ int IoLexer_readSeparatorChar(IoLexer *self) {
 
 // whitespace -----------------------------------
 
+/*cdoc Lexer IoLexer_readWhitespace(self)
+Consumes any run of whitespace (including newlines) without emitting
+tokens. Unlike readSeparator this swallows newlines, so it is used
+only where line breaks are insignificant — inside readPadding between
+structural tokens.
+*/
 int IoLexer_readWhitespace(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -1073,6 +1390,11 @@ int IoLexer_readWhitespaceChar(IoLexer *self) {
     return IoLexer_readCharIn_(self, " \f\r\t\v\n");
 }
 
+/*cdoc Lexer IoLexer_readDigits(self)
+Reads one or more ASCII digits. Returns 0 and rewinds if none match —
+important so readDecimal can distinguish `.5` (no leading digits) from
+`42.5` without corrupting the cursor on the first failed try.
+*/
 int IoLexer_readDigits(IoLexer *self) {
     int read = 0;
 
@@ -1091,10 +1413,19 @@ int IoLexer_readDigits(IoLexer *self) {
     return read;
 }
 
+/*cdoc Lexer IoLexer_readNumber(self)
+Tries hex first (so `0x10` isn't eaten as the decimal 0 followed by
+`x10`), then decimal.
+*/
 int IoLexer_readNumber(IoLexer *self) {
     return (IoLexer_readHexNumber(self) || IoLexer_readDecimal(self));
 }
 
+/*cdoc Lexer IoLexer_readExponent(self)
+Parses an optional `e[+|-]digits` exponent. Returns 1 on a valid
+exponent, 0 if there's no `e`, -1 on malformed (e.g. `e` with no
+following digits) — the -1 signals readDecimal to abort the number.
+*/
 int IoLexer_readExponent(IoLexer *self) {
     if (IoLexer_readCharAnyCase_(self, 'e')) {
         if (!IoLexer_readChar_(self, '-')) {
@@ -1110,6 +1441,10 @@ int IoLexer_readExponent(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readDecimalPlaces(self)
+Parses an optional `.digits` fractional part. Same tri-state return
+convention as readExponent: 0 no match, 1 good, -1 malformed.
+*/
 int IoLexer_readDecimalPlaces(IoLexer *self) {
     if (IoLexer_readChar_(self, '.')) {
         if (!IoLexer_readDigits(self)) {
@@ -1121,6 +1456,13 @@ int IoLexer_readDecimalPlaces(IoLexer *self) {
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readDecimal(self)
+Reads a decimal literal supporting `42`, `42.5`, `.5`, `4.2e3`, and
+`4E-3` forms. Requires either leading digits or a fractional part;
+uses the -1 return from readDecimalPlaces / readExponent as a
+"definitely malformed" signal to roll back cleanly. Emits
+NUMBER_TOKEN on success.
+*/
 int IoLexer_readDecimal(IoLexer *self) {
     IoLexer_pushPos(self);
 
@@ -1148,6 +1490,12 @@ error:
     return 0;
 }
 
+/*cdoc Lexer IoLexer_readHexNumber(self)
+Reads a `0x...` hex literal. Uses readCharacters for the digit body
+so letters `a`-`f` / `A`-`F` pass through; actual hex-digit validation
+happens later in IoMessage_ifPossibleCacheToken_ via
+IoSeq_rawAsDoubleFromHex. Emits HEXNUMBER_TOKEN on success.
+*/
 int IoLexer_readHexNumber(IoLexer *self) {
     int read = 0;
 

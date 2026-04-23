@@ -6,6 +6,20 @@ A Sequence is a container for a list of data elements.
 Immutable Sequences are also called "Symbols".
 */
 
+/*cmetadoc Sequence description
+Immutable-facing partition of the Sequence proto's method table. Every
+method here is safe to call on a Symbol because none of them mutate
+the receiver's UArray — they return new Sequences, new Numbers, or
+new container objects. The split from IoSeq_mutable.c is an
+organizational one: the method wiring at the bottom
+(IoSeq_addImmutableMethods) installs this side of the interface.
+Covers encoding and typed-vector views (asUTF8/asUCS2/asUCS4/
+asFixedSizeType), slicing (exclusiveSlice/inclusiveSlice/between),
+searching (findSeq/containsSeq/beginsWithSeq), split/join, parseJson,
+path helpers (lastPathComponent, cloneAppendPath), struct pack/unpack,
+and URL/Base64 coders.
+*/
+
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -20,6 +34,12 @@ Immutable Sequences are also called "Symbols".
 
 #define DATA(self) ((UArray *)IoObject_dataPointer(self))
 
+/*cdoc Sequence IoSeq_rawAsSymbol(self)
+Returns the interned Symbol form of a Sequence. No-op when already a
+Symbol — preserves pointer identity so hashing and symbol-table
+lookups stay cheap. Otherwise copies the bytes through the state's
+symbol table so the result is the canonical interned version.
+*/
 IoObject *IoSeq_rawAsSymbol(IoSeq *self) {
     if (ISSYMBOL(self)) {
         return self;
@@ -268,6 +288,12 @@ IOVM_API IO_METHOD(IoSeq, parseJson) {
     return result;
 }
 
+/*cdoc Sequence parse_json_object(self, object)
+Recursive helper that converts a parson JSON_Object into an IoMap.
+Keys become interned Symbols so repeated object keys share storage;
+values go through parse_json_value to keep the type dispatch in one
+place.
+*/
 IoMap *parse_json_object(IoObject *self, JSON_Object *object) {
     IoMap *map = IoMap_new(IOSTATE);
     IoObject *value;
@@ -284,6 +310,12 @@ IoMap *parse_json_object(IoObject *self, JSON_Object *object) {
     return map;
 }
 
+/*cdoc Sequence parse_json_value(self, value)
+Maps a parson JSON_Value to the equivalent Io object: String to
+Sequence, Number to Number, Object/Array to Map/List (recursively),
+Boolean to ioTrue/ioFalse, Null to ioNil. JSONError falls through to
+a NULL return, which the callers propagate.
+*/
 IoObject *parse_json_value(IoObject *self, JSON_Value *value) {
     switch (json_type(value)) {
     case JSONError:
@@ -305,6 +337,10 @@ IoObject *parse_json_value(IoObject *self, JSON_Value *value) {
     }
 }
 
+/*cdoc Sequence parse_json_array(self, array)
+Converts a parson JSON_Array into an IoList. Each element is parsed
+through parse_json_value so the type dispatch stays centralized.
+*/
 IoList *parse_json_array(IoObject *self, JSON_Array *array) {
     IoList *list = IoList_new(IOSTATE);
     IoObject *value;
@@ -748,6 +784,10 @@ IoList *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m) {
 
 // split ---------------------------------------------------------------------
 
+/*cdoc Sequence IoSeq_stringListForArgs(self, locals, m)
+Picks the separator set for split: either the evaluated argument
+list, or whiteSpaceStrings when split is called with no arguments.
+*/
 // this method is only used from split
 IoList *IoSeq_stringListForArgs(IoSeq *self, IoObject *locals, IoMessage *m) {
     if (IoMessage_argCount(m) == 0) {
@@ -757,6 +797,12 @@ IoList *IoSeq_stringListForArgs(IoSeq *self, IoObject *locals, IoMessage *m) {
     return IoMessage_evaluatedArgs(m, locals, m);
 }
 
+/*cdoc Sequence IoSeq_byteArrayListForSeqList(self, locals, m, seqs)
+Converts an IoList of Sequences into a basekit List of borrowed UArray
+pointers so UArray_split_ can do the byte-level work without extra
+allocations. Verifies each element is a Sequence; raises and returns
+NULL if not. Caller owns the returned List.
+*/
 // this method is only used from split
 List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m,
                                     IoList *seqs) {
@@ -778,6 +824,13 @@ List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m,
     return list;
 }
 
+/*cdoc Sequence IoSeq_splitToFunction(self, locals, m, func)
+Shared engine for split and splitAt. Resolves the separator set,
+delegates the actual scanning to UArray_split_, then wraps each chunk
+via the caller-supplied func — which picks between a mutable Sequence
+constructor and a Symbol constructor depending on the variant invoked.
+Empty separators are rejected up front since UArray_split_ would loop.
+*/
 IoObject *IoSeq_splitToFunction(IoSeq *self, IoObject *locals, IoMessage *m,
                                 IoSplitFunction *func) {
     IoList *output = IoList_new(IOSTATE);
@@ -1477,6 +1530,12 @@ static char to_hex(char code) {
     return hex[code & 15];
 }
 
+/*cdoc Sequence url_encode(str, isPercentEncoded)
+Returns a freshly malloc'd URL-encoded copy of str. Unreserved
+characters (alphanumerics plus - _ . ~) pass through; space becomes
+'+' only for the non-percent-encoded form-encoding mode; everything
+else is emitted as %NN. Caller owns the buffer and must free it.
+*/
 /* Returns a url-encoded version of str */
 /* IMPORTANT: be sure to free() the returned string after use */
 static char *url_encode(const char *str, int isPercentEncoded) {
@@ -1502,6 +1561,12 @@ static char *url_encode(const char *str, int isPercentEncoded) {
     return buf;
 }
 
+/*cdoc Sequence url_decode(str, isPercentEncoded)
+Returns a freshly malloc'd URL-decoded copy of str. Reverses
+url_encode: '+' becomes space only in form-encoding mode, %NN
+sequences become the single byte, everything else passes through.
+Caller owns the buffer and must free it.
+*/
 /* Returns a url-decoded version of str */
 /* IMPORTANT: be sure to free() the returned string after use */
 static char *url_decode(const char *str, int isPercentEncoded) {
@@ -1859,6 +1924,12 @@ IO_METHOD(IoSeq, unpack) {
 
 // -------------------------
 
+/*cdoc Sequence IoSeq_addImmutableMethods(self)
+Installs the immutable-safe method table onto the Sequence proto.
+Called from IoSeq_protoFinish during VM bootstrap. The methods here
+never mutate the receiver, so they are safe to call on Symbols as
+well as mutable Sequences.
+*/
 void IoSeq_addImmutableMethods(IoSeq *self) {
     IoMethodTable methodTable[] = {
         {"itemType", IoSeq_itemType},

@@ -23,6 +23,19 @@ collector can be tuned efficiently for various usage cases.
 Generally, the more objects in your heap, the larger you'll want this number.
 */
 
+/*cmetadoc Collector description
+Thin Io-facing wrapper around the underlying C Collector (see
+basekit/source/Collector.c). There is no dedicated IoCollector struct —
+the proto is just an IoObject carrying a method table; every method
+forwards to Collector_* on IOSTATE->collector. Because of that, the
+file has no tag/newTag/rawClone/free/mark functions: lifecycle of the
+collector itself is owned by IoState. The Io-level methods exposed
+here (collect, setMarksPerAlloc, allObjects, dirtyObjects, etc.) let
+scripts tune and inspect the incremental tri-color mark-sweep at
+runtime. COLLECTOR_FOREACH iterates every live marker and is used by
+the introspection methods.
+*/
+
 #include "IoCollector.h"
 #include "IoNumber.h"
 #include "IoList.h"
@@ -194,6 +207,13 @@ IO_METHOD(IoCollector, objectWithUniqueId) {
     return IONIL(self);
 }
 
+/*cdoc Collector IoCollector_checkMemory(self, locals, m)
+Debug aid: runs Collector_check and then walks every live object
+invoking IoObject_rawCheckMemory on it, which touches the IoObjectData
+struct to trip an access violation if any object's memory is corrupt.
+Intentionally has no /doc comment — this is an unadvertised debugging
+entry point.
+*/
 IO_METHOD(IoCollector, checkMemory) {
     Collector *collector = IOSTATE->collector;
     Collector_check(collector);
@@ -203,17 +223,33 @@ IO_METHOD(IoCollector, checkMemory) {
     return self;
 }
 
+/*cdoc Collector IoCollector_setSafeModeOn(self, locals, m)
+Toggles the collector's "safe mode" — a conservative mode used during
+bootstrap / shutdown when object graphs may be in a transient state.
+Undocumented at the Io level on purpose; scripts should not normally
+touch it.
+*/
 IO_METHOD(IoCollector, setSafeModeOn) {
     IoObject *aBool = IoMessage_locals_valueArgAt_(m, locals, 0);
     Collector_setSafeModeOn_(IOSTATE->collector, ISTRUE(aBool));
     return self;
 }
 
+/*cdoc Collector IoCollector_check(self, locals, m)
+Runs the collector's internal self-check (mark-color invariants, free
+list consistency). Available for test suites that want a hard abort
+on corruption rather than waiting for a sweep to stumble into it.
+*/
 IO_METHOD(IoCollector, check) {
     Collector_check(IOSTATE->collector);
     return self;
 }
 
+/*cdoc Collector IoCollector_checkObjectPointers(self, locals, m)
+Debug aid that validates every object pointer tracked by the collector.
+Used alongside checkMemory when hunting double-frees or stale pointer
+regressions in primitive free functions.
+*/
 IO_METHOD(IoCollector, checkObjectPointers) {
     Collector_checkObjectPointers(IOSTATE->collector);
     return self;
@@ -233,6 +269,13 @@ IO_METHOD(IoCollector, allocsPerSweep) {
 
 #endif
 
+/*cdoc Collector IoCollector_proto(state)
+Builds the Collector singleton: a plain IoObject with a "type" slot of
+"Collector" and a method table that forwards to the underlying C
+Collector. Called once during IoState init. Unlike other protos, there
+is no tag of its own — the object behaves as an ordinary Object and
+the collector itself is owned by state->collector.
+*/
 IoObject *IoCollector_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"check", IoCollector_check},

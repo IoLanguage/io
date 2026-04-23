@@ -1,4 +1,20 @@
 
+/*cmetadoc Object description
+Control-flow primitives attached to Object: while, loop, for, foreach
+(via generic code paths), if, break, continue, return, returnIfNonNil,
+and stopStatus. Each primitive has two paths. When state->currentFrame
+is NULL — during VM bootstrap, before the iterative eval loop is
+running — the method executes the loop inline using the recursive
+evaluator and IoState_handleStatus for break/continue. When the eval
+loop is running, the method instead stamps its arguments into the
+current IoEvalFrame's controlFlow discriminated union, flips the
+frame's state to the matching FRAME_STATE_* value, sets
+needsControlFlowHandling so the caller (IoMessage_locals_performOn_)
+knows to hand control back to the iterative loop, and returns ioNil
+as a placeholder. The actual iteration happens in IoState_iterative.c
+as the state machine steps through those states.
+*/
+
 #include "IoObject.h"
 #include "IoNumber.h"
 #include "IoEvalFrame.h"

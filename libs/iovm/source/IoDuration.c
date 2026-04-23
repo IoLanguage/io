@@ -6,6 +6,17 @@
 A container for a duration of time.
 */
 
+/*cmetadoc Duration description
+Thin IoObject wrapper around the plain-C Duration struct (years,
+days, hours, minutes, seconds). All arithmetic and formatting live
+in Duration.c; this file only bridges Io message sends to the C API,
+manages lifecycle (tag / clone / free / compare), and registers the
+proto. Durations interoperate with IoDate for +/- arithmetic — see
+IoDate_add / IoDate_subtract, which read the C Duration via
+IoDuration_duration — and with IoNumber through asNumber /
+fromNumber, treating seconds as the canonical scalar form.
+*/
+
 #include "IoDuration.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -19,6 +30,13 @@ static const char *protoId = "Duration";
 
 // extend message object
 
+/*cdoc Duration IoMessage_locals_durationArgAt_(self, locals, n)
+Argument coercion helper used from other files (notably IoDate.c)
+to fetch the n-th argument as an IoDuration. Raises a type error
+via IoMessage_locals_numberArgAt_errorForType_ when the value is
+not a Duration, mirroring the pattern used by numberArgAt_ and
+seqArgAt_ elsewhere in the VM.
+*/
 IoDuration *IoMessage_locals_durationArgAt_(IoMessage *self, void *locals,
                                             int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, (IoObject *)locals, n);
@@ -32,6 +50,11 @@ IoDuration *IoMessage_locals_durationArgAt_(IoMessage *self, void *locals,
 
 typedef struct tm tm;
 
+/*cdoc Duration IoDuration_newTag(state)
+Builds the Duration tag and wires in clone / free / compare function
+pointers. No mark func is needed since Duration's C payload holds
+no IoObject references — it is a pure numeric struct.
+*/
 IoTag *IoDuration_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -41,6 +64,13 @@ IoTag *IoDuration_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Duration IoDuration_proto(state)
+Creates the Duration proto with its full method table (field accessors
+for years/days/hours/minutes/seconds, asString/asNumber conversion,
+and +=/-= operators). Allocates a zeroed C Duration struct and
+registers the proto under "Duration" on the VM state so IoDuration_new
+can clone it later.
+*/
 IoDuration *IoDuration_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"years", IoDuration_years},
@@ -77,6 +107,11 @@ IoDuration *IoDuration_proto(void *state) {
     return self;
 }
 
+/*cdoc Duration IoDuration_rawClone(proto)
+Tag cloneFunc. Allocates a fresh C Duration struct on the clone
+(never shared with the proto) and copies its fields via
+Duration_copy_, so each IoDuration owns its own numeric state.
+*/
 IoDuration *IoDuration_rawClone(IoDuration *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(self, Duration_new());
@@ -84,17 +119,33 @@ IoDuration *IoDuration_rawClone(IoDuration *proto) {
     return self;
 }
 
+/*cdoc Duration IoDuration_new(state)
+Clones the registered proto. Preferred C-level constructor when a
+blank Duration is needed before any field is set.
+*/
 IoDuration *IoDuration_new(void *state) {
     IoDuration *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc Duration IoDuration_newWithSeconds_(state, s)
+Factory for a Duration initialized from a double seconds value.
+Used by IoDate_subtract when a Date-minus-Date difference is
+returned as a Duration, and anywhere else the VM needs to surface
+an elapsed time to Io code.
+*/
 IoDuration *IoDuration_newWithSeconds_(void *state, double s) {
     IoDuration *self = IoDuration_new(state);
     IoDuration_fromSeconds_(self, s);
     return self;
 }
 
+/*cdoc Duration IoDuration_compare(self, other)
+Tag compareFunc. Delegates to Duration_compare when both sides are
+Durations; otherwise falls back to IoObject_defaultCompare so that
+cross-type comparisons still produce a stable ordering rather than
+an error.
+*/
 int IoDuration_compare(IoDuration *self, IoDuration *other) {
     if (ISDURATION(other)) {
         return Duration_compare(DATA(self), DATA(other));
@@ -103,15 +154,35 @@ int IoDuration_compare(IoDuration *self, IoDuration *other) {
     return IoObject_defaultCompare(self, other);
 }
 
+/*cdoc Duration IoDuration_free(self)
+Tag freeFunc. Releases the heap-allocated C Duration struct; the
+IoObject header itself is freed by the collector.
+*/
 void IoDuration_free(IoDuration *self) { Duration_free(DATA(self)); }
 
+/*cdoc Duration IoDuration_duration(self)
+Accessor exposed to other C code (IoDate in particular) so it can
+reach the underlying Duration struct without duplicating the DATA
+macro. Returns a borrowed pointer; the caller must not free it.
+*/
 Duration *IoDuration_duration(IoDuration *self) { return DATA(self); }
 
+/*cdoc Duration IoDuration_fromSeconds_(self, s)
+In-place mutator that rewrites every Duration field from a single
+seconds value. Thin wrapper around Duration_fromSeconds_; the split
+exists so IoDuration_newWithSeconds_ and the Io-level fromNumber
+method share one path.
+*/
 IoDuration *IoDuration_fromSeconds_(IoDuration *self, double s) {
     Duration_fromSeconds_(DATA(self), s);
     return self;
 }
 
+/*cdoc Duration IoDuration_asSeconds(self)
+Inverse of IoDuration_fromSeconds_: collapses the multi-field
+Duration into a single double. Used by the Io-visible asNumber
+method and by any C caller that needs a scalar.
+*/
 double IoDuration_asSeconds(IoDuration *self) {
     return Duration_asSeconds(DATA(self));
 }

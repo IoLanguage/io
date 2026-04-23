@@ -6,6 +6,20 @@
 A container for a double (a 64bit floating point number on most platforms).
 */
 
+/*cmetadoc Number description
+C implementation of Io's Number proto. A Number is an IoObject whose
+inline data union stores a double — no separate heap payload, no
+dataPointer. The CNUMBER / DATA macros just reinterpret the inline
+slot, and IoNumber_free is a no-op because there is nothing to release.
+Most arithmetic methods are thin shims that read the double out of
+self (and any operand), compute, and return a freshly minted Number
+via IONUMBER. Number is registered as a primitive proto on the state
+so IONUMBER can clone without going through the message machinery.
+Bitwise and character-class methods cast the double to long / int on
+the fly; the limits methods expose the host's <limits.h> / <float.h>
+constants.
+*/
+
 #include "IoNumber.h"
 #include "IoObject.h"
 #include "IoState.h"
@@ -29,6 +43,12 @@ double log2(double n) { return log(n) / log(2); }
 
 static const char *protoId = "Number";
 
+/*cdoc Number IoNumber_numberForDouble_canUse_(self, n, other)
+Returns one of the two supplied Numbers if its value already equals n,
+otherwise allocates a fresh Number. Arithmetic helpers call this to
+avoid minting a new IoObject for the common case where the result
+coincides with an operand (e.g. x + 0).
+*/
 IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n,
                                            IoNumber *other) {
     if (DATA(self) == n)
@@ -38,6 +58,13 @@ IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n,
     return IONUMBER(n);
 }
 
+/*cdoc Number IoNumber_newTag(state)
+Builds the Number tag with clone/free/compare hooks. No stream read/write
+hooks are installed — the commented block below shows the legacy
+BStream-based serialization that was removed. The assert enforces that
+a double fits into the two-pointer inline data slot that all IoObjects
+reserve, which is what lets Number skip an allocated payload entirely.
+*/
 IoTag *IoNumber_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -67,6 +94,12 @@ void *IoNumber_readFromStream_(IoNumber *self, BStream *stream)
 
 // #define IONUMBER_IS_MUTABLE
 
+/*cdoc Number IoNumber_proto(state)
+Creates the Number proto: allocates a bare IoObject, sets its tag, seeds
+the inline double to zero, registers the proto on the state, and installs
+the (large) method table of arithmetic, bitwise, character-class, and
+limit methods. Every Number returned by IONUMBER is a clone of this proto.
+*/
 IoNumber *IoNumber_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"asNumber", IoNumber_asNumber},
@@ -180,12 +213,24 @@ IoNumber *IoNumber_proto(void *state) {
     return self;
 }
 
+/*cdoc Number IoNumber_rawClone(proto)
+Registered as the tag's cloneFunc. Uses the primitive clone path (no
+slot hashtable copy) and memcopies the inline double from the proto.
+Numbers have no heap payload, so this is cheap.
+*/
 IoNumber *IoNumber_rawClone(IoNumber *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     DATA(self) = DATA(proto);
     return self;
 }
 
+/*cdoc Number IoNumber_newWithDouble_(state, n)
+Primary factory for Numbers. Normalizes every NaN to the canonical NAN
+bit pattern (x86 emits positive and negative NaNs from different paths;
+collapsing them keeps equality and hashing well-defined). The comment
+hints at a potential optimization: because Numbers hold no references,
+the full IOCLONE dance could in principle be shortened.
+*/
 IoNumber *IoNumber_newWithDouble_(void *state, double n) {
     // Normalize NAN, since there are positive and negative NANs
     if (isnan(n)) {
@@ -204,10 +249,22 @@ void IoNumber_copyFrom_(IoNumber *self, IoNumber *number) {
     DATA(self) = DATA(number);
 }
 
+/*cdoc Number IoNumber_free(self)
+Registered as the tag's freeFunc. Body is empty: the double lives in
+the inline data slot, so there is nothing to release. The function
+exists only to override IoObject's default freer, which would try to
+io_free a dataPointer that was never allocated.
+*/
 void IoNumber_free(IoNumber *self) {
     /* need this so Object won't try to io_free IoObject_dataPointer(self) */
 }
 
+/*cdoc Number IoNumber_asStackUArray(self)
+Returns a stack-allocated UArray that aliases the receiver's inline
+double — no copy, no heap. Used by code paths that want to treat a
+Number as a 1-element numeric vector (comparisons, coercion into
+Sequence ops). Caller must not mutate the view's data field.
+*/
 UArray IoNumber_asStackUArray(IoNumber *self) {
     UArray a = UArray_stackAllocedEmptyUArray();
     a.size = 1;
@@ -232,6 +289,12 @@ float IoNumber_asFloat(IoNumber *self) { return (float)DATA(self); }
 
 double IoNumber_asDouble(IoNumber *self) { return (double)DATA(self); }
 
+/*cdoc Number IoNumber_compare(self, v)
+Registered as the tag's compareFunc. Compares on numeric value when
+v is another Number, otherwise delegates to IoObject_defaultCompare
+(pointer-order fallback) so heterogeneous comparisons stay total for
+sorting. NaN comparisons inherit IEEE semantics via ==/>.
+*/
 int IoNumber_compare(IoNumber *self, IoNumber *v) {
     if (ISNUMBER(v)) {
         if (DATA(self) == DATA(v)) {
@@ -242,6 +305,13 @@ int IoNumber_compare(IoNumber *self, IoNumber *v) {
     return IoObject_defaultCompare(self, v);
 }
 
+/*cdoc Number IoNumber_Double_intoCString_(n, s, maxSize)
+Formats a double into a fixed buffer. Integer values in long long range
+print as integers (no trailing ".0"); very large or very small magnitudes
+use %e; everything else is printed with 16-digit precision and then has
+its trailing zeros — and trailing decimal point — trimmed in place.
+Used by IoNumber_print and IoNumber_asAllocedCString.
+*/
 void IoNumber_Double_intoCString_(double n, char *s, size_t maxSize) {
     // Use long long (64-bit) so integers up to 2^53 (double's exact-integer
     // range) print without loss of precision.
@@ -357,6 +427,12 @@ IO_METHOD(IoNumber, multiply) {
     return IONUMBER(DATA(self) * DATA(other));
 }
 
+/*cdoc Number IoNumber_asAllocedCString(self)
+Returns a heap-allocated zero-padded string representation of the
+receiver (caller owns it and must io_free). Sized at 1024 bytes to
+cover the worst case of a small whole field width combined with a
+fully expanded %.16f. Used by printNumber and justAsString.
+*/
 char *IoNumber_asAllocedCString(IoNumber *self) {
     int size = 1024;
     char *s = (char *)io_calloc(1, size);
@@ -384,6 +460,11 @@ IO_METHOD(IoNumber, justAsString) {
     return string;
 }
 
+/*cdoc Number countBytes(ld)
+Returns the minimum number of bytes needed to hold ld when shifted
+right 8 bits at a time. Used by asCharacter to pick a UCS encoding
+(1, 2, or 4 bytes) for the resulting single-character Sequence.
+*/
 static int countBytes(long ld) {
     int n = 1;
     for (;;) {

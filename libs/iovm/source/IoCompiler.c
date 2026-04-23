@@ -6,6 +6,18 @@
 Contains methods related to the compiling code.
 */
 
+/*cmetadoc Compiler description
+Thin Io-facing facade over the C lexer (IoLexer) and the C recursive-
+descent parser (IoMessage_parser). Exposes three Io-visible entry
+points — tokensForString, messageForString, messageForString2 — that
+run a source string through IoLexer_lex, surface any errorToken as an
+Io "compile error" Exception, and either hand back a list of token
+description objects or the root IoMessage of the parsed chain. The
+Compiler proto itself is just a slot-holder; there is no compiled
+bytecode representation in Io, so "compiling" means producing a
+message tree.
+*/
+
 #include "IoCompiler.h"
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
@@ -13,6 +25,12 @@ Contains methods related to the compiling code.
 #include "IoToken.h"
 #include "IoList.h"
 
+/*cdoc Compiler IoCompiler_proto(state)
+Creates the Compiler proto (a plain IoObject, not a tagged primitive)
+and installs the Io-visible method table. Called once during IoState
+init. A type slot is stamped so Compiler objects identify themselves
+the way the rest of the VM expects.
+*/
 IoObject *IoCompiler_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"tokensForString", IoObject_tokensForString},

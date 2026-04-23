@@ -8,6 +8,23 @@ The prototype Object contains a clone slot that is a CFunction that creates new
 objects. When cloned, an Object will call its init slot (with no arguments).
 */
 
+/*cmetadoc Object description
+C implementation of the root Object prototype — the ancestor of every
+Io value. An IoObject is a CollectorMarker whose `object` field points
+to an IoObjectData carrying the tag (vtable), a PHash of slots, an
+inline-or-heap-allocated protos array, and a small data union used by
+primitive subtypes. This file owns allocation (IoObject_justAlloc /
+_alloc / _proto), cloning (raw / primitive / IOCLONE with init), proto
+chain manipulation (rawAppendProto_, rawPrependProto_, rawRemoveProto_
+with inline-or-realloc'd storage), slot read/write, lookup loop
+detection, the whole Io-visible method table installed by
+IoObject_protoFinish, and the localsProto variant used for block locals.
+Most of the `IO_METHOD(IoObject, ...)` functions here already carry
+doc blocks and are part of the Io-visible API; only the internal
+C helpers (raw*, alloc/dealloc, activateFunc, lookup primitives) are
+annotated below.
+*/
+
 #include "IoState.h"
 #define IOOBJECT_C
 #include "IoObject.h"
@@ -38,6 +55,12 @@ IoObject *IoObject_activateFunc(IoObject *self, IoObject *target,
                                 IoObject *locals, IoMessage *m,
                                 IoObject *slotContext);
 
+/*cdoc Object IoObject_newTag(state)
+Builds the root Object tag. Only cloneFunc is wired up — activateFunc
+is installed lazily by setIsActivatableMethod when an object first
+opts in. No freeFunc is set either: generic Object slots are freed
+through IoObject_dealloc's own path, not through a per-tag hook.
+*/
 IoTag *IoObject_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -47,6 +70,14 @@ IoTag *IoObject_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Object IoObject_justAlloc(state)
+Allocates an IoObject marker plus its IoObjectData in a single heap
+block, with space for a 2-pointer inline protos array placed right
+after the data struct. This co-allocation avoids a separate small
+allocation per object and lets the GC free the whole lot with one
+io_free — the protos array is only promoted to a heap buffer when
+IoObject_rawAppendProto_ / _rawPrependProto_ outgrow the inline slots.
+*/
 IoObject *IoObject_justAlloc(IoState *state) {
     IoObject *child = Collector_newMarker(state->collector);
     // Allocate IoObjectData + 2-pointer protos array in a single block.
@@ -58,6 +89,13 @@ IoObject *IoObject_justAlloc(IoState *state) {
     return child;
 }
 
+/*cdoc Object IoObject_alloc(self)
+Primary allocator used by the clone paths. Pops from the IoState
+recycled-object pool when IOSTATE_RECYCLING_ON is defined; otherwise
+falls through to IoObject_justAlloc. Resets markerCount so the new
+object does not carry over any become-tracking from its previous life
+in the pool.
+*/
 IoObject *IoObject_alloc(IoObject *self) {
     IoObject *child;
 
@@ -74,6 +112,13 @@ IoObject *IoObject_alloc(IoObject *self) {
     return child;
 }
 
+/*cdoc Object IoObject_proto(state)
+Creates the root Object proto — the first object ever allocated in a
+fresh IoState. Gives it its own fresh slots hash (ownsSlots = 1, unlike
+ordinary clones which share slots with their proto until written) and
+registers it on the state. Method table installation is deferred to
+IoObject_protoFinish so dependent protos can be registered first.
+*/
 IoObject *IoObject_proto(void *state) {
     IoObject *self = IoObject_justAlloc(state);
 
@@ -93,6 +138,13 @@ IO_METHOD(IoObject, protoOwnsSlots) {
     return IOBOOL(self, IoObject_ownsSlots(self));
 }
 
+/*cdoc Object IoObject_memorySize(self)
+Best-effort byte count of what the object owns: sizeof(IoObject) plus
+the owned slots hash if any. Primitive-specific data attached via
+IoObject_dataPointer is NOT counted here — that used to be summed
+through a per-tag memorySizeFunc but has been disabled; primitives
+report their own size through their own introspection methods.
+*/
 size_t IoObject_memorySize(IoObject *self) {
     // return (IoObject_tag(self)->memorySizeFunc) ?
     // (IoObject_tag(self)->memorySizeFunc)(self) : 0;
@@ -109,6 +161,15 @@ size_t IoObject_memorySize(IoObject *self) {
     return size;
 }
 
+/*cdoc Object IoObject_protoFinish(state)
+Second-phase Object proto setup: installs the full Io-visible method
+table on the already-registered proto. Split from IoObject_proto so
+that cross-referencing primitives (CFunction, Number, Sequence, etc.)
+can be registered first — the method table wraps each C function as an
+IoCFunction, which requires those primitives to exist. Uses the
+tagless method path so slot lookups do not short-circuit on a
+class-matched tag.
+*/
 IoObject *IoObject_protoFinish(void *state) {
     IoMethodTable methodTable[] = {
         {"clone", IoObject_clone},
@@ -236,6 +297,14 @@ IoObject *IoObject_protoFinish(void *state) {
     return self;
 }
 
+/*cdoc Object IoObject_localsProto(state)
+Builds the prototype used as the `locals` object in every block/method
+activation. Starts from a clone of the root Object's slots, drops the
+proto chain so slot lookups don't bleed into the lobby, and installs
+locals-specific slot semantics (setSlot / updateSlot / thisLocalContext
+plus a `forward` slot that delegates to `self`). Frames set up by the
+iterative evaluator and the recursive fallback both clone this proto.
+*/
 IoObject *IoObject_localsProto(void *state) {
     IoObject *self = IoObject_new(state);
 
@@ -259,6 +328,12 @@ IoObject *IoObject_localsProto(void *state) {
     return self;
 }
 
+/*cdoc Object IoObject_addMethod_(self, slotName, fp)
+Wraps a C function pointer as an IoCFunction bound to self's tag and
+installs it under slotName. The tag binding makes the wrapped function
+fail fast if it is ever invoked on a receiver of the wrong class —
+useful for primitive methods that depend on the data union layout.
+*/
 IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName,
                               IoMethodFunc *fp) {
     IoTag *t = IoObject_tag(self);
@@ -270,6 +345,10 @@ IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName,
     return f;
 }
 
+/*cdoc Object IoObject_addMethodTable_(self, methodTable)
+Bulk-installs a {name, fp, ...} array terminated by {NULL, NULL}. The
+convention every primitive uses to register its Io-visible API.
+*/
 void IoObject_addMethodTable_(IoObject *self, IoMethodTable *methodTable) {
     IoMethodTable *entry = methodTable;
 
@@ -279,6 +358,11 @@ void IoObject_addMethodTable_(IoObject *self, IoMethodTable *methodTable) {
     }
 }
 
+/*cdoc Object IoObject_addTaglessMethod_(self, slotName, fp)
+Variant of IoObject_addMethod_ that binds the wrapper to no tag, so
+the method accepts any receiver. Used for root Object methods that
+must work uniformly across every subtype (e.g. clone, setSlot, type).
+*/
 IoObject *IoObject_addTaglessMethod_(IoObject *self, IoSymbol *slotName,
                                      IoMethodFunc *fp) {
     IoCFunction *f;
@@ -289,6 +373,10 @@ IoObject *IoObject_addTaglessMethod_(IoObject *self, IoSymbol *slotName,
     return f;
 }
 
+/*cdoc Object IoObject_addTaglessMethodTable_(self, methodTable)
+Bulk form of addTaglessMethod_ used by IoObject_protoFinish to install
+the root method table without locking each method to Object's tag.
+*/
 void IoObject_addTaglessMethodTable_(IoObject *self,
                                      IoMethodTable *methodTable) {
     IoMethodTable *entry = methodTable;
@@ -299,11 +387,22 @@ void IoObject_addTaglessMethodTable_(IoObject *self,
     }
 }
 
+/*cdoc Object IoObject_new(state)
+Convenience: fetch the registered Object proto and clone it via the
+full IOCLONE path (collector pause + optional init). The standard
+way C code constructs a bare IoObject.
+*/
 IoObject *IoObject_new(void *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc Object IoObject_justClone(self)
+Calls the tag's cloneFunc directly, bypassing IOCLONE's collector
+pause and addValueIfNecessary bookkeeping. Used when the caller is
+already holding the object reachable via some other path and can
+afford to skip GC protection.
+*/
 IoObject *IoObject_justClone(IoObject *self) {
     return (IoObject_tag(self)->cloneFunc)(self);
 }
@@ -313,6 +412,12 @@ void IoObject_createSlots(IoObject *self) {
     IoObject_ownsSlots_(self, 1);
 }
 
+/*cdoc Object IoObject_freeData(self)
+Releases the primitive subtype's data pointer. Prefers the tag's
+freeFunc when one is registered (tag-specific cleanup for Seq, List,
+Map, Block, etc.); otherwise io_frees the raw buffer. Always nulls
+the data pointer afterward so a subsequent dealloc does not double-free.
+*/
 // inline
 void IoObject_freeData(IoObject *self) {
     IoTagFreeFunc *func = IoTag_freeFunc(IoObject_tag(self));
@@ -333,6 +438,13 @@ void IoObject_freeData(IoObject *self) {
     IoObject_setDataPointer_(self, NULL);
 }
 
+/*cdoc Object IoObject_setProtoTo_(self, proto)
+Sets self's single proto and, if self has no slots yet, shares proto's
+slots hash with ownsSlots = 0. This is the copy-on-write trick behind
+Io's cloning: a fresh clone reads its proto's slots until the first
+write, which triggers creation of its own hash (see
+IoObject_createSlotsIfNeeded).
+*/
 // inline
 void IoObject_setProtoTo_(IoObject *self, IoObject *proto) {
     IoObject_rawSetProto_(self, proto);
@@ -343,6 +455,13 @@ void IoObject_setProtoTo_(IoObject *self, IoObject *proto) {
     }
 }
 
+/*cdoc Object IoObject_rawClone(proto)
+Default cloneFunc for the root Object tag: allocate a fresh marker,
+copy proto's tag and isActivatable flag, install proto as the single
+proto (sharing its slots until first write), and mark dirty so
+persistence and incremental GC notice the new object. Primitive
+subtypes install their own cloneFunc via IoXxx_rawClone.
+*/
 IoObject *IoObject_rawClone(IoObject *proto) {
     IoObject *self = IoObject_alloc(proto);
     IoObject_tag_(self, IoObject_tag(proto));
@@ -362,6 +481,13 @@ IoObject *IoObject_rawClone(IoObject *proto) {
     return self;
 }
 
+/*cdoc Object IoObject_rawClonePrimitive(proto)
+Clone helper used by primitive subtypes (Number, Seq, List, Block,
+Message, Call, EvalFrame, Continuation, ...). Same shape as
+IoObject_rawClone but explicitly sets dataPointer to NULL so the
+primitive's own rawClone can install a fresh data payload without
+accidentally aliasing the proto's.
+*/
 IoObject *IoObject_rawClonePrimitive(IoObject *proto) {
     IoObject *self = IoObject_alloc(proto);
     IoObject_tag_(self, IoObject_tag(proto));
@@ -374,6 +500,10 @@ IoObject *IoObject_rawClonePrimitive(IoObject *proto) {
 
 // protos ---------------------------------------------
 
+/*cdoc Object IoObject_rawPrintProtos(self)
+Debug helper that prints the proto chain with index numbers. Used when
+tracing lookup ordering; not reachable from Io code.
+*/
 void IoObject_rawPrintProtos(IoObject *self) {
     int count = 0;
 
@@ -387,12 +517,25 @@ int IoObject_hasProtos(IoObject *self) {
     return (IoObject_firstProto(self) != NULL);
 }
 
+/*cdoc Object IoObject_rawProtosCount(self)
+Walks the NULL-terminated protos array and returns the number of
+non-NULL entries. Cheap — typical Io objects have 1-2 protos.
+*/
 int IoObject_rawProtosCount(IoObject *self) {
     int count = 0;
     IOOBJECT_FOREACHPROTO(self, proto, if (proto) count++);
     return count;
 }
 
+/*cdoc Object IoObject_rawAppendProto_(self, p)
+Appends p to the proto list. The subtlety is that the initial protos
+array lives inline inside the IoObjectData block (see
+IoObject_justAlloc), so it cannot simply be realloc'd — this function
+detects the inline case by pointer comparison and, if needed,
+allocates a fresh heap buffer and copies the old entries before
+extending. All proto-mutation paths go through this or its sibling
+helpers so the inline/heap discrimination stays in one place.
+*/
 void IoObject_rawAppendProto_(IoObject *self, IoObject *p) {
     int count = IoObject_rawProtosCount(self);
     IoObject **oldProtos = IoObject_protos(self);
@@ -412,6 +555,11 @@ void IoObject_rawAppendProto_(IoObject *self, IoObject *p) {
     IoObject_protos(self)[count + 1] = NULL;
 }
 
+/*cdoc Object IoObject_rawPrependProto_(self, p)
+Prepends p, so it takes precedence in slot lookup. Like rawAppendProto_
+it must handle the inline-vs-heap array case separately, then memmove
+the existing entries up by one slot.
+*/
 void IoObject_rawPrependProto_(IoObject *self, IoObject *p) {
     int count = IoObject_rawProtosCount(self);
     int oldSize = (count + 1) * sizeof(IoObject *);
@@ -435,6 +583,11 @@ void IoObject_rawPrependProto_(IoObject *self, IoObject *p) {
     IoObject_protoAtPut_(self, 0, IOREF(p));
 }
 
+/*cdoc Object IoObject_rawRemoveProto_(self, p)
+Removes every occurrence of p from the proto array by memmove-compacting
+over each match. The storage block is not freed here — the array may
+stay oversized after removal, which is fine since proto lists are small.
+*/
 void IoObject_rawRemoveProto_(IoObject *self, IoObject *p) {
     IoObject **proto = IoObject_protos(self);
     int count = IoObject_rawProtosCount(self);
@@ -481,6 +634,11 @@ void IoObject_testProtosCode(IoObject *self)
 }
 */
 
+/*cdoc Object IoObject_rawSetProto_(self, proto)
+Replaces the entire proto list with a single entry. IOREF participates
+in the collector write barrier so proto stays marked even before the
+next sweep.
+*/
 void IoObject_rawSetProto_(IoObject *self, IoObject *proto) {
     IoObject_rawRemoveAllProtos(self);
     IoObject_protos(self)[0] = IOREF(proto);
@@ -576,6 +734,13 @@ IO_METHOD(IoObject, protosMethod) {
 
 // --------------------------------------------------------
 
+/*cdoc Object IoObject_freeSlots(self)
+Releases the PHash slots table if this object owns it (a fresh clone
+shares its proto's table until first write, and must not free what
+it does not own). Called from the free/recycle path. The redundant
+second slots_ call guards against a future change that starts owning
+shared slots.
+*/
 // inline
 void IoObject_freeSlots(
     IoObject *self) // prepare for io_free and possibly recycle
@@ -589,6 +754,12 @@ void IoObject_freeSlots(
     IoObject_slots_(self, NULL);
 }
 
+/*cdoc Object IoObject_willFree(self)
+Pre-free hook used only under COLLECTOR_USE_REFCOUNT builds to
+decrement reference counts on every slot value before the object's
+data is reclaimed. With the tri-color collector (default) this is a
+no-op.
+*/
 void IoObject_willFree(IoObject *self) {
 #ifdef COLLECTOR_USE_REFCOUNT
     if (IoObject_ownsSlots(self)) {
@@ -602,6 +773,13 @@ void IoObject_willFree(IoObject *self) {
 #endif
 }
 
+/*cdoc Object IoObject_free(self)
+Collector freeFunc entry point. Either hands the object fully over to
+IoObject_dealloc or, when IOSTATE_RECYCLING_ON is enabled and the
+recycle pool has room, scrubs its flags / protos / slots and stashes
+it on IOSTATE->recycledObjects for IoObject_alloc to pick up. The
+recycled form keeps only the bare marker + slots hash shell.
+*/
 void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 {
 #ifdef IOSTATE_RECYCLING_ON
@@ -642,6 +820,15 @@ void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 #endif
 }
 
+/*cdoc Object IoObject_dealloc(self)
+Truly frees the object: runs listener notifications, tag-specific
+free (via IoObject_freeData), owned slots, and then the IoObjectData
+block itself. Numbers with an inline protos array are instead pushed
+onto state->numberDataFreeList (capped at NUMBER_DATA_POOL_MAX) so
+hot numeric code can recycle the data+protos block without hitting
+the general allocator. Respects markerCount so become-aliased objects
+don't free data that another marker still points at.
+*/
 void IoObject_dealloc(IoObject *self) // really io_free it
 {
     if (IoObject_markerCount(self) == 0) {
@@ -704,6 +891,12 @@ IO_METHOD(IoObject, protoCompare) {
 
 // slot lookups with lookup loop detection
 
+/*cdoc Object IoObject_rawHasProto_(self, p)
+Recursive proto-chain membership test with cycle detection via the
+hasDoneLookup flag: the flag is set on entry and cleared on exit so a
+cycle through the same object terminates without infinite recursion.
+Returns 1 if p is self or is reachable through any proto.
+*/
 unsigned int IoObject_rawHasProto_(IoObject *self, IoObject *p) {
     if (self == p) {
         return 1;
@@ -742,11 +935,22 @@ IO_METHOD(IoObject, protoHasProto_) {
 
 // ------------------------------------------------------
 
+/*cdoc Object IoObject_getSlot_(self, slotName)
+C-side convenience: look up a slot along the proto chain and return
+ioNil rather than NULL on miss. For callers that want a raw miss
+signal, use IoObject_rawGetSlot_ directly.
+*/
 IoObject *IoObject_getSlot_(IoObject *self, IoSymbol *slotName) {
     IoObject *v = IoObject_rawGetSlot_(self, slotName);
     return v ? v : IONIL(self);
 }
 
+/*cdoc Object IoObject_doubleGetSlot_(self, slotName)
+Type-checked slot read that unwraps to a C double. Raises an Io-level
+error (and returns 0) if the slot is missing or not a Number. The
+error path uses IoState_error_ and relies on the caller (or the eval
+loop) to check state->errorRaised.
+*/
 double IoObject_doubleGetSlot_(IoObject *self, IoSymbol *slotName) {
     IoObject *v = IoObject_rawGetSlot_(self, slotName);
 
@@ -766,6 +970,11 @@ double IoObject_doubleGetSlot_(IoObject *self, IoSymbol *slotName) {
     return CNUMBER(v);
 }
 
+/*cdoc Object IoObject_symbolGetSlot_(self, slotName)
+Type-checked slot read expecting a Symbol. Mirrors doubleGetSlot_'s
+error-on-missing-or-wrong-type pattern but returns NULL on failure so
+callers can distinguish the error (after checking state->errorRaised).
+*/
 IoObject *IoObject_symbolGetSlot_(IoObject *self, IoSymbol *slotName) {
     IoObject *v = IoObject_rawGetSlot_(self, slotName);
 
@@ -785,6 +994,12 @@ IoObject *IoObject_symbolGetSlot_(IoObject *self, IoSymbol *slotName) {
     return v;
 }
 
+/*cdoc Object IoObject_seqGetSlot_(self, slotName)
+Type-checked slot read expecting a Sequence. Note that unlike the
+other type-checked getters, this one falls through without returning
+after raising errors, so the caller always gets the (possibly wrong)
+value back — callers must check errorRaised and discard v on failure.
+*/
 IoObject *IoObject_seqGetSlot_(IoObject *self, IoSymbol *slotName) {
     IoObject *v = IoObject_rawGetSlot_(self, slotName);
 
@@ -802,6 +1017,13 @@ IoObject *IoObject_seqGetSlot_(IoObject *self, IoSymbol *slotName) {
     return v;
 }
 
+/*cdoc Object IoObject_activateFunc(self, target, locals, m, slotContext)
+Optional tag activateFunc for objects that opt into "activate on read"
+(see IoObject_setIsActivatableMethod). When isActivatable is set, this
+looks up the "activate" slot and activates its value with the original
+target/locals/message, so the object acts like a callable. When the
+flag is off it just returns self, letting the slot behave as data.
+*/
 IoObject *IoObject_activateFunc(IoObject *self, IoObject *target,
                                 IoObject *locals, IoMessage *m,
                                 IoObject *slotContext) {
@@ -823,16 +1045,35 @@ IoObject *IoObject_activateFunc(IoObject *self, IoObject *target,
 
 // -----------------------------------------------------------
 
+/*cdoc Object IoObject_setSlot_to_(self, slotName, value)
+C-callable setter. Thin wrapper around the inline version so non-inline
+call sites (and other translation units) have a stable symbol to link
+against. Handles the copy-on-write promotion of a shared slots hash
+via IoObject_createSlotsIfNeeded inside inlineSetSlot_to_.
+*/
 void IoObject_setSlot_to_(IoObject *self, IoSymbol *slotName, IoObject *value) {
     IoObject_inlineSetSlot_to_(self, slotName, value);
 }
 
+/*cdoc Object IoObject_removeSlot_(self, slotName)
+Removes a slot if present and bumps the global slotVersion counter so
+inline caches (lookup caches on messages) can invalidate. Creates
+slots first to keep the invariant that writes always target an owned
+hash rather than a shared one.
+*/
 void IoObject_removeSlot_(IoObject *self, IoSymbol *slotName) {
     IoObject_createSlotsIfNeeded(self);
     PHash_removeKey_(IoObject_slots(self), slotName);
     IOSTATE->slotVersion++;
 }
 
+/*cdoc Object IoObject_rawGetSlot_target_(self, slotName, target)
+Two-level slot lookup: first tries self's proto chain, and on miss
+consults the object's "self" slot (if any, and different from self)
+as a delegate. Writes the delegate into *target when the fallback
+lookup succeeds so the caller can activate the resulting value with
+the right receiver. Used by the locals-forwarding path.
+*/
 IoObject *IoObject_rawGetSlot_target_(IoObject *self, IoSymbol *slotName,
                                       IoObject **target) {
     IoObject *slotValue = IoObject_rawGetSlot_(self, slotName);
@@ -901,12 +1142,23 @@ IO_METHOD(IoObject, lobbyPrint) {
     return state->ioNil;
 }
 
+/*cdoc Object IoObject_memorySizeFunc(self)
+Tag memorySizeFunc candidate returning data+slots bytes. Currently
+unused — IoObject_memorySize walks this inline — but kept as the
+seam for a per-tag size registration should Collector gain a
+memory-attribution pass.
+*/
 size_t IoObject_memorySizeFunc(IoObject *self) {
     return sizeof(IoObjectData) + (IoObject_ownsSlots(self)
                                        ? PHash_memorySize(IoObject_slots(self))
                                        : 0);
 }
 
+/*cdoc Object IoObject_compactFunc(self)
+Tag compactFunc candidate that rehashes the slots PHash to its minimum
+size. Currently not wired up from IoObject_compact (the dispatch is
+commented out), but available for a future explicit compact pass.
+*/
 void IoObject_compactFunc(IoObject *self) {
     PHash_compact(IoObject_slots(self));
 }
@@ -1008,6 +1260,12 @@ IO_METHOD(IoObject, protoWriteLn) {
     return IONIL(self);
 }
 
+/*cdoc Object IoObject_initClone_(self, locals, m, newObject)
+Runs the newly cloned object's `init` slot, if any, with the original
+caller's locals/message. Called by IoObject_clone (but not by the
+lower-level IOCLONE) so that user types can always rely on init firing
+after a surface-level `clone` message.
+*/
 // inline
 IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m,
                               IoObject *newObject) {
@@ -1024,6 +1282,13 @@ IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m,
     return newObject;
 }
 
+/*cdoc Object IOCLONE(self)
+GC-safe clone primitive. Pauses the collector around the tag's clone
+function so an incremental mark in the middle of allocation cannot
+see the half-built object; afterward addValueIfNecessary ensures the
+new object is registered with the collector before the pause is
+released. Every primitive's cloneFunc is invoked through this path.
+*/
 IoObject *IOCLONE(IoObject *self) {
     IoState *state = IOSTATE;
     IoObject *newObject;
@@ -1307,6 +1572,14 @@ IO_METHOD(IoObject, contextWithSlot) {
 
 // ---------------------------------------------------------------------------
 
+/*cdoc Object IoObject_rawDoString_label_(self, string, label)
+Compiles a source string into a message tree (via Compiler
+messageForString) and evaluates it against self. Used by the bootstrap
+/ recursive-fallback paths of doString and doFile; the iterative path
+instead parses directly with IoMessage_newFromText_labelSymbol_ and
+hands off to the eval loop via FRAME_STATE_DO_EVAL. label becomes the
+Message's source label for error reporting.
+*/
 IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string,
                                       IoSymbol *label) {
     IoMessage *cm = NULL;
@@ -1601,6 +1874,12 @@ IO_METHOD(IoObject, locals) {
 
 // message callbacks --------------------------------------
 
+/*cdoc Object IoObject_name(self)
+Returns the object's display name, preferring a `type` slot containing
+a Sequence over the tag's underlying name. This lets Io code rename
+"Object" subclasses (e.g. `Point := Object clone do(type := "Point")`)
+and have error messages and type reflection show the user-visible name.
+*/
 const char *IoObject_name(IoObject *self) {
     // If self has a type slot which is a string, then use that instead of the
     // tag name
@@ -1612,6 +1891,12 @@ const char *IoObject_name(IoObject *self) {
     return IoTag_name(IoObject_tag(self));
 }
 
+/*cdoc Object IoObject_compare(self, v)
+Total-order comparison used by < > == etc. Short-circuits on pointer
+identity, dispatches to the tag's compareFunc when one is registered
+(Number, Seq, List, etc. provide type-aware orderings), and falls
+back to IoObject_defaultCompare which orders by tag then by pointer.
+*/
 int IoObject_compare(IoObject *self, IoObject *v) {
     if (self == v) {
         return 0;
@@ -1624,6 +1909,12 @@ int IoObject_compare(IoObject *self, IoObject *v) {
     return IoObject_defaultCompare(self, v);
 }
 
+/*cdoc Object IoObject_defaultCompare(self, v)
+Fallback ordering for Objects without a tag compareFunc. Compares
+tag pointers first (so same-type objects cluster) and breaks ties by
+raw pointer, returning -1/0/1. Not semantically meaningful, just
+stable enough to let sort and Map rely on a total order.
+*/
 int IoObject_defaultCompare(IoObject *self, IoObject *v) {
 
     // IoState_error_(IOSTATE, NULL, "attempt to compare %s to %s",
@@ -1643,10 +1934,19 @@ int IoObject_defaultCompare(IoObject *self, IoObject *v) {
     return d > 0 ? 1 : -1;
 }
 
+/*cdoc Object IoObject_sortCompare(self, v)
+Pointer-to-pointer adapter matching qsort's expected signature. Lets
+IoList and similar sort by IoObject_compare without per-call wrappers.
+*/
 int IoObject_sortCompare(IoObject **self, IoObject **v) {
     return IoObject_compare(*self, *v);
 }
 
+/*cdoc Object IoObject_compact(self)
+Placeholder for a per-tag compact pass. The tag dispatch is currently
+commented out; the function stays as a seam so callers need not be
+changed if compaction is re-enabled.
+*/
 void IoObject_compact(IoObject *self) {
     /*
     if (IoObject_tag(self)->compactFunc)
@@ -1670,6 +1970,11 @@ IO_METHOD(IoObject, memorySizeMethod) {
         Accesses memory in the IoObjectData struct that should be accessible.
    Should cause a memory access exception if memory is corrupt.
         */
+/*cdoc Object IoObject_rawCheckMemory(self)
+Touches IoObject state so a memory access exception fires if the
+object's memory has been freed or corrupted. Invoked on every live
+marker by IoCollector checkMemory.
+*/
 int IoObject_rawCheckMemory(IoObject *self) { return IOCOLLECTOR != 0x0; }
 
 IO_METHOD(IoObject, compactMethod) {
@@ -1690,6 +1995,13 @@ IO_METHOD(IoObject, type) {
     return IOSYMBOL((char *)IoObject_name(self));
 }
 
+/*cdoc Object IoObject_defaultPrint(self)
+Built-in print implementation used when no Io-level `print` slot is
+defined. Formats Symbols and Numbers via their primitive printers and
+every other object as "name_pointer", with Messages also showing their
+name. This is the function the C side calls when `print` is not
+overridden in an object's proto chain.
+*/
 void IoObject_defaultPrint(IoObject *self) {
     if (ISSYMBOL(self)) {
         IoSeq_rawPrint(self);
@@ -1704,6 +2016,11 @@ void IoObject_defaultPrint(IoObject *self) {
     }
 }
 
+/*cdoc Object IoObject_print(self)
+Invokes the receiver's `print` slot via the cached printMessage. Uses
+self as its own locals — a deliberate hack because this is called from
+debug / REPL paths that may not have a real locals at hand.
+*/
 void IoObject_print(IoObject *self) {
     IoMessage_locals_performOn_(IOSTATE->printMessage, self, self);
     // using self as locals hack
@@ -1851,18 +2168,32 @@ you wish to modify it.
 
 // inline these -------------------------------------------------
 
+/*cdoc Object IoObject_hasCloneFunc_(self, func)
+Class test by tag cloneFunc identity. Useful when the ISXXX macros
+aren't available (e.g. across translation units that don't include
+the primitive's header). Exactly how argIsCall checks for Call objects.
+*/
 int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func) {
     return (IoObject_tag(self)->cloneFunc == func);
 }
 
 // --------------------------------------------
 
+/*cdoc Object IoObject_markColorName(self)
+Returns the collector's color for self (white/gray/black) as a string.
+Debug aid for watching tri-color transitions during a sweep.
+*/
 char *IoObject_markColorName(IoObject *self) {
     return Collector_colorNameFor_(IOCOLLECTOR, self);
 }
 
 void IoSymbol_println(IoSymbol *self) { printf("%s\n", CSTRING(self)); }
 
+/*cdoc Object IoObject_show(self)
+Prints the object's address, name, and the names of all slot keys.
+Exercised from debug tracing paths when an object's identity matters
+more than its full contents.
+*/
 void IoObject_show(IoObject *self) {
     printf("  %p %s\n", (void *)self, IoObject_name(self));
     // PHash_doOnKeys_(IoObject_slots(self), (PHashDoCallback
@@ -1906,6 +2237,12 @@ IoNumber *IoObject_getNumberSlot(IoObject *self,
 }
 */
 
+/*cdoc Object IoObject_rawGetUArraySlot(self, locals, m, slotName)
+Read a Sequence-valued slot and return its backing UArray. IOASSERT
+raises an Io-level exception if the slot is missing or not a Sequence.
+Used by primitives that want to work on the raw byte buffer without
+going through the Seq wrapper.
+*/
 UArray *IoObject_rawGetUArraySlot(IoObject *self, IoObject *locals,
                                   IoMessage *m, IoSymbol *slotName) {
     IoSeq *seq = IoObject_getSlot_(self, slotName);
@@ -1913,6 +2250,11 @@ UArray *IoObject_rawGetUArraySlot(IoObject *self, IoObject *locals,
     return IoSeq_rawUArray(seq);
 }
 
+/*cdoc Object IoObject_rawGetMutableUArraySlot(self, locals, m, slotName)
+Mutable-access variant of IoObject_rawGetUArraySlot. Identical body
+today; the separate name documents intent at the call site and leaves
+room for a future copy-on-write check.
+*/
 UArray *IoObject_rawGetMutableUArraySlot(IoObject *self, IoObject *locals,
                                          IoMessage *m, IoSymbol *slotName) {
     IoSeq *seq = IoObject_getSlot_(self, slotName);
@@ -2014,6 +2356,11 @@ IO_METHOD(IoObject, become) {
     return self;
 }
 
+/*cdoc Object IoObject_hasDirtySlot_(self, locals, m)
+Io-visible test for per-slot dirty tracking used by the persistence
+path (IOOBJECT_PERSISTENCE builds). Returns whether the named slot
+has been modified since the last markClean.
+*/
 IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoObject *locals,
                                           IoMessage *m) {
     // IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -2023,6 +2370,11 @@ IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoObject *locals,
     return IOBOOL(self, result);
 }
 
+/*cdoc Object IoObject_protoClean(self)
+Clears the object's dirty flag and the per-slot dirty bits. Invoked
+by the collector's cleanAllObjects sweep so a persistence layer can
+treat the next round of writes as fresh changes.
+*/
 void IoObject_protoClean(IoObject *self) {
     IoObject_isDirty_(self, 0);
     PHash_cleanSlots(IoObject_slots(self));
@@ -2036,6 +2388,12 @@ IO_METHOD(IoObject, markClean) {
 
 // io_free listeners ---------------------------------------------
 
+/*cdoc Object IoObject_addListener_(self, listener)
+Registers an object that wants to be notified (via its tag's
+notificationFunc) when self is about to be deallocated. Lazily
+allocates the listeners list. Used by weak-reference-style features —
+the listener receives a callback in IoObject_dealloc.
+*/
 void IoObject_addListener_(IoObject *self, void *listener) {
     if (IoObject_listeners(self) == NULL) {
         IoObject_listeners_(self, List_new());
@@ -2044,6 +2402,10 @@ void IoObject_addListener_(IoObject *self, void *listener) {
     List_append_(IoObject_listeners(self), listener);
 }
 
+/*cdoc Object IoObject_removeListener_(self, listener)
+Unregisters a listener and frees the listeners list once it empties,
+returning self to its default no-listeners state.
+*/
 void IoObject_removeListener_(IoObject *self, void *listener) {
     List *listeners = IoObject_listeners(self);
 
@@ -2068,6 +2430,13 @@ PID_TYPE IoObject_pid(IoObject *self)
 
 // asString helper
 
+/*cdoc Object IoObject_asString_(self, m)
+C-callable helper that invokes self's `asString` slot via the cached
+asStringMessage and validates that the result is a Sequence, raising
+an error on m's source location if not. Lets primitive code get a
+user-overridable string rendering without duplicating the perform
+dance at every call site.
+*/
 IoSeq *IoObject_asString_(IoObject *self, IoMessage *m) {
     IoSeq *result =
         IoMessage_locals_performOn_(IOSTATE->asStringMessage, self, self);

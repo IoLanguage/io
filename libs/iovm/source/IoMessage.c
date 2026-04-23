@@ -26,6 +26,22 @@ But the cost to performance seems to outweigh the need to cover this case for
 now.
 */
 
+/*cmetadoc Message description
+C implementation of Io's first-class Message. An IoMessage is the AST
+node and the runtime perform record rolled into one: it holds a name
+(IoSymbol), an args List of sub-message trees, an optional cachedResult
+(literal or inline-cache value), a `next` pointer to the rest of the
+chain, an inline slot-lookup cache (inlineCacheValue / inlineCacheContext,
+marked with the containing tag version), and source-location fields
+(label, lineNumber). Evaluation goes through IoMessage_locals_performOn_,
+which delegates to the iterative evaluator in IoState_iterative.c
+whenever a frame exists; a bootstrap-only recursive fallback handles
+the short window before the first eval loop starts. Most Io-visible
+getters/setters are thin wrappers around IoMessage_raw*_ helpers; the
+raw helpers are also how IoMessage_parser and IoMessage_opShuffle
+build and rewrite trees without running the perform machinery.
+*/
+
 #include "IoObject.h"
 #define IOMESSAGE_C
 #include "IoMessage.h"
@@ -64,6 +80,13 @@ void IoMessage_readFromStream_(IoMessage *self, BStream *stream)
 }
 */
 
+/*cdoc Message IoMessage_activate(self, target, locals, m, slotContext)
+Registered as the tag's activateFunc so that when a Message is stored
+in a slot and looked up, evaluating it re-runs its chain in the caller's
+locals. Simply delegates to IoMessage_locals_performOn_ — the target
+argument is ignored because a Message activation evaluates the message
+tree at `self`, not the containing slot's receiver.
+*/
 IoObject *IoMessage_activate(IoMessage *self, IoObject *target,
                              IoObject *locals, IoMessage *m,
                              IoObject *slotContext) {
@@ -74,6 +97,11 @@ IoObject *IoMessage_activate(IoMessage *self, IoObject *target,
     // return IoObject_perform(locals, locals, self);
 }
 
+/*cdoc Message IoMessage_newTag(state)
+Builds the Message tag with clone/free/mark/activate function pointers.
+The activateFunc is what distinguishes Messages from most other tagged
+primitives — it makes them callable as slot values.
+*/
 IoTag *IoMessage_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -87,6 +115,12 @@ IoTag *IoMessage_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Message IoMessage_proto(state)
+Creates the Message proto: allocates IoMessageData with a fresh args
+List, installs placeholder name/label symbols, tags it, and wires up
+the Io-visible method table. Every subsequently-created Message is a
+clone of this proto via IoMessage_new -> IoMessage_rawClone.
+*/
 IoMessage *IoMessage_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"clone", IoMessage_clone},
@@ -157,6 +191,12 @@ IoMessage *IoMessage_proto(void *state) {
     return self;
 }
 
+/*cdoc Message IoMessage_rawClone(proto)
+Registered as the tag's cloneFunc. Gives the new message its own
+IoMessageData and args List so sibling clones never share arg
+references. Copies name and label; leaves cachedResult / next / source
+location cleared — the parser or caller fills those in.
+*/
 IoMessage *IoMessage_rawClone(IoMessage *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
 
@@ -170,6 +210,11 @@ IoMessage *IoMessage_rawClone(IoMessage *proto) {
     return self;
 }
 
+/*cdoc Message IoMessage_new(state)
+Convenience constructor: look up the registered proto and clone it.
+Preferred entry point in C when you need a fresh, nameless message
+to populate.
+*/
 IoMessage *IoMessage_new(void *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     IoObject *self = IOCLONE(proto);
@@ -179,6 +224,12 @@ IoMessage *IoMessage_new(void *state) {
 // Message shallowCopy := method(Message clone setName(name)
 // setArguments(arguments))
 
+/*cdoc Message IoMessage_copy_(self, other)
+Shallow-copies name, args, next, cachedResult, and source location
+from `other` into `self`. The args List is rebuilt with IOREFed
+element pointers (no deep copy of the sub-trees). Use
+IoMessage_deepCopyOf_ if recursive duplication is needed.
+*/
 void IoMessage_copy_(IoMessage *self, IoMessage *other) {
     IoMessage_rawSetName_(self, DATA(other)->name);
 
@@ -198,12 +249,25 @@ void IoMessage_copy_(IoMessage *self, IoMessage *other) {
     IoMessage_rawCopySourceLocation(self, other);
 }
 
+/*cdoc Message IoMessage_rawCopySourceLocation(self, other)
+Copies line number and label from `other` to `self`. Used by the
+opShuffle rewriter when it synthesises new messages (e.g. the grouping
+"()" wrappers) so the new nodes point back at the original source
+position for debug output.
+*/
 void IoMessage_rawCopySourceLocation(IoMessage *self, IoMessage *other) {
     // DATA(self)->charNumber = DATA(other)->charNumber;
     DATA(self)->lineNumber = DATA(other)->lineNumber;
     IoMessage_rawSetLabel_(self, DATA(other)->label);
 }
 
+/*cdoc Message IoMessage_deepCopyOf_(self)
+Recursively duplicates the entire message tree: a fresh IoMessage for
+`self`, deep-copied args, deep-copied next chain, same name and
+cachedResult. This is the semantics behind Io's `Message clone` and
+is also used by the assign rewriter in IoMessage_opShuffle when it
+must splice a subtree into a new argument position.
+*/
 IoMessage *IoMessage_deepCopyOf_(IoMessage *self) {
     IoMessage *child = IoMessage_new(IOSTATE);
     int i;
@@ -226,12 +290,21 @@ IoMessage *IoMessage_deepCopyOf_(IoMessage *self) {
     return child;
 }
 
+/*cdoc Message IoMessage_newWithName_(state, symbol)
+Fresh message with just a name set. The symbol should already be
+interned via IoState_symbolWithCString_; the raw setter handles the
+IOREF retain.
+*/
 IoMessage *IoMessage_newWithName_(void *state, IoSymbol *symbol) {
     IoMessage *self = IoMessage_new(state);
     IoMessage_rawSetName_(self, symbol);
     return self;
 }
 
+/*cdoc Message IoMessage_newWithName_label_(state, symbol, label)
+As newWithName but also stamps a source label so error messages and
+stack traces mention the right file.
+*/
 IoMessage *IoMessage_newWithName_label_(void *state, IoSymbol *symbol,
                                         IoSymbol *label) {
     IoMessage *self = IoMessage_new(state);
@@ -240,6 +313,13 @@ IoMessage *IoMessage_newWithName_label_(void *state, IoSymbol *symbol,
     return self;
 }
 
+/*cdoc Message IoMessage_newWithName_returnsValue_(state, symbol, v)
+Builds a cached message: evaluating it yields `v` without any slot
+lookup because cachedResult short-circuits the perform path. This is
+how the parser synthesises pre-evaluated literal and nil/true/false
+nodes, and how the opShuffler drops constant arguments into rewritten
+assign expressions.
+*/
 IoMessage *IoMessage_newWithName_returnsValue_(void *state, IoSymbol *symbol,
                                                IoObject *v) {
     IoMessage *self = IoMessage_new(state);
@@ -248,6 +328,12 @@ IoMessage *IoMessage_newWithName_returnsValue_(void *state, IoSymbol *symbol,
     return self;
 }
 
+/*cdoc Message IoMessage_newWithName_andCachedArg_(state, symbol, arg)
+Fresh message named `symbol` whose single argument carries `arg` as
+its cached result. Convenience for constructors that want to emit
+`setSlot("name", value)`-style expressions without building the arg
+list by hand.
+*/
 IoMessage *IoMessage_newWithName_andCachedArg_(void *state, IoSymbol *symbol,
                                                IoObject *arg) {
     IoMessage *self = IoMessage_newWithName_(state, symbol);
@@ -255,6 +341,12 @@ IoMessage *IoMessage_newWithName_andCachedArg_(void *state, IoSymbol *symbol,
     return self;
 }
 
+/*cdoc Message IoMessage_mark(self)
+Registered as the tag's markFunc. Walks every GC-visible pointer:
+name symbol, cachedResult, each arg, next, label, and the inline
+slot-cache value/context. Missing an entry here would let a reachable
+message dangle and crash on next perform.
+*/
 void IoMessage_mark(IoMessage *self) {
     IoObject_shouldMarkIfNonNull(DATA(self)->name);
     IoObject_shouldMarkIfNonNull(DATA(self)->cachedResult);
@@ -271,6 +363,12 @@ void IoMessage_mark(IoMessage *self) {
     IoObject_shouldMarkIfNonNull(DATA(self)->inlineCacheContext);
 }
 
+/*cdoc Message IoMessage_free(self)
+Registered as the tag's freeFunc. Frees the args List and the
+IoMessageData payload. The GC-managed IoObject header is released by
+the collector; name/next/cachedResult are marked elsewhere, not freed
+here.
+*/
 void IoMessage_free(IoMessage *self) {
     // IoMessageData *d = (IoMessageData *)IoObject_dataPointer(self);
 
@@ -283,19 +381,38 @@ void IoMessage_free(IoMessage *self) {
 
 List *IoMessage_args(IoMessage *self) { return DATA(self)->args; }
 
+/*cdoc Message IoMessage_rawSetCachedResult_(self, v)
+Attaches `v` as the cached result (NULL clears). IOREFed to keep it
+alive across collections. Reading back via DATA()->cachedResult is
+the fast-path the evaluator checks before running the normal perform.
+*/
 void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v) {
     DATA(self)->cachedResult = v ? IOREF(v) : NULL;
 }
 
+/*cdoc Message IoMessage_rawSetName_(self, v)
+Installs the message's name symbol and clears the cached isSpecialForm
+flag — the evaluator re-derives specialness (if/while/for/...) from
+the new name on the next lookup.
+*/
 void IoMessage_rawSetName_(IoMessage *self, IoObject *v) {
     DATA(self)->name = v ? IOREF(v) : NULL;
     DATA(self)->isSpecialForm = 0; // Reset cached flag when name changes
 }
 
+/*cdoc Message IoMessage_rawSetLabel_(self, v)
+Installs the source label symbol with IOREF retention. Paired with
+IoMessage_label_ which also recurses into children.
+*/
 void IoMessage_rawSetLabel_(IoMessage *self, IoObject *v) {
     DATA(self)->label = v ? IOREF(v) : NULL;
 }
 
+/*cdoc Message IoMessage_label_(self, ioSymbol)
+Sets the source label on `self` and recursively on every arg and every
+message in the `next` chain. Used by the parser to stamp a file name
+across a freshly compiled tree in one pass.
+*/
 void IoMessage_label_(IoMessage *self,
                       IoSymbol *ioSymbol) /* sets label for children too */
 {
@@ -324,10 +441,20 @@ int IoMessage_rawCharNumber(IoMessage *self) {
 
 List *IoMessage_rawArgList(IoMessage *self) { return DATA(self)->args; }
 
+/*cdoc Message IoMessage_isNotCached(self)
+Predicate: true if `self` has no cached result — i.e. evaluating it
+will hit the normal slot-lookup path.
+*/
 unsigned char IoMessage_isNotCached(IoMessage *self) {
     return !(DATA(self)->cachedResult);
 }
 
+/*cdoc Message IoMessage_needsEvaluation(self)
+Recursive predicate used by IoMessage_asMessageWithEvaluatedArgs to
+decide whether any node in the tree has a non-cached arg that would
+need to be run. Skips allocation when the entire tree is already
+constant.
+*/
 unsigned char IoMessage_needsEvaluation(IoMessage *self) {
     List *args = DATA(self)->args;
     int a =
@@ -344,12 +471,23 @@ unsigned char IoMessage_needsEvaluation(IoMessage *self) {
     return 0;
 }
 
+/*cdoc Message IoMessage_addCachedArg_(self, v)
+Appends a fresh anonymous Message as a new arg and stores `v` on it
+as a cachedResult. Lets C code inject pre-computed values into an
+arg list without the parser/shuffler being involved.
+*/
 void IoMessage_addCachedArg_(IoMessage *self, IoObject *v) {
     IoMessage *m = IoMessage_new(IOSTATE);
     IoMessage_rawSetCachedResult_(m, v);
     IoMessage_addArg_(self, m);
 }
 
+/*cdoc Message IoMessage_setCachedArg_to_(self, n, v)
+Stores `v` as the cached result of the nth arg, auto-extending the
+args list with fresh anonymous messages if it's shorter than n. Used
+by asMessageWithEvaluatedArgs to fill out evaluated-arg positions
+by index.
+*/
 void IoMessage_setCachedArg_to_(IoMessage *self, int n, IoObject *v) {
     IoMessage *arg;
 
@@ -360,6 +498,12 @@ void IoMessage_setCachedArg_to_(IoMessage *self, int n, IoObject *v) {
     IoMessage_rawSetCachedResult_(arg, v);
 }
 
+/*cdoc Message IoMessage_setCachedArg_toInt_(self, n, anInt)
+Integer-specialised variant of setCachedArg_to_. Allocates the arg
+slot without boxing the int upfront, then stamps an IONUMBER on it —
+the early-exit ordering avoids boxing if the arg list still needs to
+grow.
+*/
 void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt) {
     // optimized to avoid creating a number unless necessary
 
@@ -451,6 +595,15 @@ IO_METHOD(IoMessage, doInContext) {
 
 //#define IO_DEBUG_STACK
 
+/*cdoc Message IoMessage_locals_performOn_(self, locals, target)
+The canonical C-level evaluator entry point. When an eval loop is
+running (state->currentFrame set) it delegates to the iterative
+evaluator in IoState_iterative.c so C stack depth stays bounded. The
+remaining body is a recursive fallback used only during VM bootstrap
+before the first frame exists; it walks the chain node-by-node,
+dispatching through the tag's performFunc and honouring
+MESSAGE_STOP_STATUS_ / errorRaised unwinding signals.
+*/
 IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
                                       IoObject *target) {
     IoState *state = IOSTATE;
@@ -523,6 +676,11 @@ int IoMessage_argCount(IoMessage *self) {
     return (int)List_size(DATA(self)->args);
 }
 
+/*cdoc Message IoMessage_assertArgCount_receiver_(self, n, receiver)
+Raises an Io-level error if the message has fewer than `n` args. Named
+receiver is included in the message so stack traces identify the
+offending call site.
+*/
 void IoMessage_assertArgCount_receiver_(IoMessage *self, int n,
                                         IoObject *receiver) {
     if (List_size(DATA(self)->args) < n) {
@@ -531,6 +689,12 @@ void IoMessage_assertArgCount_receiver_(IoMessage *self, int n,
     }
 }
 
+/*cdoc Message IoMessage_locals_numberArgAt_errorForType_(self, locals, n, typeName)
+Shared error reporter for the typed-arg accessors below. Raises
+"argument N to method 'foo' must be a <typeName>, not a '<actual>'".
+Called from every IoMessage_locals_<type>ArgAt_ helper on a type
+mismatch.
+*/
 void IoMessage_locals_numberArgAt_errorForType_(IoMessage *self,
                                                 IoObject *locals, int n,
                                                 const char *typeName) {
@@ -540,6 +704,12 @@ void IoMessage_locals_numberArgAt_errorForType_(IoMessage *self,
                    CSTRING(DATA(self)->name), typeName, IoObject_name(v));
 }
 
+/*cdoc Message IoMessage_locals_numberArgAt_(self, locals, n)
+Evaluates arg n in `locals` and requires the result be an IoNumber.
+On mismatch, raises via the shared error helper and returns ioNil so
+the caller can early-exit without longjmp. All typed-arg accessors
+below follow the same pattern.
+*/
 IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals,
                                         int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -552,6 +722,11 @@ IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals,
     return v;
 }
 
+/*cdoc Message IoMessage_locals_boolArgAt_(self, locals, n)
+Evaluates arg n and coerces to a C truthy/falsey int using Io's
+semantics: nil and false are 0, everything else is 1. Skips type
+validation deliberately — any Io value can act as a condition.
+*/
 int IoMessage_locals_boolArgAt_(IoMessage *self, IoObject *locals, int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
 
@@ -566,6 +741,11 @@ long IoMessage_locals_longArgAt_(IoMessage *self, IoObject *locals, int n) {
     return IoNumber_asLong(IoMessage_locals_numberArgAt_(self, locals, n));
 }
 
+/*cdoc Message IoMessage_locals_sizetArgAt_(self, locals, n)
+Typed arg accessor with an extra non-negativity check — useful for
+counts and lengths. A negative value raises rather than silently
+wrapping to a huge unsigned quantity.
+*/
 size_t IoMessage_locals_sizetArgAt_(IoMessage *self, IoObject *locals, int n) {
     long v = IoNumber_asLong(IoMessage_locals_numberArgAt_(self, locals, n));
 
@@ -593,6 +773,12 @@ char *IoMessage_locals_cStringArgAt_(IoMessage *self, IoObject *locals, int n) {
     return CSTRING(IoMessage_locals_symbolArgAt_(self, locals, n));
 }
 
+/*cdoc Message IoMessage_locals_seqArgAt_(self, locals, n)
+Typed arg accessor requiring an IoSeq (mutable or immutable). Sister
+helpers cover symbols, mutable sequences, blocks, dates, messages,
+lists, and maps — each wraps valueArgAt_ with an ISfoo test and a
+shared error path.
+*/
 IoObject *IoMessage_locals_seqArgAt_(IoMessage *self, IoObject *locals, int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
 
@@ -604,6 +790,11 @@ IoObject *IoMessage_locals_seqArgAt_(IoMessage *self, IoObject *locals, int n) {
     return v;
 }
 
+/*cdoc Message IoMessage_locals_valueAsStringArgAt_(self, locals, n)
+Evaluates arg n and forces the result through `asString` so callers
+that want a description (not strict type checking) don't need to
+branch on the value's type.
+*/
 IoObject *IoMessage_locals_valueAsStringArgAt_(IoMessage *self,
                                                IoObject *locals, int n) {
     return IoObject_asString_(IoMessage_locals_valueArgAt_(self, locals, n),
@@ -686,6 +877,10 @@ IoObject *IoMessage_locals_mapArgAt_(IoMessage *self, IoObject *locals, int n) {
 
 // printing
 
+/*cdoc Message IoMessage_print(self)
+Debug-style print: builds a full description UArray and sends it to
+the VM's print hook. No trailing newline.
+*/
 void IoMessage_print(IoMessage *self) {
     UArray *ba = IoMessage_description(self);
 
@@ -694,17 +889,30 @@ void IoMessage_print(IoMessage *self) {
     UArray_free(ba);
 }
 
+/*cdoc Message IoMessage_printWithReturn(self)
+As IoMessage_print but follows with a newline. Used by the REPL.
+*/
 void IoMessage_printWithReturn(IoMessage *self) {
     IoMessage_print(self);
     IoState_print_(IOSTATE, "\n");
 }
 
+/*cdoc Message IoMessage_description(self)
+Returns a freshly allocated UArray containing the decompiled source
+text of the message and every message linked via `next`. Caller owns
+the UArray.
+*/
 UArray *IoMessage_description(IoMessage *self) {
     UArray *ba = UArray_new();
     IoMessage_appendDescriptionTo_follow_(self, ba, 1);
     return ba;
 }
 
+/*cdoc Message IoMessage_descriptionJustSelfAndArgs(self)
+Like IoMessage_description but stops at `self`'s args — does not
+follow the next chain. Useful for rendering a single call site in a
+stack trace without dumping the rest of its expression.
+*/
 UArray *IoMessage_descriptionJustSelfAndArgs(IoMessage *self) {
     UArray *ba = UArray_new();
     IoMessage_appendDescriptionTo_follow_(self, ba, 0);
@@ -719,6 +927,12 @@ IO_METHOD(IoMessage, asString) {
     return IoMessage_descriptionString(self, locals, m);
 }
 
+/*cdoc Message IoMessage_appendDescriptionTo_follow_(self, ba, follow)
+Core printer. Appends the message name, optionally followed by
+"(arg1, arg2, ...)" built via recursive calls, then either stops
+(follow=0) or walks the `next` chain inserting spaces between
+messages and newlines between semicolon-terminated statements.
+*/
 void IoMessage_appendDescriptionTo_follow_(IoMessage *self, UArray *ba,
                                            int follow) {
     do {
@@ -825,6 +1039,12 @@ IO_METHOD(IoMessage, setNext) {
     return self;
 }
 
+/*cdoc Message IoMessage_rawSetNext_(self, m)
+Sets the `next` pointer with IOREF retention; NULL clears it. If
+IOMESSAGE_HASPREV is defined, also updates the reverse link on `m`
+so parent-lookup stays consistent. Called from the parser and
+opShuffler to splice chain nodes without running perform.
+*/
 void IoMessage_rawSetNext_(IoMessage *self, IoMessage *m) {
     DATA(self)->next = m ? IOREF(m) : NULL;
 
@@ -843,10 +1063,20 @@ IO_METHOD(IoMessage, isEOL) {
     return IOBOOL(self, IoMessage_rawIsEOL(self));
 }
 
+/*cdoc Message IoMessage_rawIsEOL(self)
+True when the message is the synthesised ";" statement separator.
+Uses pointer identity against the interned semicolonSymbol rather
+than a strcmp, so it's free.
+*/
 int IoMessage_rawIsEOL(IoMessage *self) {
     return IoMessage_name(self) == IOSTATE->semicolonSymbol;
 }
 
+/*cdoc Message IoMessage_rawNextIgnoreEOLs(self)
+Walks `next` past any number of ";" EOL nodes and returns the first
+non-EOL message. Used by code that wants the next "real" action
+without caring about statement boundaries.
+*/
 IoMessage *IoMessage_rawNextIgnoreEOLs(IoMessage *self) {
     IoMessage *next = IoMessage_rawNext(self);
 
@@ -867,6 +1097,11 @@ IO_METHOD(IoMessage, nextIgnoreEOLs) {
     return next ? next : IONIL(self);
 }
 
+/*cdoc Message IoMessage_rawLastBeforeEOL(self)
+Walks `next` until the next message is an EOL (or chain end) and
+returns the message just before that. Used to rewrite statement-local
+tails without crossing a `;` boundary.
+*/
 IoMessage *IoMessage_rawLastBeforeEOL(IoMessage *self) {
     IoMessage *last = self;
     IoMessage *next;
@@ -889,6 +1124,10 @@ IO_METHOD(IoMessage, lastBeforeEOL) {
     return IoMessage_rawLastBeforeEOL(self);
 }
 
+/*cdoc Message IoMessage_rawLast(self)
+Walks to the last message in the chain. O(n); used by code that needs
+to append to an existing chain.
+*/
 IoMessage *IoMessage_rawLast(IoMessage *self) {
     IoMessage *last = self;
     IoMessage *next;
@@ -950,6 +1189,11 @@ IO_METHOD(IoMessage, setPrevious) {
     return self;
 }
 
+/*cdoc Message IoMessage_rawSetPrevious(self, m)
+Sets the reverse `previous` link under IOMESSAGE_HASPREV builds, with
+an IOREF retain and the symmetric forward wiring on `m`. A no-op when
+the reverse-chain feature is disabled at compile time.
+*/
 void IoMessage_rawSetPrevious(IoMessage *self, IoMessage *m) {
 #ifdef IOMESSAGE_HASPREV
     DATA(self)->previous = m ? IOREF(m) : NULL;
@@ -1146,18 +1390,33 @@ IoSymbol *IoMessage_rawLabel(IoMessage *self) { return DATA(self)->label; }
 
 List *IoMessage_rawArgs(IoMessage *self) { return DATA(self)->args; }
 
+/*cdoc Message IoMessage_rawArgAt_(self, n)
+Returns the nth arg sub-message with a stackRetain so it stays alive
+for the duration of the current retain pool. Returns NULL if n is
+out of range — callers must check.
+*/
 IoMessage *IoMessage_rawArgAt_(IoMessage *self, int n) {
     IoMessage *result = List_at_(DATA(self)->args, n);
     IoState_stackRetain_(IOSTATE, result);
     return result;
 }
 
+/*cdoc Message IoMessage_addArg_(self, m)
+Appends `m` to the args List with an IOREF retain. The one primitive
+every tree builder (parser, opShuffler, C extensions) ultimately
+calls through.
+*/
 void IoMessage_addArg_(IoMessage *self, IoMessage *m) {
     List_append_(DATA(self)->args, IOREF(m));
 }
 
 // -------------------------------
 
+/*cdoc Message IoMessage_asMinimalStackEntryDescription(self)
+Formats a message as "file:line name" for a single stack-trace entry.
+Used by the error/backtrace path to render frames without dumping the
+full message tree.
+*/
 UArray *IoMessage_asMinimalStackEntryDescription(IoMessage *self) {
     IoSymbol *name = IoMessage_name(self);
     IoSymbol *label = IoMessage_rawLabel(self);
@@ -1166,6 +1425,14 @@ UArray *IoMessage_asMinimalStackEntryDescription(IoMessage *self) {
                                  CSTRING(name));
 }
 
+/*cdoc Message IoMessage_foreachArgs(self, receiver, indexSlotName, valueSlotName, doMessage)
+Parses the arg list of a `foreach`-style call into its three logical
+pieces (optional index slot name, value slot name, body message). If
+fewer than two args are present it reports the count error via
+assertArgCount and bails out with NULLs, since IoState_error_ no
+longer longjmps and the caller must not continue into the arg-access
+code.
+*/
 void IoMessage_foreachArgs(IoMessage *self, IoObject *receiver,
                            IoSymbol **indexSlotName, IoSymbol **valueSlotName,
                            IoMessage **doMessage) {
@@ -1194,6 +1461,13 @@ void IoMessage_foreachArgs(IoMessage *self, IoObject *receiver,
     *doMessage = IoMessage_rawArgAt_(self, 1 + offset);
 }
 
+/*cdoc Message IoMessage_asMessageWithEvaluatedArgs(self, locals, m)
+Returns a copy of `self` whose args have been evaluated (in the sender
+context, or an optional explicit context arg from `m`) and stashed as
+cachedResults so the caller can hand the resulting message off without
+triggering re-evaluation. If the tree is already fully constant the
+original is returned directly (no copy needed).
+*/
 IoMessage *IoMessage_asMessageWithEvaluatedArgs(IoMessage *self,
                                                 IoObject *locals,
                                                 IoMessage *m) {

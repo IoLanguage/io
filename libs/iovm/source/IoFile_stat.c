@@ -3,6 +3,18 @@
 // metadoc File license BSD revised
 // metadoc File credits Initial version contributed by Miles Egan.
 
+/*cmetadoc File description
+Stat-related methods for File — split out from IoFile.c so the stat(2)
+surface can be built out (or stubbed) independently of the core stream
+API. IoFile_statInit is called from IoFile_proto and bolts these
+methods onto the File proto. The struct stat buffer is lazily
+allocated and cached in IoFileData->info on first use, then shared by
+every subsequent protectionMode / userId / size / isDirectory query
+until the file is freed. The S_ISLNK and S_ISSOCK macros are stubbed
+to 0 under WASI, where the type bits are unavailable; lstat falls
+back to stat for the same reason.
+*/
+
 #include "IoFile_stat.h"
 #include "IoState.h"
 #include "IoDate.h"
@@ -37,6 +49,12 @@
 #define _POSIX_C_SOURCE
 #endif
 
+/*cdoc File IoFile_statInit(self)
+Installs the stat-related method table on the File proto. Called from
+IoFile_proto after the core methods are registered so the two tables
+coexist on a single proto without either module needing to know the
+other's contents.
+*/
 void IoFile_statInit(IoFile *self) {
     {
         IoMethodTable methodTable[] = {
@@ -63,6 +81,11 @@ void IoFile_statInit(IoFile *self) {
     }
 }
 
+/*cdoc File IoFile_statPointer(self, locals, m)
+Returns the cached struct stat, calling IoFile_stat first if no buffer
+has been populated yet. All Io-level stat-field accessors funnel
+through this so they share one populated buffer per File.
+*/
 struct stat *IoFile_statPointer(IoFile *self, IoObject *locals, IoMessage *m) {
     if (!DATA(self)->info) {
         IoFile_stat(self, locals, m);
@@ -113,6 +136,12 @@ struct timeval timespec2timeval(struct timespec ts) {
 }
 #endif
 
+/*cdoc File time_t2timeval(ts)
+Small POSIX helper: widens a time_t-only timestamp into the struct
+timeval that IoDate_newWithTimeval_ wants. The companion
+timespec2timeval is only compiled on platforms that expose the higher-
+resolution stat timestamps.
+*/
 struct timeval time_t2timeval(time_t ts) {
     struct timeval tv;
     tv.tv_sec = ts;

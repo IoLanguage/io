@@ -1,6 +1,24 @@
 // metadoc Message copyright Jonathan Wright; Steve Dekorte 2002, 2006
 // metadoc Message license BSD revised
 
+/*cmetadoc Message description
+Operator-precedence rewriter that runs after IoMessage_parser has built
+a flat message chain. Io's parser does not know about operators; every
+`a + b * c` starts life as the linear chain `a + b * c`. This file
+walks that chain keeping a stack of partially-built Levels (NEW / ARG
+/ ATTACH / UNUSED), and rewrites higher-precedence operators into
+arg-messages of lower-precedence operators so `a + b * c` becomes
+`a +(b *(c))` — i.e. normal message form.
+
+Two tables (IoState_createOperatorTable, IoState_createAssignOperator
+Table) live in the VM's OperatorTable and can be customised from Io.
+Assignment operators (:=, =, ::=) are special-cased to rewrite
+`a := b` into `setSlot("a", b)` (or setSlotWithType for types whose
+name starts with an uppercase letter). IoMessage_opShuffle is the
+Io-visible entry; IoMessage_opShuffle_ is the C-only trigger invoked
+by IoMessage_newFromText_labelSymbol_.
+*/
+
 #include "IoMessage_opShuffle.h"
 #include "IoMap.h"
 #include "IoObject.h"
@@ -13,6 +31,13 @@
 
 #define IO_OP_MAX_LEVEL 32
 
+/*cdoc Message IoState_createOperatorTable(state)
+Builds the default binary operator precedence table as an IoMap of
+symbol-&gt;number. Lower numbers bind tighter; `**` (exponent, level 1)
+is tightest, assignment ops (level 13) and `return` (level 14) the
+loosest. The returned map is stored under OperatorTable operators and
+can be mutated from Io via the public OperatorTable API.
+*/
 IoMap *IoState_createOperatorTable(IoState *state) {
     typedef struct OpTable {
         char *symbol;
@@ -65,6 +90,12 @@ IoMap *IoState_createOperatorTable(IoState *state) {
     return self;
 }
 
+/*cdoc Message IoState_createAssignOperatorTable(state)
+Builds the default assign-operator -&gt; method-name table: `:=` becomes
+setSlot, `=` becomes updateSlot, `::=` becomes newSlot. Levels_attach
+consults this before the binary-op table; matching entries trigger
+the `a := b` -&gt; `setSlot("a", b)` rewrite.
+*/
 IoMap *IoState_createAssignOperatorTable(IoState *state) {
     IoMap *self = IoMap_new(state);
 
@@ -96,6 +127,12 @@ typedef struct {
     IoMap *assignOperatorTable;
 } Levels;
 
+/*cdoc Message Levels_reset(self)
+Returns the Levels pool to the state expected at the start of a fresh
+expression: every slot UNUSED except level 0, which is a NEW-type
+sentinel with the maximum precedence so any operator binds tighter.
+Called between top-level expressions by Levels_nextMessage.
+*/
 void Levels_reset(Levels *self) {
     int i;
     self->currentLevel = 1;
@@ -118,6 +155,12 @@ void Levels_reset(Levels *self) {
 
 // --- Levels ----------------------------------------------------------
 
+/*cdoc Message getOpTable(self, slotName, create)
+Fetches the named operator map slot from an OperatorTable object,
+lazily creating and installing one via the supplied factory if it's
+missing. Used to resolve both the precedence map and the
+assign-operator map with a single helper.
+*/
 IoMap *getOpTable(IoObject *self, const char *slotName,
                   IoMap *create(IoState *state)) {
     IoSymbol *symbol = IoState_symbolWithCString_(IOSTATE, slotName);
@@ -138,6 +181,13 @@ IoMap *getOpTable(IoObject *self, const char *slotName,
     }
 }
 
+/*cdoc Message Levels_new(msg)
+Allocates a fresh Levels and binds it to the OperatorTable object
+reachable from `msg` (falling back to Core's OperatorTable, and
+creating one from scratch if neither has one). The two maps are then
+cached on the Levels so Levels_attach can do constant-time precedence
+lookups as it walks the chain.
+*/
 Levels *Levels_new(IoMessage *msg) {
     Levels *self = io_calloc(1, sizeof(Levels));
 
@@ -178,6 +228,10 @@ Levels *Levels_new(IoMessage *msg) {
     return self;
 }
 
+/*cdoc Message Levels_free(self)
+Releases the stack List and the Levels struct. The Level pool is
+inline so it needs no separate free.
+*/
 void Levels_free(Levels *self) {
     List_free(self->stack);
     io_free(self);
@@ -185,6 +239,13 @@ void Levels_free(Levels *self) {
 
 Level *Levels_currentLevel(Levels *self) { return List_top(self->stack); }
 
+/*cdoc Message Levels_popDownTo(self, targetLevel)
+Pops Levels off the stack until the top's precedence is strictly
+greater than targetLevel, or until we hit a pending ARG level (which
+is never popped implicitly — its consumer must supply the next token).
+Level_finish runs on each popped level to wire up the completed
+sub-tree.
+*/
 void Levels_popDownTo(Levels *self, int targetLevel) {
     Level *level;
 
@@ -195,6 +256,13 @@ void Levels_popDownTo(Levels *self, int targetLevel) {
     }
 }
 
+/*cdoc Message Levels_attachToTopAndPush(self, msg, precedence)
+Attaches `msg` (an operator) onto the current top level, then pushes
+a new ARG-type level awaiting the operator's right-hand side at the
+given precedence. This is how `a + b * c` pushes a `*` level above
+the `+` level so `b` and `c` get grouped first. Errors out if the
+IO_OP_MAX_LEVEL-deep pool would overflow.
+*/
 void Levels_attachToTopAndPush(Levels *self, IoMessage *msg, int precedence) {
     Level *level = NULL;
     {
@@ -217,6 +285,13 @@ void Levels_attachToTopAndPush(Levels *self, IoMessage *msg, int precedence) {
     }
 }
 
+/*cdoc Message Level_finish(self)
+Closes a Level as it is popped: severs the message's `next` link (the
+sub-tree is now a complete operator subexpression) and flattens any
+synthetic single-arg "()" wrapper that was inserted earlier to imitate
+C-style grouping. Finally marks the slot UNUSED so Levels_reset's next
+sweep sees a clean pool.
+*/
 void Level_finish(Level *self) {
     if (self->message) {
         IoMessage_rawSetNext_(self->message, NULL);
@@ -238,6 +313,12 @@ void Level_finish(Level *self) {
     self->type = UNUSED;
 }
 
+/*cdoc Message Level_attach(self, msg)
+Wires `msg` into the current level according to its type: ATTACH links
+via `next`, ARG appends as an argument to the level's message, NEW
+adopts it as the level's message, UNUSED is a no-op. Used as the
+primitive by Level_attachAndReplace and the ARG-push path.
+*/
 void Level_attach(Level *self, IoMessage *msg) {
     switch (self->type) {
     case ATTACH:
@@ -257,12 +338,22 @@ void Level_attach(Level *self, IoMessage *msg) {
     }
 }
 
+/*cdoc Message Level_attachAndReplace(self, msg)
+Combines Level_attach with a state transition to ATTACH so subsequent
+messages chain via `next`. The canonical "ordinary message" update for
+a Level as the shuffler walks a chain of non-operator messages.
+*/
 void Level_attachAndReplace(Level *self, IoMessage *msg) {
     Level_attach(self, msg);
     self->type = ATTACH;
     self->message = msg;
 }
 
+/*cdoc Message Level_setAwaitingFirstArg(self, msg, precedence)
+Puts a freshly-pushed Level into ARG mode so the next shuffled message
+is appended as the first argument of `msg` (the operator). The recorded
+precedence is what Levels_popDownTo compares against to unwind.
+*/
 void Level_setAwaitingFirstArg(Level *self, IoMessage *msg, int precedence) {
     self->type = ARG;
     self->message = msg;
@@ -274,6 +365,13 @@ void Level_setAlreadyHasArgs(Level *self, IoMessage *msg) {
     self->message = msg;
 }
 
+/*cdoc Message Levels_levelForOp(self, messageName, messageSymbol, msg)
+Looks up the precedence for `messageSymbol` in the binary operator map.
+Returns -1 if the symbol isn't an operator. Validates that the mapped
+value is a Number in [0, IO_OP_MAX_LEVEL) and raises a compile error
+otherwise — user code can edit OperatorTable operators from Io so
+defensive checking is required.
+*/
 int Levels_levelForOp(Levels *self, char *messageName, IoSymbol *messageSymbol,
                       IoMessage *msg) {
     IoObject *value = IoMap_rawAt(self->operatorTable, messageSymbol);
@@ -304,10 +402,22 @@ int Levels_levelForOp(Levels *self, char *messageName, IoSymbol *messageSymbol,
     }
 }
 
+/*cdoc Message Levels_isAssignOperator(self, operator)
+True if the symbol is a key in the assign-operator map (i.e. `:=`,
+`=`, or `::=` by default). Levels_attach uses this to branch into
+the assign-rewrite path before trying precedence-based handling.
+*/
 int Levels_isAssignOperator(Levels *self, IoSymbol *operator) {
     return IoMap_rawAt(self->assignOperatorTable, operator) != NULL;
 }
 
+/*cdoc Message Levels_nameForAssignOperator(self, state, operator, slotName, msg)
+Resolves an assign operator like `:=` to the slot-method name to emit
+(e.g. setSlot). Special-cases `:=` with an uppercase slot-name first
+character to return setSlotWithType so `MyType := X` becomes
+setSlotWithType("MyType", X). Raises a compile error if the configured
+value is not a Symbol.
+*/
 IoSymbol *Levels_nameForAssignOperator(Levels *self, IoState *state,
                                        IoSymbol *operator, IoSymbol * slotName,
                                        IoMessage *msg) {
@@ -332,6 +442,18 @@ IoSymbol *Levels_nameForAssignOperator(Levels *self, IoState *state,
     }
 }
 
+/*cdoc Message Levels_attach(self, msg, expressions)
+Core shuffler step: decides what to do with the next message in the
+chain. Three branches: (1) assign operator — rewrite the attaching
+message into setSlot/updateSlot/newSlot with the slot name quoted as
+a cached-result argument, then splice the value expression into the
+new argument list, pushing the tail onto `expressions` for later; (2)
+end-of-line `;` — pop down to the lowest precedence so a new statement
+starts fresh; (3) non-assign operator — wrap any preset args in a
+synthetic "()" grouping so `a +(b,c)` parses sanely, pop higher-or-
+equal precedence levels, then push a new ARG level. Otherwise attach
+as a normal message.
+*/
 void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
     IoState *state = IoObject_state(msg);
     IoSymbol *messageSymbol = IoMessage_name(msg);
@@ -527,6 +649,12 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
     }
 }
 
+/*cdoc Message Levels_nextMessage(self)
+Finishes the current expression: pops every Level on the stack through
+Level_finish (wiring up any remaining open operator sub-trees), then
+resets the pool for the next top-level expression. Called by
+IoMessage_opShuffle between expressions popped from its worklist.
+*/
 void Levels_nextMessage(Levels *self) {
     Level *level;
 
@@ -537,6 +665,13 @@ void Levels_nextMessage(Levels *self) {
     Levels_reset(self);
 }
 
+/*cdoc Message IoMessage_opShuffle_(self)
+C-side trigger used by IoMessage_newFromText_labelSymbol_ to kick off
+operator shuffling via the Io message `opShuffle` sent to `self`. This
+indirection lets Io code override opShuffle; the guard against
+noShufflingSymbol skips shuffling for synthesised messages whose name
+signals that they already arrived in normal form.
+*/
 void IoMessage_opShuffle_(IoMessage *self) {
     if (IoObject_rawGetSlot_(self, IOSTATE->opShuffleSymbol) &&
         IoMessage_name(self) != IOSTATE->noShufflingSymbol) {
@@ -545,6 +680,13 @@ void IoMessage_opShuffle_(IoMessage *self) {
     }
 }
 
+/*cdoc Message IoMessage_opShuffle(self, locals, m)
+Io-visible entry point. Walks the message tree iteratively using an
+explicit `expressions` worklist instead of C recursion — each
+Levels_attach call may push sub-expressions (the tails of assign
+rewrites, plus each message's args) for later processing. Returns
+self with the tree rewritten in place.
+*/
 IoMessage *IoMessage_opShuffle(IoMessage *self, IoObject *locals,
                                IoMessage *m) {
     Levels *levels = Levels_new(self);

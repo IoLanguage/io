@@ -6,6 +6,20 @@
         BSD revised
 */
 
+/*cmetadoc Message description
+Recursive-descent parser that turns an IoLexer token stream into an
+IoMessage tree. Each message is { name, args, next } — parseName
+consumes one valid-message-name token, parseArgs recursively parses
+comma-separated argument chains inside matched parens, parseNext
+attaches the tail of the current chain, and semicolon-terminated
+expressions become an explicit ";" message linked via rawSetNext.
+Number, quote, nil/true/false tokens are cached into the message's
+cachedResult via IoMessage_ifPossibleCacheToken_ so the evaluator
+skips re-parsing them at runtime. Once the tree is built it is handed
+to IoMessage_opShuffle_ for operator precedence rewriting before
+being handed to the evaluator.
+*/
+
 #include "IoMessage_parser.h"
 #include "IoMessage_opShuffle.h"
 #include "IoObject.h"
@@ -25,6 +39,14 @@ void IoMessage_parseNext(IoMessage *self, IoLexer *lexer);
 IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer);
 void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p);
 
+/*cdoc Message IoMessage_ifPossibleCacheToken_(self, p)
+Converts a literal token into its runtime Io value and stores it as the
+message's cachedResult so evaluation can return the value without a
+re-parse. Handles the four literal token types plus the three reserved
+words nil/true/false that are identifiers at the lexer level. The
+cachedResult short-circuits the evaluator's performFunc lookup in
+IoMessage_locals_performOn_.
+*/
 void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p) {
     IoSymbol *method = DATA(self)->name;
     IoObject *r = NULL;
@@ -59,12 +81,24 @@ void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p) {
     IoMessage_rawSetCachedResult_(self, r);
 }
 
+/*cdoc Message IoMessage_newFromText_label_(state, text, label)
+Convenience wrapper that interns `label` as an IoSymbol and delegates
+to IoMessage_newFromText_labelSymbol_. This is the usual entry point
+for C code that has a bare const char * filename to attach to a
+message tree (e.g. IoState_doCString_).
+*/
 IoMessage *IoMessage_newFromText_label_(void *state, const char *text,
                                         const char *label) {
     IoSymbol *labelSymbol = IoState_symbolWithCString_((IoState *)state, label);
     return IoMessage_newFromText_labelSymbol_(state, text, labelSymbol);
 }
 
+/*cdoc Message IoMessage_newFromText_labelSymbol_(state, text, label)
+Drives the full compile pipeline: lex -> parse -> opShuffle -> label.
+The collector is paused over the whole run so intermediate IoMessages
+aren't collected while the tree is being built. The lexer is freed
+before return; the caller receives a ready-to-evaluate message root.
+*/
 IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text,
                                               IoSymbol *label) {
     IoLexer *lexer;
@@ -89,6 +123,13 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text,
 
 // -------------------------------
 
+/*cdoc Message IoMessage_newParse(state, lexer)
+Top-level parse entry point. Reports a compile error via IoState_error_
+if the lexer flagged one, consumes a leading TERMINATOR, then recurses
+into IoMessage_newParseNextMessageChain for the actual chain. Returns
+a synthesized nil message for an empty input, and a compile error if
+tokens remain after the chain (dangling punctuation).
+*/
 IoMessage *IoMessage_newParse(void *state, IoLexer *lexer) {
     if (IoLexer_errorToken(lexer)) {
         IoMessage *m;
@@ -124,6 +165,13 @@ IoMessage *IoMessage_newParse(void *state, IoLexer *lexer) {
         ((IoState *)state)->ioNil);
 }
 
+/*cdoc Message IoMessage_newParseNextMessageChain(state, lexer)
+Parses one message chain: optional name, optional parenthesised args,
+optional attached next message, and any number of semicolon-separated
+continuations (each stitched together with an explicit ";" message
+that uses state->semicolonSymbol). This mirrors the grammar that
+IoMessage_opShuffle later rewrites for operator precedence.
+*/
 IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer) {
     IoMessage *self = IoMessage_new(state);
 
@@ -153,6 +201,11 @@ IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer) {
     return self;
 }
 
+/*cdoc Message IoMessage_parseName(self, lexer)
+Pops the current token and installs it as the message's name. Runs
+IoMessage_ifPossibleCacheToken_ so literals pick up their cached value,
+and records lineNumber/charNumber for diagnostics and stack traces.
+*/
 void IoMessage_parseName(IoMessage *self, IoLexer *lexer) {
     IoToken *token = IoLexer_pop(lexer);
 
@@ -163,6 +216,14 @@ void IoMessage_parseName(IoMessage *self, IoLexer *lexer) {
     IoMessage_rawSetCharNumber_(self, IoToken_charNumber(token));
 }
 
+/*cdoc Message IoMessage_parseArgs(self, lexer)
+Consumes the OPENPAREN and all comma-separated argument chains,
+appending each parsed sub-chain to self's args list. Each arg is
+itself a full message chain, recursively parsed by
+IoMessage_newParseNextMessageChain. Closes on CLOSEPAREN; missing
+close paren and missing-argument cases would be flagged by the lexer
+earlier via IoLexer_readMessage_error.
+*/
 void IoMessage_parseArgs(IoMessage *self, IoLexer *lexer) {
     IoLexer_pop(lexer);
 
@@ -196,6 +257,12 @@ void IoMessage_parseArgs(IoMessage *self, IoLexer *lexer) {
     IoLexer_pop(lexer);
 }
 
+/*cdoc Message IoMessage_parseNext(self, lexer)
+Parses the next message in the chain (after the current name/args)
+and links it via IoMessage_rawSetNext_. This is what turns
+`a b c` into three linked messages rather than three separate
+top-level expressions.
+*/
 void IoMessage_parseNext(IoMessage *self, IoLexer *lexer) {
     IoMessage *next = IoMessage_newParseNextMessageChain(IOSTATE, lexer);
     IoMessage_rawSetNext_(self, next);

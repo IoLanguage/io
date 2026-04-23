@@ -9,6 +9,25 @@ first-class continuations, serializable execution state,
 and network-portable coroutines.
 */
 
+/*cmetadoc State description
+Iterative evaluator implementation. One giant switch in
+IoState_evalLoop_ drives a state machine over a heap-allocated
+IoEvalFrame chain (state->currentFrame). Every piece of evaluation
+— message sends, argument pre-eval, block activation, special forms
+like if/while/for/foreach, coroutine switches, continuation invoke —
+is expressed as a frame state rather than a C recursion.
+
+Frames are managed by IoState_pushFrame_ / IoState_popFrame_, which
+use state->framePool for reuse. A popped frame's pointer fields are
+cleared so the GC does not keep dead objects alive via pooled memory.
+Errors unwind by walking the parent chain and popping frames until
+either the chain is empty (coro boundary) or an isNestedEvalRoot
+frame is hit, at which point control returns to the C caller that
+entered the eval loop. Block activation is split into a full push
+path (activateBlock_) and a tail-call-optimized reuse path
+(activateBlockTCO_) so straightforward tail recursion stays flat.
+*/
+
 #include "IoState.h"
 #include "IoEvalFrame.h"
 #include "IoMessage.h"
@@ -44,9 +63,14 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame);
     } \
 } while(0)
 
-// Check for pre-evaluated argument in the current eval frame.
-// Called from IoMessage_locals_quickValueArgAt_ (IoState_inline.h).
-// Separated into a function to avoid circular IoEvalFrame.h includes.
+/*cdoc State IoState_preEvalArgAt_(self, msg, n)
+Fast-path lookup for a pre-evaluated argument on the current frame.
+Called from the inline IoMessage_locals_quickValueArgAt_ so a CFunction
+that asks for its n-th argument can skip recursive evaluation when the
+eval loop has already stashed the value in fd->argValues. Lives in
+this translation unit (not the header) to keep IoEvalFrame.h out of
+IoState_inline.h's include chain and avoid cycles.
+*/
 IoObject *IoState_preEvalArgAt_(IoState *self, IoMessage *msg, int n) {
     IoEvalFrame *frame = self->currentFrame;
     if (!frame) return NULL;
@@ -61,8 +85,15 @@ IoObject *IoState_preEvalArgAt_(IoState *self, IoMessage *msg, int n) {
     return NULL;
 }
 
-// Push a new frame onto the evaluation stack.
-// Reuses pooled frames when available; allocates new IoObject otherwise.
+/*cdoc State IoState_pushFrame_(state)
+Pushes a new IoEvalFrame onto state->currentFrame. Reuses pooled
+frames when available (their pointer fields were nulled on pop for
+GC safety) and falls back to IoEvalFrame_newWithState otherwise.
+Only fields that are actually read before assignment are reset —
+the controlFlow union is left uninitialized and stamped later by
+whichever control-flow primitive owns the state. Raises a stack
+overflow error if frameDepth crosses state->maxFrameDepth.
+*/
 IoEvalFrame *IoState_pushFrame_(IoState *state) {
     IoEvalFrame *frame;
     IoEvalFrameData *fd;
@@ -113,8 +144,17 @@ IoEvalFrame *IoState_pushFrame_(IoState *state) {
     return frame;
 }
 
-// Pop a frame from the evaluation stack.
-// Returns the frame to the pool if space; otherwise lets GC reclaim it.
+/*cdoc State IoState_popFrame_(state)
+Pops the current frame and returns it to state->framePool (up to
+FRAME_POOL_SIZE); overflow frames fall to regular GC. Frees the
+heap-allocated argValues buffer unless it was the inline 4-slot
+buffer. All pointer fields and the state enum are zeroed so pooled
+frames don't carry stale GC roots — otherwise objects kept alive by
+a dead pooled frame would never be collected (WeakLink behavior
+regression). The controlFlow union is not memset; resetting the
+state enum is enough to keep IoEvalFrame_mark from walking its
+contents.
+*/
 void IoState_popFrame_(IoState *state) {
     IoEvalFrame *frame = state->currentFrame;
     if (frame) {
@@ -158,18 +198,17 @@ void IoState_popFrame_(IoState *state) {
     }
 }
 
-// Unwind frames for error handling, respecting nested eval boundaries.
-//
-// When IoMessage_locals_performOn_iterative creates a nested eval loop,
-// it marks its root frame with isNestedEvalRoot. If an error occurs
-// inside the nested eval, we must NOT pop frames beyond the boundary —
-// doing so would corrupt the outer eval loop's frame pointers, especially
-// when coroutine switches are involved.
-//
-// Returns 1 if a nested eval boundary was found (caller should return
-// from the eval loop with errorRaised re-set).
-// Returns 0 if all frames were popped (caller should fall through to
-// the frame=NULL handler for coro switching / exit).
+/*cdoc State IoState_unwindFramesForError_(state)
+Error-unwinding walker. Pops frames (and any retain-pool marks they
+carry) until either the chain is empty or a frame with
+isNestedEvalRoot is found. A nested eval root marks a boundary
+installed by IoMessage_locals_performOn_iterative; crossing it would
+corrupt the outer loop's frame pointers, especially across coroutine
+switches. Returns 1 when the boundary was hit (errorRaised is re-set
+so the C caller propagates the error); returns 0 when the whole
+stack was popped, which lets the caller fall through to the
+frame=NULL handler for coro-switch or process exit.
+*/
 static int IoState_unwindFramesForError_(IoState *state) {
     while (state->currentFrame) {
         IoEvalFrameData *ufd = FRAME_DATA(state->currentFrame);
@@ -189,20 +228,24 @@ static int IoState_unwindFramesForError_(IoState *state) {
     return 0;  // All frames popped
 }
 
-// Main iterative evaluation loop
-//
-// COROUTINE ARCHITECTURE:
-// This is the ONE eval loop that runs on the main C stack. It processes
-// whatever frames are in state->currentFrame. Coroutine "switching" just
-// changes which frame stack is current - the loop keeps running.
-//
-// When a coroutine's frame stack becomes empty:
-// - If it has a parent, switch back to parent and continue
-// - If no parent (main coro), exit the loop
-//
-// Define DEBUG_EVAL_LOOP to enable verbose debug output
-// #define DEBUG_EVAL_LOOP 1
+/*cdoc State IoState_evalLoop_(state)
+The one and only iterative evaluator. Runs a state-machine switch
+over IoEvalFrame states until the frame chain empties or a nested
+eval boundary returns control to its C caller. Coroutine switching
+is not a C-stack operation in this design: the loop keeps running
+and only the current frame chain changes (via IoCoroutine_saveState_
+/ restoreState_), so every coro runs on the same C stack.
 
+Empty-frame handling chooses one of: parent coroutine resumption
+(CORO_WAIT_CHILD / CORO_YIELDED), nested-eval return, or exit.
+Error handling defers to IoState_unwindFramesForError_, which
+respects isNestedEvalRoot. Continuation invoke sets
+state->continuationInvoked and installs a replacement frame chain;
+the loop's top-of-iteration re-read of state->currentFrame picks
+that up transparently.
+
+Compile with DEBUG_EVAL_LOOP for per-iteration tracing.
+*/
 IoObject *IoState_evalLoop_(IoState *state) {
     IoEvalFrame *frame;
     IoEvalFrameData *fd;
@@ -1871,7 +1914,21 @@ IoObject *IoState_evalLoop_(IoState *state) {
     return result;
 }
 
-// Helper to activate a block without C recursion
+/*cdoc State IoState_activateBlock_(state, callerFrame)
+Activates a Block by building its locals + Call object and pushing a
+new frame for the body. Block locals and Call are drawn from per-VM
+pools to avoid per-call allocation, with ioStack retention around the
+pool pop so a GC triggered before attachment can't sweep the fresh
+object. A retain-pool mark is recorded on the new frame so every
+temporary created during body execution is released when the block
+returns, keeping long-running methods from leaking work buffers.
+
+Argument binding uses pre-evaluated values from callerFd->argValues
+when available (the common fast path); otherwise it falls back to
+IoMessage_locals_valueArgAt_ in the sender's context, which does a
+recursive eval — not stackless, but only taken for edge cases where
+pre-eval was skipped (e.g. rest args, oddly-shaped special forms).
+*/
 static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     IoEvalFrameData *callerFd = FRAME_DATA(callerFrame);
     IoBlock *block = (IoBlock *)callerFd->slotValue;
@@ -1995,14 +2052,20 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     // the RETURN handler will move callerFrame to CONTINUE_CHAIN
 }
 
-// Tail Call Optimization: reuse the current block body frame for a tail call.
-// Instead of pushing a new frame on top of the current one, we replace the
-// current frame's context with the new block's context. This keeps the frame
-// stack flat for recursive calls (e.g., factorial(n-1, n*acc)).
-//
-// blockFrame is the CURRENT block body frame being reused.
-// blockFd->slotValue contains the Block to tail-call.
-// blockFd->message, ->target, ->locals, ->slotContext have the call info.
+/*cdoc State IoState_activateBlockTCO_(state, blockFrame)
+Tail-call variant of activateBlock_ that rebinds the current block's
+frame in place instead of pushing a new one. This is what keeps
+tail-recursive Io code from growing the frame chain — factorial in
+accumulator style runs at constant frame depth regardless of input.
+
+The old blockLocals is deliberately NOT returned to the pool: the
+new Call's sender/target still reference it (e.g. the `?` operator's
+"m" slot on the sender is read during relayStopStatus), and pooling
+would clear its PHash. Only the RETURN handler pools blockLocals,
+once the full call chain has unwound. Sets
+state->needsControlFlowHandling so the eval loop restarts its
+iteration without processing the now-stale ACTIVATE state.
+*/
 static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     IoEvalFrameData *blockFd = FRAME_DATA(blockFrame);
     IoBlock *block = (IoBlock *)blockFd->slotValue;
@@ -2113,9 +2176,16 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     state->needsControlFlowHandling = 1;
 }
 
-// Entry point for iterative evaluation from C code
-// This is called when a CFunction needs to evaluate an argument.
-// It pushes a frame and runs the eval loop until that frame returns.
+/*cdoc State IoMessage_locals_performOn_iterative(self, locals, target)
+Re-entrant entry point used when a CFunction (control flow primitive,
+continuation invoke, etc.) needs to evaluate a sub-expression while
+the outer eval loop is already running. Pushes a frame marked
+isNestedEvalRoot, bumps state->nestedEvalDepth, and runs the eval
+loop until that boundary frame finishes. The nested-root flag is
+what IoState_unwindFramesForError_ and the empty-chain handlers key
+off of to return control here rather than exiting the whole VM on
+error or coroutine-stack exhaustion inside a nested eval.
+*/
 IoObject *IoMessage_locals_performOn_iterative(IoMessage *self,
                                                IoObject *locals,
                                                IoObject *target) {

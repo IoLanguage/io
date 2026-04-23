@@ -6,6 +6,19 @@
 Sandbox can be used to run separate instances of Io within the same process.
 */
 
+/*cmetadoc Sandbox description
+C implementation of Sandbox — a wrapper that lazily spins up an entire
+nested IoState and runs strings of Io code inside it. The inner
+IoState is stored in the IoObject's data pointer (see DATA(self)) and
+created lazily by IoSandbox_boxState so empty Sandbox clones stay
+cheap. Quota-style protection (messageCountLimit, timeLimit) is
+enforced by the inner IoState's evaluator, not by this module;
+setters here just poke those fields. Output from code run in the
+sandbox is intercepted via IoState_printCallback_ and re-sent as a
+printCallback message back to the outer VM, so the host can decide
+what to do with sandboxed stdout.
+*/
+
 #include "IoSandbox.h"
 #include "IoSeq.h"
 #include "IoState.h"
@@ -21,6 +34,11 @@ Sandbox can be used to run separate instances of Io within the same process.
 static const char *protoId = "Sandbox";
 #define DATA(self) ((IoState *)IoObject_dataPointer(self))
 
+/*cdoc Sandbox IoSandbox_newTag(state)
+Builds the Sandbox tag with clone and free function pointers. No
+markFunc is registered — the inner IoState owns its own GC and is
+not walked by the outer collector.
+*/
 IoTag *IoSandbox_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -29,6 +47,11 @@ IoTag *IoSandbox_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Sandbox IoSandbox_proto(state)
+Creates the Sandbox proto: no inner IoState yet (data pointer stays
+NULL until first use). Installs the quota / evaluation method table
+and registers the proto on the outer state.
+*/
 IoSandbox *IoSandbox_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"messageCount", IoSandbox_messageCount},
@@ -49,6 +72,12 @@ IoSandbox *IoSandbox_proto(void *state) {
     return self;
 }
 
+/*cdoc Sandbox IoSandbox_boxState(self)
+Returns the inner IoState, creating it lazily on first access via
+IoState_new() and wiring up the print callback. Called by every
+quota setter, getter, and doSandboxString, so this is where the
+nested VM really comes into existence.
+*/
 IoState *IoSandbox_boxState(IoSandbox *self) {
     if (!DATA(self)) {
         IoObject_setDataPointer_(self, IoState_new());
@@ -58,17 +87,35 @@ IoState *IoSandbox_boxState(IoSandbox *self) {
     return DATA(self);
 }
 
+/*cdoc Sandbox IoSandbox_rawClone(proto)
+Registered as the tag's cloneFunc. Does not duplicate the inner
+IoState — the clone starts fresh and will get its own IoState on
+first boxState() call. Cheap to clone even when the proto has a
+fully populated inner VM.
+*/
 IoSandbox *IoSandbox_rawClone(IoSandbox *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     return self;
 }
 
+/*cdoc Sandbox IoSandbox_addPrintCallback(self)
+Sets up the inner IoState's print callback to route writes into
+IoSandbox_printCallback, which forwards them back to the outer VM
+as an Io-level printCallback message. Called from boxState so every
+lazily-created inner state has I/O redirection wired up.
+*/
 void IoSandbox_addPrintCallback(IoSandbox *self) {
     IoState *boxState = IoSandbox_boxState(self);
     IoState_callbackContext_(boxState, self);
     IoState_printCallback_(boxState, IoSandbox_printCallback);
 }
 
+/*cdoc Sandbox IoSandbox_printCallback(voidSelf, ba)
+Bridge from inner-VM print output to the outer VM. Copies the bytes
+into a fresh IoSeq, builds a `printCallback(buffer)` message, and
+performs it on the Sandbox object in the outer state's lobby scope —
+letting Io code override printCallback to capture sandboxed output.
+*/
 void IoSandbox_printCallback(void *voidSelf, const UArray *ba) {
     IoSandbox *self = voidSelf;
 
@@ -81,11 +128,20 @@ void IoSandbox_printCallback(void *voidSelf, const UArray *ba) {
     IoMessage_locals_performOn_(m, state->lobby, self);
 }
 
+/*cdoc Sandbox IoSandbox_new(state)
+Convenience constructor: look up the Sandbox proto and clone it.
+The inner IoState is still not materialized until first use.
+*/
 IoSandbox *IoSandbox_new(void *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc Sandbox IoSandbox_free(self)
+Registered as the tag's freeFunc. Tears down the inner IoState (via
+IoState_free, which recursively frees every object in the nested
+VM) if one was ever created; otherwise does nothing.
+*/
 void IoSandbox_free(IoSandbox *self) {
     if (IoObject_dataPointer(self)) {
         IoState_free(IoSandbox_boxState(self));

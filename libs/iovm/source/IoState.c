@@ -2,6 +2,23 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
+/*cmetadoc State description
+VM lifecycle and proto registry. IoState_new_atAddress builds the whole
+object graph in a deliberate order — Object, Coroutine and Sequence have
+to exist before anything else because creating objects needs a retain
+stack (which lives on the main coroutine) and defining methods needs
+Symbols and CFunctions. After the three bootstrap protos are in place,
+each remaining core proto registers itself via IoState_registerProtoWithId_
+into the primitives PointerHash so IoState_protoWithId_ can look them up.
+The function also installs singletons (nil/true/false/flow-control
+markers), cached messages, the evaluation frame pool fields, and finally
+runs IoVMCodeInit (the generated IoVMInit.c) to load the Io standard
+library. IoState_markLazyArgsCFunctions_ is the last step: it stamps
+isLazyArgs on every CFunction whose arguments the iterative evaluator
+must leave un-pre-evaluated (if/while/for/callcc/method/block/do/foreach/
+…). Tear-down is IoState_done + IoState_free.
+*/
+
 #define IOSTATE_C 1
 #include "IoState.h"
 #undef IOSTATE_C
@@ -45,6 +62,13 @@ void IoVMCodeInit(IoObject *context);
 // Called once during init after all protos are registered.
 // Aliases (e.g., false.elseif := Object getSlot("if")) automatically
 // inherit the flag since they reference the same CFunction object.
+/*cdoc State IoState_markSlotLazyArgs_(self, protoId, slotName)
+Looks up a named slot on a proto and, if it resolves to a CFunction,
+sets its isLazyArgs flag so the iterative evaluator will skip the
+EVAL_ARGS pass and hand the raw message arguments to the callee. Used
+to tag the special forms that need their arguments as un-evaluated
+messages (if, while, for, method, block, foreach, …).
+*/
 static void IoState_markSlotLazyArgs_(IoState *self, const char *protoId,
                                       const char *slotName) {
     IoObject *proto = IoState_protoWithId_(self, protoId);
@@ -55,6 +79,13 @@ static void IoState_markSlotLazyArgs_(IoState *self, const char *protoId,
     }
 }
 
+/*cdoc State IoState_markLazyArgsCFunctions_(self)
+The canonical list of lazy-args CFunctions. Called once at the very end
+of IoState_new_atAddress after all protos and Io-side slot aliases are
+in place. Keep this list in sync with the special-form detection in
+IoState_iterative.c — adding a new control-flow primitive that takes
+un-evaluated message arguments means touching both places.
+*/
 static void IoState_markLazyArgsCFunctions_(IoState *self) {
     // Control flow
     IoState_markSlotLazyArgs_(self, "Object", "if");
@@ -89,6 +120,16 @@ static void IoState_markLazyArgsCFunctions_(IoState *self) {
     IoState_markSlotLazyArgs_(self, "File", "foreachLine");
 }
 
+/*cdoc State IoState_new_atAddress(address)
+In-place VM constructor: initializes a caller-supplied IoState struct
+rather than allocating one, so embedders can place the VM in a specific
+arena. Follows a carefully-ordered bootstrap (see cmetadoc) — the
+temporary Stack *currentIoStack exists only until the main coroutine
+is constructed and its real retain stack takes over. Pauses the
+collector across all proto allocation so partially-built objects are
+never swept. Must be called exactly once per state; IoState_new wraps
+it with a malloc.
+*/
 void IoState_new_atAddress(void *address) {
     IoState *self = (IoState *)address;
     IoCFunction *cFunctionProto;
@@ -306,16 +347,32 @@ void IoState_new_atAddress(void *address) {
     }
 }
 
+/*cdoc State IoState_new(void)
+Heap-allocates an IoState and delegates to IoState_new_atAddress.
+The common entry point for embedders that do not care where the VM
+lives in memory.
+*/
 IoState *IoState_new(void) {
     IoState *self = (IoState *)io_calloc(1, sizeof(IoState));
     IoState_new_atAddress(self);
     return self;
 }
 
+/*cdoc State IoState_retainedSymbol(self, s)
+Interns a C string as a Symbol and pins it against GC. Used during init
+to cache hot-path names (self, call, type, …) that the VM dereferences
+in inner loops and must never be collected.
+*/
 IoSymbol *IoState_retainedSymbol(IoState *self, char *s) {
     return IoState_retain_(self, SIOSYMBOL(s));
 }
 
+/*cdoc State IoState_setupQuickAccessSymbols(self)
+Populates the pre-interned symbol fields on the IoState struct so the
+evaluator and CFunction machinery can compare against cached IoSymbol
+pointers instead of re-hashing strings on every call. Called early
+during init, before any Io code runs.
+*/
 void IoState_setupQuickAccessSymbols(IoState *self) {
     self->activateSymbol = IoState_retainedSymbol(self, "activate");
     self->callSymbol = IoState_retainedSymbol(self, "call");
@@ -344,6 +401,15 @@ void IoState_setupQuickAccessSymbols(IoState *self) {
     self->exceptionSymbol = IoState_retainedSymbol(self, "exception");
 }
 
+/*cdoc State IoState_setupSingletons(self)
+Creates the shared singletons nil/true/false and the flow-control
+markers Normal/Break/Continue/Return/Eol, registers them under
+state->core, and retains each one so they survive GC. Also caches
+the Message proto, Call proto and Call tag for the inline allocation
+fast paths in the iterative evaluator. The flow-control markers are
+compared by pointer identity in IoObject_flow.c to drive break/
+continue/return semantics.
+*/
 void IoState_setupSingletons(IoState *self) {
     IoObject *core = self->core;
     // nil
@@ -412,6 +478,13 @@ void IoState_setupSingletons(IoState *self) {
     IoState_retain_(self, self->ioEol);
 }
 
+/*cdoc State IoState_setupCachedMessages(self)
+Pre-builds and retains a set of Message objects the VM sends
+frequently (asString, compare, init, main, opShuffle, print, run,
+yield, …). Cached messages skip the per-send parse/construct cost and
+give IoMessage_locals_performOn_ a stable pointer to hand to the
+iterative evaluator.
+*/
 void IoState_setupCachedMessages(IoState *self) {
     self->asStringMessage = IoMessage_newWithName_(self, SIOSYMBOL("asString"));
     IoState_retain_(self, self->asStringMessage);
@@ -470,6 +543,13 @@ IO_METHOD(IoObject, initBindings) {
     return self;
 }
 
+/*cdoc State IoState_init(self)
+Second-stage init hook: invokes the embedder-supplied bindings
+callback (set via IoState_setBindingsInitCallback) so additional
+native protos can be installed after the core bootstrap. Wraps the
+callback in a collector pause and clears the retain stack afterwards
+so any objects the callback created are not held past the call.
+*/
 void IoState_init(IoState *self) {
     if (self->bindingsInitCallback) {
         IoState_pushCollectorPause(self);
@@ -501,11 +581,23 @@ Error: attempt to add the same proto twice");
 }
 */
 
+/*cdoc State IoState_registerProtoWithFunc_(self, proto, v)
+Compatibility alias that forwards to IoState_registerProtoWithId_.
+Older code in the Io ecosystem passed a function pointer as the key;
+both forms now use the same PointerHash lookup.
+*/
 void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto,
                                     const char *v) {
     IoState_registerProtoWithId_(self, proto, v);
 }
 
+/*cdoc State IoState_registerProtoWithId_(self, proto, v)
+Records a proto in state->primitives keyed by a string id, and retains
+it so the GC cannot collect it even when nothing else holds a reference.
+Aborts via IoState_fatalError_ if the id is already registered: proto
+ids are global singletons and double-registration usually signals a
+mis-ordered bootstrap.
+*/
 IOVM_API void IoState_registerProtoWithId_(IoState *self, IoObject *proto,
                                            const char *v) {
     if (PointerHash_at_(self->primitives, (void *)v)) {
@@ -519,6 +611,12 @@ IOVM_API void IoState_registerProtoWithId_(IoState *self, IoObject *proto,
     // printf("registered %s\n", IoObject_name(proto));
 }
 
+/*cdoc State IoState_protoWithName_(self, name)
+Linear scan over registered protos matching IoObject_name. Unlike
+IoState_protoWithId_ this looks at the runtime name slot rather than
+the id key, so it can find protos registered under a different id
+than their display name. Returns NULL when nothing matches.
+*/
 IoObject *IoState_protoWithName_(IoState *self, const char *name) {
     POINTERHASH_FOREACH(
         self->primitives, key, proto,
@@ -526,6 +624,12 @@ IoObject *IoState_protoWithName_(IoState *self, const char *name) {
     return NULL;
 }
 
+/*cdoc State IoState_tagList(self)
+Returns a freshly allocated List of every registered proto's tag —
+used by IoState_done to free the IoTag structures after the collector
+has released the protos themselves. Caller owns the returned List and
+must List_free it.
+*/
 List *IoState_tagList(IoState *self) // caller must io_free returned List
 {
     List *tags = List_new();
@@ -534,6 +638,13 @@ List *IoState_tagList(IoState *self) // caller must io_free returned List
     return tags;
 }
 
+/*cdoc State IoState_done(self)
+Tears down a VM: snapshot the tag list first (IoObject_free does not
+release tags), force the collector to free everything, then free the
+tags, primitives hash, symbol table, recycled-object and cached-number
+lists, random generator, and argv. Must be called from the main
+coroutine with no live Io code running.
+*/
 void IoState_done(IoState *self) {
     // this should only be called from the main coro from outside of Io
 
@@ -562,6 +673,12 @@ void IoState_done(IoState *self) {
     MainArgs_free(self->mainArgs);
 }
 
+/*cdoc State IoState_free(self)
+Calls IoState_done and frees the IoState struct itself. Only safe to
+call on a state that came from IoState_new (heap-allocated); in-place
+states constructed via IoState_new_atAddress should call IoState_done
+directly.
+*/
 void IoState_free(IoState *self) {
     IoState_done(self);
     io_free(self);
@@ -573,6 +690,12 @@ void IoState_setLobby_(IoState *self, IoObject *obj) { self->lobby = obj; }
 
 void MissingProtoError(void) { printf("missing proto\n"); }
 
+/*cdoc State IoState_protoWithId_(self, v)
+The standard proto lookup used throughout the VM's C source. Missing
+ids are fatal — if a proto is missing at this point either a binding
+forgot to register itself or code is running before the init sequence
+got that far.
+*/
 IoObject *IoState_protoWithId_(IoState *self, const char *v) {
     IoObject *proto = PointerHash_at_(self->primitives, (void *)v);
 
@@ -589,6 +712,11 @@ IoObject *IoState_protoWithId_(IoState *self, const char *v) {
 
 // command line ------------------------------------------------
 
+/*cdoc State IoState_argc_argv_(self, argc, argv)
+Exposes the command line to Io code via System args (skipping argv[0])
+and stashes the raw argv in the MainArgs helper for re-retrieval. Called
+by the REPL entry point before running user code.
+*/
 void IoState_argc_argv_(IoState *self, int argc, const char *argv[]) {
     IoList *args = IoList_new(self);
     int i;
@@ -613,6 +741,14 @@ IoObject *IoState_objectWithPid_(IoState *self, PID_TYPE pid) {
 
 // doString -------------------------------------------------------
 
+/*cdoc State IoState_rawOn_doCString_withLabel_(self, target, s, label)
+Parses a string as Io source and performs the resulting message on
+target with no try/catch wrapper. Unlike IoState_on_doCString_withLabel_
+this path does not guard the evaluation inside a try coroutine, so
+uncaught exceptions propagate to whichever caller owns the current
+coroutine. Used by the interactive prompt where the shell itself
+displays errors.
+*/
 IoObject *IoState_rawOn_doCString_withLabel_(IoState *self, IoObject *target,
                                              const char *s, const char *label) {
     IoMessage *m = IoMessage_newFromText_label_(self, s, label);
@@ -621,6 +757,12 @@ IoObject *IoState_rawOn_doCString_withLabel_(IoState *self, IoObject *target,
 
 // CLI ---------------------------------------------------------
 
+/*cdoc State IoState_rawPrompt(self)
+Minimal built-in REPL: reads lines from stdin, evaluates each via
+IoState_rawOn_doCString_withLabel_ and prints the result. Provided as
+a fallback when the Io-side CLI.io loop isn't available; the normal
+REPL entry point is IoState_runCLI.
+*/
 void IoState_rawPrompt(IoState *self) {
     int max = 1024 * 16;
     char *s = io_calloc(1, max);
@@ -646,6 +788,11 @@ void IoState_rawPrompt(IoState *self) {
     io_free(s);
 }
 
+/*cdoc State IoState_runCLI(self)
+Launches the Io-implemented command-line loop by doing "CLI run" on
+the lobby. If that run leaves an exception on the current coroutine,
+records it in state->exitResult so the process exits non-zero.
+*/
 void IoState_runCLI(IoState *self) {
     IoObject *result = IoState_on_doCString_withLabel_(
         self, self->lobby, "CLI run", "IoState_runCLI()");

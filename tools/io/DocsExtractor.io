@@ -8,15 +8,23 @@ File do(
 			if(i1 and i1 < i2, i2 := s findSeq(")", i))
 			if(i2, s atInsertSeq(i2 + 1, "\n"))
 			s
-		) appendSeq(contents slicesBetween("/*" .. name .. " ", "*/"))		
+		) appendSeq(contents slicesBetween("/*" .. name .. " ", "*/"))
 	)
-	
+
 	docSlices := method(
 		docSlicesFor("doc")
 	)
-	
+
+	cdocSlices := method(
+		docSlicesFor("cdoc")
+	)
+
 	metadocSlices := method(
 		docSlicesFor("metadoc")
+	)
+
+	cmetadocSlices := method(
+		docSlicesFor("cmetadoc")
 	)
 )
 
@@ -24,37 +32,42 @@ DocsExtractor := Object clone do(
 	init := method(
 		self folder := Directory clone
 		self outFile := File clone
+		self cOutFile := File clone
 	)
 
 	setPath := method(path,
 		folder setPath(path) createSubdirectory("docs")
+		// Io-visible API docs (/*doc ...*/, /*metadoc ...*/)
 		outFile setPath(Path with(path, "docs/docs.txt"))
+		// C-internal implementation docs (/*cdoc ...*/)
+		cOutFile setPath(Path with(path, "docs/cdocs.txt"))
+		self
 	)
 
 	clean := method(
 		outFile remove
+		cOutFile remove
 	)
 
 	extract := method(
-		//writeln("\n", folder path)
 		outFile remove open
+		cOutFile remove open
 		sourceFiles foreach(file,
-			//writeln("	", file name, " ")
 			file docSlices foreach(d,
-				/*
-				header := d beforeSeq("\n") strip
-				protoName := header beforeSeq(" ")
-				slotName := header afterSeq(" ")
-				comment := d afterSeq("\n")
-				*/
 				outFile write("doc ", d strip, "\n------\n")
 			)
-			
 			file metadocSlices foreach(d,
 				outFile write("metadoc ", d strip, "\n------\n")
 			)
+			file cdocSlices foreach(d,
+				cOutFile write("cdoc ", d strip, "\n------\n")
+			)
+			file cmetadocSlices foreach(d,
+				cOutFile write("cmetadoc ", d strip, "\n------\n")
+			)
 		)
 		outFile close
+		cOutFile close
 	)
 	
 	sourceFiles := method(cFiles appendSeq(ioFiles))

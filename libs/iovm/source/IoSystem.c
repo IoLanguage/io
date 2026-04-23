@@ -5,6 +5,18 @@
 Contains methods related to the IoVM.
 */
 
+/*cmetadoc System description
+C implementation of Io's System object — a slot-only object (no
+dedicated data pointer or tag) that exposes VM- and environment-level
+hooks: process exit, errno string, env var get/set, platform name,
+sleep, symbol table, lobby root, and GC recycler tuning. Under WASI
+the host-provided surface is minimal: daemon and system() raise
+errors, thisProcessPid is always 1, activeCpus is 1, and platform/
+platformVersion return "wasm"/"wasi-0.1". IO_VERSION_STRING and
+INSTALL_PREFIX are stamped onto System as slots in IoSystem_proto so
+Io code can query the build identity.
+*/
+
 #include "IoSystem.h"
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
@@ -14,6 +26,13 @@ Contains methods related to the IoVM.
 
 #include <unistd.h>
 
+/*cdoc System IoSystem_proto(state)
+Constructs the singleton System object: installs the method table and
+stamps version / installPrefix / type slots derived from compile-time
+macros (IO_VERSION_STRING, INSTALL_PREFIX). There is no proto
+registration — System is accessed by name from the lobby rather than
+via IoState_protoWithId_, and there is nothing to clone.
+*/
 IoObject *IoSystem_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"daemon", IoObject_daemon},
@@ -75,6 +94,11 @@ IO_METHOD(IoObject, errorNumber)
 #include <stdio.h>
 #include <errno.h>
 
+/*cdoc System IoObject_daemon(self, locals, m)
+Stub for the historical daemonize call. WASI has no fork/setsid so
+the method always raises an Io exception. Kept for source
+compatibility with the standard library.
+*/
 IO_METHOD(IoObject, daemon) {
     IoState_error_(IOSTATE, self, "daemon is not supported on WASM.");
     return self;
@@ -119,6 +143,12 @@ IO_METHOD(IoObject, getEnvironmentVariable) {
     return IoState_symbolWithCString_(IOSTATE, s);
 }
 
+/*cdoc System IoObject_system(self, locals, m)
+Stub for the historical system(3) shell bridge. WASI has no process
+creation so the method always raises an Io exception — preserved as
+a method so calling Io code can catch a consistent error rather than
+a slot-not-found.
+*/
 IO_METHOD(IoObject, system) {
     /*doc System system(aString)
     Makes a system call and returns a Number for the return value.
@@ -189,6 +219,13 @@ IO_METHOD(IoObject, activeCpus) {
 
 #include "PortableUsleep.h"
 
+/*cdoc System IoObject_sleep(self, locals, m)
+Blocks the current thread for the requested number of seconds by
+chunking into sub-second usleep calls (usleep's POSIX argument must
+be less than 1,000,000). Under WASM this is a real synchronous pause,
+since there is no scheduler to yield to — long sleeps stall the whole
+runtime.
+*/
 IO_METHOD(IoObject, sleep) {
     /*doc System sleep(secondsNumber)
     Performs a *blocking* sleep call for specified number of seconds.

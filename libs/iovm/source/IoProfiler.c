@@ -6,6 +6,16 @@
 Basic support for profiling Io code execution.
 */
 
+/*cmetadoc Profiler description
+C implementation of Profiler — walks the full heap via the collector
+to reset or report per-Block timing data. Profiler owns no state of
+its own; the profiler timings live on individual IoBlocks
+(IoBlock_rawProfilerTime / IoBlock_rawResetProfilerTime). This module
+just provides the bulk reset and bulk query entry points. A
+commented-out CFunction branch is kept as a placeholder for
+extending profiling to native functions.
+*/
+
 #include "IoProfiler.h"
 #include "IoNumber.h"
 #include "IoList.h"
@@ -49,6 +59,12 @@ IO_METHOD(IoProfiler, timedObjects) {
     return results;
 }
 
+/*cdoc Profiler IoProfiler_proto(state)
+Creates the Profiler singleton: an IoObject with a `type` slot and
+the reset / timedObjects method table. No proto registration — the
+Profiler is reached by name from the lobby, and there is nothing to
+clone. State lives on each profiled Block, not here.
+*/
 IoObject *IoProfiler_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"reset", IoProfiler_reset},

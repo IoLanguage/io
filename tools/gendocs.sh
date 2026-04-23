@@ -1,10 +1,13 @@
 #!/bin/sh
-# Generate Io reference documentation from source code.
-# Parses //doc, /*doc, and metadoc comments from C and Io files,
-# then generates HTML pages.
+# Generate Io documentation from source code.
 #
-# Usage: tools/gendocs.sh [output-dir]
-#   output-dir defaults to docs/reference
+# Two separate trees are produced:
+#   - Reference  (Io-visible API): from /*doc ...*/ and /*metadoc ...*/
+#   - Internals  (C implementation): from /*cdoc ...*/
+#
+# Usage: tools/gendocs.sh [base-output-dir]
+#   base-output-dir defaults to docs
+#   → writes $base/reference/ and $base/internals/
 
 set -e
 
@@ -17,10 +20,15 @@ if [ ! -f "$IO_WASM" ]; then
 	exit 1
 fi
 
-OUTDIR="${1:-docs/reference}"
-mkdir -p "$OUTDIR"
+BASE="${1:-docs}"
+REF_DIR="$BASE/reference"
+INT_DIR="$BASE/internals"
+mkdir -p "$REF_DIR" "$INT_DIR"
 
-echo "Extracting docs..."
-wasmtime --dir=. --dir=/tmp "$IO_WASM" tools/io/docs2html.io "$OUTDIR"
+echo "Generating Io Reference → $REF_DIR ..."
+wasmtime --dir=. --dir=/tmp "$IO_WASM" tools/io/docs2html.io "$REF_DIR" docs
 
-echo "Done. Output in $OUTDIR"
+echo "Generating C Internals → $INT_DIR ..."
+wasmtime --dir=. --dir=/tmp "$IO_WASM" tools/io/docs2html.io "$INT_DIR" cdocs
+
+echo "Done."

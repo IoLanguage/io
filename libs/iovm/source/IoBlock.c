@@ -6,6 +6,23 @@ They are typically used to represent object methods.
 */
 // metadoc Block category Core
 
+/*cmetadoc Block description
+C implementation of Io blocks and methods (they share the same struct;
+block() binds a lexical scope, method() leaves scope NULL so activation
+uses the message target). IoBlockData carries the message tree, an
+argNames List, the optional captured scope, passStops (whether
+return/continue/break propagate to the caller), and profiler timing.
+Activation happens via IoBlock_activate, which is installed as the
+tag's activateFunc — any getSlot of an activatable Block thus runs
+the block without explicit message dispatch. IoBlock_activate builds
+a fresh locals object (cloned from state->localsProto), populates it
+with call/self/updateSlot plus the named arguments, and recursively
+evaluates the body via IoMessage_locals_performOn_. With frame-based
+coroutines and the iterative evaluator, that inner perform will usually
+redirect into the eval loop rather than recurse on the C stack. The
+optional profiler wraps IoBlock_activate with clock() bookkeeping.
+*/
+
 #include "IoBlock.h"
 #include "IoMessage.h"
 #include "IoMessage_parser.h"
@@ -19,6 +36,12 @@ static const char *protoId = "Block";
 
 #define DATA(self) ((IoBlockData *)IoObject_dataPointer(self))
 
+/*cdoc Block IoBlock_newTag(state)
+Builds the Block tag with clone/mark/free function pointers plus the
+activateFunc that makes a Block self-executing when fetched from an
+activatable slot. The activateFunc is the key hook — IoCFunction uses
+the same mechanism.
+*/
 IoTag *IoBlock_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -32,6 +55,12 @@ IoTag *IoBlock_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Block IoBlock_copy_(self, other)
+Shallow-copies another Block's message, argument names, and captured
+scope into self. Used by the commented-out BStream readFromStream to
+graft parsed code onto a freshly allocated Block; kept live because
+store/persistence work may re-enable it.
+*/
 void IoBlock_copy_(IoBlock *self, IoBlock *other) {
     DATA(self)->message = IOREF(DATA(other)->message);
 
@@ -101,6 +130,13 @@ pid);
 }
 */
 
+/*cdoc Block IoBlock_proto(state)
+Creates the Block proto: allocates an IoBlockData with a nil message,
+empty argNames list, and NULL scope, attaches the tag from
+IoBlock_newTag, and registers the Io-visible method table (print,
+code, message, argumentNames, setScope, call, performOn, passStops,
+profiler). All later Blocks and methods are clones of this proto.
+*/
 IoBlock *IoBlock_proto(void *vState) {
     IoState *state = (IoState *)vState;
     IoMethodTable methodTable[] = {
@@ -134,6 +170,13 @@ IoBlock *IoBlock_proto(void *vState) {
     return self;
 }
 
+/*cdoc Block IoBlock_rawClone(proto)
+Registered as the tag's cloneFunc. Deep-copies the message tree so
+mutating a block's body doesn't leak into the proto, clones the arg
+names, and carries over scope, isActivatable, and passStops. This is
+how method() and block() on a user object produce their receiver
+copies before IoBlock_method fills in the new content.
+*/
 IoBlock *IoBlock_rawClone(IoBlock *proto) {
     IoBlockData *protoData = DATA(proto);
     IoObject *self = IoObject_rawClonePrimitive(proto);
@@ -147,6 +190,11 @@ IoBlock *IoBlock_rawClone(IoBlock *proto) {
     return self;
 }
 
+/*cdoc Block IoBlock_new(state)
+Convenience constructor: looks up the registered proto and clones it.
+Used by IoBlock_method (the backing implementation of method() and
+block()).
+*/
 IoBlock *IoBlock_new(IoState *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
@@ -157,6 +205,11 @@ void IoBlock_rawPrint(IoBlock *self) {
     printf("%s\n", (char *)UArray_bytes(ba));
 }
 
+/*cdoc Block IoBlock_mark(self)
+Registered as the tag's markFunc. Marks the message tree (always
+present), the optional captured scope, and every argument name
+symbol.
+*/
 void IoBlock_mark(IoBlock *self) {
     IoBlockData *bd = DATA(self);
     IoObject_shouldMark(bd->message);
@@ -164,17 +217,30 @@ void IoBlock_mark(IoBlock *self) {
     LIST_DO_(bd->argNames, IoObject_shouldMark);
 }
 
+/*cdoc Block IoBlock_free(self)
+Registered as the tag's freeFunc. Frees the argNames basekit List and
+the IoBlockData payload. The message tree is GC-managed.
+*/
 void IoBlock_free(IoBlock *self) {
     List_free(DATA(self)->argNames);
     io_free(IoObject_dataPointer(self));
 }
 
+/*cdoc Block IoBlock_message_(self, m)
+Setter used by IoBlock_method and setMessage; IOREFs through the
+Block so the new message tree stays live.
+*/
 void IoBlock_message_(IoBlock *self, IoMessage *m) {
     DATA(self)->message = IOREF(m);
 }
 
 // calling --------------------------------------------------------
 
+/*cdoc Block IoBlock_activateWithProfiler(self, target, locals, m, slotContext)
+Profiler-enabled wrapper around IoBlock_activate. setProfilerOn(true)
+swaps this in as the tag's activateFunc so every activation of this
+block accumulates elapsed clock() time into profilerTime.
+*/
 IoObject *IoBlock_activateWithProfiler(IoBlock *self, IoObject *target,
                                        IoObject *locals, IoMessage *m,
                                        IoObject *slotContext) {
@@ -203,6 +269,20 @@ IO_METHOD(IoBlock, setProfilerOn) {
     return self;
 }
 
+/*cdoc Block IoBlock_activate(self, target, locals, m, slotContext)
+Core block activation. Clones localsProto, falls back to the message
+target when no lexical scope was captured, creates a Call object via
+IoCall_with, and seeds the fresh locals with call/self/updateSlot.
+Arguments are pre-evaluated in the caller's locals (IoMessage_locals_
+valueArgAt_) then bound by name, which is why blocks can see their
+sender's scope. The body is evaluated via IoMessage_locals_performOn_
+— under the iterative evaluator this redirects into the frame state
+machine rather than recursing on the C stack. On return, if passStops
+is clear, the block's return/continue/break status propagates through
+state->returnValue/stopStatus. The IO_BLOCK_LOCALS_RECYCLING path
+manually frees the Call and blockLocals when neither got captured,
+reclaiming the common case immediately instead of waiting for GC.
+*/
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals,
                            IoMessage *m, IoObject *slotContext) {
     IoState *state = IOSTATE;
@@ -279,6 +359,13 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals,
 
 // ------------------------------------------------------------------------
 
+/*cdoc Block IoBlock_method(target, locals, m)
+Implementation of Object method(...). Allocates a fresh Block, takes
+the last argument of m as the body message and the rest as arg name
+symbols, and marks the Block as activatable (so slot lookup will
+auto-invoke it). Object block() calls this first and then sets scope
+to the sender's locals to convert it into a lexical closure.
+*/
 IoObject *IoBlock_method(IoObject *target, IoObject *locals, IoMessage *m) {
     /*doc Object method(args..., body)
           Creates a method.
@@ -339,6 +426,12 @@ IO_METHOD(IoBlock, print) {
     return IONIL(self);
 }
 
+/*cdoc Block IoBlock_justCode(self)
+Serializes a Block to its Io source form as a UArray: opens with
+"block(" (lexical closure) or "method(" (dynamic) depending on
+whether a scope was captured, then emits the argument names and the
+message chain description. Caller owns the returned UArray.
+*/
 UArray *IoBlock_justCode(IoBlock *self) {
     UArray *ba = UArray_new();
 
@@ -522,10 +615,19 @@ IO_METHOD(IoBlock, profilerTime) {
                     ((double)CLOCKS_PER_SEC));
 }
 
+/*cdoc Block IoBlock_rawResetProfilerTime(self)
+Zeros the profiler accumulator. Exposed as a raw helper so profiler
+drivers (scheduler/debug tooling) can reset without synthesizing a
+message send.
+*/
 void IoBlock_rawResetProfilerTime(IoBlock *self) {
     DATA(self)->profilerTime = 0;
 }
 
+/*cdoc Block IoBlock_rawProfilerTime(self)
+Direct accessor for accumulated clock() ticks spent in this block.
+Matched setter is IoBlock_rawResetProfilerTime.
+*/
 clock_t IoBlock_rawProfilerTime(IoBlock *self) {
     return DATA(self)->profilerTime;
 }

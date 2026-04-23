@@ -12,6 +12,18 @@ if not specified, "./" is assumed.""")
 Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 */
 
+/*cmetadoc Directory description
+C implementation of Directory — a thin Io wrapper around POSIX
+opendir/readdir/closedir. IoDirectoryData holds a single symbol
+(the path); each items/at/size call reopens the directory rather
+than keeping a persistent DIR* open, which keeps clone semantics
+trivial and avoids leaking descriptors on GC. Under WASI the
+evaluator must have been started with --dir= for any path to be
+openable; otherwise opendir fails and Io sees an "unable to open
+directory" exception. isDirectory prefers the d_type fast path when
+the host dirent exposes it, falling back to a stat call otherwise.
+*/
+
 #include "IoDirectory.h"
 #include "IoState.h"
 #include "IoNumber.h"
@@ -24,6 +36,13 @@ Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 #include <sys/file.h>
 #define MKDIR mkdir
 
+/*cdoc Directory isDirectory(dp, path)
+Module-local helper that decides whether a readdir entry refers to a
+directory. Prefers the inline d_type byte when the platform exposes
+it (avoids a stat syscall per entry); if d_type is DT_UNKNOWN or
+DT_LNK, falls back to a full stat so symlink targets are resolved
+correctly. Shared by the items/at implementations below.
+*/
 int isDirectory(struct dirent *dp, const char *path) {
     struct stat st;
 
@@ -52,6 +71,9 @@ static const char *protoId = "Directory";
 
 #define DATA(self) ((IoDirectoryData *)IoObject_dataPointer(self))
 
+/*cdoc Directory IoDirectory_newTag(state)
+Builds the Directory tag with clone / mark / free function pointers.
+*/
 IoTag *IoDirectory_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -61,6 +83,11 @@ IoTag *IoDirectory_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Directory IoDirectory_proto(state)
+Creates the Directory proto: allocates IoDirectoryData with the
+default path of "." (launch dir), registers the proto, and installs
+the Io-visible method table.
+*/
 IoDirectory *IoDirectory_proto(void *state) {
     IoObject *self = IoObject_new(state);
     IoObject_tag_(self, IoDirectory_newTag(state));
@@ -92,6 +119,11 @@ IoDirectory *IoDirectory_proto(void *state) {
     return self;
 }
 
+/*cdoc Directory IoDirectory_rawClone(proto)
+Registered as the tag's cloneFunc. Copies the proto's IoDirectoryData
+so the clone inherits the path; both Directory clones and the proto
+therefore share nothing but an initial path string.
+*/
 IoDirectory *IoDirectory_rawClone(IoDirectory *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(
@@ -99,6 +131,9 @@ IoDirectory *IoDirectory_rawClone(IoDirectory *proto) {
     return self;
 }
 
+/*cdoc Directory IoDirectory_new(state)
+Convenience constructor: look up the Directory proto and clone it.
+*/
 IoDirectory *IoDirectory_new(void *state) {
     IoDirectory *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
@@ -106,22 +141,40 @@ IoDirectory *IoDirectory_new(void *state) {
 
 // -----------------------------------------------------------
 
+/*cdoc Directory IoDirectory_newWithPath_(state, path)
+Constructs a Directory clone with the given path. Does not touch the
+filesystem; callers typically follow with exists/items.
+*/
 IoDirectory *IoDirectory_newWithPath_(void *state, IoSymbol *path) {
     IoDirectory *self = IoDirectory_new(state);
     DATA(self)->path = IOREF(path);
     return self;
 }
 
+/*cdoc Directory IoDirectory_cloneWithPath_(self, path)
+Clones self and overrides its path — used when walking filesystem
+trees so subdirectories inherit any Io-level slots the caller may
+have attached to the parent Directory object.
+*/
 IoDirectory *IoDirectory_cloneWithPath_(IoDirectory *self, IoSymbol *path) {
     IoDirectory *d = IOCLONE(self);
     DATA(d)->path = IOREF(path);
     return d;
 }
 
+/*cdoc Directory IoDirectory_free(self)
+Registered as the tag's freeFunc. No OS handles to close — DIR*
+handles are opened and closed per operation, so only the
+IoDirectoryData payload needs to be released.
+*/
 void IoDirectory_free(IoDirectory *self) {
     io_free(IoObject_dataPointer(self));
 }
 
+/*cdoc Directory IoDirectory_mark(self)
+Registered as the tag's markFunc. The path symbol is the only Io
+object on IoDirectoryData.
+*/
 void IoDirectory_mark(IoDirectory *self) {
     IoObject_shouldMark((IoObject *)DATA(self)->path);
 }
@@ -163,6 +216,13 @@ IO_METHOD(IoDirectory, name) {
 
 // _DARWIN_FEATURE_64_BIT_INODE
 
+/*cdoc Directory IoDirectory_itemForDirent_(self, dp)
+Builds the Io-visible entry for one readdir result. Joins the
+parent path with dp->d_name (inserting a separator only if missing),
+then uses isDirectory to pick between constructing an IoDirectory or
+an IoFile. Used by the Io-level `items` method to materialize a
+directory listing as a List of typed objects.
+*/
 IoObject *IoDirectory_itemForDirent_(IoDirectory *self, struct dirent *dp) {
     IoSymbol *pathString;
     int isDir;
@@ -242,6 +302,11 @@ IO_METHOD(IoDirectory, items) {
     return items;
 }
 
+/*cdoc Directory IoDirectory_justFullPath(self, name)
+Joins the directory's path with a relative name into a fresh interned
+symbol. Used by at/createSubdirectory so path composition is done in
+one place with uniform separator handling via UArray_appendPath_.
+*/
 IoObject *IoDirectory_justFullPath(IoDirectory *self, IoSymbol *name) {
     UArray *fullPath = UArray_clone(IoSeq_rawUArray(DATA(self)->path));
     UArray_appendPath_(fullPath, IoSeq_rawUArray(name));
@@ -249,6 +314,12 @@ IoObject *IoDirectory_justFullPath(IoDirectory *self, IoSymbol *name) {
                                                              0);
 }
 
+/*cdoc Directory IoDirectory_justAt(self, name)
+Looks up a child by name using stat(2) and returns a Directory or
+File depending on the result; returns ioNil if the path does not
+exist. Shared between the Io-level `at` and `createSubdirectory`
+methods.
+*/
 IoObject *IoDirectory_justAt(IoDirectory *self, IoSymbol *name) {
     IoState *state = IOSTATE;
     IoSymbol *fullPath = IoDirectory_justFullPath(self, name);
@@ -399,6 +470,12 @@ IO_METHOD(IoDirectory, size) {
 
 /* -------------------------------- */
 
+/*cdoc Directory IoDirectory_CurrentWorkingDirectoryAsUArray(void)
+Wraps getcwd(3) and returns a newly-allocated UArray containing the
+cwd (or "." on failure). The allocated buf is deliberately not freed
+— OSX MallocDebug flags that free as a bug despite the man page, and
+WASI does not need it.
+*/
 UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void) {
     char *buf = NULL;
     buf = (char *)getcwd(buf, 1024);
@@ -416,6 +493,10 @@ UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void) {
     }
 }
 
+/*cdoc Directory IoDirectory_SetCurrentWorkingDirectory(path)
+Thin wrapper around chdir so non-VM C code can change the process cwd
+without including <unistd.h> directly.
+*/
 int IoDirectory_SetCurrentWorkingDirectory(const char *path) {
     return chdir(path);
 }

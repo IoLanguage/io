@@ -1,8 +1,13 @@
 #!/usr/local/bin/io
 
+// Args:
+//   1: output directory
+//   2: source kind — "docs" (Io-visible, default) or "cdocs" (C internals)
 docsPath := System args at(1)
+sourceKind := System args at(2) ifNilEval("docs")
 
-// Inline doc extraction (no shelling out — works on WASM)
+// Inline doc extraction (no shelling out — works on WASM).
+// extract writes both docs.txt and cdocs.txt in one pass.
 doRelativeFile("DocsExtractor.io")
 DocsExtractor clone setPath("libs/iovm") extract
 
@@ -14,12 +19,12 @@ File _write := File getSlot("write")
 File writeln := method(call evalArgs foreach(s, self _write(s)); self _write("\n"); self)
 
 readFolder := method(path,
-	file := File with(Path with(path, "/docs/docs.txt"))
+	file := File with(Path with(path, "/docs/" .. sourceKind .. ".txt"))
 	if(file exists, nil,
-	    "readFolder(#{path}/docs/docs.txt fails\n" interpolate println
+	    "readFolder(#{path}/docs/#{sourceKind}.txt fails\n" interpolate println
  	    return)
         file contents split("------\n") foreach(e,
-		isSlot := e beginsWithSeq("doc")
+		isSlot := e beginsWithSeq("doc") or e beginsWithSeq("cdoc")
 		h := e beforeSeq("\n") afterSeq(" ") 
 		if(h,
 			h = h asMutable strip asSymbol

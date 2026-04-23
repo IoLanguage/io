@@ -5,6 +5,19 @@
 /*metadoc Date description A container for a date and time information.*/
 // metadoc Date credits fromString method by Sean Perry
 
+/*cmetadoc Date description
+IoObject wrapper around the plain-C Date struct (a timeval plus a
+timezone). All real calendar math — year/month/day/hour/minute/second
+decomposition, strftime-style formatting, strptime-style parsing,
+UTC/local/zone conversion — lives in Date.c and PortableStrptime.c;
+this file just bridges Io message sends to those C routines, manages
+lifecycle (tag, clone, free, compare), and handles arithmetic with
+IoDuration (Date + Duration -> Date, Date - Date -> Duration). A
+"format" slot on the proto holds the default strftime pattern
+("%Y-%m-%d %H:%M:%S %Z") that asString falls back to when no explicit
+format argument is supplied.
+*/
+
 #include "IoDate.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -20,6 +33,11 @@ static const char *protoId = "Date";
 
 #define DATA(self) ((Date *)IoObject_dataPointer(self))
 
+/*cdoc Date IoDate_newTag(state)
+Builds the Date tag, wiring clone / free / compare function pointers.
+No markFunc is needed since the C Date payload holds no IoObject
+references — it is a pure timeval + timezone record.
+*/
 IoTag *IoDate_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -29,6 +47,14 @@ IoTag *IoDate_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Date IoDate_proto(state)
+Creates the Date proto, installs its method table (accessors, zone
+conversions, serialization, arithmetic operators, printing), attaches
+the tag from IoDate_newTag, and seeds the "format" slot with the
+default strftime pattern. Registered on the VM state under protoId
+so IoDate_new / IoDate_newWithTime_ / IoDate_newWithLocalTime_ can
+clone it.
+*/
 IoDate *IoDate_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"asSerialization", IoDate_asSerialization},
@@ -94,6 +120,11 @@ IoDate *IoDate_proto(void *state) {
     return self;
 }
 
+/*cdoc Date IoDate_rawClone(proto)
+Tag cloneFunc. Allocates a fresh C Date struct on the new clone and
+copies the proto's timeval/timezone via Date_copy_, so every IoDate
+owns its own time state rather than aliasing the proto's.
+*/
 IoDate *IoDate_rawClone(IoDate *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(self, Date_new());
@@ -101,31 +132,61 @@ IoDate *IoDate_rawClone(IoDate *proto) {
     return self;
 }
 
+/*cdoc Date IoDate_new(state)
+Clones the registered proto. Returned Date carries whatever time
+value the proto currently holds; callers typically follow up with
+Date_now or one of the fromX methods to stamp a specific value.
+*/
 IOVM_API IoDate *IoDate_new(void *state) {
     IoDate *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc Date IoDate_newWithTime_(state, t)
+Factory taking a POSIX time_t (seconds since the epoch). Routes
+through Date_fromTime_ which populates the embedded timeval's
+tv_sec and zeroes tv_usec.
+*/
 IOVM_API IoDate *IoDate_newWithTime_(void *state, time_t t) {
     IoDate *self = IoDate_new(state);
     Date_fromTime_(DATA(self), t);
     return self;
 }
 
+/*cdoc Date IoDate_newWithTimeval_(state, tv)
+Factory taking a struct timeval directly, preserving microsecond
+precision that IoDate_newWithTime_ drops. Used where sub-second
+accuracy matters (benchmarks, high-resolution timestamps).
+*/
 IOVM_API IoDate *IoDate_newWithTimeval_(void *state, struct timeval tv) {
     IoDate *self = IoDate_new(state);
     DATA(self)->tv = tv;
     return self;
 }
 
+/*cdoc Date IoDate_newWithLocalTime_(state, t)
+Factory taking a broken-down struct tm in local time. Date_fromLocalTime_
+reassembles the timeval and timezone so the resulting IoDate matches
+the calendar fields supplied.
+*/
 IOVM_API IoDate *IoDate_newWithLocalTime_(void *state, struct tm *t) {
     IoDate *self = IoDate_new(state);
     Date_fromLocalTime_(DATA(self), t);
     return self;
 }
 
+/*cdoc Date IoDate_free(self)
+Tag freeFunc. Releases the heap-allocated C Date struct; the
+IoObject header is reclaimed by the collector.
+*/
 void IoDate_free(IoDate *self) { Date_free(DATA(self)); }
 
+/*cdoc Date IoDate_compare(self, date)
+Tag compareFunc. Delegates to Date_compare for Date-vs-Date (which
+ultimately compares timevals) and falls back to the default object
+compare for cross-type comparisons so ordered collections still get
+a total order.
+*/
 int IoDate_compare(IoDate *self, IoDate *date) {
     if (ISDATE(date))
         return Date_compare(DATA(self), DATA(date));

@@ -2,6 +2,17 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
+/*cmetadoc State description
+Error-raising helpers for the iterative evaluator. IoState_error_ is
+the workhorse: it formats the message, builds an Exception on the
+current coroutine, and sets state->errorRaised so the eval loop
+unwinds on its next step. Crucially this function does NOT longjmp
+or abort — the stackless rewrite relies on normal returns, so every
+CFunction caller must check state->errorRaised after this helper and
+bail out explicitly. IoState_fatalError_ is reserved for non-recoverable
+bootstrap failures where no Io-visible error path exists yet.
+*/
+
 #include "IoState.h"
 #include "IoObject.h"
 #include "IoCoroutine.h"
@@ -14,12 +25,27 @@
 // Define DEBUG_CORO_EVAL to enable verbose debug output
 // #define DEBUG_CORO_EVAL 1
 
+/*cdoc State IoState_fatalError_(self, error)
+Prints a message to stderr and terminates the process. Used only from
+bootstrap paths (missing proto, broken init ordering) where there is
+no running coroutine for an exception to land on.
+*/
 void IoState_fatalError_(IoState *self, char *error) {
     fputs(error, stderr);
     fputs("\n", stderr);
     exit(-1);
 }
 
+/*cdoc State IoState_error_(self, m, format, ...)
+Raises an Io-level exception without longjmp. Formats the description
+with printf-style vargs, clones the current coroutine's Exception proto,
+and stores description / caughtMessage / coroutine slots on it. Any
+paused collector is resumed first so exception allocation is not
+deferred. Sets state->errorRaised to 1; the caller MUST return early
+and the enclosing iterative eval loop will unwind frames on the next
+step. If m is NULL (C-side error with no Io message context) the
+caughtMessage slot is omitted.
+*/
 void IoState_error_(IoState *self, IoMessage *m, const char *format, ...) {
     IoSymbol *description;
 

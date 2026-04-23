@@ -6,6 +6,19 @@
 A key/value dictionary appropriate for holding large key/value collections.
 */
 
+/*cmetadoc Map description
+Thin IoObject wrapper around basekit's PHash (cuckoo hash). DATA(self)
+is the PHash*; mark walks every key and value so contained IoObjects
+remain live. Unlike Io's own Object slots (which are stored in a
+PHash owned by the Object), Map is a separate user-visible collection
+with ordering-free semantics and symbol keys. The foreach implementation
+has two paths: on the iterative evaluator it materializes keys via
+IoMap_rawKeys and hands the List off to the foreach frame state machine
+(controlFlow.foreachInfo.mapSource carries the original Map so the loop
+can look the value up per iteration). The recursive fallback PHASH_FOREACH
+is used only during VM bootstrap before state->currentFrame exists.
+*/
+
 #include "IoMap.h"
 #include "IoObject.h"
 #include "IoState.h"
@@ -23,6 +36,11 @@ static const char *protoId = "Map";
 
 int IoMap_compare(IoMap *self, IoMap *other);
 
+/*cdoc Map IoMap_newTag(state)
+Builds the Map tag and installs clone/free/mark/compare function
+pointers. Stream write/read slots are left unset (the commented-out
+block below preserves the legacy BStream format).
+*/
 IoTag *IoMap_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -36,6 +54,12 @@ IoTag *IoMap_newTag(void *state) {
     return tag;
 }
 
+/*cdoc Map IoMap_compare(self, other)
+Registered as the tag's compareFunc. Falls back to default pointer
+comparison against non-Maps. Otherwise compares by size first, then
+by walking the receiver's entries and comparing values for identical
+keys; any missing key or unequal value yields a nonzero result.
+*/
 int IoMap_compare(IoMap *self, IoMap *other) {
     if (!ISMAP(other)) {
         return IoObject_defaultCompare(self, other);
@@ -95,6 +119,12 @@ IoState_objectWithPid_(IOSTATE, v));
 }
 */
 
+/*cdoc Map IoMap_proto(state)
+Creates the Map proto, attaches a fresh PHash as its data pointer,
+and wires up the Io-visible method table (empty, at, atPut, keys,
+values, foreach, hasKey, hasValue, removeAt, ...). Called once during
+VM init; all later Maps are clones of this proto.
+*/
 IoMap *IoMap_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"empty", IoMap_empty},       {"at", IoMap_at},
@@ -116,19 +146,36 @@ IoMap *IoMap_proto(void *state) {
     return self;
 }
 
+/*cdoc Map IoMap_rawClone(proto)
+Registered as the tag's cloneFunc. Gives the clone its own PHash
+copy so mutation of one Map does not leak into the proto.
+*/
 IoMap *IoMap_rawClone(IoMap *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(self, PHash_clone(DATA(proto)));
     return self;
 }
 
+/*cdoc Map IoMap_new(state)
+Convenience constructor: looks up the registered proto and clones it.
+Used by C callers (serialization, foreach plumbing) that want a fresh
+Map without going through message machinery.
+*/
 IoMap *IoMap_new(void *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc Map IoMap_free(self)
+Registered as the tag's freeFunc. Frees the backing PHash; contained
+IoObjects are GC-managed and not touched here.
+*/
 void IoMap_free(IoMap *self) { PHash_free(DATA(self)); }
 
+/*cdoc Map IoMap_mark(self)
+Registered as the tag's markFunc. Walks every key and value so
+contained IoObjects stay live for the GC.
+*/
 void IoMap_mark(IoMap *self) {
     // PHash_doOnKeyAndValue_(DATA(self), (ListDoCallback
     // *)IoObject_shouldMark);
@@ -136,6 +183,11 @@ void IoMap_mark(IoMap *self) {
                   IoObject_shouldMark(v));
 }
 
+/*cdoc Map IoMap_rawAtPut(self, k, v)
+Low-level insert used from C. IOREFs both key and value so the GC
+keeps them alive through this Map. Preferred over the Io-level atPut
+when a value is being threaded through internal machinery.
+*/
 void IoMap_rawAtPut(IoMap *self, IoSymbol *k, IoObject *v) {
     PHash_at_put_(DATA(self), IOREF(k), IOREF(v));
 }
@@ -153,6 +205,10 @@ IO_METHOD(IoMap, empty) {
     return self;
 }
 
+/*cdoc Map IoMap_rawAt(self, k)
+Low-level lookup used from C. Returns NULL on miss (not nil) so
+callers can distinguish a stored nil from an absent key.
+*/
 IoObject *IoMap_rawAt(IoMap *self, IoSymbol *k) {
     return PHash_at_(DATA(self), k);
 }
@@ -241,12 +297,23 @@ IO_METHOD(IoMap, hasValue) {
     return IoList_contains(values, locals, m);
 }
 
+/*cdoc Map IoMap_rawKeys(self)
+Builds a List of the Map's keys in PHash iteration order. Used by
+the Io-visible keys method and — importantly — by the iterative
+foreach path, which needs a materialized index-addressable collection
+to drive the foreach frame state machine.
+*/
 IoList *IoMap_rawKeys(IoMap *self) {
     IoList *list = IoList_new(IOSTATE);
     PHASH_FOREACH(DATA(self), k, v, IoList_rawAppend_(list, k));
     return list;
 }
 
+/*cdoc Map IoMap_keys(self, locals, m)
+Io-visible thin wrapper over IoMap_rawKeys. Defined as a plain
+function (not IO_METHOD) because IoMap_rawKeys is also called from C
+paths that already have a raw Map pointer.
+*/
 IoList *IoMap_keys(IoMap *self, IoObject *locals, IoMessage *m) {
     /*doc Map keys
     Returns a List of the receivers keys.

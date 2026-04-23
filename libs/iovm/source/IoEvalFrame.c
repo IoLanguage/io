@@ -3,6 +3,19 @@
 // metadoc EvalFrame license BSD revised
 // metadoc EvalFrame category Core
 
+/*cmetadoc EvalFrame description
+Heap-allocated frame state machine that replaces C-stack recursion in the
+evaluator. Each frame is a GC-managed IoObject carrying an IoEvalFrameData
+payload: the message being evaluated, its target/locals, an evaluation
+state (see IoFrameState), evaluated-argument storage with a 4-slot inline
+buffer, and a discriminated-union of control-flow continuations (if/while/
+for/foreach/callcc/coroutine/await) live only for the states that use them.
+Frames form a parent chain rooted at the coroutine's bottom frame; the GC
+walks that chain via the tag's markFunc. This module owns frame lifecycle
+(alloc, clone, reset, free) and state-name &harr; enum conversion; the
+actual step-by-step state transitions live in IoState_iterative.c.
+*/
+
 #include "IoEvalFrame.h"
 #include "IoState.h"
 #include "IoNumber.h"
@@ -11,6 +24,10 @@
 
 static const char *protoId = "EvalFrame";
 
+/*cdoc EvalFrame IoEvalFrame_newTag(state)
+Builds the IoTag that carries the frame's clone / mark / free function
+pointers. Called once from IoEvalFrame_proto.
+*/
 IoTag *IoEvalFrame_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -20,6 +37,13 @@ IoTag *IoEvalFrame_newTag(void *state) {
     return tag;
 }
 
+/*cdoc EvalFrame IoEvalFrame_proto(state)
+Creates the EvalFrame proto object: allocates a zeroed IoEvalFrameData
+payload, attaches the tag from IoEvalFrame_newTag, registers the proto
+on the VM state, and installs the Io-visible method table (message,
+target, locals, state, parent, result, depth, call, blockLocals,
+description). All live frames are clones of this proto.
+*/
 IoEvalFrame *IoEvalFrame_proto(void *vState) {
     IoState *state = (IoState *)vState;
     IoObject *self = IoObject_new(state);
@@ -52,6 +76,10 @@ IoEvalFrame *IoEvalFrame_proto(void *vState) {
     return self;
 }
 
+/*cdoc EvalFrame IoEvalFrame_rawClone(proto)
+Registered as the tag's cloneFunc. Allocates a fresh IoEvalFrameData
+payload on the new clone — frames do not share data with their proto.
+*/
 IoEvalFrame *IoEvalFrame_rawClone(IoEvalFrame *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEvalFrameData)));
@@ -62,12 +90,21 @@ IoEvalFrame *IoEvalFrame_rawClone(IoEvalFrame *proto) {
     return self;
 }
 
+/*cdoc EvalFrame IoEvalFrame_newWithState(state)
+Convenience: look up the registered proto on the state and clone it.
+Preferred entry point when the iterative evaluator needs a fresh frame.
+*/
 IoEvalFrame *IoEvalFrame_newWithState(void *vState) {
     IoObject *proto = IoState_protoWithId_((IoState *)vState, protoId);
     return IOCLONE(proto);
 }
 
-// Free an evaluation frame's data (tag freeFunc)
+/*cdoc EvalFrame IoEvalFrame_free(self)
+Registered as the tag's freeFunc. Frees the heap-allocated argValues
+buffer (only if it isn't pointing at the inline 4-slot buffer) and the
+IoEvalFrameData payload. IoObject fields are not freed here — the GC
+owns them.
+*/
 void IoEvalFrame_free(IoEvalFrame *self) {
     IoEvalFrameData *fd = (IoEvalFrameData *)IoObject_dataPointer(self);
     if (fd) {
@@ -78,8 +115,17 @@ void IoEvalFrame_free(IoEvalFrame *self) {
     }
 }
 
-// Mark a frame's contents for garbage collection (tag markFunc)
-// Marks the parent frame as an IoObject — GC follows the chain transitively.
+/*cdoc EvalFrame IoEvalFrame_mark(self)
+Registered as the tag's markFunc. Walks every GC-visible field on the
+frame: parent frame, message, target, locals, cachedTarget, result,
+slotValue, slotContext, call, savedCall, blockLocals, and the already-
+evaluated entries of argValues (0 .. currentArgIndex-1). The discriminated
+controlFlow union is only marked for states that actually use it — the
+switch on fd->state dispatches to the right arm. The parent pointer
+drives GC reachability for the whole frame chain: marking the bottom
+frame of a coroutine transitively keeps the whole active call stack
+alive.
+*/
 void IoEvalFrame_mark(IoEvalFrame *self) {
     IoEvalFrameData *fd = (IoEvalFrameData *)IoObject_dataPointer(self);
     if (!fd) return;
@@ -178,7 +224,12 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
     }
 }
 
-// Return a human-readable name for a frame state
+/*cdoc EvalFrame IoEvalFrame_stateName(state)
+Maps an IoFrameState enum value to its canonical string name
+(e.g. FRAME_STATE_IF_EVAL_BRANCH &rarr; "if:evalBranch"). Used by
+the Io-visible state method and by debug tracing. The string form
+doubles as a stable serialization key for continuation snapshots.
+*/
 const char *IoEvalFrame_stateName(IoFrameState state) {
     switch (state) {
         case FRAME_STATE_START: return "start";
@@ -213,7 +264,12 @@ const char *IoEvalFrame_stateName(IoFrameState state) {
     }
 }
 
-// Return a frame state enum from its string name (reverse of IoEvalFrame_stateName)
+/*cdoc EvalFrame IoEvalFrame_stateFromName(name)
+Inverse of IoEvalFrame_stateName &mdash; resolves a canonical state string
+back to its enum value. Needed when rehydrating a serialized continuation
+(see Continuation fromMap). Falls back to FRAME_STATE_START for a NULL or
+unrecognized name, which keeps deserialization total.
+*/
 IoFrameState IoEvalFrame_stateFromName(const char *name) {
 	if (!name) return FRAME_STATE_START;
 	if (strcmp(name, "start") == 0) return FRAME_STATE_START;
@@ -247,7 +303,13 @@ IoFrameState IoEvalFrame_stateFromName(const char *name) {
 	return FRAME_STATE_START;
 }
 
-// Reset frame data to initial state (for reuse)
+/*cdoc EvalFrame IoEvalFrame_reset(self)
+Zeros the IoEvalFrameData payload so the frame can be reused without
+re-allocating the IoObject. Frees the heap argValues buffer first (but
+does NOT touch the inline buffer). Leaves the IoObject header, tag,
+and proto chain intact. Used by the frame-pool fast path in
+IoState_iterative_fast.c to recycle frames between activations.
+*/
 void IoEvalFrame_reset(IoEvalFrame *self) {
     if (!self) return;
 

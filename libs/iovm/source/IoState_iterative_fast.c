@@ -9,6 +9,19 @@ High-performance iterative evaluator with aggressive optimizations:
 - Local variable caching
 */
 
+/*cmetadoc State description
+Experimental fast-path evaluator alongside IoState_iterative.c.
+Uses a fixed-size thread-local IoFramePool (no malloc per frame) and
+— under GCC — a computed-goto dispatch table in place of the main
+eval loop's switch. Supports only the minimal set of frame states
+(START / EVAL_ARGS / LOOKUP_SLOT / ACTIVATE / CONTINUE_CHAIN / RETURN):
+anything that needs special-form handling (if/while/for/callcc/
+coroutine switches) is not covered here and must use the primary
+iterative evaluator. IoMessage_locals_performOn_fast is the entry
+point; it is currently opt-in rather than the default because the
+feature coverage is incomplete.
+*/
+
 #include "IoState.h"
 #include "IoEvalFrame.h"
 #include "IoMessage.h"
@@ -25,7 +38,12 @@ typedef struct IoFramePool {
     int freeCount;
 } IoFramePool;
 
-// Initialize frame pool
+/*cdoc State IoFramePool_init(pool)
+Resets a FRAME_POOL_SIZE-entry frame pool to empty: initializes the
+free-list index stack and zeroes each embedded IoEvalFrame via
+IoEvalFrame_reset. Called lazily the first time a thread enters
+IoMessage_locals_performOn_fast.
+*/
 static void IoFramePool_init(IoFramePool *pool) {
     pool->freeCount = FRAME_POOL_SIZE;
     for (int i = 0; i < FRAME_POOL_SIZE; i++) {
@@ -34,7 +52,13 @@ static void IoFramePool_init(IoFramePool *pool) {
     }
 }
 
-// Allocate frame from pool (inline for speed)
+/*cdoc State IoFramePool_alloc(pool)
+Pops a free index off the pool's stack and returns the pre-allocated
+frame at that slot. Falls back to IoEvalFrame_new (a heap allocation)
+when the pool is exhausted; the caller pairs every alloc with an
+IoFramePool_free that routes the frame back correctly whether it was
+pooled or heap-backed.
+*/
 static inline IoEvalFrame *IoFramePool_alloc(IoFramePool *pool) {
     if (pool->freeCount > 0) {
         int idx = pool->freeList[--pool->freeCount];
@@ -44,7 +68,13 @@ static inline IoEvalFrame *IoFramePool_alloc(IoFramePool *pool) {
     return IoEvalFrame_new();
 }
 
-// Return frame to pool (inline for speed)
+/*cdoc State IoFramePool_free(pool, frame)
+Pointer-range check decides whether frame lives inside the pool's
+array; pool-owned frames get reset and their index pushed back on
+the free list, heap-allocated overflow frames are passed to
+IoEvalFrame_free. The index is recovered by pointer arithmetic
+relative to pool->frames[0].
+*/
 static inline void IoFramePool_free(IoFramePool *pool, IoEvalFrame *frame) {
     // Check if frame is from pool
     if (frame >= &pool->frames[0] &&
@@ -57,7 +87,14 @@ static inline void IoFramePool_free(IoFramePool *pool, IoEvalFrame *frame) {
     }
 }
 
-// Push frame using pool
+/*cdoc State IoState_pushFrameFast_(state, pool)
+Pool-backed analogue of IoState_pushFrame_. Pulls a frame from the
+pool, links it to state->currentFrame as the new top, bumps
+frameDepth, and raises a stack-overflow error when the configured
+max is crossed. Like the slow-path version it leaves newly-pushed
+fields uninitialized — callers are expected to stamp message /
+target / locals / state immediately after.
+*/
 static inline IoEvalFrame *IoState_pushFrameFast_(IoState *state, IoFramePool *pool) {
     IoEvalFrame *frame = IoFramePool_alloc(pool);
     frame->parent = state->currentFrame;
@@ -72,7 +109,11 @@ static inline IoEvalFrame *IoState_pushFrameFast_(IoState *state, IoFramePool *p
     return frame;
 }
 
-// Pop frame using pool
+/*cdoc State IoState_popFrameFast_(state, pool)
+Inverse of IoState_pushFrameFast_. Unlinks the current frame from the
+parent chain, decrements frameDepth, and returns the frame to the
+pool. Safe to call when state->currentFrame is NULL (no-op).
+*/
 static inline void IoState_popFrameFast_(IoState *state, IoFramePool *pool) {
     IoEvalFrame *frame = state->currentFrame;
     if (frame) {
@@ -82,7 +123,14 @@ static inline void IoState_popFrameFast_(IoState *state, IoFramePool *pool) {
     }
 }
 
-// Fast activation for blocks
+/*cdoc State IoState_activateBlockFast_(state, callerFrame, pool)
+Inlines block activation on the fast path: builds blockLocals and a
+Call object, binds formal args from callerFrame->argValues, then
+pushes a new pool frame in FRAME_STATE_START ready to evaluate the
+block's body. Differs from IoState_activateBlock_ in IoState_iterative.c
+only in its pool-backed allocation and inlined helper calls; feature
+coverage (e.g. variadic blocks, TCO) is intentionally narrower.
+*/
 static inline void IoState_activateBlockFast_(IoState *state, IoEvalFrame *callerFrame, IoFramePool *pool) {
     IoBlock *block = (IoBlock *)callerFrame->slotValue;
     IoBlockData *blockData = (IoBlockData *)IoObject_dataPointer(block);
@@ -127,7 +175,15 @@ static inline void IoState_activateBlockFast_(IoState *state, IoEvalFrame *calle
     blockFrame->passStops = blockData->passStops;
 }
 
-// Ultra-fast evaluation loop with computed gotos
+/*cdoc State IoState_evalLoopFast_(state, pool)
+Fast-path analogue of IoState_evalLoop_. Drives the same frame state
+machine, but uses a GCC computed-goto dispatch table (and a switch
+fallback for other compilers) and covers only the six core states,
+so it must not be called with frames in special-form states. Polls
+state->receivedSignal and stopStatus between iterations and unwinds
+via FRAME_STATE_RETURN until the frame chain is empty. Returns the
+last frame's result, which becomes the outer IoObject *.
+*/
 IoObject *IoState_evalLoopFast_(IoState *state, IoFramePool *pool) {
     IoEvalFrame *frame;
     IoObject *result = state->ioNil;
@@ -345,7 +401,15 @@ IoObject *IoState_evalLoopFast_(IoState *state, IoFramePool *pool) {
     return result;
 }
 
-// Fast entry point
+/*cdoc State IoMessage_locals_performOn_fast(self, locals, target)
+Fast-path entry equivalent of IoMessage_locals_performOn_. Lazily
+initializes a thread-local IoFramePool (__thread storage) on first
+use, pushes the initial frame with the caller's message/target/locals,
+and runs IoState_evalLoopFast_ to completion. Because the pool is
+thread-local and the fast loop does not support cross-coroutine
+handoff, this is only safe for self-contained evaluations that
+never yield or invoke a continuation.
+*/
 IoObject *IoMessage_locals_performOn_fast(IoMessage *self, IoObject *locals, IoObject *target) {
     IoState *state = IOSTATE;
 

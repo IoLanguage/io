@@ -2,6 +2,18 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
+/*cmetadoc State description
+Symbol interning and cached-number allocation for the VM. Symbols live
+in state->symbols (a CHash keyed by UArray contents) so that equal
+Sequences always intern to the same IoObject pointer — essential for
+the hot-path message-name comparisons in IoMessage and the iterative
+evaluator. Small integer Numbers in [-10, 1024] are pre-created and
+shared; larger Numbers go through a bespoke inline allocator that
+bypasses IOCLONE (and therefore avoids the collector-pause / tag
+dispatch / double-add-to-whites overhead in what is by far the most
+common allocation site in typical Io programs).
+*/
+
 #include "IoState.h"
 #include "IoObject.h"
 #include "IoSeq.h"
@@ -12,6 +24,13 @@
 
 // numbers ----------------------------------
 
+/*cdoc State IoState_setupCachedNumbers(self)
+Pre-creates IoNumber objects for every integer in
+[MIN_CACHED_NUMBER, MAX_CACHED_NUMBER] and retains them, so the common
+case of integer literals never allocates. Also caches the Number proto
+and tag pointers and initializes the freelist used by
+IoState_numberWithDouble_ to recycle IoNumberData blocks.
+*/
 void IoState_setupCachedNumbers(IoState *self) {
     int i;
 
@@ -30,6 +49,16 @@ void IoState_setupCachedNumbers(IoState *self) {
     self->numberDataFreeListSize = 0;
 }
 
+/*cdoc State IoState_numberWithDouble_(self, n)
+Fast-path IoNumber allocator. Integer values that fit the cache table
+come back as shared singletons (fast pointer compare, zero allocation).
+Everything else is built by a manual, pause-free construction that
+recycles IoObjectData blocks from state->numberDataFreeList — IOCLONE
+on Number was identified as a hotspot in profiling because of the
+collector pause, tag activate dispatch, and duplicate add-to-whites
+bookkeeping, so this function opens that up by hand. Returned objects
+are stack-retained for GC safety.
+*/
 IoObject *IoState_numberWithDouble_(IoState *self, double n) {
     long i = (long)n;
 
@@ -76,6 +105,14 @@ IoObject *IoState_numberWithDouble_(IoState *self, double n) {
 
 // strings ----------------------------------
 
+/*cdoc State IoState_symbolWithUArray_copy_(self, ba, copy)
+Canonical symbol-interning entry point. Looks the UArray up in the
+symbol table, returns the existing IoSymbol if found (the new ba is
+freed unless copy == 1), or creates and registers a new Symbol
+otherwise. Does not convert ba to a fixed-width encoding — callers
+producing wide/UTF-16 buffers must use the _convertToFixedWidth form.
+Result is stack-retained by the caller path.
+*/
 IoSymbol *IoState_symbolWithUArray_copy_(
     IoState *self, UArray *ba,
     int copy) // carefull - doesn't convert to fixed width
@@ -95,6 +132,12 @@ IoSymbol *IoState_symbolWithUArray_copy_(
     return ioSymbol;
 }
 
+/*cdoc State IoState_symbolWithUArray_copy_convertToFixedWidth(self, ba, copy)
+Variant of the UArray-to-Symbol path that first collapses the buffer to
+a fixed-width byte encoding before hashing, so two Sequences that render
+the same bytes but use different UArray element types still intern to
+one Symbol. Forwards to IoState_symbolWithCString_length_.
+*/
 IoSymbol *IoState_symbolWithUArray_copy_convertToFixedWidth(IoState *self,
                                                             UArray *ba,
                                                             int copy) {
@@ -105,6 +148,11 @@ IoSymbol *IoState_symbolWithUArray_copy_convertToFixedWidth(IoState *self,
     return r;
 }
 
+/*cdoc State IoState_symbolWithCString_length_(self, s, length)
+Interns a byte slice as a Symbol. Wraps the C buffer in a UTF-8-tagged
+UArray, converts it to a fixed-size element type so hashes match the
+canonical encoding, then interns through IoState_symbolWithUArray_copy_.
+*/
 IoSymbol *IoState_symbolWithCString_length_(IoState *self, const char *s,
                                             size_t length) {
     UArray *a =
@@ -114,10 +162,22 @@ IoSymbol *IoState_symbolWithCString_length_(IoState *self, const char *s,
     return IoState_symbolWithUArray_copy_(self, a, 0);
 }
 
+/*cdoc State IoState_symbolWithCString_(self, s)
+Null-terminated convenience wrapper around
+IoState_symbolWithCString_length_. This is the most-used intern path in
+the VM — SIOSYMBOL expands to a call here.
+*/
 IoSymbol *IoState_symbolWithCString_(IoState *self, const char *s) {
     return IoState_symbolWithCString_length_(self, s, strlen(s));
 }
 
+/*cdoc State IoState_addSymbol_(self, s)
+Registers a freshly-built IoSymbol in the global symbol table and
+assigns it two independent hash seeds from state->randomGen. Hash
+values are baked into the IoSymbol so PHash cuckoo-hash slot lookups
+never re-hash a key — this is the critical invariant that makes slot
+reads in the iterative evaluator a pointer-compare plus array lookup.
+*/
 IoSymbol *IoState_addSymbol_(IoState *self, IoSymbol *s) {
     CHash_at_put_(self->symbols, IoSeq_rawUArray(s), s);
     IoObject_isSymbol_(s, 1);
@@ -128,6 +188,12 @@ IoSymbol *IoState_addSymbol_(IoState *self, IoSymbol *s) {
     return s;
 }
 
+/*cdoc State IoState_removeSymbol_(self, s)
+Drops an IoSymbol from the intern table, called by the collector's
+willFree path when a Symbol is about to be swept. Without this the
+symbol table would keep pointers to freed memory and any future
+intern of the same bytes would return a dangling IoSymbol.
+*/
 void IoState_removeSymbol_(IoState *self, IoSymbol *s) {
     CHash_removeKey_(self->symbols, IoSeq_rawUArray(s));
 }

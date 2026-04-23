@@ -5,6 +5,21 @@
 A mutable array of values. The first index is 0.
 */
 
+/*cmetadoc List description
+Thin IoObject wrapper around the shared basekit List container (DATA(self)
+is a plain List*). The tag installs clone/mark/free/compare function
+pointers; marking walks every element so the GC keeps contained objects
+alive. Iteration primitives (each, foreach, reverseForeach) have two
+execution paths: when state->currentFrame is set they stamp the frame's
+controlFlow.foreachInfo union and return immediately so the iterative
+eval loop drives the iteration (see FRAME_STATE_FOREACH_* in
+IoState_iterative.c); otherwise a LIST_SAFEFOREACH recursive fallback is
+used, which is exercised during VM bootstrap before the eval loop starts.
+Mutation methods set IoObject_isDirty_ so Store/persistence layers can
+notice change. asEncodedList / fromEncodedList implement a compact binary
+round-trip used by the object serialization machinery.
+*/
+
 #include <math.h>
 #include "IoList.h"
 #include "IoObject.h"
@@ -20,6 +35,11 @@ static const char *protoId = "List";
 
 #define DATA(self) ((List *)(IoObject_dataPointer(self)))
 
+/*cdoc List IoList_newTag(state)
+Builds the List tag and installs clone/free/mark/compare function
+pointers. Stream write/read slots are left unset (the commented-out
+block below preserves the legacy BStream format).
+*/
 IoTag *IoList_newTag(void *state) {
     IoTag *tag = IoTag_newWithName_(protoId);
     IoTag_state_(tag, state);
@@ -59,6 +79,12 @@ void IoList_readFromStream_(IoList *self, BStream *stream)
 }
 */
 
+/*cdoc List IoList_proto(state)
+Creates the List proto, attaches a fresh basekit List as its data
+pointer, and wires up the Io-visible method table (access, mutation,
+iteration, slicing, sorting, encoded serialization, join). Called once
+during VM init; all later Lists are clones of this proto.
+*/
 IoList *IoList_proto(void *state) {
     IoMethodTable methodTable[] = {
         {"with", IoList_with},
@@ -121,6 +147,10 @@ IoList *IoList_proto(void *state) {
     return self;
 }
 
+/*cdoc List IoList_rawClone(proto)
+Registered as the tag's cloneFunc. Gives the clone its own basekit
+List copy so mutation of one List does not leak into the proto.
+*/
 IoList *IoList_rawClone(IoList *proto) {
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_tag_(self, IoObject_tag(proto));
@@ -128,11 +158,22 @@ IoList *IoList_rawClone(IoList *proto) {
     return self;
 }
 
+/*cdoc List IoList_new(state)
+Convenience constructor: looks up the registered proto and clones it.
+Used by C callers that want a fresh, empty List without going through
+message machinery (e.g. foreach/keys/values return paths).
+*/
 IoList *IoList_new(void *state) {
     IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
     return IOCLONE(proto);
 }
 
+/*cdoc List IoList_newWithList_(state, list)
+Wraps a pre-existing basekit List as an IoList by freeing the fresh
+List allocated in the clone and adopting the caller's pointer. Used
+by slice/join/asEncodedList where the underlying container has
+already been built.
+*/
 IoList *IoList_newWithList_(void *state, List *list) {
     IoList *self = IoList_new(state);
     // printf("IoList_newWithList_ %p %p\n", (void *)self, (void *)list);
@@ -141,6 +182,11 @@ IoList *IoList_newWithList_(void *state, List *list) {
     return self;
 }
 
+/*cdoc List IoList_free(self)
+Registered as the tag's freeFunc. Frees the backing basekit List; the
+contained IoObjects are GC-managed and not touched here. Aborts on a
+double free so use-after-free regressions surface loudly.
+*/
 void IoList_free(IoList *self) {
     if (NULL == DATA(self)) {
         printf("IoList_free(%p) already freed\n", (void *)self);
@@ -153,10 +199,20 @@ void IoList_free(IoList *self) {
     IoObject_setDataPointer_(self, NULL);
 }
 
+/*cdoc List IoList_mark(self)
+Registered as the tag's markFunc. Walks every element so contained
+IoObjects stay live for the GC; called during every mark phase.
+*/
 void IoList_mark(IoList *self) {
     LIST_FOREACH(DATA(self), i, item, IoObject_shouldMark(item));
 }
 
+/*cdoc List IoList_compare(self, otherList)
+Registered as the tag's compareFunc. Falls back to default pointer
+comparison against non-Lists; otherwise compares by size then by
+element-wise IoObject_compare. Returns the first non-zero element
+comparison, mirroring lexicographic ordering.
+*/
 int IoList_compare(IoList *self, IoList *otherList) {
     if (!ISLIST(otherList)) {
         return IoObject_defaultCompare(self, otherList);
@@ -186,11 +242,20 @@ List *IoList_rawList(IoList *self) { return DATA(self); }
 
 IoObject *IoList_rawAt_(IoList *self, int i) { return List_at_(DATA(self), i); }
 
+/*cdoc List IoList_rawAt_put_(self, i, v)
+Low-level element set used from C. IOREFs the value so the GC keeps
+it alive through this List, and marks the List dirty for persistence.
+*/
 void IoList_rawAt_put_(IoList *self, int i, IoObject *v) {
     List_at_put_(DATA(self), i, IOREF(v));
     IoObject_isDirty_(self, 1);
 }
 
+/*cdoc List IoList_rawAppend_(self, v)
+Low-level append used from C. Preferred over Io-level append when a
+value is being threaded through internal machinery and IoMessage
+dispatch would be wasteful.
+*/
 void IoList_rawAppend_(IoList *self, IoObject *v) {
     List_append_(DATA(self), IOREF(v));
     IoObject_isDirty_(self, 1);
@@ -201,6 +266,11 @@ void IoList_rawRemove_(IoList *self, IoObject *v) {
     IoObject_isDirty_(self, 1);
 }
 
+/*cdoc List IoList_rawAddBaseList_(self, otherList)
+Appends every element of a basekit List (not an IoList) into self,
+IOREFing each through this List. Used by appendSeq and by callers
+that already hold a basekit List pointer.
+*/
 void IoList_rawAddBaseList_(IoList *self, List *otherList) {
     List *list = DATA(self);
     LIST_FOREACH(otherList, i, v, List_append_(list, IOREF((IoObject *)v)););
@@ -214,6 +284,10 @@ void IoList_rawAddIoList_(IoList *self, IoList *other) {
 
 size_t IoList_rawSize(IoList *self) { return List_size(DATA(self)); }
 
+/*cdoc List IoList_rawIndexOf_(self, v)
+Linear search by IoObject_compare equality (not pointer identity) so
+Numbers and Sequences compare by value. Returns -1 on miss.
+*/
 long IoList_rawIndexOf_(IoList *self, IoObject *v) {
     List *list = DATA(self);
 
@@ -224,6 +298,12 @@ long IoList_rawIndexOf_(IoList *self, IoObject *v) {
     return -1;
 }
 
+/*cdoc List IoList_checkIndex(self, m, allowsExtending, index, methodName)
+Bounds-check helper used by the mutating at/atPut/atInsert/removeAt
+family. Returns 1 and raises a VM error when the index is out of
+range. If allowsExtending is nonzero the valid range is extended to
+size (for atInsert appending at the tail).
+*/
 int IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending,
                       int index, const char *methodName) {
     size_t max = List_size(DATA(self));
@@ -346,6 +426,11 @@ IO_METHOD(IoList, last) {
     return result ? result : IONIL(self);
 }
 
+/*cdoc List IoList_sliceIndex(index, step, size)
+Python-style slice index normalization: negative values wrap from
+the end, and out-of-range values clamp to the correct end depending
+on step direction. Mutates *index in place.
+*/
 void IoList_sliceIndex(int *index, int step, int size) {
     /* The following code mimics Python's slicing behaviour. */
     if (*index < 0) {
@@ -358,6 +443,11 @@ void IoList_sliceIndex(int *index, int step, int size) {
     }
 }
 
+/*cdoc List IoList_sliceArguments(self, locals, m, start, end, step)
+Shared argument parser for slice / sliceInPlace. Reads step first
+(rejecting zero), then start and an optional end defaulting to size,
+and normalizes both indices via IoList_sliceIndex.
+*/
 void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m,
                            int *start, int *end, int *step) {
     size_t size = IoList_rawSize(self);
@@ -425,6 +515,14 @@ Step argument is also optional and defaults to 1.
     return self;
 }
 
+/*cdoc List IoList_each(self, locals, m)
+Single-argument foreach: evaluates the message against each element
+without binding index/value slots. Under the iterative evaluator it
+stamps fd->controlFlow.foreachInfo with isEach=1 so the frame state
+machine (FRAME_STATE_FOREACH_EVAL_BODY) sets the target rather than
+mutating the caller's locals. The recursive fallback below runs only
+before state->currentFrame is available during bootstrap.
+*/
 IO_METHOD(IoList, each) {
     IoState *state = IOSTATE;
 
@@ -777,6 +875,11 @@ IO_METHOD(IoList, removeAt) {
     return (v) ? v : IONIL(self);
 }
 
+/*cdoc List IoList_rawAtPut(self, i, v)
+Auto-extending set: pads with nils up to index i before writing,
+unlike List_at_put_ which would abort out of bounds. Used by the
+Io-visible atPut after its bounds check.
+*/
 void IoList_rawAtPut(IoList *self, int i, IoObject *v) {
     while (List_size(DATA(self)) < i) /* not efficient */
     {
@@ -884,6 +987,11 @@ typedef struct {
     List *list;
 } MSortContext;
 
+/*cdoc List MSortContext_compareForSort(self, ap, bp)
+qsort_r callback for sortInPlace with an optional message key: evaluates
+the key expression on each side inside a retain pool (so intermediate
+allocations don't leak) and returns the IoObject_compare result.
+*/
 int MSortContext_compareForSort(MSortContext *self, void *ap, void *bp) {
     IoObject *a = *(void **)ap;
     IoObject *b = *(void **)bp;
@@ -933,6 +1041,11 @@ typedef struct {
     List *list;
 } SortContext;
 
+/*cdoc List SortContext_compareForSort(self, ap, bp)
+qsort_r callback for sortInPlaceBy(aBlock). Primes the two pre-built
+argument messages with cached results and activates the compare block;
+returns 1 when the block result is false so ISFALSE(cr) swaps the pair.
+*/
 int SortContext_compareForSort(SortContext *self, void *ap, void *bp) {
     IoObject *a = *(void **)ap;
     IoObject *b = *(void **)bp;
