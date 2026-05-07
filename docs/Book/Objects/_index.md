@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Objects.png
+nextSectionLink: true
 ---
 
 # Objects

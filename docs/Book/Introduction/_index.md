@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Introduction.png
+nextSectionLink: true
 ---
 
 # Introduction

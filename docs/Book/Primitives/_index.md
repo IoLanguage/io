@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Primitives.png
+nextSectionLink: true
 ---
 
 # Primitives

@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Appendix.png
+nextSectionLink: true
 ---
 
 # Appendix

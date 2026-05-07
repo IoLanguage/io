@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Concurrency.png
+nextSectionLink: true
 ---
 
 # Concurrency

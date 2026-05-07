@@ -1,5 +1,6 @@
 ---
 heroImage: ../images/Syntax.png
+nextSectionLink: true
 ---
 
 # Syntax
