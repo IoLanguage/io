@@ -44,6 +44,10 @@ Yes — a WebAssembly module is an embeddable binary by design. You can run the 
 
 Every object can receive async messages (`@@`) or future messages (`@`) that run in their own coroutine. Coroutines are cooperative user-level tasks — not OS threads — so a single Io process can run thousands of them at once. Futures are transparent: the caller keeps running until it tries to use the result, then blocks only if the result isn't ready yet.
 
+## How is Io pronounced?
+
+"EYE-oh" (/ˈaɪ.oʊ/) — the same way you'd say the name of Jupiter's moon.
+
 ## Where does the name "Io" come from?
 
 A combination of searching for short two-letter names, childhood memories of the Voyager photos of Jupiter's moon Io, and the I/O towers from the movie *TRON*.
