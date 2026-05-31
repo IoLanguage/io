@@ -24,11 +24,16 @@
         },
         "FAQ",
         {
+          "title": "Links",
+          "href": "Links/index.html",
+          "subtitle": "Books, tutorials, articles, papers, tools, and community resources."
+        },
+        "Timeline",
+        {
           "title": "GitHub Repository",
           "href": "https://github.com/IoLanguage/io",
           "subtitle": "Source code, issues, and contributions."
-        },
-        "Timeline"
+        }
       ]
     },
     {

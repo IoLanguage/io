@@ -1,0 +1,90 @@
+{
+  "title": "Links",
+  "subtitle": "Books, tutorials, articles, papers, tools, and community resources for the Io programming language.",
+  "content": [
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Books",
+      "body": "<ul><li><a href=\"https://media.pragprog.com/titles/btlang/lo.pdf\" target=\"_blank\" rel=\"noopener\">7 Languages in 7 Weeks</a> — Bruce Tate</li><li><a href=\"https://itunes.apple.com/us/book/io/id497620067?mt=11\" target=\"_blank\" rel=\"noopener\">Io Guide eBook</a> — Steve Dekorte</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Implementations",
+      "body": "<ul><li><a href=\"https://github.com/guillermomolina/graal-io\" target=\"_blank\" rel=\"noopener\">GRAAL-IO implementation</a> — Guillermo Adrián Molina</li><li><a href=\"https://pypi.org/project/mio-lang/\" target=\"_blank\" rel=\"noopener\">Mio: PyPy implementation</a> — James Mills</li><li><a href=\"https://github.com/zephyrtronium/iolang\" target=\"_blank\" rel=\"noopener\">Go implementation</a> — Maxim Sokhatsky</li><li><a href=\"https://github.com/stangelandcl/io-clr\" target=\"_blank\" rel=\"noopener\">CLR implementation</a> — Branden J Brown</li><li><a href=\"https://github.com/dariusf/iota\" target=\"_blank\" rel=\"noopener\">Iota: JS implementation</a> — Darius Foo</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Tutorials",
+      "body": "<ul><li><a href=\"https://what.happens.when.computer/2015-11-20/io-basics/\" target=\"_blank\" rel=\"noopener\">Io Basics</a> — GD Ritter</li><li><a href=\"https://nithinbekal.com/posts/getting-started-io/\" target=\"_blank\" rel=\"noopener\">Getting Started With Io</a> — Nithin Bekal</li><li><a href=\"http://ozone.wordpress.com/2006/03/20/little-manual-of-cloning-for-io-programmers/\" target=\"_blank\" rel=\"noopener\">Little manual of cloning</a> — Olivier Ansaldi</li><li><a href=\"http://perugini.cps.udayton.edu/teaching/courses/Spring2017/cps499/Languages/notes/Io.html\" target=\"_blank\" rel=\"noopener\">Introduction to the Io Programming Language</a> — Nicolaas Scheltens 2017</li><li><a href=\"https://en.wikibooks.org/wiki/Io_Programming\" target=\"_blank\" rel=\"noopener\">Beginner's Guide</a> — Wikibooks</li><li><a href=\"http://www.techrepublic.com/blog/software-engineer/introducing-io-a-prototype-based-language/\" target=\"_blank\" rel=\"noopener\">Introducing Io</a> — Chris Perrin</li><li><a href=\"http://soft.vub.ac.be/~tvcutsem/talks/presentations/IO-tvcutsem-26-11-04.pdf\" target=\"_blank\" rel=\"noopener\">Io, an introduction</a> — Tom Van Cutsem</li><li><a href=\"https://github.com/sluke/learn-io-language-the-hard-way\" target=\"_blank\" rel=\"noopener\">Chinese Io Tutorial</a> — Lu Weiqing</li><li><a href=\"https://habr.com/ru/post/28041/\" target=\"_blank\" rel=\"noopener\">Russian Io Intro</a> — Семён Новиков</li><li><a href=\"http://wiki.kldp.org/wiki.php/IoLanguage/Tutorial\" target=\"_blank\" rel=\"noopener\">Korean Programming Guide</a></li><li><a href=\"https://www.youtube.com/watch?v=XAmfm-8BV2s\" target=\"_blank\" rel=\"noopener\">Learn To Code Io Video</a> — The Flourishing</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Articles",
+      "body": "<ul><li><a href=\"https://en.wikipedia.org/wiki/Io_(programming_language)\" target=\"_blank\" rel=\"noopener\">Io</a> — Wikipedia</li><li><a href=\"https://klibert.pl/posts/adding_destructuring_bind_to_io.html\" target=\"_blank\" rel=\"noopener\">Extending Io to add tuple unpacking</a> — Piotr Kilbert</li><li><a href=\"https://www.bushido.codes/io-lang/\" target=\"_blank\" rel=\"noopener\">The Io Programming Language</a> — Sean McBride 2019</li><li><a href=\"http://www.airlivin.com/the-beauty-of-io/\" target=\"_blank\" rel=\"noopener\">The Beauty of Io</a> — Vladimir Livin 2016</li><li><a href=\"http://viewsourcecode.org/why/hackety.org/2008/01/05/ioHasAVeryCleanMirror.html\" target=\"_blank\" rel=\"noopener\">Io Has A Very Clean Mirror</a> — Why</li><li><a href=\"http://web.archive.org/web/20080430135919/http://hackety.org/2008/01/10/lazyBricksLazyMortar.html\" target=\"_blank\" rel=\"noopener\">Lazy Bricks, Lazy Mortar</a> — Why</li><li><a href=\"https://ozone.wordpress.com/2006/03/15/blame-it-on-io/\" target=\"_blank\" rel=\"noopener\">Blame it on Io</a> — Olivier Ansaldi</li><li><a href=\"https://ola-bini.blogspot.com/2008/02/silly-io-experiment.html\" target=\"_blank\" rel=\"noopener\">Silly Io experiment</a> — Ola Bini</li><li><a href=\"http://www.chrisumbel.com/article/io_language_prototype\" target=\"_blank\" rel=\"noopener\">Io, A Beautiful Language</a> — Chris Umbell</li><li><a href=\"https://www.youtube.com/watch?v=oCL0JuW40eQ\" target=\"_blank\" rel=\"noopener\">Evolution of Io</a> — Landon Wilkins</li><li><a href=\"https://andrewshitov.com/2019/12/23/io-at-a-glance/\" target=\"_blank\" rel=\"noopener\">Io at a glance</a> — Andrew Shitov</li><li><a href=\"https://andriybuday.com/category/iolanguage\" target=\"_blank\" rel=\"noopener\">Io Language</a> — Andriy Buday</li><li><a href=\"https://pragdave.me/blog/2003/02/28/io-io-its-off-to-play-i-go.html\" target=\"_blank\" rel=\"noopener\">Io, Io, it's Off to Play I Go</a> — Dave Thomas 2003</li><li><a href=\"https://danstuken.wordpress.com/2011/06/26/7-languages-in-7-weeks-week-2-io-day-1/\" target=\"_blank\" rel=\"noopener\">Io - Day 1</a> — Dan</li><li><a href=\"https://www.bennadel.com/blog/2066-seven-languages-in-seven-weeks-io-day-2.htm\" target=\"_blank\" rel=\"noopener\">Io - Day 2</a> — Ben Nadel</li><li><a href=\"https://coderwall.com/p/pdu74w/javascript-and-io-two-languages-one-oo-concept\" target=\"_blank\" rel=\"noopener\">Javascript and Io</a> — Eric Raio 2016</li><li><a href=\"https://bluishcoder.co.nz/2009/07/16/prototype-based-programming-languages.html\" target=\"_blank\" rel=\"noopener\">Prototype Based Programming Languages</a> — Chris Double 2016</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Papers",
+      "body": "<ul><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.95.3637&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Io, OOPSLA 2005 demo</a> — Steve Dekorte</li><li><a href=\"http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf\" target=\"_blank\" rel=\"noopener\">Comparison of Io</a> — Christopher Bowen et al.</li><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Applicability of Io</a> — Darren Broemmer</li><li><a href=\"https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html\" target=\"_blank\" rel=\"noopener\">Towards JIT compilation of Io</a> — Salikh Zakirov et al.</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Plugins",
+      "body": "<ul><li><a href=\"https://spacevim.org/layers/lang/io/\" target=\"_blank\" rel=\"noopener\">SpaceVim plugin</a> — spacevim.org</li><li><a href=\"http://stevenharman.net/an-io-language-vim-plugin\" target=\"_blank\" rel=\"noopener\">Vim plugin</a> — Steve Harman</li><li><a href=\"https://marketplace.visualstudio.com/items?itemName=theangryepicbanana.language-io\" target=\"_blank\" rel=\"noopener\">Io Magic VS plugin</a> — TheAngryEpicBanana</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Tools",
+      "body": "<ul><li><a href=\"https://formulae.brew.sh/formula/io#default\" target=\"_blank\" rel=\"noopener\">Homebrew Io package</a></li><li><a href=\"https://iolanguage.github.io/eerie\" target=\"_blank\" rel=\"noopener\">Eerie Package Manager for Io</a> — Ales Tsurko</li><li><a href=\"https://tio.run/#io\" target=\"_blank\" rel=\"noopener\">Online REPL</a> — tio.run</li><li><a href=\"https://github.com/sprij/docker-IoLanguage\" target=\"_blank\" rel=\"noopener\">Io Dockerfile</a> — Susana Rijo</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Sample Code",
+      "body": "<ul><li><a href=\"https://gist.github.com/jezen/7972975\" target=\"_blank\" rel=\"noopener\">Examples from 7L7W</a> — Jezen Thomas</li><li><a href=\"https://github.com/oleganza/io-snippets\" target=\"_blank\" rel=\"noopener\">Io Snippets</a> — Oleg Andreev</li><li><a href=\"https://github.com/abhilashm/io-snippets\" target=\"_blank\" rel=\"noopener\">Io Snippets</a> — Abhilash Meesala</li><li><a href=\"https://github.com/kmein/euler-io\" target=\"_blank\" rel=\"noopener\">Io Project Euler solutions</a> — Kierán Meinhardt</li><li><a href=\"https://github.com/search?l=Io&amp;q=iolanguage&amp;type=Repositories\" target=\"_blank\" rel=\"noopener\">Github repos</a></li><li><a href=\"https://github.com/smosher/IoSetting\" target=\"_blank\" rel=\"noopener\">IoSetting</a> — Stephen Mosher</li><li><a href=\"https://github.com/draegtun/Io-Array\" target=\"_blank\" rel=\"noopener\">Io-Array</a> — Barry Walsh</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Forums",
+      "body": "<ul><li><a href=\"https://www.reddit.com/r/iolanguage/\" target=\"_blank\" rel=\"noopener\">Reddit</a></li><li><a href=\"https://stackoverflow.com/questions/tagged/iolanguage\" target=\"_blank\" rel=\"noopener\">Stack Overflow</a></li><li><a href=\"https://www.quora.com/search?q=%22Io+programming+language%22\" target=\"_blank\" rel=\"noopener\">Quora</a></li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Threads",
+      "body": "<ul><li><a href=\"https://news.ycombinator.com/item?id=35207171\" target=\"_blank\" rel=\"noopener\">The Io Language</a> — Hacker News 2023</li><li><a href=\"https://news.ycombinator.com/item?id=29652317\" target=\"_blank\" rel=\"noopener\">The Io Language</a> — Hacker News 2021</li><li><a href=\"https://news.ycombinator.com/item?id=22796409\" target=\"_blank\" rel=\"noopener\">The Io Language</a> — Hacker News 2020</li><li><a href=\"https://news.ycombinator.com/item?id=8867575\" target=\"_blank\" rel=\"noopener\">Io language website</a> — Hacker News Jan 2015</li><li><a href=\"https://news.ycombinator.com/item?id=10605310\" target=\"_blank\" rel=\"noopener\">The Io Language</a> — Hacker News Nov 2015</li><li><a href=\"https://news.ycombinator.com/item?id=2624097\" target=\"_blank\" rel=\"noopener\">The Io Language</a> — Hacker News Nov 2011</li><li><a href=\"https://news.ycombinator.com/item?id=1538835\" target=\"_blank\" rel=\"noopener\">The Io Language</a> — Hacker News Nov 2010</li><li><a href=\"http://lambda-the-ultimate.org/node/4033#comment-61085\" target=\"_blank\" rel=\"noopener\">Looking for a language like...</a> — Lambda the Ultimate</li><li><a href=\"http://wiki.c2.com/?IoLanguage\" target=\"_blank\" rel=\"noopener\">Io Language</a> — Wiki C2</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Talks",
+      "body": "<ul><li><a href=\"https://www.youtube.com/watch?v=x2KtYbNzhSg\" target=\"_blank\" rel=\"noopener\">The Io Programming Language</a> — Nicolaas Scheltens</li><li><a href=\"https://www.lua.org/wshop05/Dekorte.pdf\" target=\"_blank\" rel=\"noopener\">Io, a Small Language slides</a> — Steve Dekorte</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Videos",
+      "body": "<ul><li><a href=\"https://www.youtube.com/watch?v=XAmfm-8BV2s\" target=\"_blank\" rel=\"noopener\">Io, Learn To Code</a> — The Flourishing</li><li><a href=\"https://www.youtube.com/watch?v=XFztTMuu-cA\" target=\"_blank\" rel=\"noopener\">Io, Reasons and Resources</a> — The Flourishing</li><li><a href=\"https://www.youtube.com/watch?v=3hfXIug6U3o\" target=\"_blank\" rel=\"noopener\">Installing Io on Windows</a> — The Flourishing</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Citations",
+      "body": "<ul><li><a href=\"https://www.semanticscholar.org/paper/Io%3A-a-small-programming-language-Dekorte/4667c9ffcaa843e00883e4e6c8f5f717336a90c5\" target=\"_blank\" rel=\"noopener\">Semantic Scholar Citations</a></li><li><a href=\"https://www.semanticscholar.org/paper/A-didactic-object-oriented%2C-prototype-based-visual-Pérez-Ortin/67ec81486b2bdc943095799f8fbbad65bec27fb5\" target=\"_blank\" rel=\"noopener\">A didactic object-oriented, prototype-based visual programming environment</a> — Pérez et al. 2019</li><li><a href=\"http://www.atalon.cz/om/what-is-a-metaclass/\" target=\"_blank\" rel=\"noopener\">What Is a Metaclass?</a> — Pavlata 2016</li><li><a href=\"https://lib.dr.iastate.edu/cgi/viewcontent.cgi?article=1370&amp;context=cs_techreports\" target=\"_blank\" rel=\"noopener\">Duck Futures: A Generative Approach to Transparent Futures</a> — Lin 2015</li><li><a href=\"https://www.researchgate.net/publication/266149484_Pooi_un_interprete_de_un_lenguaje_orientado_a_objetos_basado_en_prototipos_para_la_educacion\" target=\"_blank\" rel=\"noopener\">Pooi, un intérprete de un lenguaje orientado a objetos basado en prototipos para la educación</a> — Perez-Schofield 2014</li><li><a href=\"https://www.semanticscholar.org/paper/LC%3A-a-strongly-Timed-Prototype-Based-Programming-Nishino-Osaka/6423957d292fe7d7cb98ad55b57df53661f600a4\" target=\"_blank\" rel=\"noopener\">LC: a strongly-Timed Prototype-Based Programming Language for Computer Music</a> — Nishino et al. 2013</li><li><a href=\"https://www.semanticscholar.org/paper/Mutable-objects-in-R-Wickham/e6b809ead42d289192286321d8876807b1afdd75\" target=\"_blank\" rel=\"noopener\">Mutable objects in R</a> — Wickham 2011</li><li><a href=\"https://static.csg.ci.i.u-tokyo.ac.jp/papers/11/zakirov-phd2011.pdf\" target=\"_blank\" rel=\"noopener\">A Study of Superinstructions and Dynamic Mixin Optimizations</a> — Zakirov 2011</li><li><a href=\"https://static.csg.ci.i.u-tokyo.ac.jp/papers/10/zakirov-jssst2010.pdf\" target=\"_blank\" rel=\"noopener\">Towards JIT compilation of Io</a> — Zakirov et al. 2011</li><li><a href=\"https://arxiv.org/pdf/1010.5694.pdf\" target=\"_blank\" rel=\"noopener\">Events! (Reactivity in urbiscript)</a> — Baillie et al. 2010</li><li><a href=\"https://www.semanticscholar.org/paper/Towards-an-actor-based-concurrent-machine-model-Schippers-Cutsem/cff8ea56c88571b0ee18ba34f0ff31fb57466ba1\" target=\"_blank\" rel=\"noopener\">Towards an actor-based concurrent machine model</a> — Schippers et al. 2009</li><li><a href=\"http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.147.7760&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">A Modern Objective-C Runtime</a> — Chisnall 2009</li><li><a href=\"https://tel.archives-ouvertes.fr/tel-00555937/document\" target=\"_blank\" rel=\"noopener\">Sub-method Structural and Behavioral Reflection</a> — Denker 2008</li><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.185.2185&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">The Urbi Universal Platform for Robotics</a> — Baillie et al. 2008</li><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.150.2136&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Updating Objective-C</a> — Chisnall 2008</li><li><a href=\"http://www.mcours.net/cours/pdf/hasclic2/hassclic117.pdf\" target=\"_blank\" rel=\"noopener\">Concurrency Oriented Programming in Lua</a> — Chatzimparmpas 2007</li><li><a href=\"https://rmod.inria.fr/archives/papers/Denk07b-TOOLS07-Submethod.pdf\" target=\"_blank\" rel=\"noopener\">Sub-Method Reflection</a> — Denker 2007</li><li><a href=\"https://www.cs.umd.edu/~polyvios/publications/pratikakis04transparent.pdf\" target=\"_blank\" rel=\"noopener\">Transparent Proxies for Java Futures</a> — Pratikakis et al. 2004</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Inspired",
+      "body": "<ul><li><a href=\"https://ioke.org\" target=\"_blank\" rel=\"noopener\">Ioke</a> — Ola Bini</li><li><a href=\"http://perl11.github.io/potion/index.html\" target=\"_blank\" rel=\"noopener\">Potion</a> — Why</li><li><a href=\"https://github.com/aaron-lebo/prose\" target=\"_blank\" rel=\"noopener\">Prose</a> — Aaron Lebo</li><li><a href=\"http://lambda-the-ultimate.org/node/5149\" target=\"_blank\" rel=\"noopener\">Callisto</a> — Wyago</li><li><a href=\"http://www.fancy-lang.org\" target=\"_blank\" rel=\"noopener\">Fancy</a> — Christopher Bertels</li></ul>"
+    }
+  ]
+}

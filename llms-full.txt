@@ -39,8 +39,9 @@ conceptunifiesscopable blocksfunctions, methods, closuresprototypesobjects, clas
 
 - [Documentation](docs/index.html) — Guides, tutorial, language reference, and design notes.
 - FAQ
-- [GitHub Repository](https://github.com/IoLanguage/io) — Source code, issues, and contributions.
+- [Links](Links/index.html) — Books, tutorials, articles, papers, tools, and community resources.
 - Timeline
+- [GitHub Repository](https://github.com/IoLanguage/io) — Source code, issues, and contributions.
 
 For AI agents: [llms.txt](llms.txt) (curated index) and [llms-full.txt](llms-full.txt) (full content).
 
@@ -6764,6 +6765,151 @@ A combination of searching for short two-letter names, childhood memories of the
 ## How do I contribute?
 
 The source lives at [github.com/IoLanguage/io](https://github.com/IoLanguage/io). Open issues, send pull requests, or just clone and experiment.
+
+
+---
+
+<!-- Page: Links -->
+Source: /Links/
+
+# Links
+
+Books, tutorials, articles, papers, tools, and community resources for the Io programming language.
+
+## Books
+
+- [7 Languages in 7 Weeks](https://media.pragprog.com/titles/btlang/lo.pdf) — Bruce Tate
+- [Io Guide eBook](https://itunes.apple.com/us/book/io/id497620067?mt=11) — Steve Dekorte
+
+## Implementations
+
+- [GRAAL-IO implementation](https://github.com/guillermomolina/graal-io) — Guillermo Adrián Molina
+- [Mio: PyPy implementation](https://pypi.org/project/mio-lang/) — James Mills
+- [Go implementation](https://github.com/zephyrtronium/iolang) — Maxim Sokhatsky
+- [CLR implementation](https://github.com/stangelandcl/io-clr) — Branden J Brown
+- [Iota: JS implementation](https://github.com/dariusf/iota) — Darius Foo
+
+## Tutorials
+
+- [Io Basics](https://what.happens.when.computer/2015-11-20/io-basics/) — GD Ritter
+- [Getting Started With Io](https://nithinbekal.com/posts/getting-started-io/) — Nithin Bekal
+- [Little manual of cloning](http://ozone.wordpress.com/2006/03/20/little-manual-of-cloning-for-io-programmers/) — Olivier Ansaldi
+- [Introduction to the Io Programming Language](http://perugini.cps.udayton.edu/teaching/courses/Spring2017/cps499/Languages/notes/Io.html) — Nicolaas Scheltens 2017
+- [Beginner's Guide](https://en.wikibooks.org/wiki/Io_Programming) — Wikibooks
+- [Introducing Io](http://www.techrepublic.com/blog/software-engineer/introducing-io-a-prototype-based-language/) — Chris Perrin
+- [Io, an introduction](http://soft.vub.ac.be/~tvcutsem/talks/presentations/IO-tvcutsem-26-11-04.pdf) — Tom Van Cutsem
+- [Chinese Io Tutorial](https://github.com/sluke/learn-io-language-the-hard-way) — Lu Weiqing
+- [Russian Io Intro](https://habr.com/ru/post/28041/) — Семён Новиков
+- [Korean Programming Guide](http://wiki.kldp.org/wiki.php/IoLanguage/Tutorial)
+- [Learn To Code Io Video](https://www.youtube.com/watch?v=XAmfm-8BV2s) — The Flourishing
+
+## Articles
+
+- [Io](https://en.wikipedia.org/wiki/Io_(programming_language)) — Wikipedia
+- [Extending Io to add tuple unpacking](https://klibert.pl/posts/adding_destructuring_bind_to_io.html) — Piotr Kilbert
+- [The Io Programming Language](https://www.bushido.codes/io-lang/) — Sean McBride 2019
+- [The Beauty of Io](http://www.airlivin.com/the-beauty-of-io/) — Vladimir Livin 2016
+- [Io Has A Very Clean Mirror](http://viewsourcecode.org/why/hackety.org/2008/01/05/ioHasAVeryCleanMirror.html) — Why
+- [Lazy Bricks, Lazy Mortar](http://web.archive.org/web/20080430135919/http://hackety.org/2008/01/10/lazyBricksLazyMortar.html) — Why
+- [Blame it on Io](https://ozone.wordpress.com/2006/03/15/blame-it-on-io/) — Olivier Ansaldi
+- [Silly Io experiment](https://ola-bini.blogspot.com/2008/02/silly-io-experiment.html) — Ola Bini
+- [Io, A Beautiful Language](http://www.chrisumbel.com/article/io_language_prototype) — Chris Umbell
+- [Evolution of Io](https://www.youtube.com/watch?v=oCL0JuW40eQ) — Landon Wilkins
+- [Io at a glance](https://andrewshitov.com/2019/12/23/io-at-a-glance/) — Andrew Shitov
+- [Io Language](https://andriybuday.com/category/iolanguage) — Andriy Buday
+- [Io, Io, it's Off to Play I Go](https://pragdave.me/blog/2003/02/28/io-io-its-off-to-play-i-go.html) — Dave Thomas 2003
+- [Io - Day 1](https://danstuken.wordpress.com/2011/06/26/7-languages-in-7-weeks-week-2-io-day-1/) — Dan
+- [Io - Day 2](https://www.bennadel.com/blog/2066-seven-languages-in-seven-weeks-io-day-2.htm) — Ben Nadel
+- [Javascript and Io](https://coderwall.com/p/pdu74w/javascript-and-io-two-languages-one-oo-concept) — Eric Raio 2016
+- [Prototype Based Programming Languages](https://bluishcoder.co.nz/2009/07/16/prototype-based-programming-languages.html) — Chris Double 2016
+
+## Papers
+
+- [Io, OOPSLA 2005 demo](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.95.3637&rep=rep1&type=pdf) — Steve Dekorte
+- [Comparison of Io](http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf) — Christopher Bowen et al.
+- [Applicability of Io](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&rep=rep1&type=pdf) — Darren Broemmer
+- [Towards JIT compilation of Io](https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html) — Salikh Zakirov et al.
+
+## Plugins
+
+- [SpaceVim plugin](https://spacevim.org/layers/lang/io/) — spacevim.org
+- [Vim plugin](http://stevenharman.net/an-io-language-vim-plugin) — Steve Harman
+- [Io Magic VS plugin](https://marketplace.visualstudio.com/items?itemName=theangryepicbanana.language-io) — TheAngryEpicBanana
+
+## Tools
+
+- [Homebrew Io package](https://formulae.brew.sh/formula/io#default)
+- [Eerie Package Manager for Io](https://iolanguage.github.io/eerie) — Ales Tsurko
+- [Online REPL](https://tio.run/#io) — tio.run
+- [Io Dockerfile](https://github.com/sprij/docker-IoLanguage) — Susana Rijo
+
+## Sample Code
+
+- [Examples from 7L7W](https://gist.github.com/jezen/7972975) — Jezen Thomas
+- [Io Snippets](https://github.com/oleganza/io-snippets) — Oleg Andreev
+- [Io Snippets](https://github.com/abhilashm/io-snippets) — Abhilash Meesala
+- [Io Project Euler solutions](https://github.com/kmein/euler-io) — Kierán Meinhardt
+- [Github repos](https://github.com/search?l=Io&q=iolanguage&type=Repositories)
+- [IoSetting](https://github.com/smosher/IoSetting) — Stephen Mosher
+- [Io-Array](https://github.com/draegtun/Io-Array) — Barry Walsh
+
+## Forums
+
+- [Reddit](https://www.reddit.com/r/iolanguage/)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/iolanguage)
+- [Quora](https://www.quora.com/search?q=%22Io+programming+language%22)
+
+## Threads
+
+- [The Io Language](https://news.ycombinator.com/item?id=35207171) — Hacker News 2023
+- [The Io Language](https://news.ycombinator.com/item?id=29652317) — Hacker News 2021
+- [The Io Language](https://news.ycombinator.com/item?id=22796409) — Hacker News 2020
+- [Io language website](https://news.ycombinator.com/item?id=8867575) — Hacker News Jan 2015
+- [The Io Language](https://news.ycombinator.com/item?id=10605310) — Hacker News Nov 2015
+- [The Io Language](https://news.ycombinator.com/item?id=2624097) — Hacker News Nov 2011
+- [The Io Language](https://news.ycombinator.com/item?id=1538835) — Hacker News Nov 2010
+- [Looking for a language like...](http://lambda-the-ultimate.org/node/4033#comment-61085) — Lambda the Ultimate
+- [Io Language](http://wiki.c2.com/?IoLanguage) — Wiki C2
+
+## Talks
+
+- [The Io Programming Language](https://www.youtube.com/watch?v=x2KtYbNzhSg) — Nicolaas Scheltens
+- [Io, a Small Language slides](https://www.lua.org/wshop05/Dekorte.pdf) — Steve Dekorte
+
+## Videos
+
+- [Io, Learn To Code](https://www.youtube.com/watch?v=XAmfm-8BV2s) — The Flourishing
+- [Io, Reasons and Resources](https://www.youtube.com/watch?v=XFztTMuu-cA) — The Flourishing
+- [Installing Io on Windows](https://www.youtube.com/watch?v=3hfXIug6U3o) — The Flourishing
+
+## Citations
+
+- [Semantic Scholar Citations](https://www.semanticscholar.org/paper/Io%3A-a-small-programming-language-Dekorte/4667c9ffcaa843e00883e4e6c8f5f717336a90c5)
+- [A didactic object-oriented, prototype-based visual programming environment](https://www.semanticscholar.org/paper/A-didactic-object-oriented%2C-prototype-based-visual-Pérez-Ortin/67ec81486b2bdc943095799f8fbbad65bec27fb5) — Pérez et al. 2019
+- [What Is a Metaclass?](http://www.atalon.cz/om/what-is-a-metaclass/) — Pavlata 2016
+- [Duck Futures: A Generative Approach to Transparent Futures](https://lib.dr.iastate.edu/cgi/viewcontent.cgi?article=1370&context=cs_techreports) — Lin 2015
+- [Pooi, un intérprete de un lenguaje orientado a objetos basado en prototipos para la educación](https://www.researchgate.net/publication/266149484_Pooi_un_interprete_de_un_lenguaje_orientado_a_objetos_basado_en_prototipos_para_la_educacion) — Perez-Schofield 2014
+- [LC: a strongly-Timed Prototype-Based Programming Language for Computer Music](https://www.semanticscholar.org/paper/LC%3A-a-strongly-Timed-Prototype-Based-Programming-Nishino-Osaka/6423957d292fe7d7cb98ad55b57df53661f600a4) — Nishino et al. 2013
+- [Mutable objects in R](https://www.semanticscholar.org/paper/Mutable-objects-in-R-Wickham/e6b809ead42d289192286321d8876807b1afdd75) — Wickham 2011
+- [A Study of Superinstructions and Dynamic Mixin Optimizations](https://static.csg.ci.i.u-tokyo.ac.jp/papers/11/zakirov-phd2011.pdf) — Zakirov 2011
+- [Towards JIT compilation of Io](https://static.csg.ci.i.u-tokyo.ac.jp/papers/10/zakirov-jssst2010.pdf) — Zakirov et al. 2011
+- [Events! (Reactivity in urbiscript)](https://arxiv.org/pdf/1010.5694.pdf) — Baillie et al. 2010
+- [Towards an actor-based concurrent machine model](https://www.semanticscholar.org/paper/Towards-an-actor-based-concurrent-machine-model-Schippers-Cutsem/cff8ea56c88571b0ee18ba34f0ff31fb57466ba1) — Schippers et al. 2009
+- [A Modern Objective-C Runtime](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.147.7760&rep=rep1&type=pdf) — Chisnall 2009
+- [Sub-method Structural and Behavioral Reflection](https://tel.archives-ouvertes.fr/tel-00555937/document) — Denker 2008
+- [The Urbi Universal Platform for Robotics](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.185.2185&rep=rep1&type=pdf) — Baillie et al. 2008
+- [Updating Objective-C](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.150.2136&rep=rep1&type=pdf) — Chisnall 2008
+- [Concurrency Oriented Programming in Lua](http://www.mcours.net/cours/pdf/hasclic2/hassclic117.pdf) — Chatzimparmpas 2007
+- [Sub-Method Reflection](https://rmod.inria.fr/archives/papers/Denk07b-TOOLS07-Submethod.pdf) — Denker 2007
+- [Transparent Proxies for Java Futures](https://www.cs.umd.edu/~polyvios/publications/pratikakis04transparent.pdf) — Pratikakis et al. 2004
+
+## Inspired
+
+- [Ioke](https://ioke.org) — Ola Bini
+- [Potion](http://perl11.github.io/potion/index.html) — Why
+- [Prose](https://github.com/aaron-lebo/prose) — Aaron Lebo
+- [Callisto](http://lambda-the-ultimate.org/node/5149) — Wyago
+- [Fancy](http://www.fancy-lang.org) — Christopher Bertels
 
 
 ---

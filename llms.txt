@@ -102,6 +102,10 @@
 
 - [FAQ](/FAQ/): Common questions about Io — its origins, philosophy, and practical use.
 
+## Links
+
+- [Links](/Links/): Books, tutorials, articles, papers, tools, and community resources for the Io programming language.
+
 ## Timeline
 
 - [Timeline](/Timeline/): Milestones in Io's history, from 2002 to today.
