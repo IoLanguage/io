@@ -6776,11 +6776,6 @@ Source: /Links/
 
 Books, tutorials, articles, papers, tools, and community resources for the Io programming language.
 
-## Books
-
-- [7 Languages in 7 Weeks](https://media.pragprog.com/titles/btlang/lo.pdf) — Bruce Tate
-- [Io Guide eBook](https://itunes.apple.com/us/book/io/id497620067?mt=11) — Steve Dekorte
-
 ## Implementations
 
 - [GRAAL-IO implementation](https://github.com/guillermomolina/graal-io) — Guillermo Adrián Molina
@@ -6829,6 +6824,11 @@ Books, tutorials, articles, papers, tools, and community resources for the Io pr
 - [Comparison of Io](http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf) — Christopher Bowen et al.
 - [Applicability of Io](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&rep=rep1&type=pdf) — Darren Broemmer
 - [Towards JIT compilation of Io](https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html) — Salikh Zakirov et al.
+
+## Books
+
+- [7 Languages in 7 Weeks](https://media.pragprog.com/titles/btlang/lo.pdf) — Bruce Tate
+- [Io Guide eBook](https://itunes.apple.com/us/book/io/id497620067?mt=11) — Steve Dekorte
 
 ## Plugins
 

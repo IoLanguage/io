@@ -5,12 +5,6 @@
     {
       "type": "ContentText",
       "layout": "2 column",
-      "title": "Books",
-      "body": "<ul><li><a href=\"https://media.pragprog.com/titles/btlang/lo.pdf\" target=\"_blank\" rel=\"noopener\">7 Languages in 7 Weeks</a> — Bruce Tate</li><li><a href=\"https://itunes.apple.com/us/book/io/id497620067?mt=11\" target=\"_blank\" rel=\"noopener\">Io Guide eBook</a> — Steve Dekorte</li></ul>"
-    },
-    {
-      "type": "ContentText",
-      "layout": "2 column",
       "title": "Implementations",
       "body": "<ul><li><a href=\"https://github.com/guillermomolina/graal-io\" target=\"_blank\" rel=\"noopener\">GRAAL-IO implementation</a> — Guillermo Adrián Molina</li><li><a href=\"https://pypi.org/project/mio-lang/\" target=\"_blank\" rel=\"noopener\">Mio: PyPy implementation</a> — James Mills</li><li><a href=\"https://github.com/zephyrtronium/iolang\" target=\"_blank\" rel=\"noopener\">Go implementation</a> — Maxim Sokhatsky</li><li><a href=\"https://github.com/stangelandcl/io-clr\" target=\"_blank\" rel=\"noopener\">CLR implementation</a> — Branden J Brown</li><li><a href=\"https://github.com/dariusf/iota\" target=\"_blank\" rel=\"noopener\">Iota: JS implementation</a> — Darius Foo</li></ul>"
     },
@@ -31,6 +25,12 @@
       "layout": "2 column",
       "title": "Papers",
       "body": "<ul><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.95.3637&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Io, OOPSLA 2005 demo</a> — Steve Dekorte</li><li><a href=\"http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf\" target=\"_blank\" rel=\"noopener\">Comparison of Io</a> — Christopher Bowen et al.</li><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Applicability of Io</a> — Darren Broemmer</li><li><a href=\"https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html\" target=\"_blank\" rel=\"noopener\">Towards JIT compilation of Io</a> — Salikh Zakirov et al.</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "layout": "2 column",
+      "title": "Books",
+      "body": "<ul><li><a href=\"https://media.pragprog.com/titles/btlang/lo.pdf\" target=\"_blank\" rel=\"noopener\">7 Languages in 7 Weeks</a> — Bruce Tate</li><li><a href=\"https://itunes.apple.com/us/book/io/id497620067?mt=11\" target=\"_blank\" rel=\"noopener\">Io Guide eBook</a> — Steve Dekorte</li></ul>"
     },
     {
       "type": "ContentText",
