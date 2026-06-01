@@ -141,6 +141,18 @@ SequenceTest := UnitTest clone do(
 		assertEquals(3, "abc" size)
 	)
 
+	testHexEscape := method(
+		// \xNN escape sequences resolve to the corresponding byte
+		assertEquals(27, "\x1B" at(0))
+		assertEquals(4, "\x1B[2J" size)
+		assertEquals("ABC", "\x41\x42\x43")
+		assertEquals("J", "\x4a")
+		// a single hex digit is accepted
+		assertEquals(9, "\x9" at(0))
+		// \x with no following hex digit leaves the x literal
+		assertEquals("xz", "\xz")
+	)
+
 	testSplit := method(
 		assertRaisesException("abc" splitNoEmpties(nil))
 		assertEquals(List clone append("abc"), "abc" splitNoEmpties("d"))

@@ -376,6 +376,16 @@ void UArray_escape(UArray *self) {
     UArray_changed(self);
 }
 
+static int UArray_hexDigitValue_(long c) {
+    if (c >= '0' && c <= '9')
+        return (int)(c - '0');
+    if (c >= 'a' && c <= 'f')
+        return (int)(c - 'a' + 10);
+    if (c >= 'A' && c <= 'F')
+        return (int)(c - 'A' + 10);
+    return -1;
+}
+
 void UArray_unescape(UArray *self) {
     size_t getIndex = 0;
     size_t putIndex = 0;
@@ -415,6 +425,23 @@ void UArray_unescape(UArray *self) {
             case 'v':
                 c = '\v';
                 break;
+            case 'x': {
+                // \xNN — one or two hex digits (e.g. \x1B is ESC)
+                int d1 = UArray_hexDigitValue_(
+                    UArray_longAt_(self, getIndex + 2));
+                if (d1 >= 0) {
+                    long value = d1;
+                    getIndex++;
+                    int d2 = UArray_hexDigitValue_(
+                        UArray_longAt_(self, getIndex + 2));
+                    if (d2 >= 0) {
+                        value = (value << 4) | d2;
+                        getIndex++;
+                    }
+                    c = value;
+                }
+                break;
+            }
             case '\0':
                 c = '\\';
                 break;
