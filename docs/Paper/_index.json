@@ -1,6 +1,7 @@
 {
   "title": "Paper",
   "subtitle": "Io, a Small Programming Language — the original OOPSLA 2005 paper.",
+  "cardSubtitle": "OOPSLA 2005 paper.",
   "content": [
     {
       "type": "ContentText",
