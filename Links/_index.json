@@ -24,7 +24,7 @@
       "type": "ContentText",
       "layout": "2 column",
       "title": "Papers",
-      "body": "<ul><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.95.3637&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Io, OOPSLA 2005 demo</a> — Steve Dekorte</li><li><a href=\"http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf\" target=\"_blank\" rel=\"noopener\">Comparison of Io</a> — Christopher Bowen et al.</li><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Applicability of Io</a> — Darren Broemmer</li><li><a href=\"https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html\" target=\"_blank\" rel=\"noopener\">Towards JIT compilation of Io</a> — Salikh Zakirov et al.</li></ul>"
+      "body": "<ul><li><a href=\"../docs/Paper/IoOOPSLA2005.pdf\" target=\"_blank\" rel=\"noopener\">Io, OOPSLA 2005 demo</a> — Steve Dekorte</li><li><a href=\"http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf\" target=\"_blank\" rel=\"noopener\">Comparison of Io</a> — Christopher Bowen et al.</li><li><a href=\"https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&amp;rep=rep1&amp;type=pdf\" target=\"_blank\" rel=\"noopener\">Applicability of Io</a> — Darren Broemmer</li><li><a href=\"https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html\" target=\"_blank\" rel=\"noopener\">Towards JIT compilation of Io</a> — Salikh Zakirov et al.</li></ul>"
     },
     {
       "type": "ContentText",

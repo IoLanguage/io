@@ -6820,7 +6820,7 @@ Books, tutorials, articles, papers, tools, and community resources for the Io pr
 
 ## Papers
 
-- [Io, OOPSLA 2005 demo](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.95.3637&rep=rep1&type=pdf) — Steve Dekorte
+- [Io, OOPSLA 2005 demo](../docs/Paper/IoOOPSLA2005.pdf) — Steve Dekorte
 - [Comparison of Io](http://jackmyers.info/docs/ObjectOrientedImplementationApproaches.pdf) — Christopher Bowen et al.
 - [Applicability of Io](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.541.1470&rep=rep1&type=pdf) — Darren Broemmer
 - [Towards JIT compilation of Io](https://docplayer.net/137462966-Towards-jit-compilation-for-io-language.html) — Salikh Zakirov et al.
