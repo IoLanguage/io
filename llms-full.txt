@@ -62,6 +62,7 @@ Guides, tutorial, language reference, and design notes.
 - Style Guide
 - Implementation
 - Technical Notes
+- Paper
 
 
 ---
@@ -4550,6 +4551,24 @@ Source: /docs/Implementation/Reference/WeakLink/
 # WeakLink
 
 C implementation of WeakLink. Holds a single non-owning pointer (DATA(self)->link) that is deliberately NOT marked by the GC, so the referent can be collected even while a WeakLink names it. The mechanism for notification is the IoObject listener list plus the tag's notificationFunc: on setLink, the WeakLink registers as a listener on the target via IoObject_addListener_; when the target is freed, the collector fires IoWeakLink_notification which clears the pointer back to NULL. There is no markFunc registered — that is the whole point. The commented-out writeToStream/readFromStream pair persists WeakLinks by PID (IoObject_pid) so they can be rehydrated through IoState_objectWithPid_.
+
+
+---
+
+<!-- Page: docs/Paper -->
+Source: /docs/Paper/
+
+# Paper
+
+Io, a Small Programming Language — the original OOPSLA 2005 paper.
+
+## About
+
+The original two-page paper introducing Io, presented at the ACM Dynamic Languages Symposium, co-located with OOPSLA’05 in San Diego (October 2005). It covers the core ideas of the language — objects and differential inheritance, message expressions and selective argument evaluation, blocks with assignable scope, actor-based concurrency on coroutines — and their influences in Smalltalk, Self, NewtonScript, Act1, LISP, and Lua.
+
+[Io, a Small Programming Language (PDF)](IoOOPSLA2005.pdf) — Steve Dekorte
+
+Also available from the [ACM Digital Library](https://doi.org/10.1145/1094855.1094960).
 
 
 ---
