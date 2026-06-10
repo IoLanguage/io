@@ -9,7 +9,7 @@
   <meta name="description" content="Per-type vtable shared by every IoObject of a given primitive class. An IoTag carries the type's name, a set of function pointers (clone, free, mark,...">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Tag</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Per-type vtable shared by every IoObject of a given primitive class.
+<div class="page loaded"><div class="header"><div><h1>Tag</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><div class="intro"><p>Per-type vtable shared by every IoObject of a given primitive class.
 An IoTag carries the type's name, a set of function pointers (clone,
 free, mark, activate, compare, perform, write/read, notification,
 cleanup) and is reference-counted across the proto and all its clones.
@@ -17,7 +17,7 @@ Each IoObject_new... constructor attaches exactly one tag (installed
 by the corresponding IoXxx_newTag helper) and the collector calls
 markFunc / freeFunc through the tag rather than switching on type.
 Keeping the dispatch here lets IoObject stay a fixed-size marker
-regardless of how many primitive subtypes the VM defines.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iotagfree">IoTag_free</a></li><li><a href="#functions--iotagmark">IoTag_mark</a></li><li><a href="#functions--iotagname">IoTag_name_</a></li><li><a href="#functions--iotagnew">IoTag_new</a></li><li><a href="#functions--iotagnewwithname">IoTag_newWithName_</a></li><li><a href="#functions--iotagreference">IoTag_reference</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iotagfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reference-counted release. Decrements referenceCount and returns early
+regardless of how many primitive subtypes the VM defines.</p></div><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iotagfree">IoTag_free</a></li><li><a href="#functions--iotagmark">IoTag_mark</a></li><li><a href="#functions--iotagname">IoTag_name_</a></li><li><a href="#functions--iotagnew">IoTag_new</a></li><li><a href="#functions--iotagnewwithname">IoTag_newWithName_</a></li><li><a href="#functions--iotagreference">IoTag_reference</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iotagfree"><div class="classdoc-member-head"><span class="classdoc-member-name">IoTag_free</span><span class="classdoc-member-sig">(self)</span></div><div class="classdoc-member-body"><p>Reference-counted release. Decrements referenceCount and returns early
 while any object still holds the tag; on the final release it invokes
 the optional tagCleanupFunc (for per-type bookkeeping like freeing
 interned pools), frees the duplicated name, and io_frees the tag

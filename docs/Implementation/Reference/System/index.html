@@ -9,7 +9,7 @@
   <meta name="description" content="C implementation of Io's System object — a slot-only object (no dedicated data pointer or tag) that exposes VM- and environment-level hooks: process exit,...">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>System</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">C implementation of Io's System object — a slot-only object (no
+<div class="page loaded"><div class="header"><div><h1>System</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><div class="intro"><p>C implementation of Io's System object — a slot-only object (no
 dedicated data pointer or tag) that exposes VM- and environment-level
 hooks: process exit, errno string, env var get/set, platform name,
 sleep, symbol table, lobby root, and GC recycler tuning. Under WASI
@@ -17,7 +17,7 @@ the host-provided surface is minimal: daemon and system() raise
 errors, thisProcessPid is always 1, activeCpus is 1, and platform/
 platformVersion return "wasm"/"wasi-0.1". IO_VERSION_STRING and
 INSTALL_PREFIX are stamped onto System as slots in IoSystem_proto so
-Io code can query the build identity.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ioobjectdaemon">IoObject_daemon</a></li><li><a href="#functions--ioobjectsleep">IoObject_sleep</a></li><li><a href="#functions--ioobjectsystem">IoObject_system</a></li><li><a href="#functions--iosystemproto">IoSystem_proto</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ioobjectdaemon"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_daemon</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Stub for the historical daemonize call. WASI has no fork/setsid so
+Io code can query the build identity.</p></div><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--ioobjectdaemon">IoObject_daemon</a></li><li><a href="#functions--ioobjectsleep">IoObject_sleep</a></li><li><a href="#functions--ioobjectsystem">IoObject_system</a></li><li><a href="#functions--iosystemproto">IoSystem_proto</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--ioobjectdaemon"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_daemon</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Stub for the historical daemonize call. WASI has no fork/setsid so
 the method always raises an Io exception. Kept for source
 compatibility with the standard library.</p></div></div><div class="classdoc-member" id="functions--ioobjectsleep"><div class="classdoc-member-head"><span class="classdoc-member-name">IoObject_sleep</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Blocks the current thread for the requested number of seconds by
 chunking into sub-second usleep calls (usleep's POSIX argument must

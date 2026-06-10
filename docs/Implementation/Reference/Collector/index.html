@@ -9,7 +9,7 @@
   <meta name="description" content="Thin Io-facing wrapper around the underlying C Collector (see basekit/source/Collector.c). There is no dedicated IoCollector struct — the proto is just an...">
 </head>
 <body>
-<div class="page loaded"><div class="header"><div><h1>Collector</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><p class="intro">Thin Io-facing wrapper around the underlying C Collector (see
+<div class="page loaded"><div class="header"><div><h1>Collector</h1><a class="back-link" href="../index.html">&larr; Reference</a></div><a class="brand" href="../index.html">Io</a></div><div class="intro"><p>Thin Io-facing wrapper around the underlying C Collector (see
 basekit/source/Collector.c). There is no dedicated IoCollector struct —
 the proto is just an IoObject carrying a method table; every method
 forwards to Collector_* on IOSTATE->collector. Because of that, the
@@ -18,7 +18,7 @@ collector itself is owned by IoState. The Io-level methods exposed
 here (collect, setMarksPerAlloc, allObjects, dirtyObjects, etc.) let
 scripts tune and inspect the incremental tri-color mark-sweep at
 runtime. COLLECTOR_FOREACH iterates every live marker and is used by
-the introspection methods.</p><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocollectorcheck">IoCollector_check</a></li><li><a href="#functions--iocollectorcheckmemory">IoCollector_checkMemory</a></li><li><a href="#functions--iocollectorcheckobjectpointers">IoCollector_checkObjectPointers</a></li><li><a href="#functions--iocollectorproto">IoCollector_proto</a></li><li><a href="#functions--iocollectorsetsafemodeon">IoCollector_setSafeModeOn</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocollectorcheck"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_check</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Runs the collector's internal self-check (mark-color invariants, free
+the introspection methods.</p></div><nav class="classdoc-toc"><ul class="classdoc-toc-members"><li><a href="#functions--iocollectorcheck">IoCollector_check</a></li><li><a href="#functions--iocollectorcheckmemory">IoCollector_checkMemory</a></li><li><a href="#functions--iocollectorcheckobjectpointers">IoCollector_checkObjectPointers</a></li><li><a href="#functions--iocollectorproto">IoCollector_proto</a></li><li><a href="#functions--iocollectorsetsafemodeon">IoCollector_setSafeModeOn</a></li></ul></nav><div class="classdoc"><div class="classdoc-member" id="functions--iocollectorcheck"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_check</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Runs the collector's internal self-check (mark-color invariants, free
 list consistency). Available for test suites that want a hard abort
 on corruption rather than waiting for a sweep to stumble into it.</p></div></div><div class="classdoc-member" id="functions--iocollectorcheckmemory"><div class="classdoc-member-head"><span class="classdoc-member-name">IoCollector_checkMemory</span><span class="classdoc-member-sig">(self, locals, m)</span></div><div class="classdoc-member-body"><p>Debug aid: runs Collector_check and then walks every live object
 invoking IoObject_rawCheckMemory on it, which touches the IoObjectData
