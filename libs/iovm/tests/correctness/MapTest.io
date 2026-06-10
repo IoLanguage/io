@@ -51,6 +51,15 @@ MapTest := UnitTest clone do(
 		assertEquals("alpha", exampleMap at("a"))
 	)
 
+	testAtDefaultIsLazy := method(
+		assertEquals("alpha", exampleMap at("a", Exception raise("default must not be evaluated on a hit")))
+		assertEquals("fallback", exampleMap at("missing", "fallback"))
+	)
+
+	testAtIfAbsentPutValueIsLazy := method(
+		assertEquals("alpha", exampleMap atIfAbsentPut("a", Exception raise("value must not be evaluated on a hit")))
+	)
+
 	testsize := method(
 		assertEquals(0, Map size)
 		assertEquals(2, exampleMap size)

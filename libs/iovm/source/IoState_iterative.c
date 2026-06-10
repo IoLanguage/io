@@ -716,23 +716,20 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 //
                 // Also skip for CFunctions using IoObject_self (thisContext,
                 // ifNil, etc.) which ignore their arguments entirely.
+                //
+                // This must be checked on every activation — a polymorphic
+                // call site can dispatch to a normal method on one pass and
+                // a lazy CFunction on the next, so the result cannot be
+                // cached on the message node.
                 // ============================================================
-                // Check cached flag (0=unchecked, 1=normal, 2=special)
-                IoMessageData *activateMd = IOMESSAGEDATA(fd->message);
-                int isSpecialForm;
-                if (activateMd->isSpecialForm == 0) {
-                    isSpecialForm = 0;
-                    if (ISCFUNCTION(slotValue)) {
-                        IoCFunctionData *cfData =
-                            (IoCFunctionData *)IoObject_dataPointer(slotValue);
-                        if (cfData->isLazyArgs ||
-                            cfData->func == (IoUserFunction *)IoObject_self) {
-                            isSpecialForm = 1;
-                        }
+                int isSpecialForm = 0;
+                if (ISCFUNCTION(slotValue)) {
+                    IoCFunctionData *cfData =
+                        (IoCFunctionData *)IoObject_dataPointer(slotValue);
+                    if (cfData->isLazyArgs ||
+                        cfData->func == (IoUserFunction *)IoObject_self) {
+                        isSpecialForm = 1;
                     }
-                    activateMd->isSpecialForm = isSpecialForm ? 2 : 1;
-                } else {
-                    isSpecialForm = (activateMd->isSpecialForm == 2);
                 }
 
                 if (!isSpecialForm && !fd->argValues) {

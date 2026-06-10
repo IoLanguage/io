@@ -89,7 +89,7 @@ make
 - `IoMessage_locals_performOn_` redirects to the iterative eval loop when `currentFrame` is set. A bootstrap-only recursive fallback exists for VM initialization (before the first eval loop starts).
 
 ### Special forms
-Messages whose arguments must NOT be pre-evaluated: `if`, `while`, `loop`, `for`, `callcc`, `method`, `block`, `foreach`, `reverseForeach`, `foreachLine`. Checked in two places in `IoState_iterative.c`.
+CFunctions whose arguments must NOT be pre-evaluated (e.g. `if`, `while`, `for`, `method`, `block`, `foreach`, `Map at`/`atIfAbsentPut`) are tagged with `isLazyArgs` in `IoState_markLazyArgsCFunctions_` (`IoState.c`). The eval loop checks the flag on the resolved CFunction at every activation. Any CFunction that evaluates an argument conditionally must be added to that list.
 
 ### Error handling
 - C-level: `IoState_error_` sets `state->errorRaised = 1`. Eval loop unwinds frames.

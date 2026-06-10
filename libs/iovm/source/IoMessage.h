@@ -46,7 +46,6 @@ typedef struct {
     // debugging info
     // int charNumber;
     int lineNumber;
-    uint8_t isSpecialForm;   // 0=unchecked, 1=normal, 2=special form
 
     // Inline cache for monomorphic slot lookups.
     // Caches the last (tag, value, context) result so repeated sends

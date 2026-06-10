@@ -391,13 +391,10 @@ void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v) {
 }
 
 /*cdoc Message IoMessage_rawSetName_(self, v)
-Installs the message's name symbol and clears the cached isSpecialForm
-flag — the evaluator re-derives specialness (if/while/for/...) from
-the new name on the next lookup.
+Installs the message's name symbol with IOREF retention.
 */
 void IoMessage_rawSetName_(IoMessage *self, IoObject *v) {
     DATA(self)->name = v ? IOREF(v) : NULL;
-    DATA(self)->isSpecialForm = 0; // Reset cached flag when name changes
 }
 
 /*cdoc Message IoMessage_rawSetLabel_(self, v)

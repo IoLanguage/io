@@ -52,4 +52,24 @@ IfTest := UnitTest clone do(
 		assertTrue(if(13))
 		assertTrue(if("foo"))
 	)
+
+	// A call site that first dispatches to a normal method must still
+	// treat a lazy CFunction (here an alias of 'if') as a special form
+	// when a later receiver resolves to one.
+	testLazyDispatchAtPolymorphicSite := method(
+		normal := Object clone do(run := method(a, b, c, a))
+		aliased := Object clone do(run := Object getSlot("if"))
+		evaluated := List clone
+		site := method(obj,
+			obj run(true, evaluated append("then"), evaluated append("else"))
+		)
+		site(normal)
+		assertEquals(list("then", "else"), evaluated)
+		evaluated empty
+		site(aliased)
+		assertEquals(list("then"), evaluated)
+		evaluated empty
+		site(normal)
+		assertEquals(list("then", "else"), evaluated)
+	)
 )

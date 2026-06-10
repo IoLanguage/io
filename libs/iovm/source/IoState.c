@@ -82,9 +82,10 @@ static void IoState_markSlotLazyArgs_(IoState *self, const char *protoId,
 /*cdoc State IoState_markLazyArgsCFunctions_(self)
 The canonical list of lazy-args CFunctions. Called once at the very end
 of IoState_new_atAddress after all protos and Io-side slot aliases are
-in place. Keep this list in sync with the special-form detection in
-IoState_iterative.c — adding a new control-flow primitive that takes
-un-evaluated message arguments means touching both places.
+in place. Any CFunction that evaluates an argument conditionally (or not
+at all) must be listed here — otherwise the iterative eval loop
+pre-evaluates all of its arguments eagerly, running side effects the
+callee would have skipped.
 */
 static void IoState_markLazyArgsCFunctions_(IoState *self) {
     // Control flow
@@ -115,6 +116,10 @@ static void IoState_markLazyArgsCFunctions_(IoState *self) {
     IoState_markSlotLazyArgs_(self, "Sequence", "foreach");
     // Map
     IoState_markSlotLazyArgs_(self, "Map", "foreach");
+    // at's optional default and atIfAbsentPut's value are only
+    // evaluated on a key miss
+    IoState_markSlotLazyArgs_(self, "Map", "at");
+    IoState_markSlotLazyArgs_(self, "Map", "atIfAbsentPut");
     // File
     IoState_markSlotLazyArgs_(self, "File", "foreach");
     IoState_markSlotLazyArgs_(self, "File", "foreachLine");
