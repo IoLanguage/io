@@ -91,6 +91,7 @@
 - [Technical Notes](/docs/Technical%20Notes/): Design docs on WASM targeting, stackless evaluation, and future work.
 - [Future Work](/docs/Technical%20Notes/Future%20Work/): Design notes and proposals for upcoming changes.
 - [Exceptions](/docs/Technical%20Notes/Future%20Work/Exceptions/): Design notes on the current exception system and proposed improvements.
+- [Performance](/docs/Technical%20Notes/Future%20Work/Performance/): A plan for making Io substantially faster, along two implementation paths: a pure JavaScript interpreter, and a more aggressively optimized WASM VM.
 - [Stackless](/docs/Technical%20Notes/Stackless/): Io's iterative evaluator, continuations, and coroutines.
 - [Stackless VM Examples](/docs/Technical%20Notes/Stackless/Examples/): Patterns enabled by the heap-allocated frame-based evaluator: portable coroutines, TCO, frame introspection, and robust exception handling.
 - [Stackless Evaluator Report](/docs/Technical%20Notes/Stackless/Report/): Design and status notes on the heap-allocated frame-based evaluator.
