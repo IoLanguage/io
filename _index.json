@@ -35,6 +35,11 @@
         },
         "Timeline",
         {
+          "title": "Performance",
+          "href": "bench/index.html",
+          "subtitle": "Benchmark results tracked over time — interpreter ops, shootout programs, and SIMD throughput."
+        },
+        {
           "title": "GitHub Repository",
           "href": "https://github.com/IoLanguage/io",
           "subtitle": "Source code, issues, and contributions."

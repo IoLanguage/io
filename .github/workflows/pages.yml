@@ -17,6 +17,7 @@ on:
       - 'Links/**'
       - 'repl/**'
       - 'browser/**'
+      - 'bench/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 

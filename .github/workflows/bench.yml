@@ -1,0 +1,76 @@
+name: Benchmarks
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/**'
+      - 'deps/**'
+      - 'tools/**'
+      - 'Makefile'
+      - 'bench/micro.io'
+      - 'bench/run.mjs'
+      - '.github/workflows/bench.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bench
+  cancel-in-progress: false
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    env:
+      WASI_SDK_VERSION: "24"
+      WASI_SDK_FULL: "24.0"
+      WASMTIME_VERSION: "v27.0.0"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          # benchmark commits land on master between this run starting and pushing,
+          # so pull --rebase below needs full history
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install wasi-sdk
+        run: |
+          mkdir -p "$HOME/wasi-sdk"
+          curl -L -o /tmp/wasi-sdk.tar.gz \
+            "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_SDK_VERSION}/wasi-sdk-${WASI_SDK_FULL}-x86_64-linux.tar.gz"
+          tar -xzf /tmp/wasi-sdk.tar.gz -C "$HOME/wasi-sdk" --strip-components=1
+
+      - name: Install wasmtime
+        run: |
+          curl -L -o /tmp/wasmtime.tar.xz \
+            "https://github.com/bytecodealliance/wasmtime/releases/download/${WASMTIME_VERSION}/wasmtime-${WASMTIME_VERSION}-x86_64-linux.tar.xz"
+          mkdir -p "$HOME/wasmtime"
+          tar -xJf /tmp/wasmtime.tar.xz -C "$HOME/wasmtime" --strip-components=1
+          echo "$HOME/wasmtime" >> "$GITHUB_PATH"
+
+      - name: Build io_static
+        run: make -j$(nproc) WASI_SDK="$HOME/wasi-sdk"
+
+      - name: Run benchmarks
+        env:
+          BENCH_MACHINE: github-ci
+        run: node bench/run.mjs
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bench/history.json
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "bench: record results for ${GITHUB_SHA::8}"
+            git pull --rebase origin master
+            git push origin master
+          fi

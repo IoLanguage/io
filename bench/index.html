@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Io — Performance</title>
+<meta name="description" content="Io VM benchmark results tracked over time.">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:-apple-system,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    color:#2a2a2a; background:#faf9f6; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{ --page-padding-x:70px; padding:48px var(--page-padding-x) 56px; max-width:1100px; }
+
+  a{ color:#888; text-decoration:none; }
+  a:hover{ color:#2a2a2a; }
+
+  .header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:40px; }
+  .back-link{ display:inline-block; margin-top:8px; font-size:13px; color:#999; letter-spacing:0.3px; transition:color .15s; }
+  .back-link:hover{ color:#2a2a2a; }
+  .brand{ font-size:18px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2a2a2a; }
+  .intro{ max-width:560px; font-size:14px; color:#555; line-height:1.8; margin-bottom:28px; }
+  .intro code{
+    font-family:'SF Mono','Menlo','Monaco','Consolas',monospace; font-size:0.85em;
+    background:#f1ece0; padding:2px 5px; border-radius:3px; color:#5e5128;
+  }
+
+  .machines{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:24px; }
+  .machines-label{ font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-right:4px; }
+  .machine-chip{ background:none; color:#999; border:1px solid #ddd; padding:5px 12px;
+                 font-family:inherit; font-size:12px; letter-spacing:0.3px; border-radius:3px;
+                 cursor:pointer; transition:color .15s, border-color .15s, background .15s; }
+  .machine-chip:hover{ color:#2a2a2a; border-color:#999; }
+  .machine-chip.active{ background:#2a2a2a; color:#fff; border-color:#2a2a2a; }
+
+  .chart-section{ margin-bottom:40px; }
+  .chart-title{ font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:4px; }
+  .chart-sub{ font-size:13px; color:#999; margin-bottom:14px; }
+  .chart-box{ border:1px solid #e0e0e0; border-radius:6px; background:#fff; padding:18px; overflow-x:auto; }
+  .chart-box svg{ display:block; }
+  .legend{ display:flex; gap:6px 18px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:#555; }
+  .legend .swatch{ display:inline-block; width:18px; height:3px; border-radius:2px; vertical-align:middle; margin-right:6px; }
+
+  .status{ font-size:13px; color:#888; }
+  .status.error{ border:1px solid #e3b3ae; background:#fbeae8; color:#8a2a22;
+                 border-radius:6px; padding:14px 18px; line-height:1.65; }
+
+  .notes{ max-width:760px; font-size:13.5px; color:#555; line-height:1.8; margin-top:8px; }
+  .notes code{
+    font-family:'SF Mono','Menlo','Monaco','Consolas',monospace; font-size:0.85em;
+    background:#f1ece0; padding:2px 5px; border-radius:3px; color:#5e5128;
+  }
+
+  @media (max-width:700px){
+    .page{ --page-padding-x:28px; padding:32px var(--page-padding-x) 48px; }
+    .header{ flex-direction:column; gap:8px; align-items:flex-start; margin-bottom:28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="brand">Performance</div>
+      <a class="back-link" href="../index.html">&larr; iolanguage.org</a>
+    </div>
+  </div>
+
+  <p class="intro">Io VM benchmark results tracked over time. Each point is one run on one commit
+    of <code>master</code>: interpreter operation rates from the classic
+    <code>speed.io</code> microbenchmarks, wall-clock times for shootout programs, and Vector SIMD
+    throughput. CI records a point on every VM change; hover any point for the commit.</p>
+
+  <div class="status" id="status">Loading history&hellip;</div>
+  <div id="charts" hidden>
+    <div class="machines" id="machines"><span class="machines-label">Machines</span></div>
+
+    <div class="chart-section">
+      <div class="chart-title">Interpreter ops</div>
+      <div class="chart-sub">millions of operations per second &mdash; higher is better</div>
+      <div class="chart-box"><div id="chart-micro"></div></div>
+      <div class="legend" id="legend-micro"></div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-title">Programs</div>
+      <div class="chart-sub">wall-clock seconds, best of 3 (includes ~30&nbsp;ms VM startup) &mdash; lower is better</div>
+      <div class="chart-box"><div id="chart-macro"></div></div>
+      <div class="legend" id="legend-macro"></div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-title">Vector SIMD</div>
+      <div class="chart-sub">GFLOPS on 1024-element float vector multiply &mdash; higher is better</div>
+      <div class="chart-box"><div id="chart-simd"></div></div>
+      <div class="legend" id="legend-simd"></div>
+    </div>
+
+    <p class="notes">Microbenchmark rates are measured inside the VM (see
+      <code>bench/micro.io</code>); program times are measured around a <code>wasmtime</code>
+      invocation by <code>bench/run.mjs</code>. Different machines are separate series &mdash;
+      compare trends within a machine, not values across machines. CI runner hardware varies
+      between runs, so expect more noise in the CI series than in pinned-hardware ones.</p>
+  </div>
+</div>
+
+<script>
+(async function () {
+  const statusEl = document.getElementById("status");
+  let history;
+  try {
+    const resp = await fetch("history.json", { cache: "no-store" });
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    history = await resp.json();
+  } catch (e) {
+    statusEl.textContent = "Failed to load history.json: " + e.message;
+    statusEl.className = "status error";
+    return;
+  }
+  if (!history.length) {
+    statusEl.textContent = "No benchmark entries recorded yet.";
+    return;
+  }
+  statusEl.hidden = true;
+  document.getElementById("charts").hidden = false;
+
+  const COLORS = ["#2a6db5", "#b5582a", "#3d8a4f", "#8a4f9e", "#b59a2a", "#5a5a5a", "#b52a6d"];
+  const GROUPS = [
+    { el: "micro", unit: "M ops/s",
+      metrics: ["localAccesses", "localSets", "slotAccesses", "slotSets",
+                "blockActivations", "instantiations", "cfuncActivations"] },
+    { el: "macro", unit: "s",
+      metrics: ["binarytrees10", "nbody50k", "nsieve6"] },
+    { el: "simd", unit: "GFLOPS", metrics: ["vectorGflops"] },
+  ];
+
+  const machines = [...new Set(history.map(e => e.machine))];
+  const active = new Set(machines);
+
+  // Machine filter chips
+  const machinesEl = document.getElementById("machines");
+  machines.forEach(m => {
+    const b = document.createElement("button");
+    b.className = "machine-chip active";
+    b.textContent = m;
+    b.addEventListener("click", () => {
+      if (active.has(m) && active.size > 1) { active.delete(m); b.classList.remove("active"); }
+      else { active.add(m); b.classList.add("active"); }
+      render();
+    });
+    machinesEl.appendChild(b);
+  });
+
+  // dash pattern distinguishes machines when several are shown
+  const dashFor = i => (i === 0 ? "" : i === 1 ? "6 4" : "2 3");
+
+  function drawChart(containerId, legendId, metrics, unit) {
+    const entries = history.filter(e => active.has(e.machine));
+    const shownMachines = machines.filter(m => active.has(m) && entries.some(e => e.machine === m));
+    const W = Math.max(560, Math.min(1000, entries.length * 90)), H = 260;
+    const PAD = { l: 46, r: 34, t: 12, b: 30 };
+
+    // x position by date order across all shown entries (index-spaced)
+    const dates = [...new Set(entries.map(e => e.date))].sort();
+    const xFor = d => PAD.l + (dates.length === 1 ? (W - PAD.l - PAD.r) / 2
+      : (dates.indexOf(d) / (dates.length - 1)) * (W - PAD.l - PAD.r));
+
+    let max = 0;
+    for (const e of entries) for (const m of metrics)
+      if (e.metrics[m] != null) max = Math.max(max, e.metrics[m]);
+    if (max === 0) max = 1;
+    const yFor = v => PAD.t + (1 - v / max) * (H - PAD.t - PAD.b);
+
+    let svg = `<svg width="${W}" height="${H}" font-family="inherit">`;
+    // y gridlines
+    for (let i = 0; i <= 4; i++) {
+      const v = (max / 4) * i, y = yFor(v);
+      svg += `<line x1="${PAD.l}" y1="${y}" x2="${W - PAD.r}" y2="${y}" stroke="#eee"/>`;
+      svg += `<text x="${PAD.l - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="#999">${v >= 10 ? v.toFixed(0) : v.toFixed(1)}</text>`;
+    }
+    // x labels
+    for (const d of dates) {
+      svg += `<text x="${xFor(d)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#999">${d.slice(2)}</text>`;
+    }
+    // series: one per (metric, machine)
+    metrics.forEach((metric, mi) => {
+      shownMachines.forEach((machine, hi) => {
+        const pts = entries
+          .filter(e => e.machine === machine && e.metrics[metric] != null)
+          .map(e => ({ x: xFor(e.date), y: yFor(e.metrics[metric]), e }));
+        if (!pts.length) return;
+        const color = COLORS[mi % COLORS.length];
+        if (pts.length > 1) {
+          const path = pts.map((p, i) => (i ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
+          svg += `<path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="${dashFor(hi)}"/>`;
+        }
+        for (const p of pts) {
+          svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${color}">` +
+            `<title>${metric}: ${p.e.metrics[metric]} ${unit}\n${p.e.date} · ${p.e.commit} · ${p.e.machine}</title></circle>`;
+        }
+      });
+    });
+    svg += "</svg>";
+    document.getElementById(containerId).innerHTML = svg;
+
+    const legend = metrics.map((m, i) =>
+      `<span><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${m}</span>`);
+    if (shownMachines.length > 1) {
+      legend.push(...shownMachines.map((m, i) =>
+        `<span><span class="swatch" style="background:#999;${i ? "background:repeating-linear-gradient(90deg,#999 0 4px,transparent 4px 8px)" : ""}"></span>${m}</span>`));
+    }
+    document.getElementById(legendId).innerHTML = legend.join("");
+  }
+
+  function render() {
+    for (const g of GROUPS) drawChart("chart-" + g.el, "legend-" + g.el, g.metrics, g.unit);
+  }
+  render();
+})();
+</script>
+</body>
+</html>

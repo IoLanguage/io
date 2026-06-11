@@ -42,6 +42,7 @@ conceptunifiesscopable blocksfunctions, methods, closuresprototypesobjects, clas
 - FAQ
 - [Links](Links/index.html) — Books, tutorials, articles, papers, tools, and community resources.
 - Timeline
+- [Performance](bench/index.html) — Benchmark results tracked over time — interpreter ops, shootout programs, and SIMD throughput.
 - [GitHub Repository](https://github.com/IoLanguage/io) — Source code, issues, and contributions.
 
 For AI agents: [llms.txt](llms.txt) (curated index) and [llms-full.txt](llms-full.txt) (full content).

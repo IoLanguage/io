@@ -1,0 +1,78 @@
+[
+	{
+		"date": "2026-04-20",
+		"commit": "54a537c3",
+		"machine": "Apple M2 Max",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 12.783,
+			"localSets": 6.951,
+			"slotAccesses": 8.661,
+			"slotSets": 4.891,
+			"blockActivations": 7.975,
+			"instantiations": 2.192,
+			"cfuncActivations": 8.814,
+			"vectorGflops": 1.605,
+			"binarytrees10": 5.822,
+			"nbody50k": 3.369,
+			"nsieve6": 0.869
+		}
+	},
+	{
+		"date": "2026-04-21",
+		"commit": "0e1b5d72",
+		"machine": "Apple M2 Max",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 12.504,
+			"localSets": 6.851,
+			"slotAccesses": 8.224,
+			"slotSets": 4.81,
+			"blockActivations": 7.758,
+			"instantiations": 2.226,
+			"cfuncActivations": 8.818,
+			"vectorGflops": 2.286,
+			"binarytrees10": 5.746,
+			"nbody50k": 3.376,
+			"nsieve6": 0.874
+		}
+	},
+	{
+		"date": "2026-05-31",
+		"commit": "b1500363",
+		"machine": "Apple M2 Max",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 12.093,
+			"localSets": 6.746,
+			"slotAccesses": 8.148,
+			"slotSets": 4.846,
+			"blockActivations": 7.67,
+			"instantiations": 2.191,
+			"cfuncActivations": 8.381,
+			"vectorGflops": 2.174,
+			"binarytrees10": 6.446,
+			"nbody50k": 3.408,
+			"nsieve6": 0.885
+		}
+	},
+	{
+		"date": "2026-06-11",
+		"commit": "7084015c",
+		"machine": "Apple M2 Max",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 12.806,
+			"localSets": 7.098,
+			"slotAccesses": 8.54,
+			"slotSets": 5.152,
+			"blockActivations": 7.45,
+			"instantiations": 2.366,
+			"cfuncActivations": 8.547,
+			"vectorGflops": 2.306,
+			"binarytrees10": 5.328,
+			"nbody50k": 3.211,
+			"nsieve6": 0.835
+		}
+	}
+]
