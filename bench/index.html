@@ -161,7 +161,8 @@
   function drawChart(containerId, legendId, metrics, unit) {
     const entries = history.filter(e => active.has(e.machine));
     const shownMachines = machines.filter(m => active.has(m) && entries.some(e => e.machine === m));
-    const W = Math.max(560, Math.min(1000, entries.length * 90)), H = 260;
+    // fill the chart box (its padding gives equal margins); scroll below 420px
+    const W = Math.max(420, document.getElementById(containerId).clientWidth), H = 260;
     const PAD = { l: 46, r: 34, t: 12, b: 30 };
 
     // x position by date order across all shown entries (index-spaced)
@@ -232,6 +233,12 @@
     for (const g of GROUPS) drawChart("chart-" + g.el, "legend-" + g.el, g.metrics, g.unit);
   }
   render();
+
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 120);
+  });
 })();
 </script>
 </body>
