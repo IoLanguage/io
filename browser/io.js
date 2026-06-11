@@ -1,6 +1,8 @@
 // Io VM — Browser WASM loader + WASI shim + JS bridge + REPL logic
 
-const IO_WASM_URL = "io_browser.wasm";
+// Pages outside browser/ can point at the wasm by setting window.IO_WASM_URL
+// before loading this script.
+const IO_WASM_URL = (typeof window !== "undefined" && window.IO_WASM_URL) || "io_browser.wasm";
 
 let wasm = null;    // WebAssembly instance
 let memory = null;  // WASM linear memory

@@ -18,6 +18,11 @@
       "columns": 2,
       "items": [
         {
+          "title": "Live Interpreter",
+          "href": "repl/index.html",
+          "subtitle": "Try Io right now — the full VM compiled to WebAssembly, running in your browser."
+        },
+        {
           "title": "Documentation",
           "href": "docs/index.html",
           "subtitle": "Guides, tutorial, language reference, and design notes."

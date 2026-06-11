@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Io — Live Interpreter</title>
+<meta name="description" content="The Io language VM compiled to WebAssembly, running entirely in your browser.">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:-apple-system,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    color:#2a2a2a; background:#faf9f6; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{ --page-padding-x:70px; padding:48px var(--page-padding-x) 36px; }
+
+  a{ color:#888; text-decoration:none; }
+  a:hover{ color:#2a2a2a; }
+
+  .header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:40px; }
+  .back-link{ display:inline-block; margin-top:8px; font-size:13px; color:#999; text-decoration:none; letter-spacing:0.3px; transition:color .15s; }
+  .back-link:hover{ color:#2a2a2a; }
+  .brand{ font-size:18px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2a2a2a; }
+  .intro{ max-width:560px; font-size:14px; color:#555; line-height:1.8; margin-bottom:24px; }
+  .intro code{
+    font-family:'SF Mono','Menlo','Monaco','Consolas',monospace; font-size:0.85em;
+    background:#f1ece0; padding:2px 5px; border-radius:3px; color:#5e5128;
+  }
+
+  .status{ margin-bottom:16px; font-size:13px; color:#888; letter-spacing:0.2px; }
+  .status.hidden{ display:none; }
+  .status.error{ border:1px solid #e3b3ae; background:#fbeae8; color:#8a2a22;
+                 border-radius:6px; padding:14px 18px; line-height:1.65; }
+
+  #repl{ transition:opacity .3s ease; }
+
+  /* Console transcript — replPair entries are appended by io.js */
+  .output{ border:1px solid #e0e0e0; border-radius:6px; background:#fff;
+           padding:18px; height:clamp(220px, 42vh, 480px); overflow:auto; }
+  .output:empty::before{
+    content:"Evaluations appear here — try an example below.";
+    display:block; color:#aaa; font-size:13px; text-align:center; padding:40px 10px;
+  }
+  .replPair{ display:flex; flex-direction:column; margin-bottom:16px; }
+  .replPair:last-child{ margin-bottom:0; }
+  .input-echo, .result, .result-error, .info{
+    max-width:88%; padding:10px 14px; border-radius:12px; font-size:13px; line-height:1.7;
+    font-family:'SF Mono','Menlo','Monaco','Consolas',monospace;
+    white-space:pre-wrap; word-break:break-word;
+  }
+  .input-echo{ align-self:flex-end; background:#2a2a2a; color:#fff; border-bottom-right-radius:3px; }
+  .result{ align-self:flex-start; background:#f1efe9; color:#2a2a2a; border-bottom-left-radius:3px; margin-top:8px; }
+  .result-error{ align-self:flex-start; background:#fbeae8; color:#8a2a22; border:1px solid #e3b3ae; border-bottom-left-radius:3px; margin-top:8px; }
+  .info{ align-self:flex-start; color:#999; padding-left:0; }
+
+  /* Composer */
+  .composer{ margin-top:18px; }
+  .input{
+    display:block; width:100%; min-height:48px; max-height:200px; resize:none;
+    background:#fff; border:1px solid #ddd; border-radius:3px; padding:12px 14px;
+    font-family:'SF Mono','Menlo','Monaco','Consolas',monospace; font-size:13px;
+    line-height:1.6; color:#2a2a2a; transition:border-color .15s;
+  }
+  .input:hover{ border-color:#bbb; }
+  .input:focus{ outline:none; border-color:#999; }
+  .input:disabled{ opacity:.6; }
+
+  .row{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; align-items:center; }
+  button, .button, .topic{ font-family:inherit; cursor:pointer;
+          transition:color .15s, background .15s, border-color .15s; }
+  .button#eval-btn{ background:#2a2a2a; color:#fff; border:1px solid #2a2a2a; padding:9px 24px;
+           font-size:13px; font-weight:600; letter-spacing:0.5px; border-radius:3px;
+           display:inline-block; user-select:none; }
+  .button#eval-btn:hover{ background:#000; border-color:#000; }
+  .button#clear-btn, .topic{ background:none; color:#999; border:1px solid #ddd; padding:9px 18px;
+              font-size:13px; letter-spacing:0.3px; border-radius:3px;
+              display:inline-block; user-select:none; }
+  .button#clear-btn:hover, .topic:hover{ color:#2a2a2a; border-color:#999; }
+  .spacer{ flex:1; }
+  .hint{ font-size:12px; color:#999; letter-spacing:0.2px; }
+
+  .examples{ margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .examples-label{ font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-right:4px; }
+  .topic{ padding:5px 12px; font-size:12px; }
+
+  /* Live DOM examples land here */
+  #playground{ margin-top:6px; }
+  #playground:not(:empty){ margin-top:18px; padding:14px 18px; border:1px dashed #ddd; border-radius:6px; }
+
+  /* How it works */
+  .formats{ margin-top:28px; font-size:14px; color:#555; line-height:1.8; }
+  .formats-summary{
+    background:none; border:none; padding:0;
+    font-family:inherit; font-size:12px; font-weight:700; letter-spacing:1.5px;
+    text-transform:uppercase; color:#888;
+    cursor:pointer; user-select:none; transition:color .15s;
+    display:inline-flex; align-items:baseline; gap:6px;
+  }
+  .formats-summary:hover{ color:#2a2a2a; }
+  .formats-summary .arrow{ display:inline-block; font-size:1.5em; color:#888; transition:transform .2s ease; }
+  .formats.open .formats-summary .arrow{ transform:rotate(90deg); }
+  .formats-body{ height:0; overflow:hidden; transition:height .3s ease; max-width:760px;
+                 font-size:14px; color:#555; line-height:1.8; }
+  .formats-body > :first-child{ margin-top:14px; }
+  .formats-body > :last-child{ margin-bottom:28px; }
+  .formats-body p{ margin-bottom:12px; max-width:760px; }
+  .formats-body a{ color:#555; text-decoration:underline; }
+  .formats-body a:hover{ color:#2a2a2a; }
+  .formats-body code{
+    font-family:'SF Mono','Menlo','Monaco','Consolas',monospace; font-size:0.85em;
+    background:#f1ece0; padding:2px 5px; border-radius:3px; color:#5e5128;
+  }
+  .specs{ margin:0 0 12px; display:grid; grid-template-columns:auto 1fr; gap:4px 18px;
+    max-width:760px; font-size:13.5px; }
+  .specs dt{ color:#888; }
+  .specs dd{ margin:0; color:#2a2a2a; }
+
+  @media (max-width:700px){
+    .page{ --page-padding-x:28px; padding:32px var(--page-padding-x) 48px; }
+    .header{ flex-direction:column; gap:8px; align-items:flex-start; margin-bottom:28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="brand">Live Interpreter</div>
+      <a class="back-link" href="../index.html">&larr; iolanguage.org</a>
+    </div>
+  </div>
+
+  <p class="intro">The Io virtual machine compiled to WebAssembly, running entirely in your
+    browser — nothing is sent to a server. Type an expression and press Enter. State persists
+    between evaluations, and the Io&harr;JavaScript bridge gives your code access to the page:
+    try the <code>DOM</code> example below.</p>
+
+  <div class="status" id="status">Loading the Io VM (~1.4&nbsp;MB of WebAssembly)&hellip;</div>
+
+  <div id="repl" style="opacity:0">
+    <div class="output" id="output"></div>
+
+    <div class="composer">
+      <textarea class="input" id="input" rows="1" autocomplete="off" spellcheck="false" disabled
+        placeholder="loading&hellip;"></textarea>
+      <div class="row">
+        <span class="button" id="eval-btn">Run</span>
+        <span class="button" id="clear-btn">Clear</span>
+        <span class="spacer"></span>
+        <span class="hint">Enter to run &middot; Shift+Enter for a new line &middot; &uarr;/&darr; history</span>
+      </div>
+    </div>
+
+    <div class="examples">
+      <span class="examples-label">Examples</span>
+      <span class="topic" data-code="&quot;Hello world!&quot; println">hello world</span>
+      <span class="topic" data-code="list(1, 2, 3) map(x, x * x)">lists</span>
+      <span class="topic" data-code="Dog := Object clone do(speak := method(&quot;woof!&quot; println)); Dog speak">prototypes</span>
+      <span class="topic" data-code='1 + 2 * 3 == 1 + (2 * 3)'>operators</span>
+      <span class="topic" data-code="JS get(&quot;Math&quot;) sqrt(144)">JS math</span>
+      <span class="topic" data-code='JS get("Promise") resolve(list(10, 20, 30)) size'>async</span>
+      <span class="topic" data-code='JS setTimeout(block(writeln("hello from the future!")), 1000)&#10;"(waiting 1 second...)" println'>callback</span>
+      <span class="topic" data-code='el := JS document createElement("div")&#10;el set("textContent", "Hello from Io!")&#10;s := el get("style")&#10;s setProperty("color", "#7a5d1f")&#10;s setProperty("fontWeight", "600")&#10;JS document getElementById("playground") appendChild(el)&#10;"(element added below the console)" println'>DOM</span>
+      <span class="topic" data-code='btn := JS document createElement("button")&#10;btn set("textContent", "Click me")&#10;s := btn get("style")&#10;s setProperty("padding", "6px 14px")&#10;s setProperty("cursor", "pointer")&#10;count := 0&#10;btn addEventListener("click", block(count = count + 1; btn set("textContent", "Clicked " .. count .. " times")))&#10;JS document getElementById("playground") appendChild(btn)&#10;"(button added below the console - try clicking it!)" println'>button</span>
+    </div>
+
+    <div id="playground"></div>
+  </div>
+
+  <div class="formats" id="how">
+    <button class="formats-summary" type="button" aria-expanded="false">
+      <span class="arrow" aria-hidden="true">&#9656;</span><span>How it works</span>
+    </button>
+    <div class="formats-body">
+      <p>This page runs the real Io VM — the same C source that runs under
+        <a href="https://wasmtime.dev/" target="_blank" rel="noopener">wasmtime</a> — compiled to a
+        WebAssembly <em>reactor module</em> with
+        <a href="https://github.com/WebAssembly/wasi-sdk" target="_blank" rel="noopener">wasi-sdk</a>.
+        Instead of running <code>main()</code> and exiting, the module exports functions that
+        JavaScript calls for each evaluation, so the VM (and everything you define) stays alive
+        between inputs.</p>
+      <dl class="specs">
+        <dt>VM</dt><dd>Io (stackless evaluator, WASM/WASI target)</dd>
+        <dt>Download size</dt><dd>~1.4&nbsp;MB (one .wasm file)</dd>
+        <dt>Runs on</dt><dd>Any modern browser; no WebGPU or special hardware needed</dd>
+        <dt>Server calls</dt><dd>None — evaluation is 100% local</dd>
+        <dt>License</dt><dd>BSD</dd>
+      </dl>
+      <p>Io output (<code>print</code>, <code>println</code>, <code>write</code>) is captured through
+        the VM's print callback and shown in the transcript; if an expression prints nothing, its
+        return value is shown as <code>==&gt; value</code>. The <code>JS</code> object bridges into
+        JavaScript both ways: Io can call JS functions and read or set properties, JS callbacks can
+        invoke Io blocks, and JS Promises tie into Io's coroutines so awaiting code reads like
+        straight-line code.</p>
+      <p>Read more in the <a href="../docs/Technical%20Notes/WASM/index.html">WASM technical notes</a>
+        or browse the <a href="https://github.com/IoLanguage/io/tree/master/browser" target="_blank"
+        rel="noopener">browser bridge source</a> on GitHub.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.IO_WASM_URL = "../browser/io_browser.wasm";
+
+  // io.js clears the input placeholder once the VM loads; restore a useful one.
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("input");
+    new MutationObserver((muts, observer) => {
+      if (!input.disabled) {
+        input.placeholder = "Type Io code…";
+        observer.disconnect();
+      }
+    }).observe(input, { attributes: true, attributeFilter: ["disabled"] });
+
+    // Expand/collapse "How it works"
+    const how = document.getElementById("how");
+    const summary = how.querySelector(".formats-summary");
+    const body = how.querySelector(".formats-body");
+    summary.addEventListener("click", () => {
+      const open = how.classList.toggle("open");
+      summary.setAttribute("aria-expanded", open ? "true" : "false");
+      body.style.height = open ? body.scrollHeight + "px" : "0px";
+    });
+  });
+</script>
+<script src="../browser/io.js"></script>
+</body>
+</html>

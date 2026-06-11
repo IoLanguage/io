@@ -37,6 +37,7 @@ conceptunifiesscopable blocksfunctions, methods, closuresprototypesobjects, clas
 - **Io↔JS Bridge** — Host integration on the browser target is bidirectional: Io can call JavaScript functions and JavaScript can call Io methods, replacing the native-addon model of earlier Io releases.
 - **Embeddable Core** — The VM ships as a single WebAssembly module under a BSD license, embeddable in any WASM host — browsers, Node.js, or native apps via wasmtime or wasmer.
 
+- [Live Interpreter](repl/index.html) — Try Io right now — the full VM compiled to WebAssembly, running in your browser.
 - [Documentation](docs/index.html) — Guides, tutorial, language reference, and design notes.
 - FAQ
 - [Links](Links/index.html) — Books, tutorials, articles, papers, tools, and community resources.

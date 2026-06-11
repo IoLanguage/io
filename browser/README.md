@@ -44,4 +44,7 @@ The JS side (`io.js`) provides a minimal WASI shim — just enough for the VM to
 - `io_browser.c` — C entry point with exported functions
 - `io.js` — WASM loader, WASI shim, REPL logic
 - `index.html` — UI
-- `io_browser.wasm` — built artifact (gitignored)
+- `io_browser.wasm` — built artifact (gitignored; the Pages workflow builds it for deploys)
+
+The site's public Live Interpreter at `/repl/` reuses `io.js` and the wasm from
+this folder — it sets `window.IO_WASM_URL` before loading the script.

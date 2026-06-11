@@ -67,9 +67,15 @@ static void browser_print_callback(void *context, const UArray *ba) {
 	output_append((const char *)UArray_bytes(ba), UArray_size(ba));
 }
 
+// Set when an uncaught exception reaches the top level during an eval.
+// IoState_tryToPerform clears state->errorRaised after reporting, so this
+// flag is the only way do_eval can tell the input failed.
+static int exception_raised = 0;
+
 // Exception callback: capture exception text
 static void browser_exception_callback(void *context, IoObject *coroutine) {
 	(void)context;
+	exception_raised = 1;
 	// Use the default backtrace printing — it goes through printCallback
 	IoCoroutine_rawPrintBackTrace(coroutine);
 }
@@ -138,6 +144,7 @@ static int do_eval(const char *code) {
 
 	output_clear();
 	state->errorRaised = 0;
+	exception_raised = 0;
 
 	IoObject *result = IoState_doCString_(state, code);
 
@@ -147,7 +154,7 @@ static int do_eval(const char *code) {
 		return 2;
 	}
 
-	if (state->errorRaised) {
+	if (state->errorRaised || exception_raised) {
 		return 1;
 	}
 
@@ -175,6 +182,7 @@ static int do_resume_eval(void) {
 	IoObject *coro = state->suspendedCoro;
 	state->suspendedCoro = NULL;
 	state->awaitingJsPromise = 0;
+	exception_raised = 0;
 
 	// Save current coro state
 	IoObject *previousCoro = (IoObject *)state->currentCoroutine;
@@ -207,7 +215,7 @@ static int do_resume_eval(void) {
 	}
 
 	output_clear();
-	if (state->errorRaised) {
+	if (state->errorRaised || exception_raised) {
 		return 1;
 	}
 
