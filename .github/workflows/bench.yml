@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # to dispatch the Pages deploy after pushing results
 
 concurrency:
   group: bench
@@ -74,3 +75,10 @@ jobs:
             git pull --rebase origin master
             git push origin master
           fi
+
+      # GITHUB_TOKEN pushes don't fire push-triggered workflows, so the chart
+      # would go stale without an explicit dispatch.
+      - name: Redeploy site with new results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref master
