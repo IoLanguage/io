@@ -42,6 +42,8 @@
   .chart-box svg{ display:block; }
   .legend{ display:flex; gap:6px 18px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:#555; }
   .legend .swatch{ display:inline-block; width:18px; height:3px; border-radius:2px; vertical-align:middle; margin-right:6px; }
+  .legend [data-metric]{ cursor:default; }
+  .chart-box svg [data-metric]{ transition:opacity .15s ease; }
 
   .status{ font-size:13px; color:#888; }
   .status.error{ border:1px solid #e3b3ae; background:#fbeae8; color:#8a2a22;
@@ -194,10 +196,10 @@
         const color = COLORS[mi % COLORS.length];
         if (pts.length > 1) {
           const path = pts.map((p, i) => (i ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
-          svg += `<path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="${dashFor(hi)}"/>`;
+          svg += `<path d="${path}" data-metric="${metric}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="${dashFor(hi)}"/>`;
         }
         for (const p of pts) {
-          svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${color}">` +
+          svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" data-metric="${metric}" fill="${color}">` +
             `<title>${metric}: ${p.e.metrics[metric]} ${unit}\n${p.e.date} · ${p.e.commit} · ${p.e.machine}</title></circle>`;
         }
       });
@@ -206,12 +208,24 @@
     document.getElementById(containerId).innerHTML = svg;
 
     const legend = metrics.map((m, i) =>
-      `<span><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${m}</span>`);
+      `<span data-metric="${m}"><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${m}</span>`);
     if (shownMachines.length > 1) {
       legend.push(...shownMachines.map((m, i) =>
         `<span><span class="swatch" style="background:#999;${i ? "background:repeating-linear-gradient(90deg,#999 0 4px,transparent 4px 8px)" : ""}"></span>${m}</span>`));
     }
-    document.getElementById(legendId).innerHTML = legend.join("");
+    const legendEl = document.getElementById(legendId);
+    legendEl.innerHTML = legend.join("");
+
+    // hovering a legend key dims every other series in this chart
+    const setFocus = metric => {
+      document.querySelectorAll(`#${containerId} [data-metric]`).forEach(el => {
+        el.style.opacity = metric && el.getAttribute("data-metric") !== metric ? 0.08 : 1;
+      });
+    };
+    legendEl.querySelectorAll("[data-metric]").forEach(item => {
+      item.addEventListener("mouseenter", () => setFocus(item.getAttribute("data-metric")));
+      item.addEventListener("mouseleave", () => setFocus(null));
+    });
   }
 
   function render() {
