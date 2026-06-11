@@ -93,5 +93,24 @@
 			"nbody50k": 2.209,
 			"nsieve6": 0.586
 		}
+	},
+	{
+		"date": "2026-06-11",
+		"commit": "fdc6879f",
+		"machine": "github-ci",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 32.208,
+			"localSets": 8.815,
+			"slotAccesses": 18.617,
+			"slotSets": 5.715,
+			"blockActivations": 14.983,
+			"instantiations": 2.373,
+			"cfuncActivations": 19.921,
+			"vectorGflops": 2.917,
+			"binarytrees10": 13.706,
+			"nbody50k": 2.223,
+			"nsieve6": 0.588
+		}
 	}
 ]
