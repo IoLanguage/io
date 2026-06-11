@@ -128,13 +128,13 @@
   statusEl.hidden = true;
   document.getElementById("charts").hidden = false;
 
-  const COLORS = ["#2a6db5", "#b5582a", "#3d8a4f", "#8a4f9e", "#b59a2a", "#5a5a5a", "#b52a6d"];
+  const COLORS = ["#2a6db5", "#b5582a", "#3d8a4f", "#8a4f9e", "#b59a2a", "#5a5a5a", "#b52a6d", "#2a8a8a"];
   const GROUPS = [
     { el: "micro", unit: "M ops/s",
       metrics: ["localAccesses", "localSets", "slotAccesses", "slotSets",
-                "blockActivations", "instantiations", "cfuncActivations"] },
+                "blockActivations", "instantiations", "cfuncActivations", "coroutineSwitches"] },
     { el: "macro", unit: "s",
-      metrics: ["binarytrees10", "nbody50k", "nsieve6"] },
+      metrics: ["binarytrees10", "nbody50k", "nsieve6", "cheapconc50"] },
     { el: "simd", unit: "GFLOPS", metrics: ["vectorGflops"] },
   ];
 

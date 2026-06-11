@@ -61,6 +61,21 @@ Bench := Object clone do(
 		finish(t1)
 	)
 
+	coroutineSwitches := method(
+		Lobby setSlot("benchCoroRunning", true)
+		other := Object clone do(run := method(while(Lobby benchCoroRunning, yield)))
+		other @@run
+		yield
+		n := 50000
+		t1 := Date clone now
+		n repeat(yield)
+		dt := Date clone now secondsSince(t1)
+		Lobby setSlot("benchCoroRunning", false)
+		yield
+		// each yield round-trips through the other coroutine: ~2 switches
+		(2 * n) / dt / 1000000
+	)
+
 	hasVector := method(try(Vector; nil) == nil)
 
 	vectorGflops := method(
@@ -84,6 +99,7 @@ pairs append(list("slotSets", Bench slotSets))
 pairs append(list("blockActivations", Bench blockActivations))
 pairs append(list("instantiations", Bench instantiations))
 pairs append(list("cfuncActivations", Bench cfuncActivations))
+pairs append(list("coroutineSwitches", Bench coroutineSwitches))
 pairs append(list("vectorGflops", Bench vectorGflops))
 
 parts := pairs map(p, "\"" .. p at(0) .. "\": " .. jsonNum(p at(1)))

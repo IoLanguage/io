@@ -112,5 +112,26 @@
 			"nbody50k": 2.223,
 			"nsieve6": 0.588
 		}
+	},
+	{
+		"date": "2026-06-11",
+		"commit": "0ba7d963",
+		"machine": "Apple M2 Max",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 12.515,
+			"localSets": 6.916,
+			"slotAccesses": 8.397,
+			"slotSets": 4.986,
+			"blockActivations": 7.932,
+			"instantiations": 2.227,
+			"cfuncActivations": 8.571,
+			"coroutineSwitches": 0.129,
+			"vectorGflops": 2.338,
+			"binarytrees10": 4.954,
+			"nbody50k": 3.198,
+			"nsieve6": 0.831,
+			"cheapconc50": 5.881
+		}
 	}
 ]

@@ -52,6 +52,7 @@ const MACROS = [
 	["binarytrees10", ["samples/shootout/binarytrees.io", "10"]],
 	["nbody50k", ["samples/shootout/nbody.io", "50000"]],
 	["nsieve6", ["samples/shootout/nsieve.io", "6"]],
+	["cheapconc50", ["samples/shootout/cheapconcurrency.io", "50"]],
 ];
 
 const metrics = { ...micro };
