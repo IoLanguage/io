@@ -42,7 +42,7 @@
   .chart-box svg{ display:block; }
   .legend{ display:flex; gap:6px 18px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:#555; }
   .legend .swatch{ display:inline-block; width:18px; height:3px; border-radius:2px; vertical-align:middle; margin-right:6px; }
-  .legend [data-metric]{ cursor:default; }
+  .legend [data-metric]{ cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; }
   .chart-box svg [data-metric]{ transition:opacity .15s ease; }
 
   .status{ font-size:13px; color:#888; }
@@ -140,6 +140,7 @@
 
   const machines = [...new Set(history.map(e => e.machine))];
   const active = new Set(machines);
+  const pinned = {}; // chart id -> metric focused by tap/click, survives re-renders
 
   // Machine filter chips
   const machinesEl = document.getElementById("machines");
@@ -217,16 +218,23 @@
     const legendEl = document.getElementById(legendId);
     legendEl.innerHTML = legend.join("");
 
-    // hovering a legend key dims every other series in this chart
+    // Hovering a legend key dims every other series in this chart;
+    // tap/click pins the focus, a second tap/click clears it.
     const setFocus = metric => {
       document.querySelectorAll(`#${containerId} [data-metric]`).forEach(el => {
         el.style.opacity = metric && el.getAttribute("data-metric") !== metric ? 0.08 : 1;
       });
     };
     legendEl.querySelectorAll("[data-metric]").forEach(item => {
-      item.addEventListener("mouseenter", () => setFocus(item.getAttribute("data-metric")));
-      item.addEventListener("mouseleave", () => setFocus(null));
+      const m = item.getAttribute("data-metric");
+      item.addEventListener("mouseenter", () => setFocus(m));
+      item.addEventListener("mouseleave", () => setFocus(pinned[containerId] || null));
+      item.addEventListener("click", () => {
+        pinned[containerId] = pinned[containerId] === m ? null : m;
+        setFocus(pinned[containerId]);
+      });
     });
+    if (pinned[containerId]) setFocus(pinned[containerId]);
   }
 
   function render() {
