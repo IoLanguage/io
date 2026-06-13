@@ -222,9 +222,12 @@ IO_METHOD(IoObject, activeCpus) {
 /*cdoc System IoObject_sleep(self, locals, m)
 Blocks the current thread for the requested number of seconds by
 chunking into sub-second usleep calls (usleep's POSIX argument must
-be less than 1,000,000). Under WASM this is a real synchronous pause,
-since there is no scheduler to yield to — long sleeps stall the whole
-runtime.
+be less than 1,000,000). Under WASM this is a real synchronous pause
+that stalls the whole runtime, so it should only run when nothing is
+runnable: Scheduler idleUntilNextTimer uses it as the VM's single idle
+point, and Object wait parks coroutines on the scheduler's timer queue
+instead of calling this directly. Under WASI 0.3 this idle point would
+await a host future instead of sleeping.
 */
 IO_METHOD(IoObject, sleep) {
     /*doc System sleep(secondsNumber)

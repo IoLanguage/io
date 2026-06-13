@@ -8,6 +8,8 @@
 #   make regenerate     Regenerate IoVMInit.c from .io files
 #   make browser        Build browser/io_browser.wasm (reactor module)
 #   make serve          Serve browser REPL on localhost:8000
+#   make component      Build io_component.wasm (WASI 0.2 component, wasm32-wasip2)
+#   make check-component  Run the Io test suite against the component
 
 WASI_SDK    ?= $(HOME)/wasi-sdk
 BUILD       := build
@@ -55,7 +57,7 @@ IO_SOURCES  := $(wildcard libs/iovm/io/*.io)
 
 # --- Targets ---
 
-.PHONY: all test check clean regenerate browser serve check-browser
+.PHONY: all test check clean regenerate browser serve check-browser component check-component
 
 all: $(BINDIR)/io_static
 
@@ -93,6 +95,28 @@ libs/iovm/source/IoVMInit.c: $(BINDIR)/io2c $(IO_IMPORTS) $(IO_SOURCES)
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+# --- Component (WASI 0.2, wasm32-wasip2) ---
+#
+# Same sources compiled for the wasm32-wasip2 triple, linked through
+# wasm-component-ld into a WebAssembly component speaking the WASI 0.2
+# interfaces. Objects live in a separate tree because the triple differs.
+
+P2_OBJDIR := $(BUILD)/obj-p2
+P2_CFLAGS := --target=wasm32-wasip2 $(CFLAGS)
+P2_OBJS   := $(patsubst %.c,$(P2_OBJDIR)/%.o,$(ALL_SRCS))
+
+component: $(BINDIR)/io_component.wasm
+
+$(BINDIR)/io_component.wasm: $(P2_OBJDIR)/tools/source/main.o $(P2_OBJS) | $(BINDIR)
+	$(CC) $(P2_CFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(P2_OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(P2_CFLAGS) -c -o $@ $<
+
+check-component: $(BINDIR)/io_component.wasm
+	wasmtime --dir=. --dir=/tmp $(BINDIR)/io_component.wasm libs/iovm/tests/correctness/run.io
 
 # --- Browser (reactor module) ---
 
