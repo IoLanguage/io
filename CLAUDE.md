@@ -12,6 +12,8 @@ Requires [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) and [wasmtime](http
 make            # build build/bin/io_static (WASM binary)
 make test       # build build/bin/test_iterative_eval
 make check      # run both test suites with wasmtime
+make component  # build build/bin/io_component.wasm (WASI 0.2 component, wasm32-wasip2)
+make check-component # run the Io test suite against the component
 make clean      # remove build artifacts
 make regenerate # regenerate IoVMInit.c from .io files
 ```
