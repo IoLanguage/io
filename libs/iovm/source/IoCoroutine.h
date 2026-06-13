@@ -51,6 +51,10 @@ typedef struct {
     IoObject *returnValue;            // Per-coroutine return value
     int frameDepth;                   // Saved frame depth (avoids O(n) recalc on switch)
     int debuggingOn;
+    int hasFinished;                  // Body ran to completion. Distinguishes a
+                                      // finished coro (no frames) from a
+                                      // never-started one, so stale run-queue
+                                      // entries don't restart its body.
 } IoCoroutineData;
 
 IOVM_API IoCoroutine *IoCoroutine_proto(void *state);
@@ -133,6 +137,7 @@ IOVM_API IO_METHOD(IoCoroutine, implementation);
 IOVM_API IO_METHOD(IoCoroutine, run);
 IOVM_API IO_METHOD(IoCoroutine, callStack);
 IOVM_API IO_METHOD(IoCoroutine, isCurrent);
+IOVM_API IO_METHOD(IoCoroutine, isFinished);
 
 // runTarget
 

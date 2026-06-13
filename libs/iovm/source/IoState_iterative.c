@@ -287,6 +287,21 @@ IoObject *IoState_evalLoop_(IoState *state) {
             IoCoroutine *current = state->currentCoroutine;
             IoCoroutine *parent = IoCoroutine_rawParentCoroutine(current);
 
+            // An empty frame stack means this coroutine's body ran to
+            // completion. Mark it so the scheduler (Coroutine pause/yield)
+            // can drop stale run-queue entries instead of restarting it.
+            ((IoCoroutineData *)IoObject_dataPointer(current))->hasFinished = 1;
+
+            // Walk up past dead ancestors (no saved frames). A coroutine
+            // can finish after its parent already finished — e.g. scheduler
+            // timer wakeups resume coros whose starting coro is long dead —
+            // leaving dead links in the parentCoroutine chain. Resume the
+            // nearest ancestor that still has frames to run.
+            while (parent && ISCOROUTINE(parent) &&
+                   ((IoCoroutineData *)IoObject_dataPointer(parent))->frameStack == NULL) {
+                parent = IoCoroutine_rawParentCoroutine(parent);
+            }
+
             // Check if this is a child coro started via coro swap that has
             // finished. The parent's saved frameStack will have a
             // CORO_WAIT_CHILD or CORO_YIELDED frame. We must check

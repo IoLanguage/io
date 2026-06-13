@@ -49,15 +49,80 @@ Scheduler := Object clone do(
 	//doc Scheduler setYieldingCoros(aListOfCoros) Sets the list of yielding Coroutine objects.
 	yieldingCoros ::= List clone
 
-	//doc Scheduler timers The List of active timers.
+	//doc Scheduler timers The List of active timers, each a list(wakeTime, coroutine), sorted by wakeTime.
 	//doc Scheduler setTimers(aListOfTimers) Sets the list of active timers.
 	timers ::= List clone
 
 	//doc Scheduler currentCoroutine Returns the currently running coroutine.
 	currentCoroutine := method(Coroutine currentCoroutine)
 
+	addTimerAt := method(wakeTime, coro,
+		/*doc Scheduler addTimerAt(wakeTime, aCoroutine)
+		Parks aCoroutine off the run queue, to be moved back onto it
+		once <tt>wakeTime</tt> (seconds since the epoch) has passed.
+		Replaces any existing timer for the same coroutine. Returns self.
+		*/
+		removeTimerFor(coro)
+		entry := list(wakeTime, coro)
+		i := 0
+		timers foreach(t, if(t at(0) > wakeTime, break); i = i + 1)
+		timers atInsert(i, entry)
+		self
+	)
+
+	addTimer := method(s, coro,
+		/*doc Scheduler addTimer(seconds, aCoroutine)
+		Parks aCoroutine off the run queue, to be moved back onto it
+		once at least <tt>seconds</tt> have elapsed. Returns self.
+		*/
+		addTimerAt(Date clone now asNumber + s, coro)
+	)
+
+	removeTimerFor := method(coro,
+		/*doc Scheduler removeTimerFor(aCoroutine)
+		Removes any timer entries for aCoroutine. Used when a parked
+		coroutine is resumed by something other than its timer (e.g. a
+		finished child coroutine resuming its parent). Returns self.
+		*/
+		timers selectInPlace(t, t at(1) != coro)
+		self
+	)
+
+	wakeExpiredTimers := method(
+		/*doc Scheduler wakeExpiredTimers
+		Moves coroutines whose timer deadlines have passed back onto
+		the run queue, in deadline order. Returns self.
+		*/
+		if(timers isEmpty, return self)
+		now := Date clone now asNumber
+		while(timers isEmpty not and(timers first at(0) <= now),
+			yieldingCoros appendIfAbsent(timers removeFirst at(1))
+		)
+		self
+	)
+
+	idleUntilNextTimer := method(
+		/*doc Scheduler idleUntilNextTimer
+		Called when no coroutine is runnable but timers are pending:
+		performs a single blocking host wait until the nearest timer
+		deadline, then wakes expired timers. This is the VM's only
+		idle point — under WASI 0.1/0.2 it is a host sleep; under
+		WASI 0.3 it would await a host future instead. Returns self.
+		*/
+		if(timers isEmpty, return self)
+		remaining := timers first at(0) - Date clone now asNumber
+		if(remaining > 0, System sleep(remaining))
+		wakeExpiredTimers
+	)
+
 	waitForCorosToComplete := method(
-		while(yieldingCoros size > 0, yield)
+		//doc Scheduler waitForCorosToComplete Runs the scheduler until no coroutines are runnable and no timers are pending.
+		loop(
+			wakeExpiredTimers
+			if(yieldingCoros size > 0, yield; continue)
+			if(timers size > 0, idleUntilNextTimer; continue)
+			break
+		)
 	)
 )
 
@@ -137,13 +202,20 @@ Coroutine do(
 	yield := method(
 		/*doc Coroutine yield
 		Yields to another coroutine in the yieldingCoros queue.
-		Does nothing if yieldingCoros is empty.
+		Coroutines whose timer deadlines have passed are moved back
+		onto the queue first. Stale entries for finished coroutines
+		are dropped (resuming one would restart its body). Does
+		nothing if yieldingCoros is empty.
 		*/
 		//showYielding("yield")
 		//writeln("Coro ", self uniqueId, " yielding - yieldingCoros = ", yieldingCoros size)
+		Scheduler wakeExpiredTimers
 		if(yieldingCoros isEmpty, return)
 		yieldingCoros append(self)
 		next := yieldingCoros removeFirst
+		while(next != self and(next isFinished),
+			next = yieldingCoros removeFirst
+		)
 		if(next == self, return)
 		//writeln(Scheduler currentCoroutine label, " yield - ", next label, " resume")
 		if(next, next resume)
@@ -166,20 +238,33 @@ Coroutine do(
 	pause := method(
 		/*doc Coroutine pause
 		Removes current coroutine from the yieldingCoros queue and
-		yields to another coro. <tt>System exit</tt> is executed if no coros left.
+		yields to another coro. If nothing is runnable but timers are
+		pending, the VM idles (a single blocking host wait) until the
+		nearest timer deadline. <tt>System exit</tt> is executed if no
+		coros and no timers are left.
 		<br/>
 		You can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message.
 		*/
 		yieldingCoros remove(self)
 		if(isCurrent,
-			next := yieldingCoros removeFirst
-			if(next,
-				next resume
-			,
-				Exception raise("Scheduler: nothing left to resume so we are exiting")
-				writeln("Scheduler: nothing left to resume so we are exiting")
-				self showStack
-				System exit
+			loop(
+				Scheduler wakeExpiredTimers
+				while(yieldingCoros isEmpty and(Scheduler timers isEmpty not),
+					Scheduler idleUntilNextTimer
+				)
+				next := yieldingCoros removeFirst
+				if(next isNil,
+					Exception raise("Scheduler: nothing left to resume so we are exiting")
+					writeln("Scheduler: nothing left to resume so we are exiting")
+					self showStack
+					System exit
+				)
+				if(next == self, return)
+				if(next isFinished not,
+					next resume
+					return
+				)
+				// stale entry for a finished coroutine — drop it and retry
 			)
 		,
 			yieldingCoros remove(self)
@@ -299,21 +384,28 @@ Coroutine do(
 
 Object wait := method(s,
 	/*doc Object wait(s)
-	Pauses current coroutine for at least <tt>s</tt> seconds.
+	Pauses current coroutine for at least <tt>s</tt> seconds without
+	blocking other coroutines: the coroutine is parked on Scheduler's
+	timer queue and another runnable coroutine (if any) is resumed.
+	When nothing is runnable, the VM performs a single blocking host
+	wait until the nearest timer deadline.
 	<br/>
 	Note: current coroutine may wait much longer than designated number of seconds
 	depending on circumstances.
 	*/
-
-	//writeln("Scheduler yieldingCoros size = ", Scheduler yieldingCoros size)
-	if(Scheduler yieldingCoros isEmpty,
-		//writeln("System sleep")
-		System sleep(s)
-	,
-		//writeln("Object wait")
-		endDate := Date clone now + Duration clone setSeconds(s)
-		loop(endDate isPast ifTrue(break); yield)
+	if(s <= 0, yield; return self)
+	coro := Scheduler currentCoroutine
+	wakeTime := Date clone now asNumber + s
+	// A finished child coroutine resumes its parent directly, so pause can
+	// return before the deadline. Re-park for the remaining time until the
+	// deadline has actually passed (condition-variable semantics).
+	loop(
+		if(wakeTime <= Date clone now asNumber, break)
+		Scheduler addTimerAt(wakeTime, coro)
+		coro pause
+		Scheduler removeTimerFor(coro)
 	)
+	self
 )
 
 Message do(

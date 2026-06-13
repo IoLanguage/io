@@ -99,6 +99,7 @@ IoCoroutine *IoCoroutine_proto(void *state) {
     DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
     DATA(self)->returnValue = NULL;
     DATA(self)->frameDepth = 0;
+    DATA(self)->hasFinished = 0;
 
     return self;
 }
@@ -116,6 +117,7 @@ void IoCoroutine_protoFinish(IoCoroutine *self) {
         {"main", IoCoroutine_main},
         {"resume", IoCoroutine_resume},
         {"isCurrent", IoCoroutine_isCurrent},
+        {"isFinished", IoCoroutine_isFinished},
         {"currentCoroutine", IoCoroutine_currentCoroutine},
         {"implementation", IoCoroutine_implementation},
         {"setMessageDebugging", IoCoroutine_setMessageDebugging},
@@ -146,6 +148,7 @@ IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto) {
     DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
     DATA(self)->returnValue = NULL;
     DATA(self)->frameDepth = 0;
+    DATA(self)->hasFinished = 0;
     return self;
 }
 
@@ -783,6 +786,7 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
         DATA(self)->frameStack = NULL;
         DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
         DATA(self)->returnValue = NULL;
+        DATA(self)->hasFinished = 0;
 
         IoState_setCurrentCoroutine_(state, self);
         state->currentFrame = NULL;
@@ -858,6 +862,7 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
     DATA(self)->frameStack = NULL;
     DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
     DATA(self)->returnValue = NULL;
+    DATA(self)->hasFinished = 0;
 
     // Switch to child coroutine
 #ifdef DEBUG_CORO_EVAL
@@ -982,6 +987,7 @@ void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals,
         DATA(self)->frameStack = NULL;
         DATA(self)->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
         DATA(self)->returnValue = NULL;
+        DATA(self)->hasFinished = 0;
 
         // Switch to try coroutine
         IoState_setCurrentCoroutine_(state, self);
@@ -1147,6 +1153,7 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self) {
                     return self;
                 }
                 IoCoroutine_rawSetParentCoroutine_(self, current);
+                DATA(self)->hasFinished = 0;
                 IoEvalFrame *frame = IoState_pushFrame_(state);
                 IoEvalFrameData *fd = FRAME_DATA(frame);
                 fd->message = runMessage;
@@ -1188,6 +1195,16 @@ IO_METHOD(IoCoroutine, isCurrent) {
 
     IoObject *v = IOBOOL(self, self == IoState_currentCoroutine(IOSTATE));
     return v;
+}
+
+IO_METHOD(IoCoroutine, isFinished) {
+    /*doc Coroutine isFinished
+    Returns true if the receiver's body has run to completion. A finished
+    coroutine must not be resumed (resume would restart its body); the
+    scheduler uses this to drop stale run-queue entries.
+    */
+
+    return IOBOOL(self, DATA(self)->hasFinished);
 }
 
 IO_METHOD(IoCoroutine, currentCoroutine) {
