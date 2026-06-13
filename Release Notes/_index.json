@@ -1,0 +1,35 @@
+{
+  "title": "Release Notes",
+  "subtitle": "Notable changes in Io over the past twelve months.",
+  "content": [
+    {
+      "type": "ContentText",
+      "body": "<p>Io uses date-based versioning. This page collects the notable changes of the last twelve months &mdash; a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked <em>tagged</em> correspond to release tags in the <a href=\"https://github.com/IoLanguage/io\">repository</a>; the rest are development milestones on the road between them. For the longer arc, see the <a href=\"../Timeline/index.html\">Timeline</a>.</p>"
+    },
+    {
+      "type": "ContentText",
+      "title": "Unreleased — current master",
+      "body": "<p>Changes on <code>master</code> since the WASM merge, not yet part of a tagged release.</p><ul><li><strong>WASI 0.2 component build</strong> &mdash; <code>make component</code> builds the VM as a WebAssembly component (<code>wasm32-wasip2</code>) alongside the core WASI module.</li><li><strong>Cooperative scheduler timer queue</strong> &mdash; <code>wait</code> parks the calling coroutine on a timer queue instead of busy-spinning; timed coroutines run concurrently and the VM idles in a single host wait until the next deadline.</li><li><strong>Live Interpreter</strong> &mdash; an in-browser REPL running the full VM, linked from the home page.</li><li><strong>Performance tracking</strong> &mdash; a benchmark page recording interpreter, shootout, and SIMD results over time.</li><li><strong>WASI 0.3 notes</strong> &mdash; design notes on adopting native-async components (<code>future</code>/<code>stream</code>) once host and toolchain support land.</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "title": "2026.04.20 — WASM becomes the default target",
+      "body": "<p><em>Tagged <code>2026.04.20-native-final</code>.</em> The WASM branch merged to <code>master</code> (<a href=\"https://github.com/IoLanguage/io/pull/495\">#495</a>); WebAssembly/WASI is now the default and only build target. The final native build &mdash; CMake, Eerie, and DynLib &mdash; is frozen at this tag, with ongoing native work on the <code>native</code> branch.</p><ul><li><strong>SIMD128 Vector backend</strong> &mdash; the <code>Vector</code> primitive gains a WebAssembly SIMD128 backend, restoring AltiVec-era vector acceleration on modern hardware and in the browser.</li><li><strong>64-bit integer literals</strong> &mdash; integer literals no longer truncate to 32 bits (<a href=\"https://github.com/IoLanguage/io/issues/420\">#420</a>).</li><li><strong>Map equality</strong> &mdash; <code>Map</code> implements comparison for equality (<a href=\"https://github.com/IoLanguage/io/issues/28\">#28</a>).</li><li><strong>JSON singletons</strong> &mdash; <code>asJson</code> added to <code>nil</code>, <code>true</code>, and <code>false</code> (<a href=\"https://github.com/IoLanguage/io/issues/27\">#27</a>).</li><li><strong><code>isKindOf</code> fix</strong> &mdash; ancestor checks use identity comparison (<a href=\"https://github.com/IoLanguage/io/issues/201\">#201</a>).</li><li>Site and Book restructured for the WASM era; continuous integration rewritten for the WASM toolchain.</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "title": "2026.03.06 — Stackless alpha, WASM port, and the JS bridge",
+      "body": "<p><em>Tagged <code>2026.03.06-stackless-alpha</code>.</em> The first alpha of the stackless VM, together with the initial WebAssembly port and a new JavaScript integration model.</p><ul><li><strong>WASM/WASI cross-compilation</strong> &mdash; the VM compiles to a single portable WebAssembly module that runs under wasmtime, Node.js, or the browser.</li><li><strong>Bidirectional Io&harr;JavaScript bridge</strong> &mdash; Io can call JavaScript functions and JavaScript can call Io methods, replacing the native addon model. DynLib, AddonLoader, and the Eerie addon infrastructure were removed.</li><li><strong>Async/await across the bridge</strong> &mdash; futures integrate with JavaScript Promises: the eval loop yields and resumes across the JS boundary, and an unrecognized message sent to a pending future implicitly awaits its result.</li><li><strong><code>BigInt</code></strong> &mdash; arbitrary-precision integers with transparent round-tripping across the Io&harr;JS bridge.</li><li><strong>Browser REPL</strong> &mdash; an interactive interpreter hosted in a web page, with demos for the bridge, DOM access, async, and callbacks.</li><li>Strings default to UTF-8.</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "title": "2026.02 — Stackless evaluator",
+      "body": "<p>The recursive, C-stack-based evaluator was replaced with a heap-allocated frame state machine &mdash; the foundation the WASM port builds on. With no native C stack to switch, the platform-specific coroutine assembly is no longer needed.</p><ul><li><strong>Iterative eval loop</strong> &mdash; evaluation runs on a frame state machine instead of C recursion.</li><li><strong>First-class continuations</strong> &mdash; the current computation can be captured, resumed, stored, or serialized (<code>callcc</code>, behind the <code>IO_CALLCC</code> build flag).</li><li><strong>Tail-call optimization</strong> &mdash; including through <code>if</code> branches.</li><li><strong>Robust exception unwinding</strong> &mdash; Io-level exceptions are unwound by the eval loop rather than C <code>setjmp</code>/<code>longjmp</code>.</li><li><strong>Resumable exceptions</strong> &mdash; Common Lisp&ndash;style <code>signal</code> / <code>withHandler</code>: a handler can resume at the signal site, fall through, or unwind.</li><li><strong>GC-managed eval frames</strong> &mdash; frames are pooled, garbage-collected objects; coroutines became frame-based and the old platform-specific coroutine library was removed.</li></ul>"
+    },
+    {
+      "type": "ContentText",
+      "title": "2025.07 — ARM64 coroutines",
+      "body": "<p>Native ARM64 coroutine support for Apple Silicon and modern Linux (<a href=\"https://github.com/IoLanguage/io/pull/476\">#476</a>) &mdash; the last major addition to the native-era coroutine implementation before the stackless rewrite made platform-specific coroutine code unnecessary.</p>"
+    }
+  ]
+}

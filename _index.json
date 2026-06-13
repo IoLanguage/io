@@ -34,6 +34,7 @@
           "subtitle": "Books, tutorials, articles, papers, tools, and community resources."
         },
         "Timeline",
+        "Release Notes",
         {
           "title": "Performance",
           "href": "bench/index.html",

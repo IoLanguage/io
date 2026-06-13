@@ -42,6 +42,7 @@ conceptunifiesscopable blocksfunctions, methods, closuresprototypesobjects, clas
 - FAQ
 - [Links](Links/index.html) — Books, tutorials, articles, papers, tools, and community resources.
 - Timeline
+- Release Notes
 - [Performance](bench/index.html) — Benchmark results tracked over time — interpreter ops, shootout programs, and SIMD throughput.
 - [GitHub Repository](https://github.com/IoLanguage/io) — Source code, issues, and contributions.
 
@@ -6225,6 +6226,19 @@ Compiling the VM to **WebAssembly** collapses that matrix to a single portable m
 - **Forces a cleaner core** — the WASM target doesn’t expose the native C stack, which ruled out the old ucontext/setjmp coroutine implementations and motivated the stackless evaluator. The discipline that came with the port left the VM smaller, more portable, and easier to reason about.
 Trade-offs are real: the WASM target is early-access, JIT throughput depends on the host runtime, and some classic native addons (notably anything linking C libraries) don’t carry over — their roles are now filled by JavaScript libraries reached through the bridge.
 
+## WASI 0.3
+
+In 2026 the Bytecode Alliance shipped [WASI 0.3](https://bytecodealliance.org/articles/WASI-0.3), whose headline change is that **async is now native to WebAssembly components**. The component model's canonical ABI gains three first-class constructs — `stream<T>`, `future<T>`, and async functions — and the host runtime takes over scheduling with a single shared, completion-based event loop (in the style of `io_uring` and IOCP) instead of each component polling readiness through `pollable` handles. Wasmtime 46 ships these interfaces with async enabled by default, and `jco` is bringing the same model to JavaScript hosts.
+
+### Why this fits Io unusually well
+
+- **Blocking I/O stops blocking the VM** — today's build targets WASI preview1, where every read and write is synchronous. A WASM module has a single thread of execution, so one coroutine waiting on I/O stalls every other actor in the VM. Under WASI 0.3 the host event loop owns the wait: a coroutine that performs I/O can be parked on a `future<T>` while the scheduler runs other coroutines, then resumed when the host completes the operation.
+- **The stackless evaluator already paid the entry fee** — most language runtimes need the Asyncify transform (which inflates code size and slows execution) or compiler-level async/await to suspend mid-call inside WASM. Io's evaluator keeps all execution state in heap-allocated frames, so suspending on a host future is the same operation as an ordinary coroutine switch — no binary transform, no annotations. WASI 0.3 was explicitly designed to accommodate both stackful and stackless coroutine runtimes; Io is in the second camp by construction.
+- **Actors map directly onto host futures** — Io's `@` (futureSend) and `@@` (asyncSend) already give programs a future-based concurrency surface. A WASI 0.3 `future<T>` is the host-level version of the same idea, so an Io future awaiting a network response could be backed one-to-one by a host future and consume no VM scheduling at all until completion.
+- **Streams replace the polling dance** — WASI 0.2 I/O required a three-step `start`/`finish`/`subscribe` pattern over pollables. 0.3 collapses that into `stream<T>` values paired with completion futures that can finally distinguish “stream closed” from “stream failed.” Io's `File` and any future socket primitives map onto these cleanly.
+- **The VM as a component** — packaging `io_static.wasm` as a WebAssembly component gives it typed, language-neutral interfaces. Components compose in-process (“service chaining”), so an Io component could sit in a pipeline next to components written in Rust or Go with nanosecond rather than millisecond call overhead — a substantial upgrade to the embedding story above.
+The migration path is incremental rather than architectural, and the first two steps have landed. The VM now also builds as a real **WASI 0.2 component** (`make component`, via wasi-sdk's `wasm32-wasip2` target) that passes the full correctness suite under wasmtime. And the scheduler gained a **timer queue**: `wait` parks the calling coroutine instead of busy-spinning, timed coroutines run concurrently, and when nothing is runnable the VM blocks in a single host wait until the nearest deadline — the one idle point where a WASI 0.3 `future<T>` will be awaited instead. The remaining step — backing that idle point and the I/O primitives with 0.3 futures and streams — is gated on host and C-toolchain support (Wasmtime 46 and `future<T>`/`stream<T>` lowering from C), a change the Bytecode Alliance describes as “entirely mechanical” on the interface side.
+
 - Browser Target
 - DOM Interop
 
@@ -7040,6 +7054,65 @@ Books, tutorials, articles, papers, tools, and community resources for the Io pr
 - [Prose](https://github.com/aaron-lebo/prose) — Aaron Lebo
 - [Callisto](http://lambda-the-ultimate.org/node/5149) — Wyago
 - [Fancy](http://www.fancy-lang.org) — Christopher Bertels
+
+
+---
+
+<!-- Page: Release Notes -->
+Source: /Release%20Notes/
+
+# Release Notes
+
+Notable changes in Io over the past twelve months.
+
+Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
+
+## Unreleased — current master
+
+Changes on `master` since the WASM merge, not yet part of a tagged release.
+
+- **WASI 0.2 component build** — `make component` builds the VM as a WebAssembly component (`wasm32-wasip2`) alongside the core WASI module.
+- **Cooperative scheduler timer queue** — `wait` parks the calling coroutine on a timer queue instead of busy-spinning; timed coroutines run concurrently and the VM idles in a single host wait until the next deadline.
+- **Live Interpreter** — an in-browser REPL running the full VM, linked from the home page.
+- **Performance tracking** — a benchmark page recording interpreter, shootout, and SIMD results over time.
+- **WASI 0.3 notes** — design notes on adopting native-async components (`future`/`stream`) once host and toolchain support land.
+
+## 2026.04.20 — WASM becomes the default target
+
+*Tagged `2026.04.20-native-final`.* The WASM branch merged to `master` ([#495](https://github.com/IoLanguage/io/pull/495)); WebAssembly/WASI is now the default and only build target. The final native build — CMake, Eerie, and DynLib — is frozen at this tag, with ongoing native work on the `native` branch.
+
+- **SIMD128 Vector backend** — the `Vector` primitive gains a WebAssembly SIMD128 backend, restoring AltiVec-era vector acceleration on modern hardware and in the browser.
+- **64-bit integer literals** — integer literals no longer truncate to 32 bits ([#420](https://github.com/IoLanguage/io/issues/420)).
+- **Map equality** — `Map` implements comparison for equality ([#28](https://github.com/IoLanguage/io/issues/28)).
+- **JSON singletons** — `asJson` added to `nil`, `true`, and `false` ([#27](https://github.com/IoLanguage/io/issues/27)).
+- **`isKindOf` fix** — ancestor checks use identity comparison ([#201](https://github.com/IoLanguage/io/issues/201)).
+- Site and Book restructured for the WASM era; continuous integration rewritten for the WASM toolchain.
+
+## 2026.03.06 — Stackless alpha, WASM port, and the JS bridge
+
+*Tagged `2026.03.06-stackless-alpha`.* The first alpha of the stackless VM, together with the initial WebAssembly port and a new JavaScript integration model.
+
+- **WASM/WASI cross-compilation** — the VM compiles to a single portable WebAssembly module that runs under wasmtime, Node.js, or the browser.
+- **Bidirectional Io&harr;JavaScript bridge** — Io can call JavaScript functions and JavaScript can call Io methods, replacing the native addon model. DynLib, AddonLoader, and the Eerie addon infrastructure were removed.
+- **Async/await across the bridge** — futures integrate with JavaScript Promises: the eval loop yields and resumes across the JS boundary, and an unrecognized message sent to a pending future implicitly awaits its result.
+- **`BigInt`** — arbitrary-precision integers with transparent round-tripping across the Io&harr;JS bridge.
+- **Browser REPL** — an interactive interpreter hosted in a web page, with demos for the bridge, DOM access, async, and callbacks.
+- Strings default to UTF-8.
+
+## 2026.02 — Stackless evaluator
+
+The recursive, C-stack-based evaluator was replaced with a heap-allocated frame state machine — the foundation the WASM port builds on. With no native C stack to switch, the platform-specific coroutine assembly is no longer needed.
+
+- **Iterative eval loop** — evaluation runs on a frame state machine instead of C recursion.
+- **First-class continuations** — the current computation can be captured, resumed, stored, or serialized (`callcc`, behind the `IO_CALLCC` build flag).
+- **Tail-call optimization** — including through `if` branches.
+- **Robust exception unwinding** — Io-level exceptions are unwound by the eval loop rather than C `setjmp`/`longjmp`.
+- **Resumable exceptions** — Common Lisp–style `signal` / `withHandler`: a handler can resume at the signal site, fall through, or unwind.
+- **GC-managed eval frames** — frames are pooled, garbage-collected objects; coroutines became frame-based and the old platform-specific coroutine library was removed.
+
+## 2025.07 — ARM64 coroutines
+
+Native ARM64 coroutine support for Apple Silicon and modern Linux ([#476](https://github.com/IoLanguage/io/pull/476)) — the last major addition to the native-era coroutine implementation before the stackless rewrite made platform-specific coroutine code unnecessary.
 
 
 ---
