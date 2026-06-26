@@ -771,7 +771,10 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals,
     size_t length = IoMessage_locals_sizetArgAt_(m, locals, 0);
     UArray *ba = UArray_new();
     IoFile_assertOpen(self, locals, m);
-    if (IOSTATE->errorRaised) return IONIL(self);
+    if (IOSTATE->errorRaised) {
+        UArray_free(ba);
+        return NULL;
+    }
 
     UArray_readNumberOfItems_fromCStream_(ba, length, DATA(self)->stream);
 
