@@ -492,6 +492,41 @@ ListTest := UnitTest clone do(
 		assertEquals(t, t asEncodedList asDecodedList)
 	)
 
+	# Regression for IoList.c REFERENCE decode: objectForReferenceId must receive
+	# IONUMBER(id) (clear cached arg only after perform). Same id=42 as bug.io.
+	# Uses manual bytes (IOLIST_ENCODING_TYPE_REFERENCE + uint32 LE) so this test
+	# does not depend on asEncodedList or Lobby referenceIdForObject under doString.
+	testEncodedListFromEncodedListReferenceId := method(
+		ref := Object clone
+		hadObj := Lobby hasLocalSlot("objectForReferenceId")
+		hadStash := Lobby hasLocalSlot("referenceRoundTripRef")
+		prevObj := if(hadObj, Lobby getSlot("objectForReferenceId"), nil)
+		prevStash := if(hadStash, Lobby getSlot("referenceRoundTripRef"), nil)
+
+		Lobby referenceRoundTripRef := ref
+		Lobby do(
+			objectForReferenceId := method(id,
+				if(id isIdenticalTo(42), Lobby getSlot("referenceRoundTripRef"), nil)
+			)
+		)
+
+		enc := ("" asMutable)
+		enc appendSeq(3 asCharacter, 0 asCharacter, 0 asCharacter)
+		enc appendSeq(42 asCharacter, 0 asCharacter, 0 asCharacter, 0 asCharacter)
+		dec := List fromEncodedList(enc)
+		assertEquals(1, dec size)
+		assertTrue(dec first isIdenticalTo(ref))
+
+		if(hadObj,
+			Lobby do(objectForReferenceId := prevObj),
+			Lobby removeSlot("objectForReferenceId")
+		)
+		if(hadStash,
+			Lobby do(referenceRoundTripRef := prevStash),
+			Lobby removeSlot("referenceRoundTripRef")
+		)
+	)
+
     testSlice := method(
         a := list(1, 2, 3, 4, 5, 6)
         assertEquals(a, a slice(0))
