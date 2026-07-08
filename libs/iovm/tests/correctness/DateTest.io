@@ -79,5 +79,16 @@ DateTest := UnitTest clone do(
 		//testString("%x") #%x is locale dependent
 		testString("%y")
 	)
+
+	// Regression: setDay must reject day 31 in 30-day months (Apr/Jun/Sep/Nov).
+	// Previously only November was checked; April/June/September could accept 31 incorrectly.
+	testSetDayThirtyDayMonths := method(
+		assertRaisesException(Date clone setMonth(4) setDay(31))
+		assertRaisesException(Date clone setMonth(6) setDay(31))
+		assertRaisesException(Date clone setMonth(9) setDay(31))
+		assertRaisesException(Date clone setMonth(11) setDay(31))
+	)
 )
+
+if(isLaunchScript, DateTest run, DateTest)
 

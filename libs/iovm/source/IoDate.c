@@ -275,7 +275,7 @@ IO_METHOD(IoDate, setDay) {
         } else {
             IOASSERT(v >= 1 && v <= 28, "day must be within range 1-28");
         }
-    } else if (month == 11) {
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
         IOASSERT(v >= 1 && v <= 30, "day must be within range 1-30");
     } else if (month == 12) {
         IOASSERT(v >= 1 && v <= 31, "day must be within range 1-31");
