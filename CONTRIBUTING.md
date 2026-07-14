@@ -235,7 +235,7 @@ Any other relevant information
 ## 📚 Resources
 
 ### Documentation
-- [Official Guide](http://iolanguage.org/guide/guide.html)
+- [Official Guide](https://iolanguage.org/docs/Guide)
 - [API Reference](docs/reference/index.html)
 - Source code comments and examples
 

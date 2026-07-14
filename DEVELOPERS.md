@@ -165,7 +165,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## 📚 Resources
 
-- [Official Guide](http://iolanguage.org/guide/guide.html)
+- [Official Guide](https://iolanguage.org/docs/Guide)
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
 - [README.md](README.md) - General information
 - `docs/` - API documentation
