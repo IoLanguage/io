@@ -1,6 +1,6 @@
 # The Io Language
 
-_This is a reference for building and running Io. For a guide to the language itself, see <http://iolanguage.org/guide/guide.html>._
+_This is a reference for building and running Io. For a guide to the language itself, see <https://iolanguage.org/docs/Guide>._
 
 ## Contents
 
