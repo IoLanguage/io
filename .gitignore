@@ -82,4 +82,6 @@ addons/*/docs/docs.txt
 xcuserdata
 build
 browser/io_browser.wasm
+dist
+release-notes.md
 .idea
