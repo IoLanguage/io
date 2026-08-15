@@ -181,8 +181,13 @@ The release body is generated from the commit log; the curated summary lives on
 the [Release Notes](https://iolanguage.org/Release%20Notes/) page and is written
 by hand.
 
-To backfill artifacts onto an existing tag, run the workflow manually from the
-Actions tab and pass the tag name (use the draft option to review first).
+The workflow can also be run by hand from the Actions tab against any ref, with
+a draft option — useful for a dry run before tagging for real.
+
+It builds with `make`, so it only works on trees that have the WASM Makefile.
+Every tag up to and including `2026.04.20-native-final` comes from the earlier
+CMake-based native build and cannot be built this way, so artifacts cannot be
+backfilled onto them.
 
 ## 💡 Tips
 
