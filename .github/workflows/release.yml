@@ -1,0 +1,236 @@
+name: Release
+
+# Builds the WASM artifacts and attaches them to a GitHub Release.
+#
+# Triggered by pushing a version tag. Io uses date-based versioning, so tags
+# look like `2026.04.20-native-final` or `2026.03.06-stackless-alpha`; the
+# `v[0-9]*` pattern is accepted too in case semver tags are ever used.
+#
+# The workflow can also be run manually against an existing tag via
+# workflow_dispatch — useful for backfilling artifacts onto older tags.
+
+on:
+  push:
+    tags:
+      - '[0-9]*'
+      - 'v[0-9]*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to build and release (e.g. 2026.04.20-native-final)'
+        required: true
+        type: string
+      draft:
+        description: 'Create the release as a draft'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+    env:
+      WASI_SDK_VERSION: "24"
+      WASI_SDK_FULL: "24.0"
+      WASMTIME_VERSION: "v27.0.0"
+    steps:
+      - name: Resolve tag
+        id: tag
+        env:
+          # Passed through env rather than interpolated into the script body,
+          # so a tag name can never be spliced into the shell command.
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+        run: |
+          if [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
+          else
+            TAG="${GITHUB_REF#refs/tags/}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          # Alpha/beta/rc tags are published as prereleases.
+          case "$TAG" in
+            *alpha*|*beta*|*rc*|*pre*) echo "prerelease=true"  >> "$GITHUB_OUTPUT" ;;
+            *)                         echo "prerelease=false" >> "$GITHUB_OUTPUT" ;;
+          esac
+          echo "Releasing $TAG"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
+          submodules: 'recursive'
+          fetch-depth: 0   # full history so we can diff against the previous tag
+
+      - name: Install wasi-sdk
+        run: |
+          mkdir -p "$HOME/wasi-sdk"
+          curl -L -o /tmp/wasi-sdk.tar.gz \
+            "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_SDK_VERSION}/wasi-sdk-${WASI_SDK_FULL}-x86_64-linux.tar.gz"
+          tar -xzf /tmp/wasi-sdk.tar.gz -C "$HOME/wasi-sdk" --strip-components=1
+          "$HOME/wasi-sdk/bin/clang" --version
+
+      - name: Install wasmtime
+        run: |
+          curl -L -o /tmp/wasmtime.tar.xz \
+            "https://github.com/bytecodealliance/wasmtime/releases/download/${WASMTIME_VERSION}/wasmtime-${WASMTIME_VERSION}-x86_64-linux.tar.xz"
+          mkdir -p "$HOME/wasmtime"
+          tar -xJf /tmp/wasmtime.tar.xz -C "$HOME/wasmtime" --strip-components=1
+          echo "$HOME/wasmtime" >> "$GITHUB_PATH"
+          "$HOME/wasmtime/wasmtime" --version
+
+      - name: Build io_static (WASI 0.1 module)
+        run: make -j$(nproc)
+
+      - name: Build test suite
+        run: make -j$(nproc) test
+
+      - name: Run tests
+        run: make check
+        timeout-minutes: 10
+
+      - name: Build browser reactor module
+        run: make -j$(nproc) browser
+
+      - name: Build WASI 0.2 component
+        id: component
+        continue-on-error: true
+        run: make -j$(nproc) component
+
+      - name: Stage artifacts
+        id: stage
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+
+          # Core CLI VM. The Makefile emits it without an extension; it is a
+          # wasm module, so publish it under a name that says so.
+          cp build/bin/io_static dist/io_static.wasm
+
+          # Browser reactor module, published bare for direct <script> use...
+          cp browser/io_browser.wasm dist/io_browser.wasm
+
+          # ...and as an embed kit alongside the loader it needs.
+          KIT="io-browser-${TAG}"
+          mkdir -p "$KIT"
+          cp browser/io_browser.wasm browser/io.js browser/README.md "$KIT/"
+          tar -czf "dist/${KIT}.tar.gz" "$KIT"
+          rm -rf "$KIT"
+
+          # The component build is newer than the rest of the toolchain wiring;
+          # attach it when it built, note its absence when it did not.
+          if [ -f build/bin/io_component.wasm ]; then
+            cp build/bin/io_component.wasm dist/io_component.wasm
+            echo "component=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "component=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::io_component.wasm was not built; releasing without it"
+          fi
+
+          # Write the sums outside dist first: redirecting into the directory
+          # being globbed can hash the checksum file itself.
+          ( cd dist && sha256sum ./* ) > SHA256SUMS.txt
+          mv SHA256SUMS.txt dist/
+          ls -la dist
+
+      - name: Generate release notes
+        id: notes
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          HAS_COMPONENT: ${{ steps.stage.outputs.component }}
+        run: |
+          set -euo pipefail
+          LOG_LIMIT=40   # keep the body readable; the compare link has the rest
+          PREV="$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)"
+
+          {
+            echo "Io ${TAG} — WebAssembly build artifacts."
+            echo
+            echo "## Artifacts"
+            echo
+            echo "| file | what it is |"
+            echo "| --- | --- |"
+            echo "| \`io_static.wasm\` | The VM as a WASI 0.1 module. Run it with wasmtime, wasmer, or Node. |"
+            if [ "$HAS_COMPONENT" = "true" ]; then
+              echo "| \`io_component.wasm\` | The VM as a WASI 0.2 component (\`wasm32-wasip2\`). |"
+            fi
+            echo "| \`io_browser.wasm\` | Reactor module for in-browser embedding, with the Io↔JS bridge. |"
+            echo "| \`io-browser-${TAG}.tar.gz\` | The browser module plus \`io.js\` loader and README. |"
+            echo "| \`SHA256SUMS.txt\` | Checksums for the files above. |"
+            echo
+            echo "## Quick start"
+            echo
+            echo '```bash'
+            echo "curl -LO https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/io_static.wasm"
+            echo "wasmtime io_static.wasm -e '\"hello\" println'"
+            echo "wasmtime --dir=. io_static.wasm script.io"
+            echo '```'
+            echo
+            echo "Built with wasi-sdk ${WASI_SDK_FULL}; test suite passing at this tag."
+            echo
+            # `git describe` walks ancestry, so PREV is the nearest tag
+            # reachable from this one — it can skip tags made on side branches.
+            if [ -n "$PREV" ]; then
+              TOTAL="$(git log --no-merges --oneline "${PREV}..${TAG}" | wc -l | tr -d ' ')"
+              echo "## Changes since \`${PREV}\`"
+              echo
+              git log --no-merges --pretty=format:'- %s (%h)' -n "$LOG_LIMIT" "${PREV}..${TAG}"
+              echo
+              if [ "$TOTAL" -gt "$LOG_LIMIT" ]; then
+                echo
+                echo "_…and $((TOTAL - LOG_LIMIT)) more commits._"
+              fi
+              echo
+              echo "**Full changelog:** https://github.com/${GITHUB_REPOSITORY}/compare/${PREV}...${TAG}"
+            else
+              echo "## Changes"
+              echo
+              git log --no-merges --pretty=format:'- %s (%h)' -n "$LOG_LIMIT" "${TAG}"
+              echo
+            fi
+            echo
+            echo
+            echo "See the [Release Notes](https://iolanguage.org/Release%20Notes/) page for the curated summary."
+          } > release-notes.md
+
+          cat release-notes.md
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.tag.outputs.tag }}
+          PRERELEASE: ${{ steps.tag.outputs.prerelease }}
+          DRAFT: ${{ github.event.inputs.draft }}
+        run: |
+          set -euo pipefail
+          # Plain `if` rather than `[ ... ] && ...`: under `set -e` a false
+          # test as the final command of an && list exits the script.
+          FLAGS=()
+          if [ "$PRERELEASE" = "true" ]; then FLAGS+=(--prerelease); fi
+          if [ "${DRAFT:-false}" = "true" ]; then FLAGS+=(--draft); fi
+
+          # ${FLAGS[@]+"${FLAGS[@]}"} rather than "${FLAGS[@]}": expanding an
+          # empty array under `set -u` is an unbound-variable error on bash 3.x,
+          # and a stable non-draft release leaves FLAGS empty.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # Re-running against an existing release: refresh notes and
+            # overwrite the attached files rather than failing.
+            gh release edit "$TAG" --notes-file release-notes.md ${FLAGS[@]+"${FLAGS[@]}"}
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* \
+              --title "Io $TAG" \
+              --notes-file release-notes.md \
+              ${FLAGS[@]+"${FLAGS[@]}"}
+          fi
+
+          echo "Published: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG}"

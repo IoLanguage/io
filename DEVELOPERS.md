@@ -155,6 +155,35 @@ ls libs/iovm/tests/correctness/*Test.io
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
+## 📦 Cutting a Release
+
+Io uses date-based version tags (`2026.04.20-native-final`). Pushing one
+triggers `.github/workflows/release.yml`, which builds the WASM artifacts, runs
+the test suite, and attaches the results to a GitHub Release:
+
+```bash
+git tag 2026.08.15-example
+git push origin 2026.08.15-example
+```
+
+Attached artifacts:
+
+| file | what it is |
+|------|------------|
+| `io_static.wasm` | The VM as a WASI 0.1 module (wasmtime, wasmer, Node) |
+| `io_component.wasm` | The VM as a WASI 0.2 component (`wasm32-wasip2`) |
+| `io_browser.wasm` | Reactor module for in-browser embedding |
+| `io-browser-<tag>.tar.gz` | Browser module plus the `io.js` loader |
+| `SHA256SUMS.txt` | Checksums |
+
+Tags containing `alpha`, `beta`, `rc`, or `pre` are published as prereleases.
+The release body is generated from the commit log; the curated summary lives on
+the [Release Notes](https://iolanguage.org/Release%20Notes/) page and is written
+by hand.
+
+To backfill artifacts onto an existing tag, run the workflow manually from the
+Actions tab and pass the tag name (use the draft option to review first).
+
 ## 💡 Tips
 
 - Start with small changes to understand the codebase
