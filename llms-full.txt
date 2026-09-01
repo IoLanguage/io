@@ -6961,6 +6961,7 @@ Books, tutorials, articles, papers, tools, and community resources for the Io pr
 - [Io - Day 2](https://www.bennadel.com/blog/2066-seven-languages-in-seven-weeks-io-day-2.htm) — Ben Nadel
 - [Javascript and Io](https://coderwall.com/p/pdu74w/javascript-and-io-two-languages-one-oo-concept) — Eric Raio 2016
 - [Prototype Based Programming Languages](https://bluishcoder.co.nz/2009/07/16/prototype-based-programming-languages.html) — Chris Double 2016
+- [Io language features and surrounding tools](https://thinktwice.tech/posts/c78e5a81add32ae395311b8e1a40ae4a/) — Think Twice 2026 (Japanese)
 
 ## Papers
 
