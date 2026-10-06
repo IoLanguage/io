@@ -18,13 +18,13 @@ list := list(1, 2, 3)</code></pre><p><strong>No space between a message and its 
     map(name) \
     sort \
     join(", ")</code></pre></div></div><h2 id="comments">Comments</h2><div class="section"><div class="section-body"><p>Keep comments minimal. Well-named methods and slot names should carry most of the meaning. Write a comment when the <em>why</em> is non-obvious &mdash; a constraint, an invariant, or a workaround &mdash; not to restate what the code plainly does.</p><p>Io's reflection system recognizes two documentation forms that tools can extract:</p><p><strong><code>//doc</code></strong> &mdash; a single-line doc comment attached to a slot. Placed immediately before the slot definition.</p><pre><code>//doc List sum Returns the sum of the items.
-sum := method(self reduce(+))</code></pre><p><strong><code>/<em>doc ... </em>/</code></strong> &mdash; a multi-line doc comment for longer descriptions.</p><pre><code>/*doc List join(optionalSeparator)
+sum := method(self reduce(+))</code></pre><p><strong><code>/*doc ... */</code></strong> &mdash; a multi-line doc comment for longer descriptions.</p><pre><code>/*doc List join(optionalSeparator)
 Returns a Sequence of the concatenated items with optionalSeparator
 between each item, or simply the concatenation of the items if no
 optionalSeparator is supplied.
 */
 join := method(sep, ...)</code></pre><p><strong><code>//metadoc</code></strong> &mdash; metadata about a proto itself (one per proto, at the top of the file).</p><pre><code>//metadoc List category Core
-//metadoc List description A mutable, ordered collection of values.</code></pre><p>Ordinary <code>//</code> and <code>/<em> </em>/</code> comments are still available for implementation notes that aren't intended for doc extraction.</p></div></div><h2 id="file-organization">File organization</h2><div class="section"><div class="section-body"><p>Each proto lives in its own file named after the proto: <code>List.io</code>, <code>Sequence.io</code>, <code>Map.io</code>. The file defines and extends the proto using a <code>do(...)</code> block:</p><pre><code>List do(
+//metadoc List description A mutable, ordered collection of values.</code></pre><p>Ordinary <code>//</code> and <code>/* */</code> comments are still available for implementation notes that aren't intended for doc extraction.</p></div></div><h2 id="file-organization">File organization</h2><div class="section"><div class="section-body"><p>Each proto lives in its own file named after the proto: <code>List.io</code>, <code>Sequence.io</code>, <code>Map.io</code>. The file defines and extends the proto using a <code>do(...)</code> block:</p><pre><code>List do(
     sum := method(self reduce(+))
     average := method(self sum / self size)
     ...
