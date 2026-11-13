@@ -7,6 +7,7 @@
 <title>Overview – Io</title>
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
   <meta name="description" content="A tour of the Io VM source tree — object representation, the message tree, the evaluator, the standard library loader, and the garbage collector.">
+  <link rel="canonical" href="https://iolanguage.org/docs/Implementation/Overview/">
 </head>
 <body>
 <div class="page loaded"><div class="header"><div><h1>Overview</h1><a class="back-link" href="../index.html">&larr; Implementation</a></div><a class="brand" href="../index.html">Io</a></div><div class="intro"><p>A tour of the Io VM source tree &mdash; object representation, the message tree, the evaluator, the standard library loader, and the garbage collector.</p></div><nav class="toc"><ul><li><a href="#layout">Layout</a></li><li><a href="#objects">Objects</a></li><li><a href="#the-message-tree">The Message Tree</a></li><li><a href="#evaluation">Evaluation</a></li><li><a href="#special-forms">Special Forms</a></li><li><a href="#the-standard-library">The Standard Library</a></li><li><a href="#garbage-collector">Garbage Collector</a></li><li><a href="#coroutines">Coroutines</a></li></ul></nav><h2 id="layout">Layout</h2><div class="section"><div class="section-body"><p>The VM lives under <code>libs/iovm/</code> and is about 25k lines of portable C, with no threading, no assembly, and no platform-specific syscalls beyond what WASI provides.</p><pre><code>libs/iovm/source/     Core VM (C)

@@ -1,0 +1,26 @@
+{
+    "Claude": {
+        "id": "claude-fable-5-2",
+        "name": "Claude Fable 5.2",
+        "source": "https://www.anthropic.com/claude/fable",
+        "why": "Anthropic calls Claude Fable 5.2, released November 9, 2026, its most capable generally available model for technical fields, and Mythos 5.2 (the same model for verified organizations only) is not on this list."
+    },
+    "ChatGPT": {
+        "id": "gpt-6-astra",
+        "name": "GPT-6 Astra",
+        "source": "https://openai.com/index/gpt-6-astra/",
+        "why": "OpenAI calls GPT-6 Astra its most intelligent model and recommends it for the most demanding work, while the newer GPT-6.1 Sol is a cheaper model that only nearly matches it."
+    },
+    "Gemini": {
+        "id": "gemini-4-carbon",
+        "name": "Gemini 4 Carbon",
+        "source": "https://aistudio.google.com/learn/gemini-4-carbon-developer-guide",
+        "why": "Google presents Gemini 4 Carbon as its strongest model for complex, long-horizon work, now available on the Gemini API's paid tier, while the newer Gemini 4 Hydrogen is the faster, cheaper tier."
+    },
+    "Grok": {
+        "id": "grok-4.7",
+        "name": "Grok 4.7",
+        "source": "https://docs.x.ai/developers/models",
+        "why": "xAI's model docs name Grok 4.7 its flagship and the most capable model it has built, and no Grok 5 has been released."
+    }
+}

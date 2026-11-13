@@ -8,6 +8,7 @@
   <title>Browser Target – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
   <meta name="description" content="Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported...">
+  <link rel="canonical" href="https://iolanguage.org/docs/Technical%20Notes/WASM/Browser%20Target/">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><h1>Browser Target</h1><a class="back-link" href="../index.html">&larr; WASM</a></div><a class="brand" href="../index.html">Io</a></div><div class="intro"><p>Io runs in the browser as a WebAssembly module. The browser build compiles the full VM into a WASM reactor module that JS loads and drives via exported functions.</p></div><nav class="toc"><ul><li><a href="#building">Building</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#wasi-shim">WASI Shim</a></li><li><a href="#files">Files</a></li></ul></nav><h2 id="building">Building</h2><div class="section"><div class="section-body"><pre><code>make browser        # build browser/io_browser.wasm

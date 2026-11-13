@@ -85,3 +85,4 @@ browser/io_browser.wasm
 dist
 release-notes.md
 .idea
+_credentials/

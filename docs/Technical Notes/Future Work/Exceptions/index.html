@@ -8,6 +8,7 @@
   <title>Exceptions – Io</title>
   <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
   <meta name="description" content="Design notes on the current exception system and proposed improvements.">
+  <link rel="canonical" href="https://iolanguage.org/docs/Technical%20Notes/Future%20Work/Exceptions/">
 </head>
 <body>
   <div class="page loaded"><div class="header"><div><h1>Exceptions</h1><a class="back-link" href="../index.html">&larr; Future Work</a></div><a class="brand" href="../index.html">Io</a></div><div class="intro"><p>Design notes on the current exception system and proposed improvements.</p></div><h2 id="current-implementation">Current Implementation</h2><div class="section"><div class="section-body"><h3 id="trycatch-non-resumable">try/catch (non-resumable)</h3><p>Standard exception handling. <code>try(code)</code> runs code in a child coroutine. If an exception is raised, it's captured on the coroutine and returned. <code>catch</code> filters by exception type. <code>pass</code> re-raises.</p><pre><code>e := try(Exception raise("boom"))
