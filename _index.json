@@ -2,6 +2,7 @@
   "title": "",
   "subtitle": "A small, prototype-based programming language — now targeting WASM/WASI.",
   "topTitle": "Io",
+  "aiReviews": true,
   "content": [
     {
       "type": "ContentText",
