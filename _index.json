@@ -48,15 +48,5 @@
         }
       ]
     }
-  ],
-  "footerLinks": [
-    {
-      "title": "llms.txt",
-      "href": "llms.txt"
-    },
-    {
-      "title": "llms-full.txt",
-      "href": "llms-full.txt"
-    }
   ]
 }
