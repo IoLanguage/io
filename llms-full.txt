@@ -1,5 +1,7 @@
 # Io — Full Documentation
 
+Site build: Io · 2026-09-01 · 5cdf0fca
+
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
 See also: /llms.txt (curated index) and /sitemap.xml.
