@@ -1,7 +1,7 @@
 ---
 modelName: GPT-6 Astra
 model: gpt-6-astra
-reviewed: 2026-11-13
+reviewed: 2026-11-12
 summary: Io is excellent for exploring language design and reflective scripting, but its early-access runtime demands caution for production adoption.
 stamp: Io · 2026-09-01 · 5cdf0fca
 inputHash: 63e6fd759d69b30b

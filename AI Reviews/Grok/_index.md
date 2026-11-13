@@ -1,7 +1,7 @@
 ---
 modelName: Grok 4.7
 model: grok-4.7
-reviewed: 2026-11-13
+reviewed: 2026-11-12
 summary: Elegant prototype language; its default runtime is still an early-access experiment.
 stamp: Io · 2026-09-01 · 5cdf0fca
 inputHash: 5f38eee17b25b82d

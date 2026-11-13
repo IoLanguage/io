@@ -1,7 +1,7 @@
 ---
 modelName: Gemini 4 Carbon
 model: gemini-4-carbon
-reviewed: 2026-11-13
+reviewed: 2026-11-12
 summary: A conceptually pure, minimalist prototype language revitalized by a stackless WebAssembly VM, ideal for exploration rather than mainstream production.
 stamp: Io · 2026-09-01 · 5cdf0fca
 inputHash: 29da85f04f63e9dc

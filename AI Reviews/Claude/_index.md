@@ -1,7 +1,7 @@
 ---
 modelName: Claude Fable 5.2
 model: claude-fable-5-2
-reviewed: 2026-11-13
+reviewed: 2026-11-12
 summary: Elegant, tiny, deeply reflective prototype language worth studying and experimenting with, but too immature and niche for production dependence.
 stamp: Io · 2026-09-01 · 5cdf0fca
 inputHash: d12473d9e2fbbd5b
