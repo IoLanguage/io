@@ -2,7 +2,6 @@
 	"siteUrl": "https://iolanguage.org/",
 	"buildStamp": true,
 	"aiReviews": {
-		"folder": "AI Reviews",
-		"homeCard": true
+		"folder": "AI Reviews"
 	}
 }

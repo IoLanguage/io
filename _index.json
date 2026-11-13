@@ -47,10 +47,16 @@
           "subtitle": "Source code, issues, and contributions."
         }
       ]
+    }
+  ],
+  "footerLinks": [
+    {
+      "title": "llms.txt",
+      "href": "llms.txt"
     },
     {
-      "type": "ContentText",
-      "body": "<p>For AI agents: <a href=\"llms.txt\">llms.txt</a> (curated index) and <a href=\"llms-full.txt\">llms-full.txt</a> (full content).</p>"
+      "title": "llms-full.txt",
+      "href": "llms-full.txt"
     }
   ]
 }
