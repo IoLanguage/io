@@ -91,11 +91,6 @@ The original Io book, organized by chapter.
 <!-- Page: docs/Book/Appendix -->
 Source: /docs/Book/Appendix/
 
----
-heroImage: ../images/Appendix.png
-nextSectionLink: true
----
-
 # Appendix
 
 Grammar reference and citations.
@@ -214,11 +209,6 @@ Uppercase words designate elements the lexer treats as tokens.
 
 <!-- Page: docs/Book/Concurrency -->
 Source: /docs/Book/Concurrency/
-
----
-heroImage: ../images/Concurrency.png
-nextSectionLink: true
----
 
 # Concurrency
 
@@ -349,13 +339,6 @@ Because `callcc` is easy to misuse, it is not exposed in the top-level Lobby. It
 
 <!-- Page: docs/Book/Control Flow -->
 Source: /docs/Book/Control%20Flow/
-
----
-heroImage: ../images/Control Flow.png
-heroLayout: wide
-heroAspect: 1024 / 681
-nextSectionLink: true
----
 
 # Control Flow
 
@@ -653,11 +636,6 @@ The iterative evaluator makes first-class continuations straightforward: `callcc
 <!-- Page: docs/Book/Introduction -->
 Source: /docs/Book/Introduction/
 
----
-heroImage: ../images/Introduction.png
-nextSectionLink: true
----
-
 # Introduction
 
 The origins, philosophy, and influences behind Io.
@@ -817,11 +795,6 @@ System launchPath
 
 <!-- Page: docs/Book/Objects -->
 Source: /docs/Book/Objects/
-
----
-heroImage: ../images/Objects.png
-nextSectionLink: true
----
 
 # Objects
 
@@ -1110,11 +1083,6 @@ Io> method(a, a * 2) code
 
 <!-- Page: docs/Book/Primitives -->
 Source: /docs/Book/Primitives/
-
----
-heroImage: ../images/Primitives.png
-nextSectionLink: true
----
 
 # Primitives
 
@@ -1797,11 +1765,6 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 
 <!-- Page: docs/Book/Syntax -->
 Source: /docs/Book/Syntax/
-
----
-heroImage: ../images/Syntax.png
-nextSectionLink: true
----
 
 # Syntax
 
