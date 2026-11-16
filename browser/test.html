@@ -384,7 +384,7 @@ async function runTests() {
 		}
 
 		// For asyncAwait tests: ioEval returned status=2 (yielded for JS Promise).
-		// Wait for the Promise to settle and io_resume_eval to deliver the result.
+		// Wait for the Promise to settle and a scheduler tick to deliver the result.
 		if (t.asyncAwait && result && result.status === 2) {
 			result = await new Promise(resolve => {
 				pendingAsyncResolve = resolve;

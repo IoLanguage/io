@@ -1,6 +1,6 @@
 # Phase 4e: Async — Run Loop, Futures, Scheduler
 
-**Status (November 2026):** Layers 1–2 (Futures, `await`, implicit forward) are complete. Layer 3 (the JS-side scheduler) is **not started**; it is now Phase 4i in [../Plan.md](../Plan.md), which lists what currently goes wrong with coroutines, `@` and `wait` in the browser.
+**Status (November 2026):** complete. Layer 3 (the scheduler) was built as Phase 4i, and it changed how Layers 1–2 work: see "Layer 3 as built" below. The sections on `FRAME_STATE_AWAIT_JS`, `io_resume_eval` and `waitingCoro` describe the first implementation and are kept for history.
 
 **Goal**: Io code can call async JS APIs, handle browser events, and run background coroutines — all as a guest inside the browser's event loop.
 
@@ -136,12 +136,8 @@ TYPE_FUTURE = 12  -> [12][promise_handle: i32 LE]    (5 bytes)
 
 ## Layer 3: JS-side event dispatch + scheduler
 
-> **Not implemented yet** (Phase 4i). Since this was written: the JS runtime is
-> `class Io` in `browser/src/vm.js`, so the driver belongs there, not in
-> `io.js`. The VM also now has a single idle point,
-> `Scheduler idleUntilNextTimer` (see `agents/WASI_ASYNC_PLAN.md`). Instead of
-> calling `System sleep`, the browser build should return to JS with the next
-> deadline, so JS can set a timer and call back in.
+> This section is the original design. What was built differs; see
+> "Layer 3 as built" at the end of this section.
 
 JS is responsible for calling into Io at the right times:
 
@@ -162,6 +158,28 @@ function scheduleIoWork() {
     });
 }
 ```
+
+## Layer 3 as built (Phase 4i, November 2026)
+
+The C side is `browser/io_browser.c`; the JS side is `class Io` in `browser/src/vm.js`.
+
+**Ticks.** JS never resumes a particular coroutine. Each entry runs one tick: C starts a fresh coroutine running `Scheduler hostRun` (Io source embedded in `io_browser.c`). `hostRun` wakes expired timers, then resumes coroutines from `yieldingCoros` one at a time, keeping itself on the queue so that a coroutine which yields or pauses always has something to switch to and control comes back. It stops when the queue is empty or after `Scheduler hostBudget` (10 ms), and returns the seconds until it is next needed: 0 (more work now), a timer delay, -1 (waiting on JS Promises) or -2 (nothing due at all).
+
+**Exports.** `io_tick()` runs a tick. `io_next_wake_ms()` reports the above. `class Io` sets one `setTimeout` from it (`schedule`), and calls `pump()` straight away when a Promise settles. `io_resume_eval` is gone.
+
+**Evals.** `io_eval_input` runs the code as a coroutine (`Scheduler hostEval`) at the head of a tick. If the coroutine parks, the export returns 2 and a later tick reports the result; `io_get_eval_output_len` says how much of the output buffer is the eval's, and anything after it goes to `onOutput` listeners. If the eval is parked and a tick ends with nothing due (-2), it fails with "nothing left to resume", as native Io does; the coroutine stays parked and can still be resumed by a later JS callback.
+
+**Promises.** `await` is Io code: it adds the coroutine to the Future's `waiters` list and calls `pause`, in a loop until the Future is ready (a parked coroutine can be woken early). `io_resolve_future`/`io_reject_future` move the waiters back onto `yieldingCoros`. `forward` awaits, then sends just that one message to the value. So several coroutines can await different Promises at once, which the single `suspendedCoro` could not do.
+
+**JS calling Io.** From the JS event loop, `io_send` runs the message as a coroutine at the head of a tick and returns to JS as soon as it finishes or parks. If it parks, JS gets `null` and later ticks carry it on. From inside an Io call (JS calling back synchronously) it runs nested on the caller's coroutine, as before.
+
+**The nested-loop rule.** Switching coroutines works only from frames that the tick's own eval loop is running. A C function that evaluates Io code itself does so in a nested C eval loop, and a switch there would leave the C call half-finished. Two common cases were moved onto ordinary frames in the core VM (`IoState_iterative.c`): Io-level `forward` methods, which actor `FutureProxy` and JS Futures depend on, and `aBlock call(...)`, which is how JS invokes Io callbacks. For the rest (`sortBy` comparison blocks, a callback JS makes synchronously during an Io call), `Coroutine resume` checks `Scheduler hostCanSwitch` (`nestedEvalDepth <= 1`) and raises an Io exception rather than hanging.
+
+**Memory.** Three rules keep a tick from leaving anything behind. Every entry from the JS event loop (`io_eval_input`, `io_tick`, a top-level `io_send`, a Promise settling) wraps its work in a retain pool on the main coroutine's stack, since objects allocated outside any coroutine land there and nothing else pops it. Nothing is retained through the Collector: the eval in progress is kept alive by the `Scheduler hostEvalCoro` slot. And a coroutine known to be finished has its retain stack cleared (`release_finished`, `Scheduler hostRelease`), because a finished coroutine otherwise keeps the coroutines its last frames touched, and with the `parentCoroutine` links that can chain back through every earlier tick. Checked by the "ticks, evals and JS calls leave nothing behind" test. A long-lived coroutine still grows through the VM's retain-stack leak (`agents/stackless/Debug_Loop_Leak.md`), which is not specific to the browser.
+
+**Handles.** A Promise's Io-side handle is released when it settles; its JS-side handle is owned by the Future and released when the Future is collected.
+
+**Left in the core VM, now unused:** `FRAME_STATE_AWAIT_JS`, `IoState.awaitingJsPromise`, `IoState.suspendedCoro`.
 
 ## Scheduler introspection
 

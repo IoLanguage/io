@@ -27,7 +27,8 @@ export class Io {
 
 	/**
 	 * Evaluate Io source. Resolves once the code has finished, including code
-	 * that awaits JS Promises. Evals run one at a time, in call order.
+	 * that waits (on JS Promises, `wait`, actor futures); Io never blocks the
+	 * JS thread. Evals run one at a time, in call order.
 	 */
 	eval(code: string): Promise<EvalResult>;
 
@@ -37,7 +38,10 @@ export class Io {
 	 */
 	readonly lobby: any;
 
-	/** Send a message to the Io object behind a handle. */
+	/**
+	 * Send a message to the Io object behind a handle. If the Io code waits,
+	 * this returns null and the code finishes later.
+	 */
 	send(handle: number, messageName: string, ...args: unknown[]): unknown;
 
 	/**

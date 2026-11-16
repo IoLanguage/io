@@ -32,10 +32,23 @@ io.onOutput(text => console.log(text));
 await io.eval('JS setTimeout(block("tick" println), 100)');
 ```
 
-- `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order, and an eval that awaits a Promise resolves once it settles.
+- `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order.
 - `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
 - Each `Io.load()` makes an independent VM.
 - `io.dispose()` stops a VM.
+
+## Coroutines, actors and waiting
+
+Io never blocks the JS thread. An eval that waits resolves when it finishes, and Io's coroutines and actors keep running between evals, driven by JS timers.
+
+```js
+await io.eval('wait(1); "done"');   // resolves after a second
+await io.eval('Worker := Object clone do(job := method(n, wait(0.1); n * 2))');
+await io.eval('a := Worker @job(1); b := Worker @job(2); (a + 1) + (b + 1)');   // "==> 8\n"
+await io.eval('coroDoLater(loop(wait(1); "tick" println))');   // runs on; output goes to onOutput
+```
+
+An Io block that JS calls from the event loop (an event handler, a timer callback) can wait as well. Code can't wait where its caller needs the result immediately, such as a block JS calls synchronously during an Io call; that raises an Io exception.
 
 ## Loading the wasm
 

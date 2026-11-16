@@ -26,8 +26,11 @@ export class Io {
 		this.wasm = null;
 		this.handles = new HandleTable();
 		this.stdout = "";           // fd_write output not yet returned by an eval
-		this.awaiting = null;       // settles the eval suspended on a JS Promise
-		this.evalDepth = 0;         // >0 while an eval (or its resume) is running
+		this.awaiting = null;       // settles the eval that is still running (status 2)
+		this.evalPending = false;   // an eval returned status 2 and hasn't finished
+		this.evalDepth = 0;         // >0 while Io code is running
+		this.wakeTimer = null;      // timer for the next scheduler tick
+		this.wakeAt = 0;            // when that timer fires (ms since the epoch)
 		this.outputSeen = 0;        // bytes of the C output buffer already delivered
 		this.outputListeners = new Set();
 		this.queue = Promise.resolve();
@@ -47,7 +50,8 @@ export class Io {
 	// --- Public API ---
 
 	// Evaluate Io source. Resolves to { status, output } once the code has
-	// finished, including code that awaits JS Promises. status is 0 on
+	// finished, including code that waits (on JS Promises, `wait`, actor
+	// futures). Other Io coroutines keep running meanwhile. status is 0 on
 	// success, 1 on an Io error, -1 if the VM couldn't run it. Evals run one
 	// at a time, in call order.
 	eval(code) {
@@ -80,6 +84,9 @@ export class Io {
 	dispose() {
 		if (!this.wasm) return;
 		this.wasm = null;
+		clearTimeout(this.wakeTimer);
+		this.wakeTimer = null;
+		this.evalPending = false;
 		this.handles.clear();
 		this.outputListeners.clear();
 		if (this.awaiting) {
@@ -91,11 +98,15 @@ export class Io {
 
 	// --- Lower level ---
 
-	// Run code synchronously. Returns { status, output }; status 2 means the
-	// eval yielded on a JS Promise and this.awaiting will be called with the
-	// final result. eval() wraps this; the classic-script shim uses it directly.
+	// Run code now. Returns { status, output }; status 2 means the eval is
+	// waiting on something (a JS Promise, `wait`, another coroutine) and
+	// this.awaiting will be called with the final result. eval() wraps this;
+	// the classic-script shim uses it directly.
 	evalNow(code) {
 		if (!this.wasm) throw new Error("Io VM not loaded");
+		if (this.evalPending) {
+			return { status: -1, output: "Error: the previous eval is still running" };
+		}
 
 		// Write code into the C-side input buffer
 		const inputBufPtr = this.wasm.exports.io_get_input_buf();
@@ -110,46 +121,85 @@ export class Io {
 		bytes.set(encoded, inputBufPtr);
 		bytes[inputBufPtr + encoded.length] = 0; // null-terminate
 
-		this.stdout = "";
-		this.evalDepth++;
-		let status;
-		try {
-			status = this.wasm.exports.io_eval_input();
-		} finally {
-			this.evalDepth--;
+		if (this.evalDepth > 0) {
+			// Called from JS that Io called: runs to completion inside that
+			// call. Its output is what it adds to the buffer of the eval or
+			// tick it is running in.
+			const before = this.wasm.exports.io_get_output_len();
+			const status = this.run(() => this.wasm.exports.io_eval_input());
+			const len = this.wasm.exports.io_get_output_len() - before;
+			return { status, output: len > 0 ? this.readString(this.wasm.exports.io_get_output() + before, len) : "" };
 		}
 
-		// Include any fd_write output (from before printCallback was set)
-		const output = this.stdout + this.takeOutput();
+		// The eval clears the C output buffer; deliver what's in it first
+		this.flushCallbackOutput();
+		this.outputSeen = 0;
 		this.stdout = "";
-		return { status, output };
+		const status = this.run(() => this.wasm.exports.io_eval_input());
+		if (status === 2) {
+			this.evalPending = true;
+			this.schedule();
+			return { status, output: "" };
+		}
+		const result = { status, output: this.takeEvalOutput() };
+		this.schedule();
+		return result;
 	}
 
-	resumeIfAwaiting() {
-		if (!this.wasm) return;
-		this.evalDepth++;
-		let status;
-		try {
-			status = this.wasm.exports.io_resume_eval();
-		} finally {
-			this.evalDepth--;
-		}
-
-		// Still awaiting (chained await) — next resolve will resume again
-		if (status === 2) return;
-
-		const output = this.takeOutput();
-		if (this.awaiting) {
+	// Run the Io scheduler for one time slice: resumes coroutines that are
+	// ready (timers expired, Promises settled, actors with messages), then
+	// arranges the next tick. Called from timers and when a Promise settles.
+	pump() {
+		if (!this.wasm || this.evalDepth > 0) return;
+		const status = this.run(() => this.wasm.exports.io_tick());
+		if (this.evalPending && status !== 2) {
+			this.evalPending = false;
+			const result = { status, output: this.takeEvalOutput() };
 			const resolve = this.awaiting;
 			this.awaiting = null;
-			resolve({ status, output });
+			if (resolve) resolve(result);
+		} else {
+			this.flushCallbackOutput();
+		}
+		this.schedule();
+	}
+
+	// Set the timer for the next tick, from when Io says it next has work.
+	schedule() {
+		if (!this.wasm) return;
+		clearTimeout(this.wakeTimer);
+		this.wakeTimer = null;
+		const ms = this.wasm.exports.io_next_wake_ms();
+		if (ms >= 0) this.wakeSoon(ms);
+	}
+
+	// Make sure a tick happens within ms. JS calls into Io (proxy sends) use
+	// this, since they can make coroutines runnable outside a tick.
+	wakeSoon(ms = 0) {
+		if (!this.wasm) return;
+		const at = Date.now() + ms;
+		if (this.wakeTimer !== null && this.wakeAt <= at) return;
+		clearTimeout(this.wakeTimer);
+		this.wakeAt = at;
+		this.wakeTimer = setTimeout(() => {
+			this.wakeTimer = null;
+			this.pump();
+		}, ms);
+	}
+
+	run(callIntoIo) {
+		this.evalDepth++;
+		try {
+			return callIntoIo();
+		} finally {
+			this.evalDepth--;
 		}
 	}
 
-	// Deliver output printed since the last eval to onOutput listeners. Inside
-	// an eval it is left for the eval's result instead.
+	// Deliver output printed outside an eval to onOutput listeners. While an
+	// eval is running, output is kept for its result instead.
 	flushCallbackOutput() {
-		if (!this.wasm || this.evalDepth > 0) return;
+		if (!this.wasm || this.evalDepth > 0 || this.evalPending) return;
 		const len = this.wasm.exports.io_get_output_len();
 		if (len <= this.outputSeen) return;
 		const text = this.readString(this.wasm.exports.io_get_output() + this.outputSeen, len - this.outputSeen);
@@ -157,10 +207,15 @@ export class Io {
 		for (const listener of this.outputListeners) listener(text);
 	}
 
-	takeOutput() {
-		const len = this.wasm.exports.io_get_output_len();
+	// The finished eval's output. Anything printed after it finished, by
+	// other coroutines in the same tick, goes to the listeners.
+	takeEvalOutput() {
+		const len = this.wasm.exports.io_get_eval_output_len();
+		const text = this.stdout + (len > 0 ? this.readString(this.wasm.exports.io_get_output(), len) : "");
+		this.stdout = "";
 		this.outputSeen = len;
-		return len > 0 ? this.readString(this.wasm.exports.io_get_output(), len) : "";
+		this.flushCallbackOutput();
+		return text;
 	}
 
 	proxy(ioHandle) {

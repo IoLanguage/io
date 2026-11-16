@@ -145,7 +145,9 @@ BROWSER_LDFLAGS := -lwasi-emulated-process-clocks -lwasi-emulated-signal \
 	-Wl,--export=io_get_lobby_handle \
 	-Wl,--export=io_resolve_future \
 	-Wl,--export=io_reject_future \
-	-Wl,--export=io_resume_eval
+	-Wl,--export=io_tick \
+	-Wl,--export=io_next_wake_ms \
+	-Wl,--export=io_get_eval_output_len
 
 browser: $(BROWSER_WASM)
 
