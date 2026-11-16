@@ -183,11 +183,11 @@ shim.
   `browser/package.json`, for the reason above). Io's date tags map to semver
   by dropping leading zeros: `2026.04.20-native-final` → `2026.4.20`;
   prerelease tags keep their suffix and publish to the `next` dist-tag. The
-  Release workflow publishes with provenance once an `NPM_TOKEN` secret
-  exists; CI runs `make check-npm-package` on every push. As of 2026-11-15
-  the `@iolanguage` scope is unclaimed on npm. Before the first publish:
-  create the `iolanguage` org, add `NPM_TOKEN`, then tag a release or re-run
-  Release on an existing tag.
+  Release workflow publishes with provenance by npm trusted publishing (no
+  token; npm is retiring publish tokens that bypass 2FA); CI runs
+  `make check-npm-package` on every push. The first version,
+  `2026.11.16-alpha`, was published by hand on 2026-11-16, because a trusted
+  publisher can only be added to a package that exists.
 - **Since then:** Phase 4i (the browser scheduler) replaced `resumeIfAwaiting`
   with `pump()`/`schedule()` and `io_resume_eval` with `io_tick`; see
   `subplans/Async.md`. `evalNow` and the shim's contract are unchanged.
