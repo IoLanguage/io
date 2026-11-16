@@ -223,6 +223,14 @@ IOINLINE IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref) {
     }
 #endif
 
+    // A block's locals object is recycled when its frame returns (see the
+    // RETURN handler in IoState_iterative.c). Once a reference to one is
+    // stored anywhere (a slot, a list, a block's scope, a coroutine's
+    // runLocals) it can outlive that frame, so mark it as not recyclable.
+    if (ref && IoObject_isLocals(ref)) {
+        IoObject_localsEscaped_(ref, 1);
+    }
+
     Collector_value_addingRefTo_(IOCOLLECTOR, self, ref);
     // IoObject_isDirty_(self, 1);
 

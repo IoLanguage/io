@@ -62,4 +62,41 @@ SchedulerTimerTest := UnitTest clone do(
 		// actor's wait completes via the scheduler's idle path
 		assertEquals("done.", f asString)
 	)
+
+	testFutureMessageChainRunsOnce := method(
+		// A chain sent to an actor future must be applied once. The
+		// proxy's forward used to run the whole chain, after which the
+		// evaluator ran the rest of it again on the result.
+		o := Object clone
+		o count := 0
+		o job := method(self)
+		o bump := method(count = count + 1; self)
+		f := o @job
+		f bump bump
+		assertEquals(2, o count)
+	)
+
+	testForwardMethodCanWait := method(
+		// An Io forward method is activated as an ordinary frame, so it
+		// can park its coroutine and be resumed while others run.
+		o := Object clone
+		o forward := method(wait(0.03); call message name .. call evalArgAt(0) asString)
+		s := Sequence clone
+		coroDo(s appendSeq(o slow(1)); s appendSeq("."))
+		coroDo(s appendSeq(o also(2) asUppercase); s appendSeq("."))
+		wait(0.1)
+		assertEquals("slow1.ALSO2.", s asString)
+	)
+
+	testBlockCallCanWait := method(
+		// `aBlock call` activates the block as an ordinary frame too,
+		// with its arguments evaluated in the caller's context.
+		s := Sequence clone
+		b := block(tag, n, wait(0.03); s appendSeq(tag, n asString, "."))
+		one := 1
+		coroDo(b call("a", one))
+		coroDo(b call("b", one + 1))
+		wait(0.1)
+		assertEquals("a1.b2.", s asString)
+	)
 )

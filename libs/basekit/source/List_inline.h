@@ -188,9 +188,12 @@ IOINLINE int List_removeFirst_(List *self, void *item) {
 }
 
 IOINLINE void List_removeLast_(List *self, void *item) {
-    size_t index = self->size - 1;
+    // index is unsigned, so count down from size and test before the
+    // decrement. (The old `index > -1` test was never true, which made this
+    // function, and so Collector_stopRetaining_, do nothing.)
+    size_t index = self->size;
 
-    for (index = self->size - 1; index > -1; index--) {
+    while (index-- > 0) {
         if (self->items[index] == item) {
             List_removeIndex_(self, index);
             break;
