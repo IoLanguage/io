@@ -37,14 +37,49 @@ The VM is compiled as a WASM **reactor module** (`-mexec-model=reactor`) — ins
 
 All Io output (`write`, `writeln`, `println`) is redirected to an in-memory buffer via the VM's `printCallback` mechanism. If an expression produces no printed output but returns a non-nil value, the REPL displays it as `==> <value>`.
 
-The JS side (`io.js`) provides a minimal WASI shim — just enough for the VM to run without filesystem or process access.
+The JS side (`src/`) provides a minimal WASI shim — just enough for the VM to run without filesystem or process access — plus the Io↔JS bridge.
+
+## Using Io from JavaScript
+
+`src/index.js` is an ES module that works in browsers and Node, with no DOM dependency:
+
+```js
+import { Io } from "./src/index.js";
+
+const io = await Io.load();          // or Io.load({ wasm: urlOrBytesOrModule })
+
+const { status, output } = await io.eval('list(1, 2, 3) map(x, x * x) sum');
+// status 0, output "==> 14\n"
+
+io.lobby.fetch = globalThis.fetch;   // put a JS value in an Io slot
+await io.eval('JS get("Promise") resolve(42) await');   // settles once the Promise does
+
+io.onOutput(text => console.log(text));   // output from Io callbacks run by timers, events…
+io.dispose();
+```
+
+- `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order.
+- `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
+- Each `Io.load()` makes an independent VM, so a page can run several.
+- With no argument, `Io.load()` loads `io_browser.wasm` from this folder.
+
+## Tests
+
+```bash
+make check-browser-node   # the module in Node (no browser)
+make check-browser        # that, plus test.html in headless Chromium via Playwright
+```
 
 ## Files
 
 - `io_browser.c` — C entry point with exported functions
-- `io.js` — WASM loader, WASI shim, REPL logic
+- `src/` — the JS module: `vm.js` (class `Io`), `bridge.js` (calls from Io into JS), `proxy.js` (JS proxies for Io objects), `serialize.js` (bridge wire format), `wasi.js`
+- `repl/repl.js` — the REPL UI, used by `index.html` and `/repl/`
+- `io.js` — classic-script shim for `<script src="io.js">` pages: keeps the old `loadIo()`/`ioEval()` globals working and boots the REPL
+- `test/vm.test.mjs` — Node tests for the module
 - `index.html` — UI
 - `io_browser.wasm` — built artifact (gitignored; the Pages workflow builds it for deploys)
 
 The site's public Live Interpreter at `/repl/` reuses `io.js` and the wasm from
 this folder — it sets `window.IO_WASM_URL` before loading the script.
+`io.js` loads `src/` and `repl/` relative to its own URL, so keep them next to it.

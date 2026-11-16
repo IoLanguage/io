@@ -56,3 +56,6 @@ jobs:
 
       - name: Build browser REPL
         run: make -j$(nproc) browser
+
+      - name: Test browser JS module (Node)
+        run: make check-browser-node

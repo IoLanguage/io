@@ -123,6 +123,7 @@ jobs:
           KIT="io-browser-${TAG}"
           mkdir -p "$KIT"
           cp browser/io_browser.wasm browser/io.js browser/README.md "$KIT/"
+          cp -R browser/src browser/repl "$KIT/"
           tar -czf "dist/${KIT}.tar.gz" "$KIT"
           rm -rf "$KIT"
 
@@ -164,7 +165,7 @@ jobs:
               echo "| \`io_component.wasm\` | The VM as a WASI 0.2 component (\`wasm32-wasip2\`). |"
             fi
             echo "| \`io_browser.wasm\` | Reactor module for in-browser embedding, with the Io↔JS bridge. |"
-            echo "| \`io-browser-${TAG}.tar.gz\` | The browser module plus \`io.js\` loader and README. |"
+            echo "| \`io-browser-${TAG}.tar.gz\` | The browser module plus the \`src/\` ES module, the \`io.js\` script loader and README. |"
             echo "| \`SHA256SUMS.txt\` | Checksums for the files above. |"
             echo
             echo "## Quick start"

@@ -173,7 +173,7 @@ Attached artifacts:
 | `io_static.wasm` | The VM as a WASI 0.1 module (wasmtime, wasmer, Node) |
 | `io_component.wasm` | The VM as a WASI 0.2 component (`wasm32-wasip2`) |
 | `io_browser.wasm` | Reactor module for in-browser embedding |
-| `io-browser-<tag>.tar.gz` | Browser module plus the `io.js` loader |
+| `io-browser-<tag>.tar.gz` | Browser module plus the `src/` ES module and `io.js` script loader |
 | `SHA256SUMS.txt` | Checksums |
 
 Tags containing `alpha`, `beta`, `rc`, or `pre` are published as prereleases.
