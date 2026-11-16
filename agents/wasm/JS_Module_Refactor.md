@@ -178,5 +178,12 @@ shim.
 - **Tests.** `browser/test/vm.test.mjs` (Node, `make check-browser-node`, run in
   CI) covers the module; `test.html` via Playwright still covers in-page
   behavior. Porting the rest of `test.html` to Node is left for later.
+- **npm (step 3).** `browser/npm/` holds the package's `package.json`, README
+  and `index.d.ts`; `browser/npm/pack.mjs` stages it in `build/npm/` (no
+  `browser/package.json`, for the reason above). Io's date tags map to semver
+  by dropping leading zeros: `2026.04.20-native-final` → `2026.4.20`;
+  prerelease tags keep their suffix and publish to the `next` dist-tag. The
+  Release workflow publishes with provenance once an `NPM_TOKEN` secret
+  exists; CI runs `make check-npm-package` on every push.
 - **Still to do:** migrate `browser/index.html`, `test.html` and `/repl/` to
-  `<script type="module">`, drop the shim, then publish to npm (step 3).
+  `<script type="module">` and drop the shim.

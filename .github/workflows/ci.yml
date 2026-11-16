@@ -59,3 +59,6 @@ jobs:
 
       - name: Test browser JS module (Node)
         run: make check-browser-node
+
+      - name: Test npm package
+        run: make check-npm-package

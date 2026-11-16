@@ -1,0 +1,42 @@
+{
+	"name": "@iolanguage/io",
+	"version": "0.0.0-dev",
+	"description": "The Io programming language VM, compiled to WebAssembly, for browsers and Node",
+	"type": "module",
+	"main": "./src/index.js",
+	"types": "./src/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"default": "./src/index.js"
+		},
+		"./io_browser.wasm": "./io_browser.wasm",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"src/",
+		"io_browser.wasm",
+		"LICENSE.txt"
+	],
+	"sideEffects": false,
+	"engines": {
+		"node": ">=18"
+	},
+	"license": "BSD-3-Clause",
+	"homepage": "https://iolanguage.org",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/IoLanguage/io.git",
+		"directory": "browser"
+	},
+	"bugs": "https://github.com/IoLanguage/io/issues",
+	"keywords": [
+		"io",
+		"iolanguage",
+		"language",
+		"interpreter",
+		"webassembly",
+		"wasm",
+		"prototype"
+	]
+}

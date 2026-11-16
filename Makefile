@@ -9,6 +9,8 @@
 #   make browser        Build browser/io_browser.wasm (reactor module)
 #   make serve          Serve browser REPL on localhost:8000
 #   make check-browser-node  Test the browser JS module in Node (no browser needed)
+#   make npm-package    Stage the @iolanguage/io npm package in build/npm/
+#   make check-npm-package  Pack, install and smoke-test the npm package
 #   make component      Build io_component.wasm (WASI 0.2 component, wasm32-wasip2)
 #   make check-component  Run the Io test suite against the component
 
@@ -58,7 +60,7 @@ IO_SOURCES  := $(wildcard libs/iovm/io/*.io)
 
 # --- Targets ---
 
-.PHONY: all test check clean regenerate browser serve check-browser check-browser-node component check-component
+.PHONY: all test check clean regenerate browser serve check-browser check-browser-node npm-package check-npm-package component check-component
 
 all: $(BINDIR)/io_static
 
@@ -172,6 +174,14 @@ check-browser-node: $(BROWSER_WASM)
 check-browser: check-browser-node
 	@test -d node_modules/playwright || npm install --no-save playwright
 	node browser/run_tests.mjs
+
+# NPM_TAG is an Io release tag (e.g. 2026.04.20-native-final); it sets the
+# package version. Empty gives 0.0.0-dev.
+npm-package: $(BROWSER_WASM)
+	node browser/npm/pack.mjs $(NPM_TAG)
+
+check-npm-package: npm-package
+	node --test browser/npm/package.test.mjs
 
 # --- Directories ---
 
