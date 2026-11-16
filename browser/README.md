@@ -59,9 +59,25 @@ io.dispose();
 ```
 
 - `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order.
+- Io never blocks the JS thread. An eval that waits (`wait(1)`, a JS Promise, an actor future) resolves when it finishes, and Io coroutines and `@` actors keep running between evals, driven by JS timers.
 - `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
 - Each `Io.load()` makes an independent VM, so a page can run several.
 - With no argument, `Io.load()` loads `io_browser.wasm` from this folder.
+
+### Coroutines and waiting
+
+```js
+await io.eval('wait(1); "done"');                       // resolves after a second; the page stays live
+await io.eval('Worker := Object clone do(job := method(n, wait(0.1); n * 2))');
+await io.eval('a := Worker @job(1); b := Worker @job(2); (a + 1) + (b + 1)');   // actors, "==> 8"
+await io.eval('coroDoLater(loop(wait(1); "tick" println))');   // keeps running; output goes to onOutput
+```
+
+- A JS call into Io from the event loop (`io.lobby.foo()`, an Io block used as an event handler or timer callback) may wait too. If it does, JS gets `null` straight away and the Io code finishes later.
+- Code can't wait where its caller needs the result immediately: an Io block that JS calls synchronously during an Io call (`someArray map(block(...))`), or a block run by a primitive such as `sortBy`. Waiting there raises an Io exception.
+- An eval that is paused with nothing due to wake it (no coroutine, timer or Promise) fails with "nothing left to resume".
+- A coroutine that never waits or yields can't be interrupted, as in JS.
+- At most 1024 Io objects can be referenced from JS at once, counting Promises that haven't settled. Past that, a new Promise is rejected with an error.
 
 ## Tests
 

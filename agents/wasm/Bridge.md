@@ -261,9 +261,9 @@ If a JS function returns a Promise, the bridge automatically wraps it as an Io `
 1. Io calls a JS function (e.g., `JS fetch(url)`)
 2. JS side detects the return value is a Promise (has `.then`)
 3. Bridge returns an Io `Future` wrapping the Promise handle
-4. When Io code sends a message to the Future, the eval loop yields to JS (`FRAME_STATE_AWAIT_JS`)
-5. JS attaches `.then()` / `.catch()` on the Promise
-6. Promise resolves → JS calls `io_resume(value)` → eval loop resumes
+4. JS attaches `.then()` / `.catch()` on the Promise
+5. When Io code sends a message to the Future, the coroutine parks on it and other coroutines (or JS) run
+6. Promise resolves → JS calls `io_resolve_future` → the coroutine is runnable again → the next scheduler tick resumes it
 7. Future forwards the original message to the resolved value
 
 ```io
@@ -274,11 +274,11 @@ body println
 
 Synchronous JS functions return their result directly. No Future wrapping.
 
-**Implemented** (Plan.md Phase 4e, steps 1–5): JS thenables cross as `TYPE_FUTURE` and become Io Futures. `await`, or any message the Future doesn't understand, yields to JS until the Promise settles. Not implemented yet: driving Io's own coroutine scheduler from the JS event loop (Phase 4i).
+**Implemented** (Plan.md Phases 4e and 4i): JS thenables cross as `TYPE_FUTURE` and become Io Futures. `await`, or any message the Future doesn't understand, parks the coroutine until the Promise settles; other coroutines keep running. See subplans/Async.md "Layer 3 as built".
 
 ### JS calling Io
 
-The bridge calls the Io handler synchronously and returns whatever it returns. Io is expected to return promptly. If the Io programmer needs to do long-running work, they schedule it in a separate coroutine and yield in small chunks. The plan is for JS to drive the Io Scheduler via `requestIdleCallback` / `requestAnimationFrame`, giving coroutines time slices; that isn't built yet (Plan.md Phase 4i).
+The bridge runs the Io handler and returns whatever it returns. A handler called from the JS event loop runs as its own coroutine: if it waits (`wait`, a Promise, an actor future), JS gets `null` straight away and the handler finishes in later scheduler ticks. A handler JS calls synchronously during an Io call (`array map(block(...))`) must finish before it returns; waiting there raises an Io exception. Long-running work belongs in a coroutine that yields: the scheduler gives coroutines 10 ms slices between returns to the JS event loop.
 
 ---
 

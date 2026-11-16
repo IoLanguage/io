@@ -13,41 +13,45 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 | 3. Platform cleanup | **Done**: CMake, `addons/`, `extras/win32vc10/` and the `WIN32`/Symbian code paths are removed (a few comments and `PortableStdint.h` remain) | |
 | 4a–4d. Browser REPL, bridge, callbacks | **Done** | [Bridge.md](Bridge.md) |
 | 4e. Async: Futures, await, implicit forward | **Done** (steps 1–5) | [subplans/Async.md](subplans/Async.md) |
-| 4e. Async: Layer 3, Io scheduler in the JS event loop | **Not started**. The browser has no scheduler, so coroutines, `@` actors and `wait` misbehave there (see Phase 4i) | [subplans/Async.md](subplans/Async.md) |
+| 4e. Async: Layer 3, Io scheduler in the JS event loop | **Done** as Phase 4i | [subplans/Async.md](subplans/Async.md) |
 | 4f. BigInt | **Done** | [subplans/BigInt.md](subplans/BigInt.md) |
 | 4g. Rich JS objects | Deferred until a use case needs it | [subplans/Async.md](subplans/Async.md) Step 6 |
 | 4h. JS module and npm package | Module **done** (PR #507). npm packaging **done** (PR #508); first publish waits on the npm `iolanguage` org and an `NPM_TOKEN` secret | [JS_Module_Refactor.md](JS_Module_Refactor.md) |
-| 4i. Browser scheduler | **Next**. See below | |
+| 4i. Browser scheduler | **Done** (November 2026): coroutines, `@` actors, `wait` and concurrent awaits run inside the JS event loop | [subplans/Async.md](subplans/Async.md) "Layer 3 as built" |
 | 5. Compacting collector | Designed, not started; an optimization | [subplans/CompactingGC.md](subplans/CompactingGC.md) |
 | 6. Distribution | GitHub Release artifacts **done** (PRs #501, #502); npm in 4h | `.github/workflows/release.yml` |
 | 7. WASI 0.2 component / 0.3 async | 0.2 component build **done**; 0.3 **blocked on toolchain** (wasmtime ≥ 46, wasi-sdk 0.3 async for C) | [../WASI_ASYNC_PLAN.md](../WASI_ASYNC_PLAN.md) |
 
-### Recommended next: Phase 4i, the browser scheduler
+### Recommended next
 
-The goal of the browser target is Io that integrates well with JS. The
-module and the npm package make Io easy to embed. The biggest gap left is
-that Io's concurrency model doesn't work inside the browser's event loop. A
-probe of the module in Node (November 2026) found:
-
-- `A @work` (an actor message) never runs, and evaluating the returned
-  Future returns no result. Under wasmtime it runs and returns 7.
-- An eval that switches coroutines (`yield`, or a coroutine finishing back
-  into the eval) loses the eval's result: `yield; z` returns only the
-  coroutine's printed output, with no `==> value` line.
-- `wait(0.2)` blocks the JS thread for 200 ms (`System sleep`), which freezes
-  a page. A coroutine parked by `wait` only wakes when some later eval
-  happens to yield.
-
-The fix has three parts. Fix eval result delivery when coroutines switch
-(C side, `do_eval`/`do_resume_eval`). Make the Scheduler's single idle point
-(`Scheduler idleUntilNextTimer`, see `WASI_ASYNC_PLAN.md`) hand control back
-to JS with the next deadline instead of sleeping. Then add an
-`io_scheduler_tick` export and drive it from `setTimeout`/`requestIdleCallback` in `class Io`
-(Async.md Layer 3). That idle point is also the WASI 0.3 seam, so this work
-leads directly into Phase 7 once its toolchain lands.
-
-This should land before the first npm publish, or soon after: npm users will
-try `@` and `wait` first.
+1. **First npm release.** Everything is in place (Phase 4h); it needs the npm
+   `iolanguage` org and an `NPM_TOKEN` secret, then a release tag.
+2. **VM bugs found while building the scheduler, not yet fixed.** All of them
+   are in the native build too:
+   - **A syntax error can crash the VM.** `x := (` traps in `IoLexer_free`.
+     In the web REPL a typo kills the session.
+   - **The retain-stack leak** ([../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md)).
+     A long-lived coroutine's retain stack grows on every loop iteration
+     (about 32 entries per `loop(yield)` pass, about 82 per actor message),
+     and whatever it holds is never collected. Background coroutines and
+     actors in a long-running page grow slowly because of it.
+   - **Backtraces** say "nothing on stack" for most errors.
+   - **`make` doesn't track header dependencies**, and `make` alone doesn't
+     regenerate `IoVMInit.c`. After changing a `.h` or a core `.io` file:
+     `rm -rf build/obj build/obj-p2 && make regenerate && make`.
+3. **The Io-side handle table is fixed at 1024 entries**
+   (`IO_HANDLES_MAX`, `browser/io_js_bridge.c`): Io objects JS holds, plus
+   Promises not yet settled. When it is full a new Promise is rejected with
+   a clear error. Make it grow.
+4. **Move the pages to `<script type="module">`** and drop the `io.js` shim.
+5. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
+   eval loop can't switch coroutines; in the browser that is a clear error
+   (see Async.md). Forward methods and `Block call` were made frame-based in
+   Phase 4i. The remaining ones are primitives that run a block themselves
+   (`sortBy` and similar) and Io callbacks that JS calls synchronously
+   during an Io call.
+6. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
+   from the core VM. Nothing uses them since Phase 4i.
 
 ---
 
@@ -313,7 +317,7 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 
 **Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code. **Reached.**
 
-**Layer 3 (JS-side scheduler) NOT STARTED.** See Phase 4i.
+**Layer 3 (JS-side scheduler) COMPLETE** as Phase 4i, which also replaced the Step 2 mechanism: `await` now parks the coroutine with the scheduler instead of leaving the eval loop through `FRAME_STATE_AWAIT_JS`, so several coroutines can await at once.
 
 #### Phase 4f: BigInt — COMPLETE
 
@@ -337,13 +341,30 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 - Remaining: move `browser/index.html`, `test.html` and `/repl/` to `<script type="module">` and drop the shim.
 - See [JS_Module_Refactor.md](JS_Module_Refactor.md).
 
-#### Phase 4i: Browser scheduler — NEXT
+#### Phase 4i: Browser scheduler — COMPLETE
 
-Io coroutines, `@` actors and `wait` inside the browser's event loop. See "Recommended next" in the status section and [subplans/Async.md](subplans/Async.md) Layer 3.
+Io coroutines, `@` actors and `wait` run inside the JS event loop. Io never blocks the JS thread.
 
-**Difficulty**: Medium-Hard (C eval entry points, Scheduler idle point, JS driver)
+- Every entry from JS runs one scheduler tick: a short-lived coroutine (`Scheduler hostRun`, Io source in `browser/io_browser.c`) resumes runnable coroutines until none are left or a 10 ms budget runs out, then tells JS when it next has work. `class Io` sets a timer for that, and ticks again when a Promise settles.
+- An eval is a coroutine. If it parks, `io_eval_input` returns 2 and a later `io_tick` finishes it. An eval that nothing can wake fails with "nothing left to resume", as native Io does.
+- `await` on a JS Promise parks the coroutine on the Future, so any number of coroutines can await at once.
+- JS calls into Io from the event loop (proxy sends, event handlers, timers) run as coroutines too. One that parks returns `null` to JS and finishes later.
+- Core VM changes, needed so parked code isn't inside a nested C eval loop: Io `forward` methods and `aBlock call(...)` are activated as ordinary frames (`IoState_iterative.c`). Side effects: recursion through either no longer uses the C stack, and a `yield` inside one no longer runs part of the body twice.
+- Where switching still can't work (nested C eval loops), it raises an Io error instead of hanging.
+- VM bugs fixed on the way, all present natively:
+  - **Closures over method locals were broken.** A method's locals object went back to the reuse pool when the method returned, even if a block created there still had it as its scope; the next method call wiped it (`counter := method(n, block(n = n + 1; n))` failed). `IoObject_addingRef_` now marks a locals object when a reference to it is stored, and marked locals are not pooled. Cost: slot assignment about 2–3% slower in `bench/micro.io`; everything else within noise.
+  - **`List_removeLast_` never removed anything** (unsigned index compared with -1), so `IoState_stopRetaining_` did nothing and every retained object lived forever.
+  - **A message chain sent to an actor future was applied twice** (`Actor.io`).
+- Bridge bugs fixed on the way:
+  - Each JS Promise held an Io-side handle forever, so after about 1000 Promises every later `await` hung. Handles are released when the Promise settles.
+  - A Future never released its Promise's JS handle; a temporary wrapper could release it early.
+  - `aFuture then(...)`, `catch` and `finally` evaluated the rest of the statement a second time.
+  - Calls from the JS event loop and Promise settlements left their objects on the main coroutine's retain stack.
+- Tests: `SchedulerTimerTest.io` (3 new), `ClosureTest.io` (7 new), `browser/test/vm.test.mjs` (16 new).
 
-**Milestone**: `A @work` returns a value in the browser; `wait(1)` doesn't freeze the page; a coroutine parked on `wait` wakes on time with no further evals.
+See [subplans/Async.md](subplans/Async.md) "Layer 3 as built".
+
+**Milestone reached**: `A @work` returns a value in the browser; `wait(1)` doesn't freeze the page; a coroutine parked on `wait` wakes on time with no further evals.
 
 ---
 

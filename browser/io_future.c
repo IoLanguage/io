@@ -8,6 +8,7 @@
 #include "IoNumber.h"
 #include "IoTag.h"
 #include "IoMessage.h"
+#include "IoList.h"
 #include "io_future.h"
 #include "io_js_bridge.h"
 #include "IoEvalFrame.h"
@@ -23,7 +24,6 @@
 
 typedef struct {
 	int promiseHandle;      // JS Promise handle (in jsHandles)
-	IoObject *waitingCoro;  // coroutine that called await (NULL if none)
 	IoObject *value;        // resolved value (NULL while pending)
 	IoObject *label;        // human-readable description
 	int state;              // FUTURE_PENDING, FUTURE_RESOLVED, FUTURE_REJECTED
@@ -47,13 +47,15 @@ static IoObject *IoFuture_rawClone(IoObject *proto) {
 
 static void IoFuture_free(IoObject *self) {
 	IoFutureData *data = DATA(self);
-	if (data) free(data);
+	if (!data) return;
+	// The Future owns its Promise's JS handle
+	IoJSBridge_releaseJsHandle(data->promiseHandle);
+	free(data);
 }
 
 static void IoFuture_mark(IoObject *self) {
 	IoFutureData *data = DATA(self);
 	if (!data) return;
-	IoObject_shouldMarkIfNonNull(data->waitingCoro);
 	IoObject_shouldMarkIfNonNull(data->value);
 	IoObject_shouldMarkIfNonNull(data->label);
 }
@@ -69,8 +71,9 @@ static IoTag *IoFuture_newTag(void *state) {
 
 // ---- Methods ----
 
-// await — if resolved, return value. If rejected, raise error. If pending, yield to JS.
-IO_METHOD(IoObject, Future_await) {
+// rawAwait — if resolved, return value. If rejected or pending, raise an error.
+// `await` itself is defined in Io (io_browser.c) on top of this.
+IO_METHOD(IoObject, Future_rawAwait) {
 	(void)locals; (void)m;
 	IoFutureData *data = DATA(self);
 
@@ -84,21 +87,10 @@ IO_METHOD(IoObject, Future_await) {
 		return IONIL(self);
 	}
 
-	// Pending — suspend eval loop, yield to JS host
-	{
-		IoEvalFrame *frame = IOSTATE->currentFrame;
-		if (frame) {
-			IoEvalFrameData *fd = FRAME_DATA(frame);
-			fd->controlFlow.awaitInfo.future = self;
-			fd->state = FRAME_STATE_AWAIT_JS;
-			IOSTATE->awaitingJsPromise = 1;
-			IOSTATE->needsControlFlowHandling = 1;
-			return IONIL(self);  // Return value ignored; frame state takes over
-		}
-		// No frame (recursive eval fallback) — can't yield
-		IoState_error_(IOSTATE, m, "Future is pending (cannot yield outside eval loop)");
-		return IONIL(self);
-	}
+	// Pending. The Io-side await (io_browser.c) parks the coroutine until
+	// the Promise settles, so this is only reached by calling rawAwait directly.
+	IoState_error_(IOSTATE, m, "Future is pending");
+	return IONIL(self);
 }
 
 // isReady — return true if resolved or rejected
@@ -134,56 +126,28 @@ IO_METHOD(IoObject, Future_setLabel) {
 	return self;
 }
 
-// then/catch/finally — delegate to the underlying JS Promise
+// then/catch/finally — delegate to the underlying JS Promise, through a
+// temporary JSObject that borrows the Future's handle without owning it.
+// IoObject_perform sends just this message, with the arguments the eval loop
+// already evaluated in the caller's context. (Evaluating `m` as a chain would
+// also run whatever follows it in the statement, a second time.)
+static IoObject *IoFuture_sendToPromise(IoObject *self, IoObject *locals, IoMessage *m) {
+	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, DATA(self)->promiseHandle);
+	IoObject *result = IoObject_perform(jsObj, locals, m);
+	IoJSObject_disownHandle(jsObj);
+	return result;
+}
+
 IO_METHOD(IoObject, Future_then) {
-	IoFutureData *data = DATA(self);
-	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, data->promiseHandle);
-	return IoMessage_locals_performOn_(m, jsObj, jsObj);
+	return IoFuture_sendToPromise(self, locals, m);
 }
 
 IO_METHOD(IoObject, Future_catch) {
-	IoFutureData *data = DATA(self);
-	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, data->promiseHandle);
-	return IoMessage_locals_performOn_(m, jsObj, jsObj);
+	return IoFuture_sendToPromise(self, locals, m);
 }
 
 IO_METHOD(IoObject, Future_finally) {
-	IoFutureData *data = DATA(self);
-	IoObject *jsObj = IoJSObject_newWithHandle_(IOSTATE, data->promiseHandle);
-	return IoMessage_locals_performOn_(m, jsObj, jsObj);
-}
-
-// forward — auto-await, then replay message on the resolved value.
-// Instead of nesting eval loops (IoMessage_locals_performOn_), we redirect
-// the frame state machine to retry the lookup on the resolved value.
-// If pending, triggers yield to JS host; on resume, forward re-activates.
-IO_METHOD(IoObject, Future_forward) {
-	IoFutureData *data = DATA(self);
-
-	if (data->state == FUTURE_RESOLVED) {
-		IoObject *value = data->value ? data->value : IONIL(self);
-		// Redirect the eval loop: set target to resolved value, restart lookup
-		IoEvalFrame *frame = IOSTATE->currentFrame;
-		if (frame) {
-			IoEvalFrameData *fd = FRAME_DATA(frame);
-			fd->target = value;
-			fd->cachedTarget = value;
-			fd->slotValue = NULL;
-			fd->slotContext = NULL;
-			fd->state = FRAME_STATE_LOOKUP_SLOT;
-			IOSTATE->needsControlFlowHandling = 1;
-		}
-		return value;  // Ignored; frame state takes over
-	}
-
-	if (data->state == FUTURE_REJECTED) {
-		IoState_error_(IOSTATE, m, "Future rejected: %s",
-			data->value && ISSEQ(data->value) ? CSTRING(data->value) : "unknown error");
-		return IONIL(self);
-	}
-
-	// Pending — trigger await (yield to JS); on resume, forward re-activates
-	return IoObject_Future_await(self, locals, m);
+	return IoFuture_sendToPromise(self, locals, m);
 }
 
 // type — Io convention
@@ -194,16 +158,32 @@ IO_METHOD(IoObject, Future_type) {
 
 // ---- Public API ----
 
+// Coroutines parked in await (the Io-side `waiters` list) go back on the
+// run queue; the next scheduler tick resumes them.
+extern void io_browser_make_runnable(IoObject *coro);
+
+static void IoFuture_wakeWaiters(IoObject *self) {
+	IoObject *waiters = IoObject_rawGetSlot_(self, IoState_symbolWithCString_(IOSTATE, "waiters"));
+	if (!waiters || !ISLIST(waiters)) return;
+	size_t n = IoList_rawSize(waiters);
+	for (size_t i = 0; i < n; i++) {
+		io_browser_make_runnable(IoList_rawAt_(waiters, (int)i));
+	}
+	List_removeAll(IoList_rawList(waiters));
+}
+
 void IoFuture_resolve(IoObject *self, IoObject *value) {
 	IoFutureData *data = DATA(self);
 	data->state = FUTURE_RESOLVED;
 	data->value = value;
+	IoFuture_wakeWaiters(self);
 }
 
 void IoFuture_reject(IoObject *self, IoObject *error) {
 	IoFutureData *data = DATA(self);
 	data->state = FUTURE_REJECTED;
 	data->value = error;
+	IoFuture_wakeWaiters(self);
 }
 
 int IoFuture_isPending(IoObject *self) {
@@ -218,7 +198,7 @@ int IoFuture_promiseHandle(IoObject *self) {
 
 IoObject *IoFuture_proto(void *state) {
 	IoMethodTable methodTable[] = {
-		{"await",    IoObject_Future_await},
+		{"rawAwait", IoObject_Future_rawAwait},
 		{"isReady",  IoObject_Future_isReady},
 		{"state",    IoObject_Future_state},
 		{"label",    IoObject_Future_label},
@@ -226,7 +206,6 @@ IoObject *IoFuture_proto(void *state) {
 		{"then",     IoObject_Future_then},
 		{"catch",    IoObject_Future_catch},
 		{"finally",  IoObject_Future_finally},
-		{"forward",  IoObject_Future_forward},
 		{"type",     IoObject_Future_type},
 		{NULL, NULL},
 	};

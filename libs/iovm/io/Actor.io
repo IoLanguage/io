@@ -36,7 +36,9 @@ FutureProxy := Object clone do(
 	_forward := method(
 		//_future writeln("FutureProxy forward ", call message)
 		_future waitOnResult
-		self doMessage(call message, call sender)
+		// Send only this message. The evaluator continues with the rest
+		// of the chain itself, so passing the whole chain would run it twice.
+		self doMessage(call message clone setNext(nil), call sender)
 	)
 )
 

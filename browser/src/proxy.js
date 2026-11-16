@@ -54,6 +54,7 @@ export function ioSend(vm, ioHandle, messageName, ...args) {
 	// Output printed by callbacks that run outside an eval (event handlers,
 	// timers) goes to onOutput listeners.
 	vm.flushCallbackOutput();
+	if (vm.evalDepth === 0) vm.schedule(); // the send ran a scheduler tick
 
 	const { value } = deserialize(vm, vm.bridgeBuf().buf, 0);
 

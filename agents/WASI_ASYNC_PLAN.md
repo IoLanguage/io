@@ -44,6 +44,17 @@ this VM is.
    whose starter already finished hit the `nestedEvalDepth > 0` early-return
    and stranded every parked coroutine.
 
+## The browser already works this way (November 2026)
+
+The browser build has a host-driven scheduler (`browser/io_browser.c`,
+`agents/wasm/subplans/Async.md` "Layer 3 as built"): the VM never sleeps;
+a tick runs coroutines until nothing is runnable and returns the next timer
+deadline to the host, which calls back in. JS Promises park coroutines the
+way host futures would. It is a working model for the 0.3 integration below,
+and it added to the list below: Io `forward` methods and
+`aBlock call(...)` are now ordinary frames, so code under them can park, and
+a locals object that something still refers to is no longer recycled.
+
 ## VM contracts to preserve (learned the hard way)
 
 - **Spurious wakeups are normal.** A finished child coroutine resumes its
@@ -61,6 +72,20 @@ this VM is.
   intermittent). Use `coroDo`/`coroFor` (runTarget = sender) for bodies that
   capture locals. Misuse shows up as a swallowed Importer "does not respond
   to" exception that silently kills the coroutine.
+- **Locals that escape are not recycled.** A block's scope, a coroutine's
+  `runLocals` (`coroFor`, `coroDo`), a stored `thisLocalContext`: storing a
+  reference to a locals object marks it (`IoObject_addingRef_`), and the
+  RETURN handler then leaves it out of the pool. Before November 2026 it was
+  pooled regardless and the next method call wiped it, which is the likeliest
+  cause of the "intermittent" coroutine-body failures described above. Code
+  that stores a locals pointer without `IOREF` bypasses the mark.
+- **Don't park under a nested C eval loop.** A coroutine switch inside a C
+  function that is evaluating Io code itself (`sortBy` blocks, anything
+  calling `IoMessage_locals_performOn_` mid-eval) leaves that C call
+  half-finished once control has to return to the host. Natively this
+  usually works by luck, because control comes back before the C call
+  returns. A host-driven scheduler must refuse the switch (the browser's
+  `Scheduler hostCanSwitch`) or the primitive must be made frame-based.
 
 ## The 0.3 integration, when unblocked
 

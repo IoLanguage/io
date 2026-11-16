@@ -690,7 +690,24 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     fd->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
             } else {
-                // Slot not found on non-locals target
+                // Slot not found on non-locals target. If its forward is
+                // an Io method, activate that as an ordinary frame rather
+                // than through IoObject_forward, which would run it in a
+                // nested C eval loop. A forward method that parks its
+                // coroutine (actor FutureProxy, JS Future) can then be
+                // switched away from and resumed like any other frame.
+                {
+                    IoObject *forwardContext = NULL;
+                    IoObject *forwardSlot = IoObject_rawGetSlot_context_(
+                        fd->target, state->forwardSymbol, &forwardContext);
+                    if (forwardSlot && ISBLOCK(forwardSlot) &&
+                        IoObject_isActivatable(forwardSlot)) {
+                        fd->slotValue = forwardSlot;
+                        fd->slotContext = forwardContext;
+                        fd->state = FRAME_STATE_ACTIVATE;
+                        goto activate;
+                    }
+                }
                 fd->result = IoObject_forward(fd->target, fd->locals,
                                                  fd->message);
                 if (state->errorRaised) {
@@ -716,7 +733,31 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Activate the slot value (if activatable)
             IoObject *slotValue = fd->slotValue;
 
-            if (IoObject_isActivatable(slotValue)) {
+            // The second test is the re-entry, after EVAL_ARGS, of a
+            // `aBlock call(args)` already rewritten below: its slotValue is
+            // now the block, which (unlike a method) isn't activatable.
+            // Only activations pre-evaluate args, so argValues marks it.
+            if (IoObject_isActivatable(slotValue) ||
+                (fd->argValues && ISBLOCK(slotValue))) {
+                // `aBlock call(args)`: activate the block as a frame, as a
+                // method call would be, rather than through IoBlock_call,
+                // which runs the body in a nested C eval loop. The body
+                // can then park its coroutine (wait, a future) and be
+                // resumed like any other frame. Mirrors IoBlock_call:
+                // the sender's locals are the target and slot context.
+                // Like any CFunction, IoBlock_call has all of its
+                // arguments evaluated first, not only the named ones.
+                int isBlockCall = 0;
+                if (ISCFUNCTION(slotValue) && ISBLOCK(fd->target) &&
+                    ((IoCFunctionData *)IoObject_dataPointer(slotValue))->func ==
+                        (IoUserFunction *)IoBlock_call) {
+                    slotValue = fd->target;
+                    fd->slotValue = slotValue;
+                    fd->target = fd->locals;
+                    fd->slotContext = fd->locals;
+                    isBlockCall = 1;
+                }
+
                 // ============================================================
                 // ARG PRE-EVALUATION
                 // Before calling any Block or CFunction, pre-evaluate all
@@ -758,7 +799,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     int msgArgCount = IoMessage_argCount(fd->message);
                     int preEvalCount = msgArgCount;
 
-                    if (ISBLOCK(slotValue) && msgArgCount > 0) {
+                    if (ISBLOCK(slotValue) && msgArgCount > 0 && !isBlockCall) {
                         IoBlockData *bd = (IoBlockData *)IoObject_dataPointer(slotValue);
                         int namedCount = (int)List_size(bd->argNames);
                         if (namedCount < preEvalCount) {
@@ -1093,8 +1134,15 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 }
             }
 
-            // Return blockLocals to pool for reuse (before retain pool pop)
+            // Return blockLocals to pool for reuse (before retain pool pop),
+            // unless something still refers to it: a block created here
+            // keeps it as its scope, a coroutine as its runLocals, a slot
+            // or list may hold it (IoObject_addingRef_ records all of
+            // those), or it is this frame's own result. Recycling it then
+            // would wipe slots that are still in use.
             if (fd->blockLocals &&
+                !IoObject_localsEscaped(fd->blockLocals) &&
+                result != fd->blockLocals &&
                 state->blockLocalsPoolSize < BLOCK_LOCALS_POOL_MAX) {
                 state->blockLocalsPool[state->blockLocalsPoolSize++] =
                     fd->blockLocals;
@@ -1968,6 +2016,7 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     if (state->blockLocalsPoolSize > 0) {
         // Reuse pooled blockLocals (already has PHash allocated)
         blockLocals = state->blockLocalsPool[--state->blockLocalsPoolSize];
+        IoObject_localsEscaped_(blockLocals, 0);
         // Push onto ioStack so GC can reach it. Without this,
         // the blockLocals is unreachable between pool removal and
         // frame attachment — any GC triggered by IoCall_with or
@@ -1978,6 +2027,7 @@ static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     } else {
         blockLocals = IOCLONE(state->localsProto);
         IoObject_isLocals_(blockLocals, 1);
+        IoObject_localsEscaped_(blockLocals, 0);
         IoObject_createSlotsIfNeeded(blockLocals);
         bslots = IoObject_slots(blockLocals);
     }
@@ -2097,12 +2147,14 @@ static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame) {
     PHash *bslots;
     if (state->blockLocalsPoolSize > 0) {
         blockLocals = state->blockLocalsPool[--state->blockLocalsPoolSize];
+        IoObject_localsEscaped_(blockLocals, 0);
         IoState_stackRetain_(state, blockLocals);
         bslots = IoObject_slots(blockLocals);
         PHash_clean(bslots);
     } else {
         blockLocals = IOCLONE(state->localsProto);
         IoObject_isLocals_(blockLocals, 1);
+        IoObject_localsEscaped_(blockLocals, 0);
         IoObject_createSlotsIfNeeded(blockLocals);
         bslots = IoObject_slots(blockLocals);
     }

@@ -443,6 +443,10 @@ static IoObject *deserialize_buf_to_io(IoState *state, unsigned char **ptr, unsi
 		int futureIoH = ioHandles_register(future);
 		if (futureIoH > 0) {
 			js_watch_promise(promiseH, futureIoH);
+		} else {
+			// Nothing would ever settle it, so fail now rather than hang
+			IoFuture_reject(future, IoState_symbolWithCString_(state,
+				"too many Io objects are referenced from JS (handle table full)"));
 		}
 		return future;
 	}
@@ -493,6 +497,16 @@ static IoObject *IoJSObject_rawClone(IoObject *proto) {
 static void IoJSObject_free(IoObject *self) {
 	int h = HANDLE(self);
 	if (h) js_release(h);
+}
+
+// For a JSObject that wraps a handle something else owns (a Future's
+// Promise): stop it releasing the handle when it is collected.
+void IoJSObject_disownHandle(IoObject *self) {
+	IoObject_setDataPointer_(self, NULL);
+}
+
+void IoJSBridge_releaseJsHandle(int handle) {
+	if (handle) js_release(handle);
 }
 
 static IoTag *IoJSObject_newTag(void *state) {
@@ -781,11 +795,26 @@ IoObject *IoJSObject_proto(void *state) {
 
 // Reference to the global IoState (defined in io_browser.c)
 extern IoState *io_bridge_state;
+extern int io_browser_send(IoObject *target, IoMessage *msg, IoObject **result, IoObject **exception);
+
+static int io_send_inner(IoState *state, int io_handle, const char *name_ptr, int name_len, int argc);
 
 __attribute__((export_name("io_send")))
 int io_send(int io_handle, const char *name_ptr, int name_len, int argc) {
 	IoState *state = io_bridge_state;
 	if (!state) return -1;
+
+	// Called from the JS event loop, allocations land on the main coroutine's
+	// retain stack, which nothing else ever pops. (Inside an Io call they go
+	// on the running coroutine's stack and its frames release them.)
+	int topLevel = (state->currentFrame == NULL);
+	if (topLevel) IoState_pushRetainPool(state);
+	int status = io_send_inner(state, io_handle, name_ptr, name_len, argc);
+	if (topLevel) IoState_popRetainPool(state);
+	return status;
+}
+
+static int io_send_inner(IoState *state, int io_handle, const char *name_ptr, int name_len, int argc) {
 
 	IoObject *target = ioHandles_get(io_handle);
 	if (!target) return -1;
@@ -809,16 +838,27 @@ int io_send(int io_handle, const char *name_ptr, int name_len, int argc) {
 		IoMessage_addCachedArg_(msg, arg);
 	}
 
-	// Perform the message send
+	// Perform the message send. From inside Io (JS called back during an Io
+	// call) it runs nested, on the caller's coroutine. From the JS event loop
+	// it runs as its own coroutine under the scheduler, so it may wait.
+	IoObject *result = state->ioNil;
+	IoObject *exception = NULL;
 	state->errorRaised = 0;
-	IoObject *result = IoMessage_locals_performOn_(msg, target, target);
+	if (state->currentFrame) {
+		result = IoMessage_locals_performOn_(msg, target, target);
+		if (state->errorRaised) {
+			exception = IoCoroutine_rawException(state->currentCoroutine);
+			if (!exception) exception = state->ioNil;
+		}
+	} else {
+		io_browser_send(target, msg, &result, &exception);
+	}
 
-	if (state->errorRaised) {
+	if (exception) {
 		// Get error message from exception if available
 		const char *errMsg = "Io error";
 		int errHandle = 0;
-		IoObject *exception = IoCoroutine_rawException(state->currentCoroutine);
-		if (exception && exception != state->ioNil) {
+		if (exception != state->ioNil) {
 			// Try to get the error message
 			IoObject *errMsgObj = IoObject_rawGetSlot_(exception,
 				IoState_symbolWithCString_(state, "error"));
@@ -872,9 +912,15 @@ int io_resolve_future(int future_io_handle) {
 	// Deserialize the resolved value from bridge_buf
 	unsigned char *ptr = bridge_buf;
 	unsigned char *end = bridge_buf + BRIDGE_BUF_SIZE;
+	int topLevel = (state->currentFrame == NULL);
+	if (topLevel) IoState_pushRetainPool(state);   // see io_send
 	IoObject *value = deserialize_buf_to_io(state, &ptr, end);
 
 	IoFuture_resolve(future, value);
+	// A Promise settles once, so JS has no further use for this handle.
+	// Without this every Promise would hold a slot in the table forever.
+	ioHandles_release(future_io_handle);
+	if (topLevel) IoState_popRetainPool(state);
 	return 0;
 }
 
@@ -889,8 +935,12 @@ int io_reject_future(int future_io_handle) {
 	// Deserialize the error from bridge_buf
 	unsigned char *ptr = bridge_buf;
 	unsigned char *end = bridge_buf + BRIDGE_BUF_SIZE;
+	int topLevel = (state->currentFrame == NULL);
+	if (topLevel) IoState_pushRetainPool(state);   // see io_send
 	IoObject *error = deserialize_buf_to_io(state, &ptr, end);
 
 	IoFuture_reject(future, error);
+	ioHandles_release(future_io_handle);   // see io_resolve_future
+	if (topLevel) IoState_popRetainPool(state);
 	return 0;
 }

@@ -136,15 +136,15 @@ export function createJsImports(vm) {
 					if (!vm.wasm) return; // disposed while pending
 					serialize(vm, value, vm.bridgeBuf().buf, 0);
 					vm.wasm.exports.io_resolve_future(futureIoHandle);
-					// If the eval loop was awaiting this Promise, resume it
-					vm.resumeIfAwaiting();
+					// Coroutines awaiting this Promise are runnable again
+					vm.pump();
 				},
 				(error) => {
 					if (!vm.wasm) return;
 					const msg = error instanceof Error ? error.message : String(error);
 					serialize(vm, msg, vm.bridgeBuf().buf, 0);
 					vm.wasm.exports.io_reject_future(futureIoHandle);
-					vm.resumeIfAwaiting();
+					vm.pump();
 				}
 			);
 		},

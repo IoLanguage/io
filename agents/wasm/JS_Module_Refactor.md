@@ -188,5 +188,8 @@ shim.
   the `@iolanguage` scope is unclaimed on npm. Before the first publish:
   create the `iolanguage` org, add `NPM_TOKEN`, then tag a release or re-run
   Release on an existing tag.
+- **Since then:** Phase 4i (the browser scheduler) replaced `resumeIfAwaiting`
+  with `pump()`/`schedule()` and `io_resume_eval` with `io_tick`; see
+  `subplans/Async.md`. `evalNow` and the shim's contract are unchanged.
 - **Still to do:** migrate `browser/index.html`, `test.html` and `/repl/` to
   `<script type="module">` and drop the shim.

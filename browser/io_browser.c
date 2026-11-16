@@ -11,6 +11,10 @@
 #include "IoBigInt.h"
 #include "IoEvalFrame.h"
 #include "IoCoroutine.h"
+#include "IoList.h"
+#include "IoNumber.h"
+#include "IoMessage.h"
+#include "Stack.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,6 +23,7 @@ __attribute__((import_module("js"), import_name("js_get_global")))
 extern int js_get_global(void);
 
 static IoState *state = NULL;
+static const char *scheduler_io_source;
 
 // Exposed for io_js_bridge.c (io_send, io_get_lobby_handle)
 IoState *io_bridge_state = NULL;
@@ -82,6 +87,35 @@ static void browser_exception_callback(void *context, IoObject *coroutine) {
 
 void IoAddonsInit(IoObject *context) { (void)context; }
 
+// Scheduler hostCanSwitch — false inside a nested C eval loop. A scheduler
+// tick runs its eval loop at depth 1; anything deeper is a C function that
+// is evaluating Io code itself and expects it to finish before it returns.
+static IoObject *IoObject_hostCanSwitch(IoObject *self, IoObject *locals, IoMessage *m) {
+	(void)locals; (void)m;
+	return IOSTATE->nestedEvalDepth <= 1 ? IOSTATE->ioTrue : IOSTATE->ioFalse;
+}
+
+// A finished coroutine keeps whatever its last frames left on its retain
+// stack, and that includes other coroutines (the ones a scheduler resumed).
+// Since each coroutine also points at the one that started it, finished
+// coroutines can keep each other alive in a chain as long as history. So
+// drop a coroutine's retain stack once it is known to be finished.
+static void release_finished(IoObject *coro) {
+	if (!coro || !ISCOROUTINE(coro)) return;
+	IoCoroutineData *data = (IoCoroutineData *)IoObject_dataPointer(coro);
+	IoState *s = (IoState *)IoObject_state(coro);
+	if (data->hasFinished && coro != (IoObject *)s->currentCoroutine) {
+		Stack_clear(data->ioStack);
+	}
+}
+
+// Scheduler hostRelease(aCoroutine) — see release_finished
+static IoObject *IoObject_hostRelease(IoObject *self, IoObject *locals, IoMessage *m) {
+	IoObject *coro = IoMessage_locals_valueArgAt_(m, locals, 0);
+	if (!IOSTATE->errorRaised) release_finished(coro);
+	return self;
+}
+
 // jsfunction CFunction (defined in io_js_bridge.c)
 extern IoObject *IoObject_jsfunction(IoObject *self, IoObject *locals, IoMessage *m);
 
@@ -110,8 +144,10 @@ int io_init(void) {
 	IoObject_setSlot_to_(state->core,
 		IoState_symbolWithCString_(state, "JSObject"), jsObjProto);
 
-	// Register IoFuture proto
-	IoFuture_proto(state);
+	// Register IoFuture proto. JSFuture names it so the scheduler source
+	// below can add its Io-side methods.
+	IoObject_setSlot_to_(state->core,
+		IoState_symbolWithCString_(state, "JSFuture"), IoFuture_proto(state));
 
 	// Register IoBigInt proto
 	IoObject *bigIntProto = IoBigInt_proto(state);
@@ -130,109 +166,335 @@ int io_init(void) {
 	// Expose state for JS bridge exports
 	io_bridge_state = state;
 
+	// Scheduler (see below): one C primitive, the rest is Io
+	{
+		IoMethodTable schedulerMethods[] = {
+			{"hostCanSwitch", IoObject_hostCanSwitch},
+			{"hostRelease", IoObject_hostRelease},
+			{NULL, NULL},
+		};
+		IoObject_addMethodTable_(
+			IoObject_getSlot_(state->lobby, IoState_symbolWithCString_(state, "Scheduler")),
+			schedulerMethods);
+	}
+	IoState_doCString_(state, scheduler_io_source);
+
 	output_clear();
 	return 0;
 }
 
-// Forward declaration
-extern IoObject *IoState_evalLoop_(IoState *state);
+// ---- Scheduler ----
+//
+// JS owns the run loop, so Io never blocks in the browser. Every entry from
+// JS runs one "tick": a short-lived scheduler coroutine (Scheduler hostRun,
+// below) that resumes runnable coroutines until none are left or a time
+// budget runs out, then returns to JS with the time of the next timer. JS
+// calls io_tick again from a timer, or when a Promise settles.
+//
+// An eval is a coroutine too (Scheduler hostEval). If it parks — on `wait`,
+// a JS Promise, an actor future — io_eval_input returns 2 and a later tick
+// finishes it.
+
+static const char *scheduler_io_source =
+	"Scheduler do(\n"
+	"	hostBudget := 0.01\n"       // seconds of Io work per tick
+	"	hostEvalCoro := nil\n"      // the eval in progress, set from C
+	"	hostStart := nil\n"         // a coroutine to run first this tick, set from C
+	"	hostAwaiting := 0\n"        // coroutines parked on JS Promises
+	"\n"
+	"	hostRun := method(\n"
+	"		me := Coroutine currentCoroutine\n"
+	"		first := hostStart\n"
+	"		if(first, yieldingCoros atInsert(0, first); self hostStart = nil)\n"
+	"		deadline := Date clone now asNumber + hostBudget\n"
+	"		loop(\n"
+	"			yieldingCoros remove(me)\n"
+	"			wakeExpiredTimers\n"
+	"			next := nil\n"
+	"			while(next isNil and(yieldingCoros isEmpty not),\n"
+	"				c := yieldingCoros removeFirst\n"
+	"				if(c isFinished not, next = c)\n"
+	"			)\n"
+	"			if(next isNil, break)\n"
+	// Staying on the run queue means a coroutine that yields or pauses
+	// always finds something to switch to, and comes back here.
+	"			yieldingCoros append(me)\n"
+	"			next resume\n"
+	// Return to JS as soon as the JS call this tick was started for has
+	// finished or parked, or the eval in progress has finished (whichever
+	// coroutine resumed it), leaving the rest for later ticks.
+	"			if(next == first and(next isFinished or(next != hostEvalCoro)), break)\n"
+	"			if(hostEvalCoro and(hostEvalCoro isFinished), break)\n"
+	"			if(next isFinished,\n"
+	"				if(next parentCoroutine == me and(next exception isNil not), next exception showStack)\n"
+	"				hostRelease(next)\n"
+	"			)\n"
+	"			if(Date clone now asNumber > deadline, break)\n"
+	"		)\n"
+	"		yieldingCoros remove(me)\n"
+	// Result: seconds until the next tick is needed. 0 = now. -1 = not
+	// until a JS Promise settles. -2 = nothing in Io is due to run at all.
+	"		if(yieldingCoros isEmpty not, return 0)\n"
+	"		if(timers isEmpty, return if(hostAwaiting > 0, -1, -2))\n"
+	"		(timers first at(0) - Date clone now asNumber) max(0)\n"
+	"	)\n"
+	"\n"
+	"	hostEval := method(code,\n"
+	"		r := Lobby doString(code, \"IoState_doCString\")\n"
+	"		if(getSlot(\"r\") isNil, nil, getSlot(\"r\") asString)\n"
+	"	)\n"
+	")\n"
+	// Switching coroutines only works from frames the scheduler's own eval
+	// loop is running. Inside a nested C eval loop (a JS callback made during
+	// an Io call, a comparison block run by sortBy) the switch would leave
+	// that C call half-finished, so make it an error instead of a hang.
+	"Coroutine hostResume := Coroutine getSlot(\"resume\")\n"
+	"Coroutine resume := method(\n"
+	"	if(Scheduler hostCanSwitch not,\n"
+	"		Exception raise(\"can't wait or switch coroutines here: this code was called by something that needs its result immediately (a JS callback made during an Io call, or a block run by a primitive such as sortBy)\")\n"
+	"	)\n"
+	"	self hostResume\n"
+	")\n"
+	// JS Promises: await parks the coroutine until the Promise settles.
+	"JSFuture do(\n"
+	"	await := method(\n"
+	"		if(isReady not,\n"
+	"			if(Scheduler hostCanSwitch not, Coroutine currentCoroutine resume)\n"   // raises
+	"			Scheduler hostAwaiting = Scheduler hostAwaiting + 1\n"
+	"			while(isReady not,\n"
+	"				if(self hasLocalSlot(\"waiters\") not, self waiters := List clone)\n"
+	"				waiters appendIfAbsent(Coroutine currentCoroutine)\n"
+	"				Coroutine currentCoroutine pause\n"
+	"			)\n"
+	"			Scheduler hostAwaiting = Scheduler hostAwaiting - 1\n"
+	"		)\n"
+	"		rawAwait\n"
+	"	)\n"
+	// Any other message waits for the value and is sent on to it. Only this
+	// message: the eval loop carries on with the rest of the chain itself.
+	"	forward := method(\n"
+	"		v := self await\n"
+	"		m := call message clone setNext(nil)\n"
+	"		getSlot(\"v\") doMessage(m, call sender)\n"
+	"	)\n"
+	")\n";
+
+#define CORO_DATA(c) ((IoCoroutineData *)IoObject_dataPointer(c))
+
+static IoObject *evalCoro = NULL;   // eval in progress, or NULL
+static size_t eval_output_len = 0;  // output bytes that belong to the last eval
+static double next_wake = -1;       // seconds until the next tick; see hostRun
+static int nothing_due = 0;         // last tick left nothing runnable, timed or awaited
+
+static IoObject *scheduler_object(void) {
+	return IoObject_getSlot_(state->lobby, IoState_symbolWithCString_(state, "Scheduler"));
+}
+
+// Put a coroutine back on the run queue (used when a JS Promise settles).
+void io_browser_make_runnable(IoObject *coro) {
+	IoObject *queue = IoObject_getSlot_(scheduler_object(),
+		IoState_symbolWithCString_(state, "yieldingCoros"));
+	if (!ISLIST(queue) || !ISCOROUTINE(coro)) return;
+	IoList_rawRemove_(queue, coro);
+	IoList_rawAppend_(queue, coro);
+}
+
+// Run one scheduler tick. Must not be called while Io code is running.
+static void run_scheduler(void) {
+	IoObject *scheduler = scheduler_object();
+	IoCoroutine *previous = IoState_currentCoroutine(state);
+
+	// Kept alive by the caller's retain pool on the main coroutine's stack
+	IoCoroutine *sched = IoCoroutine_new(state);
+	IoCoroutine_rawSetRunTarget_(sched, scheduler);
+	IoCoroutine_rawSetRunLocals_(sched, scheduler);
+	IoCoroutine_rawSetRunMessage_(sched,
+		IoMessage_newWithName_(state, IoState_symbolWithCString_(state, "hostRun")));
+
+	IoState_setCurrentCoroutine_(state, sched);
+	state->currentFrame = NULL;
+	state->frameDepth = 0;
+	state->currentIoStack = CORO_DATA(sched)->ioStack;
+
+	IoEvalFrame *frame = IoState_pushFrame_(state);
+	IoEvalFrameData *fd = FRAME_DATA(frame);
+	fd->message = IoCoroutine_rawRunMessage(sched);
+	fd->target = scheduler;
+	fd->locals = scheduler;
+	fd->cachedTarget = scheduler;
+	fd->state = FRAME_STATE_START;
+
+	IoObject *result = state->ioNil;
+	state->nestedEvalDepth++;
+	for (;;) {
+		result = IoState_evalLoop_(state);
+		IoCoroutine *active = IoState_currentCoroutine(state);
+
+		IoCoroutine_saveState_(active, state);
+		if (state->currentFrame) {
+			// Left the loop mid-coroutine, which hostCanSwitch should have
+			// prevented. Leave that coroutine parked and try again shortly
+			// rather than trusting this tick's result.
+			result = IoState_numberWithDouble_(state, 0.05);
+			break;
+		}
+		if (active == sched || state->shouldExit) break;
+
+		// A coroutine other than the scheduler finished, and nothing that
+		// started it is still alive, so the eval loop returned here instead
+		// of switching. Record how it ended and carry on with the scheduler.
+		IoCoroutine_rawSetResult_(active, result);
+		if (active != evalCoro && IoCoroutine_rawException(active) != state->ioNil) {
+			IoCoroutine_rawPrintBackTrace(active);
+		}
+		state->errorRaised = 0;
+		IoState_setCurrentCoroutine_(state, sched);
+		release_finished(active);
+		if (CORO_DATA(sched)->frameStack == NULL) {
+			result = IoState_numberWithDouble_(state, 0.05);   // scheduler lost its place; as above
+			break;
+		}
+		IoCoroutine_restoreState_(sched, state);
+	}
+	state->nestedEvalDepth--;
+	state->errorRaised = 0;
+
+	next_wake = ISNUMBER(result) ? IoNumber_asDouble(result) : -1;
+	nothing_due = next_wake < -1.5;
+
+	IoState_setCurrentCoroutine_(state, previous);
+	IoCoroutine_restoreState_(previous, state);
+	CORO_DATA(sched)->hasFinished = 1;
+	release_finished(sched);
+	// Callers only tick when no Io code is running, so the coroutine we
+	// return to has no frames. Don't trust a frame pointer it saved earlier.
+	state->currentFrame = NULL;
+	state->frameDepth = 0;
+}
+
+// Run a message sent from JS (a proxy call, an event handler) as its own
+// coroutine, so it can wait without blocking JS. Returns 1 with *result or
+// *exception set if it finished; 0 if it parked, in which case later ticks
+// carry it on and JS gets nil. Must not be called while Io code is running.
+int io_browser_send(IoObject *target, IoMessage *msg, IoObject **result, IoObject **exception) {
+	IoObject *scheduler = scheduler_object();
+	IoCoroutine *coro = IoCoroutine_new(state);   // kept alive by io_send's retain pool
+	IoCoroutine_rawSetRunTarget_(coro, target);
+	IoCoroutine_rawSetRunLocals_(coro, target);
+	IoCoroutine_rawSetRunMessage_(coro, msg);
+	IoObject_setSlot_to_(scheduler, IoState_symbolWithCString_(state, "hostStart"), coro);
+
+	run_scheduler();
+
+	int finished = CORO_DATA(coro)->hasFinished;
+	*exception = NULL;
+	*result = state->ioNil;
+	if (finished) {
+		IoObject *e = IoCoroutine_rawException(coro);
+		if (e != state->ioNil) *exception = e;
+		else *result = IoCoroutine_rawResult(coro);
+		release_finished(coro);   // result and exception are held by its slots
+	}
+	return finished;
+}
+
+// If the eval in progress has finished, write its result and return its
+// status (0 or 1). Returns 2 while it is still running, 3 if there is none.
+static int finish_eval(void) {
+	if (!evalCoro) return 3;
+	int finished = CORO_DATA(evalCoro)->hasFinished;
+	if (!finished && !nothing_due) return 2;
+
+	IoObject *coro = evalCoro;
+	int status = 0;
+	evalCoro = NULL;
+
+	if (!finished) {
+		// Paused with no coroutine, timer or Promise due to wake it. Native Io
+		// raises the same error. The coroutine stays parked: a later JS
+		// callback can still resume it, as a background coroutine.
+		static const char *msg =
+			"\n  Exception: Scheduler: nothing left to resume\n"
+			"  ---------\n"
+			"  the eval is paused, and no coroutine, timer or Promise is due to wake it\n\n";
+		output_append(msg, strlen(msg));
+		status = 1;
+	} else if (IoCoroutine_rawException(coro) != state->ioNil) {
+		IoState_exception_(state, coro);   // prints the backtrace
+		status = 1;
+	} else {
+		// With no printed output, show the result (already a string; see hostEval)
+		IoObject *result = IoCoroutine_rawResult(coro);
+		if (output_len == 0 && result && ISSEQ(result) && IoSeq_rawSize(result) > 0) {
+			output_append("==> ", 4);
+			output_append(CSTRING(result), IoSeq_rawSize(result));
+			output_append("\n", 1);
+		}
+	}
+	state->errorRaised = 0;
+	eval_output_len = output_len;
+	release_finished(coro);
+	// Last: this slot is what kept the coroutine alive until here
+	IoObject_setSlot_to_(scheduler_object(),
+		IoState_symbolWithCString_(state, "hostEvalCoro"), state->ioNil);
+	return status;
+}
+
+// Evaluate code when Io is already running (JS called back into eval from
+// inside an Io call). Runs to completion on the caller's coroutine.
+static int do_nested_eval(const char *code) {
+	size_t before = output_len;
+	exception_raised = 0;
+	IoObject *result = IoState_doCString_(state, code);
+	if (state->errorRaised || exception_raised) {
+		state->errorRaised = 0;
+		return 1;
+	}
+	if (output_len == before && result && result != state->ioNil) {
+		IoSymbol *str = IoObject_asString_(result, NULL);
+		if (str && !state->errorRaised && IoSeq_rawSize(str) > 0) {
+			output_append("==> ", 4);
+			output_append(CSTRING(str), IoSeq_rawSize(str));
+			output_append("\n", 1);
+		}
+	}
+	return 0;
+}
 
 // Internal eval: takes a C string, captures output, returns status.
-// Returns: 0=success, 1=error, 2=awaiting JS Promise
+// Returns: 0=success, 1=error, 2=still running (a later io_tick finishes it)
 static int do_eval(const char *code) {
 	if (!state) return -1;
+	if (state->currentFrame) return do_nested_eval(code);
+	if (evalCoro) return -1;   // the previous eval is still running
+
+	// Everything allocated here, outside any coroutine, lands on the main
+	// coroutine's retain stack. Without a pool around it nothing would ever
+	// release those objects.
+	IoState_pushRetainPool(state);
 
 	output_clear();
+	eval_output_len = 0;
 	state->errorRaised = 0;
 	exception_raised = 0;
 
-	IoObject *result = IoState_doCString_(state, code);
+	IoObject *scheduler = scheduler_object();
+	IoMessage *m = IoMessage_newWithName_andCachedArg_(state,
+		IoState_symbolWithCString_(state, "hostEval"),
+		IoState_symbolWithCString_(state, code));
 
-	// Check if eval yielded for a JS Promise
-	if (state->awaitingJsPromise) {
-		// state->suspendedCoro was saved by rawRun before restoring previous coro
-		return 2;
-	}
+	// Scheduler's hostEvalCoro slot keeps it alive across ticks
+	evalCoro = IoCoroutine_new(state);
+	IoCoroutine_rawSetRunTarget_(evalCoro, scheduler);
+	IoCoroutine_rawSetRunLocals_(evalCoro, scheduler);
+	IoCoroutine_rawSetRunMessage_(evalCoro, m);
+	IoObject_setSlot_to_(scheduler, IoState_symbolWithCString_(state, "hostEvalCoro"), evalCoro);
+	IoObject_setSlot_to_(scheduler, IoState_symbolWithCString_(state, "hostStart"), evalCoro);
 
-	if (state->errorRaised || exception_raised) {
-		return 1;
-	}
-
-	// If there was no printed output but there is a result, show it
-	if (output_len == 0 && result && result != state->ioNil) {
-		IoSymbol *str = IoObject_asString_(result, NULL);
-		if (str && !state->errorRaised) {
-			const char *cstr = CSTRING(str);
-			if (cstr && strlen(cstr) > 0) {
-				output_append("==> ", 4);
-				output_append(cstr, strlen(cstr));
-				output_append("\n", 1);
-			}
-		}
-	}
-
-	return 0;
-}
-
-// Resume eval after a JS Promise resolves/rejects.
-// Returns: 0=success, 1=error, 2=still awaiting (chained await)
-static int do_resume_eval(void) {
-	if (!state || !state->suspendedCoro) return -1;
-
-	IoObject *coro = state->suspendedCoro;
-	state->suspendedCoro = NULL;
-	state->awaitingJsPromise = 0;
-	exception_raised = 0;
-
-	// Save current coro state
-	IoObject *previousCoro = (IoObject *)state->currentCoroutine;
-	IoCoroutine_saveState_((IoCoroutine *)previousCoro, state);
-
-	// Restore suspended coro
-	IoState_setCurrentCoroutine_(state, coro);
-	IoCoroutine_restoreState_((IoCoroutine *)coro, state);
-
-	// Re-enter eval loop — AWAIT_JS frame sees awaitingJsPromise=0,
-	// transitions to ACTIVATE, re-calls Future_await (now resolved).
-	state->nestedEvalDepth++;
-	IoObject *result = IoState_evalLoop_(state);
-	state->nestedEvalDepth--;
-	IoCoroutine_rawSetResult_((IoCoroutine *)coro, result);
-
-	// Check if we yielded again (chained await)
-	if (state->awaitingJsPromise) {
-		IoObject *activeCoro = (IoObject *)IoState_currentCoroutine(state);
-		IoCoroutine_saveState_((IoCoroutine *)activeCoro, state);
-		state->suspendedCoro = activeCoro;
-	}
-
-	// Restore previous coro
-	IoState_setCurrentCoroutine_(state, previousCoro);
-	IoCoroutine_restoreState_((IoCoroutine *)previousCoro, state);
-
-	if (state->awaitingJsPromise) {
-		return 2;
-	}
-
-	output_clear();
-	if (state->errorRaised || exception_raised) {
-		return 1;
-	}
-
-	// Show result
-	if (result && result != state->ioNil) {
-		IoSymbol *str = IoObject_asString_(result, NULL);
-		if (str && !state->errorRaised) {
-			const char *cstr = CSTRING(str);
-			if (cstr && strlen(cstr) > 0) {
-				output_append("==> ", 4);
-				output_append(cstr, strlen(cstr));
-				output_append("\n", 1);
-			}
-		}
-	}
-
-	return 0;
+	run_scheduler();
+	int status = finish_eval();
+	IoState_popRetainPool(state);
+	return status;
 }
 
 // Exported: evaluate code from the input buffer (preferred — no pointer issues).
@@ -243,10 +505,32 @@ int io_eval_input(void) {
 	return do_eval(input_buf);
 }
 
-// Exported: resume eval after JS Promise settled.
-__attribute__((export_name("io_resume_eval")))
-int io_resume_eval(void) {
-	return do_resume_eval();
+// Exported: run runnable coroutines for one time slice. Returns the status
+// of the eval in progress: 0 or 1 if it just finished, 2 if it is still
+// running, 3 if there is none.
+__attribute__((export_name("io_tick")))
+int io_tick(void) {
+	if (!state || state->currentFrame) return evalCoro ? 2 : 3;
+	IoState_pushRetainPool(state);   // see do_eval
+	run_scheduler();
+	int status = finish_eval();
+	IoState_popRetainPool(state);
+	return status;
+}
+
+// Exported: milliseconds until io_tick should next be called. 0 = as soon
+// as possible; negative = not until JS gives Io something to do (a Promise
+// settles, or JS calls in).
+__attribute__((export_name("io_next_wake_ms")))
+double io_next_wake_ms(void) {
+	return next_wake < 0 ? -1 : next_wake * 1000.0;
+}
+
+// Exported: how many bytes of the output buffer belong to the last eval.
+// Anything after that was printed by other coroutines once it finished.
+__attribute__((export_name("io_get_eval_output_len")))
+size_t io_get_eval_output_len(void) {
+	return eval_output_len;
 }
 
 // Exported: evaluate an Io expression by pointer (for advanced use).
