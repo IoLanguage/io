@@ -28,7 +28,7 @@ on:
 
 permissions:
   contents: write
-  id-token: write   # npm provenance
+  id-token: write   # npm trusted publishing and provenance
 
 concurrency:
   group: release-${{ github.event.inputs.tag || github.ref_name }}
@@ -237,26 +237,29 @@ jobs:
 
           echo "Published: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG}"
 
-      # Publishes @iolanguage/io from the same browser build. Skipped until an
-      # NPM_TOKEN repo secret exists, and for draft releases. Prerelease tags
-      # go to the `next` dist-tag so `npm install @iolanguage/io` stays on the
-      # latest stable release.
+      # Publishes @iolanguage/io from the same browser build, using npm trusted
+      # publishing: npm accepts this workflow's GitHub OIDC identity, so there
+      # is no token or secret. The trusted publisher is set on npmjs.com under
+      # the package's Settings (org IoLanguage, repo io, workflow release.yml)
+      # and needs npm 11.5.1+, which Node 24 ships. Skipped for draft releases
+      # and for tags that predate the package. Prerelease tags go to the `next`
+      # dist-tag so `npm install @iolanguage/io` stays on the latest stable
+      # release.
       - name: Set up Node for npm
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           TAG: ${{ steps.tag.outputs.tag }}
           PRERELEASE: ${{ steps.tag.outputs.prerelease }}
           DRAFT: ${{ github.event.inputs.draft }}
         run: |
           set -euo pipefail
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "::notice::NPM_TOKEN is not set; skipping npm publish"
+          if [ ! -f browser/npm/package.json ]; then
+            echo "::notice::Tag $TAG predates the npm package; skipping npm publish"
             exit 0
           fi
           if [ "${DRAFT:-false}" = "true" ]; then

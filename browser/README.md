@@ -93,7 +93,7 @@ make check-browser        # that, plus test.html in headless Chromium via Playwr
 - `repl/repl.js` — the REPL UI, used by `index.html` and `/repl/`
 - `io.js` — classic-script shim for `<script src="io.js">` pages: keeps the old `loadIo()`/`ioEval()` globals working and boots the REPL
 - `test/vm.test.mjs` — Node tests for the module
-- `npm/` — the `@iolanguage/io` package: its `package.json`, README and types. `make npm-package` stages it in `build/npm/` with `src/` and the wasm; `make check-npm-package` packs, installs and smoke-tests it. The Release workflow publishes it when the `NPM_TOKEN` secret is set.
+- `npm/` — the `@iolanguage/io` package: its `package.json`, README and types. `make npm-package` stages it in `build/npm/` with `src/` and the wasm; `make check-npm-package` packs, installs and smoke-tests it. The Release workflow publishes it on a release tag, by npm trusted publishing (no token).
 - `index.html` — UI
 - `io_browser.wasm` — built artifact (gitignored; the Pages workflow builds it for deploys)
 
