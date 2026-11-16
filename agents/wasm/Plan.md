@@ -4,6 +4,53 @@
 
 The goal is to **target WASM as Io's only platform**, eliminating all OS-specific dependencies and multi-platform C code. This dramatically simplifies maintenance and leverages WASM as a universal runtime. The primary target is **WASI** (using Wasmtime with Cranelift JIT) with browser as a secondary target.
 
+## Status (November 2026)
+
+| Phase | State | Where |
+|-------|-------|-------|
+| 1. Minimal WASI build | **Done**, with a Makefile and a native `io2c` instead of the CMake toolchain described below | `Makefile`, `build/bin/io_static` |
+| 2. File I/O via WASI | **Done**: the correctness suite runs under wasmtime (`make check`) | CI |
+| 3. Platform cleanup | **Done**: CMake, `addons/`, `extras/win32vc10/` and the `WIN32`/Symbian code paths are removed (a few comments and `PortableStdint.h` remain) | |
+| 4a–4d. Browser REPL, bridge, callbacks | **Done** | [Bridge.md](Bridge.md) |
+| 4e. Async: Futures, await, implicit forward | **Done** (steps 1–5) | [subplans/Async.md](subplans/Async.md) |
+| 4e. Async: Layer 3, Io scheduler in the JS event loop | **Not started**. The browser has no scheduler, so coroutines, `@` actors and `wait` misbehave there (see Phase 4i) | [subplans/Async.md](subplans/Async.md) |
+| 4f. BigInt | **Done** | [subplans/BigInt.md](subplans/BigInt.md) |
+| 4g. Rich JS objects | Deferred until a use case needs it | [subplans/Async.md](subplans/Async.md) Step 6 |
+| 4h. JS module and npm package | Module **done** (PR #507). npm packaging **done** (PR #508); first publish waits on the npm `iolanguage` org and an `NPM_TOKEN` secret | [JS_Module_Refactor.md](JS_Module_Refactor.md) |
+| 4i. Browser scheduler | **Next**. See below | |
+| 5. Compacting collector | Designed, not started; an optimization | [subplans/CompactingGC.md](subplans/CompactingGC.md) |
+| 6. Distribution | GitHub Release artifacts **done** (PRs #501, #502); npm in 4h | `.github/workflows/release.yml` |
+| 7. WASI 0.2 component / 0.3 async | 0.2 component build **done**; 0.3 **blocked on toolchain** (wasmtime ≥ 46, wasi-sdk 0.3 async for C) | [../WASI_ASYNC_PLAN.md](../WASI_ASYNC_PLAN.md) |
+
+### Recommended next: Phase 4i, the browser scheduler
+
+The goal of the browser target is Io that integrates well with JS. The
+module and the npm package make Io easy to embed. The biggest gap left is
+that Io's concurrency model doesn't work inside the browser's event loop. A
+probe of the module in Node (November 2026) found:
+
+- `A @work` (an actor message) never runs, and evaluating the returned
+  Future returns no result. Under wasmtime it runs and returns 7.
+- An eval that switches coroutines (`yield`, or a coroutine finishing back
+  into the eval) loses the eval's result: `yield; z` returns only the
+  coroutine's printed output, with no `==> value` line.
+- `wait(0.2)` blocks the JS thread for 200 ms (`System sleep`), which freezes
+  a page. A coroutine parked by `wait` only wakes when some later eval
+  happens to yield.
+
+The fix has three parts. Fix eval result delivery when coroutines switch
+(C side, `do_eval`/`do_resume_eval`). Make the Scheduler's single idle point
+(`Scheduler idleUntilNextTimer`, see `WASI_ASYNC_PLAN.md`) hand control back
+to JS with the next deadline instead of sleeping. Then add an
+`io_scheduler_tick` export and drive it from `setTimeout`/`requestIdleCallback` in `class Io`
+(Async.md Layer 3). That idle point is also the WASI 0.3 seam, so this work
+leads directly into Phase 7 once its toolchain lands.
+
+This should land before the first npm publish, or soon after: npm users will
+try `@` and `wait` first.
+
+---
+
 ## Key Architectural Decisions
 
 **Toolchain**: Compile Io's existing C implementation to WASM using wasi-sdk. Io's C codebase is already fairly portable and the stackless work has eliminated the biggest porting hazard (setjmp/longjmp and stack manipulation).
@@ -57,6 +104,10 @@ The entire VM core compiles as pure C with no platform dependencies:
 ---
 
 ## 2. Phased Plan
+
+> Phases 1–3 below are the original plan, kept for history. They were
+> implemented with a Makefile and a native `io2c` instead of CMake; see the
+> status table above.
 
 ### Phase 1: Minimal WASI Build (get it compiling)
 
@@ -205,7 +256,7 @@ WASI provides POSIX-like file APIs (`fopen`, `fread`, `opendir`, etc.) through w
 #### Phase 4a: Browser REPL MVP - COMPLETE
 - Custom C entry point (`browser/io_browser.c`) with `io_init()`, `io_eval()`, `io_get_output()` exports
 - Compiled with `-mexec-model=reactor` (exports `_initialize` + custom functions)
-- JS glue (`browser/io.js`) — WASM loader + minimal WASI shim (fd_write capture, clock, proc_exit)
+- JS glue (originally `browser/io.js`, now the `browser/src/` ES module) — WASM loader + minimal WASI shim (fd_write capture, clock, proc_exit)
 - HTML REPL (`browser/index.html`) — input, output, persistent eval
 - `make browser` / `make serve` targets
 
@@ -260,7 +311,9 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 - `then`/`catch`/`finally` explicit methods delegate to underlying JS Promise
 - 73/73 browser tests passing (5 new implicit forward tests)
 
-**Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code.
+**Difficulty**: Hard — **Milestone**: `JS fetch(url)` yields to JS, resumes on resolve, no callbacks in Io code. **Reached.**
+
+**Layer 3 (JS-side scheduler) NOT STARTED.** See Phase 4i.
 
 #### Phase 4f: BigInt — COMPLETE
 
@@ -276,6 +329,22 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 
 **Difficulty**: Medium
 
+#### Phase 4h: JS module and npm package — module COMPLETE, npm READY
+
+- `browser/io.js` split into the `browser/src/` ES module: `class Io` with `Io.load()`, `await io.eval()`, `io.lobby`, `onOutput`, `dispose`. It works in browsers and Node, and each VM is independent. `io.js` remains as a classic-script shim.
+- Node tests (`make check-browser-node`) in CI.
+- `@iolanguage/io` package staged by `make npm-package` and checked by `make check-npm-package`. The Release workflow publishes it once `NPM_TOKEN` is set. As of 2026-11-15 the npm scope is unclaimed.
+- Remaining: move `browser/index.html`, `test.html` and `/repl/` to `<script type="module">` and drop the shim.
+- See [JS_Module_Refactor.md](JS_Module_Refactor.md).
+
+#### Phase 4i: Browser scheduler — NEXT
+
+Io coroutines, `@` actors and `wait` inside the browser's event loop. See "Recommended next" in the status section and [subplans/Async.md](subplans/Async.md) Layer 3.
+
+**Difficulty**: Medium-Hard (C eval entry points, Scheduler idle point, JS driver)
+
+**Milestone**: `A @work` returns a value in the browser; `wait(1)` doesn't freeze the page; a coroutine parked on `wait` wakes on time with no further evals.
+
 ---
 
 ### Phase 5: Compacting collector (optimization)
@@ -283,6 +352,18 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 The current Baker treadmill collector fragments memory over time. A compacting collector would reduce memory usage for long-running browser sessions. Codebase is moderately ready (7/10). Not needed during WASM migration, but avoid making it harder (no new interior pointers, no new global caches).
 
 **See [subplans/CompactingGC.md](subplans/CompactingGC.md) for full design.**
+
+---
+
+### Phase 6: Distribution
+
+- GitHub Releases carry `io_static.wasm`, `io_component.wasm`, `io_browser.wasm` and a browser kit — **done** (`.github/workflows/release.yml`).
+- npm — see Phase 4h.
+
+### Phase 7: WASI component model
+
+- WASI 0.2 component (`make component`) — **done**; the full suite passes against it.
+- WASI 0.3 native async — **blocked on toolchain**. See [../WASI_ASYNC_PLAN.md](../WASI_ASYNC_PLAN.md) for the plan and the upgrade triggers to re-check.
 
 ---
 
