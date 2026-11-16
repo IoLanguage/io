@@ -1,6 +1,7 @@
 # Browser JS Module Refactor
 
-Status: **proposed, not started** (August 2026)
+Status: **implemented** (November 2026). See "As built" at the end for where
+it differs from the plan below. Line numbers below refer to the old `io.js`.
 
 Companion to [Bridge.md](Bridge.md), which documents the bridge as it exists.
 This doc describes turning `browser/io.js` from a REPL page script into an
@@ -147,3 +148,35 @@ shim.
 - [subplans/Async.md](subplans/Async.md) — futures and the await protocol
 - `.github/workflows/release.yml` — ships `io-browser-<tag>.tar.gz` today;
   an npm package would replace that kit
+
+## As built
+
+- **Layout** as planned: `browser/src/{wasi,serialize,bridge,proxy,vm,index}.js`,
+  `browser/repl/repl.js`, and `browser/io.js` as the classic-script shim.
+  `browser/src/package.json` marks `src/` as ES modules for Node (a
+  `browser/package.json` would break the CommonJS `test_browser.js`).
+- **Context threading** uses the `Io` instance itself as the context: every
+  bridge, proxy and serialize function takes the VM. `deserialize` reaches
+  `makeIoProxy` through `vm.proxy(h)`, so there are no circular imports.
+  `serialize.js` is not quite pure — references register in `vm.handles`.
+- **Output.** `ioSend` calls `vm.flushCallbackOutput()`, which hands output to
+  `onOutput` listeners. Two fixes came with it: output printed inside an eval
+  is left for the eval's result (it used to be shown twice in the REPL), and
+  only output since the last delivery is emitted (the old flush re-showed the
+  whole buffer, including the previous eval's output).
+- **Async eval.** `await io.eval(code)` absorbs status 2. Evals are queued, since
+  the C side keeps a single suspended coroutine. `vm.evalNow(code)` is the
+  synchronous call that can still return status 2; the shim uses it to keep
+  `ioEval` + `pendingAsyncResolve` working for `test.html`. `dispose()` settles
+  a pending await with status -1.
+- **Input-buffer hazard** fixed without a C change: `ioSend` writes the message
+  name into the bridge buffer after the args, and `io_send` copies it before
+  running anything.
+- **Loading** accepts a URL (string or `URL`), a `Response`, bytes, or a
+  `WebAssembly.Module`. The default is `io_browser.wasm` next to `src/`;
+  `file:` URLs are read with `node:fs` so Node needs no server.
+- **Tests.** `browser/test/vm.test.mjs` (Node, `make check-browser-node`, run in
+  CI) covers the module; `test.html` via Playwright still covers in-page
+  behavior. Porting the rest of `test.html` to Node is left for later.
+- **Still to do:** migrate `browser/index.html`, `test.html` and `/repl/` to
+  `<script type="module">`, drop the shim, then publish to npm (step 3).

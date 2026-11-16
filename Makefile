@@ -8,6 +8,7 @@
 #   make regenerate     Regenerate IoVMInit.c from .io files
 #   make browser        Build browser/io_browser.wasm (reactor module)
 #   make serve          Serve browser REPL on localhost:8000
+#   make check-browser-node  Test the browser JS module in Node (no browser needed)
 #   make component      Build io_component.wasm (WASI 0.2 component, wasm32-wasip2)
 #   make check-component  Run the Io test suite against the component
 
@@ -57,7 +58,7 @@ IO_SOURCES  := $(wildcard libs/iovm/io/*.io)
 
 # --- Targets ---
 
-.PHONY: all test check clean regenerate browser serve check-browser component check-component
+.PHONY: all test check clean regenerate browser serve check-browser check-browser-node component check-component
 
 all: $(BINDIR)/io_static
 
@@ -165,7 +166,10 @@ serve: $(BROWSER_WASM)
 	@echo "Serving at http://localhost:8000"
 	python3 -m http.server 8000 -d $(BROWSER_DIR)
 
-check-browser: $(BROWSER_WASM)
+check-browser-node: $(BROWSER_WASM)
+	node --test browser/test/vm.test.mjs
+
+check-browser: check-browser-node
 	@test -d node_modules/playwright || npm install --no-save playwright
 	node browser/run_tests.mjs
 
