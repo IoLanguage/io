@@ -28,6 +28,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write   # npm provenance
 
 concurrency:
   group: release-${{ github.event.inputs.tag || github.ref_name }}
@@ -235,3 +236,43 @@ jobs:
           fi
 
           echo "Published: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG}"
+
+      # Publishes @iolanguage/io from the same browser build. Skipped until an
+      # NPM_TOKEN repo secret exists, and for draft releases. Prerelease tags
+      # go to the `next` dist-tag so `npm install @iolanguage/io` stays on the
+      # latest stable release.
+      - name: Set up Node for npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TAG: ${{ steps.tag.outputs.tag }}
+          PRERELEASE: ${{ steps.tag.outputs.prerelease }}
+          DRAFT: ${{ github.event.inputs.draft }}
+        run: |
+          set -euo pipefail
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::notice::NPM_TOKEN is not set; skipping npm publish"
+            exit 0
+          fi
+          if [ "${DRAFT:-false}" = "true" ]; then
+            echo "Draft release; skipping npm publish"
+            exit 0
+          fi
+
+          make NPM_TAG="$TAG" check-npm-package
+          VERSION="$(node -p 'require("./build/npm/package.json").version')"
+          # Re-running the workflow for a tag that's already on npm is fine.
+          if npm view "@iolanguage/io@${VERSION}" version >/dev/null 2>&1; then
+            echo "@iolanguage/io@${VERSION} is already published"
+            exit 0
+          fi
+
+          DIST_TAG=latest
+          if [ "$PRERELEASE" = "true" ]; then DIST_TAG=next; fi
+          npm publish ./build/npm --access public --provenance --tag "$DIST_TAG"
+          echo "Published: https://www.npmjs.com/package/@iolanguage/io/v/${VERSION}"

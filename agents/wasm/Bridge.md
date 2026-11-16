@@ -274,11 +274,11 @@ body println
 
 Synchronous JS functions return their result directly. No Future wrapping.
 
-**Not yet implemented.** Currently Promises cross as plain JSObject proxies. Io blocks can be passed as callbacks via `.then(block(...))` using the callable IoProxy mechanism, but there is no automatic yield/resume. See Plan.md Phase 4e for the full design.
+**Implemented** (Plan.md Phase 4e, steps 1–5): JS thenables cross as `TYPE_FUTURE` and become Io Futures. `await`, or any message the Future doesn't understand, yields to JS until the Promise settles. Not implemented yet: driving Io's own coroutine scheduler from the JS event loop (Phase 4i).
 
 ### JS calling Io
 
-The bridge calls the Io handler synchronously and returns whatever it returns. Io is expected to return promptly. If the Io programmer needs to do long-running work, they schedule it in a separate coroutine and yield in small chunks. JS drives the Io Scheduler via `requestIdleCallback` / `requestAnimationFrame` to give coroutines time slices.
+The bridge calls the Io handler synchronously and returns whatever it returns. Io is expected to return promptly. If the Io programmer needs to do long-running work, they schedule it in a separate coroutine and yield in small chunks. The plan is for JS to drive the Io Scheduler via `requestIdleCallback` / `requestAnimationFrame`, giving coroutines time slices; that isn't built yet (Plan.md Phase 4i).
 
 ---
 

@@ -1,5 +1,7 @@
 # Phase 4e: Async — Run Loop, Futures, Scheduler
 
+**Status (November 2026):** Layers 1–2 (Futures, `await`, implicit forward) are complete. Layer 3 (the JS-side scheduler) is **not started**; it is now Phase 4i in [../Plan.md](../Plan.md), which lists what currently goes wrong with coroutines, `@` and `wait` in the browser.
+
 **Goal**: Io code can call async JS APIs, handle browser events, and run background coroutines — all as a guest inside the browser's event loop.
 
 ## Mental model
@@ -134,6 +136,13 @@ TYPE_FUTURE = 12  -> [12][promise_handle: i32 LE]    (5 bytes)
 
 ## Layer 3: JS-side event dispatch + scheduler
 
+> **Not implemented yet** (Phase 4i). Since this was written: the JS runtime is
+> `class Io` in `browser/src/vm.js`, so the driver belongs there, not in
+> `io.js`. The VM also now has a single idle point,
+> `Scheduler idleUntilNextTimer` (see `agents/WASI_ASYNC_PLAN.md`). Instead of
+> calling `System sleep`, the browser build should return to JS with the next
+> deadline, so JS can set a timer and call back in.
+
 JS is responsible for calling into Io at the right times:
 
 - **Promise resolve/reject**: wired automatically when the eval loop yields. JS reads `(promiseHandle, futureIoHandle)` from bridge_buf, attaches `.then(v => { serialize(v); io_resolve(futureH); })`.
@@ -141,7 +150,7 @@ JS is responsible for calling into Io at the right times:
 - **Scheduler tick**: new WASM export `io_scheduler_tick()`. JS calls this during idle time / animation frames. Returns: 0 = no more ready coros, 1 = more work to do, 2 = yielded for another Promise.
 
 ```js
-// JS runtime (io.js)
+// JS runtime (now class Io in browser/src/vm.js)
 function scheduleIoWork() {
     requestIdleCallback((deadline) => {
         while (deadline.timeRemaining() > 1) {
@@ -266,9 +275,9 @@ JS objects can be tested with standard JS tooling, independent of the Io VM. Des
 - **Nested Promises**: if a `.then()` callback triggers another eval that yields for a Promise, the frame stack just grows. Should work but needs testing.
 - **Multiple coroutines awaiting**: each coroutine has its own frame stack and its own Future. JS wires each Promise independently. `io_scheduler_tick` runs whichever coros are ready.
 - **Scheduler time budget**: `io_scheduler_tick` runs one ready coro until it completes or yields. JS controls how many ticks to run based on `deadline.timeRemaining()`.
-- **Node.js**: `requestIdleCallback` doesn't exist. Use `setImmediate` or `setTimeout(0)`. Detect environment in io.js.
+- **Node.js**: `requestIdleCallback` doesn't exist. Use `setImmediate` or `setTimeout(0)`. Detect the environment in `browser/src/vm.js`.
 - **Already-resolved Promises**: `Promise.resolve(42)` is technically async (`.then` fires on microtask queue) but could be optimized to resolve synchronously in the bridge. TBD.
-- **REPL interaction**: the REPL calls `ioEval()` synchronously. If the eval yields for a Promise, the REPL needs to handle the `IO_EVAL_AWAITING` status and show the result when it arrives later.
+- **REPL interaction**: resolved. `await io.eval()` settles when the awaited Promise does, and the REPL shows a placeholder until it does.
 
 ## Difficulty
 

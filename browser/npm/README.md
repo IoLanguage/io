@@ -1,0 +1,55 @@
+# @iolanguage/io
+
+The [Io programming language](https://iolanguage.org) VM, compiled to WebAssembly. It runs in browsers and in Node, with no dependencies, and Io code can call JavaScript and await its Promises.
+
+```sh
+npm install @iolanguage/io
+```
+
+```js
+import { Io } from "@iolanguage/io";
+
+const io = await Io.load();
+
+const { status, output } = await io.eval('list(1, 2, 3) map(x, x * x) sum');
+// status 0, output "==> 14\n"
+```
+
+## Calling between Io and JavaScript
+
+```js
+// Put JS values in Io slots, and send Io messages from JS
+io.lobby.greeting = "hello from JS";
+await io.eval('double := method(x, x * 2)');
+io.lobby.double(21);   // 42
+
+// Io reaches JS globals through JS, and can await Promises
+await io.eval('JS Math sqrt(16)');                     // "==> 4\n"
+await io.eval('JS fetch("/data.json") await json await');
+
+// Output printed by Io callbacks run later (timers, event handlers)
+io.onOutput(text => console.log(text));
+await io.eval('JS setTimeout(block("tick" println), 100)');
+```
+
+- `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order, and an eval that awaits a Promise resolves once it settles.
+- `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
+- Each `Io.load()` makes an independent VM.
+- `io.dispose()` stops a VM.
+
+## Loading the wasm
+
+With no argument, `Io.load()` loads the package's `io_browser.wasm` using `new URL("../io_browser.wasm", import.meta.url)`, which Node and bundlers such as Vite and webpack resolve on their own. To serve it from somewhere else, pass a URL, a `Response`, bytes or a compiled `WebAssembly.Module`:
+
+```js
+const io = await Io.load({ wasm: "/assets/io_browser.wasm" });
+```
+
+The file is also exported as `@iolanguage/io/io_browser.wasm`.
+
+## More
+
+- [Io language guide](https://iolanguage.org)
+- [Source, and how the JS bridge works](https://github.com/IoLanguage/io/tree/master/browser)
+
+BSD-3-Clause license.
