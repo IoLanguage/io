@@ -44,6 +44,78 @@ path (activateBlock_) and a tail-call-optimized reuse path
 
 // Forward declarations
 static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame);
+
+// Loops: forget the previous iteration's temporaries ----------------------
+//
+// Every CFunction result stays on the current retain stack until the
+// enclosing block returns (see the retain pool around CFunction calls), so
+// a loop body that creates values adds to the stack on every iteration.
+// A loop records the stack height when it starts and trims back to it at
+// the start of each later iteration. Nothing the loop still needs is lost:
+// its frame holds the last result, the collection and the body, and the
+// GC marks frames. The trim is skipped if a retain pool mark sits above the
+// recorded height (pools must nest) or the stack is a different one.
+
+// Loop counters and indexes: IoState_numberWithDouble_ pushes a new Number
+// onto the retain stack, but returns cached small integers without pushing.
+// Once the number is stored in a slot, drop the retain only if the call
+// pushed one; an unconditional pop removed someone else's entry (an outer
+// retained object, or a retain pool mark) on every cached-integer iteration.
+static void IoState_dropNumberRetain_(IoState *state, IoObject *number,
+                                      int countBefore) {
+    Stack *stack = state->currentIoStack;
+    if (Stack_count(stack) == countBefore + 1 && Stack_top(stack) == number) {
+        Stack_pop(stack);
+    }
+}
+
+// A CFunction that switches coroutines (resume, yield, pause) leaves the
+// retain pool pushed around it on the stack it switched away from: popping
+// it from the new stack would corrupt that one, and nothing pops it when the
+// old coroutine resumes. Such an orphaned mark threw every later pop on that
+// stack off by one, and the entries above it were never released. Dissolve
+// it instead: remove the mark but keep its entries, which then belong to the
+// enclosing pool and are released with it. Only done when the mark is still
+// the stack's top mark.
+static void IoState_dissolveOrphanedPool_(IoState *state, Stack *stack,
+                                          intptr_t mark) {
+    if (!mark || stack->lastMark != mark) return;
+    stack->lastMark = (intptr_t)(stack->items[mark]);
+    // The slot becomes an ordinary entry, which the GC marks, so it must
+    // hold an object; nil is permanent.
+    stack->items[mark] = state->ioNil;
+}
+
+static int IoFrameState_startsLoop_(IoFrameState s) {
+    return s == FRAME_STATE_WHILE_EVAL_CONDITION ||
+           s == FRAME_STATE_LOOP_EVAL_BODY ||
+           s == FRAME_STATE_FOR_EVAL_SETUP ||
+           s == FRAME_STATE_FOR_EVAL_BODY ||
+           s == FRAME_STATE_FOREACH_EVAL_BODY;
+}
+
+// Called wherever a primitive may have just put the current frame into a
+// loop state, so a frame never trims to a height left over from an earlier
+// loop it ran.
+static void IoState_recordLoopStart_(IoState *state) {
+    if (!state->currentFrame) return;
+    IoEvalFrameData *lfd = FRAME_DATA(state->currentFrame);
+    if (IoFrameState_startsLoop_(lfd->state)) {
+        lfd->loopRetainTop = Stack_count(state->currentIoStack) + 1;
+        lfd->loopRetainStack = state->currentIoStack;
+    }
+}
+
+static void IoState_trimLoopRetains_(IoState *state, IoEvalFrameData *fd) {
+    Stack *stack = state->currentIoStack;
+    intptr_t base = fd->loopRetainTop - 1;
+
+    if (!fd->loopRetainTop || fd->loopRetainStack != (void *)stack) return;
+    if (stack->lastMark > base) return;
+    if (Stack_count(stack) > base) {
+        stack->top = stack->items + base;
+    }
+}
 static void IoState_activateBlockTCO_(IoState *state, IoEvalFrame *blockFrame);
 
 
@@ -131,6 +203,8 @@ IoEvalFrame *IoState_pushFrame_(IoState *state) {
     fd->passStops = 0;
     fd->isNestedEvalRoot = 0;
     fd->retainPoolMark = 0;
+    fd->loopRetainTop = 0;
+    fd->loopRetainStack = NULL;
 
     fd->parent = state->currentFrame;
     state->currentFrame = frame;
@@ -685,6 +759,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     }
                     if (state->needsControlFlowHandling) {
                         state->needsControlFlowHandling = 0;
+                        IoState_recordLoopStart_(state);
                         break;
                     }
                     fd->state = FRAME_STATE_CONTINUE_CHAIN;
@@ -721,6 +796,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // redirects to LOOKUP_SLOT on resolved value, or yields for JS Promise)
                 if (state->needsControlFlowHandling) {
                     state->needsControlFlowHandling = 0;
+                    IoState_recordLoopStart_(state);
                     break;
                 }
                 fd->state = FRAME_STATE_CONTINUE_CHAIN;
@@ -892,7 +968,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     // buffer underflow and ioStack corruption.
                     Stack *savedIoStack = state->currentIoStack;
 
-                    IoState_pushRetainPool(state);
+                    intptr_t cfunctionPool =
+                        (intptr_t)IoState_pushRetainPool(state);
                     fd->result =
                         activateFunc(slotValue, fd->target, fd->locals,
                                     fd->message, fd->slotContext);
@@ -932,6 +1009,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         // Pop retain pool if ioStack hasn't been switched
                         if (state->currentIoStack == savedIoStack) {
                             IoState_popRetainPoolExceptFor_(state, state->ioNil);
+                        } else {
+                            IoState_dissolveOrphanedPool_(state, savedIoStack, cfunctionPool);
                         }
 
                         // Unwind frames, respecting nested eval boundaries.
@@ -963,6 +1042,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     // would corrupt it (Stack_popMark underflow).
                     if (state->currentIoStack == savedIoStack) {
                         IoState_popRetainPoolExceptFor_(state, fd->result);
+                    } else {
+                        IoState_dissolveOrphanedPool_(state, savedIoStack, cfunctionPool);
                     }
 
                     // Check if primitive set up control flow handling
@@ -975,6 +1056,9 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         fflush(stderr);
 #endif
                         state->needsControlFlowHandling = 0;
+                        if (state->currentIoStack == savedIoStack) {
+                            IoState_recordLoopStart_(state);
+                        }
                         break;
                     }
 
@@ -1391,6 +1475,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         while_eval_body:
         case FRAME_STATE_WHILE_EVAL_BODY: {
+            IoState_trimLoopRetains_(state, fd);
             // Body has been evaluated, result is in fd->result
             // Store the result for potential return
             fd->controlFlow.whileInfo.lastResult = fd->result;
@@ -1464,6 +1549,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         loop_after_body:
         case FRAME_STATE_LOOP_AFTER_BODY: {
+            IoState_trimLoopRetains_(state, fd);
             // Body has been evaluated
             fd->controlFlow.loopInfo.lastResult = fd->result;
 
@@ -1537,6 +1623,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 }
 
                 // Set the counter variable
+                int numRetains = Stack_count(state->currentIoStack);
                 IoObject *num = IoState_numberWithDouble_(state, i);
 #ifdef COLLECTOR_USE_REFCOUNT
                 // Opt-in to RC tracking for for-loop counter Numbers
@@ -1544,8 +1631,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
 #endif
                 IoObject_setSlot_to_(fd->locals,
                     fd->controlFlow.forInfo.counterName, num);
-                // Counter is now reachable via PHash slot; pop retain stack
-                Stack_pop(state->currentIoStack);
+                // Counter is now reachable via PHash slot; drop its retain
+                IoState_dropNumberRetain_(state, num, numRetains);
 
                 // Fast path: body is a cached literal — run entire loop inline
                 if (BODY_IS_CACHED_LITERAL(fd->controlFlow.forInfo.bodyMsg)) {
@@ -1564,15 +1651,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         IoObject *oldCtr1 = (IoObject *)PHash_at_(localSlots, ctrName);
 #endif
                         {
+                        int ctrRetains1 = Stack_count(state->currentIoStack);
                         IoObject *newCtr1 = IoState_numberWithDouble_(state, li);
 #ifdef COLLECTOR_USE_REFCOUNT
                         ((CollectorMarker *)newCtr1)->refCount = 1;
 #endif
                         PHash_at_put_(localSlots, ctrName, newCtr1);
+                        // Counter is in PHash slot; drop its retain to
+                        // prevent unbounded ioStack growth
+                        IoState_dropNumberRetain_(state, newCtr1, ctrRetains1);
                         }
-                        // Counter is in PHash slot; pop retain to prevent
-                        // unbounded ioStack growth
-                        Stack_pop(state->currentIoStack);
 #ifdef COLLECTOR_USE_REFCOUNT
                         if (oldCtr1) {
                             Collector_value_removingRefTo_(state->collector, oldCtr1);
@@ -1607,6 +1695,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         for_after_body:
         case FRAME_STATE_FOR_AFTER_BODY: {
+            IoState_trimLoopRetains_(state, fd);
             // Body has been evaluated
             fd->controlFlow.forInfo.lastResult = fd->result;
 
@@ -1654,13 +1743,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     IoObject *oldCtr2 = (IoObject *)PHash_at_(localSlots, counterName);
 #endif
                     {
+                    int ctrRetains2 = Stack_count(state->currentIoStack);
                     IoObject *newCtr2 = IoState_numberWithDouble_(state, i);
 #ifdef COLLECTOR_USE_REFCOUNT
                     ((CollectorMarker *)newCtr2)->refCount = 1;
 #endif
                     PHash_at_put_(localSlots, counterName, newCtr2);
+                    IoState_dropNumberRetain_(state, newCtr2, ctrRetains2);
                     }
-                    Stack_pop(state->currentIoStack);
 #ifdef COLLECTOR_USE_REFCOUNT
                     if (oldCtr2) {
                         Collector_value_removingRefTo_(state->collector, oldCtr2);
@@ -1688,6 +1778,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Set the counter variable (direct PHash access since
             // slots are guaranteed to exist from for-loop setup)
+            int numRetains = Stack_count(state->currentIoStack);
             IoObject *num = IoState_numberWithDouble_(state, i);
 #ifdef COLLECTOR_USE_REFCOUNT
             ((CollectorMarker *)num)->refCount = 1;
@@ -1696,8 +1787,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
 #endif
             PHash_at_put_(IoObject_slots(fd->locals),
                 fd->controlFlow.forInfo.counterName, num);
-            // Counter is now reachable via PHash slot; pop retain stack
-            Stack_pop(state->currentIoStack);
+            // Counter is now reachable via PHash slot; drop its retain
+            IoState_dropNumberRetain_(state, num, numRetains);
 #ifdef COLLECTOR_USE_REFCOUNT
             if (oldCtr3) {
                 Collector_value_removingRefTo_(state->collector, oldCtr3);
@@ -1780,10 +1871,11 @@ IoObject *IoState_evalLoop_(IoState *state) {
             } else if (!mapSource) {
                 // List/Seq iteration: set index and value slots
                 if (fd->controlFlow.foreachInfo.indexName) {
+                    int idxRetains = Stack_count(state->currentIoStack);
+                    IoObject *idxNum = IoState_numberWithDouble_(state, idx);
                     IoObject_setSlot_to_(fd->locals,
-                        fd->controlFlow.foreachInfo.indexName,
-                        IoState_numberWithDouble_(state, idx));
-                    Stack_pop(state->currentIoStack);
+                        fd->controlFlow.foreachInfo.indexName, idxNum);
+                    IoState_dropNumberRetain_(state, idxNum, idxRetains);
                 }
                 if (fd->controlFlow.foreachInfo.valueName) {
                     IoObject_setSlot_to_(fd->locals,
@@ -1816,9 +1908,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     if (!el) el = state->ioNil;
 
                     if (indexName) {
-                        IoObject_setSlot_to_(fd->locals, indexName,
-                            IoState_numberWithDouble_(state, idx));
-                        Stack_pop(state->currentIoStack);
+                        int idxRetains2 = Stack_count(state->currentIoStack);
+                        IoObject *idxNum2 = IoState_numberWithDouble_(state, idx);
+                        IoObject_setSlot_to_(fd->locals, indexName, idxNum2);
+                        IoState_dropNumberRetain_(state, idxNum2, idxRetains2);
                     }
                     if (valueName) {
                         IoObject_setSlot_to_(fd->locals, valueName, el);
@@ -1861,6 +1954,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
         foreach_after_body:
         case FRAME_STATE_FOREACH_AFTER_BODY: {
+            IoState_trimLoopRetains_(state, fd);
             fd->controlFlow.foreachInfo.lastResult = fd->result;
 
             // Check for break

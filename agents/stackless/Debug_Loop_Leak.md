@@ -1,5 +1,39 @@
 # Debug: Loop Retain Stack Memory Leak
 
+**Status: fixed (2026-11-16).** Three bugs, all
+in `libs/iovm/source/IoState_iterative.c`:
+
+1. **Loop temporaries.** Every CFunction result stays on the retain stack until
+   the enclosing block returns, so a loop body that creates values grew the
+   stack by that many entries per iteration. A loop now records the stack
+   height when it starts (`loopRetainTop` on the frame) and trims back to it at
+   the start of each later iteration. Everything the loop still needs is held
+   by its frame, which the GC marks. The trim is skipped if a pool mark sits
+   above the recorded height, so it never breaks pool nesting. Unlike the
+   attempt described below, it does not use the frame's `retainPoolMark`: a
+   loop can run in the same frame as a block body, whose pool that is, which
+   is the likely cause of the earlier crash.
+2. **Counter pops.** `for` and `foreach` popped the retain stack after setting
+   their counter or index, assuming `IoState_numberWithDouble_` had pushed the
+   number. Cached small integers are not pushed, so every such iteration
+   popped someone else's entry, including pool marks. This could corrupt the
+   stack badly enough to crash (`Coroutine ioStack` walking it). They now pop
+   only what was pushed.
+3. **Orphaned pools on coroutine switches.** The pool pushed around a CFunction
+   call was left on the old stack when the call switched coroutines, and
+   `IoState_popRetainPool` pops whichever mark is on top, so every later pop
+   was off by one and nothing above it was released. The mark is now
+   dissolved, keeping its entries for the enclosing pool.
+
+Measured: 300,000-iteration `for`/`while`/`loop` at top level, 33,000 yields
+between two coroutines, and 27,000 actor messages each leave under 20 live
+objects (previously about one object per iteration, about three per switch).
+Covered by `libs/iovm/tests/correctness/RetainGrowthTest.io`.
+
+The notes below are the original investigation, from the native build.
+
+---
+
 **Project**: `/Users/steve/_projects/Inactive/Io sites/io/` (branch: `stackless`)
 **Build**: `cd build && cmake --build .`
 **Binary**: `build/_build/binaries/io`

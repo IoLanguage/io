@@ -107,6 +107,15 @@ typedef struct IoEvalFrameData {
     int isNestedEvalRoot;        // True if this is a nested eval boundary
     uintptr_t retainPoolMark;    // Retain pool mark for block activation (0 if none)
 
+    // Retain stack height when this frame's loop (while, loop, for, foreach)
+    // started, plus one (0 if none), and the stack it was taken on. Each
+    // iteration trims the stack back to it, so values a loop body creates
+    // don't pile up on the retain stack until the enclosing block returns.
+    // A loop that never returns (a top-level script, a long-lived coroutine
+    // or actor) otherwise grew without bound.
+    intptr_t loopRetainTop;
+    void *loopRetainStack;
+
     // Control flow continuation info (only one active at a time)
     union {
         struct {

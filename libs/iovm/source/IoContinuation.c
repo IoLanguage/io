@@ -190,6 +190,11 @@ static IoEvalFrame *copyFrameChain_(IoState *state, IoEvalFrame *src) {
         // Copy all data fields
         memcpy(copyFd, srcFd, sizeof(IoEvalFrameData));
 
+        // The copy may be resumed with the retain stack at any height, so
+        // a loop in it must not trim to the height recorded for the original.
+        copyFd->loopRetainTop = 0;
+        copyFd->loopRetainStack = NULL;
+
         // Deep copy argValues array
         if (srcFd->argValues && srcFd->argCount > 0) {
             copyFd->argValues = io_calloc(srcFd->argCount, sizeof(IoObject *));

@@ -24,34 +24,26 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-1. **First automated npm release.** `2026.11.16-alpha` was published by hand;
-   once the trusted publisher is set on npmjs.com, a release tag publishes
-   the next version from the Release workflow.
-2. **VM bugs found while building the scheduler, not yet fixed.** All of them
-   are in the native build too:
-   - **A syntax error can crash the VM.** `x := (` traps in `IoLexer_free`.
-     In the web REPL a typo kills the session.
-   - **The retain-stack leak** ([../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md)).
-     A long-lived coroutine's retain stack grows on every loop iteration
-     (about 32 entries per `loop(yield)` pass, about 82 per actor message),
-     and whatever it holds is never collected. Background coroutines and
-     actors in a long-running page grow slowly because of it.
+1. **VM bugs found while building the scheduler, not yet fixed.** All of them
+   are in the native build too. (Fixed since: syntax errors crashing the VM,
+   #511; the retain-stack growth in loops and coroutines, see
+   [../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md).)
    - **Backtraces** say "nothing on stack" for most errors.
    - **`make` doesn't track header dependencies**, and `make` alone doesn't
      regenerate `IoVMInit.c`. After changing a `.h` or a core `.io` file:
      `rm -rf build/obj build/obj-p2 && make regenerate && make`.
-3. **The Io-side handle table is fixed at 1024 entries**
+2. **The Io-side handle table is fixed at 1024 entries**
    (`IO_HANDLES_MAX`, `browser/io_js_bridge.c`): Io objects JS holds, plus
    Promises not yet settled. When it is full a new Promise is rejected with
    a clear error. Make it grow.
-4. **Move the pages to `<script type="module">`** and drop the `io.js` shim.
-5. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
+3. **Move the pages to `<script type="module">`** and drop the `io.js` shim.
+4. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
    eval loop can't switch coroutines; in the browser that is a clear error
    (see Async.md). Forward methods and `Block call` were made frame-based in
    Phase 4i. The remaining ones are primitives that run a block themselves
    (`sortBy` and similar) and Io callbacks that JS calls synchronously
    during an Io call.
-6. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
+5. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
    from the core VM. Nothing uses them since Phase 4i.
 
 ---
