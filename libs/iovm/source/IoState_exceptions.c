@@ -39,9 +39,8 @@ void IoState_fatalError_(IoState *self, char *error) {
 /*cdoc State IoState_error_(self, m, format, ...)
 Raises an Io-level exception without longjmp. Formats the description
 with printf-style vargs, clones the current coroutine's Exception proto,
-and stores description / caughtMessage / coroutine slots on it. Any
-paused collector is resumed first so exception allocation is not
-deferred. Sets state->errorRaised to 1; the caller MUST return early
+and stores description / caughtMessage / coroutine slots on it. Collector
+pauses are left to the code that pushed them. Sets state->errorRaised to 1; the caller MUST return early
 and the enclosing iterative eval loop will unwind frames on the next
 step. If m is NULL (C-side error with no Io message context) the
 caughtMessage slot is omitted.
@@ -91,9 +90,11 @@ void IoState_error_(IoState *self, IoMessage *m, const char *format, ...) {
     fflush(stderr);
 #endif
 
-    while (Collector_isPaused(self->collector)) {
-        Collector_popPause(self->collector);
-    }
+    // Collector pauses are left alone. When errors longjmp'd, this popped
+    // them all because the code that pushed them never got to pop; now the
+    // caller returns normally and pops its own, so popping here made the
+    // count go negative (an assert, or with NDEBUG a collector that never
+    // runs again).
 
     // Create exception on current coroutine (lightweight — no unwinding).
     // The eval loop handles frame unwinding when it sees errorRaised.
