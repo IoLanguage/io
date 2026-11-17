@@ -40,6 +40,7 @@ conceptunifiesscopable blocksfunctions, methods, closuresprototypesobjects, clas
 - **Embeddable Core** — The VM ships as a single WebAssembly module under a BSD license, embeddable in any WASM host — browsers, Node.js, or native apps via wasmtime or wasmer.
 
 - [Live Interpreter](repl/index.html) — Try Io right now — the full VM compiled to WebAssembly, running in your browser.
+- [npm Package](https://www.npmjs.com/package/@iolanguage/io) — npm install @iolanguage/io — run Io from JavaScript in Node and browsers, with Promises, coroutines and actors.
 - [Documentation](docs/index.html) — Guides, tutorial, language reference, and design notes.
 - FAQ
 - [Links](Links/index.html) — Books, tutorials, articles, papers, tools, and community resources.
@@ -2033,7 +2034,19 @@ https://iolanguage.org
 
 ### Installing
 
-	Follow the README.md in the source repository to build and run Io. The default build targets WebAssembly (WASI) via [wasi-sdk](https://github.com/WebAssembly/wasi-sdk); the resulting binary runs under [wasmtime](https://wasmtime.dev/), Node.js, or in a browser via the bundled browser REPL.
+Io is a WebAssembly program, so there is nothing to install for your platform. Pick whichever fits:
+
+- **In a browser:** the [Live Interpreter](https://iolanguage.org/repl/) runs the full VM in the page.
+- **From the command line:** download `io_static.wasm` from the [latest release](https://github.com/IoLanguage/io/releases/latest) and run it with [wasmtime](https://wasmtime.dev/):
+
+```
+curl -LO https://github.com/IoLanguage/io/releases/latest/download/io_static.wasm
+wasmtime io_static.wasm -e '"hello" println'
+```
+
+- **From JavaScript, in Node or a browser:** `npm install @iolanguage/io`, then `const io = await Io.load()` and `await io.eval("...")`. See the [package page](https://www.npmjs.com/package/@iolanguage/io).
+
+To build from source, follow the README.md in the source repository. The build uses [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) and produces the same `io_static` binary as `build/bin/io_static`, which the examples below use.
 
 
 
@@ -7031,10 +7044,16 @@ Notable changes in Io over the past twelve months.
 
 Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
 
-## Unreleased — current master
+## 2026.11.17 — Io on npm, and inside the JS event loop
 
-Changes on `master` since the WASM merge, not yet part of a tagged release.
+*Tagged `2026.11.17`.* The first release since the WASM merge, and the first on npm.
 
+- **npm package** — `npm install @iolanguage/io` runs the VM from JavaScript in Node and browsers ([@iolanguage/io](https://www.npmjs.com/package/@iolanguage/io)). Releases publish to npm from the release workflow with provenance.
+- **Io inside the JS event loop** — in the browser and Node build, Io coroutines, actors, `wait` and `await` on JS Promises run without blocking JavaScript; an eval that waits resolves when it finishes, and callbacks JS calls later can wait too ([#509](https://github.com/IoLanguage/io/pull/509)).
+- **ES module** — the browser bridge is an ES module with a small API: `Io.load()`, `eval`, `lobby`, `onOutput`, `dispose` ([#507](https://github.com/IoLanguage/io/pull/507)).
+- **Syntax errors no longer crash the VM** — unfinished source such as `x := (` raises a catchable compile error; it used to trap the VM and end a REPL session ([#511](https://github.com/IoLanguage/io/pull/511)).
+- **Closures over method locals** — a block created inside a method keeps its scope after the method returns; the locals used to be recycled while the block still used them.
+- **Fixes found along the way** — a message chain sent to an actor future ran more than once; `then`/`catch`/`finally` ran the rest of the statement twice; JS Promises stopped resolving after about a thousand; `List_removeLast_` never removed anything, so retained objects were never released.
 - **WASI 0.2 component build** — `make component` builds the VM as a WebAssembly component (`wasm32-wasip2`) alongside the core WASI module.
 - **Cooperative scheduler timer queue** — `wait` parks the calling coroutine on a timer queue instead of busy-spinning; timed coroutines run concurrently and the VM idles in a single host wait until the next deadline.
 - **Live Interpreter** — an in-browser REPL running the full VM, linked from the home page.
