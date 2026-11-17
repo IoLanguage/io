@@ -1051,6 +1051,24 @@ e catch(Exception,
 
 The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
 
+An exception records where it was raised. `showStack` prints the error and the calls that led to it, innermost first, and `stackTraceLines` returns the same lines as a list:
+
+```
+Account := Object clone
+Account withdraw := method(n, r := balance - n; r)
+e := try(Account withdraw(10))
+e showStack
+```
+
+```
+  Exception: Account does not respond to 'balance'
+  ---------
+  Account balance                      bank.io 2
+  Account withdraw                     bank.io 3
+```
+
+Each line names the target's type and the message, then the file and line the message was sent from. When a method's last expression is a call, that call takes over the method's frame (a tail call), so the method itself does not appear in the trace.
+
 
 
 

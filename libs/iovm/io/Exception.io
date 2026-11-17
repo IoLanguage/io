@@ -323,25 +323,10 @@ Coroutine do(
 		if(exception, buf appendSeq("\n  ", exception type, ": ", exception error, "\n"))
 
 		//writeln("backTraceString 2\n")
-		if(callStack size > 0) then(
+		traceLines := if(exception, exception stackTraceLines, list())
+		if(traceLines size > 0) then(
 			buf appendSeq("  ---------\n")
-
-			if(exception and exception ?caughtMessage,
-				buf appendSeq("  ", exception caughtMessage description, "\n")
-			)
-
-			frames := callStack
-
-			if(exception and exception originalCall,
-				index := frames indexOf(exception originalCall)
-				if(index,
-					frames sliceInPlace(index)
-				)
-			)
-
-			frames foreach(v,
-				buf appendSeq("  ", v description, "\n")
-			)
+			traceLines foreach(line, buf appendSeq("  ", line, "\n"))
 			buf appendSeq("\n")
 		) else(
 			buf appendSeq("  ---------\n")
@@ -594,6 +579,54 @@ MyErrorType := Error clone
 
 	newSlot("originalCall")
 	//doc Exception originalCall Returns the call object associated with the exception.
+
+	newSlot("stackTrace")
+	/*doc Exception stackTrace
+	Where the exception was raised, recorded by the VM when it is raised: a
+	flat List with two items per entry, innermost first, the Message being
+	evaluated and the type name of its target. nil if never raised. See
+	stackTraceLines for a readable form.
+	*/
+
+	stackTraceIgnoredNames := list("raiseException", "rawSignalException")
+	//doc Exception stackTraceIgnoredNames Names of the VM's own raising steps, left out of the top of stackTraceLines.
+
+	stackTraceLines := method(
+		/*doc Exception stackTraceLines
+		Returns the stack trace as a List of strings, innermost call first,
+		each "TargetType messageName    file line". The VM's own raising
+		steps and the command line's frames are left out. A
+		method that was the last call in its caller replaces it (a tail
+		call), so such callers do not appear.
+		*/
+		lines := list()
+		trace := self stackTrace
+		if(trace isNil, return lines)
+		atTop := true
+		first := nil
+		i := 0
+		while(i < trace size,
+			m := trace at(i)
+			typeName := trace at(i + 1)
+			i = i + 2
+			if(atTop and stackTraceIgnoredNames contains(m name), continue)
+			atTop = false
+			file := m label lastPathComponent
+			// The host's own frames: the command line, or the browser's eval
+			if(file == "CLI.io" or m label == "IoState_runCLI()", break)
+			if(m name == "hostEval" and typeName == "Scheduler", break)
+			lines append((typeName .. " " .. m name) alignLeft(36) .. " " .. file .. " " .. m lineNumber)
+			if(first isNil, first = m)
+		)
+		// The message that failed is missing from the frames when a tail
+		// call replaced its frame (a forward method raising) or when the
+		// error came from C. originalCall and caughtMessage still have it.
+		failed := if(originalCall, originalCall message, caughtMessage)
+		if(failed and failed != first,
+			lines prepend(if(originalCall, originalCall description, failed description))
+		)
+		lines
+	)
 
 	raise := method(error, nestedException,
 		//doc Exception raise(error, optionalNestedException) Raise an exception with the specified error message.

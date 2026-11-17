@@ -32,6 +32,14 @@ test("a syntax error gives status 1 and the VM carries on", async () => {
 	assert.equal((await io.eval("list(1, 2, 3) map(x, x * x) sum")).output, "==> 14\n");
 });
 
+test("an uncaught error prints the calls that led to it", async () => {
+	const src = "btInner := method(r := 1 + nil; r)\nbtOuter := method(r := btInner; r)\nbtOuter";
+	const { status, output } = await io.eval(src);
+	assert.equal(status, 1);
+	assert.match(output, /Number \+ .* 1\n\s+Object btInner .* 2\n\s+Object btOuter .* 3\n/);
+	assert.doesNotMatch(output, /nothing on stack|hostEval/);
+});
+
 test("state persists between evals", async () => {
 	await io.eval("counter := 41");
 	assert.equal((await io.eval("counter + 1")).output, "==> 42\n");

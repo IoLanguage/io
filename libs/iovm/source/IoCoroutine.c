@@ -638,7 +638,11 @@ IO_METHOD(IoCoroutine, rawSignalException) {
 
     IoState *state = IOSTATE;
     // The exception is already set on this coroutine (by raiseException).
-    // Signal the eval loop to unwind frames.
+    // Record where it was raised, then signal the eval loop to unwind frames.
+    {
+        IoObject *e = IoCoroutine_rawException(self);
+        if (e && !ISNIL(e)) IoState_recordStackTraceOn_(state, e);
+    }
     state->errorRaised = 1;
     return self;
 }
