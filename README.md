@@ -7,6 +7,7 @@ _This is a reference for building and running Io. For a guide to the language it
 * [What is Io?](#what-is-io)
 	* [Example Code](#example-code)
 	* [Quick Links](#quick-links)
+* [Getting Io](#getting-io)
 * [Platform](#platform)
 * [Building](#building)
 * [Running](#running)
@@ -79,6 +80,43 @@ Quick Links
 
 * Wikipedia overview: <https://en.wikipedia.org/wiki/Io_(programming_language)>
 * c2 wiki discussion: <http://wiki.c2.com/?IoLanguage>
+
+
+Getting Io
+==========
+
+None of these need a build:
+
+* **In a browser:** the [Live Interpreter](https://iolanguage.org/repl/) runs
+  the full VM in the page.
+* **From JavaScript, in Node or a browser:** the
+  [`@iolanguage/io`](https://www.npmjs.com/package/@iolanguage/io) npm package.
+
+  ```
+  npm install @iolanguage/io
+  ```
+
+  ```js
+  import { Io } from "@iolanguage/io";
+
+  const io = await Io.load();
+  const { output } = await io.eval("list(1, 2, 3) map(x, x * x) sum");   // "==> 14\n"
+  ```
+
+  Io can call JavaScript and await its Promises, and its coroutines and
+  actors run inside the JS event loop. See the
+  [package README](browser/npm/README.md).
+* **From the command line:** download `io_static.wasm` from the
+  [latest release](https://github.com/IoLanguage/io/releases/latest) and run
+  it with [wasmtime](https://wasmtime.dev/):
+
+  ```
+  curl -LO https://github.com/IoLanguage/io/releases/latest/download/io_static.wasm
+  wasmtime io_static.wasm -e '"hello" println'
+  wasmtime --dir=. io_static.wasm script.io
+  ```
+
+To build Io yourself, see [Building](#building).
 
 
 Platform
@@ -155,7 +193,9 @@ make serve
 ```
 
 Then open <http://localhost:8000>. See `browser/README.md` for details on
-embedding the REPL in a page and calling between Io and JavaScript.
+embedding the REPL in a page and calling between Io and JavaScript. To use
+Io from your own JavaScript, the npm package is simpler; see
+[Getting Io](#getting-io).
 
 
 Running Tests

@@ -65,7 +65,19 @@ https://iolanguage.org
 
 ### Installing
 
-	Follow the README.md in the source repository to build and run Io. The default build targets WebAssembly (WASI) via [wasi-sdk](https://github.com/WebAssembly/wasi-sdk); the resulting binary runs under [wasmtime](https://wasmtime.dev/), Node.js, or in a browser via the bundled browser REPL.
+Io is a WebAssembly program, so there is nothing to install for your platform. Pick whichever fits:
+
+- **In a browser:** the [Live Interpreter](https://iolanguage.org/repl/) runs the full VM in the page.
+- **From the command line:** download `io_static.wasm` from the [latest release](https://github.com/IoLanguage/io/releases/latest) and run it with [wasmtime](https://wasmtime.dev/):
+
+```
+curl -LO https://github.com/IoLanguage/io/releases/latest/download/io_static.wasm
+wasmtime io_static.wasm -e '"hello" println'
+```
+
+- **From JavaScript, in Node or a browser:** `npm install @iolanguage/io`, then `const io = await Io.load()` and `await io.eval("...")`. See the [package page](https://www.npmjs.com/package/@iolanguage/io).
+
+To build from source, follow the README.md in the source repository. The build uses [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) and produces the same `io_static` binary as `build/bin/io_static`, which the examples below use.
 
 
 

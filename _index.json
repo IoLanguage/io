@@ -24,6 +24,11 @@
           "subtitle": "Try Io right now — the full VM compiled to WebAssembly, running in your browser."
         },
         {
+          "title": "npm Package",
+          "href": "https://www.npmjs.com/package/@iolanguage/io",
+          "subtitle": "npm install @iolanguage/io — run Io from JavaScript in Node and browsers, with Promises, coroutines and actors."
+        },
+        {
           "title": "Documentation",
           "href": "docs/index.html",
           "subtitle": "Guides, tutorial, language reference, and design notes."
