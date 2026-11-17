@@ -40,6 +40,10 @@ CFLAGS      := --sysroot=$(WASI_SDK)/share/wasi-sysroot \
 
 LDFLAGS     := -lwasi-emulated-process-clocks -lwasi-emulated-signal -static
 
+# Each compile also writes a .d file listing the headers it read, so editing
+# a header rebuilds the objects that include it (see "Header dependencies").
+DEPFLAGS    = -MMD -MP
+
 # --- Sources ---
 
 BASEKIT_SRCS := $(wildcard libs/basekit/source/*.c)
@@ -97,7 +101,7 @@ libs/iovm/source/IoVMInit.c: $(BINDIR)/io2c $(IO_IMPORTS) $(IO_SOURCES)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(DEPFLAGS) -c -o $@ $<
 
 # --- Component (WASI 0.2, wasm32-wasip2) ---
 #
@@ -116,7 +120,7 @@ $(BINDIR)/io_component.wasm: $(P2_OBJDIR)/tools/source/main.o $(P2_OBJS) | $(BIN
 
 $(P2_OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(P2_CFLAGS) -c -o $@ $<
+	$(CC) $(P2_CFLAGS) $(DEPFLAGS) -c -o $@ $<
 
 check-component: $(BINDIR)/io_component.wasm
 	wasmtime --dir=. --dir=/tmp $(BINDIR)/io_component.wasm libs/iovm/tests/correctness/run.io
@@ -154,17 +158,9 @@ browser: $(BROWSER_WASM)
 $(BROWSER_WASM): $(BROWSER_OBJS) $(ALL_OBJS)
 	$(CC) $(BROWSER_CFLAGS) -o $@ $^ $(BROWSER_LDFLAGS)
 
-$(OBJDIR)/browser/io_browser.o: browser/io_browser.c browser/io_js_bridge.h
+$(OBJDIR)/browser/%.o: browser/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
-
-$(OBJDIR)/browser/io_js_bridge.o: browser/io_js_bridge.c browser/io_js_bridge.h browser/io_future.h
-	@mkdir -p $(dir $@)
-	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
-
-$(OBJDIR)/browser/io_future.o: browser/io_future.c browser/io_future.h
-	@mkdir -p $(dir $@)
-	$(CC) $(BROWSER_CFLAGS) -c -o $@ $<
+	$(CC) $(BROWSER_CFLAGS) $(DEPFLAGS) -c -o $@ $<
 
 serve: $(BROWSER_WASM)
 	@echo "Serving at http://localhost:8000"
@@ -184,6 +180,13 @@ npm-package: $(BROWSER_WASM)
 
 check-npm-package: npm-package
 	node --test browser/npm/package.test.mjs
+
+# --- Header dependencies ---
+#
+# The .d files written next to the objects. Missing ones (a first build) are
+# skipped; -MP keeps a deleted header from breaking the build.
+
+-include $(shell find $(BUILD) -name '*.d' 2>/dev/null)
 
 # --- Directories ---
 
