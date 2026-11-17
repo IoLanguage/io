@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-13 · e76a3f5c
+Site build: Io · 2026-11-16 · 6db971fd
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7043,6 +7043,14 @@ Source: /Release%20Notes/
 Notable changes in Io over the past twelve months.
 
 Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
+
+## 2026.11.18 — Long-running programs stop growing
+
+*Tagged `2026.11.18`.* A memory fix for programs that never return to the top level: servers, actors, and long-lived coroutines.
+
+- **Loops release their temporaries** — `while`, `loop`, `for` and `foreach` kept every value a loop body created until the enclosing method returned, so a top-level script or an actor that loops forever grew without bound. A 300,000-iteration loop used to leave 300,000 objects behind; it now leaves two ([#513](https://github.com/IoLanguage/io/pull/513)).
+- **Coroutine switches no longer leak** — each `yield`, `pause` or `resume` left a stray marker on the retain stack that kept a few objects alive per switch.
+- **A possible crash in `for` and `foreach`** — loops counting through small integers released the wrong retain-stack entries on each iteration, which could corrupt the stack.
 
 ## 2026.11.17 — Io on npm, and inside the JS event loop
 
