@@ -8,6 +8,11 @@
     },
     {
       "type": "ContentText",
+      "title": "Unreleased",
+      "body": "<p>On <code>master</code>, not yet tagged.</p><ul><li><strong>Backtraces are back</strong> &mdash; an uncaught error prints the calls that led to it, with file and line, instead of &ldquo;nothing on stack&rdquo;. An exception records its trace when it is raised: <code>Exception stackTraceLines</code> returns it as a list, and <code>pass</code> keeps the original.</li><li><strong>Build</strong> &mdash; <code>make</code> rebuilds the objects that include a changed header; a clean build is no longer needed after editing one (<a href=\"https://github.com/IoLanguage/io/pull/515\">#515</a>).</li></ul>"
+    },
+    {
+      "type": "ContentText",
       "title": "2026.11.18 — Long-running programs stop growing",
       "body": "<p><em>Tagged <code>2026.11.18</code>.</em> A memory fix for programs that never return to the top level: servers, actors, and long-lived coroutines.</p><ul><li><strong>Loops release their temporaries</strong> &mdash; <code>while</code>, <code>loop</code>, <code>for</code> and <code>foreach</code> kept every value a loop body created until the enclosing method returned, so a top-level script or an actor that loops forever grew without bound. A 300,000-iteration loop used to leave 300,000 objects behind; it now leaves two (<a href=\"https://github.com/IoLanguage/io/pull/513\">#513</a>).</li><li><strong>Coroutine switches no longer leak</strong> &mdash; each <code>yield</code>, <code>pause</code> or <code>resume</code> left a stray marker on the retain stack that kept a few objects alive per switch.</li><li><strong>A possible crash in <code>for</code> and <code>foreach</code></strong> &mdash; loops counting through small integers released the wrong retain-stack entries on each iteration, which could corrupt the stack.</li></ul>"
     },

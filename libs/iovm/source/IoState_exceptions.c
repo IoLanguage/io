@@ -18,6 +18,7 @@ bootstrap failures where no Io-visible error path exists yet.
 #include "IoCoroutine.h"
 #include "IoSeq.h"
 #include "IoEvalFrame.h"
+#include "IoList.h"
 #include <stdio.h>
 
 //#define IOSTATE_SHOW_ERRORS 1
@@ -34,6 +35,58 @@ void IoState_fatalError_(IoState *self, char *error) {
     fputs(error, stderr);
     fputs("\n", stderr);
     exit(-1);
+}
+
+// Longest stack trace recorded on an exception, in entries.
+#define IO_STACK_TRACE_MAX 64
+
+/*cdoc State IoState_recordStackTraceOn_(self, exception)
+Records where an exception was raised, as a List in its stackTrace slot.
+The eval loop unwinds the frames before anything can print them, so the
+trace has to be taken here, while the frame chain is intact.
+
+The list is flat, two items per entry, innermost first: the message being
+evaluated and the type name of its target. The entries are the frame that
+raised, then each frame waiting on a method or block it called. A frame
+reused by a tail call has only its latest call, so tail calls leave no
+entry for their caller. An exception that already has a trace keeps it,
+so re-raising with pass still shows where it first came from.
+*/
+void IoState_recordStackTraceOn_(IoState *self, IoObject *exception) {
+    IoSymbol *slotName = IoState_symbolWithCString_(self, "stackTrace");
+    IoSymbol *typeSlot = self->typeSymbol;
+    IoObject *existing;
+    IoList *trace;
+    IoEvalFrame *frame = self->currentFrame;
+    int isTop = 1;
+    int count = 0;
+
+    if (!exception) return;
+    existing = IoObject_rawGetSlot_(exception, slotName);
+    if (existing && ISLIST(existing)) return;
+
+    trace = IoList_new(self);
+    IoObject_setSlot_to_(exception, slotName, trace);
+
+    while (frame && count < IO_STACK_TRACE_MAX) {
+        IoEvalFrameData *fd = FRAME_DATA(frame);
+        if (fd->message && (isTop || fd->state == FRAME_STATE_ACTIVATE)) {
+            // The target's type slot when it is a string (no new
+            // symbol needed), else its tag name, as IoObject_name does.
+            IoObject *typeName =
+                fd->target ? IoObject_rawGetSlot_(fd->target, typeSlot) : NULL;
+            if (!typeName || !ISSEQ(typeName)) {
+                typeName = IoState_symbolWithCString_(
+                    self, fd->target ? IoTag_name(IoObject_tag(fd->target))
+                                     : "?");
+            }
+            IoList_rawAppend_(trace, fd->message);
+            IoList_rawAppend_(trace, typeName);
+            count++;
+        }
+        isTop = 0;
+        frame = fd->parent;
+    }
 }
 
 /*cdoc State IoState_error_(self, m, format, ...)
@@ -113,6 +166,7 @@ void IoState_error_(IoState *self, IoMessage *m, const char *format, ...) {
             IoObject_setSlot_to_(e,
                 IoState_symbolWithCString_(self, "coroutine"), coroutine);
             IoCoroutine_rawSetException_(coroutine, e);
+            IoState_recordStackTraceOn_(self, e);
         }
     }
 

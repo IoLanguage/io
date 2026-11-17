@@ -24,14 +24,14 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-1. **VM bugs found while building the scheduler, not yet fixed.** All of them
-   are in the native build too. (Fixed since: syntax errors crashing the VM,
-   #511; the retain-stack growth in loops and coroutines, see
-   [../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md).)
-   - **Backtraces** say "nothing on stack" for most errors.
-   - **`make` doesn't track header dependencies**, and `make` alone doesn't
-     regenerate `IoVMInit.c`. After changing a `.h` or a core `.io` file:
-     `rm -rf build/obj build/obj-p2 && make regenerate && make`.
+1. **VM bugs found while building the scheduler: all fixed.** Syntax errors
+   crashing the VM (#511); the retain-stack growth in loops and coroutines
+   ([../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md), #513);
+   `make` not tracking header dependencies (#515); and backtraces saying
+   "nothing on stack". An exception now records its trace from the frame
+   chain when it is raised (`Exception stackTrace`, `stackTraceLines`;
+   `IoState_recordStackTraceOn_`). Known limit: a tail call reuses its
+   caller's frame, so the caller of a method's last call has no entry.
 2. **The Io-side handle table is fixed at 1024 entries**
    (`IO_HANDLES_MAX`, `browser/io_js_bridge.c`): Io objects JS holds, plus
    Promises not yet settled. When it is full a new Promise is rejected with
