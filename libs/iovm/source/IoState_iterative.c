@@ -94,6 +94,9 @@ static int IoFrameState_startsLoop_(IoFrameState s) {
            s == FRAME_STATE_FOREACH_EVAL_BODY;
 }
 
+// Called wherever a primitive may have just put the current frame into a
+// loop state, so a frame never trims to a height left over from an earlier
+// loop it ran.
 static void IoState_recordLoopStart_(IoState *state) {
     if (!state->currentFrame) return;
     IoEvalFrameData *lfd = FRAME_DATA(state->currentFrame);
@@ -756,6 +759,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     }
                     if (state->needsControlFlowHandling) {
                         state->needsControlFlowHandling = 0;
+                        IoState_recordLoopStart_(state);
                         break;
                     }
                     fd->state = FRAME_STATE_CONTINUE_CHAIN;
@@ -792,6 +796,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // redirects to LOOKUP_SLOT on resolved value, or yields for JS Promise)
                 if (state->needsControlFlowHandling) {
                     state->needsControlFlowHandling = 0;
+                    IoState_recordLoopStart_(state);
                     break;
                 }
                 fd->state = FRAME_STATE_CONTINUE_CHAIN;
