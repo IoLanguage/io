@@ -23,6 +23,15 @@ test("an Io exception gives status 1", async () => {
 	assert.match(output, /does not respond to 'foo'/);
 });
 
+test("a syntax error gives status 1 and the VM carries on", async () => {
+	for (const src of ["x := (", "foo(1, ", '"abc', "a(b(c"]) {
+		const { status, output } = await io.eval(src);
+		assert.equal(status, 1, src);
+		assert.match(output, /compile error/, src);
+	}
+	assert.equal((await io.eval("list(1, 2, 3) map(x, x * x) sum")).output, "==> 14\n");
+});
+
 test("state persists between evals", async () => {
 	await io.eval("counter := 41");
 	assert.equal((await io.eval("counter + 1")).output, "==> 42\n");

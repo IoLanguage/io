@@ -112,7 +112,11 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text,
     IoLexer_lex(lexer);
 
     msg = IoMessage_newParse(state, lexer);
-    IoMessage_opShuffle_(msg);
+    // On a compile error msg is a placeholder and the exception is already
+    // raised; don't run the (Io-level) operator shuffle over it.
+    if (!((IoState *)state)->errorRaised) {
+        IoMessage_opShuffle_(msg);
+    }
     IoMessage_label_(msg, label);
     IoLexer_free(lexer);
 
@@ -140,9 +144,11 @@ IoMessage *IoMessage_newParse(void *state, IoLexer *lexer) {
         m = IoMessage_newWithName_returnsValue_(state, error, error);
         errorString = IoState_symbolWithCString_(
             (IoState *)state, IoLexer_errorDescription(lexer));
-        IoLexer_free(
-            lexer); // hack for now - the caller should be responsible for this
+        // The caller owns the lexer and frees it. (This used to free it here
+        // too, back when IoState_error_ longjmp'd out; now it returns, so the
+        // lexer was used after free and then freed twice.)
         IoState_error_(state, m, "compile error: %s", CSTRING(errorString));
+        return m;
     }
 
     if (IoLexer_topType(lexer) == TERMINATOR_TOKEN) {
