@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-17 · 5fad92b6
+Site build: Io · 2026-11-17 · eab6298b
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7062,9 +7062,9 @@ Notable changes in Io over the past twelve months.
 
 Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
 
-## Unreleased
+## 2026.11.19 — Backtraces and exit status
 
-On `master`, not yet tagged.
+*Tagged `2026.11.19`.* Errors now say where they came from, and a failing script reports failure to the shell.
 
 - **Backtraces are back** — an uncaught error prints the calls that led to it, with file and line, instead of “nothing on stack”. An exception records its trace when it is raised: `Exception stackTraceLines` returns it as a list, and `pass` keeps the original.
 - **Failing scripts exit non-zero** — a script or `-e` expression that ends with an uncaught exception exits with status 1, so shell scripts and CI can tell it failed. It exited 0 because the CLI looked for the exception on the wrong coroutine.
