@@ -30,8 +30,11 @@ IoState_exception_ (which invokes the embedder's exception callback
 or prints the backtrace) and returns the try coroutine's raw result.
 The central safety net for every doCString / doFile entry point.
 */
-IoObject *IoState_tryToPerform(IoState *self, IoObject *target,
-                               IoObject *locals, IoMessage *m) {
+static IoObject *IoState_tryToPerform_exception_(IoState *self,
+                                                 IoObject *target,
+                                                 IoObject *locals,
+                                                 IoMessage *m,
+                                                 IoObject **exception) {
     IoCoroutine *tryCoro = IoCoroutine_newWithTry(self, target, locals, m);
 
     IoObject *exc = IoCoroutine_rawException(tryCoro);
@@ -40,8 +43,15 @@ IoObject *IoState_tryToPerform(IoState *self, IoObject *target,
         IoState_exception_(self, tryCoro);
     }
 
+    if (exception) *exception = exc;
+
     IoObject *result = IoCoroutine_rawResult(tryCoro);
     return result;
+}
+
+IoObject *IoState_tryToPerform(IoState *self, IoObject *target,
+                               IoObject *locals, IoMessage *m) {
+    return IoState_tryToPerform_exception_(self, target, locals, m, NULL);
 }
 
 /*cdoc State IoState_zeroSandboxCounts(self)
@@ -85,6 +95,21 @@ error-message source locations.
 */
 IoObject *IoState_on_doCString_withLabel_(IoState *self, IoObject *target,
                                           const char *s, const char *label) {
+    return IoState_on_doCString_withLabel_exception_(self, target, s, label,
+                                                     NULL);
+}
+
+/*cdoc State IoState_on_doCString_withLabel_exception_(self, target, s, label, exception)
+IoState_on_doCString_withLabel_, and when exception is not NULL, sets
+*exception to the exception the code raised and did not catch, or to
+nil. The code runs in its own try coroutine, so the exception is not
+left on the caller's coroutine; this is how a caller can learn of it.
+*/
+IoObject *IoState_on_doCString_withLabel_exception_(IoState *self,
+                                                    IoObject *target,
+                                                    const char *s,
+                                                    const char *label,
+                                                    IoObject **exception) {
 #ifdef DEBUG_CORO_EVAL
     static int callDepth = 0;
     Stack *ioStackBefore;
@@ -111,7 +136,8 @@ IoObject *IoState_on_doCString_withLabel_(IoState *self, IoObject *target,
 
         IoState_zeroSandboxCounts(self);
 
-        result = IoState_tryToPerform(self, target, target, m);
+        result = IoState_tryToPerform_exception_(self, target, target, m,
+                                                 exception);
     }
 
 #ifdef DEBUG_CORO_EVAL
