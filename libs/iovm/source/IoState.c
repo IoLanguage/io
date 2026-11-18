@@ -795,16 +795,20 @@ void IoState_rawPrompt(IoState *self) {
 
 /*cdoc State IoState_runCLI(self)
 Launches the Io-implemented command-line loop by doing "CLI run" on
-the lobby. If that run leaves an exception on the current coroutine,
-records it in state->exitResult so the process exits non-zero.
+the lobby. If that run ends with an uncaught exception (a script or
+-e expression that raised), sets state->exitResult to 1 so the process
+exits non-zero, unless System exit already chose a status.
 */
 void IoState_runCLI(IoState *self) {
-    IoObject *result = IoState_on_doCString_withLabel_(
-        self, self->lobby, "CLI run", "IoState_runCLI()");
-    IoObject *e = IoCoroutine_rawException(self->currentCoroutine);
+    IoObject *e = self->ioNil;
 
-    if (e != self->ioNil) {
-        self->exitResult = -1;
+    IoState_on_doCString_withLabel_exception_(self, self->lobby, "CLI run",
+                                              "IoState_runCLI()", &e);
+
+    // The run happens in its own try coroutine, so the exception has to
+    // come back from it: checking the current coroutine never saw one.
+    if (e && e != self->ioNil && !self->shouldExit) {
+        self->exitResult = 1;
     }
 }
 

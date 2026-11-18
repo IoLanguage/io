@@ -9,7 +9,7 @@
     {
       "type": "ContentText",
       "title": "Unreleased",
-      "body": "<p>On <code>master</code>, not yet tagged.</p><ul><li><strong>Backtraces are back</strong> &mdash; an uncaught error prints the calls that led to it, with file and line, instead of &ldquo;nothing on stack&rdquo;. An exception records its trace when it is raised: <code>Exception stackTraceLines</code> returns it as a list, and <code>pass</code> keeps the original.</li><li><strong>Build</strong> &mdash; <code>make</code> rebuilds the objects that include a changed header; a clean build is no longer needed after editing one (<a href=\"https://github.com/IoLanguage/io/pull/515\">#515</a>).</li></ul>"
+      "body": "<p>On <code>master</code>, not yet tagged.</p><ul><li><strong>Backtraces are back</strong> &mdash; an uncaught error prints the calls that led to it, with file and line, instead of &ldquo;nothing on stack&rdquo;. An exception records its trace when it is raised: <code>Exception stackTraceLines</code> returns it as a list, and <code>pass</code> keeps the original.</li><li><strong>Failing scripts exit non-zero</strong> &mdash; a script or <code>-e</code> expression that ends with an uncaught exception exits with status 1, so shell scripts and CI can tell it failed. It exited 0 because the CLI looked for the exception on the wrong coroutine.</li><li><strong>Build</strong> &mdash; <code>make</code> rebuilds the objects that include a changed header; a clean build is no longer needed after editing one (<a href=\"https://github.com/IoLanguage/io/pull/515\">#515</a>).</li></ul>"
     },
     {
       "type": "ContentText",

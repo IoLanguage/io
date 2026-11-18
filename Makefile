@@ -73,6 +73,14 @@ test: $(BINDIR)/test_iterative_eval
 check: $(BINDIR)/io_static $(BINDIR)/test_iterative_eval
 	wasmtime $(BINDIR)/test_iterative_eval
 	wasmtime --dir=. --dir=/tmp $(BINDIR)/io_static libs/iovm/tests/correctness/run.io
+	@# An uncaught exception must make the process exit non-zero
+	@wasmtime $(BINDIR)/io_static -e 'Exception raise("expected")' >/dev/null 2>&1; \
+		status=$$?; if [ $$status -ne 1 ]; then \
+		echo "FAIL: an uncaught exception exited with $$status, not 1"; exit 1; fi
+	@wasmtime $(BINDIR)/io_static -e 'try(Exception raise("caught")); System exit(3)' >/dev/null 2>&1; \
+		status=$$?; if [ $$status -ne 3 ]; then \
+		echo "FAIL: System exit(3) exited with $$status"; exit 1; fi
+	@echo "exit status checks OK"
 
 clean:
 	rm -rf $(BUILD) $(BROWSER_WASM)

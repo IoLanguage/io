@@ -19,6 +19,11 @@ IOVM_API IoObject *IoState_on_doCString_withLabel_(IoState *self,
                                                    const char *s,
                                                    const char *label);
 
+// As above, and sets *exception to the uncaught exception, or to nil
+IOVM_API IoObject *IoState_on_doCString_withLabel_exception_(
+    IoState *self, IoObject *target, const char *s, const char *label,
+    IoObject **exception);
+
 // iterative (non-recursive) evaluation
 
 IOVM_API IoObject *IoMessage_locals_performOn_iterative(IoMessage *self,
