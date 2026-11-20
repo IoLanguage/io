@@ -2038,6 +2038,9 @@ IoObject *IoState_evalLoop_(IoState *state) {
             // Child frame has returned, result is in fd->result
             // (set by RETURN handler when child completes)
             // Continue to next message in chain
+            if (fd->controlFlow.doInfo.fixedResult) {
+                fd->result = fd->controlFlow.doInfo.fixedResult;
+            }
             fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
@@ -2046,6 +2049,35 @@ IoObject *IoState_evalLoop_(IoState *state) {
     } // end while (unreachable due to while(1) and returns)
 
     return result;
+}
+
+/*cdoc State IoState_evalInFrame_(state, m, code, target, locals, fixedResult)
+Lets a CFunction that has to evaluate Io code do it as an ordinary frame
+rather than in a nested C eval loop, so the code can switch coroutines
+(wait, yield, await). Only possible when the CFunction was activated
+straight from the eval loop for message m; then the current frame is
+turned into a DO_EVAL frame for code, and 1 is returned. The caller must
+return immediately. The message's result is the code's result, or
+fixedResult if one is given (`clone` returning the new object after its
+init runs, `do` returning self).
+*/
+int IoState_evalInFrame_(IoState *state, IoMessage *m, IoMessage *code,
+                         IoObject *target, IoObject *locals,
+                         IoObject *fixedResult) {
+    IoEvalFrame *frame = state->currentFrame;
+    IoEvalFrameData *fd;
+
+    if (!frame) return 0;
+    fd = FRAME_DATA(frame);
+    if (fd->message != m) return 0;
+
+    fd->controlFlow.doInfo.codeMessage = code;
+    fd->controlFlow.doInfo.evalTarget = target;
+    fd->controlFlow.doInfo.evalLocals = locals;
+    fd->controlFlow.doInfo.fixedResult = fixedResult;
+    fd->state = FRAME_STATE_DO_EVAL;
+    state->needsControlFlowHandling = 1;
+    return 1;
 }
 
 /*cdoc State IoState_activateBlock_(state, callerFrame)

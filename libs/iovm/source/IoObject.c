@@ -1197,6 +1197,9 @@ IO_METHOD(IoObject, protoPerform) {
                                   IoMessage_deepCopyOf_(List_at_(args, i)));
             }
 
+            if (IoState_evalInFrame_(IOSTATE, m, newMessage, self, locals, NULL)) {
+                return IONIL(self);
+            }
             return IoObject_activate(v, self, locals, newMessage, context);
         }
 
@@ -1228,6 +1231,9 @@ IO_METHOD(IoObject, protoPerformWithArgList) {
             IoMessage_addCachedArg_(newMessage, LIST_AT_(argList, i));
         }
 
+        if (IoState_evalInFrame_(IOSTATE, m, newMessage, self, locals, NULL)) {
+            return IONIL(self);
+        }
         return IoObject_activate(v, self, locals, newMessage, context);
     }
 
@@ -1275,6 +1281,11 @@ IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m,
         newObject, IoMessage_name(state->initMessage), &context);
 
     if (initSlotValue) {
+        // As a frame when possible, so that init can wait or yield
+        if (IoState_evalInFrame_(state, m, state->initMessage, newObject, locals,
+                                 newObject)) {
+            return newObject;
+        }
         IoObject_activate(initSlotValue, newObject, locals, state->initMessage,
                           context);
     }
@@ -1641,15 +1652,8 @@ IO_METHOD(IoObject, doMessage) {
 
     // Use iterative path if eval loop is active, otherwise recursive fallback
     if (state->currentFrame != NULL) {
-        if (FRAME_DATA(state->currentFrame)->message == m) {
-            // Called directly from eval loop - use frame-state (zero C stack growth)
-            IoEvalFrame *frame = state->currentFrame;
-            IoEvalFrameData *fd = FRAME_DATA(frame);
-            fd->controlFlow.doInfo.codeMessage = aMessage;
-            fd->controlFlow.doInfo.evalTarget = self;
-            fd->controlFlow.doInfo.evalLocals = context;
-            fd->state = FRAME_STATE_DO_EVAL;
-            state->needsControlFlowHandling = 1;
+        // Called directly from eval loop - use frame-state (zero C stack growth)
+        if (IoState_evalInFrame_(state, m, aMessage, self, context, NULL)) {
             return state->ioNil;
         }
         // Called indirectly (e.g. from interpolate) - use nested eval
@@ -1688,15 +1692,8 @@ IO_METHOD(IoObject, doString) {
             return state->ioNil;
         }
 
-        if (FRAME_DATA(state->currentFrame)->message == m) {
-            // Called directly from eval loop - use frame-state (zero C stack growth)
-            IoEvalFrame *frame = state->currentFrame;
-            IoEvalFrameData *fd = FRAME_DATA(frame);
-            fd->controlFlow.doInfo.codeMessage = codeMsg;
-            fd->controlFlow.doInfo.evalTarget = self;
-            fd->controlFlow.doInfo.evalLocals = self;
-            fd->state = FRAME_STATE_DO_EVAL;
-            state->needsControlFlowHandling = 1;
+        // Called directly from eval loop - use frame-state (zero C stack growth)
+        if (IoState_evalInFrame_(state, m, codeMsg, self, self, NULL)) {
             return state->ioNil;
         }
         // Called indirectly (e.g. from interpolate) - use nested eval
@@ -1744,15 +1741,8 @@ IO_METHOD(IoObject, doFile) {
             return state->ioNil;
         }
 
-        if (FRAME_DATA(state->currentFrame)->message == m) {
-            // Called directly from eval loop - use frame-state (zero C stack growth)
-            IoEvalFrame *frame = state->currentFrame;
-            IoEvalFrameData *fd = FRAME_DATA(frame);
-            fd->controlFlow.doInfo.codeMessage = codeMsg;
-            fd->controlFlow.doInfo.evalTarget = self;
-            fd->controlFlow.doInfo.evalLocals = self;
-            fd->state = FRAME_STATE_DO_EVAL;
-            state->needsControlFlowHandling = 1;
+        // Called directly from eval loop - use frame-state (zero C stack growth)
+        if (IoState_evalInFrame_(state, m, codeMsg, self, self, NULL)) {
             return state->ioNil;
         }
         // Called indirectly - use nested eval
@@ -2133,6 +2123,9 @@ IO_METHOD(IoObject, do) {
 
     if (IoMessage_argCount(m) != 0) {
         IoMessage *argMessage = IoMessage_rawArgAt_(m, 0);
+        if (IoState_evalInFrame_(IOSTATE, m, argMessage, self, self, self)) {
+            return self;
+        }
         IoMessage_locals_performOn_(argMessage, self, self);
     }
 

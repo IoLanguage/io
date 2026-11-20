@@ -186,6 +186,26 @@ test("settled Promises give back their handles", async () => {
 	assert.ok(io.handles.map.size < before, "collected Futures release their JS Promise handles");
 });
 
+test("code run by evalArgAt, perform, do and init can wait", async () => {
+	// Each of these used to run its code in a nested C eval loop, where a
+	// coroutine switch raises "can't wait or switch coroutines here".
+	const cases = [
+		["list(1, 2, 3) map(x, wait(0.001); x * 2)", "list(2, 4, 6)"],
+		['m := Map clone atPut("a", 1); m select(k, v, wait(0.001); true) size', "1"],
+		["f := method(call evalArgAt(0)); f(wait(0.001); 3)", "3"],
+		['B := Object clone do(m := method(a, wait(0.001); a)); B perform("m", 6)', "6"],
+		['B performWithArgList("m", list(9))', "9"],
+		["A := Object clone do(init := method(wait(0.001); self v := 7; 99)); A clone v", "7"],
+		["o := Object clone; (o do(wait(0.001); x := 12)) x", "12"],
+		["n := 0; Object clone do(a := 1) foreachSlot(k, v, wait(0.001); n = n + 1); n", "1"],
+		["w := Object clone do(work := method(wait(0.001); 21)); list(1, 2) map(x, w @work + x)", "list(22, 23)"],
+	];
+	for (const [code, expected] of cases) {
+		const { output } = await io.eval(code);
+		assert.equal(output, `==> ${expected}\n`, code);
+	}
+});
+
 test("the Io-side handle table grows past its first 1024 slots", async () => {
 	// 3000 Promises pending at once, each holding an Io-side handle until it settles
 	globalThis.laterIndex = (i) => new Promise((resolve) => setTimeout(() => resolve(i), 5));
