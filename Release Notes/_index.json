@@ -8,6 +8,11 @@
     },
     {
       "type": "ContentText",
+      "title": "Unreleased",
+      "body": "<p>On <code>master</code>, not yet tagged.</p><ul><li><strong><code>Date setDay</code> checks every 30-day month</strong> &mdash; day 31 was accepted for April, June and September and silently became the 1st of the next month. It now raises an error, as it already did for November. Reported and fixed by Weixie Cui (<a href=\"https://github.com/IoLanguage/io/pull/492\">#492</a>).</li><li><strong><code>List fromEncodedList</code> passes reference ids</strong> &mdash; <code>objectForReferenceId</code> was always called with <code>nil</code> instead of the id, so encoded object references could not be resolved. An error raised while resolving one now stops the decode. Reported and fixed by Weixie Cui (<a href=\"https://github.com/IoLanguage/io/pull/491\">#491</a>).</li><li><strong>Build</strong> &mdash; the Makefile finds wasi-sdk in <code>deps/wasi-sdk</code> before <code>~/wasi-sdk</code>, so the SDK can live inside the project (<a href=\"https://github.com/IoLanguage/io/pull/519\">#519</a>).</li></ul>"
+    },
+    {
+      "type": "ContentText",
       "title": "2026.11.19 — Backtraces and exit status",
       "body": "<p><em>Tagged <code>2026.11.19</code>.</em> Errors now say where they came from, and a failing script reports failure to the shell.</p><ul><li><strong>Backtraces are back</strong> &mdash; an uncaught error prints the calls that led to it, with file and line, instead of &ldquo;nothing on stack&rdquo;. An exception records its trace when it is raised: <code>Exception stackTraceLines</code> returns it as a list, and <code>pass</code> keeps the original.</li><li><strong>Failing scripts exit non-zero</strong> &mdash; a script or <code>-e</code> expression that ends with an uncaught exception exits with status 1, so shell scripts and CI can tell it failed. It exited 0 because the CLI looked for the exception on the wrong coroutine.</li><li><strong>Build</strong> &mdash; <code>make</code> rebuilds the objects that include a changed header; a clean build is no longer needed after editing one (<a href=\"https://github.com/IoLanguage/io/pull/515\">#515</a>).</li></ul>"
     },
