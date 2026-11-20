@@ -2042,26 +2042,6 @@ IoObject *IoState_evalLoop_(IoState *state) {
             break;
         }
 
-        case FRAME_STATE_AWAIT_JS: {
-            // Suspended waiting for a JS Promise to resolve.
-            // Two paths here:
-            // 1. First entry (awaitingJsPromise=1): yield to JS host
-            // 2. Resume (awaitingJsPromise=0): future resolved, re-activate await
-            if (state->awaitingJsPromise) {
-                // Yield: break out of eval loop entirely.
-                // Frame stack is preserved. JS will call io_resume_eval()
-                // after io_resolve_future() delivers the value.
-                return state->ioNil;
-            }
-            // Resumed: the future should now be resolved/rejected.
-            // Re-do slot lookup so the appropriate handler runs:
-            // - Explicit await: re-finds "await" slot → ACTIVATE → Future_await returns value
-            // - Implicit forward: slot still not found → IoObject_forward → Future_forward
-            //   sees resolved state → frame redirect to resolved value
-            fd->state = FRAME_STATE_LOOKUP_SLOT;
-            break;
-        }
-
         } // end switch
     } // end while (unreachable due to while(1) and returns)
 

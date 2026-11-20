@@ -24,19 +24,16 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-Chosen 2026-11-19, in this order. The first is small and low risk; the
-last is the only one that needs design work.
+Chosen 2026-11-19, in this order. The last is the only one that needs
+design work.
 
-1. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
-   from the core VM (`IoEvalFrame`, `IoState`, `IoState_iterative.c`,
-   `IoCoroutine.c`). Nothing uses them since Phase 4i.
-2. **The Io-side handle table is fixed at 1024 entries**
+1. **The Io-side handle table is fixed at 1024 entries**
    (`IO_HANDLES_MAX`, `browser/io_js_bridge.c`): Io objects JS holds, plus
    Promises not yet settled. When it is full a new Promise is rejected with
    a clear error. Make it grow.
-3. **Move the pages to `<script type="module">`** (`browser/index.html`,
+2. **Move the pages to `<script type="module">`** (`browser/index.html`,
    `browser/test.html`, `repl/index.html`) and drop the `io.js` shim.
-4. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
+3. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
    eval loop can't switch coroutines; in the browser that is a clear error
    (see Async.md). Forward methods and `Block call` were made frame-based in
    Phase 4i. The remaining ones are primitives that run a block themselves
@@ -79,6 +76,9 @@ Housekeeping, to fit in alongside:
   month after (Jan 31 `setMonth(2)` gave March 3); it now becomes the
   month's last day. Same for `setYear` on Feb 29. Found while fixing
   `setDay`.
+- **`FRAME_STATE_AWAIT_JS` removed** from the core VM (2026-11-19), with
+  `awaitingJsPromise`, `suspendedCoro` and the frame's `awaitInfo`. Nothing
+  had used them since Phase 4i.
 - **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
   before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 
