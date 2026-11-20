@@ -46,6 +46,24 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 5. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
    from the core VM. Nothing uses them since Phase 4i.
 
+### Outside PRs
+
+Not part of the WASM work, tracked here so they aren't lost.
+
+- **#491, `List fromEncodedList` reference ids** — fixed in #521
+  (2026-11-19), which supersedes it. The id was cleared before
+  `objectForReferenceId(id)` was sent, so the hook always received nil.
+  Beyond the PR: an error raised by the hook now stops the decode, and the
+  test does a real `asEncodedList` round trip with the hooks on the test
+  object instead of on `Lobby`.
+- **#492, `Date setDay` in 30-day months** — fixed in #521 (2026-11-19),
+  which supersedes it. April, June and September accepted day 31 and
+  rolled over into the next month. Beyond the PR: the test sets the day to
+  1 before `setMonth`, since the PR's version fails when run on the 31st.
+  Still open: `setMonth` itself rolls over when the current day doesn't
+  exist in the new month (Jan 31 `setMonth(2)` gives March 3).
+- **#479, "Claude Code and M3 Chip Experiment"** — not reviewed.
+
 ---
 
 ## Key Architectural Decisions

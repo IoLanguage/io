@@ -1229,15 +1229,21 @@ IO_METHOD(IoList, fromEncodedList) {
             }
             uint32_t id = *((uint32_t *)(d + index));
             IoMessage_setCachedArg_to_(rm, 0, IONUMBER(id));
-            IoMessage_setCachedArg_to_(rm, 0, IONIL(self));
 
             index += sizeof(uint32_t);
 
             {
                 IoObject *result = IoObject_perform(locals, locals, rm);
+                IoMessage_setCachedArg_to_(rm, 0, IONIL(self));
+
+                if (IOSTATE->errorRaised) {
+                    List_free(list);
+                    return IONIL(self);
+                }
                 List_append_(list, result);
             }
         } else {
+            List_free(list);
             IOASSERT(0, "unrecognized encoded type");
         }
     }

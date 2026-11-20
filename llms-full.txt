@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-17 · eab6298b
+Site build: Io · 2026-11-18 · f738ca32
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7061,6 +7061,14 @@ Source: /Release%20Notes/
 Notable changes in Io over the past twelve months.
 
 Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
+
+## Unreleased
+
+On `master`, not yet tagged.
+
+- **`Date setDay` checks every 30-day month** — day 31 was accepted for April, June and September and silently became the 1st of the next month. It now raises an error, as it already did for November. Reported and fixed by Weixie Cui ([#492](https://github.com/IoLanguage/io/pull/492)).
+- **`List fromEncodedList` passes reference ids** — `objectForReferenceId` was always called with `nil` instead of the id, so encoded object references could not be resolved. An error raised while resolving one now stops the decode. Reported and fixed by Weixie Cui ([#491](https://github.com/IoLanguage/io/pull/491)).
+- **Build** — the Makefile finds wasi-sdk in `deps/wasi-sdk` before `~/wasi-sdk`, so the SDK can live inside the project ([#519](https://github.com/IoLanguage/io/pull/519)).
 
 ## 2026.11.19 — Backtraces and exit status
 
