@@ -34,8 +34,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      WASI_SDK_VERSION: "24"
-      WASI_SDK_FULL: "24.0"
+      WASI_SDK_VERSION: "25"
+      WASI_SDK_FULL: "25.0"
     steps:
       - uses: actions/checkout@v4
         with:
