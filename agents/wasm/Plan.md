@@ -27,13 +27,9 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 Chosen 2026-11-19, in this order. The last is the only one that needs
 design work.
 
-1. **The Io-side handle table is fixed at 1024 entries**
-   (`IO_HANDLES_MAX`, `browser/io_js_bridge.c`): Io objects JS holds, plus
-   Promises not yet settled. When it is full a new Promise is rejected with
-   a clear error. Make it grow.
-2. **Move the pages to `<script type="module">`** (`browser/index.html`,
+1. **Move the pages to `<script type="module">`** (`browser/index.html`,
    `browser/test.html`, `repl/index.html`) and drop the `io.js` shim.
-3. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
+2. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
    eval loop can't switch coroutines; in the browser that is a clear error
    (see Async.md). Forward methods and `Block call` were made frame-based in
    Phase 4i. The remaining ones are primitives that run a block themselves
@@ -79,6 +75,10 @@ Housekeeping, to fit in alongside:
 - **`FRAME_STATE_AWAIT_JS` removed** from the core VM (2026-11-19), with
   `awaitingJsPromise`, `suspendedCoro` and the frame's `awaitInfo`. Nothing
   had used them since Phase 4i.
+- **The Io-side handle table grows** (2026-11-19, unreleased). It was
+  fixed at 1024 entries (Io objects JS holds, plus unsettled Promises) and
+  rejected new Promises when full; it now doubles when it fills
+  (`ioHandles_grow`, `browser/io_js_bridge.c`).
 - **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
   before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 

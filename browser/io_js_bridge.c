@@ -76,37 +76,62 @@ JS_IMPORT(js_watch_promise) extern void js_watch_promise(int promise_handle, int
 
 // ---- Io handle table (for JS→Io references) ----
 
-#define IO_HANDLES_MAX 1024
-static IoObject *ioHandles[IO_HANDLES_MAX];
+// Grows on demand: starts at IO_HANDLES_INITIAL slots and doubles when full.
+// A handle is an index, so growing never changes a handle JS already holds.
+
+#define IO_HANDLES_INITIAL 1024
+static IoObject **ioHandles = NULL;
+static int ioHandles_capacity = 0;
 static int ioHandles_next = 1; // 0 = nil/invalid
+
+static int ioHandles_grow(void) {
+	int newCapacity = ioHandles_capacity ? ioHandles_capacity * 2 : IO_HANDLES_INITIAL;
+	IoObject **grown = realloc(ioHandles, sizeof(IoObject *) * (size_t)newCapacity);
+
+	if (!grown) return 0;
+	memset(grown + ioHandles_capacity, 0,
+	       sizeof(IoObject *) * (size_t)(newCapacity - ioHandles_capacity));
+	ioHandles = grown;
+	ioHandles_capacity = newCapacity;
+	return 1;
+}
 
 static int ioHandles_register(IoObject *obj) {
 	// Linear scan for free slot (starting from hint)
-	for (int i = 0; i < IO_HANDLES_MAX; i++) {
-		int idx = (ioHandles_next + i) % IO_HANDLES_MAX;
+	for (int i = 0; i < ioHandles_capacity; i++) {
+		int idx = (ioHandles_next + i) % ioHandles_capacity;
 		if (idx == 0) continue; // reserve 0
 		if (ioHandles[idx] == NULL) {
 			ioHandles[idx] = obj;
-			ioHandles_next = (idx + 1) % IO_HANDLES_MAX;
+			ioHandles_next = (idx + 1) % ioHandles_capacity;
 			return idx;
 		}
 	}
-	return -1; // table full
+
+	// Full (or not yet allocated): the first new slot is free
+	{
+		int idx = ioHandles_capacity ? ioHandles_capacity : 1;
+
+		if (!ioHandles_grow()) return -1; // out of memory
+		ioHandles[idx] = obj;
+		ioHandles_next = idx + 1;
+		return idx;
+	}
 }
 
 static IoObject *ioHandles_get(int h) {
-	if (h <= 0 || h >= IO_HANDLES_MAX) return NULL;
+	if (h <= 0 || h >= ioHandles_capacity) return NULL;
 	return ioHandles[h];
 }
 
 static void ioHandles_release(int h) {
-	if (h > 0 && h < IO_HANDLES_MAX) {
+	if (h > 0 && h < ioHandles_capacity) {
 		ioHandles[h] = NULL;
 	}
 }
 
 void IoJSBridge_markIoHandles(void) {
-	for (int i = 1; i < IO_HANDLES_MAX; i++) {
+	for (int i = 1; i < ioHandles_capacity; i++) {
 		IoObject_shouldMarkIfNonNull(ioHandles[i]);
 	}
 	IoObject_shouldMarkIfNonNull(ioUndefined);
@@ -446,7 +471,7 @@ static IoObject *deserialize_buf_to_io(IoState *state, unsigned char **ptr, unsi
 		} else {
 			// Nothing would ever settle it, so fail now rather than hang
 			IoFuture_reject(future, IoState_symbolWithCString_(state,
-				"too many Io objects are referenced from JS (handle table full)"));
+				"out of memory growing the table of Io objects referenced from JS"));
 		}
 		return future;
 	}

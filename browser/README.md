@@ -77,7 +77,6 @@ await io.eval('coroDoLater(loop(wait(1); "tick" println))');   // keeps running;
 - Code can't wait where its caller needs the result immediately: an Io block that JS calls synchronously during an Io call (`someArray map(block(...))`), or a block run by a primitive such as `sortBy`. Waiting there raises an Io exception.
 - An eval that is paused with nothing due to wake it (no coroutine, timer or Promise) fails with "nothing left to resume".
 - A coroutine that never waits or yields can't be interrupted, as in JS.
-- At most 1024 Io objects can be referenced from JS at once, counting Promises that haven't settled. Past that, a new Promise is rejected with an error.
 
 ## Tests
 

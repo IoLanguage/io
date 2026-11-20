@@ -332,7 +332,7 @@ A `Map<int, any>` mapping integer handles to arbitrary JS values. Monotonically 
 
 ### ioHandles (C side)
 
-A fixed array `IoObject *ioHandles[1024]` mapping integer handles to Io objects. Used for Io objects referenced from JS via Proxy.
+A growable array `IoObject **ioHandles` mapping integer handles to Io objects; it starts at 1024 slots and doubles when full. Used for Io objects referenced from JS via Proxy.
 
 - `ioHandles_register(obj)` -> handle (linear scan for free slot)
 - `ioHandles_get(h)` -> IoObject pointer
@@ -353,7 +353,7 @@ void (*IoJSBridge_markIoHandlesFunc)(void) = NULL;
 if (IoJSBridge_markIoHandlesFunc) IoJSBridge_markIoHandlesFunc();
 ```
 
-`IoJSObject_proto()` sets the pointer to `IoJSBridge_markIoHandles`, which iterates all 1024 ioHandles slots and marks non-null entries. This keeps the bridge out of non-browser builds entirely.
+`IoJSObject_proto()` sets the pointer to `IoJSBridge_markIoHandles`, which iterates all ioHandles slots and marks non-null entries. This keeps the bridge out of non-browser builds entirely.
 
 ---
 
