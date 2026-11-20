@@ -79,5 +79,23 @@ DateTest := UnitTest clone do(
 		//testString("%x") #%x is locale dependent
 		testString("%y")
 	)
+
+	# Only February and November used to be checked, so day 31 was accepted
+	# for April, June and September and rolled over into the next month.
+	# The day is set to 1 first so that setMonth can't roll over itself.
+	testSetDayThirtyDayMonths := method(
+		list(4, 6, 9, 11) foreach(month,
+			date := Date clone setYear(2025) setDay(1) setMonth(month)
+			assertRaisesException(date setDay(31))
+			assertEquals(30, date setDay(30) day)
+			assertEquals(month, date month)
+		)
+		list(1, 3, 5, 7, 8, 10, 12) foreach(month,
+			date := Date clone setYear(2025) setDay(1) setMonth(month)
+			assertEquals(31, date setDay(31) day)
+			assertEquals(month, date month)
+		)
+	)
 )
 
+if(isLaunchScript, DateTest run, DateTest)
