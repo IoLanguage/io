@@ -479,6 +479,18 @@ ListTest := UnitTest clone do(
 		assertEquals(0, m size)
 	)
 
+	# A list inside a list used to print its elements as quoted strings:
+	# list(list(2)) gave list(list("2")), and each level added more quotes.
+	testNestedListAsString := method(
+		assertEquals("list(list(2))", list(list(2)) asString)
+		assertEquals("list(list(1, \"a\", nil), 3)", list(list(1, "a", nil), 3) asString)
+		assertEquals("list(list(list(1)))", list(list(list(1))) asString)
+		assertEquals("list(2, \"a\")", list(2, "a") asSimpleString)
+		long := list(); 50 repeat(i, long append(i))
+		assertEquals(40, long asSimpleString size)
+		assertTrue(long asSimpleString endsWithSeq("..."))
+	)
+
 	testEncodedList := method(
 		t := list(123)
 		assertEquals(t, t asEncodedList asDecodedList)

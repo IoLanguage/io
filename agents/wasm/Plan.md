@@ -99,6 +99,10 @@ Housekeeping:
   and the `init` run by `clone`, which also makes List `map`, Map `select`
   and `foreachSlot` waitable. Side effect: `clone` with an `init` is about
   2x faster and `perform` about 1.6x, since no nested eval loop starts.
+- **Nested lists print correctly** (2026-11-19, unreleased):
+  `list(list(2))` printed as `list(list("2"))` because `List
+  asSimpleString` applied `asSimpleString` to its elements twice. Present
+  since April (#36's fix), so `native` has it too.
 - **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
   before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 
