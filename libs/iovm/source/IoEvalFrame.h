@@ -173,6 +173,7 @@ typedef struct IoEvalFrameData {
             IoMessage *codeMessage;       // The parsed/compiled message to evaluate
             IoObject *evalTarget;         // Target for evaluation (self)
             IoObject *evalLocals;         // Locals for evaluation (context)
+            IoObject *fixedResult;        // If set, the frame's result instead of the code's
         } doInfo;
     } controlFlow;
 } IoEvalFrameData;

@@ -219,6 +219,14 @@ IO_METHOD(IoCall, evalArgAt) {
 
     int n = IoMessage_locals_intArgAt_(m, locals, 0);
     IoCallData *data = DATA(self);
+    IoMessage *arg = (IoMessage *)List_at_(IOMESSAGEDATA(data->message)->args, n);
+
+    // An argument that is more than a literal is evaluated as a frame when
+    // possible, so that it can wait or yield (as in `aList map(x, x @work)`).
+    if (arg && !(IOMESSAGEDATA(arg)->cachedResult && !IOMESSAGEDATA(arg)->next) &&
+        IoState_evalInFrame_(IOSTATE, m, arg, data->sender, data->sender, NULL)) {
+        return IONIL(self);
+    }
     return IoMessage_locals_valueArgAt_(data->message, data->sender, n);
 }
 

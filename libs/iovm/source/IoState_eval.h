@@ -29,6 +29,13 @@ IOVM_API IoObject *IoState_on_doCString_withLabel_exception_(
 IOVM_API IoObject *IoMessage_locals_performOn_iterative(IoMessage *self,
                                                         IoObject *locals,
                                                         IoObject *target);
+// Hands code to the eval loop as a frame instead of running it in a nested
+// C eval loop. Returns 1 if it did: the caller must then return at once, and
+// the calling message's result becomes the code's result (or fixedResult,
+// if that isn't NULL). Returns 0 if the caller has to evaluate it itself.
+IOVM_API int IoState_evalInFrame_(IoState *self, IoMessage *m, IoMessage *code,
+                                  IoObject *target, IoObject *locals,
+                                  IoObject *fixedResult);
 IOVM_API IoObject *IoMessage_locals_performOn_fast(IoMessage *self,
                                                    IoObject *locals,
                                                    IoObject *target);

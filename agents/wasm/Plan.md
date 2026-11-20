@@ -24,15 +24,23 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-One item is left from the list chosen on 2026-11-19, and it needs design
-work before code.
+One item is left from the list chosen on 2026-11-19.
 
-1. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
-   eval loop can't switch coroutines; in the browser that is a clear error
-   (see Async.md). Forward methods and `Block call` were made frame-based in
-   Phase 4i. The remaining ones are primitives that run a block themselves
-   (`sortBy` and similar) and Io callbacks that JS calls synchronously
-   during an Io call.
+1. **Shrink the "can't wait here" cases, continued.** Code that runs
+   inside a nested C eval loop can't switch coroutines; in the browser that
+   is a clear error (see Async.md). A survey on 2026-11-19 found the list
+   was much longer than `sortBy`. The first batch is done (see Recently
+   done). Still refusing to wait, roughly by how common they are:
+   - `Number repeat` — give it a frame state like `for`'s (the `for`
+     state assumes a counter name; `repeat` without an index has none).
+   - List `select` / `selectInPlace` and Sequence `foreach` — extend the
+     `foreach` frame state (it only handles Lists and Map key lists).
+   - `lexicalDo` — needs a step after the code runs (remove the proto).
+   - `interpolate` — evaluates several expressions in one call.
+   - `sortBy`, `sortInPlace(expr)`, `sortInPlaceBy` — the comparison runs
+     inside C `qsort`; would need a sort written against frames or in Io.
+   - `Date cpuSecondsToRun`, and Io callbacks JS calls synchronously
+     during an Io call (not fixable from the Io side).
 
 Housekeeping:
 
@@ -85,6 +93,12 @@ Housekeeping:
 - **CI builds with wasi-sdk 25**, the same version as the local SDK in
   `deps/wasi-sdk` (was 24). Benchmark history may show a step at this
   commit.
+- **More code can wait in the browser** (2026-11-19, unreleased):
+  `IoState_evalInFrame_` lets a primitive hand code to the eval loop as a
+  frame. Used by `call evalArgAt`, `perform`, `performWithArgList`, `do`
+  and the `init` run by `clone`, which also makes List `map`, Map `select`
+  and `foreachSlot` waitable. Side effect: `clone` with an `init` is about
+  2x faster and `perform` about 1.6x, since no nested eval loop starts.
 - **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
   before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 
