@@ -714,8 +714,7 @@ void IoCoroutine_clearStack(IoCoroutine *self) {
 Starts a coroutine. One of two paths depending on whether an eval
 loop is already running: "own eval loop" (main coroutine, or no
 current frames) spins a nested IoState_evalLoop_ that returns when
-the coroutine finishes, saving awaitingJsPromise state if the loop
-yielded for a JS Promise; "child swap" (called from Io code with an
+the coroutine finishes; "child swap" (called from Io code with an
 active loop) marks the caller's frame CORO_WAIT_CHILD, parks the
 caller's frames, and sets up self's START frame, then returns — the
 existing eval loop keeps running but now on the child's chain. The
@@ -816,16 +815,6 @@ void IoCoroutine_rawRun(IoCoroutine *self) {
         IoObject *result = IoState_evalLoop_(state);
         state->nestedEvalDepth--;
         IoCoroutine_rawSetResult_(self, result);
-
-        // If eval loop yielded for a JS Promise, save the *active* coro's
-        // frame state. This may differ from self when try() did a frame swap
-        // (currentCoroutine is the child coro; self is the outer try-coro
-        // whose frames were already saved by the child swap).
-        if (state->awaitingJsPromise) {
-            IoCoroutine *activeCoro = IoState_currentCoroutine(state);
-            IoCoroutine_saveState_(activeCoro, state);
-            state->suspendedCoro = IoState_retain_(state, (IoObject *)activeCoro);
-        }
 
         // Restore previous coroutine if any
         if (previousCoro && previousCoro != self) {

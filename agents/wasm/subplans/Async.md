@@ -1,6 +1,6 @@
 # Phase 4e: Async — Run Loop, Futures, Scheduler
 
-**Status (November 2026):** complete. Layer 3 (the scheduler) was built as Phase 4i, and it changed how Layers 1–2 work: see "Layer 3 as built" below. The sections on `FRAME_STATE_AWAIT_JS`, `io_resume_eval` and `waitingCoro` describe the first implementation and are kept for history.
+**Status (November 2026):** complete. Layer 3 (the scheduler) was built as Phase 4i, and it changed how Layers 1–2 work: see "Layer 3 as built" below. The sections on `FRAME_STATE_AWAIT_JS`, `io_resume_eval` and `waitingCoro` describe the first implementation, which has since been removed from the VM, and are kept for history.
 
 **Goal**: Io code can call async JS APIs, handle browser events, and run background coroutines — all as a guest inside the browser's event loop.
 
@@ -179,7 +179,7 @@ The C side is `browser/io_browser.c`; the JS side is `class Io` in `browser/src/
 
 **Handles.** A Promise's Io-side handle is released when it settles; its JS-side handle is owned by the Future and released when the Future is collected.
 
-**Left in the core VM, now unused:** `FRAME_STATE_AWAIT_JS`, `IoState.awaitingJsPromise`, `IoState.suspendedCoro`.
+**Removed from the core VM (2026-11-19):** `FRAME_STATE_AWAIT_JS`, `IoState.awaitingJsPromise`, `IoState.suspendedCoro` and the frame's `awaitInfo`, unused since Phase 4i.
 
 ## Scheduler introspection
 
