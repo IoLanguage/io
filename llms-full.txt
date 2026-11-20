@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-19 · ad465885
+Site build: Io · 2026-11-19 · 43751207
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7070,7 +7070,7 @@ On `master`, not yet tagged.
 - **`Date setMonth` and `setYear` keep the month** — setting the month on a date whose day the new month doesn’t have used to spill into the month after: January 31 with `setMonth(2)` became March 3. The day now becomes the last day of the month (February 28 or 29). `setYear` does the same for February 29.
 - **Nested lists print correctly** — a list inside a list showed its numbers as quoted strings, with more quoting at each level: `list(list(2))` printed as `list(list(&quot;2&quot;))`. It now prints as written.
 - **`List fromEncodedList` passes reference ids** — `objectForReferenceId` was always called with `nil` instead of the id, so encoded object references could not be resolved. An error raised while resolving one now stops the decode. Reported and fixed by Weixie Cui ([#491](https://github.com/IoLanguage/io/pull/491)).
-- **Browser: more code can wait** — `wait`, `await`, actor futures and `yield` now work inside `map`, `perform`, `do`, `call evalArgAt` and an object’s `init`, which used to raise “can’t wait or switch coroutines here”. A few primitives still can’t: `repeat`, List `select`, Sequence `foreach`, `sortBy`, `interpolate` and `lexicalDo`. On every target, `clone` of an object with an `init` is about twice as fast and `perform` about 1.6 times.
+- **Browser: more code can wait** — `wait`, `await`, actor futures and `yield` now work inside `map`, `select`, `repeat`, Sequence `foreach`, `perform`, `do`, `call evalArgAt` and an object’s `init`, which used to raise “can’t wait or switch coroutines here”. A few primitives still can’t: `sortBy`, `interpolate` and `lexicalDo`. On every target, `clone` of an object with an `init` is about twice as fast and `perform` about 1.6 times.
 - **Browser: no limit on Io objects held by JS** — the table of Io objects that JavaScript refers to, which also counts Promises that haven’t settled, was fixed at 1024 entries and rejected new Promises when full. It now grows as needed.
 - **Browser: `io.js` is removed** — the classic-script loader that kept `<script src=&quot;io.js&quot;>` pages working is gone, along with its `loadIo()` and `ioEval()` globals and `window.IO_WASM_URL`. Import the module instead: `import { Io } from &quot;./src/index.js&quot;`, then `Io.load()` and `io.eval()`. The browser kit now includes the REPL page, `index.html`.
 - **Build** — the Makefile finds wasi-sdk in `deps/wasi-sdk` before `~/wasi-sdk`, so the SDK can live inside the project ([#519](https://github.com/IoLanguage/io/pull/519)).

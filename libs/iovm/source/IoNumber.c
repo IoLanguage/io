@@ -21,6 +21,7 @@ constants.
 */
 
 #include "IoNumber.h"
+#include "IoEvalFrame.h"
 #include "IoObject.h"
 #include "IoState.h"
 #include "IoSeq.h"
@@ -1314,6 +1315,26 @@ IO_METHOD(IoNumber, repeat) {
         } else {
             indexSlotName = 0;
             doMessage = IoMessage_rawArgAt_(m, 0);
+        }
+
+        // Run as a for-loop frame (0 to max - 1) when called from the eval
+        // loop, so the body can wait or yield; the C loop below is the
+        // fallback for other callers.
+        if (state->currentFrame &&
+            FRAME_DATA(state->currentFrame)->message == m) {
+            IoEvalFrameData *fd = FRAME_DATA(state->currentFrame);
+
+            fd->controlFlow.forInfo.bodyMsg = doMessage;
+            fd->controlFlow.forInfo.counterName = indexSlotName;
+            fd->controlFlow.forInfo.startValue = 0;
+            fd->controlFlow.forInfo.endValue = ceil(max) - 1;
+            fd->controlFlow.forInfo.increment = 1;
+            fd->controlFlow.forInfo.currentValue = 0;
+            fd->controlFlow.forInfo.lastResult = NULL;
+            fd->controlFlow.forInfo.initialized = 0;
+            fd->state = FRAME_STATE_FOR_EVAL_BODY;
+            state->needsControlFlowHandling = 1;
+            return IONIL(self);
         }
 
         IoState_pushRetainPool(state);

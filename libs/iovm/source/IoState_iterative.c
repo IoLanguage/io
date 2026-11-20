@@ -1622,7 +1622,8 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     break;
                 }
 
-                // Set the counter variable
+                // Set the counter variable (`repeat` without an index has none)
+                if (fd->controlFlow.forInfo.counterName) {
                 int numRetains = Stack_count(state->currentIoStack);
                 IoObject *num = IoState_numberWithDouble_(state, i);
 #ifdef COLLECTOR_USE_REFCOUNT
@@ -1633,6 +1634,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     fd->controlFlow.forInfo.counterName, num);
                 // Counter is now reachable via PHash slot; drop its retain
                 IoState_dropNumberRetain_(state, num, numRetains);
+                }
 
                 // Fast path: body is a cached literal — run entire loop inline
                 if (BODY_IS_CACHED_LITERAL(fd->controlFlow.forInfo.bodyMsg)) {
@@ -1646,6 +1648,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         double li = fd->controlFlow.forInfo.currentValue;
                         if ((loopIncr > 0 && li > loopEnd) || (loopIncr < 0 && li < loopEnd)) {
                             break;
+                        }
+                        if (!ctrName) {
+                            fd->controlFlow.forInfo.currentValue += loopIncr;
+                            continue;
                         }
 #ifdef COLLECTOR_USE_REFCOUNT
                         IoObject *oldCtr1 = (IoObject *)PHash_at_(localSlots, ctrName);
@@ -1739,6 +1745,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         fd->state = FRAME_STATE_CONTINUE_CHAIN;
                         goto for_after_body_done;
                     }
+                    if (!counterName) {
+                        fd->controlFlow.forInfo.currentValue += incr;
+                        continue;
+                    }
 #ifdef COLLECTOR_USE_REFCOUNT
                     IoObject *oldCtr2 = (IoObject *)PHash_at_(localSlots, counterName);
 #endif
@@ -1778,6 +1788,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Set the counter variable (direct PHash access since
             // slots are guaranteed to exist from for-loop setup)
+            if (fd->controlFlow.forInfo.counterName) {
             int numRetains = Stack_count(state->currentIoStack);
             IoObject *num = IoState_numberWithDouble_(state, i);
 #ifdef COLLECTOR_USE_REFCOUNT
@@ -1795,6 +1806,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 Collector_rcDrainFreeList_(state->collector);
             }
 #endif
+            }
 
             // Push body frame for next iteration
             IoEvalFrame *bodyFrame = IoState_pushFrame_(state);
@@ -1861,6 +1873,21 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 } else {
                     element = (IoObject *)List_at_(list, idx);
                 }
+            } else if (ISSEQ(collection)) {
+                // Sequence iteration: each element is a Number
+                UArray *ua = IoSeq_rawUArray(collection);
+                int currentSize = (int)UArray_size(ua);
+                if (dir > 0 ? (idx >= currentSize) : (idx < 0)) {
+                    fd->result = fd->controlFlow.foreachInfo.lastResult
+                        ? fd->controlFlow.foreachInfo.lastResult
+                        : state->ioNil;
+                    fd->state = FRAME_STATE_CONTINUE_CHAIN;
+                    break;
+                }
+                fd->controlFlow.foreachInfo.collectionSize = currentSize;
+                element = UArray_isFloatType(ua)
+                    ? IoState_numberWithDouble_(state, UArray_doubleAt_(ua, idx))
+                    : IoState_numberWithDouble_(state, (double)UArray_longAt_(ua, idx));
             }
 
             if (!element) element = state->ioNil;
