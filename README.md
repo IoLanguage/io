@@ -143,7 +143,8 @@ cd io
 make
 ```
 
-If wasi-sdk is not installed at `~/wasi-sdk`, point `WASI_SDK` at it:
+The build looks for wasi-sdk in `deps/wasi-sdk` (untracked), then `~/wasi-sdk`.
+If it is somewhere else, point `WASI_SDK` at it:
 
 ```
 make WASI_SDK=/opt/wasi-sdk

@@ -14,7 +14,8 @@
 #   make component      Build io_component.wasm (WASI 0.2 component, wasm32-wasip2)
 #   make check-component  Run the Io test suite against the component
 
-WASI_SDK    ?= $(HOME)/wasi-sdk
+# wasi-sdk: deps/wasi-sdk (untracked) if it is there, otherwise ~/wasi-sdk.
+WASI_SDK    ?= $(if $(wildcard deps/wasi-sdk/bin/clang),deps/wasi-sdk,$(HOME)/wasi-sdk)
 BUILD       := build
 BINDIR      := $(BUILD)/bin
 OBJDIR      := $(BUILD)/obj

@@ -86,3 +86,4 @@ dist
 release-notes.md
 .idea
 _credentials/
+deps/wasi-sdk/
