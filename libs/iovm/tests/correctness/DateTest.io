@@ -96,6 +96,41 @@ DateTest := UnitTest clone do(
 			assertEquals(month, date month)
 		)
 	)
+
+	# The day used to carry over into the next month: January 31 with the
+	# month set to February became March 3.
+	testSetMonthKeepsMonth := method(
+		date := Date clone setYear(2025) setDay(1) setMonth(1) setDay(31)
+		date setMonth(2)
+		assertEquals(2, date month)
+		assertEquals(28, date day)
+
+		date := Date clone setYear(2024) setDay(1) setMonth(1) setDay(31)
+		date setMonth(2)
+		assertEquals(2, date month)
+		assertEquals(29, date day)
+
+		date := Date clone setYear(2025) setDay(1) setMonth(5) setDay(31)
+		date setMonth(4)
+		assertEquals(4, date month)
+		assertEquals(30, date day)
+
+		date setMonth(12)
+		assertEquals(12, date month)
+		assertEquals(30, date day)
+	)
+
+	testSetYearKeepsMonth := method(
+		date := Date clone setYear(2024) setDay(1) setMonth(2) setDay(29)
+		date setYear(2025)
+		assertEquals(2025, date year)
+		assertEquals(2, date month)
+		assertEquals(28, date day)
+
+		date setYear(2028)
+		assertEquals(2, date month)
+		assertEquals(28, date day)
+	)
 )
 
 if(isLaunchScript, DateTest run, DateTest)

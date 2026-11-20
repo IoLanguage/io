@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-18 · f738ca32
+Site build: Io · 2026-11-19 · b271e1db
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7067,6 +7067,7 @@ Io uses date-based versioning. This page collects the notable changes of the las
 On `master`, not yet tagged.
 
 - **`Date setDay` checks every 30-day month** — day 31 was accepted for April, June and September and silently became the 1st of the next month. It now raises an error, as it already did for November. Reported and fixed by Weixie Cui ([#492](https://github.com/IoLanguage/io/pull/492)).
+- **`Date setMonth` and `setYear` keep the month** — setting the month on a date whose day the new month doesn’t have used to spill into the month after: January 31 with `setMonth(2)` became March 3. The day now becomes the last day of the month (February 28 or 29). `setYear` does the same for February 29.
 - **`List fromEncodedList` passes reference ids** — `objectForReferenceId` was always called with `nil` instead of the id, so encoded object references could not be resolved. An error raised while resolving one now stops the decode. Reported and fixed by Weixie Cui ([#491](https://github.com/IoLanguage/io/pull/491)).
 - **Build** — the Makefile finds wasi-sdk in `deps/wasi-sdk` before `~/wasi-sdk`, so the SDK can live inside the project ([#519](https://github.com/IoLanguage/io/pull/519)).
 

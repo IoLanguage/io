@@ -24,45 +24,63 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-1. **VM bugs found while building the scheduler: all fixed.** Syntax errors
-   crashing the VM (#511); the retain-stack growth in loops and coroutines
-   ([../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md), #513);
-   `make` not tracking header dependencies (#515); and backtraces saying
-   "nothing on stack". An exception now records its trace from the frame
-   chain when it is raised (`Exception stackTrace`, `stackTraceLines`;
-   `IoState_recordStackTraceOn_`). Known limit: a tail call reuses its
-   caller's frame, so the caller of a method's last call has no entry.
+Chosen 2026-11-19, in this order. The first is small and low risk; the
+last is the only one that needs design work.
+
+1. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
+   from the core VM (`IoEvalFrame`, `IoState`, `IoState_iterative.c`,
+   `IoCoroutine.c`). Nothing uses them since Phase 4i.
 2. **The Io-side handle table is fixed at 1024 entries**
    (`IO_HANDLES_MAX`, `browser/io_js_bridge.c`): Io objects JS holds, plus
    Promises not yet settled. When it is full a new Promise is rejected with
    a clear error. Make it grow.
-3. **Move the pages to `<script type="module">`** and drop the `io.js` shim.
+3. **Move the pages to `<script type="module">`** (`browser/index.html`,
+   `browser/test.html`, `repl/index.html`) and drop the `io.js` shim.
 4. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
    eval loop can't switch coroutines; in the browser that is a clear error
    (see Async.md). Forward methods and `Block call` were made frame-based in
    Phase 4i. The remaining ones are primitives that run a block themselves
    (`sortBy` and similar) and Io callbacks that JS calls synchronously
    during an Io call.
-5. **Remove `FRAME_STATE_AWAIT_JS`**, `awaitingJsPromise` and `suspendedCoro`
-   from the core VM. Nothing uses them since Phase 4i.
 
-### Outside PRs
+Housekeeping, to fit in alongside:
 
-Not part of the WASM work, tracked here so they aren't lost.
+- **#479, "Claude Code and M3 Chip Experiment"** — the last open outside
+  PR, from August 2025: 13 files, about 700 lines, against the pre-WASM
+  master. Review it, then merge what still applies or close it.
+- **`native` has no CI and its full test run crashes.** The workflow there
+  only triggers for `master`, `main` and `develop`, so PRs against `native`
+  are untested, and `run.io` segfaults on macOS (each test file passes on
+  its own). Either fix both or state that `native` is frozen.
+- **wasi-sdk versions differ**: CI installs 24, the local SDK in
+  `deps/wasi-sdk` is 25. Pick one.
 
-- **#491, `List fromEncodedList` reference ids** — fixed in #521
-  (2026-11-19), which supersedes it. The id was cleared before
-  `objectForReferenceId(id)` was sent, so the hook always received nil.
-  Beyond the PR: an error raised by the hook now stops the decode, and the
-  test does a real `asEncodedList` round trip with the hooks on the test
-  object instead of on `Lobby`.
-- **#492, `Date setDay` in 30-day months** — fixed in #521 (2026-11-19),
-  which supersedes it. April, June and September accepted day 31 and
-  rolled over into the next month. Beyond the PR: the test sets the day to
-  1 before `setMonth`, since the PR's version fails when run on the 31st.
-  Still open: `setMonth` itself rolls over when the current day doesn't
-  exist in the new month (Jan 31 `setMonth(2)` gives March 3).
-- **#479, "Claude Code and M3 Chip Experiment"** — not reviewed.
+### Recently done
+
+- **VM bugs found while building the scheduler: all fixed.** Syntax errors
+  crashing the VM (#511); the retain-stack growth in loops and coroutines
+  ([../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md), #513);
+  `make` not tracking header dependencies (#515); and backtraces saying
+  "nothing on stack" (#516). An exception now records its trace from the
+  frame chain when it is raised (`Exception stackTrace`, `stackTraceLines`;
+  `IoState_recordStackTraceOn_`). Known limit: a tail call reuses its
+  caller's frame, so the caller of a method's last call has no entry.
+- **Released `2026.11.19`**: backtraces, CLI exit status 1 on an uncaught
+  exception (#517), header dependencies.
+- **Outside PRs #491 and #492** (2026-11-19, unreleased), both by Weixie
+  Cui and both closed in favour of our PRs that carry their fixes: #521 on
+  master and #522 on `native`.
+  - `List fromEncodedList` cleared the reference id before sending
+    `objectForReferenceId(id)`, so the hook always received nil. Also new:
+    an error raised by the hook stops the decode.
+  - `Date setDay` accepted day 31 for April, June and September.
+- **`Date setMonth` and `setYear` keep the month** (2026-11-19,
+  unreleased). A day the new month doesn't have used to carry into the
+  month after (Jan 31 `setMonth(2)` gave March 3); it now becomes the
+  month's last day. Same for `setYear` on Feb 29. Found while fixing
+  `setDay`.
+- **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
+  before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 
 ---
 
@@ -468,6 +486,9 @@ WASM's linear memory model with `memory.grow` is a good fit for Io's malloc-base
 ---
 
 ## 5. Build Instructions (target state)
+
+> Historical: this is the CMake flow the plan started with. The build that
+> exists is the Makefile; see the README or `CLAUDE.md`.
 
 ```bash
 # Install wasi-sdk

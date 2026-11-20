@@ -286,7 +286,8 @@ IO_METHOD(IoDate, year) {
 
 IO_METHOD(IoDate, setYear) {
     /*doc Date setYear(aNumber)
-    Sets the year of the receiver.
+    Sets the year of the receiver. February 29 becomes February 28 if
+    that year is not a leap year.
     */
 
     Date_setYear_(DATA(self), IoMessage_locals_intArgAt_(m, locals, 0));
@@ -304,6 +305,8 @@ IO_METHOD(IoDate, month) {
 IO_METHOD(IoDate, setMonth) {
     /*doc Date setMonth(aNumber)
     Sets the month(1-12) of the receiver. Returns self.
+    If the receiver's day doesn't exist in that month, the day becomes the
+    month's last day (January 31 becomes February 28 or 29).
     */
 
     int v = IoMessage_locals_intArgAt_(m, locals, 0);

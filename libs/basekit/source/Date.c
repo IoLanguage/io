@@ -126,10 +126,36 @@ long Date_year(const Date *self) {
     return tm->tm_year + 1900;
 }
 
+static int Date_isLeapYearNumber(long year) {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+// month is 0-11
+static int Date_daysInMonth_year_(int month, long year) {
+    static const int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    if (month == 1 && Date_isLeapYearNumber(year)) {
+        return 29;
+    }
+    return days[month];
+}
+
+// mktime would carry a day that the month doesn't have into the next month
+// (Jan 31 with the month set to February gives March 3), so use the month's
+// last day instead.
+static void Date_clampDay(struct tm *tm) {
+    int max = Date_daysInMonth_year_(tm->tm_mon, (long)tm->tm_year + 1900);
+
+    if (tm->tm_mday > max) {
+        tm->tm_mday = max;
+    }
+}
+
 void Date_setYear_(Date *self, long v) {
     time_t t = self->tv.tv_sec;
     struct tm *tm = localtime(&t);
     tm->tm_year = (int)v - 1900;
+    Date_clampDay(tm);
     self->tv.tv_sec = mktime(tm);
 }
 
@@ -143,6 +169,7 @@ void Date_setMonth_(Date *self, int v) {
     time_t t = self->tv.tv_sec;
     struct tm *tm = localtime(&t);
     tm->tm_mon = v;
+    Date_clampDay(tm);
     self->tv.tv_sec = mktime(tm);
 }
 
