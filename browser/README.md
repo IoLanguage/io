@@ -74,7 +74,7 @@ await io.eval('coroDoLater(loop(wait(1); "tick" println))');   // keeps running;
 ```
 
 - A JS call into Io from the event loop (`io.lobby.foo()`, an Io block used as an event handler or timer callback) may wait too. If it does, JS gets `null` straight away and the Io code finishes later.
-- Code can't wait where its caller needs the result immediately: an Io block that JS calls synchronously during an Io call (`someArray map(block(...))`), or code run by one of a few primitives that evaluate it themselves: `repeat`, `select`/`selectInPlace` on a List, `foreach` on a Sequence, the `sortBy` family, `interpolate` and `lexicalDo`. Waiting there raises an Io exception. Loops (`for`, `while`, `loop`, List and Map `foreach`), `map`, `detect`, `reduce`, `perform`, `do`, `call evalArgAt` and an object's `init` can all wait.
+- Code can't wait where its caller needs the result immediately: an Io block that JS calls synchronously during an Io call (`someArray map(block(...))`), or code run by one of a few primitives that evaluate it themselves: the `sortBy` family, `interpolate` and `lexicalDo`. Waiting there raises an Io exception. Loops (`for`, `while`, `loop`, `repeat`, `foreach` on a List, Map or Sequence), `map`, `select`, `detect`, `reduce`, `perform`, `do`, `call evalArgAt` and an object's `init` can all wait.
 - An eval that is paused with nothing due to wake it (no coroutine, timer or Promise) fails with "nothing left to resume".
 - A coroutine that never waits or yields can't be interrupted, as in JS.
 

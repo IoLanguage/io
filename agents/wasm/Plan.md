@@ -24,23 +24,22 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-One item is left from the list chosen on 2026-11-19.
+The list chosen on 2026-11-19 is done apart from a parked remainder.
 
-1. **Shrink the "can't wait here" cases, continued.** Code that runs
-   inside a nested C eval loop can't switch coroutines; in the browser that
-   is a clear error (see Async.md). A survey on 2026-11-19 found the list
-   was much longer than `sortBy`. The first batch is done (see Recently
-   done). Still refusing to wait, roughly by how common they are:
-   - `Number repeat` — give it a frame state like `for`'s (the `for`
-     state assumes a counter name; `repeat` without an index has none).
-   - List `select` / `selectInPlace` and Sequence `foreach` — extend the
-     `foreach` frame state (it only handles Lists and Map key lists).
+1. **The last "can't wait here" cases.** Code that runs inside a nested C
+   eval loop can't switch coroutines; in the browser that is a clear error
+   (see Async.md). Two batches are done (see Recently done). What still
+   refuses to wait, all uncommon:
    - `lexicalDo` — needs a step after the code runs (remove the proto).
    - `interpolate` — evaluates several expressions in one call.
    - `sortBy`, `sortInPlace(expr)`, `sortInPlaceBy` — the comparison runs
      inside C `qsort`; would need a sort written against frames or in Io.
    - `Date cpuSecondsToRun`, and Io callbacks JS calls synchronously
      during an Io call (not fixable from the Io side).
+   Worth doing only if a real use turns up.
+2. **Pick the next area.** With the above parked, nothing substantial is
+   queued: Phase 4g (rich JS objects) and Phase 5 (compacting collector)
+   are both deferred, and Phase 7 (WASI 0.3) is blocked on the toolchain.
 
 Housekeeping:
 
@@ -99,6 +98,10 @@ Housekeeping:
   and the `init` run by `clone`, which also makes List `map`, Map `select`
   and `foreachSlot` waitable. Side effect: `clone` with an `init` is about
   2x faster and `perform` about 1.6x, since no nested eval loop starts.
+  A second batch the same day: `Number repeat` runs on the `for` frame
+  state and Sequence `foreach` on the `foreach` frame state, which also
+  makes List `select` and `selectInPlace` waitable (they use `repeat`).
+  `n repeat(literal)` no longer evaluates anything per iteration.
 - **Nested lists print correctly** (2026-11-19, unreleased):
   `list(list(2))` printed as `list(list("2"))` because `List
   asSimpleString` applied `asSimpleString` to its elements twice. Present

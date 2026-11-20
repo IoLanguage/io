@@ -29,6 +29,7 @@ and URL/Base64 coders.
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
+#include "IoEvalFrame.h"
 #include "parson.h"
 #include "IoMap.h"
 
@@ -1028,6 +1029,31 @@ IO_METHOD(IoSeq, foreach) {
     IoMessage_foreachArgs(m, self, &indexSlotName, &characterSlotName,
                           &doMessage);
     if (IOSTATE->errorRaised) return IONIL(self);
+
+    // Run as a foreach frame when called from the eval loop, so the body can
+    // wait or yield; the C loop below is the fallback for other callers.
+    {
+        IoState *state = IOSTATE;
+
+        if (state->currentFrame &&
+            FRAME_DATA(state->currentFrame)->message == m) {
+            IoEvalFrameData *fd = FRAME_DATA(state->currentFrame);
+
+            fd->controlFlow.foreachInfo.collection = self;
+            fd->controlFlow.foreachInfo.bodyMsg = doMessage;
+            fd->controlFlow.foreachInfo.indexName = indexSlotName;
+            fd->controlFlow.foreachInfo.valueName = characterSlotName;
+            fd->controlFlow.foreachInfo.currentIndex = 0;
+            fd->controlFlow.foreachInfo.collectionSize = (int)UArray_size(DATA(self));
+            fd->controlFlow.foreachInfo.lastResult = NULL;
+            fd->controlFlow.foreachInfo.direction = 1;
+            fd->controlFlow.foreachInfo.isEach = 0;
+            fd->controlFlow.foreachInfo.mapSource = NULL;
+            fd->state = FRAME_STATE_FOREACH_EVAL_BODY;
+            state->needsControlFlowHandling = 1;
+            return IONIL(self);
+        }
+    }
 
     IoState_pushRetainPool(IOSTATE);
 

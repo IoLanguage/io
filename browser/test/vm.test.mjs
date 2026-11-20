@@ -186,7 +186,7 @@ test("settled Promises give back their handles", async () => {
 	assert.ok(io.handles.map.size < before, "collected Futures release their JS Promise handles");
 });
 
-test("code run by evalArgAt, perform, do and init can wait", async () => {
+test("code run by evalArgAt, perform, do, init, repeat and Sequence foreach can wait", async () => {
 	// Each of these used to run its code in a nested C eval loop, where a
 	// coroutine switch raises "can't wait or switch coroutines here".
 	const cases = [
@@ -199,6 +199,11 @@ test("code run by evalArgAt, perform, do and init can wait", async () => {
 		["o := Object clone; (o do(wait(0.001); x := 12)) x", "12"],
 		["n := 0; Object clone do(a := 1) foreachSlot(k, v, wait(0.001); n = n + 1); n", "1"],
 		["w := Object clone do(work := method(wait(0.001); 21)); list(1, 2) map(x, w @work + x)", "list(22, 23)"],
+		["n := 0; 3 repeat(wait(0.001); n = n + 1); n", "3"],
+		["n := 0; 3 repeat(i, wait(0.001); n = n + i); n", "3"],
+		["list(1, 5, 7, 2) select(v, wait(0.001); v > 3)", "list(5, 7)"],
+		["list(1, 5, 7, 2) selectInPlace(i, v, wait(0.001); i > 1)", "list(7, 2)"],
+		['r := list(); "abc" foreach(i, c, wait(0.001); r append(c)); r', "list(97, 98, 99)"],
 	];
 	for (const [code, expected] of cases) {
 		const { output } = await io.eval(code);
