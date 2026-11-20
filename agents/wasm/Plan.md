@@ -34,17 +34,13 @@ work before code.
    (`sortBy` and similar) and Io callbacks that JS calls synchronously
    during an Io call.
 
-Housekeeping, to fit in alongside:
+Housekeeping:
 
-- **#479, "Claude Code and M3 Chip Experiment"** — the last open outside
-  PR, from August 2025: 13 files, about 700 lines, against the pre-WASM
-  master. Review it, then merge what still applies or close it.
 - **`native` has no CI and its full test run crashes.** The workflow there
   only triggers for `master`, `main` and `develop`, so PRs against `native`
   are untested, and `run.io` segfaults on macOS (each test file passes on
-  its own). Either fix both or state that `native` is frozen.
-- **wasi-sdk versions differ**: CI installs 24, the local SDK in
-  `deps/wasi-sdk` is 25. Pick one.
+  its own). Either fix both or state that `native` is frozen. Until then,
+  fixes are ported by hand and tested locally (#522).
 
 ### Recently done
 
@@ -81,6 +77,14 @@ Housekeeping, to fit in alongside:
   `browser/index.html`, `browser/test.html` and `repl/index.html` import
   the module directly, and the `io.js` shim is deleted. The release's
   browser kit ships `index.html` instead of `io.js`.
+- **#479 closed** (2026-11-19), the last open outside PR. Nothing in it
+  applied to master: its build scripts were for the removed CMake build,
+  DynLib is gone, the parser cases are now lexer errors, and `File atPut`
+  no longer evaluates its position twice because arguments are evaluated
+  before a primitive runs.
+- **CI builds with wasi-sdk 25**, the same version as the local SDK in
+  `deps/wasi-sdk` (was 24). Benchmark history may show a step at this
+  commit.
 - **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
   before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 
