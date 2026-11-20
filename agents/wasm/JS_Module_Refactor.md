@@ -190,6 +190,8 @@ shim.
   publisher can only be added to a package that exists.
 - **Since then:** Phase 4i (the browser scheduler) replaced `resumeIfAwaiting`
   with `pump()`/`schedule()` and `io_resume_eval` with `io_tick`; see
-  `subplans/Async.md`. `evalNow` and the shim's contract are unchanged.
-- **Still to do:** migrate `browser/index.html`, `test.html` and `/repl/` to
-  `<script type="module">` and drop the shim.
+  `subplans/Async.md`. `evalNow` is unchanged.
+- **Shim removed (2026-11-19):** `browser/index.html`, `test.html` and
+  `/repl/` use `<script type="module">` and import `src/index.js` directly;
+  `browser/io.js` and `window.IO_WASM_URL` are gone. The release's browser
+  kit ships `index.html` in place of `io.js`.

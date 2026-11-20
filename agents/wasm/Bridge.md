@@ -8,7 +8,7 @@ The Io VM runs as WASM. Io is the application layer — the brains of the progra
 |------|------|
 | `browser/io_js_bridge.h` | C header: proto factory, handle factory, GC hook |
 | `browser/io_js_bridge.c` | C implementation: JSObject proto, serialization, ioHandles, WASM exports |
-| `browser/src/` | JS runtime: handle table and `js` import namespace (`bridge.js`), serialization (`serialize.js`), Io Proxy (`proxy.js`), `class Io` (`vm.js`); `browser/io.js` is a classic-script shim over it |
+| `browser/src/` | JS runtime: handle table and `js` import namespace (`bridge.js`), serialization (`serialize.js`), Io Proxy (`proxy.js`), `class Io` (`vm.js`) |
 | `browser/io_browser.c` | Registers JSObject proto + JS singleton during `io_init()` |
 
 ## Architecture

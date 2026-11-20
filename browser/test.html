@@ -96,8 +96,32 @@
 	<div id="summary"></div>
 	<span class="button" onclick="location.reload()">RE-RUN</span>
 
-	<script src="io.js"></script>
-	<script>
+	<script type="module">
+import { Io } from "./src/index.js";
+
+let ioVm = null;
+
+// Set after ioEval returns status 2 (the eval is waiting); called with
+// { status, output } when the eval finishes.
+let pendingAsyncResolve = null;
+
+async function loadIo() {
+	ioVm ??= await Io.load();
+	return ioVm;
+}
+
+function ioEval(code) {
+	const result = ioVm.evalNow(code);
+	if (result.status === 2) {
+		ioVm.awaiting = (final) => {
+			const resolve = pendingAsyncResolve;
+			pendingAsyncResolve = null;
+			if (resolve) resolve(final);
+		};
+	}
+	return result;
+}
+
 // Test fixtures: JS objects for bridge convention tests
 globalThis.__testMap = new Map([["x", 42]]);
 globalThis.__testSet = new Set([10, 20, 30]);

@@ -18,11 +18,11 @@ Requires [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) for cross-compilati
 ┌──────────────────────────────────────────────┐
 │  Browser (JS)                                │
 │                                              │
-│  io.js                                       │
+│  src/ (ES module)                            │
 │  ├── WASI shim (fd_write, clock, etc.)       │
 │  ├── DOM handle table (Map<int, Element>)    │
 │  ├── DOM bridge functions (dom namespace)    │
-│  ├── WASM loader (loadIo / ioEval)           │
+│  ├── WASM loader (Io.load / io.eval)         │
 │  └── REPL UI wiring                          │
 │                                              │
 │  ┌────────────────────────────────────────┐  │
