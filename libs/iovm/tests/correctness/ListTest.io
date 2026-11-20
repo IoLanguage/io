@@ -492,6 +492,37 @@ ListTest := UnitTest clone do(
 		assertEquals(t, t asEncodedList asDecodedList)
 	)
 
+	# A reference in an encoded list is resolved by sending
+	# objectForReferenceId(id) to the caller's context. The id used to be
+	# cleared before the send, so the hook always received nil.
+	testEncodedListReferences := method(
+		ref := Object clone
+		self referenceIdForObject := method(obj, 42)
+		self receivedId := nil
+		self resolvedRef := ref
+		self objectForReferenceId := method(id, self receivedId = id; resolvedRef)
+
+		dec := List fromEncodedList(list(1, ref, "foo") asEncodedList)
+
+		removeSlot("referenceIdForObject")
+		removeSlot("objectForReferenceId")
+		assertEquals(42, receivedId)
+		assertEquals(3, dec size)
+		assertEquals(1, dec at(0))
+		assertTrue(dec at(1) isIdenticalTo(ref))
+		assertEquals("foo", dec at(2))
+	)
+
+	testEncodedListReferenceError := method(
+		self referenceIdForObject := method(obj, 42)
+		enc := list(Object clone) asEncodedList
+		removeSlot("referenceIdForObject")
+		self objectForReferenceId := method(id, Exception raise("no such id"))
+		e := try(List fromEncodedList(enc))
+		removeSlot("objectForReferenceId")
+		assertEquals("no such id", e error)
+	)
+
     testSlice := method(
         a := list(1, 2, 3, 4, 5, 6)
         assertEquals(a, a slice(0))
