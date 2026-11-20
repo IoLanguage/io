@@ -176,7 +176,7 @@ test("an Io closure handed to JS keeps its variables", async () => {
 });
 
 test("settled Promises give back their handles", async () => {
-	// More Promises than the Io-side handle table has slots (1024)
+	// More Promises than the Io-side handle table starts with (1024 slots)
 	for (let i = 0; i < 1300; i++) {
 		const { output } = await io.eval('JS get("Promise") resolve(' + i + ") await");
 		if (output !== `==> ${i}\n`) assert.fail(`await ${i} gave ${JSON.stringify(output)}`);
@@ -184,6 +184,22 @@ test("settled Promises give back their handles", async () => {
 	const before = io.handles.map.size;
 	await io.eval("Collector collect");
 	assert.ok(io.handles.map.size < before, "collected Futures release their JS Promise handles");
+});
+
+test("the Io-side handle table grows past its first 1024 slots", async () => {
+	// 3000 Promises pending at once, each holding an Io-side handle until it settles
+	globalThis.laterIndex = (i) => new Promise((resolve) => setTimeout(() => resolve(i), 5));
+	const { output } = await io.eval(
+		"futures := list(); 3000 repeat(i, futures append(JS laterIndex(i))); sum := 0; futures foreach(f, sum = sum + f await); sum");
+	assert.equal(output, `==> ${(2999 * 3000) / 2}\n`);
+	// and 3000 Io objects held by JS at once
+	const held = [];
+	globalThis.hold = (o) => { held.push(o); };
+	await io.eval("3000 repeat(i, o := Object clone; o index := i; JS hold(o)); nil");
+	assert.equal(held.length, 3000);
+	assert.equal(held[0].index(), 0);
+	assert.equal(held[2999].index(), 2999);
+	held.length = 0;
 });
 
 test("a Promise can be used again after a collection", async () => {
