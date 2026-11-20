@@ -18,7 +18,7 @@ make clean      # remove build artifacts
 make regenerate # regenerate IoVMInit.c from .io files
 ```
 
-Set `WASI_SDK` if wasi-sdk is not at `~/wasi-sdk`:
+The build looks for wasi-sdk in `deps/wasi-sdk` (untracked), then `~/wasi-sdk`. Set `WASI_SDK` if it is somewhere else:
 ```bash
 make WASI_SDK=/opt/wasi-sdk
 ```
