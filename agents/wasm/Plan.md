@@ -59,9 +59,10 @@ Housekeeping:
   frame chain when it is raised (`Exception stackTrace`, `stackTraceLines`;
   `IoState_recordStackTraceOn_`). Known limit: a tail call reuses its
   caller's frame, so the caller of a method's last call has no entry.
+- **Released `2026.11.20`**: everything below dated 2026-11-19.
 - **Released `2026.11.19`**: backtraces, CLI exit status 1 on an uncaught
   exception (#517), header dependencies.
-- **Outside PRs #491 and #492** (2026-11-19, unreleased), both by Weixie
+- **Outside PRs #491 and #492** (2026-11-19, released in `2026.11.20`), both by Weixie
   Cui and both closed in favour of our PRs that carry their fixes: #521 on
   master and #522 on `native`.
   - `List fromEncodedList` cleared the reference id before sending
@@ -69,18 +70,18 @@ Housekeeping:
     an error raised by the hook stops the decode.
   - `Date setDay` accepted day 31 for April, June and September.
 - **`Date setMonth` and `setYear` keep the month** (2026-11-19,
-  unreleased). A day the new month doesn't have used to carry into the
+  released in `2026.11.20`). A day the new month doesn't have used to carry into the
   month after (Jan 31 `setMonth(2)` gave March 3); it now becomes the
   month's last day. Same for `setYear` on Feb 29. Found while fixing
   `setDay`.
 - **`FRAME_STATE_AWAIT_JS` removed** from the core VM (2026-11-19), with
   `awaitingJsPromise`, `suspendedCoro` and the frame's `awaitInfo`. Nothing
   had used them since Phase 4i.
-- **The Io-side handle table grows** (2026-11-19, unreleased). It was
+- **The Io-side handle table grows** (2026-11-19, released in `2026.11.20`). It was
   fixed at 1024 entries (Io objects JS holds, plus unsettled Promises) and
   rejected new Promises when full; it now doubles when it fills
   (`ioHandles_grow`, `browser/io_js_bridge.c`).
-- **Pages use `<script type="module">`** (2026-11-19, unreleased):
+- **Pages use `<script type="module">`** (2026-11-19, released in `2026.11.20`):
   `browser/index.html`, `browser/test.html` and `repl/index.html` import
   the module directly, and the `io.js` shim is deleted. The release's
   browser kit ships `index.html` instead of `io.js`.
@@ -92,7 +93,7 @@ Housekeeping:
 - **CI builds with wasi-sdk 25**, the same version as the local SDK in
   `deps/wasi-sdk` (was 24). Benchmark history may show a step at this
   commit.
-- **More code can wait in the browser** (2026-11-19, unreleased):
+- **More code can wait in the browser** (2026-11-19, released in `2026.11.20`):
   `IoState_evalInFrame_` lets a primitive hand code to the eval loop as a
   frame. Used by `call evalArgAt`, `perform`, `performWithArgList`, `do`
   and the `init` run by `clone`, which also makes List `map`, Map `select`
@@ -102,7 +103,7 @@ Housekeeping:
   state and Sequence `foreach` on the `foreach` frame state, which also
   makes List `select` and `selectInPlace` waitable (they use `repeat`).
   `n repeat(literal)` no longer evaluates anything per iteration.
-- **Nested lists print correctly** (2026-11-19, unreleased):
+- **Nested lists print correctly** (2026-11-19, released in `2026.11.20`):
   `list(list(2))` printed as `list(list("2"))` because `List
   asSimpleString` applied `asSimpleString` to its elements twice. Present
   since April (#36's fix), so `native` has it too.
