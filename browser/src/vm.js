@@ -101,7 +101,7 @@ export class Io {
 	// Run code now. Returns { status, output }; status 2 means the eval is
 	// waiting on something (a JS Promise, `wait`, another coroutine) and
 	// this.awaiting will be called with the final result. eval() wraps this;
-	// the classic-script shim uses it directly.
+	// test.html uses it directly.
 	evalNow(code) {
 		if (!this.wasm) throw new Error("Io VM not loaded");
 		if (this.evalPending) {

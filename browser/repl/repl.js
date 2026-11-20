@@ -1,6 +1,6 @@
 // The browser REPL: wires an Io VM to the page's #output, #input, #eval-btn,
 // #clear-btn, #status, #repl and .topic elements. Used by browser/index.html
-// and the site's /repl/ page (through the io.js shim).
+// and the site's /repl/ page.
 
 const AWAITING_DELAY_MS = 50; // show "awaiting..." only for evals that actually wait
 

@@ -16,7 +16,7 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 | 4e. Async: Layer 3, Io scheduler in the JS event loop | **Done** as Phase 4i | [subplans/Async.md](subplans/Async.md) |
 | 4f. BigInt | **Done** | [subplans/BigInt.md](subplans/BigInt.md) |
 | 4g. Rich JS objects | Deferred until a use case needs it | [subplans/Async.md](subplans/Async.md) Step 6 |
-| 4h. JS module and npm package | Module **done** (PR #507). npm packaging **done** (PR #508). First version `2026.11.16-alpha` published by hand 2026-11-16; later releases publish from the Release workflow by npm trusted publishing (no token) | [JS_Module_Refactor.md](JS_Module_Refactor.md) |
+| 4h. JS module and npm package | Module **done** (PR #507), shim removed. npm packaging **done** (PR #508). First version `2026.11.16-alpha` published by hand 2026-11-16; later releases publish from the Release workflow by npm trusted publishing (no token) | [JS_Module_Refactor.md](JS_Module_Refactor.md) |
 | 4i. Browser scheduler | **Done** (November 2026): coroutines, `@` actors, `wait` and concurrent awaits run inside the JS event loop | [subplans/Async.md](subplans/Async.md) "Layer 3 as built" |
 | 5. Compacting collector | Designed, not started; an optimization | [subplans/CompactingGC.md](subplans/CompactingGC.md) |
 | 6. Distribution | GitHub Release artifacts **done** (PRs #501, #502); npm in 4h | `.github/workflows/release.yml` |
@@ -24,12 +24,10 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-Chosen 2026-11-19, in this order. The last is the only one that needs
-design work.
+One item is left from the list chosen on 2026-11-19, and it needs design
+work before code.
 
-1. **Move the pages to `<script type="module">`** (`browser/index.html`,
-   `browser/test.html`, `repl/index.html`) and drop the `io.js` shim.
-2. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
+1. **Shrink the "can't wait here" cases.** Code that runs inside a nested C
    eval loop can't switch coroutines; in the browser that is a clear error
    (see Async.md). Forward methods and `Block call` were made frame-based in
    Phase 4i. The remaining ones are primitives that run a block themselves
@@ -79,6 +77,10 @@ Housekeeping, to fit in alongside:
   fixed at 1024 entries (Io objects JS holds, plus unsettled Promises) and
   rejected new Promises when full; it now doubles when it fills
   (`ioHandles_grow`, `browser/io_js_bridge.c`).
+- **Pages use `<script type="module">`** (2026-11-19, unreleased):
+  `browser/index.html`, `browser/test.html` and `repl/index.html` import
+  the module directly, and the `io.js` shim is deleted. The release's
+  browser kit ships `index.html` instead of `io.js`.
 - **Build**: the Makefile finds wasi-sdk in `deps/wasi-sdk` (untracked)
   before `~/wasi-sdk` (#519). colvmn pinned to `1a57f19` (#520).
 
@@ -364,10 +366,10 @@ JS owns the run loop. Io is a guest. Every entry into Io from JS is a short, syn
 
 #### Phase 4h: JS module and npm package — module COMPLETE, npm READY
 
-- `browser/io.js` split into the `browser/src/` ES module: `class Io` with `Io.load()`, `await io.eval()`, `io.lobby`, `onOutput`, `dispose`. It works in browsers and Node, and each VM is independent. `io.js` remains as a classic-script shim.
+- `browser/io.js` split into the `browser/src/` ES module: `class Io` with `Io.load()`, `await io.eval()`, `io.lobby`, `onOutput`, `dispose`. It works in browsers and Node, and each VM is independent.
 - Node tests (`make check-browser-node`) in CI.
 - `@iolanguage/io` package staged by `make npm-package` and checked by `make check-npm-package`. The Release workflow publishes it on a release tag by npm trusted publishing, with no token. The `iolanguage` npm org exists and `2026.11.16-alpha` was published by hand on 2026-11-16 (a package must exist before a trusted publisher can be added).
-- Remaining: move `browser/index.html`, `test.html` and `/repl/` to `<script type="module">` and drop the shim.
+- The pages (`browser/index.html`, `test.html`, `/repl/`) import the module with `<script type="module">`; the `io.js` shim that first kept them working was removed on 2026-11-19.
 - See [JS_Module_Refactor.md](JS_Module_Refactor.md).
 
 #### Phase 4i: Browser scheduler — COMPLETE

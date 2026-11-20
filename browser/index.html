@@ -191,6 +191,12 @@
 		</div>
 	</div>
 
-	<script src="io.js"></script>
+	<script type="module">
+import { Io } from "./src/index.js";
+import { startRepl } from "./repl/repl.js";
+
+let vm = null;
+startRepl(() => (vm ??= Io.load()));
+	</script>
 </body>
 </html>

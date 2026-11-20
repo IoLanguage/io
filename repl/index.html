@@ -199,11 +199,12 @@
   </div>
 </div>
 
-<script>
-  window.IO_WASM_URL = "../browser/io_browser.wasm";
+<script type="module">
+  import { Io } from "../browser/src/index.js";
+  import { startRepl } from "../browser/repl/repl.js";
 
-  // io.js clears the input placeholder once the VM loads; restore a useful one.
-  document.addEventListener("DOMContentLoaded", () => {
+  {
+    // The REPL clears the input placeholder once the VM loads; restore a useful one.
     const input = document.getElementById("input");
     new MutationObserver((muts, observer) => {
       if (!input.disabled) {
@@ -221,8 +222,10 @@
       summary.setAttribute("aria-expanded", open ? "true" : "false");
       body.style.height = open ? body.scrollHeight + "px" : "0px";
     });
-  });
+  }
+
+  let vm = null;
+  startRepl(() => (vm ??= Io.load()));
 </script>
-<script src="../browser/io.js"></script>
 </body>
 </html>
