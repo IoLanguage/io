@@ -429,6 +429,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
                 // Child coroutine finished - return to parent
                 IoCoroutine_rawSetResult_(current, result);
+                // Keep the stop status it ended with (Coroutine
+                // finalStopStatus); the swap path above saves it too.
+                ((IoCoroutineData *)IoObject_dataPointer(current))->stopStatus =
+                    state->stopStatus;
 
                 // Restore parent's frame stack
                 IoCoroutine_restoreState_(parent, state);

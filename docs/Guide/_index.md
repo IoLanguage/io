@@ -1077,7 +1077,7 @@ e catch(Exception,
 
 The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
 
-A `return`, `break` or `continue` inside a catch handler acts on the method or loop that called catch:
+A `return`, `break` or `continue` inside the code given to try, or inside a catch handler, acts on the method or loop around it:
 
 ```
 load := method(path,

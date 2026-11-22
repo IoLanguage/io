@@ -423,7 +423,13 @@ Object do(
 		coro setSlot("runLocals", call sender)
 		coro setSlot("runMessage", call argAt(0))
 		coro run
-		if(coro exception, coro exception, nil)
+		if(coro exception, return coro exception)
+		// A return, break or continue in the code ends the coroutine. Pass
+		// it on to the caller, so it acts on the method or loop around try.
+		ss := coro finalStopStatus
+		if(ss isReturn, call setStopStatus(ss); return coro result)
+		if(ss isBreak or ss isContinue, call setStopStatus(ss))
+		nil
 	)
 
 

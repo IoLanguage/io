@@ -138,6 +138,7 @@ IOVM_API IO_METHOD(IoCoroutine, run);
 IOVM_API IO_METHOD(IoCoroutine, callStack);
 IOVM_API IO_METHOD(IoCoroutine, isCurrent);
 IOVM_API IO_METHOD(IoCoroutine, isFinished);
+IOVM_API IO_METHOD(IoCoroutine, finalStopStatus);
 
 // runTarget
 
