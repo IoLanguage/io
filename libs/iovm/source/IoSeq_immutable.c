@@ -26,6 +26,7 @@ and URL/Base64 coders.
 #include "IoObject.h"
 #include "IoNumber.h"
 #include "IoMessage.h"
+#include "IoState_eval.h"
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
@@ -1346,6 +1347,17 @@ IO_METHOD(IoSeq, interpolate) {
     */
 
     IoSeq *s = IoSeq_newWithUArray_copy_(IOSTATE, IoSeq_rawUArray(self), 1);
+
+    // Called directly from the eval loop: run the #{...} expressions as
+    // frames, so they can wait. The frame's result is the Symbol.
+    if (IoState_isEvalLoopRunning_(IOSTATE, m)) {
+        IoObject *context = IoMessage_locals_valueArgAt_(m, locals, 0);
+        context = (context == IONIL(self)) ? locals : context;
+        if (IoSeq_interpolateInFrame_(s, locals, m, context, 1)) {
+            return IONIL(self);
+        }
+    }
+
     IoSeq_interpolateInPlace(s, locals, m);
     return IoSeq_rawAsSymbol(s);
 }

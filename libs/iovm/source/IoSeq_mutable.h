@@ -75,6 +75,10 @@ IOVM_API IO_METHOD(IoSeq, appendPathSeq);
 IOVM_API IO_METHOD(IoSeq, asCapitalized);
 
 IOVM_API IO_METHOD(IoSeq, interpolateInPlace);
+IOVM_API IO_METHOD(IoSeq, rawInterpolateParts);
+IOVM_API int IoSeq_interpolateInFrame_(IoSeq *self, IoObject *locals,
+                                       IoMessage *m, IoObject *context,
+                                       int asSymbol);
 
 // math ---------------------------------------------------------------------
 

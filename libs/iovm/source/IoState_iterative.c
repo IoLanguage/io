@@ -2137,6 +2137,15 @@ int IoState_evalInFrame_(IoState *state, IoMessage *m, IoMessage *code,
     return 1;
 }
 
+/*cdoc State IoState_isEvalLoopRunning_(state, m)
+True if the eval loop's current frame is running `m`, i.e. the CFunction
+asking was called directly from the loop and may use IoState_evalInFrame_.
+*/
+int IoState_isEvalLoopRunning_(IoState *state, IoMessage *m) {
+    IoEvalFrame *frame = state->currentFrame;
+    return frame && FRAME_DATA(frame)->message == m;
+}
+
 /*cdoc State IoState_evalInFrame_removingProto_(state, m, code, target, locals, fixedResult, proto)
 IoState_evalInFrame_, and when the code is done, takes `proto` off
 `target`'s protos. The proto is also removed if an error unwinds the

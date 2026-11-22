@@ -33,6 +33,7 @@ IOVM_API IoObject *IoMessage_locals_performOn_iterative(IoMessage *self,
 // C eval loop. Returns 1 if it did: the caller must then return at once, and
 // the calling message's result becomes the code's result (or fixedResult,
 // if that isn't NULL). Returns 0 if the caller has to evaluate it itself.
+IOVM_API int IoState_isEvalLoopRunning_(IoState *self, IoMessage *m);
 IOVM_API int IoState_evalInFrame_removingProto_(IoState *self, IoMessage *m,
                                                 IoMessage *code,
                                                 IoObject *target,
