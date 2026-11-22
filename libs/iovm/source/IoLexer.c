@@ -1264,14 +1264,14 @@ int IoLexer_readDigit(IoLexer *self) {
 }
 
 /*cdoc Lexer IoLexer_readLetter(self)
-Matches an identifier letter: ASCII A-Z, a-z, the colon (Io allows it
-mid-identifier), or any non-ASCII byte. The colon inclusion is what
-makes keyword-style messages like `at:put:` lex as a single identifier.
+Matches an identifier letter: ASCII A-Z, a-z, or any non-ASCII byte.
+A colon is not a letter (it once was, for the Objective-C bridge's
+`at:put:` names), so `a:=2` lexes as `a`, `:=`, `2`.
 */
 int IoLexer_readLetter(IoLexer *self) {
     return IoLexer_readCharInRange_(self, 'A', 'Z') ||
            IoLexer_readCharInRange_(self, 'a', 'z') ||
-           IoLexer_readCharIn_(self, ":") || IoLexer_readNonASCIIChar_(self);
+           IoLexer_readNonASCIIChar_(self);
 }
 
 // terminator -------------------------------
