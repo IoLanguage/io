@@ -3,4 +3,4 @@
 	url = https://github.com/kgabis/parson.git
 [submodule "colvmn"]
 	path = colvmn
-	url = git@github.com:stevedekorte/colvmn.git
+	url = https://github.com/stevedekorte/colvmn.git
