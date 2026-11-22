@@ -237,6 +237,15 @@ void IoState_popFrame_(IoState *state) {
         state->currentFrame = fd->parent;
         state->frameDepth--;
 
+        // A frame unwound by an error while its lexicalDo code was still
+        // running: take the borrowed proto off here instead.
+        if (fd->state == FRAME_STATE_DO_WAIT &&
+            fd->controlFlow.doInfo.removeProtoAfter) {
+            IoObject_rawRemoveProto_(fd->controlFlow.doInfo.evalTarget,
+                                     fd->controlFlow.doInfo.removeProtoAfter);
+            fd->controlFlow.doInfo.removeProtoAfter = NULL;
+        }
+
         // Free heap-allocated argValues (not inline buffer)
         if (fd->argValues && fd->argValues != fd->inlineArgs) {
             io_free(fd->argValues);
@@ -2082,6 +2091,12 @@ IoObject *IoState_evalLoop_(IoState *state) {
             if (fd->controlFlow.doInfo.fixedResult) {
                 fd->result = fd->controlFlow.doInfo.fixedResult;
             }
+            if (fd->controlFlow.doInfo.removeProtoAfter) {
+                IoObject_rawRemoveProto_(
+                    fd->controlFlow.doInfo.evalTarget,
+                    fd->controlFlow.doInfo.removeProtoAfter);
+                fd->controlFlow.doInfo.removeProtoAfter = NULL;
+            }
             fd->state = FRAME_STATE_CONTINUE_CHAIN;
             break;
         }
@@ -2116,8 +2131,27 @@ int IoState_evalInFrame_(IoState *state, IoMessage *m, IoMessage *code,
     fd->controlFlow.doInfo.evalTarget = target;
     fd->controlFlow.doInfo.evalLocals = locals;
     fd->controlFlow.doInfo.fixedResult = fixedResult;
+    fd->controlFlow.doInfo.removeProtoAfter = NULL;
     fd->state = FRAME_STATE_DO_EVAL;
     state->needsControlFlowHandling = 1;
+    return 1;
+}
+
+/*cdoc State IoState_evalInFrame_removingProto_(state, m, code, target, locals, fixedResult, proto)
+IoState_evalInFrame_, and when the code is done, takes `proto` off
+`target`'s protos. The proto is also removed if an error unwinds the
+frame first. For lexicalDo, which lends the receiver the caller's scope
+only while its code runs.
+*/
+int IoState_evalInFrame_removingProto_(IoState *state, IoMessage *m,
+                                       IoMessage *code, IoObject *target,
+                                       IoObject *locals, IoObject *fixedResult,
+                                       IoObject *proto) {
+    if (!IoState_evalInFrame_(state, m, code, target, locals, fixedResult)) {
+        return 0;
+    }
+    FRAME_DATA(state->currentFrame)->controlFlow.doInfo.removeProtoAfter =
+        proto;
     return 1;
 }
 

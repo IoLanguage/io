@@ -214,6 +214,7 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
             IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.evalTarget);
             IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.evalLocals);
             IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.fixedResult);
+            IoObject_shouldMarkIfNonNull(fd->controlFlow.doInfo.removeProtoAfter);
             break;
 
         default:
