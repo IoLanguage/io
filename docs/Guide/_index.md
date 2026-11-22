@@ -310,6 +310,17 @@ A `-` written directly before a number, with nothing to its left, is part of the
 
 With something to its left, `-` is subtraction as usual (`3 -1` is `2`), and with a space after it, it negates everything that follows (`- 1 abs` is `-1`).
 
+Operators can be added while a program runs, with `OperatorTable addOperator` and `addAssignOperator`. A file is rearranged for operators one statement at a time, just before each statement runs, so a new operator applies from the next statement on:
+
+```
+OperatorTable addOperator("plus", 3)
+Number plus := method(n, self + n)
+1 plus 2 plus 3
+==> 6
+```
+
+A method body keeps the operators that were in force when the method was defined.
+
 
 
 
@@ -980,6 +991,12 @@ HttpServer handleRequest := method(aSocket,
 
 Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs to minimize blocking while also freeing the programmer from managing the fine details of synchronization.
 
+Arguments of a future send are evaluated when the message is sent. The exception is a target that reads its arguments as code, such as `select` or `foreach`: those are run later by the actor, in the sender's context.
+
+```
+big := list(5, 1, 4, 2) futureSend(select(x, x > 3))
+```
+
 #### Auto Deadlock Detection
 
 An advantage of using futures is that when a future requires a wait, it will check to see if pausing to wait for the result would cause a deadlock and if so, avoid the deadlock and raise an exception. It performs this check by traversing the list of connected futures.
@@ -1059,6 +1076,15 @@ e catch(Exception,
 ```
 
 The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
+
+A `return`, `break` or `continue` inside a catch handler acts on the method or loop that called catch:
+
+```
+load := method(path,
+    try(File with(path) openForReading) catch(Exception, return nil)
+    // ...
+)
+```
 
 An exception records where it was raised. `showStack` prints the error and the calls that led to it, innermost first, and `stackTraceLines` returns the same lines as a list:
 
