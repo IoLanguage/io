@@ -486,43 +486,6 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
             return;
         }
 
-        if (IoMessage_argCount(attaching) > 0) { // a(1,2,3) := b ;
-            // Expression: target msgName(v1, v1, v3) assignOp   v4    ; rest
-            //                    ^^^^^^^^^^^^^^^^^^^ ^^^^^^^^  ^^^^^  ^^^^^^
-            //                      slotNameMessage     msg      val    rest
-            // becomes:    target assignOpName(msgName(v1, v2, v3), v4) ; rest
-
-            setSlotName = Levels_nameForAssignOperator(
-                self, state, messageSymbol, NULL, msg);
-
-            IoMessage *slotNameMessageCopy = IoMessage_deepCopyOf_(attaching);
-            IoMessage_rawSetNext_(slotNameMessageCopy, NULL);
-
-            IoMessage *slotNameMessage = attaching;
-            DATA(slotNameMessage)->name = setSlotName;
-            DATA(slotNameMessage)->args = List_new();
-            IoMessage_addArg_(slotNameMessage, slotNameMessageCopy);
-
-            IoMessage *value = IoMessage_deepCopyOf_(DATA(msg)->next);
-            IoMessage_rawSetNext_(value, NULL);
-            // Step forward twice to the "next" part of the expression,
-            // which may be NULL, and make a copy.
-            IoMessage *rest = DATA(msg)->next;
-            if (rest) {
-	        rest = DATA(rest)->next;
-            }
-            if (rest) {
-                rest = IoMessage_deepCopyOf_(rest);
-            }
-            IoMessage_rawSetNext_(slotNameMessage, rest);
-            IoMessage_addArg_(slotNameMessage, value);
-
-            /* printf("slotNameMessage: %s\n",
-             * CSTRING(IoObject_asString_(slotNameMessage, msg))); */
-            /* printf("rest: %s\n", CSTRING(IoObject_asString_(rest, msg))); */
-            return;
-        }
-
         if (msgArgCount > 1) { // setSlot("a") :=(b, c, d) e ;
             IoState_error_(state, msg,
                            "compile error: Assign operator passed multiple "
@@ -531,7 +494,24 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
             return;
         }
 
-        {
+        if (IoMessage_argCount(attaching) > 0) { // a(1,2,3) := b ;
+            // Expression: target msgName(v1, v2, v3) assignOp value ; rest
+            // becomes:    target assignOpName(msgName(v1, v2, v3), value) ; rest
+            //
+            // The left side is passed as a message (a copy of `attaching`
+            // without its tail); the value is spliced in below, exactly as
+            // for `a := b`. The copy is queued so operators in its own
+            // arguments are shuffled too.
+            IoMessage *slotNameMessageCopy = IoMessage_deepCopyOf_(attaching);
+            IoMessage_rawSetNext_(slotNameMessageCopy, NULL);
+            List_push_(expressions, slotNameMessageCopy);
+
+            setSlotName = Levels_nameForAssignOperator(
+                self, state, messageSymbol, NULL, msg);
+
+            List_removeAll(IoMessage_rawArgList(attaching));
+            IoMessage_addArg_(attaching, slotNameMessageCopy);
+        } else {
             // a := b ;
             IoSymbol *slotName = DATA(attaching)->name;
             IoSymbol *quotedSlotName =
