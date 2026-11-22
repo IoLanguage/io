@@ -1,5 +1,11 @@
 # The Io Language
 
+> **This branch is no longer maintained.** It holds the previous native build
+> of Io (CMake, dynamic addons, Eerie), last tagged `2026.04.20-native-final`.
+> It gets no fixes or releases. Io now targets WebAssembly: see the
+> [`master` branch](https://github.com/IoLanguage/io) and
+> <https://iolanguage.org>. Issues are tracked only for the WebAssembly build.
+
 _Note: This document is intended to be used as a reference for setting up and configuring Io. For a guide on how to use the language itself, please visit the website at <http://iolanguage.org/guide/guide.html>._
 
 # Table of Contents
