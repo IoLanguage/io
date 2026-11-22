@@ -43,6 +43,10 @@ typedef struct {
     IoMessage *next;
     IoObject *cachedResult;
 
+    // Set on a statement terminator (";") when the statement after it has
+    // not been operator-shuffled yet. See IoMessage_opShuffleStatement_.
+    unsigned char shufflePending;
+
     // debugging info
     // int charNumber;
     int lineNumber;

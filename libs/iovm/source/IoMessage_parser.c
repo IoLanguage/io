@@ -101,6 +101,20 @@ before return; the caller receives a ready-to-evaluate message root.
 */
 IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text,
                                               IoSymbol *label) {
+    return IoMessage_newFromText_labelSymbol_lazy_(state, text, label, 0);
+}
+
+/*cdoc Message IoMessage_newFromText_labelSymbol_lazy_(state, text, label, lazy)
+The compile pipeline behind IoMessage_newFromText_labelSymbol_. With
+`lazy` set, only the first statement is operator-shuffled here; each
+later one is shuffled by the evaluator just before it runs (see
+IoMessage_opShuffleStatement_). That is for source that is about to be
+run (doString, doFile). Callers that hand the tree out to be inspected
+(Message fromString, asMessage) shuffle all of it up front.
+*/
+IoMessage *IoMessage_newFromText_labelSymbol_lazy_(void *state,
+                                                   const char *text,
+                                                   IoSymbol *label, int lazy) {
     IoLexer *lexer;
     IoMessage *msg;
 
@@ -115,7 +129,14 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text,
     // On a compile error msg is a placeholder and the exception is already
     // raised; don't run the (Io-level) operator shuffle over it.
     if (!((IoState *)state)->errorRaised) {
-        IoMessage_opShuffle_(msg);
+        // A unit whose first message is `noShuffling` is never shuffled;
+        // IoMessage_opShuffle_ checks that on the head message.
+        if (lazy &&
+            IoMessage_name(msg) != ((IoState *)state)->noShufflingSymbol) {
+            IoMessage_opShuffleStatement_(msg);
+        } else {
+            IoMessage_opShuffle_(msg);
+        }
     }
     IoMessage_label_(msg, label);
     IoLexer_free(lexer);

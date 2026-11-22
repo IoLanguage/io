@@ -754,7 +754,8 @@ displays errors.
 */
 IoObject *IoState_rawOn_doCString_withLabel_(IoState *self, IoObject *target,
                                              const char *s, const char *label) {
-    IoMessage *m = IoMessage_newFromText_label_(self, s, label);
+    IoMessage *m = IoMessage_newFromText_labelSymbol_lazy_(
+        self, s, IoState_symbolWithCString_(self, label), 1);
     return IoMessage_locals_performOn_(m, target, target);
 }
 
