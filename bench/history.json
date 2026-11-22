@@ -469,5 +469,26 @@
 			"nsieve6": 0.54,
 			"cheapconc50": 4.83
 		}
+	},
+	{
+		"date": "2026-11-22",
+		"commit": "ea728aa4",
+		"machine": "github-ci",
+		"ioVersion": "20260302",
+		"metrics": {
+			"localAccesses": 26.848,
+			"localSets": 10.338,
+			"slotAccesses": 22.798,
+			"slotSets": 6.26,
+			"blockActivations": 18.319,
+			"instantiations": 2.088,
+			"cfuncActivations": 21.071,
+			"coroutineSwitches": 0.177,
+			"vectorGflops": 3.606,
+			"binarytrees10": 1.326,
+			"nbody50k": 1.939,
+			"nsieve6": 0.473,
+			"cheapconc50": 4.201
+		}
 	}
 ]
