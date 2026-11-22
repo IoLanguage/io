@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-22 · 4c832f14
+Site build: Io · 2026-11-22 · e144fdcb
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7102,6 +7102,7 @@ Io uses date-based versioning. This page collects the notable changes of the las
 On `master`, not yet tagged.
 
 - **Negative number literals** — `-1 acos` now means `(-1) acos`. A `-` written directly before a number, with nothing to its left, is part of the number; it used to negate the whole rest of the expression, so `-1 acos` gave `0`. Subtraction (`3 -1`) and negation with a space (`- 1 acos`) are unchanged. Code that relied on the old reading, such as `-2 ** 2` giving `-4`, now gets `4`; write `-(2 ** 2)` ([#489](https://github.com/IoLanguage/io/issues/489)).
+- **No space needed before a minus** — `a:=-1`, `x*-1` and `x*-y` now work. The lexer reads `:=-` and `*-` as one operator name; when that name is not an operator but is one without its final `-`, it is split. An operator that really is named `*-` in the OperatorTable is left alone.
 - **Operators added mid-file take effect** — a file run with `doFile` or `doString` is now rearranged for operators one statement at a time, just before each statement runs. An operator, assign operator or precedence change made by one statement applies to the statements after it; it used to apply only in the REPL or in a separately loaded file. A compile error such as `x :=` with no value is now raised when its statement is reached, after earlier statements have run ([#494](https://github.com/IoLanguage/io/issues/494), [#438](https://github.com/IoLanguage/io/issues/438)).
 - **`a:=2` works** — a colon is no longer part of an identifier, so assignment needs no space before the operator. A name containing a colon, such as `at:put:`, is no longer one identifier ([#253](https://github.com/IoLanguage/io/issues/253)).
 - **`return` inside a catch handler** — `try(...) catch(Exception, return x)` now returns from the enclosing method, and `break` and `continue` in a handler act on the enclosing loop. The handler used to leave only `catch` itself ([#37](https://github.com/IoLanguage/io/issues/37)).

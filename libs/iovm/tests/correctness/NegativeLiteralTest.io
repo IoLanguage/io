@@ -56,6 +56,42 @@ NegativeLiteralTest := UnitTest clone do(
 		assertEquals(-b, -5)
 	)
 
+	// The lexer reads `:=-` and `*-` as one operator name. When that name is
+	// not an operator but is one without its final `-`, it is split, so no
+	// space is needed between an operator and a minus.
+	testOperatorDirectlyBeforeMinus := method(
+		a:=-1
+		assertEquals(a, -1)
+		a=-2
+		assertEquals(a, -2)
+		x := 2
+		assertEquals(x*-1, -2)
+		assertEquals(x+-1, 1)
+		assertEquals(1--1, 2)
+		assertEquals(4/-2, -2)
+		assertTrue(1!=-1)
+		assertFalse(3<-1)
+		b:=-3 abs
+		assertEquals(b, 3)
+	)
+
+	testOperatorDirectlyBeforeNegation := method(
+		y := 3
+		assertEquals(2*-y, -6)
+		z:=-y
+		assertEquals(z, -3)
+		assertEquals(message(c:=-1) asString, "setSlot(\"c\", -1)")
+	)
+
+	testRealOperatorEndingInMinusIsKept := method(
+		r := doString("OperatorTable addOperator(\"*-\", 2)
+			Number setSlot(\"*-\", method(n, self * n - 1))
+			3 *- 2")
+		OperatorTable operators removeAt("*-")
+		Number removeSlot("*-")
+		assertEquals(r, 5)
+	)
+
 	testMessageText := method(
 		assertEquals(message(-1 abs) asString, "-1 abs")
 		assertEquals(message(3 -1) asString, "3 -(1)")
