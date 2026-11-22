@@ -214,6 +214,30 @@ and records lineNumber/charNumber for diagnostics and stack traces.
 */
 void IoMessage_parseName(IoMessage *self, IoLexer *lexer) {
     IoToken *token = IoLexer_pop(lexer);
+    IoToken *num = token->nextToken;
+
+    // `-` written directly before a number is read as a negative literal,
+    // so `-1 acos` is `(-1) acos`. opShuffle splits it back into
+    // subtraction when there is a left operand, as in `3 -1`.
+    if (IoToken_type(token) == IDENTIFIER_TOKEN &&
+        IoToken_nameIs_(token, "-") && num &&
+        num == IoLexer_top(lexer) &&
+        (IoToken_type(num) == NUMBER_TOKEN ||
+         IoToken_type(num) == HEXNUMBER_TOKEN) &&
+        num->lineNumber == token->lineNumber &&
+        num->charNumber - (int)num->length == token->charNumber) {
+        IoLexer_pop(lexer);
+        // ifPossibleCacheToken_ reads the literal's text from the name
+        DATA(self)->name = IOREF(IOSYMBOL(IoToken_name(num)));
+        IoMessage_ifPossibleCacheToken_(self, num);
+        DATA(self)->name = IOREF(IoSeq_newSymbolWithFormat_(
+            IOSTATE, "-%s", IoToken_name(num)));
+        IoMessage_rawSetCachedResult_(
+            self, IONUMBER(-IoNumber_asDouble(IoMessage_rawCachedResult(self))));
+        IoMessage_rawSetLineNumber_(self, IoToken_lineNumber(token));
+        IoMessage_rawSetCharNumber_(self, IoToken_charNumber(token));
+        return;
+    }
 
     DATA(self)->name = IOREF(IOSYMBOL(IoToken_name(token)));
 

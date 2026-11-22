@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-19 · cd9ebb6b
+Site build: Io · 2026-11-19 · b9156011
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -2269,6 +2269,15 @@ Is parsed as:
 ```
 
 User defined operators (that don't have a standard operator name) are performed left to right.
+
+A `-` written directly before a number, with nothing to its left, is part of the number. So a message can be sent to a negative literal without parentheses:
+
+```
+-1 abs
+==> 1
+```
+
+With something to its left, `-` is subtraction as usual (`3 -1` is `2`), and with a space after it, it negates everything that follows (`- 1 abs` is `-1`).
 
 
 
@@ -7061,6 +7070,12 @@ Source: /Release%20Notes/
 Notable changes in Io over the past twelve months.
 
 Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
+
+## Unreleased
+
+On `master`, not yet tagged.
+
+- **Negative number literals** — `-1 acos` now means `(-1) acos`. A `-` written directly before a number, with nothing to its left, is part of the number; it used to negate the whole rest of the expression, so `-1 acos` gave `0`. Subtraction (`3 -1`) and negation with a space (`- 1 acos`) are unchanged. Code that relied on the old reading, such as `-2 ** 2` giving `-4`, now gets `4`; write `-(2 ** 2)` ([#489](https://github.com/IoLanguage/io/issues/489)).
 
 ## 2026.11.20 — Waiting in more places, Date and List fixes
 
