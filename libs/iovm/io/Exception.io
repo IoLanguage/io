@@ -641,7 +641,12 @@ MyErrorType := Error clone
 
 	catch := method(exceptionProto,
 		//doc Exception catch(exceptionProto) Catch an exception with the specified exception prototype.
-		if (self isKindOf(exceptionProto), call evalArgAt(1); nil, self)
+		if(self isKindOf(exceptionProto) not, return self)
+		// relayStopStatus passes a return, break or continue in the handler
+		// on to the method or loop that called catch.
+		r := call relayStopStatus(call evalArgAt(1))
+		if(call stopStatus isReturn, return getSlot("r"))
+		nil
 	)
 
 	pass := method(
