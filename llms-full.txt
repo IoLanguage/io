@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-22 · e144fdcb
+Site build: Io · 2026-11-22 · b73e6b01
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -3046,7 +3046,7 @@ e catch(Exception,
 
 The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
 
-A `return`, `break` or `continue` inside a catch handler acts on the method or loop that called catch:
+A `return`, `break` or `continue` inside the code given to try, or inside a catch handler, acts on the method or loop around it:
 
 ```
 load := method(path,
@@ -7105,7 +7105,7 @@ On `master`, not yet tagged.
 - **No space needed before a minus** — `a:=-1`, `x*-1` and `x*-y` now work. The lexer reads `:=-` and `*-` as one operator name; when that name is not an operator but is one without its final `-`, it is split. An operator that really is named `*-` in the OperatorTable is left alone.
 - **Operators added mid-file take effect** — a file run with `doFile` or `doString` is now rearranged for operators one statement at a time, just before each statement runs. An operator, assign operator or precedence change made by one statement applies to the statements after it; it used to apply only in the REPL or in a separately loaded file. A compile error such as `x :=` with no value is now raised when its statement is reached, after earlier statements have run ([#494](https://github.com/IoLanguage/io/issues/494), [#438](https://github.com/IoLanguage/io/issues/438)).
 - **`a:=2` works** — a colon is no longer part of an identifier, so assignment needs no space before the operator. A name containing a colon, such as `at:put:`, is no longer one identifier ([#253](https://github.com/IoLanguage/io/issues/253)).
-- **`return` inside a catch handler** — `try(...) catch(Exception, return x)` now returns from the enclosing method, and `break` and `continue` in a handler act on the enclosing loop. The handler used to leave only `catch` itself ([#37](https://github.com/IoLanguage/io/issues/37)).
+- **`return` inside try and catch** — `try(return x)` and `try(...) catch(Exception, return x)` now return from the enclosing method, and `break` and `continue` act on the enclosing loop. They used to leave only the try block or the handler. Adds `Coroutine finalStopStatus` ([#37](https://github.com/IoLanguage/io/issues/37)).
 - **Futures with code arguments** — `list @select(x, x > y)` raised “Object does not respond to ‘x’”. When the target reads its arguments as code (`select`, `map`, `foreach` and the like), a future send now leaves them unevaluated and the actor runs them in the sender’s context. Value arguments are still evaluated when the message is sent. Adds `CFunction isLazyArgs` ([#55](https://github.com/IoLanguage/io/issues/55)).
 - **Assignment with arguments on the left** — `a foo(1) := 5 + 2` used only `5` as the value and then evaluated the value a second time; it now passes the whole expression once. `a foo(1) :=` with no value is a compile error instead of a crash ([#534](https://github.com/IoLanguage/io/pull/534)).
 - **Cloning without an SSH key** — the `colvmn` submodule uses an https address, so `git clone --recursive` works for everyone ([#504](https://github.com/IoLanguage/io/issues/504)).
