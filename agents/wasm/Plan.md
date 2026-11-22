@@ -30,10 +30,11 @@ The list chosen on 2026-11-19 is done apart from a parked remainder.
    eval loop can't switch coroutines; in the browser that is a clear error
    (see Async.md). Two batches are done (see Recently done). What still
    refuses to wait, all uncommon:
-   - `lexicalDo` — needs a step after the code runs (remove the proto).
-   - `interpolate` — evaluates several expressions in one call.
-   - `sortBy`, `sortInPlace(expr)`, `sortInPlaceBy` — the comparison runs
-     inside C `qsort`; would need a sort written against frames or in Io.
+   - `sortBy`, `sortInPlaceBy` — the comparison block runs inside C
+     `qsort`. A merge sort in Io was measured at about 3x slower on 20,000
+     numbers, so this needs a sort written as a frame state machine.
+   (`lexicalDo`, `interpolate` and `sortInPlace(expr)` were done on
+   2026-11-22.)
    - `Date cpuSecondsToRun`, and Io callbacks JS calls synchronously
      during an Io call (not fixable from the Io side).
    Worth doing only if a real use turns up.
@@ -43,11 +44,8 @@ The list chosen on 2026-11-19 is done apart from a parked remainder.
 
 Housekeeping:
 
-- **`native` has no CI and its full test run crashes.** The workflow there
-  only triggers for `master`, `main` and `develop`, so PRs against `native`
-  are untested, and `run.io` segfaults on macOS (each test file passes on
-  its own). Either fix both or state that `native` is frozen. Until then,
-  fixes are ported by hand and tested locally (#522).
+- **`native` is unmaintained** (decided 2026-11-22; README notices on both
+  branches). Fixes are no longer ported to it.
 
 ### Recently done
 
