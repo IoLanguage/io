@@ -301,6 +301,15 @@ Is parsed as:
 
 User defined operators (that don't have a standard operator name) are performed left to right.
 
+A `-` written directly before a number, with nothing to its left, is part of the number. So a message can be sent to a negative literal without parentheses:
+
+```
+-1 abs
+==> 1
+```
+
+With something to its left, `-` is subtraction as usual (`3 -1` is `2`), and with a space after it, it negates everything that follows (`- 1 abs` is `-1`).
+
 
 
 

@@ -442,6 +442,46 @@ IoSymbol *Levels_nameForAssignOperator(Levels *self, IoState *state,
     }
 }
 
+/*cdoc Message Levels_splitNegativeLiteral(self, msg)
+The parser reads `-` written directly before a number (`-1`) as one
+negative literal. That is right where nothing stands to its left: the
+start of an expression, or right after another operator, so `-1 acos`
+is `(-1) acos`. With a left operand, as in `3 -1`, the `-` is
+subtraction, so the literal is split back into a `-` operator followed
+by the positive number. Returns 1 if msg was split.
+*/
+static int Levels_splitNegativeLiteral(Levels *self, IoMessage *msg) {
+    IoObject *value = IoMessage_rawCachedResult(msg);
+    IoSymbol *name = IoMessage_name(msg);
+    Level *top = Levels_currentLevel(self);
+
+    if (!value || !ISNUMBER(value) || IoMessage_argCount(msg) ||
+        IoSeq_rawSize(name) < 2 || CSTRING(name)[0] != '-') {
+        return 0;
+    }
+
+    if ((top->type == NEW && top->message == NULL) || top->type == ARG ||
+        (top->message && IoMessage_rawIsEOL(top->message))) {
+        return 0; // no left operand: keep the negative literal
+    }
+
+    {
+        IoState *state = IoObject_state(msg);
+        IoSymbol *numName = IoState_symbolWithCString_(state, CSTRING(name) + 1);
+        IoMessage *num = IoMessage_newWithName_returnsValue_(
+            state, numName,
+            IoState_numberWithDouble_(state, -IoNumber_asDouble(value)));
+
+        IoMessage_rawCopySourceLocation(num, msg);
+        IoMessage_rawSetNext_(num, DATA(msg)->next);
+        DATA(msg)->name =
+            IoObject_addingRef_(msg, IoState_symbolWithCString_(state, "-"));
+        IoMessage_rawSetCachedResult_(msg, NULL);
+        IoMessage_rawSetNext_(msg, num);
+    }
+    return 1;
+}
+
 /*cdoc Message Levels_attach(self, msg, expressions)
 Core shuffler step: decides what to do with the next message in the
 chain. Three branches: (1) assign operator — rewrite the attaching
@@ -456,7 +496,9 @@ as a normal message.
 */
 void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
     IoState *state = IoObject_state(msg);
-    IoSymbol *messageSymbol = IoMessage_name(msg);
+    IoSymbol *messageSymbol;
+    Levels_splitNegativeLiteral(self, msg);
+    messageSymbol = IoMessage_name(msg);
     const char *messageName = CSTRING(messageSymbol);
     int precedence =
         Levels_levelForOp(self, (char *)messageName, messageSymbol, msg);
