@@ -1095,7 +1095,7 @@ IO_METHOD(IoSeq, asMessage) {
     else
         label = IOSYMBOL("[asMessage]");
 
-    return IoMessage_newFromText_labelSymbol_(IOSTATE, CSTRING(self), label);
+    return IoMessage_newFromSeq_labelSymbol_lazy_(IOSTATE, self, label, 0);
 }
 
 /*doc Sequence ..(aSequence)

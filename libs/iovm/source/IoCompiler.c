@@ -111,8 +111,8 @@ IO_METHOD(IoObject, messageForString) {
         label = IoMessage_locals_symbolArgAt_(m, locals, 1);
     }
 
-    return IoMessage_newFromText_labelSymbol_(
-        IOSTATE, CSTRING((IoSymbol *)string), (IoSymbol *)label);
+    return IoMessage_newFromSeq_labelSymbol_lazy_(IOSTATE, (IoSeq *)string,
+                                                  (IoSymbol *)label, 0);
 }
 
 IO_METHOD(IoObject, messageForString2) {
