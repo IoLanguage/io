@@ -118,6 +118,7 @@ void IoCoroutine_protoFinish(IoCoroutine *self) {
         {"resume", IoCoroutine_resume},
         {"isCurrent", IoCoroutine_isCurrent},
         {"isFinished", IoCoroutine_isFinished},
+        {"finalStopStatus", IoCoroutine_finalStopStatus},
         {"currentCoroutine", IoCoroutine_currentCoroutine},
         {"implementation", IoCoroutine_implementation},
         {"setMessageDebugging", IoCoroutine_setMessageDebugging},
@@ -1188,6 +1189,17 @@ IO_METHOD(IoCoroutine, isCurrent) {
 
     IoObject *v = IOBOOL(self, self == IoState_currentCoroutine(IOSTATE));
     return v;
+}
+
+IO_METHOD(IoCoroutine, finalStopStatus) {
+    /*doc Coroutine finalStopStatus
+    Returns the stop status (Normal, Return, Break or Continue) the
+    coroutine's code ended with. A return, break or continue that is not
+    handled inside the coroutine ends it; try uses this to pass the stop
+    on to its caller.
+    */
+
+    return IoState_stopStatusObject(IOSTATE, DATA(self)->stopStatus);
 }
 
 IO_METHOD(IoCoroutine, isFinished) {
