@@ -45,6 +45,7 @@ FutureProxy := Object clone do(
 Future := Object clone do(
 	newSlot("runTarget")
 	newSlot("runMessage")
+	newSlot("runLocals")
 	newSlot("waitingCoros")
 
 	futureProxy := method(
@@ -135,7 +136,13 @@ Object do(
 		loop(
 			while(future := actorQueue first,
 				e := try(
-					future setResult(self doMessage(future runMessage))
+					future setResult(
+						if(future runLocals,
+							self doMessage(future runMessage, future runLocals)
+						,
+							self doMessage(future runMessage)
+						)
+					)
 					//stopStatus(future setResult(self doMessage(future runMessage)))
 				)
 				actorQueue removeFirst
@@ -160,6 +167,35 @@ Object do(
 	*/
 	handleActorException := method(e, e showStack)
     
+	/*doc Object futureArgsAreCode(aMessage)
+	Returns true if the slot aMessage names on the receiver reads its
+	arguments as code instead of values: a special form such as foreach, or
+	a method that is passed more arguments than it names, such as
+	select(x, x > 1).
+	*/
+	futureArgsAreCode := method(m,
+		s := self getSlot(m name)
+		if(getSlot("s") type == "Block", return(getSlot("s") argumentNames size < m argCount))
+		if(getSlot("s") type == "CFunction", return(getSlot("s") isLazyArgs))
+		false
+	)
+
+	/*doc Object futureSetMessage(aFuture, aMessage, sender)
+	Stores the message a future will run. Arguments are normally evaluated
+	now, in the sender. When the target reads its arguments as code (see
+	futureArgsAreCode), the message is kept as written and run later with
+	the sender as its context, so <tt>list @select(x, x > 1)</tt> works.
+	*/
+	futureSetMessage := method(f, m, sender,
+		if(self futureArgsAreCode(m),
+			f setSlot("runMessage", m clone setNext(nil))
+			f setSlot("runLocals", sender)
+		,
+			f setSlot("runMessage", m asMessageWithEvaluatedArgs(sender))
+		)
+		f
+	)
+
 	/*doc Object @
 	Sends asynchronous message to an object, returns a FutureProxy.
 	<br/>
@@ -172,10 +208,9 @@ Object do(
 	*/
 	setSlot("@", method(
 		//writeln("@ ", call argAt(0))
-		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
 		f := Future clone
 		f setSlot("runTarget", self)
-		f setSlot("runMessage", m)
+		self futureSetMessage(f, call argAt(0), call sender)
 		self actorRun
 		self actorQueue append(f)
 		f futureProxy
@@ -191,10 +226,9 @@ Object do(
 	*/
 	setSlot("@@", method(
 		//writeln(self type , "_", self uniqueId, " @@", call argAt(0)) //, " ", call argAt(0) label)
-		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
 		f := Future clone
 		f setSlot("runTarget", self)
-		f setSlot("runMessage", m)
+		self futureSetMessage(f, call argAt(0), call sender)
 		self actorRun
 		self actorQueue append(f)
 		nil

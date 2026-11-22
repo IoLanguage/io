@@ -48,6 +48,7 @@ IOVM_API void IoCFunction_print(IoCFunction *self);
 IOVM_API IO_METHOD(IoCFunction, id);
 IOVM_API IO_METHOD(IoCFunction, uniqueName);
 IOVM_API IO_METHOD(IoCFunction, typeName);
+IOVM_API IO_METHOD(IoCFunction, isLazyArgs);
 IOVM_API IO_METHOD(IoCFunction, equals);
 IOVM_API IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target,
                                         IoObject *locals, IoMessage *m,
