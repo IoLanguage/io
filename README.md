@@ -126,9 +126,10 @@ Io targets WebAssembly. A single WASI binary runs under any WASI host
 (wasmtime, Node, browsers via WASI shims) and ships with a browser REPL and
 a bidirectional Io↔JavaScript bridge.
 
-If you need the previous native build (CMake, dynamic addons, Eerie package
-manager), use the `native` branch or the `2026.04.20-native-final` tag. The
-`native` path accepts bug fixes; new development lands on `master`.
+The previous native build (CMake, dynamic addons, Eerie package manager) is
+on the `native` branch and the `2026.04.20-native-final` tag. It is no longer
+maintained: it gets no fixes or releases, and issues are only tracked for the
+WebAssembly build on `master`.
 
 
 Building
