@@ -127,6 +127,7 @@ IoList *IoList_proto(void *state) {
 
         {"sortInPlace", IoList_sortInPlace},
         {"sortInPlaceBy", IoList_sortInPlaceBy},
+        {"rawSortInPlaceWithKeys", IoList_rawSortInPlaceWithKeys},
         {"foreach", IoList_foreach},
         {"reverseInPlace", IoList_reverseInPlace},
         {"reverseForeach", IoList_reverseForeach},
@@ -1025,6 +1026,52 @@ IO_METHOD(IoList, sortInPlace) {
 
         List_qsort_r(DATA(self), sortContext,
                      (ListSortRCallback *)MSortContext_compareForSort);
+    }
+
+    IoObject_isDirty_(self, 1);
+    return self;
+}
+
+typedef struct {
+    IoObject *key;
+    IoObject *value;
+} KeyedItem;
+
+static int KeyedItem_compare(void *context, const void *ap, const void *bp) {
+    (void)context;
+    return IoObject_compare(((const KeyedItem *)ap)->key,
+                            ((const KeyedItem *)bp)->key);
+}
+
+IO_METHOD(IoList, rawSortInPlaceWithKeys) {
+    /*doc List rawSortInPlaceWithKeys(keys)
+    Sorts the receiver by the items of the keys List, which holds one key
+    per item, in the same order. Keys are compared with their compare
+    method. Used by sortInPlace(expression), which works the keys out
+    first. Returns self.
+    */
+
+    IoList *keys = IoMessage_locals_listArgAt_(m, locals, 0);
+    List *items = DATA(self);
+    List *keyItems;
+    size_t i, n = List_size(items);
+    KeyedItem *pairs;
+
+    if (IOSTATE->errorRaised) return IONIL(self);
+    keyItems = IoList_rawList(keys);
+    IOASSERT(List_size(keyItems) == n, "keys must have one item per item");
+
+    if (n > 1) {
+        pairs = io_calloc(n, sizeof(KeyedItem));
+        for (i = 0; i < n; i++) {
+            pairs[i].key = List_at_(keyItems, i);
+            pairs[i].value = List_at_(items, i);
+        }
+        portable_qsort_r(pairs, n, sizeof(KeyedItem), NULL, KeyedItem_compare);
+        for (i = 0; i < n; i++) {
+            List_at_put_(items, i, pairs[i].value);
+        }
+        io_free(pairs);
     }
 
     IoObject_isDirty_(self, 1);

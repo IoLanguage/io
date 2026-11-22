@@ -702,6 +702,51 @@ ListTest := UnitTest clone do(
             try(l groupBy(size == exampleList at(1) size))
         ) # No exceptions should be raised.
     )
+
+	// sortInPlace(expression) works out each item's key once, as ordinary
+	// code, then sorts on the keys. It used to evaluate the expression twice
+	// per comparison from inside the C sort, where code cannot wait.
+	testSortInPlaceWithExpression := method(
+		assertEquals(list("ccc", "a", "bb") sortInPlace(size), list("a", "bb", "ccc"))
+		l := list(-3, 1, -2)
+		r := l sortInPlace(abs)
+		assertEquals(l, list(1, -2, -3))
+		assertTrue(r isIdenticalTo(l))
+		assertEquals(list() sortInPlace(size), list())
+		assertEquals(list(5) sortInPlace(abs), list(5))
+	)
+
+	testSortInPlaceExpressionSeesCallerLocals := method(
+		k := 10
+		assertEquals(list(3, 1, 2) sortInPlace(* -1 + k), list(3, 2, 1))
+	)
+
+	testSortInPlaceExpressionRunsOncePerItem := method(
+		Item := Object clone do(
+			calls := list()
+			key := method(calls append(v); v)
+		)
+		items := list(4, 2, 9, 1, 7) map(n, i := Item clone; i v := n; i)
+		items sortInPlace(key)
+		assertEquals(items map(v), list(1, 2, 4, 7, 9))
+		assertEquals(Item calls size, 5)
+	)
+
+	testSortInPlaceExpressionCanYield := method(
+		assertEquals(list(2, -1) sortInPlace(yield; abs), list(-1, 2))
+	)
+
+	testSortInPlaceExpressionError := method(
+		e := try(list(1, 2) sortInPlace(noSuchMethod))
+		assertTrue(e error containsSeq("does not respond to"))
+	)
+
+	testRawSortInPlaceWithKeys := method(
+		assertEquals(list("x", "y", "z") rawSortInPlaceWithKeys(list(3, 1, 2)), list("y", "z", "x"))
+		e := try(list(1, 2) rawSortInPlaceWithKeys(list(1)))
+		assertTrue(e error containsSeq("one item per item"))
+	)
+
 )
 
 if(isLaunchScript, ListTest run, ListTest)

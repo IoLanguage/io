@@ -208,6 +208,7 @@ test("code run by evalArgAt, perform, do, lexicalDo, interpolate, init, repeat a
 		["o protos size", "1"],
 		['"a #{wait(0.001); 1} b #{wait(0.001); 2}" interpolate', "a 1 b 2"],
 		['s := "n=#{wait(0.001); 5}" asMutable; s interpolateInPlace; s', "n=5"],
+		['list("ccc", "a", "bb") sortInPlace(wait(0.001); size)', 'list("a", "bb", "ccc")'],
 	];
 	for (const [code, expected] of cases) {
 		const { output } = await io.eval(code);
