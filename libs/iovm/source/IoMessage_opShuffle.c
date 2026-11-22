@@ -482,6 +482,64 @@ static int Levels_splitNegativeLiteral(Levels *self, IoMessage *msg) {
     return 1;
 }
 
+/*cdoc Message Levels_splitOperatorMinus(self, msg)
+The lexer reads a run of operator characters as one name, so `a:=-1`
+arrives as `a` `:=-` `1` and `x*-y` as `x` `*-` `y`. When such a name is
+not itself an operator but is one once its final `-` is taken off, it is
+split into that operator followed by a minus: a negative literal if a
+number follows, otherwise a `-` message (negation). An operator that
+really is named `:=-` or `*-` in the OperatorTable is left alone.
+Returns 1 if msg was split.
+*/
+static int Levels_splitOperatorMinus(Levels *self, IoMessage *msg) {
+    IoState *state = IoObject_state(msg);
+    IoSymbol *name = IoMessage_name(msg);
+    const char *s = CSTRING(name);
+    size_t len = IoSeq_rawSize(name);
+    IoSymbol *opName;
+    IoMessage *next = DATA(msg)->next;
+    IoMessage *minus;
+    IoObject *value;
+
+    if (len < 2 || s[len - 1] != '-' || IoMessage_argCount(msg) ||
+        IoMessage_rawCachedResult(msg) ||
+        strspn(s, ":'~!@$%^&*-+=|\\<>?/") != len ||
+        IoMap_rawAt(self->operatorTable, name) ||
+        IoMap_rawAt(self->assignOperatorTable, name)) {
+        return 0;
+    }
+
+    opName = IoState_symbolWithCString_length_(state, s, len - 1);
+
+    if (!IoMap_rawAt(self->operatorTable, opName) &&
+        !IoMap_rawAt(self->assignOperatorTable, opName)) {
+        return 0;
+    }
+
+    value = next ? IoMessage_rawCachedResult(next) : NULL;
+
+    if (value && ISNUMBER(value) && IoMessage_argCount(next) == 0 &&
+        isdigit((unsigned char)CSTRING(IoMessage_name(next))[0])) {
+        // operator, then a negative literal in place of the number
+        minus = IoMessage_newWithName_returnsValue_(
+            state,
+            IoSeq_newSymbolWithFormat_(state, "-%s",
+                                       CSTRING(IoMessage_name(next))),
+            IoState_numberWithDouble_(state, -IoNumber_asDouble(value)));
+        IoMessage_rawSetNext_(minus, DATA(next)->next);
+    } else {
+        // operator, then a `-` message negating what follows
+        minus = IoMessage_newWithName_(state,
+                                       IoState_symbolWithCString_(state, "-"));
+        IoMessage_rawSetNext_(minus, next);
+    }
+
+    IoMessage_rawCopySourceLocation(minus, msg);
+    DATA(msg)->name = IoObject_addingRef_(msg, opName);
+    IoMessage_rawSetNext_(msg, minus);
+    return 1;
+}
+
 /*cdoc Message Levels_attach(self, msg, expressions)
 Core shuffler step: decides what to do with the next message in the
 chain. Three branches: (1) assign operator — rewrite the attaching
@@ -497,6 +555,7 @@ as a normal message.
 void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
     IoState *state = IoObject_state(msg);
     IoSymbol *messageSymbol;
+    Levels_splitOperatorMinus(self, msg);
     Levels_splitNegativeLiteral(self, msg);
     messageSymbol = IoMessage_name(msg);
     const char *messageName = CSTRING(messageSymbol);
