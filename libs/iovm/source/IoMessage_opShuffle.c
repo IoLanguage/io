@@ -680,6 +680,66 @@ void IoMessage_opShuffle_(IoMessage *self) {
     }
 }
 
+/*cdoc Message IoMessage_opShuffleStatement_(self)
+Shuffles only the statement that starts at `self`: the top-level chain up
+to the next terminator (";"). That terminator is marked shufflePending,
+and the evaluator shuffles the statement after it when it gets there
+(IoMessage_opShuffleNextStatement_). Shuffling a source unit this way,
+one statement at a time as it runs, means each statement is shuffled
+against the OperatorTable as it stands at that moment, so an operator
+added by one statement applies to the statements after it. A whole-unit
+shuffle up front would use the table as it was before any of the unit ran.
+*/
+void IoMessage_opShuffleStatement_(IoMessage *self) {
+    IoState *state = IOSTATE;
+    IoMessage *last = self;
+    IoMessage *terminator;
+
+    if (IoMessage_rawIsEOL(self)) {
+        DATA(self)->shufflePending = (DATA(self)->next != NULL);
+        return;
+    }
+
+    while (DATA(last)->next && !IoMessage_rawIsEOL(DATA(last)->next)) {
+        last = DATA(last)->next;
+    }
+
+    terminator = DATA(last)->next;
+
+    if (!terminator) {
+        IoMessage_opShuffle_(self);
+        return;
+    }
+
+    // Cut the statement off, shuffle it, and join the rest back on. The
+    // shuffle rewrites in place and keeps `self` as the head, but the last
+    // top-level message can change. The collector is paused because the
+    // detached tail and the shuffler's new messages are unreferenced.
+    IoState_pushCollectorPause(state);
+    IoMessage_rawSetNext_(last, NULL);
+    IoMessage_opShuffle_(self);
+
+    last = self;
+    while (DATA(last)->next) {
+        last = DATA(last)->next;
+    }
+    IoMessage_rawSetNext_(last, terminator);
+    DATA(terminator)->shufflePending = (DATA(terminator)->next != NULL);
+    IoState_popCollectorPause(state);
+}
+
+/*cdoc Message IoMessage_opShuffleNextStatement_(terminator)
+Called by the evaluator when it reaches a terminator marked
+shufflePending: clears the mark and shuffles the statement after it.
+*/
+void IoMessage_opShuffleNextStatement_(IoMessage *terminator) {
+    DATA(terminator)->shufflePending = 0;
+
+    if (DATA(terminator)->next) {
+        IoMessage_opShuffleStatement_(DATA(terminator)->next);
+    }
+}
+
 /*cdoc Message IoMessage_opShuffle(self, locals, m)
 Io-visible entry point. Walks the message tree iteratively using an
 explicit `expressions` worklist instead of C recursion — each

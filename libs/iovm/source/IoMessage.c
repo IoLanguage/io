@@ -281,6 +281,7 @@ IoMessage *IoMessage_deepCopyOf_(IoMessage *self) {
 
     IoMessage_rawSetName_(child, DATA(self)->name);
     IoMessage_rawSetCachedResult_(child, (IoObject *)DATA(self)->cachedResult);
+    DATA(child)->shufflePending = DATA(self)->shufflePending;
 
     if (DATA(self)->next) {
         IoMessage_rawSetNext_(child, IoMessage_deepCopyOf_(DATA(self)->next));
@@ -634,6 +635,12 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
 
         if (md->name == state->semicolonSymbol) {
             target = cachedTarget;
+            if (md->shufflePending) {
+                IoMessage_opShuffleNextStatement_(m);
+                if (state->errorRaised) {
+                    return state->ioNil;
+                }
+            }
         } else {
             result = md->cachedResult;
 

@@ -29,6 +29,7 @@ path (activateBlock_) and a tail-call-optimized reuse path
 */
 
 #include "IoState.h"
+#include "IoMessage_opShuffle.h"
 #include "IoEvalFrame.h"
 #include "IoMessage.h"
 #include "IoObject.h"
@@ -622,6 +623,15 @@ IoObject *IoState_evalLoop_(IoState *state) {
 
             // Check if this is a semicolon (resets target)
             if (md->name == state->semicolonSymbol) {
+                // Source run with doString/doFile is operator-shuffled one
+                // statement at a time, just before the statement runs, so
+                // an operator added by one statement applies to the next.
+                if (md->shufflePending) {
+                    IoMessage_opShuffleNextStatement_(fd->message);
+                    if (state->errorRaised) {
+                        break;
+                    }
+                }
                 fd->target = fd->cachedTarget;
                 fd->message = md->next;
                 if (md->next) {

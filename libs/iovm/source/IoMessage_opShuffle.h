@@ -16,6 +16,8 @@ extern "C" {
 
 IoMessage *IoMessage_opShuffle(IoMessage *self, IoObject *locals, IoMessage *m);
 void IoMessage_opShuffle_(IoMessage *self);
+void IoMessage_opShuffleStatement_(IoMessage *self);
+void IoMessage_opShuffleNextStatement_(IoMessage *terminator);
 
 #ifdef __cplusplus
 }

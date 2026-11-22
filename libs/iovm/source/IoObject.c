@@ -1683,8 +1683,8 @@ IO_METHOD(IoObject, doString) {
     // Use iterative path if eval loop is active, otherwise recursive fallback
     if (state->currentFrame != NULL) {
         IoState_pushCollectorPause(state);
-        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_(state,
-            CSTRING(string), label);
+        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_lazy_(state,
+            CSTRING(string), label, 1);
         IoState_popCollectorPause(state);
 
         if (!codeMsg) {
@@ -1731,8 +1731,8 @@ IO_METHOD(IoObject, doFile) {
     // Use iterative path if eval loop is active, otherwise recursive fallback
     if (state->currentFrame != NULL) {
         IoState_pushCollectorPause(state);
-        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_(state,
-            CSTRING(string), path);
+        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_lazy_(state,
+            CSTRING(string), path, 1);
         IoState_popCollectorPause(state);
 
         if (!codeMsg) {
