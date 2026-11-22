@@ -153,6 +153,15 @@ IO_METHOD(IoCFunction, uniqueName) {
     return IONIL(self);
 }
 
+IO_METHOD(IoCFunction, isLazyArgs) {
+    /*doc CFunction isLazyArgs
+    Returns true if the CFunction is a special form: one that receives its
+    arguments as unevaluated messages, such as if, while or foreach.
+    */
+
+    return IOBOOL(self, DATA(self)->isLazyArgs);
+}
+
 IO_METHOD(IoCFunction, typeName) {
     /*doc CFunction typeName
     Returns the owning type of the CFunction or nil if the CFunction can be
@@ -295,6 +304,7 @@ void IoCFunction_protoFinish(void *state) {
         {"performOn", IoCFunction_performOn},
         {"uniqueName", IoCFunction_uniqueName},
         {"typeName", IoCFunction_typeName},
+        {"isLazyArgs", IoCFunction_isLazyArgs},
         {"setProfilerOn", IoCFunction_setProfilerOn},
         {"profilerTime", IoCFunction_profilerTime},
         {NULL, NULL},
