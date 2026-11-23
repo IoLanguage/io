@@ -61,14 +61,24 @@ export async function startRepl(loadVm, doc = document) {
 		let resultLine = null;
 		// Evals that take a while show a placeholder until they finish.
 		const timer = setTimeout(() => {
-			resultLine = appendLine("result", "⏳ running...", pair);
+			if (!resultLine) resultLine = appendLine("result", "⏳ running...", pair);
 			showStop(true);
 		}, AWAITING_DELAY_MS);
 		running++;
 
+		// Output appears as it is printed, in the line the placeholder used
+		let shown = false;
+		const onOutput = (text) => {
+			if (!resultLine) resultLine = appendLine("result", text, pair);
+			else if (!shown) resultLine.textContent = text;   // replaces the placeholder
+			else resultLine.append(text);
+			shown = true;
+			scrollToEnd();
+		};
+
 		let status, output;
 		try {
-			({ status, output } = await vm.eval(code));
+			({ status, output } = await vm.eval(code, { onOutput }));
 		} catch (e) {
 			status = -1;
 			output = "Error: " + e.message;

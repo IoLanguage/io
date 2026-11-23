@@ -7,6 +7,15 @@ export interface EvalResult {
 	output: string;
 }
 
+export interface EvalOptions {
+	/**
+	 * Receives the eval's output as it is produced: what it prints while it
+	 * runs, then the rest when it ends (the "==> value" line or the error).
+	 * The pieces add up to the result's `output`.
+	 */
+	onOutput?: (text: string) => void;
+}
+
 export type WasmSource =
 	| string
 	| URL
@@ -37,7 +46,7 @@ export class Io {
 	 * that waits (on JS Promises, `wait`, actor futures); Io never blocks the
 	 * JS thread. Evals run one at a time, in call order.
 	 */
-	eval(code: string): Promise<EvalResult>;
+	eval(code: string, options?: EvalOptions): Promise<EvalResult>;
 
 	/**
 	 * The Lobby as a JS proxy: setting a property sets a slot, calling a

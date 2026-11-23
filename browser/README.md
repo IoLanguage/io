@@ -62,6 +62,7 @@ io.dispose();
 
 - `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order.
 - Io never blocks the JS thread. An eval that waits (`wait(1)`, a JS Promise, an actor future) resolves when it finishes, and Io coroutines and `@` actors keep running between evals, driven by JS timers.
+- `io.eval(code, { onOutput })` also delivers the eval's output as it is produced: what it prints while it runs, then the rest when it ends. The pieces add up to `output`. The REPL uses this to show a long eval's output live.
 - `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
 - Each `Io.load()` makes an independent VM, so a page can run several.
 - `Io.load({ timeSlice: 50 })` keeps the page live during long-running code, and `io.interrupt()` stops an eval; see below.

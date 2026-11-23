@@ -33,6 +33,7 @@ await io.eval('JS setTimeout(block("tick" println), 100)');
 ```
 
 - `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order.
+- `io.eval(code, { onOutput: text => ... })` also delivers the eval's output as it is produced, for code that runs or waits a long time. The pieces add up to `output`.
 - `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
 - Each `Io.load()` makes an independent VM.
 - `io.interrupt()` stops the eval in progress with an "interrupted" error.
