@@ -621,6 +621,9 @@ MyErrorType := Error clone
 			// The host's own frames: the command line, or the browser's eval
 			if(file == "CLI.io" or m label == "IoState_runCLI()", break)
 			if(m name == "hostEval" and typeName == "Scheduler", break)
+			// The VM shuffling a statement's operators just before running it;
+			// a compile error raised there already names the statement.
+			if(m name == "opShuffle" and m label == "[unlabeled]", continue)
 			lines append((typeName .. " " .. m name) alignLeft(36) .. " " .. file .. " " .. m lineNumber)
 			if(first isNil, first = m)
 		)

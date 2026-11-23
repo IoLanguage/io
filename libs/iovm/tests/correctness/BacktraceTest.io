@@ -74,6 +74,16 @@ BacktraceTest := UnitTest clone do(
 		assertEquals(list("Number +", "Thing inner", "Thing outer"), calls(o caught) slice(0, 3))
 	)
 
+	// A statement's operators are shuffled just before it runs, so a compile
+	// error in a later statement is raised from that step. The step itself
+	// is the VM's, and is left out of the trace.
+	testCompileErrorHidesShuffleStep := method(
+		e := try(doString("1\nx :="))
+		assertTrue(e error containsSeq("must be followed by a value"))
+		assertEquals(0, e stackTraceLines select(line, line containsSeq("opShuffle")) size)
+		assertTrue(e stackTraceLines first beginsWithSeq(":="))
+	)
+
 	testNeverRaisedHasNoTrace := method(
 		assertEquals(list(), Exception clone stackTraceLines)
 	)
