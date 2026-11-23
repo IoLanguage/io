@@ -225,6 +225,9 @@ struct IoState {
     // give the page a turn during long-running code, and to interrupt it.
     void (*hostPollCallback)(struct IoState *);
     int hostPollCountdown;
+    // Counts Coroutine resume: a host can tell whether the running
+    // coroutine has switched of its own accord since it last looked.
+    unsigned int coroutineResumeCount;
 
     // CHash *profiler;
 };

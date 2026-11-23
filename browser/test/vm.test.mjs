@@ -310,6 +310,67 @@ test("with a time slice, long-running code gives JS a turn and can be interrupte
 	vm.dispose();
 });
 
+test("background code that never waits is reported, and stopped only when asked", async () => {
+	const vm = await Io.load({ timeSlice: 10 });
+	const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+	const num = async (name) => Number((await vm.eval(name)).output.replace("==> ", ""));
+	let printed = "";
+	vm.onOutput((text) => (printed += text));
+	const reports = [];
+	vm.onBackgroundBusy((busy) => reports.push(busy));
+
+	// Background code that waits or yields is not busy, however long it runs
+	await vm.eval("ticks := 0; coroDoLater(loop(wait(0.005); ticks = ticks + 1))");
+	await vm.eval("spins := 0; coroDoLater(loop(yield; spins = spins + 1))");
+	await vm.eval("bursts := 0; coroDoLater(loop(2000 repeat(nil); bursts = bursts + 1; wait(0.002)))");
+	await sleep(200);
+	assert.equal(vm.backgroundBusy, 0);
+	assert.equal(vm.interruptBackground(), false);
+	// A long eval isn't background code
+	assert.equal((await vm.eval("n := 0; 600000 repeat(n = n + 1); n")).output, "==> 600000\n");
+	assert.equal(vm.backgroundBusy, 0);
+	assert.deepEqual(reports, []);
+
+	// One that never waits is, and is left running until JS says otherwise
+	await vm.eval("hog := 0; caught := 0; coroDoLater(loop(try(loop(hog = hog + 1)); caught = caught + 1))");
+	await sleep(1300);
+	assert.ok(vm.backgroundBusy >= 1000, `busy for ${vm.backgroundBusy} ms`);
+	assert.deepEqual(reports, [true]);
+	assert.ok(await num("hog") > 1000);
+	assert.equal(printed, "");
+
+	// interrupt() is for the eval, and leaves the background code alone
+	const { output } = await stopAfter(vm, "loop(nil)");
+	assert.match(output, /Exception: interrupted/);
+	const before = await num("hog");
+	await sleep(50);
+	assert.ok(await num("hog") > before);
+
+	// interruptBackground() stops it, through its try, and nothing else:
+	// not the eval in progress, not the coroutines that wait or yield
+	const pending = vm.eval('m := 0; 3000000 repeat(m = m + 1); "eval done"');
+	assert.equal(vm.interruptBackground(), true);
+	// Its error lands in the output of the eval running at the time (as
+	// anything background code prints during an eval does)
+	const done = await pending;
+	assert.equal(done.status, 0);
+	assert.match(done.output, /Exception: interrupted/);
+	assert.equal(await num("m"), 3000000);
+	assert.equal(printed, "");
+	await sleep(50);
+	const [hog, ticks, spins, bursts] = [await num("hog"), await num("ticks"), await num("spins"), await num("bursts")];
+	await sleep(600);
+	assert.equal(await num("hog"), hog);
+	assert.equal(await num("caught"), 0);
+	assert.ok(await num("ticks") > ticks);
+	assert.ok(await num("spins") > spins);
+	assert.ok(await num("bursts") > bursts);
+	assert.equal(vm.backgroundBusy, 0);
+	assert.deepEqual(reports, [true, false]);
+	assert.equal(vm.interruptBackground(), false);
+	vm.dispose();
+});
+
 test("eval's onOutput receives output as it is printed", async () => {
 	const collect = async (vm, code) => {
 		const pieces = [];

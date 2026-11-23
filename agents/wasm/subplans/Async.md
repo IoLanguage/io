@@ -209,6 +209,31 @@ VM hook:
   uncatchable. The flag clears when the eval ends. `hostRun` drops timers
   and Promise waiters that belong to finished coroutines, since an
   interrupted one never removes its own.
+- **Background code** (`io_background_busy_ms`, `io_interrupt_background`;
+  `io.backgroundBusy`, `io.onBackgroundBusy`, `io.interruptBackground()`).
+  A coroutine other than the eval that never waits is sliced like any
+  other, and nothing stops it unless JS asks: a loop the user meant to run
+  must keep its semantics. The poll only records. `IoState` counts
+  `Coroutine resume` calls (`coroutineResumeCount`), so at each poll the
+  host knows whether the running coroutine has switched of its own accord
+  since the last one, and from that how long it has run without doing so.
+  A coroutine parked by the slice after running that way for at least
+  three quarters of it is "busy"; ones that wait or yield never are, even
+  if the slice happens to end during their turn. Busy slices closer
+  together than four slices plus 250 ms form one episode, whose length
+  `io_background_busy_ms` reports. `io_interrupt_background` does nothing
+  unless an episode is in progress; otherwise the next busy coroutine is
+  stopped the way an eval is (found from the running coroutine by
+  following `CORO_WAIT_CHILD` frames up through its parents), and the
+  request lapses if none turns up within the same gap. The REPL shows a
+  separate button while an episode has lasted a second.
+- **yield and pause finish before a slice** (`Coroutine hostNoSlice`).
+  Both take coroutines off the run queue and then switch. Parked between
+  the two, a coroutine went back on the queue, was run again, and
+  completed its `yield` with no queue entry left: parked for good. A
+  `loop(yield)` coroutine stalled within a second with time slices on. The
+  browser's wrappers set `hostNoSlice` on the current coroutine for the
+  duration, and the poll puts the slice off a few steps while it is set.
 
 Measured cost with no time slice set: within noise (under 3%) on loop and
 method-call benchmarks.

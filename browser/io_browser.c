@@ -265,6 +265,28 @@ static const char *scheduler_io_source =
 	"	)\n"
 	"	self hostResume\n"
 	")\n"
+	// yield and pause take coroutines off the run queue and then switch to
+	// one. A time slice must not end partway through: the coroutine would go
+	// back on the queue, be run again, and finish its yield with no entry of
+	// its own left, parked for good (or return from pause without pausing).
+	// hostNoSlice makes the slice wait until they are done.
+	"Coroutine hostNoSlice := false\n"
+	"Coroutine hostYield := Coroutine getSlot(\"yield\")\n"
+	"Coroutine yield := method(\n"
+	"	c := Coroutine currentCoroutine\n"
+	"	c hostNoSlice := true\n"
+	"	self hostYield\n"
+	"	c hostNoSlice := false\n"
+	"	self\n"
+	")\n"
+	"Coroutine hostPause := Coroutine getSlot(\"pause\")\n"
+	"Coroutine pause := method(\n"
+	"	c := Coroutine currentCoroutine\n"
+	"	c hostNoSlice := true\n"
+	"	self hostPause\n"
+	"	c hostNoSlice := false\n"
+	"	self\n"
+	")\n"
 	// JS Promises: await parks the coroutine until the Promise settles.
 	"JSFuture do(\n"
 	"	await := method(\n"
@@ -320,6 +342,14 @@ void io_browser_make_runnable(IoObject *coro) {
 // io_interrupt asks for the eval in progress to be stopped: the next time
 // its coroutine runs, the poll raises an error in it, and keeps raising it
 // up through any `try` until the eval has ended.
+//
+// Background code (a coroutine that is not the eval) that never waits is
+// sliced the same way, and nothing stops it unless JS asks. The poll notes
+// when a background coroutine is parked after running for most of a slice
+// without switching of its own accord: io_background_busy_ms reports how
+// long that has been going on, and io_interrupt_background stops the next
+// coroutine it happens to. Coroutines that wait (on a timer, a Promise, an
+// actor message) or yield are never counted and never stopped.
 
 static IoCoroutine *tick_sched = NULL;   // scheduler coroutine of the tick in progress
 static int tick_can_slice = 0;           // this tick may park coroutines
@@ -327,39 +357,104 @@ static double slice_seconds = 0;         // 0 = no time slices
 static double slice_end = 0;
 static int interrupt_requested = 0;
 
-// The coroutine the eval in progress is running in: its own, or the one a
-// `try` (or anything else that runs a coroutine and waits for it) started.
-static IoCoroutine *eval_running_coro(void) {
-	IoCoroutine *c = evalCoro;
+static unsigned int run_resume_count = 0;   // coroutineResumeCount when last polled
+static double run_since = 0;                // when the running coroutine was first seen since then
+static double bg_busy_since = 0;            // start of the current run of busy slices
+static double bg_busy_last = 0;             // the latest one; 0 = none
+static double bg_interrupt_at = 0;          // when a background stop was asked for; 0 = not
+static IoCoroutine *bg_stopping = NULL;     // background coroutine being stopped
+
+// Busy slices further apart than this are separate episodes, and a
+// background stop that finds nothing to stop for this long lapses.
+static double bg_gap(void) {
+	return slice_seconds * 4 + 0.25;
+}
+
+// The coroutine `top` is running in: itself, or the one a chain of `try`s
+// (or anything else that runs a coroutine and waits for it) leads down to.
+static IoCoroutine *running_coro_from(IoCoroutine *top) {
+	IoCoroutine *c = top;
 	for (;;) {
 		if (c == IoState_currentCoroutine(state) && state->currentFrame) return c;
-		IoEvalFrame *top = CORO_DATA(c)->frameStack;
-		if (!top || FRAME_DATA(top)->state != FRAME_STATE_CORO_WAIT_CHILD) return c;
-		IoObject *child = FRAME_DATA(top)->controlFlow.coroInfo.childCoroutine;
+		IoEvalFrame *frame = CORO_DATA(c)->frameStack;
+		if (!frame || FRAME_DATA(frame)->state != FRAME_STATE_CORO_WAIT_CHILD) return c;
+		IoObject *child = FRAME_DATA(frame)->controlFlow.coroInfo.childCoroutine;
 		if (!child || !ISCOROUTINE(child) || CORO_DATA(child)->hasFinished) return c;
 		c = child;
 	}
 }
 
+// The other way: the coroutine at the top of the chain `c` is running for.
+static IoCoroutine *top_coro_of(IoCoroutine *c) {
+	for (;;) {
+		IoObject *parent = IoCoroutine_rawParentCoroutine(c);
+		if (!parent || !ISCOROUTINE(parent) || parent == c) return c;
+		IoEvalFrame *frame = CORO_DATA(parent)->frameStack;
+		if (!frame || FRAME_DATA(frame)->state != FRAME_STATE_CORO_WAIT_CHILD) return c;
+		if (FRAME_DATA(frame)->controlFlow.coroInfo.childCoroutine != (IoObject *)c) return c;
+		c = parent;
+	}
+}
+
+// The coroutine the eval in progress is running in.
+static IoCoroutine *eval_running_coro(void) {
+	return running_coro_from(evalCoro);
+}
+
 static void host_poll(IoState *s) {
 	// While an interrupt is pending, look at every step: the eval's
 	// coroutine may run only briefly before it parks itself again.
-	if (interrupt_requested) s->hostPollCountdown = 1;
+	if (interrupt_requested || bg_stopping) s->hostPollCountdown = 1;
 
 	// Only in a tick's own eval loop. Deeper is a C function evaluating Io
 	// code that it needs to finish.
 	if (!tick_sched || s->nestedEvalDepth != 1) return;
 	IoCoroutine *active = IoState_currentCoroutine(s);
-	if (active == tick_sched) return;
+	if (active == tick_sched) {
+		bg_stopping = NULL;   // it has ended: the scheduler is running again
+		return;
+	}
 
 	if (interrupt_requested && evalCoro && active == eval_running_coro()) {
 		IoState_error_(s, FRAME_DATA(s->currentFrame)->message, "interrupted");
 		return;
 	}
+	if (bg_stopping && active == running_coro_from(bg_stopping)) {
+		IoState_error_(s, FRAME_DATA(s->currentFrame)->message, "interrupted");
+		return;
+	}
 
 	if (!tick_can_slice || slice_seconds <= 0) return;
-	if (Date_SecondsFrom1970ToNow() < slice_end) return;
+	double now = Date_SecondsFrom1970ToNow();
+	if (s->coroutineResumeCount != run_resume_count) {
+		// A coroutine has switched since the last poll, so this one hasn't
+		// been running all that time
+		run_resume_count = s->coroutineResumeCount;
+		run_since = now;
+	}
+	if (now < slice_end) return;
 	if (CORO_DATA(tick_sched)->frameStack == NULL) return;
+	if (ISTRUE(IoObject_getSlot_(active, IoState_symbolWithCString_(s, "hostNoSlice")))) {
+		s->hostPollCountdown = 8;   // partway through yield or pause: look again shortly
+		return;
+	}
+
+	// Background code that ran for most of the slice without waiting or
+	// yielding. (run_since is the first poll after it started, a little
+	// late, hence "most".)
+	if (now - run_since >= slice_seconds * 0.75 && !(evalCoro && active == eval_running_coro())) {
+		if (bg_interrupt_at > 0 && now - bg_interrupt_at <= bg_gap()) {
+			// Asked to stop it. Raised here and at every step until it ends.
+			bg_interrupt_at = 0;
+			bg_busy_last = 0;
+			bg_stopping = top_coro_of(active);
+			s->hostPollCountdown = 1;
+			IoState_error_(s, FRAME_DATA(s->currentFrame)->message, "interrupted");
+			return;
+		}
+		if (bg_busy_last == 0 || now - bg_busy_last > bg_gap()) bg_busy_since = now;
+		bg_busy_last = now;
+	}
 
 	// Back on the run queue, behind anything else that is ready
 	IoObject *queue = IoObject_getSlot_(scheduler_object(),
@@ -392,6 +487,32 @@ int io_interrupt(void) {
 	state->hostPollCountdown = 0;
 	// If it is waiting (on a timer, a Promise, another coroutine), run it
 	if (!state->currentFrame) io_browser_make_runnable(eval_running_coro());
+	return 1;
+}
+
+// Exported: how long background code (not the eval) has been running
+// without waiting, in milliseconds: it has used up time slice after time
+// slice. 0 if it isn't, or there are no time slices.
+__attribute__((export_name("io_background_busy_ms")))
+double io_background_busy_ms(void) {
+	if (bg_busy_last == 0 || slice_seconds <= 0) return 0;
+	double now = Date_SecondsFrom1970ToNow();
+	if (now - bg_busy_last > bg_gap()) {
+		bg_busy_last = 0;
+		return 0;
+	}
+	double ms = (now - bg_busy_since) * 1000.0;
+	return ms < 1 ? 1 : ms;
+}
+
+// Exported: stop the background coroutine that next uses up a time slice
+// without waiting, with an "interrupted" error. Returns 1 if background
+// code is busy now (see io_background_busy_ms), and 0, doing nothing, if
+// not. Coroutines that wait are never stopped by this.
+__attribute__((export_name("io_interrupt_background")))
+int io_interrupt_background(void) {
+	if (!state || io_background_busy_ms() == 0) return 0;
+	bg_interrupt_at = Date_SecondsFrom1970ToNow();
 	return 1;
 }
 
@@ -450,6 +571,7 @@ static void run_scheduler(int canSlice) {
 			IoCoroutine_rawPrintBackTrace(active);
 		}
 		state->errorRaised = 0;
+		if (active == bg_stopping) bg_stopping = NULL;
 		IoState_setCurrentCoroutine_(state, sched);
 		release_finished(active);
 		if (CORO_DATA(sched)->frameStack == NULL) {
