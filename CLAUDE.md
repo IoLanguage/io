@@ -16,6 +16,9 @@ make component  # build build/bin/io_component.wasm (WASI 0.2 component, wasm32-
 make check-component # run the Io test suite against the component
 make clean      # remove build artifacts
 make regenerate # regenerate IoVMInit.c from .io files
+make browser    # build browser/io_browser.wasm (the VM for browsers and Node)
+make check-browser-node # test the JS module in Node
+make check-browser      # that, plus browser/test.html in headless Chromium
 ```
 
 The build looks for wasi-sdk in `deps/wasi-sdk` (untracked), then `~/wasi-sdk`. Set `WASI_SDK` if it is somewhere else:
@@ -47,7 +50,8 @@ libs/iovm/source/     — Core VM implementation (C)
 libs/iovm/io/         — Io standard library (.io files, compiled to C via io2c)
 libs/iovm/tests/      — C test files
 tools/source/main.c   — REPL / CLI entry point
-agents/               — Design docs for the continuations/stackless work
+browser/              — Browser and Node build: io_browser.c, the JS module (src/), REPL, npm package
+agents/               — Plans and design docs (start with agents/wasm/Plan.md)
 ```
 
 ### Key Source Files
@@ -56,8 +60,8 @@ agents/               — Design docs for the continuations/stackless work
 |------|---------|
 | `IoState_iterative.c` | Iterative eval loop with frame state machine |
 | `IoState_eval.c` | Entry points (`IoState_doCString_`, `IoState_on_doCString_withLabel_`) |
-| `IoMessage.c` | `IoMessage_locals_performOn_` — recursive evaluator |
-| `IoBlock.c` | Block activation (currently uses recursive evaluator) |
+| `IoMessage.c` | `IoMessage_locals_performOn_` — runs a message from C; hands it to the eval loop |
+| `IoBlock.c` | Block and method objects; activation is done by the eval loop as a frame |
 | `IoObject_flow.c` | Control flow primitives: `if`, `while`, `for`, `loop`, `break`, `continue`, `return` |
 | `IoCoroutine.c` | Coroutine implementation (frame-based, no C stack switching) |
 | `IoContinuation.c` | First-class continuations (`callcc`, capture, invoke) |
@@ -65,17 +69,16 @@ agents/               — Design docs for the continuations/stackless work
 | `IoState_inline.h` | Inline helpers, arg pre-evaluation |
 | `IoState.h` | VM state structure |
 
-## Branch: `stackless` (off `continuations`)
+## Branches and plans
 
-Replacing C stack recursion with heap-allocated frames to enable:
-- First-class continuations (serializable, network-transmittable)
-- Portable coroutines (no platform-specific assembly)
-- No setjmp/longjmp, no ucontext, no fibers
+`master` is the only maintained branch: the stackless evaluator (heap-allocated frames instead of C stack recursion) targeting WASM. It gives first-class continuations, portable coroutines, and no setjmp/longjmp, ucontext or fibers. The `native` branch is unmaintained; `stackless`, `continuations` and `wasm` are history.
 
-See `agents/` for detailed design docs:
-- `CONTINUATIONS_TODO.md` — Phase tracker and implementation notes
-- `C_STACK_ELIMINATION_PLAN.md` — Overall architecture plan
-- `VM_EVAL_LOOP.md` — Eval loop design reference
+Plans and design docs are in `agents/`:
+- `wasm/Plan.md` — the overall plan: status of each phase, recommended next steps, recently done. Update it when work lands.
+- `wasm/subplans/Async.md` — the browser scheduler, awaiting JS Promises, time slices and interrupt
+- `wasm/Bridge.md`, `wasm/JS_Module_Refactor.md` — the Io/JS bridge and the JS module
+- `stackless/Eval_Loop_Design.md`, `stackless/Continuations.md` — the eval loop and continuations
+- `WASI_ASYNC_PLAN.md` — WASI 0.3 (blocked on the toolchain)
 
 ## Important Conventions
 
