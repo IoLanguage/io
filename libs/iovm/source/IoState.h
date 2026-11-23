@@ -163,6 +163,8 @@ struct IoState {
     // Pooled frames remain valid collector objects, just parked for reuse.
     #define FRAME_POOL_SIZE 256
     #define IOSTATE_HOST_POLL_INTERVAL 1024
+    #define IOSTATE_SANDBOX_TIME 1
+    #define IOSTATE_SANDBOX_MESSAGES 2
     IoObject *framePool[FRAME_POOL_SIZE];
     int framePoolCount;
 
@@ -205,6 +207,8 @@ struct IoState {
     int messageCount;
     double timeLimit;
     double endTime;
+    int sandboxExceeded;   // 0, or IOSTATE_SANDBOX_TIME / _MESSAGES once a limit is hit
+    int sandboxPollSpan;   // steps counted off at the next host poll
 
     // exiting
 

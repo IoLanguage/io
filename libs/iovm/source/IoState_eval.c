@@ -15,6 +15,8 @@ machinery lives in IoState_iterative.c.
 
 #include "IoState.h"
 #include "IoObject.h"
+#include "IoEvalFrame.h"
+#include "IoCoroutine.h"
 #include <time.h>
 #include <stdio.h>
 #include "PortableGettimeofday.h"
@@ -173,17 +175,83 @@ IoObject *IoState_doCString_(IoState *self, const char *s) {
                                            "IoState_doCString");
 }
 
+static double IoState_secondsNow(void) {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (double)tv.tv_sec + ((double)tv.tv_usec / 1000000.0);
+}
+
+/*cdoc State IoState_sandboxPoll(self)
+The host poll callback (see hostPollCallback in IoState.h) installed
+for a sandboxed run. Counts evaluator steps off messageCount and
+compares the clock with endTime. Once either limit is passed it raises
+an error, and raises it again at every following step, so the code
+being run can't carry on by catching it; the run ends when its last
+frame has unwound.
+*/
+static void IoState_sandboxPoll(IoState *self) {
+    if (!self->sandboxExceeded) {
+        if (self->messageCountLimit > 0) {
+            self->messageCount -= self->sandboxPollSpan;
+            if (self->messageCount <= 0) {
+                self->sandboxExceeded = IOSTATE_SANDBOX_MESSAGES;
+            } else if (self->messageCount < IOSTATE_HOST_POLL_INTERVAL) {
+                self->hostPollCountdown = self->messageCount;
+            }
+            self->sandboxPollSpan = self->hostPollCountdown;
+        }
+        if (!self->sandboxExceeded && self->timeLimit > 0 &&
+            IoState_secondsNow() > self->endTime) {
+            self->sandboxExceeded = IOSTATE_SANDBOX_TIME;
+        }
+        if (!self->sandboxExceeded) return;
+    }
+
+    self->hostPollCountdown = 1;
+    IoState_error_(self,
+        self->currentFrame ? FRAME_DATA(self->currentFrame)->message : NULL,
+        self->sandboxExceeded == IOSTATE_SANDBOX_TIME
+            ? "Sandbox: time limit exceeded"
+            : "Sandbox: message count limit exceeded");
+}
+
 /*cdoc State IoState_doSandboxCString_(self, s)
-Runs a snippet under sandbox limits: resets the message-count and
-deadline counters before dispatching through IoState_tryToPerform.
-Used by the Sandbox proto to execute untrusted code with bounded
-time and work.
+Runs a snippet under the sandbox limits. With a time limit or a message
+count limit set, IoState_sandboxPoll is installed for the run and ends
+it when either is passed; self->sandboxExceeded then says which, and
+the exception is not reported here (the caller reports it). Used by the
+Sandbox proto to execute untrusted code with bounded time and work.
 */
 IoObject *IoState_doSandboxCString_(IoState *self, const char *s) {
     IoMessage *m = IoMessage_newWithName_andCachedArg_(
         self, SIOSYMBOL("doString"), SIOSYMBOL(s));
+    void (*savedPoll)(IoState *) = self->hostPollCallback;
+
     IoState_resetSandboxCounts(self);
-    return IoState_tryToPerform(self, self->lobby, self->lobby, m);
+    self->sandboxExceeded = 0;
+    if (self->timeLimit > 0 || self->messageCountLimit > 0) {
+        self->hostPollCallback = IoState_sandboxPoll;
+        self->hostPollCountdown = IOSTATE_HOST_POLL_INTERVAL;
+        if (self->messageCountLimit > 0 &&
+            self->messageCountLimit < IOSTATE_HOST_POLL_INTERVAL) {
+            self->hostPollCountdown = self->messageCountLimit;
+        }
+        self->sandboxPollSpan = self->hostPollCountdown;
+    }
+
+    IoCoroutine *tryCoro =
+        IoCoroutine_newWithTry(self, self->lobby, self->lobby, m);
+
+    // Off before anything else runs here, such as the backtrace printer
+    self->hostPollCallback = savedPoll;
+
+    if (!self->sandboxExceeded &&
+        IoCoroutine_rawException(tryCoro) != self->ioNil) {
+        IoState_exception_(self, tryCoro);
+    }
+    self->errorRaised = 0;
+
+    return IoCoroutine_rawResult(tryCoro);
 }
 
 double IoState_endTime(IoState *self) { return self->endTime; }
