@@ -225,7 +225,7 @@
   }
 
   let vm = null;
-  startRepl(() => (vm ??= Io.load()));
+  startRepl(() => (vm ??= Io.load({ timeSlice: 50 })));
 </script>
 </body>
 </html>

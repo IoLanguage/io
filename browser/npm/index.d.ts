@@ -19,6 +19,13 @@ export type WasmSource =
 export interface LoadOptions {
 	/** Where to load the VM from. Defaults to the package's io_browser.wasm. */
 	wasm?: WasmSource;
+	/**
+	 * The longest Io code runs before the page (or Node's event loop) gets a
+	 * turn, in milliseconds. By default code runs until it waits or finishes.
+	 * With a time slice, JS timers and event handlers can run partway through
+	 * a long eval, and `interrupt()` can stop one that never waits.
+	 */
+	timeSlice?: number;
 }
 
 export class Io {
@@ -43,6 +50,14 @@ export class Io {
 	 * this returns null and the code finishes later.
 	 */
 	send(handle: number, messageName: string, ...args: unknown[]): unknown;
+
+	/**
+	 * Stop the eval in progress: it resolves with status 1 and an
+	 * "interrupted" error, which Io's `try` can't catch. Returns false if no
+	 * eval is running. Code that never waits can only be stopped if the VM was
+	 * loaded with a `timeSlice`.
+	 */
+	interrupt(): boolean;
 
 	/**
 	 * Receive output printed outside an eval, by Io callbacks run from timers,

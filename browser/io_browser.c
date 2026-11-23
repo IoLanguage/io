@@ -15,6 +15,7 @@
 #include "IoNumber.h"
 #include "IoMessage.h"
 #include "Stack.h"
+#include "Date.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -87,6 +88,8 @@ static void browser_exception_callback(void *context, IoObject *coroutine) {
 
 void IoAddonsInit(IoObject *context) { (void)context; }
 
+static void host_poll(IoState *s);   // see "Time slices and interrupt"
+
 // Scheduler hostCanSwitch — false inside a nested C eval loop. A scheduler
 // tick runs its eval loop at depth 1; anything deeper is a C function that
 // is evaluating Io code itself and expects it to finish before it returns.
@@ -126,6 +129,7 @@ int io_init(void) {
 
 	state = IoState_new();
 	IoState_init(state);
+	state->hostPollCallback = host_poll;
 
 	// Wire output capture
 	IoState_printCallback_(state, browser_print_callback);
@@ -200,7 +204,7 @@ static const char *scheduler_io_source =
 	"	hostBudget := 0.01\n"       // seconds of Io work per tick
 	"	hostEvalCoro := nil\n"      // the eval in progress, set from C
 	"	hostStart := nil\n"         // a coroutine to run first this tick, set from C
-	"	hostAwaiting := 0\n"        // coroutines parked on JS Promises
+	"	hostAwaiters := List clone\n"   // coroutines parked on JS Promises
 	"\n"
 	"	hostRun := method(\n"
 	"		me := Coroutine currentCoroutine\n"
@@ -235,7 +239,13 @@ static const char *scheduler_io_source =
 	// Result: seconds until the next tick is needed. 0 = now. -1 = not
 	// until a JS Promise settles. -2 = nothing in Io is due to run at all.
 	"		if(yieldingCoros isEmpty not, return 0)\n"
-	"		if(timers isEmpty, return if(hostAwaiting > 0, -1, -2))\n"
+	// An interrupted coroutine leaves its timer behind, and never takes
+	// itself off the list of awaiters
+	"		timers selectInPlace(t, t at(1) isFinished not)\n"
+	"		if(timers isEmpty,\n"
+	"			hostAwaiters selectInPlace(c, c isFinished not)\n"
+	"			return if(hostAwaiters isEmpty, -2, -1)\n"
+	"		)\n"
 	"		(timers first at(0) - Date clone now asNumber) max(0)\n"
 	"	)\n"
 	"\n"
@@ -260,13 +270,13 @@ static const char *scheduler_io_source =
 	"	await := method(\n"
 	"		if(isReady not,\n"
 	"			if(Scheduler hostCanSwitch not, Coroutine currentCoroutine resume)\n"   // raises
-	"			Scheduler hostAwaiting = Scheduler hostAwaiting + 1\n"
+	"			Scheduler hostAwaiters append(Coroutine currentCoroutine)\n"
 	"			while(isReady not,\n"
 	"				if(self hasLocalSlot(\"waiters\") not, self waiters := List clone)\n"
 	"				waiters appendIfAbsent(Coroutine currentCoroutine)\n"
 	"				Coroutine currentCoroutine pause\n"
 	"			)\n"
-	"			Scheduler hostAwaiting = Scheduler hostAwaiting - 1\n"
+	"			Scheduler hostAwaiters remove(Coroutine currentCoroutine)\n"
 	"		)\n"
 	"		rawAwait\n"
 	"	)\n"
@@ -299,8 +309,95 @@ void io_browser_make_runnable(IoObject *coro) {
 	IoList_rawAppend_(queue, coro);
 }
 
+// ---- Time slices and interrupt ----
+//
+// Io code that never waits would otherwise run until it finishes, with the
+// page frozen and no way for JS to stop it. With a time slice set, the eval
+// loop's host poll parks whichever coroutine has used up the slice, where it
+// stands, and returns to the tick's scheduler, which returns to JS. The
+// coroutine is back on the run queue, so the next tick carries it on.
+//
+// io_interrupt asks for the eval in progress to be stopped: the next time
+// its coroutine runs, the poll raises an error in it, and keeps raising it
+// up through any `try` until the eval has ended.
+
+static IoCoroutine *tick_sched = NULL;   // scheduler coroutine of the tick in progress
+static int tick_can_slice = 0;           // this tick may park coroutines
+static double slice_seconds = 0;         // 0 = no time slices
+static double slice_end = 0;
+static int interrupt_requested = 0;
+
+// The coroutine the eval in progress is running in: its own, or the one a
+// `try` (or anything else that runs a coroutine and waits for it) started.
+static IoCoroutine *eval_running_coro(void) {
+	IoCoroutine *c = evalCoro;
+	for (;;) {
+		if (c == IoState_currentCoroutine(state) && state->currentFrame) return c;
+		IoEvalFrame *top = CORO_DATA(c)->frameStack;
+		if (!top || FRAME_DATA(top)->state != FRAME_STATE_CORO_WAIT_CHILD) return c;
+		IoObject *child = FRAME_DATA(top)->controlFlow.coroInfo.childCoroutine;
+		if (!child || !ISCOROUTINE(child) || CORO_DATA(child)->hasFinished) return c;
+		c = child;
+	}
+}
+
+static void host_poll(IoState *s) {
+	// While an interrupt is pending, look at every step: the eval's
+	// coroutine may run only briefly before it parks itself again.
+	if (interrupt_requested) s->hostPollCountdown = 1;
+
+	// Only in a tick's own eval loop. Deeper is a C function evaluating Io
+	// code that it needs to finish.
+	if (!tick_sched || s->nestedEvalDepth != 1) return;
+	IoCoroutine *active = IoState_currentCoroutine(s);
+	if (active == tick_sched) return;
+
+	if (interrupt_requested && evalCoro && active == eval_running_coro()) {
+		IoState_error_(s, FRAME_DATA(s->currentFrame)->message, "interrupted");
+		return;
+	}
+
+	if (!tick_can_slice || slice_seconds <= 0) return;
+	if (Date_SecondsFrom1970ToNow() < slice_end) return;
+	if (CORO_DATA(tick_sched)->frameStack == NULL) return;
+
+	// Back on the run queue, behind anything else that is ready
+	IoObject *queue = IoObject_getSlot_(scheduler_object(),
+		IoState_symbolWithCString_(s, "yieldingCoros"));
+	if (!ISLIST(queue)) return;
+	IoList_rawRemove_(queue, active);
+	IoList_rawAppend_(queue, active);
+
+	// The scheduler is parked in hostRun's `next resume`, and carries on
+	// from there. The frames of the coroutine being parked are untouched.
+	IoCoroutine_saveState_(active, s);
+	IoState_setCurrentCoroutine_(s, tick_sched);
+	IoCoroutine_restoreState_(tick_sched, s);
+}
+
+// Exported: the longest Io code runs before the page gets a turn, in
+// milliseconds. 0 (the default) means it runs until it waits or finishes.
+__attribute__((export_name("io_set_time_slice_ms")))
+void io_set_time_slice_ms(double ms) {
+	slice_seconds = ms > 0 ? ms / 1000.0 : 0;
+}
+
+// Exported: stop the eval in progress with an "interrupted" error. Returns
+// 1 if there is one, 0 if not. The error is raised when the eval next runs,
+// so a tick has to follow.
+__attribute__((export_name("io_interrupt")))
+int io_interrupt(void) {
+	if (!state || !evalCoro || CORO_DATA(evalCoro)->hasFinished) return 0;
+	interrupt_requested = 1;
+	state->hostPollCountdown = 0;
+	// If it is waiting (on a timer, a Promise, another coroutine), run it
+	if (!state->currentFrame) io_browser_make_runnable(eval_running_coro());
+	return 1;
+}
+
 // Run one scheduler tick. Must not be called while Io code is running.
-static void run_scheduler(void) {
+// canSlice: coroutines may be parked when the time slice runs out.
+static void run_scheduler(int canSlice) {
 	IoObject *scheduler = scheduler_object();
 	IoCoroutine *previous = IoState_currentCoroutine(state);
 
@@ -323,6 +420,11 @@ static void run_scheduler(void) {
 	fd->locals = scheduler;
 	fd->cachedTarget = scheduler;
 	fd->state = FRAME_STATE_START;
+
+	tick_sched = sched;
+	tick_can_slice = canSlice;
+	slice_end = Date_SecondsFrom1970ToNow() + slice_seconds;
+	state->hostPollCountdown = 0;
 
 	IoObject *result = state->ioNil;
 	state->nestedEvalDepth++;
@@ -358,6 +460,7 @@ static void run_scheduler(void) {
 	}
 	state->nestedEvalDepth--;
 	state->errorRaised = 0;
+	tick_sched = NULL;
 
 	next_wake = ISNUMBER(result) ? IoNumber_asDouble(result) : -1;
 	nothing_due = next_wake < -1.5;
@@ -384,7 +487,8 @@ int io_browser_send(IoObject *target, IoMessage *msg, IoObject **result, IoObjec
 	IoCoroutine_rawSetRunMessage_(coro, msg);
 	IoObject_setSlot_to_(scheduler, IoState_symbolWithCString_(state, "hostStart"), coro);
 
-	run_scheduler();
+	// No time slices: JS is waiting for the result of this call
+	run_scheduler(0);
 
 	int finished = CORO_DATA(coro)->hasFinished;
 	*exception = NULL;
@@ -408,6 +512,7 @@ static int finish_eval(void) {
 	IoObject *coro = evalCoro;
 	int status = 0;
 	evalCoro = NULL;
+	interrupt_requested = 0;
 
 	if (!finished) {
 		// Paused with no coroutine, timer or Promise due to wake it. Native Io
@@ -491,7 +596,7 @@ static int do_eval(const char *code) {
 	IoObject_setSlot_to_(scheduler, IoState_symbolWithCString_(state, "hostEvalCoro"), evalCoro);
 	IoObject_setSlot_to_(scheduler, IoState_symbolWithCString_(state, "hostStart"), evalCoro);
 
-	run_scheduler();
+	run_scheduler(1);
 	int status = finish_eval();
 	IoState_popRetainPool(state);
 	return status;
@@ -512,7 +617,7 @@ __attribute__((export_name("io_tick")))
 int io_tick(void) {
 	if (!state || state->currentFrame) return evalCoro ? 2 : 3;
 	IoState_pushRetainPool(state);   // see do_eval
-	run_scheduler();
+	run_scheduler(1);
 	int status = finish_eval();
 	IoState_popRetainPool(state);
 	return status;

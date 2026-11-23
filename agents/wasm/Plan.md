@@ -38,6 +38,8 @@ The list chosen on 2026-11-19 is done apart from a parked remainder.
    - `Date cpuSecondsToRun`, and Io callbacks JS calls synchronously
      during an Io call (not fixable from the Io side).
    Worth doing only if a real use turns up.
+   Long-running code that never waits no longer freezes the page: see
+   "Time slices and interrupt" in Async.md (2026-11-22, issue #441).
 2. **Pick the next area.** With the above parked, nothing substantial is
    queued: Phase 4g (rich JS objects) and Phase 5 (compacting collector)
    are both deferred, and Phase 7 (WASI 0.3) is blocked on the toolchain.

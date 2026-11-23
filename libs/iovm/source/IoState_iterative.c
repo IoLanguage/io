@@ -524,6 +524,16 @@ IoObject *IoState_evalLoop_(IoState *state) {
         }
 #endif
 
+        // Give the host a turn (see hostPollCallback in IoState.h). This is
+        // between steps, so the callback can raise an error, or park this
+        // coroutine as it stands and switch to another.
+        if (state->hostPollCallback && --state->hostPollCountdown <= 0 &&
+            !state->errorRaised) {
+            state->hostPollCountdown = IOSTATE_HOST_POLL_INTERVAL;
+            state->hostPollCallback(state);
+            if (state->currentFrame != frame) continue;
+        }
+
         // Check for signals (Ctrl-C, etc.)
         if (state->receivedSignal) {
             IoState_callUserInterruptHandler(state);
@@ -1662,6 +1672,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 // Fast path: body is a cached literal — run entire loop inline
                 if (BODY_IS_CACHED_LITERAL(fd->controlFlow.forInfo.bodyMsg)) {
                     IoObject *cachedBody = CACHED_LITERAL_RESULT(fd->controlFlow.forInfo.bodyMsg);
+                    if (state->hostPollCallback) {
+                        // FOR_AFTER_BODY runs the rest; its loop can stop
+                        // for a host poll, which this one can't.
+                        fd->result = cachedBody;
+                        fd->state = FRAME_STATE_FOR_AFTER_BODY;
+                        break;
+                    }
                     double loopIncr = fd->controlFlow.forInfo.increment;
                     double loopEnd = fd->controlFlow.forInfo.endValue;
                     IoSymbol *ctrName = fd->controlFlow.forInfo.counterName;
@@ -1761,6 +1778,14 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 IoSymbol *counterName = fd->controlFlow.forInfo.counterName;
                 PHash *localSlots = IoObject_slots(fd->locals);
 
+// Leave for the top of the eval loop when a host poll is due. This is
+// before the increment, which is redone on the way back in.
+#define FOR_LEAVE_IF_HOST_POLL_DUE() \
+                    if (state->hostPollCallback && --state->hostPollCountdown <= 0) { \
+                        fd->result = cachedBody; \
+                        goto for_after_body_done; \
+                    }
+
                 for (;;) {
                     double i = fd->controlFlow.forInfo.currentValue;
                     if ((incr > 0 && i > end) || (incr < 0 && i < end)) {
@@ -1769,6 +1794,7 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         goto for_after_body_done;
                     }
                     if (!counterName) {
+                        FOR_LEAVE_IF_HOST_POLL_DUE();
                         fd->controlFlow.forInfo.currentValue += incr;
                         continue;
                     }
@@ -1790,8 +1816,10 @@ IoObject *IoState_evalLoop_(IoState *state) {
                         Collector_rcDrainFreeList_(state->collector);
                     }
 #endif
+                    FOR_LEAVE_IF_HOST_POLL_DUE();
                     fd->controlFlow.forInfo.currentValue += incr;
                 }
+#undef FOR_LEAVE_IF_HOST_POLL_DUE
             }
 
             {

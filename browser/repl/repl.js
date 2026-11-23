@@ -1,8 +1,12 @@
 // The browser REPL: wires an Io VM to the page's #output, #input, #eval-btn,
 // #clear-btn, #status, #repl and .topic elements. Used by browser/index.html
 // and the site's /repl/ page.
+//
+// While an eval is running, #eval-btn reads "Stop" and interrupts it, as does
+// Ctrl-C in the input. Code that never waits can only be stopped if the VM
+// was loaded with a timeSlice.
 
-const AWAITING_DELAY_MS = 50; // show "awaiting..." only for evals that actually wait
+const AWAITING_DELAY_MS = 50; // show "running..." only for evals that take a while
 
 export async function startRepl(loadVm, doc = document) {
 	const outputEl = doc.getElementById("output");
@@ -14,6 +18,14 @@ export async function startRepl(loadVm, doc = document) {
 	const history = [];
 	let historyIndex = -1;
 	let vm = null;
+	let running = 0;   // evals started and not yet finished
+	const evalBtn = doc.getElementById("eval-btn");
+	const evalLabel = evalBtn ? evalBtn.textContent : "";
+	const stopLabel = evalLabel === evalLabel.toUpperCase() ? "STOP" : "Stop";
+
+	function showStop(on) {
+		if (evalBtn) evalBtn.textContent = on ? stopLabel : evalLabel;
+	}
 
 	function scrollToEnd() {
 		outputEl.scrollTop = outputEl.scrollHeight;
@@ -47,10 +59,12 @@ export async function startRepl(loadVm, doc = document) {
 		const pair = doc.createElement("div");
 		appendLine("input-echo", code, pair);
 		let resultLine = null;
-		// Evals that await a JS Promise show a placeholder until they finish.
+		// Evals that take a while show a placeholder until they finish.
 		const timer = setTimeout(() => {
-			resultLine = appendLine("result", "⏳ awaiting...", pair);
+			resultLine = appendLine("result", "⏳ running...", pair);
+			showStop(true);
 		}, AWAITING_DELAY_MS);
+		running++;
 
 		let status, output;
 		try {
@@ -60,6 +74,7 @@ export async function startRepl(loadVm, doc = document) {
 			output = "Error: " + e.message;
 		}
 		clearTimeout(timer);
+		if (--running === 0) showStop(false);
 
 		if (resultLine) {
 			resultLine.textContent = output || "(done)";
@@ -101,13 +116,19 @@ export async function startRepl(loadVm, doc = document) {
 			}
 			autoResize();
 			e.preventDefault();
+		} else if (e.key === "c" && e.ctrlKey && running > 0 && inputEl.selectionStart === inputEl.selectionEnd) {
+			e.preventDefault();
+			vm.interrupt();
 		} else if (e.key === "u" && e.ctrlKey && e.shiftKey) {
 			e.preventDefault();
 			clearOutput();
 		}
 	});
 
-	doc.getElementById("eval-btn")?.addEventListener("click", handleEval);
+	evalBtn?.addEventListener("click", () => {
+		if (running > 0 && evalBtn.textContent === stopLabel) vm.interrupt();
+		else handleEval();
+	});
 	doc.getElementById("clear-btn")?.addEventListener("click", clearOutput);
 
 	doc.querySelectorAll(".topic").forEach((el) => {

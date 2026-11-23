@@ -181,6 +181,38 @@ The C side is `browser/io_browser.c`; the JS side is `class Io` in `browser/src/
 
 **Removed from the core VM (2026-11-19):** `FRAME_STATE_AWAIT_JS`, `IoState.awaitingJsPromise`, `IoState.suspendedCoro` and the frame's `awaitInfo`, unused since Phase 4i.
 
+### Time slices and interrupt (November 2026, issue #441)
+
+A coroutine that never waits used to run until it finished, with the page
+frozen and no way to stop it. Two additions in `io_browser.c`, built on one
+VM hook:
+
+- **`state->hostPollCallback`** (`IoState.h`). The eval loop calls it between
+  steps, every `IOSTATE_HOST_POLL_INTERVAL` (1024) steps. Because it runs
+  between steps, the callback may raise an error or park the current
+  coroutine exactly as it stands and switch to another: nothing is
+  half-done. The tight C loop that `for` uses for a literal body leaves for
+  the top of the eval loop when a poll is due. Unset on the CLI builds.
+- **Time slice** (`io_set_time_slice_ms`, `Io.load({ timeSlice })`). When the
+  tick has run that long, the poll puts the running coroutine on the back of
+  `yieldingCoros`, saves it, and restores the tick's scheduler coroutine,
+  which is parked in `hostRun`'s `next resume` and returns to JS. Only in a
+  tick's own eval loop (`nestedEvalDepth == 1`), and not in ticks started by
+  a JS call into Io, where JS is waiting for the result. Off by default,
+  because with it JS callbacks can run partway through an eval.
+- **Interrupt** (`io_interrupt`, `io.interrupt()`). Sets a flag and, if the
+  eval is parked, puts its coroutine on the run queue. While the flag is
+  set, the poll runs at every step and raises "interrupted" whenever the
+  coroutine the eval is running in is current: the eval's own, or the child
+  a `try` is waiting on (found by following `CORO_WAIT_CHILD` frames down
+  from the eval coroutine). Raising again in each parent is what makes it
+  uncatchable. The flag clears when the eval ends. `hostRun` drops timers
+  and Promise waiters that belong to finished coroutines, since an
+  interrupted one never removes its own.
+
+Measured cost with no time slice set: within noise (under 3%) on loop and
+method-call benchmarks.
+
 ## Scheduler introspection
 
 The Scheduler is an Io-level object. It tracks all coroutines and their states. Everything is inspectable from Io code or from JS via the bridge.

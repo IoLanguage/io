@@ -35,6 +35,8 @@ await io.eval('JS setTimeout(block("tick" println), 100)');
 - `eval` resolves to `{ status, output }`: status 0 on success, 1 on an Io exception, -1 if the VM couldn't run the code. Evals run one at a time, in call order.
 - `io.lobby` is a proxy for the Lobby: setting a property sets a slot, calling a method sends a message.
 - Each `Io.load()` makes an independent VM.
+- `io.interrupt()` stops the eval in progress with an "interrupted" error.
+- `Io.load({ timeSlice: 50 })` makes Io hand control back to JS whenever it has run for 50 ms, so a page stays live during long-running code and `interrupt()` can stop a loop that never waits. Without it, code runs until it waits or finishes, and JS timers and event handlers never run partway through an eval.
 - `io.dispose()` stops a VM.
 
 ## Coroutines, actors and waiting
