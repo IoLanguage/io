@@ -38,6 +38,7 @@ dispatch to the equivalent in-place op on the clone.
 #include "IoObject.h"
 #include "IoNumber.h"
 #include "IoMessage.h"
+#include "IoState_eval.h"
 #include "IoList.h"
 #include "IoMap.h"
 #include <ctype.h>
@@ -826,6 +827,129 @@ IO_METHOD(IoSeq, appendPathSeq) {
     return self;
 }
 
+/*cdoc Sequence IoSeq_interpolateMessage_(self, asSymbol)
+Turns the receiver's text into one message, rawInterpolateParts, whose
+arguments are its pieces in order: each stretch of literal text as a
+cached Sequence, and each #{expression} as that expression's parsed
+message. Evaluating the message runs the expressions as ordinary
+argument frames, so they can wait, which they could not while
+interpolateInPlace evaluated each one itself in a nested C eval loop.
+The first argument tells rawInterpolateParts whether to return a
+Symbol (interpolate) or the receiver (interpolateInPlace). Returns
+NULL if an expression fails to compile; the error is already raised.
+*/
+static IoMessage *IoSeq_interpolateMessage_(IoSeq *self, int asSymbol) {
+    IoState *state = IOSTATE;
+    UArray *string = DATA(self);
+    UArray begin = UArray_stackAllocedWithCString_("#{");
+    UArray end = UArray_stackAllocedWithCString_("}");
+    long size = (long)UArray_size(string);
+    long pos = 0;
+    IoMessage *msg = IoMessage_newWithName_(
+        state, IoState_symbolWithCString_(state, "rawInterpolateParts"));
+
+    IoMessage_addCachedArg_(msg, asSymbol ? state->ioTrue : state->ioFalse);
+
+    while (pos < size) {
+        long from = UArray_find_from_(string, &begin, pos);
+        long to = (from == -1) ? -1 : UArray_find_from_(string, &end, from);
+        UArray *piece;
+
+        if (to == -1) {
+            from = size; // no further expression: the rest is literal
+        }
+
+        if (from > pos) {
+            piece = UArray_slice(string, pos, from);
+            IoMessage_addCachedArg_(msg,
+                                    IoSeq_newWithUArray_copy_(state, piece, 0));
+        }
+
+        if (to == -1) {
+            break;
+        }
+
+        if (to > from + 2) { // "#{}" contributes nothing
+            IoSeq *code;
+            IoMessage *codeMsg;
+
+            piece = UArray_slice(string, from + 2, to);
+            code = IoSeq_newWithUArray_copy_(state, piece, 0);
+            codeMsg = IoMessage_newFromText_labelSymbol_(
+                state, CSTRING(IoSeq_rawAsSymbol(code)),
+                IoState_symbolWithCString_(state, "doString"));
+
+            if (state->errorRaised) {
+                return NULL;
+            }
+            IoMessage_addArg_(msg, codeMsg);
+        }
+
+        pos = to + 1;
+    }
+
+    return msg;
+}
+
+IO_METHOD(IoSeq, rawInterpolateParts) {
+    /*doc Sequence rawInterpolateParts(asSymbol, part, ...)
+    Used by interpolate and interpolateInPlace. Replaces the receiver's
+    contents with the parts joined together, each converted with asString.
+    Returns the receiver, or a Symbol copy if asSymbol is true.
+    */
+
+    int asSymbol = ISTRUE(IoMessage_locals_valueArgAt_(m, locals, 0));
+    int i, max = IoMessage_argCount(m);
+
+    IO_ASSERT_NOT_SYMBOL(self);
+    UArray_setSize_(DATA(self), 0);
+
+    for (i = 1; i < max; i++) {
+        IoObject *v = IoMessage_locals_valueArgAt_(m, locals, i);
+
+        if (!ISSEQ(v)) {
+            v = IoObject_perform(v, locals, IOSTATE->asStringMessage);
+        }
+        IOASSERT(ISSEQ(v), "bad asString results");
+        UArray_append_(DATA(self), DATA(v));
+    }
+
+    return asSymbol ? IoSeq_rawAsSymbol(self) : self;
+}
+
+/*cdoc Sequence IoSeq_interpolateInFrame_(self, locals, m, context, asSymbol)
+Runs the interpolation as a frame when called directly from the eval
+loop (see IoSeq_interpolateMessage_). Returns 1 if it did; the frame's
+result is then the message's result. Returns 0 if the caller should
+interpolate in C instead.
+*/
+int IoSeq_interpolateInFrame_(IoSeq *self, IoObject *locals, IoMessage *m,
+                              IoObject *context, int asSymbol) {
+    IoState *state = IOSTATE;
+    IoMessage *msg;
+    int started;
+
+    if (!IoState_isEvalLoopRunning_(state, m)) {
+        return 0;
+    }
+
+    {
+        // Nothing to evaluate: leave it to the plain C path.
+        UArray begin = UArray_stackAllocedWithCString_("#{");
+        if (UArray_find_from_(DATA(self), &begin, 0) == -1) {
+            return 0;
+        }
+    }
+
+    IoState_pushCollectorPause(state);
+    msg = IoSeq_interpolateMessage_(self, asSymbol);
+    started = msg && IoState_evalInFrame_(state, m, msg, self, context, NULL);
+    IoState_popCollectorPause(state);
+
+    // A compile error also counts as handled: it is already raised.
+    return started || state->errorRaised;
+}
+
 IO_METHOD(IoSeq, interpolateInPlace) {
     /*doc Sequence interpolateInPlace(optionalContext)
     Replaces all #{expression} with expression evaluated in the optionalContext.
@@ -851,6 +975,10 @@ IO_METHOD(IoSeq, interpolateInPlace) {
     from = 0;
 
     context = (context == IONIL(self)) ? locals : context;
+
+    if (IoSeq_interpolateInFrame_(self, locals, m, context, 0)) {
+        return self;
+    }
 
     IoState_pushRetainPool(IOSTATE);
 
@@ -1472,6 +1600,7 @@ IoSeqMutateNoArgNoResultOp(ceil)
         {"appendPathSeq", IoSeq_appendPathSeq},
 
         {"interpolateInPlace", IoSeq_interpolateInPlace},
+        {"rawInterpolateParts", IoSeq_rawInterpolateParts},
 
         {"+=", IoSeq_addEquals},
         {"-=", IoSeq_subtractEquals},

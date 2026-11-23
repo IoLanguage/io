@@ -85,6 +85,7 @@ IOVM_API IO_METHOD(IoList, swapIndices);
 IOVM_API IO_METHOD(IoList, reverseInPlace);
 IOVM_API IO_METHOD(IoList, sortInPlace);
 IOVM_API IO_METHOD(IoList, sortInPlaceBy);
+IOVM_API IO_METHOD(IoList, rawSortInPlaceWithKeys);
 IOVM_API IO_METHOD(IoList, selectInPlace);
 
 IOVM_API IO_METHOD(IoList, asEncodedList);

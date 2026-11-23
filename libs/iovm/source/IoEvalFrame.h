@@ -174,6 +174,7 @@ typedef struct IoEvalFrameData {
             IoObject *evalTarget;         // Target for evaluation (self)
             IoObject *evalLocals;         // Locals for evaluation (context)
             IoObject *fixedResult;        // If set, the frame's result instead of the code's
+            IoObject *removeProtoAfter;   // If set, a proto to take off evalTarget when the code is done (lexicalDo)
         } doInfo;
     } controlFlow;
 } IoEvalFrameData;

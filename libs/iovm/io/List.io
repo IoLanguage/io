@@ -8,6 +8,25 @@ List do(
     //doc List average Returns the average of the items.
     average := method(self sum / self size)
 
+    //doc List rawSortInPlace The built-in sortInPlace. Used by sortInPlace.
+    rawSortInPlace := getSlot("sortInPlace")
+
+    /*doc List sortInPlace(optionalExpression)
+    Sorts the list using the compare method on the items. Returns self.
+    If an optionalExpression is provided, it is sent to each item once and
+    the list is sorted by the results.
+    */
+    sortInPlace := method(
+        if(call argCount == 0, return self rawSortInPlace)
+        // Work out each item's key first, as ordinary code that can wait,
+        // then sort on the keys. The built-in evaluated the expression
+        // twice per comparison, from inside the C sort.
+        sortExpression := call argAt(0)
+        sortSender := call sender
+        keys := self map(sortItem, getSlot("sortItem") doMessage(sortExpression, sortSender))
+        self rawSortInPlaceWithKeys(keys)
+    )
+
     //doc List removeFirst Returns the first item and removes it from the list. nil is returned if the list is empty.
     removeFirst := method(if(self size != 0, removeAt(0), nil))
 

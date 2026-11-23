@@ -2142,6 +2142,12 @@ IO_METHOD(IoObject, lexicalDo) {
     if (IoMessage_argCount(m) != 0) {
         IoMessage *argMessage = IoMessage_rawArgAt_(m, 0);
         IoObject_rawAppendProto_(self, locals);
+        // Called directly from the eval loop: run the code as a frame, so
+        // it can wait; the frame takes the proto off again when it is done.
+        if (IoState_evalInFrame_removingProto_(IOSTATE, m, argMessage, self,
+                                               self, self, locals)) {
+            return self;
+        }
         IoMessage_locals_performOn_(argMessage, self, self);
         IoObject_rawRemoveProto_(self, locals);
     }
