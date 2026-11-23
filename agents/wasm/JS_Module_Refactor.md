@@ -82,6 +82,10 @@ const { status, output } = await io.eval('list(1,2,3) map(x, x*x) sum');
 io.onOutput(text => process.stdout.write(text));   // replaces the DOM edge
 io.lobby.fetch = globalThis.fetch;                 // JS value into Io
 io.dispose();
+
+// Added 2026-11-22 (PR #548); see subplans/Async.md "Time slices and interrupt"
+const io2 = await Io.load({ timeSlice: 50 });      // give JS a turn every 50 ms
+io2.interrupt();                                   // stop the eval in progress
 ```
 
 `io.lobby.foo = bar` needs no new API — the Proxy `set` trap already forwards

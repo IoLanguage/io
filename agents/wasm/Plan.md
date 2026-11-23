@@ -18,31 +18,52 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 | 4g. Rich JS objects | Deferred until a use case needs it | [subplans/Async.md](subplans/Async.md) Step 6 |
 | 4h. JS module and npm package | Module **done** (PR #507), shim removed. npm packaging **done** (PR #508). First version `2026.11.16-alpha` published by hand 2026-11-16; later releases publish from the Release workflow by npm trusted publishing (no token) | [JS_Module_Refactor.md](JS_Module_Refactor.md) |
 | 4i. Browser scheduler | **Done** (November 2026): coroutines, `@` actors, `wait` and concurrent awaits run inside the JS event loop | [subplans/Async.md](subplans/Async.md) "Layer 3 as built" |
+| 4j. Time slices and interrupt | **Done** (2026-11-22, PR #548, not yet released): `Io.load({ timeSlice })`, `io.interrupt()`, Stop in the REPL | [subplans/Async.md](subplans/Async.md) "Time slices and interrupt" |
 | 5. Compacting collector | Designed, not started; an optimization | [subplans/CompactingGC.md](subplans/CompactingGC.md) |
 | 6. Distribution | GitHub Release artifacts **done** (PRs #501, #502); npm in 4h | `.github/workflows/release.yml` |
 | 7. WASI 0.2 component / 0.3 async | 0.2 component build **done**; 0.3 **blocked on toolchain** (wasmtime ≥ 46, wasi-sdk 0.3 async for C) | [../WASI_ASYNC_PLAN.md](../WASI_ASYNC_PLAN.md) |
 
 ### Recommended next
 
-The list chosen on 2026-11-19 is done apart from a parked remainder.
+Updated 2026-11-23. Master is four PRs past the `2026.11.22` tag (#545 to
+#548), all listed under "Unreleased" in the release notes. No PRs are
+open. Open issues: #441 (terminal half only) and #353.
 
-1. **The last "can't wait here" cases.** Code that runs inside a nested C
-   eval loop can't switch coroutines; in the browser that is a clear error
-   (see Async.md). Two batches are done (see Recently done). What still
-   refuses to wait, all uncommon:
-   - `sortBy`, `sortInPlaceBy` — the comparison block runs inside C
-     `qsort`. A merge sort in Io was measured at about 3x slower on 20,000
-     numbers, so this needs a sort written as a frame state machine.
-   (`lexicalDo`, `interpolate` and `sortInPlace(expr)` were done on
-   2026-11-22.)
-   - `Date cpuSecondsToRun`, and Io callbacks JS calls synchronously
-     during an Io call (not fixable from the Io side).
-   Worth doing only if a real use turns up.
-   Long-running code that never waits no longer freezes the page: see
-   "Time slices and interrupt" in Async.md (2026-11-22, issue #441).
-2. **Pick the next area.** With the above parked, nothing substantial is
-   queued: Phase 4g (rich JS objects) and Phase 5 (compacting collector)
-   are both deferred, and Phase 7 (WASI 0.3) is blocked on the toolchain.
+1. **Tag a release.** npm users get `timeSlice` and `interrupt()` only
+   from a tag. Procedure: rename the Unreleased entry, regenerate, merge,
+   tag the merge commit.
+2. **Show output while an eval is running** (browser). An eval's output is
+   held until it ends. That was fine when evals were short; with time
+   slices a long loop that prints shows nothing until it finishes or is
+   stopped, and the buffer grows meanwhile. Deliver it as it is printed
+   (an `onOutput`-style callback for the eval in progress) and have the
+   REPL append it live. Small, and the natural second half of #548.
+3. **Enforce Sandbox limits.** `Sandbox setTimeLimit` and
+   `setMessageCountLimit` only store a number: nothing in the eval loop
+   reads them, so `Sandbox clone setTimeLimit(0.2) doSandboxString("loop(nil)")`
+   never returns (checked 2026-11-23). The host poll hook added for #548
+   (`IoState.hostPollCallback`) is the place to check both, on every
+   target. This is the missing piece named in the reply on #353.
+4. **Stop a runaway background coroutine** (browser). `interrupt()` stops
+   only the eval. With a time slice, `coroDoLater(loop(nil))` no longer
+   freezes the page but runs forever. Needs a decision on what Stop means
+   when no eval is running.
+5. **Refresh `CLAUDE.md`.** It still describes a `stackless` branch and
+   says `IoBlock.c` uses the recursive evaluator; both are out of date.
+
+Parked, worth doing only if a real use turns up:
+
+- **`sortBy`, `sortInPlaceBy` can't wait.** The comparison block runs
+  inside C `qsort`. A merge sort in Io was measured at about 3x slower on
+  20,000 numbers, so this needs a sort written as a frame state machine.
+  Also unable to wait: `Date cpuSecondsToRun`, and Io callbacks JS calls
+  synchronously during an Io call (not fixable from the Io side).
+- **Ctrl-C in the terminal REPL** (the rest of #441). WASI delivers no
+  signals, so under wasmtime Ctrl-C ends the process. Nothing to do until
+  the host offers a way.
+- Phase 4g (rich JS objects) and Phase 5 (compacting collector):
+  deferred. Phase 7 (WASI 0.3): blocked on the toolchain; the local
+  wasmtime is still 42.0.1 and the plan needs 46 or later.
 
 Housekeeping:
 
@@ -51,6 +72,32 @@ Housekeeping:
 
 ### Recently done
 
+- **Merged since `2026.11.22`, not yet released** (2026-11-22):
+  - **Time slices and interrupt** (#548, issue #441). The eval loop calls
+    `IoState.hostPollCallback` between steps every 1024 steps. The browser
+    host uses it to return to JS when a time slice is used up
+    (`Io.load({ timeSlice })`, off by default) and to raise an
+    uncatchable "interrupted" error in the eval in progress
+    (`io.interrupt()`). The REPL pages load with a 50 ms slice and a Stop
+    button. Cost with no slice set: within noise.
+  - **More code can wait in the browser** (#546): `lexicalDo`,
+    `interpolate` and `sortInPlace(expression)`, which also became about
+    3x faster because the expression runs once per item.
+  - **Source text in wide Sequences** (#547): `doString`, `asMessage`,
+    `Message fromString` and `interpolate` failed or truncated when the
+    string held a non-ASCII character. Source files were never affected.
+  - **Backtraces hide the VM's `opShuffle` line** on a compile error
+    (#545).
+- **Released `2026.11.22`**: parser and exception fixes from the issue
+  backlog. Negative literals (`-1 acos`, #489); an operator directly
+  before a minus (`a:=-1`, `x*-1`); operators added mid-file take effect,
+  because run source is shuffled one statement at a time (#494, #438); a
+  colon is no longer an identifier letter (`a:=2`, #253); `return`,
+  `break` and `continue` pass through `try` and `catch` (#37); future
+  sends leave code arguments unevaluated (#55); assignment with arguments
+  on the left; the colvmn submodule over https (#504).
+- **Issue backlog cleared** (2026-11-21 and 22): pre-WASM issues closed at
+  the maintainer's request; #404 and #434 closed with replies.
 - **VM bugs found while building the scheduler: all fixed.** Syntax errors
   crashing the VM (#511); the retain-stack growth in loops and coroutines
   ([../stackless/Debug_Loop_Leak.md](../stackless/Debug_Loop_Leak.md), #513);
