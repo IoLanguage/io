@@ -196,7 +196,7 @@ import { Io } from "./src/index.js";
 import { startRepl } from "./repl/repl.js";
 
 let vm = null;
-startRepl(() => (vm ??= Io.load()));
+startRepl(() => (vm ??= Io.load({ timeSlice: 50 })));
 	</script>
 </body>
 </html>

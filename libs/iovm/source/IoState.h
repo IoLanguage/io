@@ -162,6 +162,7 @@ struct IoState {
     // Frame object pool — reuses GC-managed IoEvalFrame objects
     // Pooled frames remain valid collector objects, just parked for reuse.
     #define FRAME_POOL_SIZE 256
+    #define IOSTATE_HOST_POLL_INTERVAL 1024
     IoObject *framePool[FRAME_POOL_SIZE];
     int framePoolCount;
 
@@ -212,6 +213,14 @@ struct IoState {
 
     int receivedSignal;
     int showAllMessages;
+
+    // Host poll: when hostPollCallback is set, the eval loop calls it
+    // between steps, every IOSTATE_HOST_POLL_INTERVAL steps (the callback
+    // may lower hostPollCountdown to be called sooner). It may raise an
+    // error or switch the current coroutine. The browser host uses it to
+    // give the page a turn during long-running code, and to interrupt it.
+    void (*hostPollCallback)(struct IoState *);
+    int hostPollCountdown;
 
     // CHash *profiler;
 };

@@ -11,7 +11,10 @@ export class Io {
 	// Io.load({ wasm }) — wasm may be a URL (string or URL object), a Response,
 	// bytes (ArrayBuffer or typed array), or a compiled WebAssembly.Module.
 	// Defaults to io_browser.wasm next to this package's src/ folder.
-	static async load({ wasm = DEFAULT_WASM } = {}) {
+	// timeSlice: the longest Io code runs before the page (or Node's event
+	// loop) gets a turn, in milliseconds. Without it, code runs until it
+	// waits or finishes, and interrupt() can only stop an eval that is waiting.
+	static async load({ wasm = DEFAULT_WASM, timeSlice = 0 } = {}) {
 		const vm = new Io();
 		const imports = { wasi_snapshot_preview1: createWasi(vm), js: createJsImports(vm) };
 		vm.wasm = await instantiate(wasm, imports);
@@ -19,6 +22,7 @@ export class Io {
 		// Reactor model: call _initialize to run static constructors
 		if (vm.wasm.exports._initialize) vm.wasm.exports._initialize();
 		vm.wasm.exports.io_init();
+		if (timeSlice > 0) vm.wasm.exports.io_set_time_slice_ms(timeSlice);
 		return vm;
 	}
 
@@ -72,6 +76,16 @@ export class Io {
 
 	send(handle, messageName, ...args) {
 		return ioSend(this, handle, messageName, ...args);
+	}
+
+	// Stop the eval in progress: it fails with an "interrupted" Io error,
+	// which `try` can't catch. Returns false if no eval is running. Code that
+	// never waits can only be stopped if the VM was loaded with a timeSlice,
+	// since otherwise no JS runs until it finishes.
+	interrupt() {
+		if (!this.wasm || !this.wasm.exports.io_interrupt()) return false;
+		this.wakeSoon(0);
+		return true;
 	}
 
 	// Output printed outside an eval, by Io callbacks run from event handlers,

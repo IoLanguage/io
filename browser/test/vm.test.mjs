@@ -258,6 +258,58 @@ test("an eval nothing can wake fails instead of hanging", async () => {
 	assert.equal((await io.eval("1 + 1")).output, "==> 2\n");
 });
 
+// Run code, interrupt it after ms, and return the eval's result.
+async function stopAfter(vm, code, ms = 30) {
+	const pending = vm.eval(code);
+	let interrupted;
+	setTimeout(() => (interrupted = vm.interrupt()), ms);
+	const result = await pending;
+	assert.equal(interrupted, true, code);
+	return result;
+}
+
+test("interrupt stops an eval that is waiting", async () => {
+	globalThis.never = new Promise(() => {});
+	for (const code of ["wait(60)", "JS never await", 'e := try(wait(60)); "caught" println', 'loop(try(JS never await))']) {
+		const { status, output } = await stopAfter(io, code);
+		assert.equal(status, 1, code);
+		assert.match(output, /Exception: interrupted/, code);
+		assert.doesNotMatch(output, /caught/, code);
+	}
+	assert.equal(io.interrupt(), false);
+	assert.equal((await io.eval("1 + 1")).output, "==> 2\n");
+	// The interrupted evals left nothing behind that looks like pending work
+	const { output } = await io.eval('Coroutine currentCoroutine pause; "never"');
+	assert.match(output, /nothing left to resume/);
+});
+
+test("with a time slice, long-running code gives JS a turn and can be interrupted", async () => {
+	const vm = await Io.load({ timeSlice: 10 });
+	for (const code of ["loop(nil)", "i := 0; loop(i = i + 1)", "for(j, 1, 1e12, nil)", "while(true, list(1, 2, 3) map(x, x * 2))",
+		"loop(try(loop(nil)))", "f := method(f); f"]) {
+		const { status, output } = await stopAfter(vm, code);
+		assert.equal(status, 1, code);
+		assert.match(output, /Exception: interrupted/, code);
+	}
+	assert.equal((await vm.eval("i > 1000")).output, "==> true\n");
+
+	// Code that is sliced gives the same results as code that isn't
+	let turns = 0;
+	const counting = setInterval(() => turns++, 1);
+	assert.equal((await vm.eval("n := 0; for(k, 1, 600000, n = n + k); n")).output, "==> 180000300000\n");
+	assert.equal((await vm.eval("c := 0; for(k, 1, 30000000, nil); k")).output, "==> 30000000\n");
+	assert.equal((await vm.eval("c := 0; 30000000 repeat(nil); 200000 repeat(c = c + 1); c")).output, "==> 200000\n");
+	assert.equal((await vm.eval("e := try(n := 0; for(k, 1, 300000, n = n + 1)); list(e, n)")).output, "==> list(nil, 300000)\n");
+	assert.equal((await vm.eval('a := coroDoLater(x := 0; 300000 repeat(x = x + 1)); y := 0; 300000 repeat(y = y + 1); yield; y')).output, "==> 300000\n");
+	clearInterval(counting);
+	assert.ok(turns > 3, `JS got ${turns} turns`);
+
+	// A JS call into Io still runs to completion: JS is waiting for its result
+	await vm.eval("count := method(n := 0; 600000 repeat(n = n + 1); n)");
+	assert.equal(vm.lobby.count(), 600000);
+	vm.dispose();
+});
+
 test("VMs are independent", async () => {
 	const other = await Io.load({ wasm: await readFile(new URL("../io_browser.wasm", import.meta.url)) });
 	await other.eval("onlyHere := 1");
