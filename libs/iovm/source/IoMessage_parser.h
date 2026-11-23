@@ -14,6 +14,8 @@ extern "C" {
 
 IoMessage *IoMessage_newFromText_label_(void *state, const char *text,
                                         const char *label);
+IoMessage *IoMessage_newFromSeq_labelSymbol_lazy_(void *state, IoObject *source,
+                                                  IoSymbol *label, int lazy);
 IoMessage *IoMessage_newFromText_labelSymbol_lazy_(void *state,
                                                    const char *text,
                                                    IoSymbol *label, int lazy);

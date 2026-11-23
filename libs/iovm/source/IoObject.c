@@ -1683,8 +1683,8 @@ IO_METHOD(IoObject, doString) {
     // Use iterative path if eval loop is active, otherwise recursive fallback
     if (state->currentFrame != NULL) {
         IoState_pushCollectorPause(state);
-        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_lazy_(state,
-            CSTRING(string), label, 1);
+        IoMessage *codeMsg = IoMessage_newFromSeq_labelSymbol_lazy_(state,
+            string, label, 1);
         IoState_popCollectorPause(state);
 
         if (!codeMsg) {

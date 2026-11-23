@@ -104,6 +104,31 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text,
     return IoMessage_newFromText_labelSymbol_lazy_(state, text, label, 0);
 }
 
+/*cdoc Message IoMessage_newFromSeq_labelSymbol_lazy_(state, source, label, lazy)
+Compiles the text of a Sequence. The parser reads UTF-8, but a Sequence
+holding a non-ASCII character is stored with two or four bytes per
+character, and reading those bytes as a C string stops at the first zero
+byte: `doString("\"é\" size")` failed to compile, and
+`"日本#{1 + 1}語" interpolate` evaluated only the `1`. Such a Sequence is
+converted to UTF-8 first.
+*/
+IoMessage *IoMessage_newFromSeq_labelSymbol_lazy_(void *state, IoObject *source,
+                                                  IoSymbol *label, int lazy) {
+    IoMessage *msg;
+
+    if (UArray_itemSize(IoSeq_rawUArray(source)) > 1) {
+        IoState_pushCollectorPause(state);
+        source = IoSeq_asUTF8Seq(state, source);
+        msg = IoMessage_newFromText_labelSymbol_lazy_(
+            state, IoSeq_asCString(source), label, lazy);
+        IoState_popCollectorPause(state);
+        return msg;
+    }
+
+    return IoMessage_newFromText_labelSymbol_lazy_(
+        state, IoSeq_asCString(source), label, lazy);
+}
+
 /*cdoc Message IoMessage_newFromText_labelSymbol_lazy_(state, text, label, lazy)
 The compile pipeline behind IoMessage_newFromText_labelSymbol_. With
 `lazy` set, only the first statement is operator-shuffled here; each

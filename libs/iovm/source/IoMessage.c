@@ -942,7 +942,9 @@ void IoMessage_appendDescriptionTo_follow_(IoMessage *self, UArray *ba,
     do {
         IoMessageData *data = DATA(self);
 
-        UArray_appendCString_(ba, CSTRING(data->name));
+        // A name holding a non-ASCII character (a string literal such as
+        // "é") is stored wide; its bytes are not a C string.
+        UArray_append_(ba, IoSeq_rawUArray(data->name));
 
         {
             size_t i, max = List_size(DATA(self)->args);
@@ -1312,7 +1314,7 @@ IO_METHOD(IoMessage, fromString) {
         label = IoMessage_locals_symbolArgAt_(m, locals, 1);
     }
 
-    return IoMessage_newFromText_labelSymbol_(IOSTATE, CSTRING(string), label);
+    return IoMessage_newFromSeq_labelSymbol_lazy_(IOSTATE, string, label, 0);
 }
 
 IO_METHOD(IoMessage, cachedResult) {

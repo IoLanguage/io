@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-22 · cda6890c
+Site build: Io · 2026-11-22 · d8ceb016
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7103,6 +7103,7 @@ On `master`, not yet tagged.
 
 - **More code can wait in the browser** — `lexicalDo`, the `#{...}` expressions of `interpolate` and `interpolateInPlace`, and the expression given to `sortInPlace` now run as ordinary frames, so they can `wait`, await a JS Promise or use an actor’s result. The comparison block of `sortBy` and `sortInPlaceBy` still cannot.
 - **`sortInPlace(expression)` is faster** — the expression is sent to each item once and the list is sorted on the results; it used to be evaluated twice per comparison. Sorting 20,000 numbers this way takes about a third of the time. Adds `List rawSortInPlaceWithKeys`.
+- **Source text with non-ASCII characters** — `doString`, `asMessage`, `Message fromString` and `interpolate` failed or gave wrong results when the string held a non-ASCII character: `doString("\"&eacute;\" size")` was a compile error, and an expression inside a string such as `"&#26085;&#26412;#{1 + 1}"` was cut short. Messages containing a non-ASCII string literal also printed it truncated. Source files were not affected.
 
 ## 2026.11.22 — Negative literals, mid-file operators, return in try
 

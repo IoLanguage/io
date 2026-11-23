@@ -875,9 +875,8 @@ static IoMessage *IoSeq_interpolateMessage_(IoSeq *self, int asSymbol) {
 
             piece = UArray_slice(string, from + 2, to);
             code = IoSeq_newWithUArray_copy_(state, piece, 0);
-            codeMsg = IoMessage_newFromText_labelSymbol_(
-                state, CSTRING(IoSeq_rawAsSymbol(code)),
-                IoState_symbolWithCString_(state, "doString"));
+            codeMsg = IoMessage_newFromSeq_labelSymbol_lazy_(
+                state, code, IoState_symbolWithCString_(state, "doString"), 0);
 
             if (state->errorRaised) {
                 return NULL;
