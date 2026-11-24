@@ -109,7 +109,7 @@ from "timers only" to "timers + host futures".
 ## Upgrade triggers (re-check before starting)
 
 - **wasmtime ≥ 46 installed** (0.3.0 interfaces, async on by default).
-  Local machine has 42.0.1 — `wasmtime --version`.
+  Local machine has 42.0.1 — `wasmtime --version` (re-checked 2026-11-23).
 - **wasi-sdk / wit-bindgen C support for 0.3 async** (`future<T>`/`stream<T>`
   lowering and `waitable-set` intrinsics from C). At the time of writing,
   guest toolchain support was rolling out for Rust/Go/JS/Python first;
