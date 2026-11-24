@@ -162,7 +162,9 @@ IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals,
 
 IO_METHOD(IoSandbox, setMessageCount) {
     /*doc Sandbox setMessageCount(anInteger)
-    Sets the messageCount limit of the receiver.
+    Sets the limit on the work one doSandboxString call may do, counted in
+    evaluator steps (roughly one per message sent, or per pass of a loop).
+    0, the default, means no limit. Returns self.
     */
 
     IoState *boxState = IoSandbox_boxState(self);
@@ -181,7 +183,9 @@ IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m) {
 
 IO_METHOD(IoSandbox, setTimeLimit) {
     /*doc Sandbox setTimeLimit(aDouble)
-    Sets the time limit of the Sandbox.
+    Sets the longest one doSandboxString call may run, in seconds. 0, the
+    default, means no limit. The clock is checked every 1024 evaluator
+    steps, so a single long-running primitive can overrun it. Returns self.
     */
 
     IoState *boxState = IoSandbox_boxState(self);
@@ -191,13 +195,26 @@ IO_METHOD(IoSandbox, setTimeLimit) {
 
 IO_METHOD(IoSandbox, doSandboxString) {
     /*doc Sandbox doSandboxString(aString)
-    Evaluate aString inside the Sandbox.
+    Evaluate aString inside the Sandbox and return the result if it is a
+    Number or a Sequence, otherwise nil. If the code runs past the time
+    limit or the message count limit, it is stopped and an exception is
+    raised here: "Sandbox: time limit exceeded" or "Sandbox: message count
+    limit exceeded". Code in the Sandbox can't catch that. State the code
+    had already changed in the Sandbox stays changed.
     */
 
     IoState *boxState = IoSandbox_boxState(self);
     char *s = IoMessage_locals_cStringArgAt_(m, locals, 0);
 
     IoObject *result = IoState_doSandboxCString_(boxState, s);
+
+    if (boxState->sandboxExceeded) {
+        IoState_error_(IOSTATE, m,
+            boxState->sandboxExceeded == IOSTATE_SANDBOX_TIME
+                ? "Sandbox: time limit exceeded"
+                : "Sandbox: message count limit exceeded");
+        return IONIL(self);
+    }
 
     if (ISSYMBOL(result)) {
         return IOSYMBOL(CSTRING(result));
