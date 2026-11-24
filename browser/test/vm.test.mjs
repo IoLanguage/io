@@ -310,6 +310,41 @@ test("with a time slice, long-running code gives JS a turn and can be interrupte
 	vm.dispose();
 });
 
+test("eval's onOutput receives output as it is printed", async () => {
+	const collect = async (vm, code) => {
+		const pieces = [];
+		const result = await vm.eval(code, { onOutput: (text) => pieces.push(text) });
+		assert.equal(pieces.join(""), result.output, code);
+		return { pieces, ...result };
+	};
+	assert.deepEqual((await collect(io, "1 + 1")).pieces, ["==> 2\n"]);
+	assert.deepEqual((await collect(io, '"a" println; "b" println')).pieces, ["a\nb\n"]);
+	assert.deepEqual((await collect(io, "nil")).pieces, []);
+
+	// An eval that waits delivers what it printed before each wait
+	const waited = await collect(io, '"one" println; wait(0.03); "two" println; wait(0.03); "é three" println');
+	assert.deepEqual(waited.pieces, ["one\n", "two\n", "é three\n"]);
+
+	// The error arrives as the last piece
+	const failed = await collect(io, '"before" println; wait(0.02); 1 foo');
+	assert.equal(failed.status, 1);
+	assert.equal(failed.pieces[0], "before\n");
+	assert.match(failed.pieces.at(-1), /does not respond to 'foo'/);
+
+	// A sliced eval that never waits delivers output while it runs
+	const vm = await Io.load({ timeSlice: 5 });
+	let early = 0;
+	const pending = vm.eval('200 repeat(i, i println; n := 0; 2000 repeat(n = n + 1))', { onOutput: () => early++ });
+	const { status, output } = await pending;
+	assert.equal(status, 0);
+	assert.equal(output.split("\n").length, 201);
+	assert.ok(early > 2, `output came in ${early} pieces`);
+	vm.dispose();
+
+	// The next eval without onOutput is unaffected
+	assert.deepEqual(await io.eval('"x" println'), { status: 0, output: "x\n" });
+});
+
 test("VMs are independent", async () => {
 	const other = await Io.load({ wasm: await readFile(new URL("../io_browser.wasm", import.meta.url)) });
 	await other.eval("onlyHere := 1");

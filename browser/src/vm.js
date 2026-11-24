@@ -37,6 +37,8 @@ export class Io {
 		this.wakeAt = 0;            // when that timer fires (ms since the epoch)
 		this.outputSeen = 0;        // bytes of the C output buffer already delivered
 		this.outputListeners = new Set();
+		this.evalListener = null;   // onOutput of the eval in progress
+		this.evalSeen = 0;          // bytes of its output already given to it
 		this.queue = Promise.resolve();
 		// Releases Io objects whose JS proxies were collected. Checks this.wasm
 		// so it never calls into a disposed VM.
@@ -58,8 +60,13 @@ export class Io {
 	// futures). Other Io coroutines keep running meanwhile. status is 0 on
 	// success, 1 on an Io error, -1 if the VM couldn't run it. Evals run one
 	// at a time, in call order.
-	eval(code) {
+	// onOutput, if given, receives the eval's output as it is produced: what
+	// it prints while it runs, piece by piece, then the rest when it ends (the
+	// "==> value" line or the error). The pieces add up to result.output.
+	eval(code, { onOutput = null } = {}) {
 		const run = () => new Promise((resolve) => {
+			this.evalListener = onOutput;
+			this.evalSeen = 0;
 			const result = this.evalNow(code);
 			if (result.status === 2) this.awaiting = resolve;
 			else resolve(result);
@@ -152,6 +159,7 @@ export class Io {
 		const status = this.run(() => this.wasm.exports.io_eval_input());
 		if (status === 2) {
 			this.evalPending = true;
+			this.streamEvalOutput();
 			this.schedule();
 			return { status, output: "" };
 		}
@@ -172,6 +180,8 @@ export class Io {
 			const resolve = this.awaiting;
 			this.awaiting = null;
 			if (resolve) resolve(result);
+		} else if (this.evalPending) {
+			this.streamEvalOutput();
 		} else {
 			this.flushCallbackOutput();
 		}
@@ -221,11 +231,28 @@ export class Io {
 		for (const listener of this.outputListeners) listener(text);
 	}
 
+	// Give the eval in progress what it has printed since last time.
+	streamEvalOutput() {
+		if (!this.evalListener) return;
+		const len = this.wasm.exports.io_get_output_len();
+		if (len <= this.evalSeen) return;
+		const text = this.readString(this.wasm.exports.io_get_output() + this.evalSeen, len - this.evalSeen);
+		this.evalSeen = len;
+		this.evalListener(text);
+	}
+
 	// The finished eval's output. Anything printed after it finished, by
 	// other coroutines in the same tick, goes to the listeners.
 	takeEvalOutput() {
 		const len = this.wasm.exports.io_get_eval_output_len();
 		const text = this.stdout + (len > 0 ? this.readString(this.wasm.exports.io_get_output(), len) : "");
+		const listener = this.evalListener;
+		this.evalListener = null;
+		if (listener) {
+			const seen = Math.min(this.evalSeen, len);
+			const rest = this.stdout + (len > seen ? this.readString(this.wasm.exports.io_get_output() + seen, len - seen) : "");
+			if (rest) listener(rest);
+		}
 		this.stdout = "";
 		this.outputSeen = len;
 		this.flushCallbackOutput();
