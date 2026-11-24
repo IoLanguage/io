@@ -18,38 +18,19 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 | 4g. Rich JS objects | Deferred until a use case needs it | [subplans/Async.md](subplans/Async.md) Step 6 |
 | 4h. JS module and npm package | Module **done** (PR #507), shim removed. npm packaging **done** (PR #508). First version `2026.11.16-alpha` published by hand 2026-11-16; later releases publish from the Release workflow by npm trusted publishing (no token) | [JS_Module_Refactor.md](JS_Module_Refactor.md) |
 | 4i. Browser scheduler | **Done** (November 2026): coroutines, `@` actors, `wait` and concurrent awaits run inside the JS event loop | [subplans/Async.md](subplans/Async.md) "Layer 3 as built" |
-| 4j. Time slices and interrupt | **Done** (2026-11-22, PR #548, not yet released): `Io.load({ timeSlice })`, `io.interrupt()`, Stop in the REPL | [subplans/Async.md](subplans/Async.md) "Time slices and interrupt" |
+| 4j. Time slices and interrupt | **Done** (2026-11-22, PR #548; background stop 2026-11-23, PR #553): `Io.load({ timeSlice })`, `io.interrupt()`, `io.interruptBackground()`, Stop in the REPL | [subplans/Async.md](subplans/Async.md) "Time slices and interrupt" |
 | 5. Compacting collector | Designed, not started; an optimization | [subplans/CompactingGC.md](subplans/CompactingGC.md) |
 | 6. Distribution | GitHub Release artifacts **done** (PRs #501, #502); npm in 4h | `.github/workflows/release.yml` |
 | 7. WASI 0.2 component / 0.3 async | 0.2 component build **done**; 0.3 **blocked on toolchain** (wasmtime ≥ 46, wasi-sdk 0.3 async for C) | [../WASI_ASYNC_PLAN.md](../WASI_ASYNC_PLAN.md) |
 
 ### Recommended next
 
-Updated 2026-11-23. Master is four PRs past the `2026.11.22` tag (#545 to
-#548), all listed under "Unreleased" in the release notes. No PRs are
-open. Open issues: #441 (terminal half only) and #353.
+Updated 2026-11-23. Everything on master is released as `2026.11.23`. No
+PRs are open. Open issues: #441 (terminal half only: WASI has no signals)
+and #353.
 
-1. **Tag a release.** npm users get `timeSlice` and `interrupt()` only
-   from a tag. Procedure: rename the Unreleased entry, regenerate, merge,
-   tag the merge commit.
-2. **Show output while an eval is running** (browser). An eval's output is
-   held until it ends. That was fine when evals were short; with time
-   slices a long loop that prints shows nothing until it finishes or is
-   stopped, and the buffer grows meanwhile. Deliver it as it is printed
-   (an `onOutput`-style callback for the eval in progress) and have the
-   REPL append it live. Small, and the natural second half of #548.
-3. **Enforce Sandbox limits.** `Sandbox setTimeLimit` and
-   `setMessageCountLimit` only store a number: nothing in the eval loop
-   reads them, so `Sandbox clone setTimeLimit(0.2) doSandboxString("loop(nil)")`
-   never returns (checked 2026-11-23). The host poll hook added for #548
-   (`IoState.hostPollCallback`) is the place to check both, on every
-   target. This is the missing piece named in the reply on #353.
-4. **Stop a runaway background coroutine** (browser). `interrupt()` stops
-   only the eval. With a time slice, `coroDoLater(loop(nil))` no longer
-   freezes the page but runs forever. Needs a decision on what Stop means
-   when no eval is running.
-5. **Refresh `CLAUDE.md`.** It still describes a `stackless` branch and
-   says `IoBlock.c` uses the recursive evaluator; both are out of date.
+Nothing is queued. The five items listed here on 2026-11-23 are done (see
+"Recently done").
 
 Parked, worth doing only if a real use turns up:
 
@@ -72,7 +53,18 @@ Housekeeping:
 
 ### Recently done
 
-- **Merged since `2026.11.22`, not yet released** (2026-11-22):
+- **Released `2026.11.23`**:
+  - **Output while an eval runs** (#550): `io.eval(code, { onOutput })`;
+    the REPL shows a long eval's output live.
+  - **Sandbox limits enforced** (#551, issue #353): `setTimeLimit` and
+    `setMessageCount` are checked by a host poll installed in the
+    sandbox's VM; the count is in evaluator steps.
+  - **Stopping background code** (#553): `io.backgroundBusy`,
+    `io.onBackgroundBusy`, `io.interruptBackground()`. Nothing is stopped
+    automatically, and coroutines that wait or yield are never reported
+    or stopped. Also fixed `loop(yield)` stalling with time slices on
+    (`yield` and `pause` now finish before a slice ends).
+  - **`CLAUDE.md` refreshed** (#552).
   - **Time slices and interrupt** (#548, issue #441). The eval loop calls
     `IoState.hostPollCallback` between steps every 1024 steps. The browser
     host uses it to return to JS when a time slice is used up
