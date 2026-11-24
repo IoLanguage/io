@@ -37,13 +37,13 @@ jobs:
       WASI_SDK_VERSION: "25"
       WASI_SDK_FULL: "25.0"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Regenerate static HTML
         run: node colvmn/static-gen.js
@@ -59,7 +59,7 @@ jobs:
         run: make browser WASI_SDK="$HOME/wasi-sdk"
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: .
 
@@ -71,4 +71,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

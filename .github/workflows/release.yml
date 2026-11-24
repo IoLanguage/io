@@ -64,7 +64,7 @@ jobs:
           echo "Releasing $TAG"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ steps.tag.outputs.tag }}
           submodules: 'recursive'
@@ -246,7 +246,7 @@ jobs:
       # dist-tag so `npm install @iolanguage/io` stays on the latest stable
       # release.
       - name: Set up Node for npm
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
