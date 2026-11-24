@@ -1105,6 +1105,8 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self) {
         return self;
     }
 
+    state->coroutineResumeCount++;
+
     if (DATA(self)->frameStack || DATA(self)->frameStack == NULL) {
         // Either resuming a suspended coro OR starting a fresh one
 

@@ -5,6 +5,10 @@
 // While an eval is running, #eval-btn reads "Stop" and interrupts it, as does
 // Ctrl-C in the input. Code that never waits can only be stopped if the VM
 // was loaded with a timeSlice.
+//
+// Background code (a coroutine an earlier eval started) that runs without
+// ever waiting gets its own button, shown only while that is happening.
+// Nothing stops such code except clicking it.
 
 const AWAITING_DELAY_MS = 50; // show "running..." only for evals that take a while
 
@@ -153,6 +157,17 @@ export async function startRepl(loadVm, doc = document) {
 		vm = await loadVm();
 		// Output from callbacks run outside an eval (setTimeout, event handlers)
 		vm.onOutput((text) => appendLine("result", text));
+		if (evalBtn) {
+			const bgBtn = doc.createElement("span");
+			bgBtn.className = "button";
+			bgBtn.id = "bg-stop-btn";
+			bgBtn.textContent = evalLabel === evalLabel.toUpperCase() ? "STOP BACKGROUND CODE" : "Stop background code";
+			bgBtn.title = "Code started by an earlier eval is still running without pausing. Click to stop it.";
+			bgBtn.style.display = "none";
+			evalBtn.after(bgBtn);
+			bgBtn.addEventListener("click", () => vm.interruptBackground());
+			vm.onBackgroundBusy((busy) => { bgBtn.style.display = busy ? "" : "none"; });
+		}
 		statusEl.className = "status hidden";
 		replEl.style.opacity = "1";
 		inputEl.disabled = false;

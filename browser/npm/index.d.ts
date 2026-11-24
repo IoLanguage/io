@@ -69,6 +69,30 @@ export class Io {
 	interrupt(): boolean;
 
 	/**
+	 * How long background code (coroutines other than the eval) has been
+	 * running without waiting, in milliseconds; 0 if it isn't. Needs a
+	 * `timeSlice`. Code that waits or yields between bursts of work doesn't
+	 * count.
+	 */
+	readonly backgroundBusy: number;
+
+	/**
+	 * Stop the background coroutine that is running without waiting: it ends
+	 * with an "interrupted" error, reported through `onOutput` (or in the output
+	 * of an eval running at the time). Returns false,
+	 * and does nothing, if `backgroundBusy` is 0. Coroutines that wait are
+	 * never stopped by this.
+	 */
+	interruptBackground(): boolean;
+
+	/**
+	 * `listener(true)` once background code has been busy for a second,
+	 * `listener(false)` when it no longer is. Returns a function that
+	 * unsubscribes.
+	 */
+	onBackgroundBusy(listener: (busy: boolean) => void): () => void;
+
+	/**
 	 * Receive output printed outside an eval, by Io callbacks run from timers,
 	 * event handlers and so on. Returns a function that unsubscribes.
 	 */

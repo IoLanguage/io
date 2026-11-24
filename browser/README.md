@@ -36,6 +36,8 @@ The VM is compiled as a WASM **reactor module** (`-mexec-model=reactor`) — ins
 | `io_get_output_len()` | Length of captured output |
 | `io_set_time_slice_ms(ms)` | Longest Io runs before returning to JS (0 = until it waits) |
 | `io_interrupt()` | Stop the eval in progress |
+| `io_background_busy_ms()` | How long background code has run without waiting |
+| `io_interrupt_background()` | Stop the background coroutine doing that |
 
 All Io output (`write`, `writeln`, `println`) is redirected to an in-memory buffer via the VM's `printCallback` mechanism. If an expression produces no printed output but returns a non-nil value, the REPL displays it as `==> <value>`.
 
@@ -93,8 +95,10 @@ io.interrupt();                                // result resolves: status 1, "Ex
 - With a `timeSlice`, the VM hands control back to JS whenever Io has run that long, and carries on from a timer. The page stays live during a long eval, and other Io coroutines get turns too. The cost is that JS timers and event handlers can now run partway through an eval, where before they ran only when it waited. Loops, method calls and recursion can all be paused this way; a single long-running primitive (sorting a huge list) can't.
 - `io.interrupt()` stops the eval in progress with an "interrupted" error and returns true, or returns false if none is running. `try` can't catch it. It stops an eval that is waiting (`wait(60)`, a Promise that never settles) with or without a time slice; stopping one that never waits needs a time slice, since otherwise your JS doesn't get to run.
 - It stops only the eval. Coroutines the eval started (`coroDoLater`, actors) keep running.
+- Background code that never waits, such as `coroDoLater(loop(nil))`, is sliced too, so the page stays live, and it keeps running: nothing stops it automatically. `io.backgroundBusy` says how many milliseconds it has been going (0 if nothing is), `io.onBackgroundBusy(listener)` calls `listener(true)` once that passes a second and `listener(false)` when it ends, and `io.interruptBackground()` stops the coroutine responsible with an "interrupted" error that `try` can't catch.
+- Only a coroutine that uses up time slice after time slice without waiting or yielding counts. One that waits (`wait`, a Promise, an actor waiting for messages) or yields between bursts of work is never reported and never stopped, however long it has been running, and `interruptBackground()` returns false and does nothing when there is no busy coroutine. A coroutine doing a long stretch of real work looks the same as a runaway one, which is why stopping is left to the caller.
 - A JS call into Io (`io.lobby.foo()`, an event handler) is never paused by the time slice: JS is waiting for its result.
-- The REPL page loads its VM with a 50 ms time slice. Its EVAL button reads STOP while code is running, and Ctrl-C in the input does the same.
+- The REPL page loads its VM with a 50 ms time slice. Its EVAL button reads STOP while code is running, and Ctrl-C in the input does the same. A separate STOP BACKGROUND CODE button appears only while background code has been busy for a second.
 
 ## Tests
 

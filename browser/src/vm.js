@@ -6,6 +6,8 @@ import { HandleTable, createJsImports } from "./bridge.js";
 import { makeIoProxy, ioSend } from "./proxy.js";
 
 const DEFAULT_WASM = new URL("../io_browser.wasm", import.meta.url);
+const BACKGROUND_BUSY_MS = 1000;   // busy this long before onBackgroundBusy listeners hear of it
+const BACKGROUND_CHECK_MS = 250;
 
 export class Io {
 	// Io.load({ wasm }) — wasm may be a URL (string or URL object), a Response,
@@ -39,6 +41,9 @@ export class Io {
 		this.outputListeners = new Set();
 		this.evalListener = null;   // onOutput of the eval in progress
 		this.evalSeen = 0;          // bytes of its output already given to it
+		this.busyListeners = new Set();
+		this.busyReported = false;  // what onBackgroundBusy listeners were last told
+		this.busyTimer = null;
 		this.queue = Promise.resolve();
 		// Releases Io objects whose JS proxies were collected. Checks this.wasm
 		// so it never calls into a disposed VM.
@@ -95,6 +100,34 @@ export class Io {
 		return true;
 	}
 
+	// How long background code (coroutines other than the eval) has been
+	// running without waiting, in milliseconds; 0 if it isn't. Only measured
+	// when the VM was loaded with a timeSlice. Code that waits or yields
+	// between bursts of work doesn't count, however often it runs.
+	get backgroundBusy() {
+		return this.wasm ? this.wasm.exports.io_background_busy_ms() : 0;
+	}
+
+	// Stop the background coroutine that is running without waiting: it ends
+	// with an "interrupted" Io error, reported through onOutput (or in the
+	// output of an eval running at the time). Returns false,
+	// and does nothing, if backgroundBusy is 0. Coroutines that wait (on
+	// `wait`, a Promise, an actor message) are never stopped by this, and
+	// nothing is ever stopped unless this is called.
+	interruptBackground() {
+		if (!this.wasm || !this.wasm.exports.io_interrupt_background()) return false;
+		this.wakeSoon(0);
+		return true;
+	}
+
+	// listener(true) once background code has been busy for a second,
+	// listener(false) when it no longer is. Returns a function that
+	// unsubscribes.
+	onBackgroundBusy(listener) {
+		this.busyListeners.add(listener);
+		return () => this.busyListeners.delete(listener);
+	}
+
 	// Output printed outside an eval, by Io callbacks run from event handlers,
 	// timers and so on. Returns a function that unsubscribes.
 	onOutput(listener) {
@@ -107,9 +140,12 @@ export class Io {
 		this.wasm = null;
 		clearTimeout(this.wakeTimer);
 		this.wakeTimer = null;
+		clearTimeout(this.busyTimer);
+		this.busyTimer = null;
 		this.evalPending = false;
 		this.handles.clear();
 		this.outputListeners.clear();
+		this.busyListeners.clear();
 		if (this.awaiting) {
 			const resolve = this.awaiting;
 			this.awaiting = null;
@@ -186,6 +222,23 @@ export class Io {
 			this.flushCallbackOutput();
 		}
 		this.schedule();
+		this.checkBackground();
+	}
+
+	// Tell onBackgroundBusy listeners when background code becomes busy or
+	// stops being. Keeps checking while it is, since the last tick of a
+	// coroutine that finishes still counts as busy.
+	checkBackground() {
+		clearTimeout(this.busyTimer);
+		this.busyTimer = null;
+		if (!this.wasm || this.busyListeners.size === 0) return;
+		const ms = this.wasm.exports.io_background_busy_ms();
+		const busy = ms >= BACKGROUND_BUSY_MS;
+		if (busy !== this.busyReported) {
+			this.busyReported = busy;
+			for (const listener of this.busyListeners) listener(busy);
+		}
+		if (ms > 0) this.busyTimer = setTimeout(() => this.checkBackground(), BACKGROUND_CHECK_MS);
 	}
 
 	// Set the timer for the next tick, from when Io says it next has work.

@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-23 · 823229e1
+Site build: Io · 2026-11-23 · 93b72c18
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7102,6 +7102,8 @@ Io uses date-based versioning. This page collects the notable changes of the las
 On `master`, not yet tagged.
 
 - **Browser: stopping long-running code** — `io.interrupt()` stops the eval in progress with an “interrupted” error that `try` cannot catch. A new option, `Io.load({ timeSlice: 50 })`, makes the VM hand control back to JavaScript whenever Io has run for that many milliseconds, so the page stays live during a loop that never waits and `interrupt()` can stop it. Without the option nothing changes: code runs until it waits or finishes. The Live Interpreter uses it, and its Run button becomes Stop while code is running; Ctrl-C does the same ([#441](https://github.com/IoLanguage/io/issues/441)).
+- **Browser: stopping background code** — a coroutine left running by an earlier eval that never waits, such as `coroDoLater(loop(nil))`, could not be stopped: `interrupt()` is only for the eval. Nothing stops such code automatically, since a loop may be exactly what was wanted. `io.backgroundBusy` and `io.onBackgroundBusy(listener)` report when background code has been running without waiting, and `io.interruptBackground()` stops the coroutine responsible. Coroutines that wait or yield between bursts of work are never reported or stopped. The Live Interpreter shows a separate “Stop background code” button while this is happening. Needs a `timeSlice`.
+- **Browser: `yield` with time slices** — with a `timeSlice` set, a coroutine that called `yield` in a loop could be parked partway through it and never run again. `yield` and `pause` now finish before a time slice ends.
 - **Browser: output while an eval runs** — `io.eval(code, { onOutput })` delivers what the eval prints as it prints it, then the result or error when it ends. Without the option, output still arrives all at once in the result. The Live Interpreter now shows a long-running eval’s output as it appears.
 - **Sandbox limits are enforced** — `Sandbox setTimeLimit` and `setMessageCount` stored a number that nothing read, so `Sandbox clone setTimeLimit(0.2) doSandboxString(&quot;loop(nil)&quot;)` never returned. Code that runs past either limit is now stopped, and `doSandboxString` raises “Sandbox: time limit exceeded” or “Sandbox: message count limit exceeded” in the calling VM. Code inside the Sandbox cannot catch it, and the Sandbox can be used again afterwards. The message count is counted in evaluator steps. A limit of 0, the default, means none ([#353](https://github.com/IoLanguage/io/issues/353)).
 - **More code can wait in the browser** — `lexicalDo`, the `#{...}` expressions of `interpolate` and `interpolateInPlace`, and the expression given to `sortInPlace` now run as ordinary frames, so they can `wait`, await a JS Promise or use an actor’s result. The comparison block of `sortBy` and `sortInPlaceBy` still cannot.

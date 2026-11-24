@@ -2,7 +2,7 @@
 
 > A small, prototype-based programming language — now targeting WASM/WASI.
 
-Site build: Io · 2026-11-23 · 823229e1
+Site build: Io · 2026-11-23 · 93b72c18
 
 ## Documentation
 
