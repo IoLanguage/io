@@ -82,6 +82,11 @@ check: $(BINDIR)/io_static $(BINDIR)/test_iterative_eval
 		status=$$?; if [ $$status -ne 3 ]; then \
 		echo "FAIL: System exit(3) exited with $$status"; exit 1; fi
 	@echo "exit status checks OK"
+	@# The REPL must show its prompt before it waits for input (#556)
+	@(sleep 4 | wasmtime $(BINDIR)/io_static >build/repl_prompt.out 2>&1 &); sleep 2.5; \
+		if ! grep -q 'Io> ' build/repl_prompt.out; then \
+		echo "FAIL: the REPL printed no prompt before reading input"; exit 1; fi
+	@echo "REPL prompt check OK"
 
 clean:
 	rm -rf $(BUILD) $(BROWSER_WASM)
