@@ -29,16 +29,16 @@ jobs:
       WASI_SDK_FULL: "25.0"
       WASMTIME_VERSION: "v27.0.0"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
           # benchmark commits land on master between this run starting and pushing,
           # so pull --rebase below needs full history
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Install wasi-sdk
         run: |
