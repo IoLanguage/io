@@ -1,6 +1,6 @@
 # Io — Full Documentation
 
-Site build: Io · 2026-11-23 · d6b29999
+Site build: Io · 2026-11-23 · 8a9f3e09
 
 Io is a dynamic, prototype-based language built on a few simple ideas taken from Smalltalk (all values are objects), Self (prototypes, not classes), NewtonScript (differential inheritance), Act1 (actors and futures for concurrency), Lisp (code is a runtime-inspectable message tree), and Lua (small and embeddable).
 
@@ -7096,6 +7096,12 @@ Source: /Release%20Notes/
 Notable changes in Io over the past twelve months.
 
 Io uses date-based versioning. This page collects the notable changes of the last twelve months — a period in which the VM was rewritten around a stackless evaluator and re-targeted from native binaries to WebAssembly. Entries marked *tagged* correspond to release tags in the [repository](https://github.com/IoLanguage/io); the rest are development milestones on the road between them. For the longer arc, see the [Timeline](../Timeline/index.html).
+
+## Unreleased
+
+On `master`, not yet tagged.
+
+- **The REPL prompt appears before you type** — under wasmtime the `Io> ` prompt stayed in the output buffer until a line had been entered, so it showed up after the input instead of before it. Standard output is now flushed before `File standardInput` is read, which also fixes scripts that print a question and then call `readLine` ([#556](https://github.com/IoLanguage/io/issues/556)).
 
 ## 2026.11.23 — Stop and time slices in the browser, live output, Sandbox limits
 

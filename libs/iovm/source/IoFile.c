@@ -780,6 +780,14 @@ IO_METHOD(IoFile, write) {
     return self;
 }
 
+// A prompt written without a newline sits in stdout's buffer. Push it out
+// before waiting on standard input, so the user sees what they are asked.
+static void IoFile_flushOutputBeforeReading(IoFile *self) {
+    if (DATA(self)->stream == stdin) {
+        fflush(stdout);
+    }
+}
+
 IO_METHOD(IoFile, readLines) {
     /*doc File readLines
     Returns list containing all lines in the file.
@@ -828,6 +836,8 @@ IO_METHOD(IoFile, readLine) {
     IoFile_assertOpen(self, locals, m);
     if (IOSTATE->errorRaised) return IONIL(self);
 
+    IoFile_flushOutputBeforeReading(self);
+
     if (feof(DATA(self)->stream) != 0) {
         clearerr(DATA(self)->stream);
         return IONIL(self);
@@ -872,6 +882,7 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals,
         UArray_free(ba);
         return NULL;
     }
+    IoFile_flushOutputBeforeReading(self);
 
     UArray_readNumberOfItems_fromCStream_(ba, length, DATA(self)->stream);
 
@@ -899,6 +910,7 @@ IO_METHOD(IoFile, readToBufferLength) {
     IoSeq *buffer = IoMessage_locals_mutableSeqArgAt_(m, locals, 0);
     size_t length = IoMessage_locals_longArgAt_(m, locals, 1);
     UArray *ba = IoSeq_rawUArray(buffer);
+    IoFile_flushOutputBeforeReading(self);
     size_t itemsRead =
         UArray_readNumberOfItems_fromCStream_(ba, length, DATA(self)->stream);
     return IONUMBER(itemsRead);
