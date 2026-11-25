@@ -25,9 +25,9 @@ The goal is to **target WASM as Io's only platform**, eliminating all OS-specifi
 
 ### Recommended next
 
-Updated 2026-11-23. Everything on master is released as `2026.11.23`. No
+Updated 2026-11-25. Everything on master is released as `2026.11.25`. No
 PRs are open. Open issues: #441 (terminal half only: WASI has no signals)
-and #353.
+and #353 (no memory limit for a Sandbox).
 
 Nothing is queued. The five items listed here on 2026-11-23 are done (see
 "Recently done").
@@ -53,6 +53,9 @@ Housekeeping:
 
 ### Recently done
 
+- **Released `2026.11.25`**: stdout is flushed before standard input is
+  read, so the REPL prompt appears before the user types (#557, issue
+  #556). Workflow actions moved off Node 20 (#555).
 - **Released `2026.11.23`**:
   - **Output while an eval runs** (#550): `io.eval(code, { onOutput })`;
     the REPL shows a long eval's output live.

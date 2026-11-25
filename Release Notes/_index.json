@@ -8,8 +8,8 @@
     },
     {
       "type": "ContentText",
-      "title": "Unreleased",
-      "body": "<p>On <code>master</code>, not yet tagged.</p><ul><li><strong>The REPL prompt appears before you type</strong> &mdash; under wasmtime the <code>Io&gt; </code> prompt stayed in the output buffer until a line had been entered, so it showed up after the input instead of before it. Standard output is now flushed before <code>File standardInput</code> is read, which also fixes scripts that print a question and then call <code>readLine</code> (<a href=\"https://github.com/IoLanguage/io/issues/556\">#556</a>).</li></ul>"
+      "title": "2026.11.25 — The REPL prompt appears before you type",
+      "body": "<p><em>Tagged <code>2026.11.25</code>.</em> One fix for the terminal REPL.</p><ul><li><strong>The REPL prompt appears before you type</strong> &mdash; under wasmtime the <code>Io&gt; </code> prompt stayed in the output buffer until a line had been entered, so it showed up after the input instead of before it. Standard output is now flushed before <code>File standardInput</code> is read, which also fixes scripts that print a question and then call <code>readLine</code> (<a href=\"https://github.com/IoLanguage/io/issues/556\">#556</a>).</li></ul>"
     },
     {
       "type": "ContentText",
